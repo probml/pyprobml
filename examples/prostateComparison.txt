@@ -1,0 +1,11 @@
+LS&Ridge&Lasso&Subset
+Intercept&2.477
+lcalvol&0.736
+lweight&0.315
+age&0.0
+lbph&0.0
+svi&0.0
+lcp&0.0
+gleason&0.0
+pgg45&0.0
+Test Error&0.492

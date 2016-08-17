@@ -1,0 +1,832 @@
+%dvips -Ppdf -tletter -G0 -o paper.ps paper.dvi
+
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{stackengine}
+
+%\usepackage{textcomp} % for newtie (inverted breve)
+\usepackage{scalerel,stackengine,MnSymbol} % http://tex.stackexchange.com/questions/134068/wide-inverted-breve-overset
+
+
+
+%http://www-db.stanford.edu/~manku/latex.html
+%The itemize environment can be replaced by:
+\newcommand{\squishlist}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}      \setlength{\parsep}{3pt}
+      \setlength{\topsep}{3pt}       \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{1.5em} \setlength{\labelwidth}{1em}
+      \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishlisttwo}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}    \setlength{\parsep}{0pt}
+      \setlength{\topsep}{0pt}     \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{2em} \setlength{\labelwidth}{1.5em}
+      \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\eat}[1]{}
+
+\newcommand{\squishend}{\end{list}  }
+
+%Example usage: \squishlist    %% \begin{itemize}
+%\item First item
+%\item Second item
+%\squishend     %% \end{itemize}
+
+\newcommand{\denselist}{\itemsep 0pt\topsep-6pt\partopsep-6pt}
+
+%% a trick that makes the title take up less space for many style files (but not article)
+%\addtolength{\titlebox}{-1.8cm}
+
+%% densify spacing in bibliographies
+\newcommand{\bibfix}{%    PUT \bibfix in file.bbl after first line
+    \setlength{\parsep}{\parskip}%
+    \setlength{\itemsep}{0cm}%
+    \setlength{\topsep}{\parskip}%
+    \setlength{\parskip}{0cm}%
+    \setlength{\partopsep}{0cm}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\labelwidth}{10pt}%
+    \setlength{\labelsep}{0pt}%
+    \setlength{\leftskip}{0pt}%
+    \setlength{\leftmargin}{0pt}%
+}
+
+%% change margins
+%\setlength{\textwidth}{7in}
+%\setlength{\textheight}{8.75in}
+%\setlength{\oddsidemargin}{-0.25in}
+%\setlength{\evensidemargin}{-0.25in}
+%\setlength{\headsep}{10pt}
+
+%Use changebar.sty  to track changes.
+
+%Saving space: see
+%   http://www-h.eng.cam.ac.uk/help/tpl/textprocessing/squeeze.html
+
+%Page layout info:
+%   http://amath.colorado\edu/documentation/LaTeX/reference/layout.html
+
+
+
+%Latex
+%\documentstyle[fleqn,psfig,epsfig]{article}
+%\documentstyle[psfig]{article}
+%\setlength{\textwidth}{6.5in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\textheight}{8.5in}
+%\setlength{\headheight}{0in}
+%\setlength{\headsep}{0in}
+%\setlength{\parindent}{0in} % block style
+%\setlength{\parskip}{0.3cm}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{defn}{Definition}[section]
+\newenvironment{mythm}{{\bf Theorem}}{}
+\newenvironment{myproof}{{\bf Proof}}{}
+
+%http://www.maths.tcd.ie/~dwilkins/LaTeXPrimer/Theorems.html
+%\newenvironment{proof}[1][Proof]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+% make qed symbol a solid square
+%\renewcommand{\qed}{\mbox{$\hrulefill \blacksquare $}}
+
+%http://everything2.com/title/tombstone
+%\renewcommand{\qed}{\hfill \nobreak \ifvmode \relax \else
+%    \ifdim\lastskip<1.5em \hskip-\lastskip
+%    \hskip1.5em plus0em minus0.5em \fi \nobreak
+%    \vrule height0.4em width0.4em depth0.25em\fi}
+
+%https://math.berkeley.edu/~gbergman/misc/hacks/langl_rangl.html
+\newcommand{\lang}{\begin{picture}(5,7)
+\put(1.1,2.5){\rotatebox{45}{\line(1,0){6.0}}}
+\put(1.1,2.5){\rotatebox{315}{\line(1,0){6.0}}}
+\end{picture}}
+\newcommand{\rang}{\begin{picture}(5,7)
+\put(.1,2.5){\rotatebox{135}{\line(1,0){6.0}}}
+\put(.1,2.5){\rotatebox{225}{\line(1,0){6.0}}}
+\end{picture}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\todo}[1]{\textbf{TODO: #1}}
+
+\newcommand{\one}{(1)}
+\newcommand{\two}{(2)}
+\newcommand{\three}{(3)}
+\newcommand{\ip}[2]{\lang #1, #2 \rang}
+
+%\newcommand{\activation}{\alpha}
+%\newcommand{\vactivation}{\valpha}
+\newcommand{\activation}{g}
+\newcommand{\vactivation}{\vg}
+%\newcommand{\subsubsubsection}[1]{\paragraph{#1}}
+\newcommand{\choice}[2]{\left(\!\!\! \begin{array}{c} #1 \\ #2\end{array} \!\!\!\right)}
+%\newcommand{\half}{\frac{1}{2}}
+\newcommand{\half}{\frac{1}{2}}
+%\newcommand{\defeq}{\stackrel{\rm def}{=}}
+%\newcommand{\defeq}{\triangleq}
+
+%http://tex.stackexchange.com/questions/163829/delta-equal-to-symbol
+\def\defeq{\mathrel{\ensurestackMath{\stackon[2pt]{=}{\scriptstyle\Delta}}}}
+
+%\newcommand{\defeq}{:=}
+%\newcommand{\consteq}{\stackrel{+}{=}}
+\newcommand{\consteq}{\bumpeq}
+%\newcommand{\real}{{\rm I\hspace{-0.2em}R}}
+\newcommand{\real}{\mathbb{R}}
+%\newcommand{\indep}{\perp}
+
+\newcommand{\test}{t}
+\newcommand{\given}{\|}
+\newcommand{\indep}[2]{{#1} \perp {#2}}
+\newcommand{\condindep}[3]{{#1} \perp {#2} \; | \; {#3}}
+\newcommand{\condindepG}[3]{{#1} \perp_G {#2} | {#3}}
+\newcommand{\condindepP}[3]{{#1} \perp_p {#2} | {#3}}
+\newcommand{\depend}[2]{{#1} \not \perp {#2}}
+\newcommand{\conddepend}[3]{{#1} \not \perp {#2} | {#3}}
+
+%\newcommand{\trans}[1]{{#1}^{\mathtt{T}}}
+%\newcommand{\trans}[1]{{#1}^{T}}
+\newcommand{\trans}[1]{{#1}^{\intercal}}
+\newcommand{\transpose}{\intercal}
+\newcommand{\inv}[1]{{#1}^{-1}}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\Ra}{\Rightarrow}
+%\newcommand{\rv}{r.v.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\tr}{\mathrm{tr}}
+%\newcommand{\st}{\ \ \ \ \mathrm{s.t.} \ \ \ }
+\newcommand{\myst}{\ \ \ \ \mathrm{s.t.} \ \ \ }
+%\newcommand{\det}{\mathrm{det}}
+\newcommand{\size}{\mathrm{size}}
+\newcommand{\trace}{\mathrm{trace}}
+\newcommand{\mle}{\mathrm{mle}}
+\newcommand{\map}{\mathrm{map}}
+
+
+%\newcommand{\do}{\mathrm{do}}
+\newcommand{\pemp}{p_\mathrm{emp}}
+\newcommand{\dom}{\mathrm{dom}}
+\newcommand{\bel}{\mathrm{bel}}
+\newcommand{\dsep}{\mathrm{dsep}}
+\newcommand{\sep}{\mathrm{sep}}
+\newcommand{\entails}{\models}
+\newcommand{\range}{\mathrm{range}}
+\newcommand{\myspan}{\mathrm{span}}
+\newcommand{\nullspace}{\mathrm{nullspace}}
+\newcommand{\adj}{\mathrm{adj}}
+\newcommand{\pval}{\mathrm{pvalue}}
+\newcommand{\chol}{\mathrm{chol}}
+\newcommand{\supp}{\mathrm{supp}}
+
+\newcommand{\xrange}[1]{[#1]}  % for set, [n]
+
+%\newcommand{\dim}{\mathrm{dim}}
+\newcommand{\length}{\mathrm{T}}
+\newcommand{\sinc}{\mathrm{sinc}}
+\newcommand{\mse}{\mathrm{mse}}
+\newcommand{\pon}{\pi_0}
+\newcommand{\lse}{\mathrm{lse}}
+\newcommand{\softmax}{\calS}
+%\newcommand{\softmax}{\vsigma}
+\newcommand{\soft}{\mathrm{soft}}
+\newcommand{\hard}{\mathrm{hard}}
+\newcommand{\cond}{\mathrm{cond}}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\sgn}{\mathrm{sgn}}
+\newcommand{\iid}{\mbox{iid}}
+\newcommand{\myiff}{\mbox{iff}}
+\newcommand{\pd}{\mbox{pd}}
+\newcommand{\psd}{\mbox{psd}}
+\newcommand{\pdf}{\mbox{pdf }}
+\newcommand{\cdf}{\mbox{cdf}}
+\newcommand{\pmf}{\mbox{pmf}}
+\newcommand{\wrt}{\mbox{wrt}}
+\newcommand{\matlab}{{\sc MATLAB}}
+\newcommand{\PMTK}{{\sc PMTK}}
+\newcommand{\mywp}{\mathrm{wp}}
+\newcommand{\NLL}{\mathrm{NLL}}
+\newcommand{\PNLL}{\mathrm{PNLL}}
+
+\newcommand{\KLpq}[2]{\mathbb{KL}\left({#1}||{#2}\right)}
+\newcommand{\KL}{\mathbb{KL}}
+\newcommand{\MI}{\mathbb{I}}
+\newcommand{\MIxy}[2]{\mathbb{I}\left({#1};{#2}\right)}
+\newcommand{\MIxyz}[3]{\mathbb{I}\left({#1};{#2}|{#3}\right)}
+\newcommand{\entrop}{\mathbb{H}}
+\newcommand{\entropy}[1]{\mathbb{H}\left({#1}\right)}
+\newcommand{\entropypq}[2]{\mathbb{H}\left({#1}, {#2}\right)}
+
+
+
+\newcommand{\hatf}{\hat{f}}
+\newcommand{\hatp}{\hat{p}}
+\newcommand{\haty}{\hat{y}}
+\newcommand{\const}{\mathrm{const}}
+%\newcommand{\sigmoid}{\mathrm{sigm}}
+\newcommand{\sigmoid}{\sigma}
+
+\newcommand{\relu}{\mathrm{ReLU}}
+
+\newcommand{\ind}[1]{\mathbb{I}(#1)}
+%\newcommand{\ind}[1]{[#1]}
+\newcommand{\etr}{\mathrm{etr}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\betadist}{\mathrm{Beta}}
+\newcommand{\Betadist}{\mathrm{Beta}}
+\newcommand{\bernoulli}{\mathrm{Ber}}
+\newcommand{\Ber}{\mathrm{Ber}}
+\newcommand{\Binom}{\mathrm{Bin}}
+\newcommand{\BinoDist}{\mathrm{Bin}}
+\newcommand{\NegBinom}{\mathrm{NegBinom}}
+\newcommand{\binomdist}{\mathrm{Bin}}
+\newcommand{\cauchy}{\mathrm{Cauchy}}
+\newcommand{\DE}{\mathrm{DE}}
+\newcommand{\DP}{\mathrm{DP}}
+\newcommand{\Dir}{\mathrm{Dir}}
+%\newcommand{\discrete}{\mathrm{Discrete}}
+\newcommand{\discrete}{\mathrm{Cat}}
+\newcommand{\cat}{\mathrm{Cat}}
+\newcommand{\Cat}{\mathrm{Cat}}
+\newcommand{\Discrete}{\discrete}
+\newcommand{\erlang}{\mathrm{Erlang}}
+\newcommand{\expdist}{\mathrm{Expon}}
+\newcommand{\expon}{\mathrm{Expon}}
+\newcommand{\gammadist}{\mathrm{Ga}}
+\newcommand{\Ga}{\mathrm{Ga}}
+\newcommand{\GP}{\mathrm{GP}}
+\newcommand{\GEM}{\mathrm{GEM}}
+\newcommand{\gauss}{\mathcal{N}}
+\newcommand{\gausscan}{\mathcal{N}_c}
+\newcommand{\geom}{\mathrm{Geom}}
+%\newcommand{\IG}{\mathrm{InvGam}}
+\newcommand{\IG}{\mathrm{IG}}
+\newcommand{\IGauss}{\mathrm{InvGauss}}
+\newcommand{\invchi}{\chi^{-2}}
+\newcommand{\IW}{\mathrm{IW}}
+\newcommand{\Laplace}{\mathrm{Lap}}
+\newcommand{\logisticdist}{\mathrm{Logistic}}
+\newcommand{\Mu}{\mathrm{Mu}}
+\newcommand{\Multi}{\mathrm{Mu}}
+%\newcommand{\Multin}{\mathrm{Mun}}
+%\newcommand{\Mun}{\mathrm{Mun}}
+\newcommand{\NIX}{NI\chi^2}
+\newcommand{\GIX}{NI\chi^2}
+\newcommand{\NIG}{\mathrm{NIG}}
+\newcommand{\GIG}{\mathrm{NIG}}
+\newcommand{\NIW}{\mathrm{NIW}}
+\newcommand{\GIW}{\mathrm{NIW}}
+\newcommand{\GT}{{\mathrm{GT}}}
+%\newcommand{\MVNIW}{\mathrm{MVNIW}}
+\newcommand{\MVNIW}{\mathrm{NIW}}
+\newcommand{\NW}{\mathrm{NWI}}
+\newcommand{\NWI}{\mathrm{NWI}}
+%\newcommand{\MVNIG}{\mathrm{MVNIG}}
+\newcommand{\MVNIG}{\mathrm{NIG}}
+\newcommand{\NGdist}{\mathrm{NG}}
+\newcommand{\prob}{p}
+\newcommand{\Poi}{\mathrm{Poi}}
+\newcommand{\RV}{RV}
+\newcommand{\Student}{\mathcal{T}}
+\newcommand{\student}{\mathcal{T}}
+\newcommand{\Wishart}{\mathrm{Wi}}
+\newcommand{\Wi}{\mathrm{Wi}}
+\newcommand{\unif}{\mathrm{Unif}}
+\newcommand{\Unif}{\mathrm{Unif}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\newcommand{\myvec}[1]{\mathbf{#1}}
+%\newcommand{\myvecsym}[1]{\boldsymbol{#1}}
+\newcommand{\myvec}[1]{\mathbf{#1}}
+\newcommand{\myvecsym}[1]{\boldsymbol{#1}}
+\newcommand{\mytensor}[1]{\mathbf{\tilde{#1}}}
+
+
+\newcommand{\vzero}{\myvecsym{0}}
+\newcommand{\vone}{\myvecsym{1}}
+
+\newcommand{\valpha}{\myvecsym{\alpha}}
+\newcommand{\vbeta}{\myvecsym{\beta}}
+\newcommand{\vchi}{\myvecsym{\chi}}
+\newcommand{\vdelta}{\myvecsym{\delta}}
+\newcommand{\vDelta}{\myvecsym{\Delta}}
+\newcommand{\vepsilon}{\myvecsym{\epsilon}}
+\newcommand{\vell}{\myvecsym{\ell}}
+\newcommand{\veta}{\myvecsym{\eta}}
+%\newcommand{\vEta}{\myvecsym{\Eta}}
+\newcommand{\vgamma}{\myvecsym{\gamma}}
+\newcommand{\vGamma}{\myvecsym{\Gamma}}
+\newcommand{\vmu}{\myvecsym{\mu}}
+\newcommand{\vmut}{\myvecsym{\tilde{\mu}}}
+\newcommand{\vnu}{\myvecsym{\nu}}
+\newcommand{\vkappa}{\myvecsym{\kappa}}
+\newcommand{\vlambda}{\myvecsym{\lambda}}
+\newcommand{\vLambda}{\myvecsym{\Lambda}}
+\newcommand{\vLambdaBar}{\overline{\vLambda}}
+%\newcommand{\vnu}{\myvecsym{\nu}}
+\newcommand{\vomega}{\myvecsym{\omega}}
+\newcommand{\vOmega}{\myvecsym{\Omega}}
+\newcommand{\vphi}{\myvecsym{\phi}}
+\newcommand{\vPhi}{\myvecsym{\Phi}}
+\newcommand{\vpi}{\myvecsym{\pi}}
+\newcommand{\vPi}{\myvecsym{\Pi}}
+\newcommand{\vpsi}{\myvecsym{\psi}}
+\newcommand{\vPsi}{\myvecsym{\Psi}}
+\newcommand{\vrho}{\myvecsym{\rho}}
+\newcommand{\vtheta}{\myvecsym{\theta}}
+\newcommand{\vthetat}{\myvecsym{\tilde{\theta}}}
+\newcommand{\vTheta}{\myvecsym{\Theta}}
+\newcommand{\vsigma}{\myvecsym{\sigma}}
+\newcommand{\vSigma}{\myvecsym{\Sigma}}
+\newcommand{\vSigmat}{\myvecsym{\tilde{\Sigma}}}
+\newcommand{\vsigmoid}{\vsigma}
+\newcommand{\vtau}{\myvecsym{\tau}}
+\newcommand{\vxi}{\myvecsym{\xi}}
+
+% \newcommand{\vmuY}{\vb}
+% \newcommand{\vmuMu}{\vmu_{x}}
+% \newcommand{\vmuMuGivenY}{\vmu_{x|y}}
+% \newcommand{\vSigmaMu}{\vSigma_{x}}
+% \newcommand{\vSigmaMuInv}{\vSigma_{x}^{-1}}
+% \newcommand{\vSigmaMuGivenY}{\vSigma_{x|y}}
+% \newcommand{\vSigmaMuGivenYinv}{\vSigma_{x|y}^{-1}}
+% \newcommand{\vSigmaY}{\vSigma_{y}}
+% \newcommand{\vSigmaYinv}{\vSigma_{y}^{-1}}
+
+%\newcommand{\vmuY}{\vmu_{y}}
+%\newcommand{\vmuMu}{\vmu_{\mu}}
+%\newcommand{\vmuMuGivenY}{\vmu_{\mu|y}}
+%\newcommand{\vSigmaMu}{\vSigma_{\mu}}
+%\newcommand{\vSigmaMuInv}{\vSigma_{\mu}^{-1}}
+%\newcommand{\vSigmaMuGivenY}{\vSigma_{\mu|y}}
+%\newcommand{\vSigmaMuGivenYinv}{\vSigma_{\mu|y}^{-1}}
+%\newcommand{\vSigmaY}{\vSigma_{y}}
+%\newcommand{\vSigmaYinv}{\vSigma_{y}^{-1}}
+
+% Scalars
+\newcommand{\bb}{b}
+\newcommand{\cc}{c}
+\newcommand{\ww}{w}
+
+% Vectors
+\newcommand{\va}{\myvec{a}}
+\newcommand{\vb}{\myvec{b}}
+\newcommand{\vBt}{\myvec{\tilde{B}}}
+\newcommand{\vc}{\myvec{c}}
+\newcommand{\vd}{\myvec{d}}
+\newcommand{\ve}{\myvec{e}}
+\newcommand{\vf}{\myvec{f}}
+\newcommand{\vg}{\myvec{g}}
+\newcommand{\vh}{\myvec{h}}
+%\newcommand{\myvh}{\myvec{h}}
+\newcommand{\vj}{\myvec{j}}
+\newcommand{\vk}{\myvec{k}}
+\newcommand{\vl}{\myvec{l}}
+\newcommand{\vm}{\myvec{m}}
+\newcommand{\vn}{\myvec{n}}
+\newcommand{\vo}{\myvec{o}}
+\newcommand{\vp}{\myvec{p}}
+\newcommand{\vq}{\myvec{q}}
+\newcommand{\vr}{\myvec{r}}
+\newcommand{\vs}{\myvec{s}}
+\newcommand{\vt}{\myvec{t}}
+\newcommand{\vu}{\myvec{u}}
+\newcommand{\vv}{\myvec{v}}
+\newcommand{\vw}{\myvec{w}}
+\newcommand{\vws}{\vw_s}
+\newcommand{\vwt}{\myvec{\tilde{w}}}
+\newcommand{\vWt}{\myvec{\tilde{W}}}
+\newcommand{\vwh}{\hat{\vw}}
+\newcommand{\vx}{\myvec{x}}
+%\newcommand{\vx}{\myvec{x}}
+\newcommand{\vxt}{\myvec{\tilde{x}}}
+\newcommand{\vxd}[1]{\vx_{:,#1}}
+\newcommand{\vy}{\myvec{y}}
+\newcommand{\vyt}{\myvec{\tilde{y}}}
+\newcommand{\vz}{\myvec{z}}
+%\newcommand{\vzt}{\myvec{\tilde{z}}}
+
+
+\newcommand{\vA}{\myvec{A}}
+\newcommand{\vB}{\myvec{B}}
+\newcommand{\vC}{\myvec{C}}
+\newcommand{\vD}{\myvec{D}}
+\newcommand{\vE}{\myvec{E}}
+\newcommand{\vF}{\myvec{F}}
+\newcommand{\vG}{\myvec{G}}
+\newcommand{\vH}{\myvec{H}}
+\newcommand{\vI}{\myvec{I}}
+\newcommand{\vJ}{\myvec{J}}
+\newcommand{\vK}{\myvec{K}}
+\newcommand{\vL}{\myvec{L}}
+\newcommand{\vM}{\myvec{M}}
+\newcommand{\vMt}{\myvec{\tilde{M}}}
+\newcommand{\vN}{\myvec{N}}
+\newcommand{\vO}{\myvec{O}}
+\newcommand{\vP}{\myvec{P}}
+\newcommand{\vQ}{\myvec{Q}}
+\newcommand{\vR}{\myvec{R}}
+\newcommand{\vS}{\myvec{S}}
+\newcommand{\vT}{\myvec{T}}
+\newcommand{\vU}{\myvec{U}}
+\newcommand{\vV}{\myvec{V}}
+\newcommand{\vW}{\myvec{W}}
+\newcommand{\vX}{\myvec{X}}
+%\newcommand{\vXs}{\vX_{\vs}}
+\newcommand{\vXs}{\vX_{s}}
+\newcommand{\vXt}{\myvec{\tilde{X}}}
+\newcommand{\vY}{\myvec{Y}}
+\newcommand{\vZ}{\myvec{Z}}
+\newcommand{\vZt}{\myvec{\tilde{Z}}}
+\newcommand{\vzt}{\myvec{\tilde{z}}}
+
+% tensors
+\newcommand{\tX}{\mytensor{X}}
+\newcommand{\tY}{\mytensor{Y}}
+\newcommand{\tZ}{\mytensor{Z}}
+\newcommand{\tW}{\mytensor{W}}
+
+\newcommand{\vxtest}{\myvec{x}_*}
+\newcommand{\vytest}{\myvec{y}_*}
+\newcommand{\ftrue}{f_{true}}
+\newcommand{\myprec}{\mathrm{prec}}
+\newcommand{\precw}{\lambda_{w}} % precision of weights (alpha)
+\newcommand{\precy}{\lambda_{y}} % precision of y (beta)
+\newcommand{\cbar}{\overline{c}}
+\newcommand{\vcbar}{\overline{\vc}}
+\newcommand{\fbar}{\overline{f}}
+\newcommand{\xmybar}{\overline{x}}
+\newcommand{\ybar}{\overline{y}}
+\newcommand{\zbar}{\overline{z}}
+\newcommand{\vAbar}{\overline{\vA}}
+\newcommand{\vxbar}{\overline{\vx}}
+\newcommand{\vXbar}{\overline{\vX}}
+\newcommand{\vybar}{\overline{\vy}}
+\newcommand{\vYbar}{\overline{\vY}}
+\newcommand{\vzbar}{\overline{\vz}}
+\newcommand{\vZbar}{\overline{\vZ}}
+\newcommand{\xbar}{\overline{x}}
+\newcommand{\wbar}{\overline{w}}
+\newcommand{\Xbar}{\overline{X}}
+\newcommand{\Ybar}{\overline{Y}}
+\newcommand{\Gbar}{\overline{G}}
+\newcommand{\Jbar}{\overline{J}}
+\newcommand{\Lbar}{\overline{L}}
+\newcommand{\Nbar}{\overline{N}}
+%\newcommand{\Qbar}{\overline{Q}}
+\newcommand{\Qbar}{\overline{Q}}
+\newcommand{\Abar}{\overline{A}}
+\newcommand{\Tbar}{\overline{T}}
+\newcommand{\Sbar}{\overline{S}}
+\newcommand{\vSbar}{\overline{\vS}}
+\newcommand{\Rbar}{\overline{R}}
+
+\newcommand{\vtaubar}{\overline{\vtau}}
+\newcommand{\vtbar}{\overline{\vt}}
+\newcommand{\vsbar}{\overline{\vs}}
+\newcommand{\mubar}{\overline{\mu}}
+\newcommand{\phibar}{\overline{\phi}}
+
+
+\newcommand{\htilde}{\tilde{h}}
+\newcommand{\vhtilde}{\tilde{\vh}}
+\newcommand{\Dtilde}{\tilde{D}}
+\newcommand{\Ftilde}{\tilde{F}}
+\newcommand{\wtilde}{\tilde{w}}
+\newcommand{\ptilde}{\tilde{p}}
+\newcommand{\qtilde}{\tilde{q}}
+\newcommand{\pstar}{p^*}
+\newcommand{\xtilde}{\tilde{x}}
+\newcommand{\Xtilde}{\tilde{X}}
+\newcommand{\ytilde}{\tilde{y}}
+\newcommand{\ym}{y^{-}}
+\newcommand{\Ytilde}{\tilde{Y}}
+\newcommand{\vxtilde}{\tilde{\vx}}
+\newcommand{\vytilde}{\tilde{\vy}}
+\newcommand{\ztilde}{\tilde{\z}}
+\newcommand{\vthetaMAP}{\hat{\vtheta}_{MAP}}
+\newcommand{\vthetaS}{\vtheta^{(s)}}
+\newcommand{\vthetahat}{\hat{\vtheta}}
+\newcommand{\thetahat}{\hat{\theta}}
+\newcommand{\thetabar}{\overline{\theta}}
+\newcommand{\thetastar}{\theta^*}
+\newcommand{\vthetastar}{\vtheta^*}
+\newcommand{\vthetabar}{\overline{\vtheta}}
+\newcommand{\pibar}{\overline{\pi}}
+\newcommand{\vpibar}{\overline{\vpi}}
+
+
+
+%\newcommand{\sss}{s^2}
+%\newcommand{\vvv}{v}
+\newcommand{\RSS}{\mathrm{RSS}}
+\newcommand{\MSE}{\mathrm{MSE}}
+\newcommand{\RMSE}{\mathrm{RMSE}}
+\newcommand{\mydof}{\mathrm{dof}}
+
+
+
+\newcommand{\vvec}{\mathrm{vec}}
+\newcommand{\dof}{\mathrm{dof}}
+%\newcommand{\E}{E}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\energy}{E}
+\newcommand{\expectAngle}[1]{\langle #1 \rangle}
+\newcommand{\expect}[1]{\mathbb{E}\left[{#1}\right]}
+\newcommand{\expectQ}[2]{\mathbb{E}_{{#2}}\left[ {#1} \right]}
+%\newcommand{\Var}{\mathrm{Var}}
+%\newcommand{\var}[1]{\mathrm{var}\left[{#1}\right]}
+\newcommand{\Var}{\mathbb{V}}
+\newcommand{\var}[1]{\mathbb{V}\left[ {#1}\right]}
+\newcommand{\varQ}[2]{\mathbb{V}_{{#2}}\left[ {#1}\right]}
+\newcommand{\std}[1]{\mathrm{std}\left [{#1}\right]}
+\newcommand{\cov}[1]{\mathrm{Cov}\left[ {#1}\right] }
+\newcommand{\corr}[1]{\mathrm{corr}\left[ {#1}\right]}
+\newcommand{\mymode}[1]{\mathrm{mode}\left[ {#1}\right]}
+\newcommand{\median}[1]{\mathrm{median}\left[ {#1}\right]}
+
+%http://tex.stackexchange.com/questions/128625/how-to-put-smallsmile-or-smallfrown-on-top-of-a-letter/128626
+ \newcommand{\adjustedaccent}[1]{%
+   \mathchoice{}{}
+     {\mbox{\raisebox{-.5ex}[0pt][0pt]{$\scriptstyle#1$}}}
+     {\mbox{\raisebox{-.35ex}[0pt][0pt]{$\scriptscriptstyle#1$}}}
+ }
+
+\newcommand\smileacc[1]{\overset{\adjustedaccent{\smallsmile}}{#1}}
+\newcommand\frownacc[1]{\overset{\adjustedaccent{\smallfrown}}{#1}}
+%\newcommand\smileacc[1]{\overset{\smallsmile}{#1}}
+%\newcommand\frownacc[1]{\overset{\smallfrown}{#1}}
+
+%\newcommand{\prior}[1]{\breve{{#1}}}
+\newcommand{\prior}[1]{\smileacc{#1}}
+\newcommand{\post}[1]{\frownacc{#1}} % inverted breve
+%\newcommand{\post}[1]{\stackrel{\smallfrown}{{#1}}} % inverted breve
+%\newcommand{\post}[1]{\stackon{{#1}}{\smallfrown}} % inverted breve
+%\newcommand{\post}[1]{\newtie{{#1}}} % inverted breve
+%\newcommand{\post}[1]{\tilde{{#1}}}
+
+
+
+\newcommand{\sech}{\mathrm{sech}}
+%\newcommand{\cosh}{\mathrm{cosh}}
+\newcommand{\kurt}{\mathrm{kurt}}
+\newcommand{\proj}{\mathrm{proj}}
+\newcommand{\prox}{\mathrm{prox}}
+\newcommand{\myskew}{\mathrm{skew}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\blkdiag}{\mathrm{blkdiag}}
+\newcommand{\bias}{\mathrm{bias}}
+\newcommand{\union}{\cup}
+\newcommand{\intersect}{\cap}
+
+
+
+%\newcommand{\NN}{N}
+%\newcommand{\NC}{N_C}
+%\newcommand{\ND}{N_D}
+%\newcommand{\NX}{N_X}
+%\newcommand{\NXi}{N_{X_i}}
+%\newcommand{\NY}{N_Y}
+%\newcommand{\nx}{n_x}
+%\newcommand{\ny}{n_y}
+%\newcommand{\nv}{n_v}
+%\newcommand{\nk}{n_k}
+
+
+\newcommand{\myc}{c}
+\newcommand{\myi}{i}
+\newcommand{\myj}{j}
+\newcommand{\myk}{k}
+\newcommand{\myn}{n}
+\newcommand{\myq}{q}
+\newcommand{\mys}{s}
+\newcommand{\myt}{t}
+
+
+
+\newcommand{\kernelfn}{\kappa}
+
+\newcommand{\Nsamples}{S}
+\newcommand{\Ndata}{N}
+\newcommand{\Ntrain}{N_{\mathrm{train}}}
+\newcommand{\Ntest}{N_{\mathrm{test}}}
+\newcommand{\Ndim}{D}
+\newcommand{\Ndimx}{D_x}
+\newcommand{\Ndimy}{D_y}
+\newcommand{\Noutdim}{D_y}
+\newcommand{\Nhidden}{H}
+\newcommand{\Nlowdim}{K}
+\newcommand{\Ndimlow}{K}
+\newcommand{\Nstates}{K}
+\newcommand{\Nfolds}{K}
+\newcommand{\Npastates}{L}
+\newcommand{\Nclasses}{C}
+\newcommand{\Nclusters}{K}
+\newcommand{\NclustersC}{C}
+\newcommand{\Ntime}{T}
+\newcommand{\Ntimes}{T}
+\newcommand{\Niter}{T}
+%\newcommand{\Nnodes}{J}
+\newcommand{\Nnodes}{|G|}
+%\newcommand{\Nnodes}{V}
+%\newcommand{\Nnodes}{T}
+\newcommand{\nodes}{\calV}
+
+\newcommand{\assign}{\leftarrow}
+
+
+
+%\newcommand{\xdi}{x_{di}}
+%\newcommand{\xji}{x_{ji}}
+%\newcommand{\yi}{y_i}
+
+
+
+
+
+\newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbL}{\mathbb{L}}
+\newcommand{\bbM}{\mathbb{M}}
+\newcommand{\bbS}{\mathbb{S}}
+
+
+%\newcommand{\mymathcal}[1]{\pazocal{#1}}
+\newcommand{\mymathcal}[1]{\mathcal{#1}}
+%\usepackage{calrsfs}
+%\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+%http://tex.stackexchange.com/questions/69085/two-different-calligraphic-font-styles-in-math-mode
+
+\newcommand{\calA}{\mymathcal{A}}
+\newcommand{\calB}{\mymathcal{B}}
+\newcommand{\calC}{\mymathcal{C}}
+\newcommand{\calD}{{\mymathcal{D}}}
+\newcommand{\calDx}{\calD_x}
+\newcommand{\calE}{\mymathcal{E}}
+\newcommand{\cale}{{\cal e}}
+\newcommand{\calF}{\mymathcal{F}}
+\newcommand{\calG}{\mymathcal{G}}
+\newcommand{\calH}{\mymathcal{H}}
+\newcommand{\calHX}{{\calH}_X}
+\newcommand{\calHy}{{\calH}_y}
+\newcommand{\calI}{\mymathcal{I}}
+\newcommand{\calK}{\mymathcal{K}}
+\newcommand{\calM}{\mymathcal{M}}
+\newcommand{\calN}{\mymathcal{N}}
+\newcommand{\caln}{{\cal n}}
+\newcommand{\calNP}{\mymathcal{NP}}
+\newcommand{\calO}{\mymathcal{O}}
+\newcommand{\calMp}{\calM^+}
+\newcommand{\calMm}{\calM^-}
+\newcommand{\calMo}{\calM^o}
+\newcommand{\Ctest}{C_*}
+\newcommand{\calL}{\mymathcal{L}}
+\newcommand{\calP}{\mymathcal{P}}
+\newcommand{\calq}{{\cal q}}
+\newcommand{\calQ}{\mymathcal{Q}}
+\newcommand{\calR}{\mymathcal{R}}
+\newcommand{\calS}{\mymathcal{S}}
+\newcommand{\calSstar}{\calS_*}
+\newcommand{\calT}{\mymathcal{T}}
+\newcommand{\calU}{\mymathcal{U}}
+\newcommand{\calV}{\mymathcal{V}}
+\newcommand{\calW}{\mymathcal{W}}
+\newcommand{\calv}{{\cal v}}
+\newcommand{\calX}{\mymathcal{X}}
+\newcommand{\calY}{\mymathcal{Y}}
+\newcommand{\calZ}{\mymathcal{Z}}
+
+\newcommand{\Lone}{$\ell_1$}
+\newcommand{\Ltwo}{$\ell_2$}
+
+%\newcommand{\mya}{\mbox{a}}
+%\newcommand{\myat}{\alpha_{t|t-1}}
+\newcommand{\cost}{\mbox{cost}}
+\newcommand{\score}{\mbox{score}}
+\newcommand{\AIC}{\mbox{AIC}}
+\newcommand{\BIC}{\mbox{BIC}}
+\newcommand{\BICcost}{\mbox{BIC-cost}}
+\newcommand{\scoreBIC}{\mbox{score}_{\mbox{BIC}}}
+\newcommand{\scoreBICL}{\mbox{score-BIC-L1}}
+\newcommand{\scoreL}{\mbox{score-L1}}
+
+\newcommand{\ecoli}{\mbox{{\it E. coli}}}
+\newcommand{\doPearl}{\mathrm{do}}
+\newcommand{\data}{\calD}
+%\newcommand{\estimator}{\alpha}
+\newcommand{\estimator}{\pi}
+%\newcommand{\estimator}{\mathcal{D}}
+\newcommand{\bayesrisk}{R}
+\newcommand{\model}{\calM}
+\newcommand{\dataTrain}{\calD_{\mathrm{train}}}
+\newcommand{\dataTest}{\calD_{\mathrm{test}}}
+\newcommand{\dataValid}{\calD_{\mathrm{valid}}}
+\newcommand{\Xtrain}{\vX_{\mathrm{train}}}
+\newcommand{\Xtest}{\vX_{\mathrm{test}}}
+\newcommand{\futuredata}{\tilde{\calD}}
+\newcommand{\algo}{\calA}
+\newcommand{\fitAlgo}{\calF}
+\newcommand{\predictAlgo}{\calP}
+%\newcommand{\data}{D}
+\newcommand{\err}{\mathrm{err}}
+\newcommand{\logit}{\mathrm{logit}}
+
+% graph terms
+\newcommand{\nbd}{\mathrm{nbd}}
+\newcommand{\nbr}{\mathrm{nbr}}
+\newcommand{\anc}{\mathrm{anc}}
+\newcommand{\desc}{\mathrm{desc}}
+\newcommand{\pred}{\mathrm{pred}}
+\newcommand{\mysucc}{\mathrm{suc}}
+\newcommand{\nondesc}{\mathrm{nd}}
+\newcommand{\pa}{\mathrm{pa}}
+%\newcommand{\pa}{\pi}
+\newcommand{\parent}{\mathrm{pa}}
+\newcommand{\family}{\mathrm{fam}}
+\newcommand{\copa}{\mathrm{copa}}
+\newcommand{\ch}{\mathrm{ch}}
+\newcommand{\mb}{\mathrm{mb}}
+\newcommand{\connects}{\sim}
+\newcommand{\nd}{\mathrm{nd}}
+\newcommand{\bd}{\mathrm{bd}}
+\newcommand{\cl}{\mathrm{cl}}
+
+
+
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+% for cormen.cls, we define
+%\newcommand{\be}{\begin{eqnarray}}
+%\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\beaa}{\begin{eqnarray*}}
+\newcommand{\eeaa}{\end{eqnarray*}}
+\newcommand{\ba}{\begin{align*}}
+\newcommand{\ea}{\end{align*}}
+
+
+\newcommand{\dotstar}{\odot}
+\newcommand{\kron}{\otimes}
+\newcommand{\convolve}{\ast}
+\newcommand{\xcorr}{\times}
+
+\newcommand{\imcol}{\mathrm{I2C}}
+\newcommand{\reshape}{\mathrm{T2M}}
+\newcommand{\unreshape}{\mathrm{M2T}}
+
+%%%%%%%%%%% Hoyt
+
+% convergence in probability
+%\newcommand{\conv}[1]{\,\,\,\displaystyle{\operatorname*{\longrightarrow}^{\,_{#1}\,}}\,\,\,}
+%\newcommand{\dconv}{\conv{D}}
+%\newcommand{\pconv}{\conv{P}}
+%\newcommand{\asconv}{\conv{AS}}
+%\newcommand{\lpconv}[1]{\conv{L^{#1}}}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{n}
+%\newcommand{\inv}[1]{\ensuremath{\frac{1}{#1}}}
+%\newcommand{\T}[1]{{\ensuremath{\left(#1\right)}}}
+%\newcommand{\Tbr}[1]{{\ensuremath{\left[#1\right]}}} 
+%\newcommand{\Normal}[1]{\ensuremath{\mathpzc{N}\T{#1}}}
+%\newcommand{\expof}[1]{\ensuremath{\exp\Tbr{#1}}}
+%\newcommand{\So}{\ensuremath{\Rightarrow}}
+%\newcommand{\ud}{\ensuremath{\mathrm{d}}}
+
+
+
+%http://imaging.mrc-cbu.cam.ac.uk/statswiki/TexTips
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+
+%http://www.devdaily.com/blog/post/latex/control-line-spacing-in-itemize-enumerate-tags
+\newenvironment{packed_itemize}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+
+\newenvironment{packed_enum}{
+\begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+%http://jblevins.org/notes/latex#independence
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}} 
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
