@@ -1,9 +1,6 @@
 import tensorflow as tf
 
-
-def get_tf_filename(split_name, folder):
-    return '%s/cifar10_%s.tfrecord' % (folder, split_name)
-
+ 
 def make_cifar_dataset(split_name, tf_folder):
     """Make a dataset object from cifar10 tfrecord file.
 
@@ -26,7 +23,7 @@ def make_cifar_dataset(split_name, tf_folder):
     if split_name not in SPLITS_TO_SIZES:
         raise ValueError('split name %s was not recognized.' % split_name)
 
-    file_pattern = get_tf_filename(split_name, tf_folder) 
+    file_pattern =  '%s/cifar10_%s.tfrecord' % (tf_folder, split_name)
 
     keys_to_features = {
         'image/encoded': tf.FixedLenFeature((), tf.string, default_value=''),
