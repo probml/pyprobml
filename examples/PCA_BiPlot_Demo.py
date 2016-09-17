@@ -56,11 +56,16 @@ plt.draw()
 #2D Biplot
 Ns = np.unique(iris['Name'])
 Cs = ['blue', 'red', 'green']
+print('names')
+print(Ns)
+print('colors')
+print(Cs)
+
 fig2, ax = plt.subplots(num=2)
 
 for i in range(4):
-    y1 = Dirs[0, i]
-    y2 = Dirs[1, i]
+    y1 = Dirs[0, i]*3
+    y2 = Dirs[1, i]*3
     ax.arrow(0, 0, y1, y2, head_width=0.05)
     ax.annotate(ColNs[i], (y1, y2))
 
@@ -88,9 +93,9 @@ for i in range(3):
     ax.set_ylabel('Comp 2')
     ax.set_zlabel('Comp 3')
 for i in range(4):
-    x = Dirs[0, i]
-    y = Dirs[1, i]
-    z = Dirs[2, i]
+    x = Dirs[0, i]*3
+    y = Dirs[1, i]*3
+    z = Dirs[2, i]*3
     ax.plot([0, x], [0, y], [0, z], c='black')
     ax.text(x, y, z, ColNs[i], color='black', size=20)
 plt.draw()
@@ -136,7 +141,10 @@ def table(x, y):
     return res
 
 #Print tables to inspect how well classification has worked.
+print('Kmeans purity matrix')
 print(table(iris['KMeans'], iris['Name']))
+
+print('Ward purity matrix')
 print(table(iris['Ward'], iris['Name']))
 
 plt.show(block=True)
