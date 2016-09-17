@@ -9,6 +9,9 @@ from scipy.cluster.hierarchy import linkage
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import dendrogram
 
+import os
+fig_folder = os.path.join(os.getcwd(), 'figures')
+
 #Pull in iris dataset.
 iris_dataset_url = 'https://raw.githubusercontent.com/pydata/pandas/master/pandas/tests/data/iris.csv'
 iris = pd.read_csv(iris_dataset_url)
@@ -48,7 +51,7 @@ print(Summary)
 fig1 = plt.figure(1)
 plt.plot(Vars)
 plt.xticks(range(4), CompNs)
-plt.show()
+plt.draw()
 
 #2D Biplot
 Ns = np.unique(iris['Name'])
@@ -68,7 +71,10 @@ for i in range(3):
 
 ax.set_xlabel('Comp 1')
 ax.set_ylabel('Comp 2')
-plt.show(block=True)
+plt.draw()
+plt.savefig(os.path.join(fig_folder, 'pcaIris2dBiplotPython.pdf'))
+
+
 
 #3D Biplot
 fig3 = plt.figure(3)
@@ -87,7 +93,8 @@ for i in range(4):
     z = Dirs[2, i]
     ax.plot([0, x], [0, y], [0, z], c='black')
     ax.text(x, y, z, ColNs[i], color='black', size=20)
-plt.show(block=True)
+plt.draw()
+plt.savefig(os.path.join(fig_folder, 'pcaIris3dBiplotPython.pdf'))
 
 #KMeans clustering (applied to unstandardized data)
 KM3 = KMeans(n_clusters=3)
@@ -106,7 +113,7 @@ for i in range(3):
     ax.set_ylabel('Comp 2')
     ax.set_zlabel('Comp 3')
 ax.set_title('Clusters according to K-Means')
-plt.show(block=True)
+plt.draw()
 
 #Hierarchical clustering (applied to unstandardized data)
 linkage_matrix = linkage(X, "ward")
@@ -114,7 +121,7 @@ linkage_matrix = linkage(X, "ward")
 #3D plot of PCA-projected points classified according to hierarchical clustering
 fig5 = plt.figure(5)
 ddata = dendrogram(linkage_matrix)
-plt.show(block=True)
+plt.draw()
 
 iris['Ward'] = fcluster(linkage_matrix, 9, 'distance')
 
@@ -131,3 +138,5 @@ def table(x, y):
 #Print tables to inspect how well classification has worked.
 print(table(iris['KMeans'], iris['Name']))
 print(table(iris['Ward'], iris['Name']))
+
+plt.show(block=True)
