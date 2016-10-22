@@ -10,7 +10,7 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import dendrogram
 
 import os
-fig_folder = os.path.join(os.getcwd(), 'figures')
+fig_folder = os.getcwd()
 
 #Pull in iris dataset.
 iris_dataset_url = 'https://raw.githubusercontent.com/pydata/pandas/master/pandas/tests/data/iris.csv'
