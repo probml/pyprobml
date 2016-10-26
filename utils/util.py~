@@ -5,7 +5,7 @@ import os
 import scipy.io as sio
 import numpy as np
 import glob
-#from init_pmtk3 import DATA_DIR
+from init_pmtk3 import DATA_DIR
 #from demos import linreg_1d_batch_demo 
 #import demos.linreg_1d_batch_demo
 #from demos.linreg_1d_batch_demo import main
@@ -124,9 +124,9 @@ def poly_data_make(sampling="sparse", deg=3, n=21):
     return xtrain, ytrain, xtest, ytestNoisefree, ytestNoisy, sigma2        
 
 
-def load_mat(matName, DATA_DIR="../data"):
-    """look for the .mat file in DATA_DIR.
-    Currently only support .mat files create by Matlab 5,6,7~7.2,
+def load_mat(matName):
+    """look for the .mat file in pmtk3/pmtkdataCopy/
+    currently only support .mat files create by Matlab 5,6,7~7.2,
     """
     print 'looking for ', matName, ' in ', DATA_DIR
     try:
