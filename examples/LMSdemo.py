@@ -4,6 +4,7 @@ import utils.util as util
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.optimize import minimize
 
+np.random.seed(0)
 #Generating synthetic data:
 N = 21
 wTrue = np.array([1.45, 0.92])
@@ -22,7 +23,7 @@ SS = SS.reshape(W0.shape)
 fig = pl.figure()
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(W0, W1, SS)
-pl.savefig('linregSurfSSE.png')
+pl.savefig('figures/linregSurfSSE.png')
 pl.draw()
 
 #Mean SE with gradient and Hessian:
@@ -157,7 +158,7 @@ ax.set_title('black line = LMS trajectory towards LS soln (red cross)')
 CS = pl.contour(W0, W1, SS)
 pl.plot(wOpt[0], wOpt[1], 'x', color='r', ms=10, mew=5)
 pl.plot(whist[:, 0], whist[:, 1], 'ko-', lw=2)
-pl.savefig('lmsTraj.png')
+pl.savefig('figures/lmsTraj.png')
 
 #Loss values over the parameter path compared to the optimal loss.
 fvalhist = np.asarray(stochgradTracePostprocess(LinregLossScaled, trace['params'], X, y))
@@ -165,7 +166,7 @@ fig, ax = pl.subplots()
 ax.set_title('RSS vs iteration')
 pl.plot(fvalhist,'ko-', lw=2)
 pl.axhline(fopt)
-pl.savefig('lmsRssHist.png')
+pl.savefig('figures/lmsRssHist.png')
 pl.draw()
 
 #Stepsize graph if desired:
@@ -174,7 +175,7 @@ if False:
     fig, ax = pl.subplots()
     ax.set_title('Stepsize vs iteration')
     pl.plot(stephist,'ko-', lw=2)
-    pl.savefig('StepsizeHist.png')
+    pl.savefig('figures/StepsizeHist.png')
     pl.draw()
 
 pl.show()

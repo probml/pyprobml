@@ -5,7 +5,7 @@ import numpy as np
 import utils.util as util
 from sklearn.cluster import KMeans
 
-data = util.load_mat('heightWeight')
+data = util.load_mat('heightWeight/heightWeight')
 data = data['heightWeightData']
 markers = 'Dox'
 colors = 'rgb'
