@@ -23,7 +23,7 @@ SS = SS.reshape(W0.shape)
 fig = pl.figure()
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(W0, W1, SS)
-pl.savefig('figures/linregSurfSSE.png')
+pl.savefig('figures/linregSurfSSEPy.pdf')
 pl.draw()
 
 #Mean SE with gradient and Hessian:
@@ -158,7 +158,7 @@ ax.set_title('black line = LMS trajectory towards LS soln (red cross)')
 CS = pl.contour(W0, W1, SS)
 pl.plot(wOpt[0], wOpt[1], 'x', color='r', ms=10, mew=5)
 pl.plot(whist[:, 0], whist[:, 1], 'ko-', lw=2)
-pl.savefig('figures/lmsTraj.png')
+pl.savefig('figures/lmsTrajPy.pdf')
 
 #Loss values over the parameter path compared to the optimal loss.
 fvalhist = np.asarray(stochgradTracePostprocess(LinregLossScaled, trace['params'], X, y))
@@ -166,7 +166,7 @@ fig, ax = pl.subplots()
 ax.set_title('RSS vs iteration')
 pl.plot(fvalhist,'ko-', lw=2)
 pl.axhline(fopt)
-pl.savefig('figures/lmsRssHist.png')
+pl.savefig('figures/lmsRssHistPy.pdf')
 pl.draw()
 
 #Stepsize graph if desired:
@@ -175,7 +175,7 @@ if False:
     fig, ax = pl.subplots()
     ax.set_title('Stepsize vs iteration')
     pl.plot(stephist,'ko-', lw=2)
-    pl.savefig('figures/StepsizeHist.png')
+    pl.savefig('figures/StepsizeHistPy.pdf')
     pl.draw()
 
 pl.show()
