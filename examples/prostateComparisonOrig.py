@@ -121,13 +121,13 @@ CSV=[method_names, intercepts]
 CSV+=coefficients
 CSV.append(MSEs)
 
-with open("prostateComparison.txt", "wb") as f:
+with open("out.csv", 'w', encoding='utf8', newline='') as f:
   writer = csv.writer(f, delimiter='&')
   writer.writerows(CSV)
 
-print method_names, MSEs
+print(method_names, MSEs)
 
-print mseHt
-print coefHt
+print(mseHt)
+print(coefHt)
 
 

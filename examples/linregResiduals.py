@@ -4,7 +4,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
-import utils.util as util
+from utils import util
 
 N = 21
 x, y, _, _, _, _ = util.poly_data_make(sampling='thibaux', n=N)

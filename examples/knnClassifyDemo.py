@@ -5,14 +5,14 @@ import matplotlib.pyplot as pl
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier as KNN
 from sklearn.cross_validation import cross_val_score
-from utils.util import DATA_DIR
+from  utils.util import DATA_DIR
 
 
 def load_data():
   """Since the knnClassify3c.mat is the matlab v7.3 or later file
   we have to load data from txt"""
-  train_file = os.path.join(DATA_DIR, 'knnClassify3cTrain.txt')
-  test_file = os.path.join(DATA_DIR, 'knnClassify3cTest.txt')
+  train_file = os.path.join(DATA_DIR, 'knnClassify3c', 'knnClassify3cTrain.txt')
+  test_file = os.path.join(DATA_DIR, 'knnClassify3c', 'knnClassify3cTest.txt')
   train = np.loadtxt(train_file,
                      dtype=[('x_train', ('f8', 2)),
                             ('y_train', ('f8', 1))])

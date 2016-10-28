@@ -64,12 +64,12 @@ def fitAndPredict(X, y, train_mask):
     # Measure train error
     yhat = linreg.predict(Xtrain)
     (mse, stderr) = L2loss(yhat, ytrain) 
-    print 'Train mse {0:0.3f}, stderr {1:0.3f}'.format(mse, stderr) 
+    print('Train mse {0:0.3f}, stderr {1:0.3f}'.format(mse, stderr)) 
     
     # Measure test error
     yhat = linreg.predict(Xtest)
     (mse, stderr) = L2loss(yhat, ytest) 
-    print 'Test mse {0:0.3f}, stderr {1:0.3f}'.format(mse, stderr) 
+    print('Test mse {0:0.3f}, stderr {1:0.3f}'.format(mse, stderr)) 
 
 
 ##############################

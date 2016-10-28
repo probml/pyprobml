@@ -18,7 +18,7 @@ def plot_loss_trace(losses, loss_min=None, ax=None):
         ylim = ax.get_ylim()
         ax.set_ylim([0.9*loss_min, 1.1*ylim[1]])
     return ax
-    
+
 
 
 class OptimLogger(object):
@@ -35,19 +35,19 @@ class OptimLogger(object):
         self.print_freq = print_freq
         self.eval_fun = eval_fun
         self.iter = 0
-        
+
     def callback(self, params):
         if (self.eval_freq > 0) and (self.iter % self.eval_freq == 0):
             obj = self.eval_fun(params)
             self.eval_trace.append(obj)
             self.iter_trace.append(self.iter)
             if self.print_freq > 0:
-                print "iteration {}, objective {:2.3f}".format(self.iter, obj)
+                print("iteration {}, objective {}".format(self.iter, obj))
         if (self.store_freq > 0) and (self.iter % self.store_freq == 0):
-            self.param_trace.append(np.copy(params)) 
+            self.param_trace.append(np.copy(params))
         self.iter += 1
 
-           
+
 
 # Shuffle rows (for SGD)
 def shuffle_data(X, y):
@@ -55,14 +55,14 @@ def shuffle_data(X, y):
     perm = np.arange(N)
     np.random.shuffle(perm)
     return X[perm], y[perm]
-    
+
 ######
 # Learning rate functions
-    
+
 def const_lr(lr=0.001):
-    fn = lambda(iter): lr
+    fn = lambda iter: lr
     return fn
-    
+
 #https://www.tensorflow.org/versions/r0.7/api_docs/python/train.html#exponential_decay
 #decayed_learning_rate = learning_rate *
 #                        decay_rate ^ (global_step / decay_steps)
@@ -71,15 +71,15 @@ def lr_exp_decay(t, base_lr=0.001, decay_rate=0.9, decay_steps=100, staircase=Tr
     if staircase:
         exponent = t / decay_steps # integer division
     else:
-        exponent = t / np.float(decay_steps) 
+        exponent = t / np.float(decay_steps)
     return base_lr * np.power(decay_rate, exponent)
-   
-   
-# http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html                                                                            
+
+
+# http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html
 # eta = eta0 / pow(t, power_t) [default]
 def lr_inv_scaling(t, base_lr=0.001, power_t=0.25):
    return base_lr / np.power(t+1, power_t)
-   
+
 
 #http://leon.bottou.org/projects/sgd
 def lr_bottou(t, base_lr=0.001, power_t=0.75, lam=1):
@@ -105,7 +105,7 @@ def grid_search_1d(eval_fun, param_list):
 def lr_tuner(obj_fun, search_method, optimizer, grad_fun, x0,  max_iters, lrs=[1e-4,1]):
     def lr_eval_fun(lr):
         params, score = optimizer(obj_fun, grad_fun, x0, max_iters, None, const_lr(lr))
-        print 'lr eval fun using {} gives {}'.format(lr, score)
+        print(('lr eval fun using {} gives {}'.format(lr, score)))
         return score
     if search_method == 'grid':
         if len(lrs) == 2:
@@ -132,14 +132,14 @@ def get_ith_minibatch_ixs(i, num_datapoints, batch_size):
 def build_batched_grad(grad, batch_size, inputs, targets):
     '''Grad has signature(weights, inputs, targets, N).
     Returns batched_grad with signature (weights, iter), applied to a
-    minibatch. We pass in the overall dataset size, N, to act as 
+    minibatch. We pass in the overall dataset size, N, to act as
     scaling factor.'''
     N = inputs.shape[0]
     def batched_grad(weights, i):
         cur_idxs = get_ith_minibatch_ixs(i, len(targets), batch_size)
         return grad(weights, inputs[cur_idxs], targets[cur_idxs], N)
     return batched_grad
-    
+
 ######
 # Modified from https://github.com/HIPS/autograd/blob/master/examples/optimizers.py
 
@@ -150,11 +150,11 @@ def maybe_add_iter_arg_to_fun(fun):
         return lambda params, iter: fun(params)
     else:
         return fun
-            
+
 def autosgd(tuning_fun, tuning_method, obj_fun, grad_fun, x0, max_iters=100,
             callback=None, mass=0.9, update='regular'):
     lr, lrs, scores = lr_tuner(tuning_fun, tuning_method, sgd, grad_fun, x0, max_iters)
-    print 'auto_sgd picked {} from {} with scores {}'.format(lr, lrs, scores)
+    print(('auto_sgd picked {} from {} with scores {}'.format(lr, lrs, scores)))
     lr_fun = lambda iter: lr_exp_decay(iter, lr)
     x, val = sgd(obj_fun, grad_fun, x0, max_iters, callback, lr_fun, mass, update)
     return x, val, lr
@@ -185,7 +185,7 @@ def sgd(obj_fun, grad_fun, x0, max_iters=100, callback=None,
         if callback is not None: callback(x)
     val = obj_fun(x)
     val_avg = obj_fun(xavg)
-    print 'sgd: val {:0.4g}, val_avg {:0.4g}'.format(val, val_avg)
+    print(('sgd: val {:0.4g}, val_avg {:0.4g}'.format(val, val_avg)))
     if val < val_avg:
         return x, val
     else:
@@ -195,7 +195,7 @@ def sgd(obj_fun, grad_fun, x0, max_iters=100, callback=None,
 def autoadam(tuning_fun, tuning_method, obj_fun, grad_fun, x0, max_iters=100,
             callback=None, b1=0.9, b2=0.999, eps=10**-8):
     lr, lrs, scores = lr_tuner(tuning_fun, tuning_method, adam, grad_fun, x0, max_iters)
-    print 'auto_adam picked {} from {} with scores {}'.format(lr, lrs, scores)
+    print(('auto_adam picked {} from {} with scores {}'.format(lr, lrs, scores)))
     lr_fun = lambda iter: lr_exp_decay(iter, lr)
     x, val = adam(obj_fun, grad_fun, x0, max_iters, callback, lr_fun, b1, b2, eps)
     return x, val, lr
@@ -210,7 +210,7 @@ def adam(obj_fun, grad_fun, x0, max_iters=100, callback=None,
     m = np.zeros(len(x))
     v = np.zeros(len(x))
     grad_fun = maybe_add_iter_arg_to_fun(grad_fun)
-    for i in range(max_iters):
+    for i in range(int(max_iters)):
         g = grad_fun(x, i)
         m = (1 - b1) * g      + b1 * m  # First  moment estimate.
         v = (1 - b2) * (g**2) + b2 * v  # Second moment estimate.
@@ -223,12 +223,12 @@ def adam(obj_fun, grad_fun, x0, max_iters=100, callback=None,
         xavg = (1-avgdecay)*x + avgdecay*xavg
     val = obj_fun(x)
     val_avg = obj_fun(xavg)
-    print 'adam: val {:0.4g}, val_avg {:0.4g}'.format(val, val_avg)
+    print(('adam: val {:0.4g}, val_avg {:0.4g}'.format(val, val_avg)))
     if val < val_avg:
         return x, val
     else:
         return xavg, val_avg
-        
+
 def rmsprop(obj_fun, grad_fun, x0, max_iters=100,  callback=None,
             lr_fun=const_lr(0.01), gamma=0.9, eps = 10**-8):
     """Root mean squared prop: See Adagrad paper for details."""
@@ -248,14 +248,14 @@ def rmsprop(obj_fun, grad_fun, x0, max_iters=100,  callback=None,
 
 
 def bfgs(obj_fun, grad_fun, params, max_iters=100, callback_fun=None):
-    '''This wraps scipy.minimize. So callback has the signature 
+    '''This wraps scipy.minimize. So callback has the signature
     callback(params).'''
     result = opt.minimize(obj_fun, params,  method='BFGS', jac=grad_fun,
             callback=callback_fun, options = {'maxiter':max_iters, 'disp':True, 'gtol': 1e-3})
     return result.x, result.fun
-    
-"""   
-# Modified from 
+
+"""
+# Modified from
 # https://github.com/HIPS/neural-fingerprint/blob/2003a28d5ae4a78d99fdc06db8671b994f88c5a6/neuralfingerprint/optimizers.py
 def bfgs_hips(obj_and_grad, x,  num_iters=100, callback=None):
     def epoch_counter():
@@ -273,23 +273,23 @@ def bfgs_hips(obj_and_grad, x,  num_iters=100, callback=None):
     res =  opt.minimize(fun=obj_and_grad, x0=x, jac =True, callback=wrapped_callback,
                     method = 'BFGS', options = {'maxiter':num_iters, 'disp':True, 'gtol': 1e-3})
     return res.x
-"""  
+"""
 
 def branin(x):
     """Branin function.
-    
+
     This function is widely used to evaluate nonconvex optimization methods.
     It is typically evaluated over the range -5 <= x1 <= 10, 0 <= x2 <= 15.
-    
-    This function has 3 global minima, at 
+
+    This function has 3 global minima, at
     x_global_min = [np.pi, 2.275];
     x_global_min = [-np.pi, 12.275]
     x_global_min = [9.42478, 2.475]
     The objective function at these points has value 0.397887
-    
+
     Args:
         x: N*2 array of points (N = num. points to evaluate)
-    
+
     Returns:
         f: N*1 function values at each x
         df: N*2 gradient vector at each x
@@ -306,13 +306,13 @@ def branin(x):
     f = a * np.square(z) + s * (1 - t) * np.cos(x1) + 10
     df0 = 2 * a * np.inner(-2 * b * x1 + c, z) - s * (1-t) * np.sin(x1)
     df1 = 2 * a * z
-    df = np.array([df0, df1]) 
+    df = np.array([df0, df1])
     return f, df
-    
-######    
+
+######
 def main():
     plot_lr_trace()
-    
+
 if __name__ == "__main__":
     main()
-    
+

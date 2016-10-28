@@ -5,8 +5,8 @@ import os
 import scipy.io as sio
 import numpy as np
 import glob
-#from init_pmtk3 import DATA_DIR
-#from demos import linreg_1d_batch_demo 
+DATA_DIR = 'data/'
+#from demos import linreg_1d_batch_demo
 #import demos.linreg_1d_batch_demo
 #from demos.linreg_1d_batch_demo import main
 
@@ -30,7 +30,7 @@ def degexpand(X, deg, add_ones=False):
     """Expand input vectors to contain powers of the input features"""
     n = len(X)
     xx = X
-    for i in xrange(1, deg):
+    for i in range(1, deg):
         xx = np.column_stack((xx, np.power(X, i + 1)))
     if add_ones:
         xx = np.column_stack((np.ones(n), xx))
@@ -121,14 +121,14 @@ def poly_data_make(sampling="sparse", deg=3, n=21):
     ytestNoisy = ytestNoisefree + np.random.normal(0, 1, xtest.shape) * \
         np.sqrt(sigma2)
 
-    return xtrain, ytrain, xtest, ytestNoisefree, ytestNoisy, sigma2        
+    return xtrain, ytrain, xtest, ytestNoisefree, ytestNoisy, sigma2
 
 
-def load_mat(matName, DATA_DIR="../data"):
+def load_mat(matName, DATA_DIR="./data"):
     """look for the .mat file in DATA_DIR.
     Currently only support .mat files create by Matlab 5,6,7~7.2,
     """
-    print 'looking for ', matName, ' in ', DATA_DIR
+    print(('looking for ', matName, ' in ', DATA_DIR))
     try:
         data = sio.loadmat(os.path.join(DATA_DIR, matName))
     except NotImplementedError:

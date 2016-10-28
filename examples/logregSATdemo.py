@@ -4,7 +4,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
-import utils.util as util
+from utils import util
 from scipy.special import logit
 from sklearn.linear_model import LogisticRegressionCV
 
@@ -17,7 +17,7 @@ X = X.reshape((len(X), 1))
 y = y.reshape((len(X), 1))
 
 logistic = LogisticRegressionCV()
-print X
+print(X)
 model = logistic.fit(X, y)
 
 # Solve for the decision boundary

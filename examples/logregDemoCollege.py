@@ -27,12 +27,12 @@ df = pd.read_csv("http://www.ats.ucla.edu/stat/data/binary.csv")
 
 # rename the 'rank' column because there is also a DataFrame method called 'rank'
 df.columns = ["admit", "gre", "gpa", "prestige"]
-print df.columns
+print(df.columns)
 # array([admit, gre, gpa, prestige], dtype=object)
 
 
 # take a look at the dataset
-print df.head()
+print(df.head())
 #    admit  gre   gpa  prestige
 # 0      0  380  3.61     3
 # 1      1  660  3.67     3
@@ -73,7 +73,7 @@ df.groupby('prestige').mean()
 
 # convert prestige column to dummy encoding
 dummy = pd.get_dummies(df['prestige'], prefix='prestige')
-print dummy.head()
+print(dummy.head())
 #    prestige_1  prestige_2  prestige_3  prestige_4
 # 0           0           0           1           0
 # 1           0           0           1           0
@@ -88,7 +88,7 @@ data = df[cols_to_keep].join(dummy.ix[:, 'prestige_2':])
 # manually add the intercept
 data['intercept'] = 1.0
 
-print data.head()
+print(data.head())
 #   admit  gre   gpa  prestige_2  prestige_3  prestige_4  intercept
 #0      0  380  3.61           0           1           0          1
 #1      1  660  3.67           0           1           0          1
@@ -102,7 +102,7 @@ train_cols = data.columns[1:]
 logit = sm.Logit(data['admit'], data[train_cols])
 result = logit.fit()
 coef_sm = result.params
-print coef_sm
+print(coef_sm)
 
 #########
 # Let's use patsy notation to handle dummy variables.
@@ -125,17 +125,17 @@ model = LogisticRegression(fit_intercept=False, C=1e9)
 y = np.ravel(y)
 model = model.fit(X, y)
 coef_patsy = np.ravel(model.coef_)
-pd.DataFrame(zip(X.columns, [round(c, 3) for c in coef_patsy]))
+pd.DataFrame(list(zip(X.columns, [round(c, 3) for c in coef_patsy])))
 
 #
 # evaluate the model using 10-fold cross-validation
 scores = cross_val_score(LogisticRegression(fit_intercept=False, C=1e9), 
             X, y, scoring='accuracy', cv=10)
-print scores
+print(scores)
 #[ 0.805  0.61   0.732  0.725  0.675  0.7    0.7    0.692  0.744  0.667]
 
-print 'average CV accuracy = {0:.2f}'.format(scores.mean()) #0.70
-print 'baseline accuracy = {0:.2f}'.format(1-y.mean()) # 0.68
+print('average CV accuracy = {0:.2f}'.format(scores.mean())) #0.70
+print('baseline accuracy = {0:.2f}'.format(1-y.mean())) # 0.68
    
    
 # Split data into train and test sets.
@@ -145,7 +145,7 @@ np.random.seed(42) # ensure reproducibility
 #X = pd.DataFrame(np.random.randn(5,2))
 #y = np.random.rand(5)
 N = len(X)
-ndx = np.random.permutation(range(N))
+ndx = np.random.permutation(list(range(N)))
 Xshuffled = X.reindex(ndx) # dataframe
 yshuffled = y[ndx] # numpy 1d array
 X_train, X_test, y_train, y_test = train_test_split(Xshuffled, yshuffled, test_size=0.3, random_state=0)
@@ -158,11 +158,11 @@ predicted = model.predict(X_test)
 probs = model.predict_proba(X_test)
 
 # check the accuracy
-print 'baseline accuracy = {0:.2f}'.format(1-y.mean())
-print 'accuracy on test set = {0:.2f}'.format(metrics.accuracy_score(y_test, predicted))
-print 'auc on test set = {0:.2f}'.format(metrics.roc_auc_score(y_test, probs[:, 1]))
-print 'class confusion matrix'
-print metrics.confusion_matrix(y_test, predicted)
+print('baseline accuracy = {0:.2f}'.format(1-y.mean()))
+print('accuracy on test set = {0:.2f}'.format(metrics.accuracy_score(y_test, predicted)))
+print('auc on test set = {0:.2f}'.format(metrics.roc_auc_score(y_test, probs[:, 1])))
+print('class confusion matrix')
+print(metrics.confusion_matrix(y_test, predicted))
 
 
 

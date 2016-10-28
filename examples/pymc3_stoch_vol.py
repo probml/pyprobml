@@ -29,10 +29,10 @@ with pymc3.Model() as sp500_model:
     r = pymc3.StudentT('r', nu, lam=1/volatility_process, observed=returns)
     
 with sp500_model:
-    print 'optimizing...'
+    print('optimizing...')
     start = pymc3.find_MAP(vars=[s], fmin=scipy.optimize.fmin_l_bfgs_b)
     
-    print 'sampling... (slow!)'
+    print('sampling... (slow!)')
     step = pymc3.NUTS(scaling=start)
     trace = pymc3.sample(100, step, progressbar=False)
 
