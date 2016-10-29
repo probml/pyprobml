@@ -5,7 +5,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
-import utils.util as util
+from utils import util
 from mpl_toolkits.mplot3d import Axes3D
 
 data = util.load_mat('moteData/moteData.mat')

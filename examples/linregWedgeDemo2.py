@@ -6,7 +6,7 @@
 import matplotlib.pyplot as pl
 import numpy as np
 import sklearn
-import utils.util as util
+from utils import util
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.linear_model import LinearRegression

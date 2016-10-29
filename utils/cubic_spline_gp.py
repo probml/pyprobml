@@ -236,8 +236,8 @@ def demo():
         ax.errorbar(t_hist, y_hist, yerr=sigmaf*np.ones(len(t_hist)), fmt='o')
         ax.set_title('estimate at iteration {}'.format(i))
         
-        print 'mgrid at iter {}, {}'.format(i, mgrid)
-        print 'sgrid at iter {}, {}'.format(i, sgrid)
+        print(('mgrid at iter {}, {}'.format(i, mgrid)))
+        print(('sgrid at iter {}, {}'.format(i, sgrid)))
         
             
 def main():

@@ -12,7 +12,7 @@ def relu(x):
 class MLP(object):
     def __init__(self, layer_sizes, output_type='regression', L2_reg=0.001,
                 nonlinearity=np.tanh):
-        self.shapes = zip(layer_sizes[:-1], layer_sizes[1:])
+        self.shapes = list(zip(layer_sizes[:-1], layer_sizes[1:]))
         self.nparams = sum((m+1)*n for m, n in self.shapes)
         self.L2_reg = L2_reg
         self.output_type = output_type

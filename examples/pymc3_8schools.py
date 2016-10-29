@@ -13,7 +13,7 @@ sigma = np.array([15, 10, 16, 11,  9, 11, 10, 18])
 
 # Schools model defined at https://raw.githubusercontent.com/wiki/stan-dev/rstan/8schools.stan
 with Model() as schools:
-    print 'building model...'
+    print('building model...')
     eta = Normal('eta', 0, 1, shape=J)
     mu = Normal('mu', 0, sd=1e6)
     tau = HalfCauchy('tau', 25) # original model uses U[0,infty]
@@ -22,10 +22,10 @@ with Model() as schools:
     
     
 with schools:
-    print 'sampling...'
+    print('sampling...')
     tr = sample(1000)
     l = loo(tr) # -29.6821436703
-    print 'LOO estimate {}'.format(l)
+    print('LOO estimate {}'.format(l))
     
 traceplot(tr)
 

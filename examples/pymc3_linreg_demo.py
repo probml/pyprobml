@@ -25,7 +25,7 @@ with basic_model:
     mu = alpha + beta[0]*X1 + beta[1]*X2
     Y_obs = Normal('Y_obs', mu=mu, sd=sigma, observed=Y)
     
-print basic_model
+print(basic_model)
     
 map_estimate = find_MAP(model=basic_model)
 print(map_estimate)

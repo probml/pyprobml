@@ -31,18 +31,18 @@ for dataset in datasets:
     counts[dataset] = sum(mask)
     entities_in_dataset[dataset] = set((df['name'][mask]).tolist())
     
-print counts
+print(counts)
 
 entities_with_data = set()
 for d in ['VOC2012', 'MSCOCO2014', 'ImageNetDet2015', 'SUN3D']:
     entities_with_data = entities_with_data.union(entities_in_dataset[d])
-print("{} entities have bounding box data".format(len(entities_with_data)))
+print(("{} entities have bounding box data".format(len(entities_with_data))))
 
 entities_without_data = entities_in_dataset['ICAlocalizerV2'] - entities_with_data
-print("{} entities without bounding box data".format(len(entities_without_data)))
+print(("{} entities without bounding box data".format(len(entities_without_data))))
 
-print("num labels in VOC and ICA {}".format(sum(df['VOC2012'] & df['ICAlocalizerV2'])))
-print("num labels in COCO and ICA {}".format(sum(df['MSCOCO2014'] & df['ICAlocalizerV2'])))
+print(("num labels in VOC and ICA {}".format(sum(df['VOC2012'] & df['ICAlocalizerV2']))))
+print(("num labels in COCO and ICA {}".format(sum(df['MSCOCO2014'] & df['ICAlocalizerV2']))))
 
 # Count how many instances of each category in each dataset
 categories = np.unique(df['category'])
@@ -56,4 +56,4 @@ for row, cat in enumerate(categories):
         has_cat = df['category']==cat
         cat_counts[dataset][row] = sum(in_dataset & has_cat)
 
-print cat_counts
+print(cat_counts)

@@ -2,7 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as pl
-import utils.util as util
+from utils import util
 from scipy import ndimage
 
 data = util.load_mat('20news_w100')
@@ -33,7 +33,7 @@ for i in range(len(groups_label) - 1):
 pl.axis('tight')
 pl.xlabel('words')
 pl.ylabel('documents')
-pl.xticks(range(0, 1001, 100), range(0, 101, 10))
-pl.yticks(range(0, 1001, 100), range(0, 1001, 100))
+pl.xticks(list(range(0, 1001, 100)), list(range(0, 101, 10)))
+pl.yticks(list(range(0, 1001, 100)), list(range(0, 1001, 100)))
 pl.savefig('newsgroupsVisualize.png')
 pl.show()

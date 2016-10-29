@@ -4,13 +4,23 @@ Demo of scatter plot with varying marker colors and sizes.
 import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
 import numpy as np
+import os
+from utils.util import DATA_DIR
 
 # Load a numpy record array from yahoo csv data with fields date,
 # open, close, volume, adj_close from the mpl-data/example directory.
 # The record array stores python datetime.date as an object array in
 # the date column
-datafile = cbook.get_sample_data('goog.npy')
-price_data = np.load(datafile).view(np.recarray)
+datafile = os.path.join(DATA_DIR, 'goog.npy')
+try:
+    # Python3 cannot load python2 .npy files with datetime(object) arrays
+    # unless the encoding is set to bytes. Hovever this option was
+    # not added until numpy 1.10 so this example will only work with
+    # python 2 or with numpy 1.10 and later.
+    price_data = np.load(datafile, encoding='bytes').view(np.recarray)
+except TypeError:
+    price_data = np.load(datafile).view(np.recarray)
+# price_data = np.load(datafile).view(np.recarray)
 price_data = price_data[-250:] # get the most recent 250 trading days
 
 delta1 = np.diff(price_data.adj_close)/price_data.adj_close[:-1]

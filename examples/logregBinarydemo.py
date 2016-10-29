@@ -8,7 +8,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
-import utils.util as util
+from utils import util
 from scipy.special import logit
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics.pairwise import polynomial_kernel, rbf_kernel

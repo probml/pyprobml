@@ -42,13 +42,13 @@ schools_dat = {'J': 8,
 # https://pystan.readthedocs.org/en/latest/avoiding_recompilation.html
 fname = 'stan_8schools_model.pkl'
 if os.path.isfile(fname):
-    print 'loading {}'.format(fname)
+    print('loading {}'.format(fname))
     sm = pickle.load(open(fname, 'rb'))
 else:
-    print 'compiling model...'
+    print('compiling model...')
     sm = pystan.StanModel(model_code=schools_code)
     with open(fname, 'wb') as f:
-        print 'saving {}'.format(fname)
+        print('saving {}'.format(fname))
         pickle.dump(sm, f)
 
 # Run MCMC

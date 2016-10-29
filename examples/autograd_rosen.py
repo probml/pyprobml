@@ -13,10 +13,10 @@ result = minimize(
     rosen, x0, method='Newton-CG',
     jac=grad(rosen), hessp=hvp(rosen),
     options={'xtol': 1e-8, 'disp': True})
-print result
+print(result)
 
 result = minimize(
     rosen, x0, method='BFGS',
     jac=grad(rosen),
     options={'xtol': 1e-8, 'disp': True})
-print result
+print(result)

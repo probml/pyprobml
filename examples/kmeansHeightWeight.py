@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
-import utils.util as util
+from utils import util
 from sklearn.cluster import KMeans
 
 data = util.load_mat('heightWeight/heightWeight')

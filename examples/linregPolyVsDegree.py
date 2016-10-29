@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 #
 #       Author:    J. Benjamin Cook
@@ -13,9 +14,9 @@ import numpy as np
 import matplotlib.pyplot as pl
 from utils.util import preprocessor_create
 from utils.util import poly_data_make
-from SupervisedModels.linearRegression import linreg_fit
-from SupervisedModels.linearRegression import linreg_fit_bayes
-from SupervisedModels.linearRegression import linreg_predict
+from .linearRegression import linreg_fit
+from .linearRegression import linreg_fit_bayes
+from .linearRegression import linreg_predict
 
 N = 21
 xtrain, ytrain, xtest, _, ytest, _ = poly_data_make(sampling='thibaux', n=N)
@@ -26,7 +27,7 @@ Nm = len(degs)
 # Plot error vs degree
 mseTrain = np.zeros(Nm)
 mseTest = np.zeros(Nm)
-for m in xrange(len(degs)):
+for m in range(len(degs)):
     deg = degs[m]
     pp = preprocessor_create(rescale_X=True, poly=deg, add_ones=True)
     model = linreg_fit(xtrain, ytrain, preproc=pp)

@@ -9,6 +9,6 @@ def cost(theta):
     
 problem = Problem(manifold=None, cost=cost, verbosity=1)
 
-print problem.cost(5)
+print(problem.cost(5))
 
-print problem.egrad(5.0)
+print(problem.egrad(5.0))
