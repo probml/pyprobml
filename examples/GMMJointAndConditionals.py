@@ -51,7 +51,7 @@ def GMMConditional(which, val, condval):
 GMMpdf = np.vectorize(GMMpdf)
 GMMConditional = np.vectorize(GMMConditional, excluded=['which', 'condval'])
 
-spacing = np.arange(0, 1, 1/50)
+spacing = np.arange(0, 1, 1.0/50)
 
 Y, X = np.meshgrid(spacing, spacing)
 Z = GMMpdf(Y, X)
