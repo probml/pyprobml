@@ -42,7 +42,7 @@ pgm.add_edge("zz_n", "z_n")
 
 
 pgm.render()
-folder = "/Users/kpmurphy/github/pmtk3/python/figures"
+folder = "/Users/kpmurphy/github/pyprobml/figures"
 fname = "GMM-DGM-var"
 pgm.figure.savefig(os.path.join(folder, "{}.pdf".format(fname)))
 
