@@ -1,46 +1,44 @@
-#!/usr/bin/env python
-
-# Plots 2D gaussian contours.
-
-import matplotlib.pyplot as pl
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import axes3d
+from scipy.stats import multivariate_normal
 
-def mvn2d(x, y, sigma):
-    xx, yy = np.meshgrid(x, y)
-    u = np.array([np.mean(x), np.mean(y)])
-    xy = np.c_[xx.ravel(), yy.ravel()]
-    sigma_inv = np.linalg.inv(sigma)
-    z = np.dot((xy - u), sigma_inv)
-    z = np.sum(z * (xy - u), axis=1)
-    z = np.exp(-0.5 * z)
-    return z / (2 * np.pi * np.linalg.det(sigma) ** 0.5)
+Gs = ["full", "diagonal", "spherical"]
 
-fig = pl.figure()
-ax = Axes3D(fig)
-x = np.linspace(-5, 5, 100)
-y = np.linspace(-5, 5, 100)
-sigma = np.array([[1, 0], [0, 1]])
-z = mvn2d(x, y, sigma)
-xx, yy = np.meshgrid(x, y)
+# Gaussian Parameters:
+# Mean:
+mu = [0, 0]
+# Covariances:
+Covs = {'full': [[2, 1.8], [1.8, 2]],
+        'diagonal': [[1, 0], [0, 3]],
+        'spherical': [[1, 0], [0, 1]]}
 
-#plot figure
-ax.plot_surface(xx, yy, z.reshape(100, 100),
-                rstride=1, cstride=1, cmap=pl.cm.hot)
-pl.savefig('gaussPlot2Ddemo_1.png')
-pl.figure()
-pl.contour(xx, yy, z.reshape(100, 100))
-pl.savefig('gaussPlot2Ddemo_2.png')
+#Multivariate gaussian PDF
+def Gpdf(x, y, G):
+    return multivariate_normal(mean=mu, cov=Covs[G]).pdf([x, y])
 
-sigma1 = np.array([[2, 0], [0, 1]])
-z = mvn2d(x, y, sigma1)
-pl.figure()
-pl.contour(xx, yy, z.reshape(100, 100))
-pl.savefig('gaussPlot2Ddemo_3.png')
+Gpdf = np.vectorize(Gpdf, excluded=['G'])
 
-sigma2 = np.array([[1, 1], [0, 1]])
-z = mvn2d(x, y, sigma2)
-pl.figure()
-pl.contour(xx, yy, z.reshape(100, 100))
-pl.savefig('gaussPlot2Ddemo_4.png')
-pl.show()
+points = np.linspace(-5, 5, 100)
+X, Y = np.meshgrid(points, points)
+
+def MakeGraph(G):
+    Z = Gpdf(X, Y, G)
+    fig, ax = plt.subplots()
+    ax.contour(X, Y, Z)
+    plt.title(G)
+    plt.draw()
+    plt.savefig('figures/Gaussian2D' + G)
+
+for g in Gs:
+    MakeGraph(g)
+
+# Surface plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+Z = Gpdf(X, Y, "spherical")
+
+ax.plot_surface(X, Y, Z, rstride=2, cstride=2, color='white', edgecolor="black")
+plt.savefig('figures/Gaussian2DSurface')
+
+plt.show()
