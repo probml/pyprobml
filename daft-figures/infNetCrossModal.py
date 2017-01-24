@@ -84,6 +84,9 @@ pgm.add_edge("zs", "zsoL")
 pgm.add_node(daft.Node("LL", r"$\calL_{n,o,m}$", 5, 5))
 pgm.add_edge("znmL", "LL")
 pgm.add_edge("znoL", "LL")
+#pgm.add_edge("znoL", "LL", label="My label")
+
+
 
 ###
 
