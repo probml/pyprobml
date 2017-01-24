@@ -29,6 +29,9 @@ pgm.add_edge("x2", "z2", label="+1", xoffset=0.3)
 pgm.add_edge("z1", "y", label="-1", xoffset=-0.3)
 pgm.add_edge("z2", "y", label="-1", xoffset=0.3)
 
+#ax = pgm.render()  # returns the pyplot axes object it drew onto
+#ax.text(1, 2, "My label")
+
 pgm.render()
 folder = "/Users/kpmurphy/github/pyprobml/figures"
 fname = "mlpXor"
