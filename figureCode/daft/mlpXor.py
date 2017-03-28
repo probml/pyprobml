@@ -3,10 +3,10 @@ rc("font", family="serif", size=12)
 rc("text", usetex=True)
 rc("text.latex", preamble=open("macros.tex").read())
 
-#import daft
+import daft
 	
-import imp
-daft = imp.load_source('daft', '/Users/kpmurphy/github/daft/daft.py')
+#import imp
+#daft = imp.load_source('daft', '/Users/kpmurphy/github/daft/daft.py')
  
 import os
 
@@ -33,7 +33,7 @@ pgm.add_edge("z2", "y", label="-1", xoffset=0.3)
 #ax.text(1, 2, "My label")
 
 pgm.render()
-folder = "/Users/kpmurphy/github/pyprobml/figures"
+folder = "../../figures"
 fname = "mlpXor"
 pgm.figure.savefig(os.path.join(folder, "{}.png".format(fname)))
 
