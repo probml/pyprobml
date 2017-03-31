@@ -1,5 +1,5 @@
 import numpy as np
-from random import seed, getstate, setstate
+from random import seed, getstate, setstate, normalvariate
 
 def polyDataMake(n=21,deg=3,sampling='sparse'):
     old_state = getstate()
@@ -35,9 +35,9 @@ def polyDataMake(n=21,deg=3,sampling='sparse'):
             raise ValueError('Unrecognized degree.')
         sigma2 = 25
         
-    ytrain = fun(xtrain) + np.random.normal(size=xtrain.shape[0])*np.sqrt(sigma2)
+    ytrain = fun(xtrain) + [normalvariate(0,np.sqrt(sigma2)) for i in range(xtrain.shape[0])]
     ytestNoisefree = fun(xtest)
-    ytestNoisy = ytestNoisefree +  np.random.normal(size=xtest.shape[0])*np.sqrt(sigma2)
+    ytestNoisy = ytestNoisefree + [normalvariate(0,np.sqrt(sigma2)) for i in range(xtest.shape[0])]
     
     def shp(x):
         return np.asarray(x).reshape(-1,1)
