@@ -18,7 +18,7 @@ ax.plot(x, y, 'b-', label='relu', linewidth=2)
 legend = ax.legend(loc='upper center')
 
 plt.ylim([-0.1, 4.5])
-plt.title('nonlinear functions')
+#plt.title('nonlinear functions')
 plt.show()
-plt.savefig(os.path.join('../figures', 'softplusPlot.png'))
+plt.savefig(os.path.join('../figures', 'softplusPlot.pdf'))
 
