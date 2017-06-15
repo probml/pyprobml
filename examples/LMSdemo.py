@@ -1,8 +1,10 @@
-import matplotlib.pyplot as pl
+import matplotlib.pyplot as plt
 import numpy as np
 import utils.util as util
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.optimize import minimize
+
+plt.rcParams["figure.figsize"] = (10,10) # width x height
 
 np.random.seed(0)
 #Generating synthetic data:
@@ -20,11 +22,11 @@ v = np.arange(-1, 3, .1)
 W0, W1 = np.meshgrid(v, v)
 SS = np.array([sum((w0 * X[:, 0] + w1 * X[:, 1] - y) ** 2) for w0, w1 in zip(np.ravel(W0), np.ravel(W1))])
 SS = SS.reshape(W0.shape)
-fig = pl.figure()
+fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(W0, W1, SS)
-pl.savefig('figures/linregSurfSSEPy.pdf')
-pl.draw()
+plt.savefig('figures/linregSurfSSEPy.pdf')
+plt.draw()
 
 #Mean SE with gradient and Hessian:
 def LinregLossScaled(w, X, y):
@@ -153,29 +155,32 @@ print(w)
 whist = np.asarray(trace['params'])
 
 #Parameter trajectory
-fig, ax = pl.subplots()
-ax.set_title('black line = LMS trajectory towards LS soln (red cross)')
-CS = pl.contour(W0, W1, SS)
-pl.plot(wOpt[0], wOpt[1], 'x', color='r', ms=10, mew=5)
-pl.plot(whist[:, 0], whist[:, 1], 'ko-', lw=2)
-pl.savefig('figures/lmsTrajPy.pdf')
+if True:
+    fig, ax = plt.subplots()
+    ax.set_title('black line = LMS trajectory towards LS soln (red cross)')
+    CS = plt.contour(W0, W1, SS)
+    plt.plot(wOpt[0], wOpt[1], 'x', color='r', ms=10, mew=5)
+    plt.plot(whist[:, 0], whist[:, 1], 'ko-', lw=2)
+    plt.savefig('figures/lmsTrajPy.pdf')
+    plt.draw()
 
-#Loss values over the parameter path compared to the optimal loss.
-fvalhist = np.asarray(stochgradTracePostprocess(LinregLossScaled, trace['params'], X, y))
-fig, ax = pl.subplots()
-ax.set_title('RSS vs iteration')
-pl.plot(fvalhist,'ko-', lw=2)
-pl.axhline(fopt)
-pl.savefig('figures/lmsRssHistPy.pdf')
-pl.draw()
+#Loss values over the parameter path compared to the optimal loss.    
+if True:
+    fvalhist = np.asarray(stochgradTracePostprocess(LinregLossScaled, trace['params'], X, y))
+    fig, ax = plt.subplots()
+    ax.set_title('RSS vs iteration')
+    plt.plot(fvalhist,'ko-', lw=2)
+    plt.axhline(fopt)
+    plt.savefig('figures/lmsRssHistPy.pdf')
+    plt.draw()
 
 #Stepsize graph if desired:
-if False:
+if True:
     stephist = np.asarray(trace['stepSize'])
-    fig, ax = pl.subplots()
+    fig, ax = plt.subplots()
     ax.set_title('Stepsize vs iteration')
-    pl.plot(stephist,'ko-', lw=2)
-    pl.savefig('figures/StepsizeHistPy.pdf')
-    pl.draw()
+    plt.plot(stephist,'ko-', lw=2)
+    plt.savefig('figures/StepsizeHistPy.pdf')
+    plt.draw()
 
-pl.show()
+plt.show()
