@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 
-# Fit the following models to SAT scores:
+# Fit the following binary classification models to 2d data:
 #   - Logistic Regression
 #   - Quadratic Logistic Regression
 #   - RBF Logistic Regression
 #   - KNN with 10 nearest neighbors
 
-import matplotlib.pyplot as pl
+import matplotlib.pyplot as plt
 import numpy as np
 from utils import util
 from scipy.special import logit
+import sklearn.linear_model as lm
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics.pairwise import polynomial_kernel, rbf_kernel
 from sklearn.neighbors import KNeighborsClassifier
@@ -40,7 +41,7 @@ def plotScatter(X0, X1, y):
   for x0, x1, cls in zip(X0, X1, y):
     color = 'blue' if cls == 1 else 'red'
     marker = 'x' if cls == 1 else 'o'
-    pl.scatter(x0, x1, marker=marker, color=color)
+    plt.scatter(x0, x1, marker=marker, color=color)
 
 X,y = genMultinomialData(100, 2, 2)
 
@@ -64,15 +65,17 @@ for i in range(len(models)):
   
   xx, yy = np.meshgrid(np.linspace(-1, 1, 250), np.linspace(-1, 1, 250))
   Z = model.predict(kernels[i](np.c_[xx.ravel(), yy.ravel()], X)).reshape(xx.shape)
-  pl.pcolormesh(xx, yy, Z, cmap=pl.cm.coolwarm)
+  plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
   plotScatter(X[:, 0], X[:, 1], y)
-  pl.title(names[i])
-  pl.savefig('logregBinary%sBoundary' % file_names[i])
-  pl.show()
+  plt.title(names[i])
+  plt.savefig('figures/logregBinary%sBoundary' % file_names[i])
+  plt.draw()
+  plt.show()
   
   Z = model.predict_proba(kernels[i](np.c_[xx.ravel(), yy.ravel()], X))[:,2].reshape(xx.shape)
-  pl.pcolormesh(xx, yy, Z, cmap=pl.cm.coolwarm)
-  pl.colorbar()
-  pl.title('Prob Class 1')
-  pl.savefig('logregBinary%sProbClass1' % file_names[i])
-  pl.show()
+  plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
+  plt.colorbar()
+  plt.title('Prob Class 1')
+  plt.savefig('figures/logregBinary%sProbClass1' % file_names[i])
+  plt.draw()
+  plt.show()

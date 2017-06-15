@@ -10,7 +10,7 @@ fig, ax = plt.subplots()
 
 x = np.linspace(-4, 4, 1000)
 y = np.log(1+np.exp(x))
-ax.plot(x, y, 'g:', label='softplus', linewidth=2)
+ax.plot(x, y, 'r:', label='softplus', linewidth=3)
 
 y = np.maximum(0, x)
 ax.plot(x, y, 'b-', label='relu', linewidth=2)
