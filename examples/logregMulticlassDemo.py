@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 
-# Fit the following binary classification models to 2d data:
-#   - Logistic Regression
-#   - Quadratic Logistic Regression
-#   - RBF Logistic Regression
-#   - KNN with 10 nearest neighbors
+# Fit logistic regression models to 3 classs 2d data.
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,6 +12,7 @@ from sklearn.metrics.pairwise import polynomial_kernel, rbf_kernel
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
+from scipy.stats import multivariate_normal as mvn
 
 def genMultinomialData(num_instances, num_classes, num_vars):
   num_example_points = 3
@@ -41,74 +38,74 @@ def genMultinomialData(num_instances, num_classes, num_vars):
 
   return X,y
 
+def create_data(N):
+    np.random.seed(234)
+    #np.random.RandomState(0)
+    C = 0.01*np.eye(2)
+    Gs = [mvn(mean=[0.5,0.5], cov=C),
+          mvn(mean=[-0.5,-0.5], cov=C),
+          mvn(mean=[0.5,-0.5], cov=C),
+          mvn(mean=[-0.5,0.5], cov=C),
+          mvn(mean=[0,0], cov=C)]
+    X = np.concatenate([G.rvs(size=N) for G in Gs])
+    y = np.concatenate((1*np.ones(N), 1*np.ones(N),
+                        2*np.ones(N), 2*np.ones(N),
+                        3*np.ones(N)))
+    return X,y
+
+
 def plotScatter(X0, X1, y):
   for x0, x1, cls in zip(X0, X1, y):
-    color = 'blue' if cls == 1 else 'red'
-    marker = 'x' if cls == 1 else 'o'
+    colors = ['blue', 'black', 'red']
+    markers = ['x', 'o', '*']
+    color = colors[int(cls)-1]
+    marker = markers[int(cls)-1]
     plt.scatter(x0, x1, marker=marker, color=color)
 
-X,y = genMultinomialData(100, 2, 2)
+if False:    
+    X,y = genMultinomialData(100, 3, 2)
+    X = X[1:,:] # skip first entry
+    y = y[1:]
+else:
+    X, y = create_data(100)
+
 print X
 print X.shape
 print y
 print y.shape
 #exit()
 
-if False:
-  models = [LogisticRegressionCV(),
-            LogisticRegressionCV(),
-            LogisticRegressionCV(),
-            KNeighborsClassifier(n_neighbors=10)]
-else:
-  models = [LogisticRegression(C=1.0),
-            LogisticRegression(C=1.0),
-            LogisticRegression(C=1.0),
-            KNeighborsClassifier(n_neighbors=10)]
+models = [LogisticRegression(C=1.0),
+            LogisticRegression(C=1.0)]
 
 transformers = [PolynomialFeatures(1), # no-op
-               PolynomialFeatures(1),
-               PolynomialFeatures(1),
-               PolynomialFeatures(1)]
-kernels = [lambda X0, X1: X0, # No Kernel
-           lambda X0, X1: polynomial_kernel(X0, X1, degree=2),
-           lambda X0, X1: rbf_kernel(X0, X1, gamma=50), # sigma = .1
-           lambda X0, X1: X0]
+               PolynomialFeatures(2)]
+
 names = ['Linear Logistic Regression', 
-         'Quadratic Logistic Regression', 
-         'RBF Logistic Regression',
-         'KNN with K=10']
-file_names = ['Linear', 'Quad', 'Rbf', 'KNN10']
+         'Quadratic Logistic Regression']
+file_names = ['Linear', 'Quad']
 
 # pdf image files are very big (1MB), png is ~24kb
 #file_type = '.pdf'
-file_type = '.jpg'
+file_type = '.png'
 
 for i in range(len(models)):
   transformer = transformers[i]
   XX = transformer.fit_transform(X)[:,1:] # skip the first column of 1s
-  transX = kernels[i](XX, XX)
-  model = models[i].fit(transX, y)
+  model = models[i].fit(XX, y)
   print('experiment %d' % (i))
-  #print(model.Cs_)
-  #print(model.C_)
-  #print(model.scores_)
-  
+
   xx, yy = np.meshgrid(np.linspace(-1, 1, 250), np.linspace(-1, 1, 250))
-  Z = model.predict(kernels[i](np.c_[xx.ravel(), yy.ravel()], XX)).reshape(xx.shape)
+  grid = np.c_[xx.ravel(), yy.ravel()]
+  grid2 = transformer.transform(grid)[:,1:]
+  Z = model.predict(grid2).reshape(xx.shape)
   fig, ax = plt.subplots()
   plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
   plotScatter(X[:, 0], X[:, 1], y)
+  #plt.scatter(X[:,0], X[:,1], y)
   plt.title(names[i])
 
-  plt.savefig('figures/logregBinary%sBoundary%s' % (file_names[i], file_type))
-  plt.draw()
-  
-  Z = model.predict_proba(kernels[i](np.c_[xx.ravel(), yy.ravel()], XX))[:,2].reshape(xx.shape)
-  fig, ax = plt.subplots()
-  plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
-  plt.colorbar()
-  plt.title('Prob Class 1')
-  plt.savefig('figures/logregBinary%sProbClass1%s' % (file_names[i], file_type))
+  plt.savefig('figures/logregMulti%sBoundary%s' % (file_names[i], file_type))
   plt.draw()
 
 plt.show()
