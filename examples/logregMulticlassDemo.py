@@ -14,30 +14,6 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from scipy.stats import multivariate_normal as mvn
 
-def genMultinomialData(num_instances, num_classes, num_vars):
-  num_example_points = 3
-
-  np.random.seed(234)
-  example_points = np.random.randn(num_classes * num_example_points, num_vars)
-
-  np.random.seed(234)
-  X = 2*np.random.rand(num_instances, num_vars)-1
-
-  #y = np.zeros((num_instances, 1))
-  y = np.zeros(num_instances)
-
-  # Now 'classify' each instance by its nearest neighbor.
-  for i in range(1, num_instances):
-    # Take the i'th example and find the closest sample.
-    dist = np.linalg.norm((
-             np.tile(X[i,:], (num_classes * num_example_points, 1)) -
-             example_points), axis=1)
-    min_index = np.argmin(dist)
-    #y[i, 0] = (min_index % num_classes) + 1
-    y[i] = (min_index % num_classes) + 1
-
-  return X,y
-
 def create_data(N):
     np.random.seed(234)
     #np.random.RandomState(0)
@@ -62,12 +38,7 @@ def plotScatter(X0, X1, y):
     marker = markers[int(cls)-1]
     plt.scatter(x0, x1, marker=marker, color=color)
 
-if False:    
-    X,y = genMultinomialData(100, 3, 2)
-    X = X[1:,:] # skip first entry
-    y = y[1:]
-else:
-    X, y = create_data(100)
+X, y = create_data(100)
 
 print X
 print X.shape
