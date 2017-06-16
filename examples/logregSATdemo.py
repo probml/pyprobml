@@ -15,20 +15,23 @@ sat = data['sat']
 X, y = sat[:,3], sat[:,0]
 X = X.reshape((len(X), 1))
 #y = y.reshape((len(X), 1))
-print(X)
 
-#logistic = LogisticRegressionCV() # by default, cv=None
+#logistic = LogisticRegressionCV() # by default, cv=None, C=10
 logistic = LogisticRegression(C=1e9) # turn off regularization
 model = logistic.fit(X, y)
 
+xtest = np.linspace(400, 700, 100)
+xtest = xtest.reshape((len(xtest), 1))
 # Solve for the decision boundary
 a = model.coef_; b = model.intercept_;
 threshold = (logit(0.5) - b)/a;
 
 fig, ax = plt.subplots()
-plt.axis([450, 655, -.05, 1.05])
+#plt.axis([450, 655, -.05, 1.05])
+plt.axis([400, 700, -.05, 1.05])
 plt.plot(X, y, 'ko')
-plt.plot(X, model.predict_proba(X)[:,1], 'ro')
+#plt.plot(X, model.predict_proba(X)[:,1], 'ro')
+plt.plot(xtest, model.predict_proba(xtest)[:,1], 'r-')
 plt.plot(525, 0, 'bx', linewidth=2, markersize=14);
 plt.plot(525, 1, 'bx', linewidth=2, markersize=14);
 l = plt.axvline(threshold, linewidth=3, color='k')
@@ -45,11 +48,12 @@ model = LinearRegression()
 model = model.fit(X, y)
 
 fig, ax = plt.subplots()
-plt.axis([450, 655, -.05, 1.05])
+plt.axis([400, 700, -3, 3])
+#plt.axis([450, 655, -.05, 1.05])
 plt.plot(X, y, 'ko')
-yhat = model.predict(X)
-print yhat
-plt.plot(X, model.predict(X), 'bo')
+#plt.plot(xtest, model.predict(xtest), 'ko')
+yhat = model.predict(xtest)
+plt.plot(xtest, yhat, 'b-')
 
 plt.xlabel('SAT score')
 plt.ylabel('Predicted output')
