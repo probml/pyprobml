@@ -2,6 +2,7 @@
 
 from scipy import sparse
 import numpy as np
+
 import struct
 import os
 import time
@@ -15,13 +16,13 @@ def PullMNIST(dataset = "training", path = "."):
     """
 
     if dataset is "training":
-        fname_img = os.path.join(path, 'train-images.idx3-ubyte')
-        fname_lbl = os.path.join(path, 'train-labels.idx1-ubyte')
+        fname_img = os.path.join(path, 'train-images-idx3-ubyte')
+        fname_lbl = os.path.join(path, 'train-labels-idx1-ubyte')
     elif dataset is "testing":
-        fname_img = os.path.join(path, 't10k-images.idx3-ubyte')
-        fname_lbl = os.path.join(path, 't10k-labels.idx1-ubyte')
+        fname_img = os.path.join(path, 't10k-images-idx3-ubyte')
+        fname_lbl = os.path.join(path, 't10k-labels-idx1-ubyte')
     else:
-        raise ValueError, "dataset must be 'testing' or 'training'"
+        raise ValueError("dataset must be \'testing\' or \'training\'")
 
     # Load everything in some numpy arrays
     with open(fname_lbl, 'rb') as flbl:
@@ -34,11 +35,11 @@ def PullMNIST(dataset = "training", path = "."):
 
     return {'labels':lbl,'images':img}
         
-Training = PullMNIST("training",'data\\MNIST')
+Training = PullMNIST("training",'/Data/MNIST')
 TrainLabels = Training['labels']
 TrainIms = Training['images'].astype('int32')
 
-Testing = PullMNIST("testing",'data\\MNIST')
+Testing = PullMNIST("testing",'/Data/MNIST')
 TestLabels = Testing['labels']
 TestIms = Testing['images'].astype('int32')
 
@@ -75,7 +76,7 @@ def PredictandError(testims,testlabs):
 
 BucketSize = 1000
 errors = []
-for i in xrange(0,len(TestLabels),BucketSize):
+for i in range(0,len(TestLabels),BucketSize):
     errors.append(PredictandError(TestIms[i:(i+BucketSize)],TestLabels[i:(i+BucketSize)]))
 
 t1 = time.time()
