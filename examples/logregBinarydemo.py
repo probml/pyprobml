@@ -48,10 +48,7 @@ def plotScatter(X0, X1, y):
     plt.scatter(x0, x1, marker=marker, color=color)
 
 X,y = genMultinomialData(100, 2, 2)
-print X
-print X.shape
-print y
-print y.shape
+print(y)
 #exit()
 
 if False:
