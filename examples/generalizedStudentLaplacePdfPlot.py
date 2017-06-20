@@ -17,15 +17,19 @@ g = gt(x, 1, 1)
 
 plt.figure()
 plt.plot(x, g, 'k:',
-        x, l, 'b-')
-plt.legend(('GenStudent(a=1,c=1)', r'Laplace($\mu=0,\lambda=1)$'))
+        x, l, 'b-',
+        x, t, 'r--')
+plt.legend(('GenStudent(a=1,c=1)', r'Laplace($\mu=0,\lambda=1)$',
+    r'Student($\mu=0,\sigma=1,\nu=1$)'))
 plt.ylabel('pdf')
 plt.savefig('figures/genStudentLaplacePdfPlot.pdf')
 
 plt.figure()
 plt.plot(x, np.log(g), 'k:',
-        x, np.log(l), 'b-')
-plt.legend(('GenStudent(a=1,c=1)', r'Laplace($\mu=0,\lambda=1)$'))
+        x, np.log(l), 'b-',
+        x, np.log(t), 'r--')
+plt.legend(('GenStudent(a=1,c=1)', r'Laplace($\mu=0,\lambda=1)$',
+    r'Student($\mu=0,\sigma=1,\nu=1$)'))
 plt.ylabel('log pdf')
 plt.savefig('figures/genStudentLaplaceLogPdfPlot.pdf')
   
