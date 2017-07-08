@@ -3,7 +3,6 @@
 from utils import *
 import numpy as np
 
-
 def default_fit_options(reg_type, D):
     """returns an object with default linear regression fit options
     """
@@ -59,15 +58,15 @@ def preprocessor_apply_to_train(preproc, X):
         preproc.add_ones = None
 
     if preproc.standardize_X:
-        X, preproc.Xmu = center_cols(X)
-        X, preproc.Xstnd = mk_unit_variance(X)
+        X, preproc.Xmu = util.center_cols(X)
+        X, preproc.Xstnd = util.mk_unit_variance(X)
 
     if preproc.rescale_X:
         try:
             preproc.Xscale
         except AttributeError:
             preproc.Xscale = [-1, 1]
-        X = rescale_data(X, preproc.Xscale[0], preproc.Xscale[1])
+        X = util.rescale_data(X, preproc.Xscale[0], preproc.Xscale[1])
 
     if preproc.kernel_fn is not None:
         preproc.basis = X
@@ -75,10 +74,10 @@ def preprocessor_apply_to_train(preproc, X):
 
     if preproc.poly is not None:
         assert preproc.poly > 0, 'polynomial degree must be greater than 0'
-        X = degexpand(X, preproc.poly, False)
+        X = util.degexpand(X, preproc.poly, False)
 
     if preproc.add_ones:
-        X = add_ones(X)
+        X = util.add_ones(X)
 
     return preproc, X
 
@@ -87,17 +86,17 @@ def preprocessor_apply_to_test(preproc, X):
     """Transform the test data in the same way as the training data"""
 
     try:
-        X = center_cols(X, preproc.Xmu)
+        X = util.center_cols(X, preproc.Xmu)
     except AttributeError:
         pass
 
     try:
-        X = mk_unit_variance(X, preproc.Xstnd)
+        X = util.mk_unit_variance(X, preproc.Xstnd)
     except AttributeError:
         pass
 
     try:
-        X = rescale_data(X, preproc.Xscale[0], preproc.Xscale[1])
+        X = util.rescale_data(X, preproc.Xscale[0], preproc.Xscale[1])
     except AttributeError:
         pass
 
@@ -109,13 +108,13 @@ def preprocessor_apply_to_test(preproc, X):
 
     try:
         if preproc.poly is not None:
-            X = degexpand(X, preproc.poly, False)
+            X = util.degexpand(X, preproc.poly, False)
     except AttributeError:
         pass
 
     try:
         if preproc.add_ones:
-            X = add_ones(X)
+            X = util.add_ones(X)
     except AttributeError:
         pass
 
@@ -134,7 +133,7 @@ def linreg_fit(X, y, **kwargs):
     :param X: N*D design matrix
     :param y: N*1 response vector
     """
-    pp = preprocessor_create(add_ones=True, standardize_X=False)  # default
+    pp = util.preprocessor_create(add_ones=True, standardize_X=False)  # default
 
     N = len(X)
     D = 1 if len(X.shape) < 2 else X.shape[1]
@@ -149,7 +148,7 @@ def linreg_fit(X, y, **kwargs):
     winit = kwargs['winit'] if 'winit' in kwargs else None
 
     if preproc is None:
-        preproc = preprocessor_create()
+        preproc = util.preprocessor_create()
 
     if preproc.add_ones:
         D += 1
@@ -239,7 +238,7 @@ def linreg_fit_bayes(X, y, **kwargs):
     :param X: N*D design matrix
     :param y: N*1 response vector
     """
-    pp = preprocessor_create(add_ones=True, standardize_X=False)  # default
+    pp = util.preprocessor_create(add_ones=True, standardize_X=False)  # default
 
     prior = kwargs['prior'] if 'prior' in kwargs else 'uninf'
     preproc = kwargs['preproc'] if 'preproc' in kwargs else pp
