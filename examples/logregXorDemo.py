@@ -31,10 +31,6 @@ def plotScatter(X0, X1, y):
     plt.scatter(x0, x1, marker=marker, color=color)
 
 X,y = create_xor_data(10)
-#print X
-print X.shape
-print y
-print y.shape
 
 
 transformers = [PolynomialFeatures(1), # no-op
@@ -84,7 +80,11 @@ for i in range(len(models)):
   plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
   plotScatter(X[:, 0], X[:, 1], y)
   plt.title(names[i])
-  plt.savefig('figures/logregXor%sBoundary%s' % (file_names[i], file_type))
+  fname = 'figures/logregXor%sBoundary%s' % (file_names[i], file_type)
+  print(fname)
+  plt.savefig(fname, dpi=600)
+  
+  
   plt.draw()
 
   if True:
