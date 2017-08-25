@@ -3,7 +3,8 @@
 # But we modified it to use scikit-learn intsead of statsmodels for fitting.
 # We also borrowed some code from 
 # https://github.com/justmarkham/gadsdc1/blob/master/logistic_assignment/kevin_logistic_sklearn.ipynb
-# For details on how to do this analysis in R, see http://www.ats.ucla.edu/stat/r/dae/logit.htm
+# For details on how to do this analysis in R, see
+# https://stats.idre.ucla.edu/r/dae/logit-regression/
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,8 +21,10 @@ pd.set_option('notebook_repr_html', False)
 # Prevent numpy from printing too many digits
 np.set_printoptions(precision=3)
 
-# read the data in
-df = pd.read_csv("http://www.ats.ucla.edu/stat/data/binary.csv")
+# read the data 
+#fname = "http://www.ats.ucla.edu/stat/data/binary.csv"
+fname = "https://stats.idre.ucla.edu/stat/data/binary.csv"
+df = pd.read_csv(fname)
 #df.to_csv('/Users/kpmurphy/github/pmtk3/data/collegeAdmissions.csv')
 
 
@@ -59,6 +62,7 @@ df.describe()
 df.hist()
 plt.show()
 
+pd.set_option('precision', 3)
 df.groupby('prestige').mean()
 
 #             admit         gre       gpa
@@ -108,7 +112,7 @@ print(coef_sm)
 # Let's use patsy notation to handle dummy variables.
 # This adds a column of 1s
 y, X = dmatrices('admit ~ gre + gpa + C(prestige)', df, return_type="dataframe")
-y = np.ravel(y)
+y = np.ravel(y) # convert from pandas series to numpy array
 X.head()
 #  Intercept  C(prestige)[T.2]  C(prestige)[T.3]  C(prestige)[T.4]  gre   gpa
 #0          1                 0                 1                 0  380  3.61
