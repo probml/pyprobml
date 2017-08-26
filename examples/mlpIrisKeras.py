@@ -9,6 +9,10 @@ from sklearn import linear_model, datasets, metrics
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Activation
+import tensorflow as tf
+import scipy
+
+np.random.seed(123) # try to enforce reproduacability
 
 # import the data 
 iris = datasets.load_iris()
@@ -35,26 +39,31 @@ model = Sequential([
 
 # Fit
 
-import tensorflow as tf
-import scipy
 
+lossfn = keras.losses.categorical_crossentropy
+lossfn_train = lambda ypred: lossfn(Y, ypred)
+
+# Use a keras optimizer - works
+opt = keras.optimizers.Adam()
+#https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L385
+
+# Use a TF optimizer - works
+#https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/training/adam.py
+opt_tf = tf.train.AdamOptimizer()
+opt = keras.optimizers.TFOptimizer(opt_tf)
+
+
+# Use a scipy optimizer - FAILS
 #import custom_optimizers
 import imp
 # we assume we're executing from /Users/kpmurphy/github/pyprobml
 imp.load_source('custom_opt', 'examples/custom_optimizers.py')
 import custom_opt
-
-opt = keras.optimizers.Adam()
 #opt = custom_opt.ScipyOpt(model=model, x=X, y=Y, nb_epoch=10)
 
-lossfn = keras.losses.categorical_crossentropy
-
-# 
 # opt_bfgs_scipy = scipy.optimize.fmin_l_bfgs_b
-# lossfn_train = lambda ypred: lossfn(Y, ypred)
 # #tfopt = tf.contrib.opt.ScipyOptimizerInterface(lossfn_train, options={'maxiter': 100})
-# opt_bfgs_tf = opt_bfgs_scipy
-# opt_bfgs = keras.optimizers.TFOptimizer(opt_bfgs_tf)
+
 
 model.compile(loss=lossfn,
               optimizer=opt,
