@@ -70,7 +70,7 @@ model.compile(loss=lossfn,
               metrics=['accuracy'])
 history = model.fit(X, one_hot_labels, epochs=500, batch_size=20, verbose=1)
 
-# Plot training speed
+# Plot training speed - fails to match quality of logreg!
 loss_trace = history.history['loss']
 acc_trace = history.history['acc']
 plt.figure()
@@ -81,4 +81,31 @@ plt.subplot(1,2,2)
 plt.plot(acc_trace)
 plt.title('accuracy')
 plt.show()
+
+
+############
+# MLP with 1 hidden layers
+
+
+nhidden = 10
+# model = Sequential([
+#     Dense(nhidden, input_shape=(ndim,)),
+#     Activation('relu'),
+#     Dense(nclasses),
+#     Activation('softmax'),
+# ])
+
+model = Sequential()
+model.add(Dense(nhidden, activation='relu', input_dim=ndim))
+model.add(Dense(nclasses, activation='softmax'))
+
+opt = keras.optimizers.Adam() 
+#opt = keras.optimizers.TFOptimizer(opt_tf) # FAILS!
+model.compile(loss=lossfn,
+              optimizer=opt,
+              metrics=['accuracy'])
+history = model.fit(X, one_hot_labels, epochs=500, batch_size=20, verbose=1)
+
+
+
 
