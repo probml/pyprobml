@@ -20,10 +20,11 @@ from sklearn.preprocessing import PolynomialFeatures
 def genMultinomialData(num_instances, num_classes, num_vars):
   num_example_points = 3
 
-  np.random.seed(234)
+  seed = 123 # 234
+  np.random.seed(seed)
   example_points = np.random.randn(num_classes * num_example_points, num_vars)
 
-  np.random.seed(234)
+  np.random.seed(seed)
   X = 2*np.random.rand(num_instances, num_vars)-1
 
   #y = np.zeros((num_instances, 1))
@@ -41,6 +42,7 @@ def genMultinomialData(num_instances, num_classes, num_vars):
 
   return X,y
 
+    
 def plotScatter(X0, X1, y):
   for x0, x1, cls in zip(X0, X1, y):
     color = 'blue' if cls == 1 else 'red'
@@ -56,12 +58,14 @@ if False:
             LogisticRegressionCV(),
             LogisticRegressionCV(),
             KNeighborsClassifier(n_neighbors=10)]
-else:
+if True:
   models = [LogisticRegression(C=1.0),
             LogisticRegression(C=1.0),
             LogisticRegression(C=1.0),
             KNeighborsClassifier(n_neighbors=10)]
-
+if False:
+    models = [LogisticRegression(C=1.0)]
+            
 transformers = [PolynomialFeatures(1), # no-op
                PolynomialFeatures(1),
                PolynomialFeatures(1),
@@ -76,10 +80,13 @@ names = ['Linear Logistic Regression',
          'KNN with K=10']
 file_names = ['Linear', 'Quad', 'Rbf', 'KNN10']
 
-# pdf image files are very big (1MB), png is ~24kb
-#file_type = '.pdf'
-file_type = '.jpg'
 
+
+# pdf image files are very big (1MB) for pcolormesh for 250x250
+# Can Use 100x100 for smaller files, since pdf size propto number of data points
+# But png reduces file size even with larger meshes. 
+# png text looks blurry on screen but prints fine.
+  
 for i in range(len(models)):
   transformer = transformers[i]
   XX = transformer.fit_transform(X)[:,1:] # skip the first column of 1s
@@ -89,15 +96,18 @@ for i in range(len(models)):
   #print(model.Cs_)
   #print(model.C_)
   #print(model.scores_)
-  
+
+  #xx, yy = np.meshgrid(np.linspace(-1, 1, 100), np.linspace(-1, 1, 100))
   xx, yy = np.meshgrid(np.linspace(-1, 1, 250), np.linspace(-1, 1, 250))
   Z = model.predict(kernels[i](np.c_[xx.ravel(), yy.ravel()], XX)).reshape(xx.shape)
   fig, ax = plt.subplots()
   plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
   plotScatter(X[:, 0], X[:, 1], y)
+  ax.set_xlim([-1,1])
+  ax.set_ylim([-1, 1])
   plt.title(names[i])
-
-  plt.savefig('figures/logregBinary%sBoundary%s' % (file_names[i], file_type))
+  fname = 'figures/logregBinaryPython%sBoundary.png' % (file_names[i])
+  plt.savefig(fname, dpi=200)
   plt.draw()
   
   Z = model.predict_proba(kernels[i](np.c_[xx.ravel(), yy.ravel()], XX))[:,2].reshape(xx.shape)
@@ -105,7 +115,8 @@ for i in range(len(models)):
   plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
   plt.colorbar()
   plt.title('Prob Class 1')
-  plt.savefig('figures/logregBinary%sProbClass1%s' % (file_names[i], file_type))
+  fname = 'figures/logregBinaryPython%sProbClass1.png' % (file_names[i])
+  plt.savefig(fname, dpi=200)
   plt.draw()
 
 plt.show()

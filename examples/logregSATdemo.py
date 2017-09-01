@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from utils import util
 from scipy.special import logit
-from sklearn.linear_model import LogisticRegressionCV, LogisticRegression, LinearRegression
+#from sklearn.linear_model import LogisticRegressionCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
 
 data = util.load_mat('sat/sat.mat')
 sat = data['sat']

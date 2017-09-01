@@ -49,7 +49,7 @@ kernels = [lambda X0, X1: X0, # No Kernel
            lambda X0, X1: X0, # No Kernel
            lambda X0, X1: linear_kernel(X0, X1),
            lambda X0, X1: polynomial_kernel(X0, X1, degree=2),
-           lambda X0, X1: rbf_kernel(X0, X1, gamma=10)]
+           lambda X0, X1: rbf_kernel(X0, X1, gamma=15)]
 
 names = ['Linear Logistic Regression', 
          'Quadratic Logistic Regression',
