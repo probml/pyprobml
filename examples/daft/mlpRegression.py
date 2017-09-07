@@ -4,10 +4,10 @@ rc("text", usetex=True)
 rc("text.latex", preamble=open("macros.tex").read())
 #rc("text.latex", preamble=open("examples/daft/macros.tex").read())
 
-#import daft
-import imp
+import daft
+#import imp
 #daft = imp.load_source('daft', '/Users/kpmurphy/github/daft/daft.py')
-daft = imp.load_source('daft', 'dfm-daft-6038869/daft.py')
+#daft = imp.load_source('daft', 'dfm-daft-6038869/daft.py')
  
 import os
 

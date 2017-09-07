@@ -4,14 +4,13 @@ rc("text", usetex=True)
 rc("text.latex", preamble=open("macros.tex").read())
 #rc("text.latex", preamble=open("examples/daft/macros.tex").read())
 
-#import daft
-import imp
-#daft = imp.load_source('daft', '/Users/kpmurphy/github/daft/daft.py')
-daft = imp.load_source('daft', 'dfm-daft-6038869/daft.py')
+import daft
+#import imp
+#daft = imp.load_source('daft', 'dfm-daft-6038869/daft.py')
  
 import os
 
-pgm = daft.PGM([3, 3], origin=[0, 0])
+pgm = daft.PGM([2, 2], origin=[0.5, 0.5])
 
 pgm.add_node(daft.Node("A", r"$A$", 1, 1))
 pgm.add_node(daft.Node("B", r"$B$", 2, 1))
@@ -31,7 +30,7 @@ pgm.figure.savefig(os.path.join(folder, "{}.png".format(fname)))
 
 
 
-pgm = daft.PGM([3, 3], origin=[0, 0])
+pgm = daft.PGM([2, 2], origin=[0.5, 0.5])
 
 pgm.add_node(daft.Node("A", r"$A$", 1, 1))
 pgm.add_node(daft.Node("B", r"$B$", 2, 1))
