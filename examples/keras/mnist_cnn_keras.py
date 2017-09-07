@@ -1,9 +1,5 @@
 '''Trains a simple convnet on the MNIST dataset.
 
-Gets to 99.25% test accuracy after 12 epochs
-(there is still a lot of margin for parameter tuning).
-16 seconds per epoch on a GRID K520 GPU.
-
 Modified from https://github.com/fchollet/keras/blob/master/examples/mnist_cnn.py
 by Kevin Murphy.
 '''
@@ -20,9 +16,9 @@ import numpy as np
 from timeit import default_timer as timer
 import os
 
-batch_size = 128
+batch_size = 20 # 128
 num_classes = 10
-epochs = 12
+epochs = 2 # 12
 
 # input image dimensions
 img_rows, img_cols = 28, 28
@@ -51,17 +47,45 @@ print(x_test.shape[0], 'test samples')
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
-model = Sequential()
-model.add(Conv2D(32, kernel_size=(3, 3),
-                 activation='relu',
-                 input_shape=input_shape))
-model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Flatten())
-model.add(Dense(128, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(num_classes, activation='softmax'))
+
+if False:
+    # Version from https://github.com/fchollet/keras/blob/master/examples/mnist_cnn.py
+    # This model has 1,199,882 params and takes 120 seconds per epoch
+    # on my laptop CPU.
+    # After 2 epochs
+    #Test loss: 0.0666620718201
+    #Test accuracy: 0.9809
+    model = Sequential()
+    model.add(Conv2D(32, kernel_size=(3, 3),
+                    activation='relu',
+                    input_shape=input_shape))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(num_classes, activation='softmax'))
+if True:
+    # Version from Keras book listing 5.1
+    # This model has 93,322 params. This takes 60 seconds per epoch on
+    # my laptop's CPU.
+    # After 2 epochs:
+    #Test loss: 0.0315938582575
+    #Test accuracy: 0.9906
+    model = Sequential()
+    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(Flatten())
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(10, activation='softmax'))
+    
+
+model.summary()
 
 #model.compile(loss=keras.losses.categorical_crossentropy,
 #              optimizer=keras.optimizers.Adadelta(),
