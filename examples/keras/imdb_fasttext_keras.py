@@ -164,6 +164,11 @@ history = model.fit(x_train, y_train,
 end = timer()
 print('Training took {:f} seconds'.format(end - start))
 
+# Test
+score = model.evaluate(x_test, y_test, verbose=0)
+print('Test loss:', score[0])
+print('Test accuracy:', score[1])
+
 if True:
     history_dict = history.history
     loss_values = history_dict['loss']
@@ -179,7 +184,7 @@ if True:
     plt.ylabel('Loss')
     plt.title('Cross entropy loss')
     plt.show()
-    plt.savefig(os.path.join('figures','imdb-fasttext-keras-loss.png'))
+    plt.savefig(os.path.join('figures','imdb-fasttext-keras-loss.pdf'))
 
 
     plt.figure()
@@ -192,5 +197,5 @@ if True:
     plt.ylabel('Accuracy')
     plt.title('Classification accuracy')
     plt.show()
-    plt.savefig(os.path.join('figures','imdb-fasttext-keras-acc.png'))
+    plt.savefig(os.path.join('figures','imdb-fasttext-keras-acc.pdf'))
 
