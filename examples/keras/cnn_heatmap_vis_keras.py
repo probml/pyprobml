@@ -23,7 +23,10 @@ model = VGG16(weights='imagenet', include_top=True)
 img_path = 'figures/cat_dog.jpg' # From https://github.com/ramprs/grad-cam/blob/master/images/cat_dog.jpg   
 img_pil = image.load_img(img_path, target_size=(224, 224))
 
-
+def normalize(a):
+    # Normalize between 0 and 1
+    return (a - a.min())/(a.max() - a.min())
+    
 def get_heatmap(model, im_batch, ndx):
     output = model.output[:, ndx]
     
@@ -63,21 +66,20 @@ def get_heatmap(model, im_batch, ndx):
     # heatmap[i,j] = relu(sum_k conv_layer_output[i,j,k])
     heatmap = np.sum(conv_layer_output_value, axis=-1) #14x14
     heatmap = np.maximum(heatmap, 0.0) # Relu
-    
-    # Rescale to 0..1
-    heatmap = np.maximum(heatmap, 0)
-    heatmap /= np.max(heatmap)
-
+    heatmap = normalize(heatmap)
     return heatmap
 
 
-def make_att_map_ram(img, attMap, blur = True, overlap = True):
-    attMap -= attMap.min()
-    if attMap.max() > 0:
-        attMap /= attMap.max()
-    attMap = transform.resize(attMap, (img.shape[:2]), order = 3, mode = 'nearest')
+def make_att_map(img_np, attMap, blur = True, overlap = True):
+    # From Ramprasaath Ramasamy Selvaraju 
+    # based on https://github.com/jimmie33/Caffe-ExcitationBP/blob/master/excitationBP/util.py#L24
+    # Rescale image to 0..1
+    img = normalize(img_np)
+    attMap = normalize(attMap)
+    #attMap = transform.resize(attMap, (img.shape[:2]), order = 3, mode = 'nearest')
+    attMap = transform.resize(attMap, (img.shape[:2]), order = 3, mode = 'constant')
     if blur:
-        attMap = filters.gaussian_filter(attMap, 0.02*max(img.shape[:2]))
+        attMap = filters.gaussian(attMap, 0.02*max(img.shape[:2]))
         attMap -= attMap.min()
         attMap /= attMap.max()
     cmap = plt.get_cmap('jet')
@@ -87,8 +89,8 @@ def make_att_map_ram(img, attMap, blur = True, overlap = True):
         attMap = 1*(1-attMap**0.7).reshape(attMap.shape + (1,))*img + (attMap**0.7).reshape(attMap.shape+(1,)) * attMapV
     return attMap
 
-def show_att_map_ram(img, attMap):
-    att_map = make_att_map_ram(img, attMap)
+def show_att_map(img, attMap):
+    att_map = make_att_map(img, attMap)
     plt.figure()
     plt.imshow(att_map)
     
@@ -166,8 +168,8 @@ for i, name in enumerate(class_names):
     plt.savefig(os.path.join('figures',fname))
     
     plt.figure()
-    show_att_map_scipy(img_np, heatmap)
-    #show_att_map_ram(img_np, heatmap)
+    #show_att_map_scipy(img_np, heatmap)
+    show_att_map(img_np, heatmap)
     plt.title(name)
     plt.show()
     fname = 'cnn-heatmap-overlayed-{}.png'.format(name)
