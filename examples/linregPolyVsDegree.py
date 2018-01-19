@@ -11,14 +11,13 @@
 #           (Lecture 2 from http://www.cs.berkeley.edu/~asimma/294-fall06/)
 
 import os
-os.chdir("..")
 import numpy as np
 import matplotlib.pyplot as pl
 from utils.util import preprocessor_create
 from utils.util import poly_data_make
-from examples.linearRegression import linreg_fit
-from examples.linearRegression import linreg_fit_bayes
-from examples.linearRegression import linreg_predict
+from examples.linregPmtkEmulator import linreg_fit
+from examples.linregPmtkEmulator import linreg_fit_bayes
+from examples.linregPmtkEmulator import linreg_predict
 
 N = 21
 xtrain, ytrain, xtest, _, ytest, _ = poly_data_make(sampling='thibaux', n=N)
@@ -46,7 +45,7 @@ pl.xlabel('degree')
 pl.ylabel('mse')
 leg = pl.legend(('train', 'test'), loc='upper left')
 leg.draw_frame(False)
-pl.savefig(os.path.join('figures','linregPolyVsDegreeUcurve.png'))
+pl.savefig('figures/linregPolyVsDegreeUcurve.pdf')
 pl.show()
 
 degs = [1, 2, 14, 20]
@@ -65,7 +64,7 @@ for m, deg in enumerate(degs):
     pl.plot(xtrain, ytrain, 'o')
     pl.plot(xtest, ypredTest, lw=3)
     pl.title("degree %d" % deg)
-    pl.savefig(os.path.join('figures','polyfitDemo%d.png' % deg))
+    pl.savefig(os.path.join('figures','polyfitDemo%d.pdf' % deg))
     pl.xlim([-1, 21])
     pl.ylim([-10, 15])
     pl.show()
