@@ -45,7 +45,7 @@ pl.xlabel('degree')
 pl.ylabel('mse')
 leg = pl.legend(('train', 'test'), loc='upper left')
 leg.draw_frame(False)
-pl.savefig('figures/linregPolyVsDegreeUcurve.pdf')
+pl.savefig(os.path.join('figures','linregPolyVsDegreeUcurve.pdf'))
 pl.show()
 
 degs = [1, 2, 14, 20]
