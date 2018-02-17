@@ -33,7 +33,7 @@ plt.show()
 plt.show()
 fname = 'convergenceRates.pdf'
 print(fname)
-plt.savefig(os.path.join('../figures', fname))
+plt.savefig(os.path.join('figures', fname))
 
 
 if 0:

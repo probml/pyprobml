@@ -7,58 +7,34 @@ import struct
 import os
 import time
 
-#This PULLMNIST function is from https://gist.github.com/akesling/5358964
-def PullMNIST(dataset = "training", path = "."):
-    """
-    Python function for importing the MNIST data set.  It returns an iterator
-    of 2-tuples with the first element being the label and the second element
-    being a numpy.uint8 2D array of pixel data for the given image.
-    """
+from examples import get_mnist
+#(x_train, y_train, x_test, y_test) = get_mnist.get_mnist()
 
-    if dataset is "training":
-        fname_img = os.path.join(path, 'train-images-idx3-ubyte')
-        fname_lbl = os.path.join(path, 'train-labels-idx1-ubyte')
-    elif dataset is "testing":
-        fname_img = os.path.join(path, 't10k-images-idx3-ubyte')
-        fname_lbl = os.path.join(path, 't10k-labels-idx1-ubyte')
-    else:
-        raise ValueError("dataset must be \'testing\' or \'training\'")
-
-    # Load everything in some numpy arrays
-    with open(fname_lbl, 'rb') as flbl:
-        magic, num = struct.unpack(">II", flbl.read(8))
-        lbl = np.fromfile(flbl, dtype=np.int8)
-
-    with open(fname_img, 'rb') as fimg:
-        magic, num, rows, cols = struct.unpack(">IIII", fimg.read(16))
-        img = np.fromfile(fimg, dtype=np.uint8).reshape(len(lbl), rows, cols)
-
-    return {'labels':lbl,'images':img}
-        
-Training = PullMNIST("training",'/Data/MNIST')
-TrainLabels = Training['labels']
-TrainIms = Training['images'].astype('int32')
-
-Testing = PullMNIST("testing",'/Data/MNIST')
-TestLabels = Testing['labels']
-TestIms = Testing['images'].astype('int32')
-
-del Testing, Training
+(TrainIms,TrainLabels,TestIms,TestLabels) = get_mnist.get_mnist()
+print(TrainIms.shape,TrainIms.dtype)
+print(TrainLabels.shape,TrainLabels.dtype)
+print(TestIms.shape)
+print(TestLabels.shape)
 
 #Flattens images into sparse vectors. So we go from 3D to 2D image datasets.
 def Flatten(Ims):
     return(sparse.csr_matrix(Ims.reshape(Ims.shape[0],-1)))
 
-TrainIms = Flatten(TrainIms)
-TestIms = Flatten(TestIms)
+TrainIms = Flatten(TrainIms).astype('float64')
+TestIms = Flatten(TestIms).astype('float64')
+
+print(TrainIms.shape,TrainIms.dtype)
+print(TrainLabels.shape,TrainLabels.dtype)
+print(TestIms.shape)
+print(TestLabels.shape)
 
 ## SAMPLING - In case we want to apply this to a subset of the data
-#TestS = 1000 #Size of test data
-#TrainS = 10000  #Size of training data
-#TestLabels = TestLabels[:TestS]
-#TestIms = TestIms[:TestS,:]
-#TrainLabels = TrainLabels[:TrainS]
-#TrainIms = TrainIms[:TrainS,:]
+TestS = 1000 #Size of test data
+TrainS = 10000  #Size of training data
+TestLabels = TestLabels[:TestS]
+TestIms = TestIms[:TestS,:]
+TrainLabels = TrainLabels[:TrainS]
+TrainIms = TrainIms[:TrainS,:]
 
 t0 = time.time()
 #Calculating squared vector norms

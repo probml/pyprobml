@@ -74,7 +74,7 @@ pl.plot(ks, test_errs, 'rx-', label='test')
 pl.legend()
 pl.xlabel('k')
 pl.ylabel('misclassification rate')
-pl.savefig('knnClassifyDemo_4.png')
+pl.savefig('knnClassifyDemo_4.pdf')
 
 #cross_validate
 scores = []
@@ -89,6 +89,7 @@ pl.plot([min_k, min_k], [0, 1.0], 'b-')
 pl.xlabel('k')
 pl.ylabel('misclassification rate')
 pl.title('5-fold cross validation, n-train = 200')
+pl.savefig('knnClassifyDemo_cv.pdf')
 
 #draw hot-map to show the probability of different class
 knn = KNN(n_neighbors=10)
