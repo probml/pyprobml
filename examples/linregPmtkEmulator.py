@@ -200,6 +200,8 @@ def linreg_fit(X, y, **kwargs):
                 if lambda_ == 0:
                     R = np.diag(np.sqrt(weights))
                     RX = R.dot(X)
+                    # Attempt tp emulate matlab's w = (R*X) \ (R*y);
+                    # Note that backslash operator uses QR, not pinv...
                     w = np.linalg.pinv(RX.T.dot(RX)).dot(RX.T).dot(R.dot(y))
                 else:
                     raise NotImplementedError

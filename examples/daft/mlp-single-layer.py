@@ -47,7 +47,7 @@ if 0:
 
 pgm.render()
 folder = "../../figures"
-fname = "mlpRegression"
+fname = "mlp-single-layer"
 pgm.figure.savefig(os.path.join(folder, "{}.png".format(fname)))
 
 
