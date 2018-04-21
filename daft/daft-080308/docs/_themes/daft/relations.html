@@ -1,0 +1,13 @@
+<div class="related">
+    {%- if prev %}
+    <div class="previous">
+        <a href="{{ prev.link|e }}" title="{{ _('previous chapter') }}">&laquo; {{ prev.title }}</a>
+    </div>
+    {%- endif %}
+
+    {%- if next %}
+    <div class="next">
+        <a href="{{ next.link|e }}" title="{{ _('next chapter') }}">{{ next.title }} &raquo;</a>
+    </div>
+    {%- endif %}
+</div>

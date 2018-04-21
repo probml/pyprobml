@@ -1,0 +1,182 @@
+@import url("normalize.css");
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,700,300italic);
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,600);
+
+body {
+    font-family: Lato, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 300;
+    line-height: 1.55;
+    font-size: 16px;
+    color: #333;
+
+    background: #dbe0df;
+    background: -moz-linear-gradient(left, #dbe0df 0%, #ffffff 50%, #dbe0df 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#dbe0df), color-stop(50%,#ffffff), color-stop(100%,#dbe0df));
+    background: -webkit-linear-gradient(left, #dbe0df 0%,#ffffff 50%,#dbe0df 100%);
+    background: -o-linear-gradient(left, #dbe0df 0%,#ffffff 50%,#dbe0df 100%);
+    background: -ms-linear-gradient(left, #dbe0df 0%,#ffffff 50%,#dbe0df 100%);
+    background: linear-gradient(to right, #dbe0df 0%,#ffffff 50%,#dbe0df 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dbe0df', endColorstr='#dbe0df',GradientType=1 );
+}
+
+a {
+    color: #383;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #5a5;
+}
+
+a.headerlink {
+    padding-left: 10px;
+    font-size: 80%;
+    text-decoration: none;
+    color: #bbb;
+}
+
+a.headerlink:hover {
+    color: #aaa;
+}
+
+.pre, pre {
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Source Code Pro", Courier, monospace;
+}
+
+.document, .footer, .related {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.body:first-child h1 {
+    display: none;
+}
+
+.main-logo {
+    padding: 30px 0 10px;
+    border-bottom: 1px dashed #e1e1e1;
+    text-align: center;
+}
+
+.main-logo h1 {
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 0;
+    text-transform: uppercase;
+}
+
+.main-logo a, .main-logo a:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+.main-logo h2 {
+    color: #888;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+#examples h2 {
+    display: none;
+}
+
+#examples {
+    line-height: 0;
+    margin-top: 5px;
+}
+
+#examples img {
+    border: 1px solid #ccc;
+    margin: 5px 0 5px 0;
+}
+
+#examples a:not(:nth-of-type(3n)) img {
+    margin-right: 8px;
+}
+
+#summary h2 {
+    display: none;
+}
+
+.related {
+    margin: 10px 0 0;
+    padding: 10px 0 0;
+    border-top: 1px dashed #e1e1e1;
+}
+
+.related .previous {
+    float: left;
+}
+
+.related .next {
+    float: right;
+}
+
+.related:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+#searchbox {
+    margin: 10px 0;
+    text-align: center;
+}
+
+input.searchfield {
+    border: 1px solid #999;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    padding: 3px 10px;
+    font-weight: normal;
+}
+
+input.searchfield:focus {
+    outline: 0;
+    outline: thin dotted \9;
+    border-color: #ddd;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 3px #5a5;
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 3px #5a5;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 3px #5a5;
+}
+
+.footer {
+    text-align: center;
+    font-size: 11px;
+    padding: 20px 0;
+}
+
+.figure {
+    background: white;
+    text-align: center;
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #DDD;
+    overflow: auto;
+}
+
+/* API */
+
+.field-body {
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+}
+
+.field-body ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.field-body ul li {
+    margin: 0;
+    padding: 0;
+}

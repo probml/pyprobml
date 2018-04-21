@@ -1,0 +1,10 @@
+LICENSE.rst
+MANIFEST.in
+README.rst
+daft.py
+setup.py
+daft.egg-info/PKG-INFO
+daft.egg-info/SOURCES.txt
+daft.egg-info/dependency_links.txt
+daft.egg-info/requires.txt
+daft.egg-info/top_level.txt
