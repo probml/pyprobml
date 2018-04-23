@@ -34,4 +34,4 @@ for lam in Lambs:
                 G.add_edges_from([(ProteinNames[i],ProteinNames[j])])
     
     nx.draw_circular(G, edge_color ='blue', node_color ='yellow', with_labels = True, node_size = 3000)
-    plt.savefig(os.path.join('figures', 'glassoSachs%s.pdf' % lam))
+    plt.savefig('..\\figures\\glassoSachs%s.pdf' % lam)

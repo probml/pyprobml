@@ -125,4 +125,4 @@ for di in DataIndices:
 
 fig.tight_layout()
 plt.show()
-plt.savefig(os.path.join('figures', 'bayesLinRegPlot2dB.pdf'))
+plt.savefig('..\\figures\\bayesLinRegPlot2dB.pdf')
