@@ -81,7 +81,7 @@ solver = SteepestDescent(logverbosity=1)
 
 # let Pymanopt do the rest
 Xopt, optlog = solver.solve(problem)
-print optlog
+print(optlog)
 
 # Inspect results
 mu_hat = Xopt[0]
@@ -89,10 +89,10 @@ Sigma_hat = Xopt[1]
 for k in range(K):
   mu_est = Xopt[0][k][0:2, 2:3]
   Sigma_est = Xopt[0][k][:2, :2] - mu_est.dot(mu_est.T)
-  print 'k = {}'.format(k)
-  print 'true mu {}, est {}'.format(mu[k], np.ravel(mu_est))
+  print('k = {}'.format(k))
+  print('true mu {}, est {}'.format(mu[k], np.ravel(mu_est)))
   
 pihat = np.exp(np.concatenate([Xopt[1], [0]], axis=0))
 pihat = pihat / np.sum(pihat)
-print 'true pi {}, est {}'.format(pi, pihat)
+print('true pi {}, est {}'.format(pi, pihat))
 

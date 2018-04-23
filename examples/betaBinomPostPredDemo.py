@@ -26,8 +26,8 @@ for k in range(N+1):
 fig,ax = pl.subplots()
 rects = ax.bar(ind, distribution, align='center')
 ax.set_title('posterior predictive')
-ax.set_xticks(range(N+1))
-ax.set_xticklabels(range(N+1))
+ax.set_xticks(list(range(N+1)))
+ax.set_xticklabels(list(range(N+1)))
 pl.savefig('BBposteriorpred.png')
 pl.show()
 
@@ -40,8 +40,8 @@ for k in range(N+1):
 fig,ax = pl.subplots()
 rects = ax.bar(ind, distribution, align='center')
 ax.set_title('incremental predictive')
-ax.set_xticks(range(N+1))
-ax.set_xticklabels(range(N+1))
+ax.set_xticks(list(range(N+1)))
+ax.set_xticklabels(list(range(N+1)))
 
 pl.savefig('BBpluginpred.png')
 pl.show()

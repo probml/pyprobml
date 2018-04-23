@@ -128,13 +128,13 @@ xs = np.linspace(min(y), max(y), 100)
 plt.plot(xs, xs, '-')
 plt.show()
 
-print "R^2 on training set is {0:0.3f}".format(linreg.score(X,y))
+print("R^2 on training set is {0:0.3f}".format(linreg.score(X,y)))
 
 # evaluate the model using 10-fold cross-validation
 scores = cv.cross_val_score(lm.LinearRegression(), 
             X, y, scoring='r2', cv=10)
-print scores
-print "Median R^2 across CV folds is {0:0.3f}".format(np.median(scores))
+print(scores)
+print("Median R^2 across CV folds is {0:0.3f}".format(np.median(scores)))
 
 # Direct implementation of OLS (unfinished)
 #N = X.shape[0]

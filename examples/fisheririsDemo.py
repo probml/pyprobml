@@ -13,7 +13,7 @@ features = data['data']
 feature_names = data['feature_names']
 target = data['target']
 
-feature_combinations = list(permutations(range(4), 2))
+feature_combinations = list(permutations(list(range(4)), 2))
 for i in range(16):
     if i % 5 == 0:
         features_sel = features[:, int(i/5)]
@@ -23,7 +23,7 @@ for i in range(16):
         pl.ylabel(feature_names[int(i/5)], fontsize=10)
     else:
         pl.subplot(4, 4, i+1)
-        for t, m, c in zip(range(3), 'D*o', 'bgr'):
+        for t, m, c in zip(list(range(3)), 'D*o', 'bgr'):
             feature_chosen = feature_combinations[i-1-(i//5)]
             pl.scatter(features[target == t, feature_chosen[0]],
                        features[target == t, feature_chosen[1]],

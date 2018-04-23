@@ -1,36 +1,56 @@
-#!/usr/bin/env python
-
-# Plots Beta-Binomial distribution along with the prior and likelihood.
-
-import matplotlib.pyplot as pl
 import numpy as np
-import scipy
-from scipy.stats import beta
+import matplotlib.pyplot as plt
+from scipy.stats import dirichlet
 
-alphas = [2, 2, 1, 1]
-betas = [2, 2, 1, 1]
-Ns = [4, 40, 4, 40]
-ks = [1, 10, 1, 10]
-plots = ['betaPostInfSmallSample', 'betaPostInfLargeSample',
-         'betaPostUninfSmallSample', 'betaPostUninfLargeSample']
+#Points where we evaluate the pdf
+x = np.linspace(0.001, .999, 100)
 
-x = np.linspace(0.001, 0.999, 50)
-for i in range(len(plots)):
-  alpha_prior = alphas[i]
-  beta_prior = betas[i]
-  N = Ns[i]
-  k = ks[i]
-  alpha_post = alpha_prior + N - k
-  beta_post = beta_prior + k
-  alpha_lik = N - k + 1
-  beta_lik = k + 1
+#Given an alpha parameter, this returns a pdf function
+def MakeBeta(alpha):
+    def Beta(y):
+        return dirichlet.pdf([y, 1 - y], alpha)
+    Beta = np.vectorize(Beta)
+    return Beta
 
-  pl.plot(x, beta.pdf(x, alpha_prior, beta_prior), 'r-', 
-          label='prior Be(%2.1f, %2.1f)' % (alpha_prior, beta_prior))
-  pl.plot(x, beta.pdf(x, alpha_lik, beta_lik), 'k:', 
-          label='lik Be(%2.1f, %2.1f)' % (alpha_lik, beta_lik))
-  pl.plot(x, beta.pdf(x, alpha_post, beta_post), 'b-', 
-          label='post Be(%2.1f, %2.1f)' % (alpha_post, beta_post))
-  pl.legend(loc='upper left')
-  pl.savefig(plots[i] + '.png')
-  pl.show()
+#Makes strings for the legend:
+def MakeLabel(Data,which):
+    alpha = Data[which]
+    lab = which + " Be(" + str(alpha[0]) + ", " + str(alpha[1]) + ")"
+    return lab
+
+#Forms graph give the parameters of the prior, likelihood and posterior:
+def MakeGraph(Data,SaveName):
+    prior = MakeBeta(Data['prior'])(x)
+    likelihood = MakeBeta(Data['lik'])(x)
+    posterior = MakeBeta(Data['post'])(x)
+
+    fig, ax = plt.subplots()
+    ax.plot(x, prior, 'r', label=MakeLabel(Data, "prior"), linewidth=2.0)
+    ax.plot(x, likelihood, 'k--', label=MakeLabel(Data, "lik"), linewidth=2.0)
+    ax.plot(x, posterior, 'b--', label=MakeLabel(Data, "post"), linewidth=2.0)
+    ax.legend(loc='upper left', shadow=True)
+    plt.draw()
+    plt.savefig(SaveName)
+
+Data1 = {'prior': [1, 1],
+       'lik': [5, 2],
+       'post': [5, 2]}
+
+Data2 = {'prior': [1, 1],
+       'lik': [41, 11],
+       'post': [41, 11]}
+
+Data3 = {'prior': [2, 2],
+       'lik': [5, 2],
+       'post': [6, 3]}
+
+Data4 = {'prior': [2, 2],
+       'lik': [41, 11],
+       'post': [42, 12]}
+
+MakeGraph(Data1, "figures/BetaPost1")
+MakeGraph(Data2, "figures/BetaPost2")
+MakeGraph(Data3, "figures/BetaPost3")
+MakeGraph(Data4, "figures/BetaPost4")
+
+plt.show()

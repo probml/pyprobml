@@ -44,7 +44,7 @@ pgm.add_edge("pi", "z_n")
 
 
 pgm.render()
-folder = "/Users/kpmurphy/github/pmtk3/python/figures"
+folder = "/Users/kpmurphy/github/pyprobml/figures"
 fname = "GMM-DGM-prior"
 pgm.figure.savefig(os.path.join(folder, "{}.pdf".format(fname)))
 

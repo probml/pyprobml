@@ -53,18 +53,18 @@ model = model.fit(X_train, y_train)
 # examine the coefficients
 coef = np.ravel(model.coef_)
 coef_round = [round(c, 2) for c in coef]
-pd.DataFrame(zip(X.columns, np.transpose(coef_round)))
+pd.DataFrame(list(zip(X.columns, np.transpose(coef_round))))
 
 # predictions on test set
 predicted = model.predict(X_test)
 probs = model.predict_proba(X_test)
 
 # check the accuracy
-print 'baseline accuracy = {0}'.format(1-y.mean())
-print 'accuracy on test set = {0}'.format(metrics.accuracy_score(y_test, predicted))
-print 'auc on test set = {0}'.format(metrics.roc_auc_score(y_test, probs[:, 1]))
-print 'class confusion matrix'
-print metrics.confusion_matrix(y_test, predicted)
+print('baseline accuracy = {0}'.format(1-y.mean()))
+print('accuracy on test set = {0}'.format(metrics.accuracy_score(y_test, predicted)))
+print('auc on test set = {0}'.format(metrics.roc_auc_score(y_test, probs[:, 1])))
+print('class confusion matrix')
+print(metrics.confusion_matrix(y_test, predicted))
 
 
 

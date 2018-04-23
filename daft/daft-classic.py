@@ -32,6 +32,6 @@ pgm.add_plate(daft.Plate([0.5, 0.5, 2, 1], label=r"$n = 1, \cdots, N$",
 
 # Render and save.
 pgm.render()
-folder = "/Users/kpmurphy/github/pmtk3/python/figures"
+folder = "/Users/kpmurphy/github/pyprobml/figures"
 pgm.figure.savefig(os.path.join(folder, "classic.pdf"))
 pgm.figure.savefig(os.path.join(folder, "classic.png"))

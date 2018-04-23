@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
-import utils.util as util
+from utils import util
 
 
 data = util.load_mat('mnistAll')
@@ -15,7 +15,7 @@ test_labels = mnist['test_labels'][0][0]  # 10000*1
 fig1 = pl.figure(1)
 fig2 = pl.figure(2)
 np.random.seed(seed=10)
-for i in range(10):
+for i in range(1, 10):
     img = test_images[:, :, i]
     ax1 = fig1.add_subplot(3, 3, i)
     ax1.imshow(img)

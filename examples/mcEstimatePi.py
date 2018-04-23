@@ -10,9 +10,9 @@ pl.plot(p[inner, 0], p[inner, 1], 'bo')
 pl.plot(p[~inner, 0], p[~inner, 1], 'rD')
 pi_estimate = np.sum(inner) / 5000 * 4
 
-print('the estimated pi = %f' % pi_estimate)
-print('the standard pi = %f' % np.pi)
+print(('the estimated pi = %f' % pi_estimate))
+print(('the standard pi = %f' % np.pi))
 err = np.abs(np.pi - pi_estimate) / np.pi
-print('err = %f' % err)
+print(('err = %f' % err))
 pl.savefig('mcEstimatePi.png')
 pl.show()

@@ -1,18 +1,22 @@
-#!/usr/bin/env python
-
-# Plots categorical distributions.
-
-import matplotlib.pyplot as pl
 import numpy as np
+import matplotlib.pyplot as plt
+import os
 
-pl.bar(np.arange(4) + 0.5, [0.25] * 4)
-pl.axis([0, 5, 0, 1])
-pl.xticks(np.arange(4) + 0.9, np.arange(4) + 1)
-pl.savefig('discreteProbDistFig_a.png')
+# Bar graphs showing a uniform discrete distribution and another with full prob on one value.
 
-pl.figure()
-pl.bar(0.5, 1)
-pl.axis([0, 5, 0, 1])
-pl.xticks(np.arange(4) + 0.9, np.arange(4) + 1)
-pl.savefig('discreteProbDistFig_b.png')
-pl.show()
+X = np.arange(1, 5)
+UniProbs = np.repeat(1.0/len(X),len(X))
+
+def MakeG(Probs,SaveN):
+    fig, ax = plt.subplots()
+    ax.bar(X, Probs, align='center')
+    plt.xlim([min(X) - .5, max(X) + .5])
+    plt.xticks(X)
+    plt.yticks(np.linspace(0, 1, 5))
+    #plt.savefig(SaveN)
+    plt.savefig(os.path.join('figures', SaveN))
+
+MakeG(UniProbs, "ProbsDiscreteUniform")
+MakeG([1, 0, 0, 0], "ProbsDiscreteDelta")
+
+plt.show()

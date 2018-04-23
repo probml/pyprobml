@@ -17,6 +17,6 @@ samples = beta.rvs(a, b, size=1000)
 samples = np.sort(samples)
 CI3 = np.percentile(samples, 100*np.array([alpha/2, 1-alpha/2])) 
 
-print CI1
-print CI2
-print CI3
+print(CI1)
+print(CI2)
+print(CI3)

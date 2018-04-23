@@ -1,3 +1,5 @@
+from patsy import dmatrix, demo_data
+
 # demo of how patsy handles categorical variables
 
 # Patsy notation is described here
@@ -19,7 +21,7 @@ DesignMatrix with shape (6, 3)
     'Intercept' (column 0)
     'a' (columns 1:3)
     '''
-    
+
 data = demo_data("a", nlevels=3)
 dmatrix("a-1", data)
 '''
@@ -33,7 +35,7 @@ DesignMatrix with shape (6, 3)
       0      0      1
   Terms:
     'a' (columns 0:3)'''
-    
+
 data = demo_data("a", nlevels=2)
 dmatrix("a", data)
 '''
@@ -48,7 +50,7 @@ DesignMatrix with shape (6, 2)
   Terms:
     'Intercept' (column 0)
     'a' (column 1)'''
-    
+
 data = demo_data("a", nlevels=2)
 dmatrix("a-1", data)
 
@@ -64,4 +66,4 @@ DesignMatrix with shape (6, 2)
   Terms:
     'a' (columns 0:2)
     '''
-    
+

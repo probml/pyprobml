@@ -5,7 +5,7 @@ from scipy.optimize import minimize
 count = 0
 def fake(x):
     global count
-    print count
+    print(count)
     count += 1
     return x ** 4 + 10 * x ** 3 + 4 * x ** 2 + 7 * x + 1
 

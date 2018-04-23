@@ -2,10 +2,10 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
-import utils.util as util
+from utils import util
 from matplotlib.patches import Ellipse
 
-data = util.load_mat('heightWeight')
+data = util.load_mat('heightWeight/heightWeight')
 data = data['heightWeightData']
 sex = data[:, 0]
 x = data[:, 1]

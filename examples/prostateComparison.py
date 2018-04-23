@@ -33,7 +33,7 @@ def _scale(X):
 # Returns the subset of features that give the smallest Least Squares error.
 def _best_subset_cv(model, X, y, cv=3):
   n_features = X.shape[1]
-  subsets = chain.from_iterable(combinations(range(n_features), k+1) for k in range(n_features + 1))
+  subsets = chain.from_iterable(combinations(list(range(n_features)), k+1) for k in range(n_features + 1))
   best_score = -np.inf
   best_subset = None
   for subset in subsets:
@@ -50,7 +50,7 @@ def L2loss(yhat, ytest):
     mse = np.mean(sqerr)
     stderr = np.std(sqerr) / np.sqrt(ntest)
     return (mse, stderr, np.sqrt(sqerr))
-    
+
 
 #### Get data
 
@@ -94,7 +94,7 @@ for i,method in enumerate(methods):
   coefHt[name] = coef
   yhat = model.predict(Xtest)
   #mse = mean_squared_error(yhat, ytest)
-  (mseHt[name], stderrHt[name], errorsHt[name]) = L2loss(yhat, ytest) 
+  (mseHt[name], stderrHt[name], errorsHt[name]) = L2loss(yhat, ytest)
 
 
 method_names.append("Subset")
@@ -114,15 +114,15 @@ yhat = model.predict(Xtest[:, subset])
 #mse = mean_squared_error(yhat, ytest)
 (mseHt[name], stderrHt[name], errorsHt[name]) = L2loss(yhat, ytest)
 
-print method_names
-print mseHt
-print coefHt
+print(method_names)
+print(mseHt)
+print(coefHt)
 
 ### Pretty print the results in latex format
 coef_names = ["intercept", "lcalvol", "lweight", "age", "lbph", "svi", "lcp", "gleason", "pgg45"]
 method_names = ['LS', 'Subset', 'Ridge', 'Lasso'] # Choose desired ordering of methods
 
-print " Term &" , " & ".join(method_names)
+print((" Term &" , " & ".join(method_names)))
 for coef_ndx, coef_name in enumerate(coef_names):
     str_list = []
     for method_name in method_names:
@@ -130,19 +130,19 @@ for coef_ndx, coef_name in enumerate(coef_names):
         coef = method_coefs[coef_ndx]
         str_list.append(_format(coef))
     str_list.insert(0, coef_name)
-    print " & ".join([str(s) for s in str_list]), "\\\\"
+    print((" & ".join([str(s) for s in str_list]), "\\\\"))
 
 str_list = []
 for method_name in method_names:
     str_list.append(_format(mseHt[method_name]))
 str_list.insert(0, "Test error")
-print " & ".join([str(s) for s in str_list]), "\\\\"
+print((" & ".join([str(s) for s in str_list]), "\\\\"))
 
 str_list = []
 for method_name in method_names:
     str_list.append(_format(stderrHt[method_name]))
 str_list.insert(0, "Std error")
-print " & ".join([str(s) for s in str_list]), "\\\\"
+print((" & ".join([str(s) for s in str_list]), "\\\\"))
 
 # Boxplot of errors for each method
 nmethods = len(method_names)

@@ -1,0 +1,56 @@
+{%- extends "basic/layout.html" %}
+
+{% if not title %}
+{% set title = project %}
+{% endif %}
+
+{%- block extrahead %}
+    {{ super() }}
+
+    <link rel="shortcut icon" href="{{ pathto('_static/favicon.png', 1) }}">
+    <link rel="stylesheet" href="{{ pathto('_static/code.css', 1) }}" type="text/css" />
+
+{% endblock %}
+
+{%- block relbar1 %}{% endblock %}
+{%- block relbar2 %}{% endblock %}
+
+{%- block document %}
+
+<div class="main-logo">
+    <h1><a href="{{ pathto(master_doc) }}">{{ project }}</a></h1>
+    <h2>{{ theme_tagline }}</h2>
+</div>
+
+{{ super() }}
+
+{% endblock %}
+
+{%- block footer %}
+
+    <div class="footer">
+        Copyright {{ copyright }}. Released under
+            <a href="https://raw.github.com/dfm/daft/master/LICENSE.rst">MIT License</a>.
+    </div>
+
+    <a href="https://github.com/dfm/daft" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+            src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"
+            alt="Fork me on GitHub" class="github"/>
+    </a>
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-35127040-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+{%- endblock %}
