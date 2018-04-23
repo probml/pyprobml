@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-
 # Fit linear and quadratic surfaces to data
-# Based on code by Romain Thibaux <thibaux@eecs.berkeley.edu>
+# Based on https://github.com/probml/pmtk3/blob/master/demos/surfaceFitDemo.m
 
 import matplotlib.pyplot as pl
 import numpy as np
@@ -40,9 +38,9 @@ for use_quad in (False, True):
   ax.plot_surface(xx, yy, z.reshape(10, 10),
                   rstride=1, cstride=1, cmap=pl.cm.hot)
 
-  name = 'surfaceLinear.png'
+  name = 'figures/surfaceLinear.pdf'
   if use_quad:
-    name = 'surfaceQuad.png'
+    name = 'figures/surfaceQuad.pdf'
 
   pl.savefig(name)
   pl.show()

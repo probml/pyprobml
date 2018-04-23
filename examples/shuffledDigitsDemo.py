@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# Based on https://github.com/probml/pmtk3/blob/master/demos/shuffledDigitsDemo.m
 
 import matplotlib.pyplot as pl
 import numpy as np

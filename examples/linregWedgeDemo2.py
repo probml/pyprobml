@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Based on https://github.com/probml/pmtk3/blob/master/demos/linregWedgeDemo2.m
 
 # Plot Linear Gaussian CPD p(y|x) = N(Y|a + bx, sigma) 
 # Here a is the offset and b is the slope. 
