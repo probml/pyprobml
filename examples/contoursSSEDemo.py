@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Based on https://github.com/probml/pmtk3/blob/master/demos/contoursSSEdemo.m
 
 # Error surface for linear regression model.
 from __future__ import absolute_import
