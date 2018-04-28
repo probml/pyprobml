@@ -3,6 +3,7 @@
 import matplotlib.pyplot as pl
 import numpy as np
 from scipy.stats import t, laplace, norm
+from utils.util import save_fig
 
 a = np.random.randn(30)
 outliers = np.array([8, 8.75, 9.5])
@@ -23,7 +24,7 @@ pl.plot(x, n, 'k>',
         x, s, 'r-',
         x, l, 'b--')
 pl.legend(('Gauss', 'Student', 'Laplace'))
-pl.savefig('robustDemo_without_outliers.png')
+save_fig('robustDemo_without_outliers.png')
 
 #add the outliers
 pl.figure()
@@ -43,5 +44,5 @@ pl.plot(x, n, 'k:',
         x, t, 'r-',
         x, l, 'b--')
 pl.legend(('Gauss', 'Student', 'Laplace'))
-pl.savefig('robustDemo_with_outliers.png')
+save_fig('robustDemo_with_outliers.png')
 pl.show()

@@ -5,6 +5,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+from utils.util import save_fig
 #from utils import util
 
 N = 21
@@ -22,7 +23,7 @@ y_estim = np.dot(X,w)
 
 plt.plot(X[:,1], y, 'o')
 plt.plot(X[:,1], y_estim, '-')
-plt.savefig('linregResidualsNoBars.png')
+save_fig('linregResidualsNoBars.png')
 plt.show()
 
 for x0, y0, y_hat in zip(X[:,1], y, y_estim):
@@ -30,5 +31,5 @@ for x0, y0, y_hat in zip(X[:,1], y, y_estim):
 plt.plot(X[:,1], y, 'o')
 plt.plot(X[:,1], y_estim, '-')
 
-plt.savefig('linregResidualsBars.png')
+save_fig('linregResidualsBars.png')
 plt.show()

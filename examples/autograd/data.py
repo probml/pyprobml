@@ -7,6 +7,7 @@ import autograd.numpy as np
 import autograd.numpy.random as npr
 #import data_mnist
 from examples.autograd import data_mnist
+from utils.util import save_fig
 
 def load_mnist():
     # Returns train_images: 60,000 x 784
@@ -53,7 +54,7 @@ def save_images(images, filename, **kwargs):
     plot_images(images, ax, **kwargs)
     fig.patch.set_visible(False)
     ax.patch.set_visible(False)
-    plt.savefig(filename)
+    save_fig(filename)
 
 
 def make_pinwheel(radial_std, tangential_std, num_classes, num_per_class, rate,

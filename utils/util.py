@@ -5,6 +5,8 @@ import os
 import scipy.io as sio
 import numpy as np
 import glob
+import matplotlib.pyplot as plt
+import warnings
 DATA_DIR = 'data/'
 #from demos import linreg_1d_batch_demo
 #import demos.linreg_1d_batch_demo
@@ -164,6 +166,24 @@ def generate_rst():
                     img_name = os.path.basename(img)
                     f.write(".. image:: " + img_name + "\n")
                 f.write(".. literalinclude:: " + script_name + "\n")
+
+def save_fig(filename, fig=None, **kawgs):
+
+    """
+    This saves the current figures in the figures folder.
+    It needs to come before plt.show() is called.
+    """
+
+    if fig is None:
+        fig = plt.gcf()
+
+    if 'figures' in os.listdir('.'):
+        fig.savefig(os.path.join('figures', filename),**kawgs)
+    elif 'figures' in os.listdir('..'):
+        fig.savefig(os.path.join('../figures', filename),**kawgs)
+    else:
+        warnings.warn('figures folder not found. Saving figuring in current directory.')
+        fig.savefig(filename,**kawgs)
 
 #if __name__ == '__main__':
     #generate_rst()

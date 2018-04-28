@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from utils.util import save_fig
 
 # create data
 N = 50000
@@ -38,4 +39,4 @@ plt.show()
  
 folder = "/Users/kpmurphy/github/pyprobml/figures"
 fname = "gmm2d-density"
-plt.savefig(os.path.join(folder, "{}.png".format(fname)))
+save_fig("{}.png".format(fname))

@@ -5,6 +5,7 @@ from sklearn.covariance import GraphLasso
 import matplotlib.pyplot as plt
 import networkx as nx
 import os
+from utils.util import save_fig
 
 #These column names are from 
 #https://web.stanford.edu/~hastie/ElemStatLearn/datasets/sachs.info.txt
@@ -40,4 +41,4 @@ for lam in Lambs:
     #print(ttl)
     #plt.title(ttl)
     nx.draw_circular(G, edge_color ='blue', node_color ='yellow', with_labels = True, node_size = 3000)
-    plt.savefig('..\\figures\\glassoSachs%s.pdf' % lam)
+    save_fig('glassoSachs%s.pdf' % lam)

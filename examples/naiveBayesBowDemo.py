@@ -4,6 +4,7 @@ import matplotlib.pyplot as pl
 import numpy as np
 from utils import util
 from sklearn.naive_bayes import MultinomialNB
+from utils.util import save_fig
 
 data = util.load_mat('XwindowsDocData')
 xtrain = data['xtrain']
@@ -17,5 +18,5 @@ for i in range(len(counts)):
     pl.figure()
     pl.bar(np.arange(len(counts[i])), counts[i] / y_counts[i])
     pl.title('p(xj=1|y=%d)' % (i + 1))
-    pl.savefig('naiveBayesBowDemo_%d.png' % i)
+    save_fig('naiveBayesBowDemo_%d.png' % i)
 pl.show()

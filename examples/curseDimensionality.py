@@ -4,6 +4,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
+from utils.util import save_fig
 
 ds = [1., 3., 5., 7., 10.]  # element is float, to make python2 work
 s = np.linspace(0, 1, 100)
@@ -14,5 +15,5 @@ for d in ds:
   pl.xlabel('Fraction of data in neighborhood')
   pl.ylabel('Edge length of cube')
 
-pl.savefig('curseDimensionality.png')
+save_fig('curseDimensionality.png')
 pl.show()

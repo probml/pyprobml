@@ -4,6 +4,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
+from utils.util import save_fig
 
 delta = 1.5
 huber = lambda x: (x**2/2) * (x <= delta) + (delta * abs(x) - delta**2/2) * (x > delta)
@@ -20,5 +21,5 @@ for i, fun in enumerate(funs):
 
 pl.axis([-3, 3, -0.5, 5])
 pl.legend()
-pl.savefig('huberLossDemo.png')
+save_fig('huberLossDemo.png')
 pl.show()

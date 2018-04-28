@@ -29,6 +29,7 @@ from keras.datasets import imdb
 from timeit import default_timer as timer
 import os
 import matplotlib.pyplot as plt
+from utils.util import save_fig
 
 def create_ngram_set(input_list, ngram_value=2):
     """
@@ -183,8 +184,8 @@ if True:
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
     plt.title('Cross entropy loss')
+    save_fig('imdb-fasttext-keras-loss.pdf')
     plt.show()
-    plt.savefig(os.path.join('figures','imdb-fasttext-keras-loss.pdf'))
 
 
     plt.figure()
@@ -196,6 +197,6 @@ if True:
     plt.xlabel('Epochs')
     plt.ylabel('Accuracy')
     plt.title('Classification accuracy')
+    save_fig('imdb-fasttext-keras-acc.pdf')
     plt.show()
-    plt.savefig(os.path.join('figures','imdb-fasttext-keras-acc.pdf'))
 

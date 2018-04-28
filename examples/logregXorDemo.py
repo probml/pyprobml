@@ -9,6 +9,7 @@ from sklearn.linear_model import LogisticRegressionCV, LogisticRegression
 from sklearn.metrics.pairwise import linear_kernel, polynomial_kernel, rbf_kernel
 from scipy.stats import multivariate_normal as mvn
 from sklearn.preprocessing import PolynomialFeatures
+from utils.util import save_fig
 
 def create_xor_data(N):
     #np.random.seed(234)
@@ -80,9 +81,9 @@ for i in range(len(models)):
   plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
   plotScatter(X[:, 0], X[:, 1], y)
   plt.title(names[i])
-  fname = 'figures/logregXor%sBoundary%s' % (file_names[i], file_type)
+  fname = 'logregXor%sBoundary%s' % (file_names[i], file_type)
   print(fname)
-  plt.savefig(fname, dpi=600)
+  save_fig(fname, dpi=600)
   
   
   plt.draw()
@@ -93,7 +94,7 @@ for i in range(len(models)):
       plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
       plt.colorbar()
       plt.title('Prob Class 1')
-      plt.savefig('figures/logregXor%sProbClass1%s' % (file_names[i], file_type))
+      save_fig('logregXor%sProbClass1%s' % (file_names[i], file_type))
       plt.draw()
 
 plt.show()

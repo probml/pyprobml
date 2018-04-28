@@ -6,6 +6,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from utils.util import save_fig
 
 eps = 0.01 # we make this non-zero for plotting purposes
 ptrue = [eps, 1, 0.5] # expect[y|x]
@@ -31,8 +32,8 @@ ax.set_xticklabels(X)
 ax.legend((bar_true[0], bar_cal[0], bar_uncal[0], bar_bal[0]),
     ('true', 'cal', 'uncal', 'bal'))
 
+save_fig('calibration')
 plt.show()
-plt.savefig(os.path.join('figures', 'calibration'))
 
 ### Plot error
 
@@ -59,5 +60,5 @@ ax.set_xticklabels(X)
 ax.legend((bar_cal[0], bar_uncal[0], bar_bal[0]),
     ('cal', 'uncal', 'bal'))
 
+save_fig('calibration_err')
 plt.show()
-plt.savefig(os.path.join('figures', 'calibration_err'))

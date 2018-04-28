@@ -3,6 +3,7 @@
 import matplotlib.pyplot as pl
 import numpy as np
 from scipy.stats import norm
+from utils.util import save_fig
 
 
 def ginv(x):
@@ -26,5 +27,6 @@ pl.plot(x_range, ginv(x_range), 'b', lw=5)
 pl.plot([mu, mu], [0, ginv(mu)], 'y', lw=5)
 pl.plot([0, mu], [ginv(mu), ginv(mu)], 'y', lw=5)
 
-pl.savefig('bayesChangeOfVar.png')
+save_fig('bayesChangeOfVar.pdf')
+
 pl.show()

@@ -5,6 +5,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
+from utils.util import save_fig
 
 fA = np.vectorize(lambda x: 1 - x**3)
 fB = np.vectorize(lambda x: 1 - x**(3/2))
@@ -19,5 +20,5 @@ pl.axis([0, 1, 0, 1.01])
 pl.xlabel('recall', size='xx-large')
 pl.ylabel('precision', size='xx-large')
 pl.legend()
-pl.savefig('PRhand.png')
+save_fig('PRhand.png')
 pl.show()

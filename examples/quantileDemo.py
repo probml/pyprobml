@@ -3,6 +3,7 @@
 import matplotlib.pyplot as pl
 import numpy as np
 from scipy.stats import norm
+from utils.util import save_fig
 
 x = np.linspace(-3, 3, 100)
 y = norm.pdf(x)
@@ -11,11 +12,11 @@ f = norm.cdf(x)
 pl.figure()
 pl.plot(x, f)
 pl.title('CDF')
-pl.savefig('quantileDemo_cdf.png')
+save_fig('quantileDemo_cdf.png')
 
 pl.figure()
 pl.plot(x, y)
-pl.savefig('quantileDemo_gaussDemo.png')
+save_fig('quantileDemo_gaussDemo.png')
 
 x_sep_left = norm.ppf(0.025)
 x_sep_right = norm.ppf(0.975)
@@ -34,5 +35,5 @@ pl.annotate(r'$1-\alpha/2$', xy=(x_sep_right, norm.pdf(x_sep_right)),
             xytext=(2.5, 0.1),
             arrowprops=dict(facecolor='k'))
 pl.ylim([0, 0.5])
-pl.savefig('quantileDemo.png')
+save_fig('quantileDemo.png')
 pl.show()

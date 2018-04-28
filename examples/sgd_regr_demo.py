@@ -9,6 +9,7 @@ from utils import optim as opt
 from utils import util
 from utils.linreg_model import LinregModel
 from utils.mlp_model import MLP
+from utils.util import save_fig
 
 def lr_str(config):
     if config['lr_tune']==True:
@@ -136,7 +137,7 @@ def run_expt(config, loss_opt=0):
     fig.suptitle(ttl)
     folder = '.'
     fname = os.path.join(folder, 'linreg_1d_sgd_{}.png'.format(ttl))
-    plt.savefig(fname)
+    save_fig(fname)
     return training_loss
 
 

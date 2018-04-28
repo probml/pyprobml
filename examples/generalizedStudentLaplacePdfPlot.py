@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import t, laplace, norm
+from utils.util import save_fig
 
 # generalized student t with mu=0, q=1
 # See Eqn 2 of "Bayesian sparsity path analysis"
@@ -22,7 +23,7 @@ plt.plot(x, g, 'k:',
 plt.legend(('GenStudent(a=1,b=1)', r'Laplace($\mu=0,\lambda=1)$',
     r'Student($\mu=0,\sigma=1,\nu=1$)'))
 plt.ylabel('pdf')
-plt.savefig('figures/genStudentLaplacePdfPlot.pdf')
+save_fig('genStudentLaplacePdfPlot.pdf')
 
 plt.figure()
 plt.plot(x, np.log(g), 'k:',
@@ -31,6 +32,6 @@ plt.plot(x, np.log(g), 'k:',
 plt.legend(('GenStudent(a=1,b=1)', r'Laplace($\mu=0,\lambda=1)$',
     r'Student($\mu=0,\sigma=1,\nu=1$)'))
 plt.ylabel('log pdf')
-plt.savefig('figures/genStudentLaplaceLogPdfPlot.pdf')
+save_fig('genStudentLaplaceLogPdfPlot.pdf')
   
 plt.show()

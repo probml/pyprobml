@@ -1,9 +1,8 @@
 import numpy as np
-from random import seed, getstate, setstate
 
-def polyDataMake(n=21,deg=3,sampling='sparse'):
-    old_state = getstate()
-    seed(0)
+def polyDataMake(n=21,deg=3,sampling='sparse', seed=0):
+    st0 = np.random.get_state()
+    np.random.seed(seed)
 
     if sampling == 'irregular':
         xtrain = np.array([np.linspace(-1,-.5,6),np.linspace(3,3.5,6)]).reshape(-1,1)
@@ -17,7 +16,8 @@ def polyDataMake(n=21,deg=3,sampling='sparse'):
         raise ValueError('Unrecognized sampling provided.')
         
     if sampling == 'thibaux':
-        seed(654321)
+        # np.random.seed(654321)
+        np.random.seed(6543)
         xtest = np.linspace(0,20,201)
         sigma2 = 4
         w = np.array([-1.5,1.0/9.0]).T
@@ -41,6 +41,6 @@ def polyDataMake(n=21,deg=3,sampling='sparse'):
     
     def shp(x):
         return np.asarray(x).reshape(-1,1)
-    
-    setstate(old_state)
+
+    np.random.set_state(st0)
     return shp(xtrain), shp(ytrain), shp(xtest), shp(ytestNoisefree), shp(ytestNoisy), sigma2

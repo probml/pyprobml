@@ -8,6 +8,7 @@ import numpy as np
 import sympy
 from scipy.stats import binom
 from scipy.special import gammaln
+from utils.util import save_fig
 
 # We use our own version of negative binomial here for two reasons:
 # 1) scipy.stats.negbinom does not support real valued failures 
@@ -37,7 +38,7 @@ for i,p in enumerate(ps):
   pl.plot(x, exp(log_probabilities), styles[i], label=labels[i])
 
 pl.legend()
-pl.savefig('negBinomDemo_1.png')
+save_fig('negBinomDemo_1.png')
 pl.show()
 
 fs = [1, 10, 30, 50]
@@ -49,5 +50,5 @@ for i,n in enumerate(fs):
   pl.plot(x, exp(log_probabilities), styles[i], label=labels[i])
 pl.axis([0, 100, 0, 0.25])
 pl.legend()
-pl.savefig('negBinomDemo_2.png')
+save_fig('negBinomDemo_2.png')
 pl.show() 

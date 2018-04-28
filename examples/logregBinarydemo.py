@@ -16,6 +16,7 @@ from sklearn.metrics.pairwise import polynomial_kernel, rbf_kernel
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
+from utils.util import save_fig
 
 def genMultinomialData(num_instances, num_classes, num_vars):
   num_example_points = 3
@@ -106,8 +107,8 @@ for i in range(len(models)):
   ax.set_xlim([-1,1])
   ax.set_ylim([-1, 1])
   plt.title(names[i])
-  fname = 'figures/logregBinaryPython%sBoundary.png' % (file_names[i])
-  plt.savefig(fname, dpi=200)
+  fname = 'logregBinaryPython%sBoundary.png' % (file_names[i])
+  save_fig(fname, dpi=200)
   plt.draw()
   
   Z = model.predict_proba(kernels[i](np.c_[xx.ravel(), yy.ravel()], XX))[:,2].reshape(xx.shape)
@@ -115,8 +116,8 @@ for i in range(len(models)):
   plt.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
   plt.colorbar()
   plt.title('Prob Class 1')
-  fname = 'figures/logregBinaryPython%sProbClass1.png' % (file_names[i])
-  plt.savefig(fname, dpi=200)
+  fname = 'logregBinaryPython%sProbClass1.png' % (file_names[i])
+  save_fig(fname, dpi=200)
   plt.draw()
 
 plt.show()

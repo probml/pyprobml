@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as pl
 from utils import util
 from scipy import ndimage
+from utils.util import save_fig
 
 data = util.load_mat('20news_w100')
 documents = data['documents']
@@ -35,5 +36,5 @@ pl.xlabel('words')
 pl.ylabel('documents')
 pl.xticks(list(range(0, 1001, 100)), list(range(0, 101, 10)))
 pl.yticks(list(range(0, 1001, 100)), list(range(0, 1001, 100)))
-pl.savefig('newsgroupsVisualize.png')
+save_fig('newsgroupsVisualize.png')
 pl.show()

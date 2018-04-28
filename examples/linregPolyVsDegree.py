@@ -13,6 +13,7 @@ from utils.util import preprocessor_create
 #from utils.util import poly_data_make
 from examples.linregPmtkEmulator import linreg_fit
 from examples.linregPmtkEmulator import linreg_predict
+from utils.util import save_fig
 #from examples.linearRegression import linreg_fit_bayes
 
 def make_1dregression_data(n=21):
@@ -59,7 +60,7 @@ plt.xlabel('degree')
 plt.ylabel('mse')
 leg = plt.legend(('train', 'test'), loc='upper left')
 leg.draw_frame(False)
-plt.savefig(os.path.join('figures','linregPolyVsDegreeUcurve.pdf'))
+save_fig('linregPolyVsDegreeUcurve.pdf')
 plt.show()
 
 degs = [1, 2, 14, 20]
@@ -81,6 +82,6 @@ for m, deg in enumerate(degs):
     plt.xlim([-1, 21])
     #plt.xlim([min(xtest), max(xtest)])
     plt.ylim([-10, 15])
-    plt.savefig(os.path.join('figures','polyfitDemo%d.pdf' % deg))
+    save_fig('polyfitDemo%d.pdf' % deg)
     plt.show()
 

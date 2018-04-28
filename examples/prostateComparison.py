@@ -11,6 +11,7 @@ from sklearn.cross_validation import cross_val_score
 from sklearn.linear_model import LassoCV, LinearRegression, RidgeCV
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import scale
+from utils.util import save_fig
 
 pd.set_option('display.max_columns', 160)
 pd.set_option('display.width', 1000)

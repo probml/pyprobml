@@ -5,6 +5,7 @@ import matplotlib.pyplot as pl
 import numpy as np
 from utils import util
 from mpl_toolkits.mplot3d import Axes3D
+from utils.util import save_fig
 
 data = util.load_mat('moteData/moteData.mat')
 X = data['X']
@@ -42,5 +43,5 @@ for use_quad in (False, True):
   if use_quad:
     name = 'figures/surfaceQuad.pdf'
 
-  pl.savefig(name)
+  save_fig(name)
   pl.show()

@@ -4,6 +4,7 @@ import matplotlib.pyplot as pl
 import numpy as np
 from numpy import tanh
 from scipy.special import expit 
+from utils.util import save_fig
 
 relu = lambda x: x * (x > 0)
 funs = [tanh, expit, relu]
@@ -16,5 +17,5 @@ for i, fun in enumerate(funs):
 
 pl.axis([-3, 3, -1, 3])
 pl.legend()
-pl.savefig('tanhPlot.png')
+save_fig('tanhPlot.png')
 pl.show()

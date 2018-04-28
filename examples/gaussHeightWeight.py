@@ -4,6 +4,7 @@ import matplotlib.pyplot as pl
 import numpy as np
 from utils import util
 from matplotlib.patches import Ellipse
+from utils.util import save_fig
 
 data = util.load_mat('heightWeight/heightWeight')
 data = data['heightWeightData']
@@ -21,7 +22,7 @@ fig = pl.figure()
 ax = fig.add_subplot(111)
 ax.plot(x_male, y_male, 'bx')
 ax.plot(x_female, y_female, 'ro')
-pl.savefig('gaussHeightWeight_1.png')
+save_fig('gaussHeightWeight_1.png')
 
 
 def draw_ell(cov, xy, color):
@@ -44,5 +45,5 @@ cov_matrix2 = np.cov(np.vstack([x_male.ravel(), y_male.ravel()]))
 xy2 = (np.mean(x_male), np.mean(y_male))
 draw_ell(cov_matrix1, xy1, 'r')
 draw_ell(cov_matrix2, xy2, 'b')
-pl.savefig('gaussHeightWeight_2.png')
+save_fig('gaussHeightWeight_2.png')
 pl.show()

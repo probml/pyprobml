@@ -3,6 +3,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import multivariate_normal
+from utils.util import save_fig
 
 # 3 Component GMM Parameters:
 ComponentNs = ['G1', 'G2', 'G3']
@@ -74,7 +75,7 @@ ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
 ax.w_zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
 ax.set_zticks([])
 plt.draw()
-plt.savefig('GMMJoint')
+save_fig('GMMJoint')
 
 # Forming conditional graphic:
 
@@ -89,6 +90,6 @@ ax2.set_ylim([0, 5])
 ax1.set_title('y given x = ' + str(xcondval), fontsize=18)
 ax2.set_title('x given y = ' + str(ycondval), fontsize=18)
 plt.draw()
-plt.savefig('GMMConditional')
+save_fig('GMMConditional')
 
 plt.show()

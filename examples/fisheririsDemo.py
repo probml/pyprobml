@@ -7,6 +7,7 @@
 import matplotlib.pyplot as pl
 from itertools import permutations
 from sklearn.datasets import load_iris
+from utils.util import save_fig
 
 data = load_iris()
 features = data['data']
@@ -33,5 +34,5 @@ for i in range(16):
     pl.xticks(())
     pl.yticks(())
 
-pl.savefig('fisheririsDemo.png')
+save_fig('fisheririsDemo.png')
 pl.show()

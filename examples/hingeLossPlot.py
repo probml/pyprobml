@@ -4,6 +4,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
+from utils.util import save_fig
 
 zeroOne = np.vectorize(lambda x: 1 * (x <= 0))
 hinge = np.vectorize(lambda x: max(0, 1-x))
@@ -19,5 +20,5 @@ for i, fun in enumerate(funs):
 
 pl.axis([-2.1, 2.1, -0.1, 3.1])
 pl.legend()
-pl.savefig('hingeLossPlot.png')
+save_fig('hingeLossPlot.png')
 pl.show()

@@ -6,6 +6,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
+from utils.util import save_fig
 
 fA = np.vectorize(lambda x: x**(1.0/3))
 fB = np.vectorize(lambda x: x**(2.0/3))
@@ -27,5 +28,5 @@ pl.text(inter_b, fB(inter_b) + 0.1, 'B', color='blue', size='x-large')
 
 pl.xlabel('FPR', size='xx-large')
 pl.ylabel('TPR', size='xx-large')
-pl.savefig('ROChand.png')
+save_fig('ROChand.png')
 pl.show()

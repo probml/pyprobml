@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import proj3d
 import os
+from utils.util import save_fig
 
 t1 = 5
 t3 = 3
@@ -80,4 +81,4 @@ for val in r:
         
 ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
 ax.view_init(elev=30, azim=230)
-plt.savefig(os.path.join('figures', 'tree3d.pdf'))
+save_fig('tree3d.pdf')

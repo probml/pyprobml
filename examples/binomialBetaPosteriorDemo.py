@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import dirichlet
+from utils.util import save_fig
 
 #Points where we evaluate the pdf
 x = np.linspace(0.001, .999, 100)
@@ -30,7 +31,7 @@ def MakeGraph(Data,SaveName):
     ax.plot(x, posterior, 'b--', label=MakeLabel(Data, "post"), linewidth=2.0)
     ax.legend(loc='upper left', shadow=True)
     plt.draw()
-    plt.savefig(SaveName)
+    save_fig(SaveName)
 
 Data1 = {'prior': [1, 1],
        'lik': [5, 2],
@@ -48,9 +49,9 @@ Data4 = {'prior': [2, 2],
        'lik': [41, 11],
        'post': [42, 12]}
 
-MakeGraph(Data1, "figures/BetaPost1")
-MakeGraph(Data2, "figures/BetaPost2")
-MakeGraph(Data3, "figures/BetaPost3")
-MakeGraph(Data4, "figures/BetaPost4")
+MakeGraph(Data1, "BetaPost1")
+MakeGraph(Data2, "BetaPost2")
+MakeGraph(Data3, "BetaPost3")
+MakeGraph(Data4, "BetaPost4")
 
 plt.show()

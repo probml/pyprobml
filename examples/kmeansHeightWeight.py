@@ -4,6 +4,7 @@ import matplotlib.pyplot as pl
 import numpy as np
 from utils import util
 from sklearn.cluster import KMeans
+from utils.util import save_fig
 
 data = util.load_mat('heightWeight/heightWeight')
 data = data['heightWeightData']
@@ -21,5 +22,5 @@ for i in range(3):
                    marker=markers[j],
                    color=colors[j])
     pl.title('k = %s' % (i+1))
-    pl.savefig('kmeansHeightWeight_%s.png' % (i+1))
+    save_fig('kmeansHeightWeight_%s.png' % (i+1))
 pl.show()

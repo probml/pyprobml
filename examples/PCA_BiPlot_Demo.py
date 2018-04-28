@@ -10,6 +10,8 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import dendrogram
 
 import os
+from utils.util import save_fig
+
 fig_folder = os.getcwd()
 
 #Pull in iris dataset.
@@ -76,9 +78,8 @@ for i in range(3):
 
 ax.set_xlabel('Comp 1')
 ax.set_ylabel('Comp 2')
+save_fig('pcaIris2dBiplotPython.pdf')
 plt.draw()
-plt.savefig(os.path.join(fig_folder, 'pcaIris2dBiplotPython.pdf'))
-
 
 
 #3D Biplot
@@ -98,8 +99,8 @@ for i in range(4):
     z = Dirs[2, i]*3
     ax.plot([0, x], [0, y], [0, z], c='black')
     ax.text(x, y, z, ColNs[i], color='black', size=20)
+save_fig('pcaIris3dBiplotPython.pdf')
 plt.draw()
-plt.savefig(os.path.join(fig_folder, 'pcaIris3dBiplotPython.pdf'))
 
 #KMeans clustering (applied to unstandardized data)
 KM3 = KMeans(n_clusters=3)

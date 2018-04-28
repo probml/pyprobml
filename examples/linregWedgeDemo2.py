@@ -11,6 +11,7 @@ from utils import util
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.linear_model import LinearRegression
+from utils.util import save_fig
 
 def gaussian(model, x, y, sigma):
   xx, yy = np.meshgrid(x, y)
@@ -43,5 +44,5 @@ ax.set_ylabel('Y')
 ax.set_zlabel('P(Y|X)')
 ax.view_init(azim=45)
 
-pl.savefig('linregWedge2Wedge.png')
+save_fig('linregWedge2Wedge.png')
 pl.show()

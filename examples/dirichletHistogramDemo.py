@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from utils.util import save_fig
 
 np.random.seed(0)
 
@@ -24,7 +25,7 @@ def MakeDirSampleFig(alpha):
 
     plt.draw()
     SaveN = "DirSample" + str(alpha) + ".pdf"
-    plt.savefig(os.path.join('figures', SaveN))
+    save_fig(SaveN)
 
 MakeDirSampleFig(.1)
 MakeDirSampleFig(1.0)

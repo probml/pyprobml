@@ -4,6 +4,7 @@ import matplotlib.pyplot as pl
 import numpy as np
 from sklearn.lda import LDA
 from sklearn.qda import QDA
+from utils.util import save_fig
 
 c = 'bgr'
 m = 'xos'
@@ -79,6 +80,6 @@ for n_th, (u, sigma) in enumerate(models):
 
         pl.title('Seperate {0} classes using {1}'.
                  format(len(u), model_names[k]))
-        pl.savefig('discrimAnalysisDboundariesDemo_%d.png' % (n_th * 2 + k))
+        save_fig('discrimAnalysisDboundariesDemo_%d.png' % (n_th * 2 + k))
 
 pl.show()

@@ -8,6 +8,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from scipy.stats import multivariate_normal as mvn
 from sklearn.linear_model import LogisticRegression
 import matplotlib.colors as mcol
+from utils.util import save_fig
 
 def create_data(N):
     np.random.seed(234)
@@ -72,7 +73,7 @@ for i in range(len(models)):
   #plt.scatter(X[:,0], X[:,1], y)
   plt.title(names[i])
 
-  plt.savefig('figures/logregMulti%sBoundary%s' % (file_names[i], file_type))
+  save_fig('logregMulti%sBoundary%s' % (file_names[i], file_type))
   plt.draw()
 
 plt.show()

@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 from scipy.misc import logsumexp
- 
+from utils.util import save_fig
+
 def softmax(a):
   e = np.exp((1.0 * np.array(a)))
   return e / np.sum(e)
@@ -28,7 +29,7 @@ for i in range(len(T)):
 plt.show()
 fname = 'softmax_temp.pdf'
 print(fname)
-plt.savefig(os.path.join('../figures', fname))
+save_fig(fname)
 
 
 

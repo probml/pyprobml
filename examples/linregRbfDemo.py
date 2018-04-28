@@ -3,7 +3,7 @@ from sklearn.metrics.pairwise import rbf_kernel
 from sklearn import linear_model
 import matplotlib.pyplot as plt
 import numpy as np
-import os
+from utils.util import save_fig
 
 #Generate data and split into in and out of sample
 xtrain, ytrain, xtest, ytest, _, _ = polyDataMake(sampling='thibaux')
@@ -47,8 +47,9 @@ for i in range(len(taus)):
     ylabs = [str(int(yl[0])) for yl in ylabs]
     axs[i*3+2].set_yticklabels(ylabs)
     axs[i*3+2].set_ylim([0,XDesignTestG.shape[0]])
-    
+
+save_fig('rbfDemoAll.pdf', orientation='landscape')
+
 plt.draw()
 plt.show()
-plt.tight_layout()
-plt.savefig(os.path.join('figures', 'rbfDemoAll.pdf'),orientation='landscape')
+fig.tight_layout()

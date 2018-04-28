@@ -5,6 +5,7 @@
 import matplotlib.pyplot as pl
 import numpy as np
 from scipy.stats import pareto
+from utils.util import save_fig
 
 params = [(1, 3), (1, 2), (1, 1), (0.001, 1)]
 styles = ['b-', 'r:', 'k-.', 'g--']
@@ -18,5 +19,5 @@ for i, param in enumerate(params):
 pl.axis([0, 2, 0, 3])
 pl.title('Pareto Distribution')
 pl.legend()
-pl.savefig('paretoPlot.png')
+save_fig('paretoPlot.png')
 pl.show()

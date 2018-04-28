@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from utils.util import save_fig
 
 # Bar graphs showing a uniform discrete distribution and another with full prob on one value.
 
@@ -14,7 +15,7 @@ def MakeG(Probs,SaveN):
     plt.xticks(X)
     plt.yticks(np.linspace(0, 1, 5))
     #plt.savefig(SaveN)
-    plt.savefig(os.path.join('figures', SaveN))
+    save_fig(SaveN+'.pdf')
 
 MakeG(UniProbs, "ProbsDiscreteUniform")
 MakeG([1, 0, 0, 0], "ProbsDiscreteDelta")

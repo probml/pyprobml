@@ -4,6 +4,7 @@
 
 import matplotlib.pyplot as pl
 import numpy as np
+from utils.util import save_fig
 
 def entropy(p):
     """calculate the entropy"""
@@ -16,5 +17,6 @@ y = entropy(x)
 pl.plot(x, y)
 pl.xlabel('p(X=1)')
 pl.ylabel('H(X)')
-pl.savefig('bernoulliEntropyFig.png')
+
+save_fig('bernoulliEntropyFig.pdf')
 pl.show()

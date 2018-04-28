@@ -14,6 +14,7 @@ from sklearn import metrics
 from timeit import default_timer as timer
 
 from examples import get_mnist
+from utils.util import save_fig
 (x_train, y_train, x_test, y_test) = get_mnist.get_mnist()
 #(x_train, y_train, x_test, y_test) = get_mnist()
 
@@ -76,6 +77,6 @@ for i in range(9):
     ttl = 'True {:d}, Pred: {:d}'.format(expected[j], predicted[j])
     plt.title(ttl)
 plt.tight_layout()
+save_fig('mnist_logreg.pdf')
 plt.show()
 
-plt.savefig(os.path.join('figures', 'mnist_logreg.pdf'))

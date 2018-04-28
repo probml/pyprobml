@@ -9,6 +9,7 @@ from scipy.special import logit
 #from sklearn.linear_model import LogisticRegressionCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
+from utils.util import save_fig
 
 data = util.load_mat('sat/sat.mat')
 sat = data['sat']
@@ -42,7 +43,7 @@ l = plt.axvline(threshold, linewidth=3, color='k')
 plt.xlabel('SAT score')
 plt.ylabel('Prob. pass class')
 plt.title('Logistic regression on SAT data, threshold = %2.1f' % threshold)
-plt.savefig('figures/logregSATdemoPython.pdf')
+save_fig('logregSATdemoPython.pdf')
 plt.draw()
 
 # Fit linear regression model
@@ -60,7 +61,7 @@ plt.plot(xtest, yhat, 'b-')
 plt.xlabel('SAT score')
 plt.ylabel('Predicted output')
 plt.title('Linear regression on SAT data')
-plt.savefig('figures/linregSATdemoPython.pdf')
+save_fig('linregSATdemoPython.pdf')
 plt.draw()
 
 plt.show()

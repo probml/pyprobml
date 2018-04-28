@@ -20,7 +20,7 @@ from keras.applications.vgg16 import preprocess_input, decode_predictions
 
 from vis.utils import utils
 from vis.visualization import visualize_cam, overlay
-
+from utils.util import save_fig
 
 # Build the VGG16 network with ImageNet weights
 model = VGG16(weights='imagenet', include_top=True)
@@ -67,6 +67,6 @@ for i in range(N):
     ax[i+1].imshow(overlay(jet_heatmap, img))
     ax[i+1].axis('off')
     ax[i+1].set_title(class_names[i])
+save_fig('grad-cam-keras.pdf')
 plt.show()
 
-plt.savefig(os.path.join('figures','grad-cam-keras.pdf'))

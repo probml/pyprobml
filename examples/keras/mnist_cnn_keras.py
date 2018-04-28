@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from timeit import default_timer as timer
 import os
+from utils.util import save_fig
 
 batch_size = 20 # 128
 num_classes = 10
@@ -122,8 +123,8 @@ if True:
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
     plt.title('Cross entropy loss')
+    save_fig('mnist-cnn-keras-loss.png')
     plt.show()
-    plt.savefig(os.path.join('figures','mnist-cnn-keras-loss.png'))
 
 
     plt.figure()
@@ -135,8 +136,8 @@ if True:
     plt.xlabel('Epochs')
     plt.ylabel('Accuracy')
     plt.title('Classification accuracy')
+    save_fig('mnist-cnn-keras-acc.png')
     plt.show()
-    plt.savefig(os.path.join('figures','mnist-cnn-keras-acc.png'))
 
 
 

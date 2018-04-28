@@ -16,6 +16,7 @@ import numpy as np
 import os
 import scipy
 from skimage import transform, filters
+from utils.util import save_fig
 
 # Build the VGG16 network with ImageNet weights
 model = VGG16(weights='imagenet', include_top=True)
@@ -165,7 +166,7 @@ for i, name in enumerate(class_names):
     plt.title(name)
     plt.show()
     fname = 'cnn-heatmap-{}.png'.format(name)
-    plt.savefig(os.path.join('figures',fname))
+    save_fig(fname)
     
     plt.figure()
     #show_att_map_scipy(img_np, heatmap)
@@ -173,7 +174,7 @@ for i, name in enumerate(class_names):
     plt.title(name)
     plt.show()
     fname = 'cnn-heatmap-overlayed-{}.png'.format(name)
-    plt.savefig(os.path.join('figures',fname))
+    save_fig(fname)
 
 
 

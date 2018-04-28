@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 from scipy.stats import multivariate_normal
+from utils.util import save_fig
 
 Gs = ["full", "diagonal", "spherical"]
 
@@ -28,9 +29,9 @@ def make_contour_plot(G):
     ax.contour(X, Y, Z)
     plt.axis('equal')
     plt.title(G)
+    save_fig('Gaussian2D' + G + 'Contour')
     plt.draw()
     plt.show()
-    plt.savefig('figures/Gaussian2D' + G+ 'Contour')
 
 
 def make_surface_plot(G):
@@ -40,9 +41,9 @@ def make_surface_plot(G):
     ax.plot_surface(X, Y, Z, rstride=2, cstride=2, color='white', edgecolor="black")
     #ax.axis('equal')
     #ax.title(G)f
+    save_fig('Gaussian2D' + G + 'Surface')
     plt.draw()
     plt.show()
-    plt.savefig('figures/Gaussian2D' + G + 'Surface')
     
 for g in Gs:
     make_contour_plot(g)

@@ -3,6 +3,7 @@
 from scipy.stats import beta
 import numpy as np
 import matplotlib.pyplot as pl
+from utils.util import save_fig
 
 x = np.linspace(0, 1, 100)
 aa = [0.1, 1., 2., 8.]
@@ -12,5 +13,5 @@ for a, b, p in zip(aa, bb, props):
     y = beta.pdf(x, a, b)
     pl.plot(y, p, lw=3, label='a=%.1f,b=%.1f' % (a, b))
 pl.legend(loc='upper left')
-pl.savefig('betaPlotDemo.png')
+save_fig('betaPlotDemo.png')
 pl.show()

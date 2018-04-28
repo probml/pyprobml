@@ -4,6 +4,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+from utils.util import save_fig
 import os
 from scipy.stats import uniform, norm, multivariate_normal
 
@@ -124,5 +125,7 @@ for di in DataIndices:
     adjustgraph(False)
 
 fig.tight_layout()
+
+save_fig('bayesLinRegPlot2dB.pdf')
+
 plt.show()
-plt.savefig('..\\figures\\bayesLinRegPlot2dB.pdf')

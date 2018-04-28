@@ -5,6 +5,7 @@ import os
 from scipy.stats import multivariate_normal
 from polyDataMake import polyDataMake
 from sklearn.linear_model import Ridge
+from utils.util import save_fig
 
 polydeg = 2 #Degree of design matrix
 alph = 0.001 #Alpha of ridge regression
@@ -35,7 +36,7 @@ def MakePlot(ypreds, SaveN, Title, lowerb = None, upperb = None):
     if Errlogi:
         plt.legend(loc=2)
     plt.title(Title)
-    plt.savefig(os.path.join('figures', SaveN +'.pdf'))
+    save_fig(SaveN +'.pdf')
 
 xtrainp = polyBasis(xtrain,polydeg)
 xtestp = polyBasis(xtest,polydeg)

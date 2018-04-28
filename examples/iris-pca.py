@@ -5,6 +5,7 @@ from sklearn.decomposition import PCA
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from utils.util import save_fig
 #%matplotlib inline
 
 # Set random seeds
@@ -26,4 +27,4 @@ with plt.style.context("seaborn-white"):
     ax.scatter(pca_xy[:,0], pca_xy[:,1], c=y, cmap=plt.cm.Set2)
     ax.set_title("PCA on Iris")
 
-plt.savefig(os.path.join('figures', 'iris-pca.pdf'))
+save_fig('iris-pca.pdf')

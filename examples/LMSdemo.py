@@ -3,6 +3,8 @@ import numpy as np
 import utils.util as util
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.optimize import minimize
+from utils.util import save_fig
+
 
 plt.rcParams["figure.figsize"] = (10,10) # width x height
 
@@ -25,7 +27,7 @@ SS = SS.reshape(W0.shape)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(W0, W1, SS)
-plt.savefig('figures/linregSurfSSEPy.pdf')
+save_fig('linregSurfSSEPy.pdf')
 plt.draw()
 
 #Mean SE with gradient and Hessian:
@@ -161,7 +163,7 @@ if True:
     CS = plt.contour(W0, W1, SS)
     plt.plot(wOpt[0], wOpt[1], 'x', color='r', ms=10, mew=5)
     plt.plot(whist[:, 0], whist[:, 1], 'ko-', lw=2)
-    plt.savefig('figures/lmsTrajPy.pdf')
+    save_fig('lmsTrajPy.pdf')
     plt.draw()
 
 #Loss values over the parameter path compared to the optimal loss.    
@@ -171,7 +173,7 @@ if True:
     ax.set_title('RSS vs iteration')
     plt.plot(fvalhist,'ko-', lw=2)
     plt.axhline(fopt)
-    plt.savefig('figures/lmsRssHistPy.pdf')
+    save_fig('lmsRssHistPy.pdf')
     plt.draw()
 
 #Stepsize graph if desired:
@@ -180,7 +182,7 @@ if True:
     fig, ax = plt.subplots()
     ax.set_title('Stepsize vs iteration')
     plt.plot(stephist,'ko-', lw=2)
-    plt.savefig('figures/StepsizeHistPy.pdf')
+    save_fig('StepsizeHistPy.pdf')
     plt.draw()
 
 plt.show()

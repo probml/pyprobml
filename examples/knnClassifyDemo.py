@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.neighbors import KNeighborsClassifier as KNN
 from sklearn.cross_validation import cross_val_score
 from  utils.util import DATA_DIR
-
+from utils.util import save_fig
 
 def load_data():
   """Since the knnClassify3c.mat is the matlab v7.3 or later file
@@ -33,7 +33,7 @@ for i in range(len(y_unique)):
              x_train[y_train == y_unique[i], 1],
              marker=markers[i],
              c=colors[i])
-pl.savefig('knnClassifyDemo_1.png')
+save_fig('knnClassifyDemo_1.png')
 
 #plot test fig
 pl.figure()
@@ -42,7 +42,7 @@ for i in range(len(y_unique)):
              x_test[y_test == y_unique[i], 1],
              marker=markers[i],
              c=colors[i])
-pl.savefig('knnClassifyDemo_2.png')
+save_fig('knnClassifyDemo_2.png')
 
 x = np.linspace(np.min(x_test[:, 0]), np.max(x_test[:, 0]), 200)
 y = np.linspace(np.min(x_test[:, 1]), np.max(x_test[:, 1]), 200)
@@ -57,7 +57,7 @@ for k in [1, 5, 10]:
   y_predicted = knn.predict(xy)
   pl.pcolormesh(y_predicted.reshape(200, 200))
   pl.title('k=%s' % (k))
-  pl.savefig('knnClassifyDemo_k%s.png' % (k))
+  save_fig('knnClassifyDemo_k%s.png' % (k))
 
 #plot train err and test err with different k
 ks = [1, 5, 10, 20, 50, 100, 120]
@@ -74,7 +74,7 @@ pl.plot(ks, test_errs, 'rx-', label='test')
 pl.legend()
 pl.xlabel('k')
 pl.ylabel('misclassification rate')
-pl.savefig('knnClassifyDemo_4.png')
+save_fig('knnClassifyDemo_4.png')
 
 #cross_validate
 scores = []
@@ -100,5 +100,5 @@ for i in range(3):
     pl.contourf(xy_predic[:, i].ravel().reshape(200, 200), levels)
     pl.colorbar()
     pl.title('p(y=%s | data, k=10)' % (i))
-    pl.savefig('knnClassifyDemo_hotmap_%s.png' % (i))
+    save_fig('knnClassifyDemo_hotmap_%s.png' % (i))
 pl.show()

@@ -7,6 +7,7 @@ import matplotlib.pyplot as pl
 import numpy as np
 from utils import util
 from mpl_toolkits.mplot3d import Axes3D
+from utils.util import save_fig
 
 def contoursSSEDemo():
   N = 21
@@ -28,7 +29,7 @@ if __name__ == '__main__':
   fig = pl.figure()
   ax = fig.add_subplot(111, projection='3d')
   surf = ax.plot_surface(W0, W1, SS)
-  pl.savefig('linregSurfSSE.png')
+  save_fig('linregSurfSSE.png')
   pl.show()
 
   fig,ax = pl.subplots()
@@ -36,5 +37,5 @@ if __name__ == '__main__':
   CS = pl.contour(W0, W1, SS)
   pl.plot([-4.351],[0.5377],'x')
 
-  pl.savefig('linregContoursSSE.png')
+  save_fig('linregContoursSSE.png')
   pl.show()

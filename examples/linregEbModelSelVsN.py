@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import random
+from utils.util import save_fig
 
 # Bayesian model selection demo for polynomial regression
 # This illustartes that if we have more data, Bayes picks a more complex model.
@@ -133,7 +134,7 @@ for n in Ns:
         plt.plot(plotvals1d, trueOutput, 'g', plotvals1d, mu, 'r--', linewidth=2)
         plt.plot(plotvals1d, lower, 'b-' , plotvals1d, upper, 'b-', linewidth=0.5)
         plt.title('d='+str(deg)+', logev='+str(np.round(logev, 2))+', EB')
-        plt.savefig(os.path.join('figures', 'linregEbModelSelVsN%dD%dEB'%(n, deg) + '.pdf'))
+        save_fig('linregEbModelSelVsN%dD%dEB'%(n, deg) + '.pdf')
         plt.draw()
 
     #Form bar graph showing the posterior probabilities for each model
@@ -145,7 +146,7 @@ for n in Ns:
     plt.ylim([0, 1])
     ax.set_ylabel('P(M|D)')
     plt.title('N='+str(n)+', Method=EB')
-    plt.savefig(os.path.join('figures', 'linregEbModelSelVsN' + str(n) + 'PostEB.pdf'))
+    save_fig('linregEbModelSelVsN' + str(n) + 'PostEB.pdf')
     plt.draw()
 
 plt.show()

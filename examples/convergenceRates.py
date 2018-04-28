@@ -1,6 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+from utils.util import save_fig
 
 #http://matplotlib.org/examples/pylab_examples/subplots_demo.html
 
@@ -33,7 +34,7 @@ plt.show()
 plt.show()
 fname = 'convergenceRates.pdf'
 print(fname)
-plt.savefig(os.path.join('../figures', fname))
+save_fig(fname)
 
 
 if 0:
@@ -60,6 +61,6 @@ if 0:
     plt.tight_layout()
     plt.draw()
     
-    plt.savefig(os.path.join('../figures', 'convergenceRates.png'))
+    save_fig('convergenceRates.png')
     
     plt.show()

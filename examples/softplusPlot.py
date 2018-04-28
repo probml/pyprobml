@@ -5,6 +5,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from utils.util import save_fig
 
 fig, ax = plt.subplots()
 
@@ -19,6 +20,6 @@ legend = ax.legend(loc='upper center')
 
 plt.ylim([-0.1, 4.5])
 #plt.title('nonlinear functions')
+save_fig('softplusPlot.pdf')
 plt.show()
-plt.savefig(os.path.join('../figures', 'softplusPlot.pdf'))
 

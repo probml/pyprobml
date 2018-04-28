@@ -6,7 +6,7 @@ from sklearn.linear_model import Ridge
 from sklearn.preprocessing import MinMaxScaler 
 import matplotlib.pyplot as plt
 import numpy as np
-
+from utils.util import save_fig
 
 TrueDeg = 2 #The true degree of the model
 degrees = [1, 2, 14, 20] #The degrees of our design matrices
@@ -83,7 +83,7 @@ for ModDeg in degrees:
     plt.xlabel('size of training set')
     plt.ylabel('mse')
     plt.title('truth = degree {}, model = degree {}'.format(TrueDeg, ModDeg))
-    plt.savefig(os.path.join('figures', 'polyfitN{}.pdf'.format(ModDeg)),orientation='landscape')
+    save_fig('polyfitN{}.pdf'.format(ModDeg), orientation='landscape')
     plt.draw()
 
 plt.show()
