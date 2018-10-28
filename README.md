@@ -1,5 +1,5 @@
 # pyprobml
-Python 3 code for "Machine learning: a probabilistic perspective" (http://people.cs.ubc.ca/~murphyk/MLbook/).
+Python 3 code for "Machine learning: a probabilistic perspective" (http://people.cs.ubc.ca/~murphyk/MLbook/) v2.0.
 
 You should run the code from the repo root ('pyprobml' directory)
 using module execution, e.g.,
