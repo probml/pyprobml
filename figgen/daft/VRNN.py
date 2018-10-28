@@ -3,12 +3,13 @@ import matplotlib.pyplot as plt
 rc("font", family="serif", size=12)
 rc("text", usetex=True)
 #rc("text.latex", preamble=open("macros.tex").read())
-
+#rc('text.latex',   preamble="\usepackage{amssymb}\usepackage{amsmath}\usepackage{mathrsfs}")
+   
 import os
 
 import imp
-#daft = imp.load_source('daft', 'daft-080308/daft.py')
-import daft
+daft = imp.load_source('daft', 'daft-080308/daft.py')
+#import daft
 
 
 
@@ -79,9 +80,14 @@ pgm.add_edge("h1", "s2", linestyle="-")
 pgm.add_edge("h2", "s3", linestyle="-")
 pgm.add_edge("s1", "s2", linestyle="-.")
 pgm.add_edge("s2", "s3", linestyle="-.")
-pgm.add_edge("h1", "z1", linestyle="-.")
-pgm.add_edge("h2", "z2", linestyle="-.")
-pgm.add_edge("h3", "z3", linestyle="-.")
+
+pgm.add_edge("h1", "z1", linestyle="-",)
+pgm.add_edge("h2", "z2", linestyle="-")
+pgm.add_edge("h3", "z3", linestyle="-")
+pgm.add_edge("z1", "s2", linestyle="-")
+pgm.add_edge("z2", "s3", linestyle="-")
+pgm.add_edge("z1", "h2", linestyle="-")
+pgm.add_edge("z2", "h3", linestyle="-")
 
 pgm.render()
 folder = "/Users/kpmurphy/github/pyprobml/figures"

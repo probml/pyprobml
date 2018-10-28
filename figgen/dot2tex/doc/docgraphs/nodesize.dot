@@ -1,0 +1,7 @@
+digraph G {
+	node [shape=rectangle];
+	a_1 [margin="0"]; // will have no effect
+	a_2 [margin="0.7,0.4"];
+	a_3 [width="2",height="1"];
+	a_1-> a_2 -> a_3 -> a_1;
+}

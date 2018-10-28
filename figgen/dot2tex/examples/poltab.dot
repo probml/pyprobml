@@ -1,0 +1,33 @@
+/*
+
+:Tags: PGF, Preproc
+
+This example graph was contributed by Teresa Gomez-Diaz, and shows
+that the ``texlbl`` attriute can contain arbitrary LaTeX markup.
+
+Generated with::
+
+    $ dot2tex.py -tmath --preproc poltab.dot |dot2tex.py > poltab.tex
+    
+
+*/
+digraph G {
+	rankdir=LR;
+	node [shape=plaintext];
+	a_1 [texlbl="$\begin{array}{l} \fbox{1}\fbox{1} \end{array}$"];
+	a_2 [texlbl="$\frac{1}{q} \begin{array}{l} \fbox{2}\fbox{1} \end{array} + \begin{array}{l} \fbox{1}\fbox{2} \end{array}$"];
+	a_3 [texlbl="$(q+\frac{1}{q}) \begin{array}{l} \fbox{2}\fbox{2} \end{array}$"];
+
+	a_4 [texlbl="$\frac{1}{q} \frac{1}{z_1} \begin{array}{l} \fbox{1}\fbox{2} \end{array} + \frac{1}{z_2}\begin{array}{l} \fbox{2}\fbox{1} \end{array}$"];
+
+	{ rank=same; a_1;  a_2; a_3;}
+	{ nodesep =1; a_2; a_4;}
+
+	a_1 -> a_2 [label="f_1" ];
+	a_2 -> a_3 [label="f_1" ];
+	a_1 -> a_4 [label="f_0" dir=back];
+	a_3 -> a_4 [label="f_0" ];
+
+}
+
+

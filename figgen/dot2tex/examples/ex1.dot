@@ -1,0 +1,14 @@
+/*
+:Title: Basic example
+:Tags: PGF
+
+A basic example.
+
+Generated with::
+
+    $ dot2tex.py --preproc -tmath ex1.dot | dot2tex.py > ex1.tex
+    
+*/
+digraph G {
+	a_1-> a_2 -> a_3 -> a_1;
+}

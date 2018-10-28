@@ -1,0 +1,5 @@
+graph G {
+	mindist = 0.5;
+	node [shape="circle"];
+	a -- b -- c -- a;
+}

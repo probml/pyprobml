@@ -1,0 +1,27 @@
+/*
+
+:Title: PGF and TikZ arrows
+:Tags: PGF
+
+Examples of PGF/TikZ style arrows. See chapter 14.1 in the PGF/TikZ manual
+for all availale arrow styles.
+
+Generated with::
+
+    $ circo -Txdot pgfarrows.dot | dot2tex.py > pgfarrows.tex
+
+*/
+digraph G {
+	graph [mindist=0.5];
+	node [texmode="math", fixedsize=true, shape=circle, width=0.4, style="fill=green!20"];
+	c -> n_1 [style="-stealth", label="stealth"];
+	c -> n_2 [style="-to", label="to"];
+	c -> n_3 [style="-latex", label="latex"];
+	c -> n_4 [style="-diamond", label="diamond"];
+	c -> n_5 [style="-o", label="o"];
+	c -> n_6 [style="{-]}", label="]"]; 
+	c -> n_7 [style="-triangle 90", label="triangle 90"];
+	c -> n_8 [style="-hooks", label="hooks"];
+	c -> n_9 [style="->>", texmode="math", label=">>"];
+	c [style="fill=red!80"];
+}

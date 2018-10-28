@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+\usepackage{dot2texi}
+\begin{document}
+% Define layers
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+% The scale option is useful for adjusting spacing between nodes.
+% Note that this works best when straight lines are used to connect
+% the nodes.
+\begin{tikzpicture}[>=latex',scale=0.8]
+    % set node style
+    \tikzstyle{n} = [draw,shape=circle,minimum size=2em,
+                        inner sep=0pt,fill=red!20]
+    \begin{dot2tex}[dot,tikz,codeonly,styleonly,options=-s -tmath]
+        digraph G  {
+            node [style="n"];
+            A_1 -> B_1; A_1 -> B_2; A_1 -> B_3;
+            B_1 -> C_1; B_1 -> C_2;
+            B_2 -> C_2; B_2 -> C_3;
+            B_3 -> C_3; B_3 -> C_4;
+        }
+    \end{dot2tex}
+    % annotations
+    \node[left=1em] at (C_1.west)  (l3) {Level 3};
+    \node at (l3 |- B_1) (l2){Level 2};
+    \node at (l3 |- A_1) (l1) {Level 1};
+    % Draw lines to separate the levels. First we need to calculate
+    % where the middle is.
+    \path (l3) -- coordinate (l32) (l2) -- coordinate (l21) (l1);
+    \draw[dashed] (C_1 |- l32) -- (l32 -| C_4);
+    \draw[dashed] (C_1 |- l21) -- (l21 -| C_4);
+    \draw[<->,red] (A_1) to[out=-120,in=90] (C_2);
+    % Highlight the A_1 -> B_1 -> C_2 path. Use layers to draw
+    % behind everything.
+    \begin{pgfonlayer}{background}
+        \draw[rounded corners=2em,line width=3em,blue!20,cap=round]
+                (A_1.center) -- (B_1.west) -- (C_2.center);
+    \end{pgfonlayer}
+\end{tikzpicture}
+\end{document}

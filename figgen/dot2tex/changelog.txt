@@ -1,0 +1,124 @@
+Dot2TeX change log
+------------------
+
++ New feature
+* Changed/Improved feature
+! Fixed bug
+- Removed feature
+
+The last digit in the version number denotes bug-fix releases.
+
+v 2.7.0
+    + Added the --codeonly option. When this option is used, only draw 
+      commands are generated. Intended for use with the dot2texi package. 
+    * Minor improvements to the documentation. 
+    + Added graphanndtti.tex example.
+
+v 2.6.1
+    ! Fixed missing header in the file dot2tex/dotex
+    ! Fixed various typos in the documentation
+
+v 2.6.0
+    + Added the --autosize option. Equivalent to
+      > dot2tex --preproc ex.dot | dot2tex
+    + Added the --prog option for choosing between dot, neato, circo, towpi
+      and fdp, when the input is in plain dot format. 
+    + Added the special d2toptions graph attribute. Allows you to specify 
+      dot2tex options in command line format.
+    * Added a dot2tex wrapper script and changed setup.py to make it fully
+      compatible with both setuptools and distutils. A dot2tex module will
+      now be put in the site-packages directory and a wrapper script in the
+      scripts directory. 
+    ! Fixed typo in error message.
+    + Added --runtests option to run doc tests (experimental). 
+    ! Fixed issue with wrong template when both  the --preview and --figonly 
+      options were used. 
+
+v 2.5.0
+    + Added the TikZ output format (-f tikz)
+    + Added the lblstyle attribute for styling graph, node and edge labels. 
+      (PGF and TikZ only)
+    + Added the --tikzedgelabels option for placing edge labels without
+      using xdot edge label information (tikz and pgf output format only).
+    + Added a topath edge attribute for using TikZ' to paths (tikz and 
+      pgf only).
+    * Information about the selected output format is now stored in the graph
+      generated in preprocessing mode. No longer necessary to specify an 
+      output format in the final run. 
+    ! Edges with the same source and dest are now handled correctly in 
+      preprocessing mode. Only the edge defined last was preprocessed. 
+    + Added the --nodeoptions and --edgeoptions options and corresponding 
+      d2tnodeoptions and d2tedgeoptions graph attribute (tikz only).
+    + Added the exstyle attribute. Ignored in preprocessing mode. (pgf and 
+      tikz only)
+      
+v 2.0.3
+    ! Special TeX char escape code rewritten. Now works as intended.
+      The $ character was not properly escaped.
+    ! Added & to list of special characters.  
+
+
+v 2.0.2
+    ! Fixed a severe bug in the interpretation of color attributes in edges.
+      Colors were not reset after a change to a single edge color. 
+
+v 2.0.1
+    ! Node margins are now interpreted correctly for nodes with size < minsize.
+    ! Nodes now grow correctly to fit labels when size > minsize
+    * Updated documentation with an example on how to change node sizes. 
+
+v 2.0.0
+	! Fixed a number of preprocessing bug related to how node attributes are
+	  interpreted.
+	+ Added automata.dot example. 
+
+v 2.0.0b
+    * Changed the name of the --preview option to --crop.
+    + Added the --preproc option for preprocessing labels with preview.sty.
+    + Added the --debug option. Writes detailed debug information to dot2tex.log.
+    ! The ^ char is now properly escaped.
+    * Default PGF/TikZ template now requires PGF v >= 1.09.
+    + Added new template tags to support preprocessing mode.
+    + Templates for preprocessing, output and figonly mode can now be put 
+      in the same file. 
+    + Added the --alignstr option.
+    + Added the --valignmode option.
+    + Added the --usepdflatex option.
+
+v 1.5.0 
+	# Released 2006-10-22
+	* Added a few more helpfull error messages. 
+	+ Added the --figonly option.
+	! The $ character is now properly escaped.
+	! Fixed a few issues when converting between Graphviz to backend styles.
+	! Fixed scoping issues when drawing edges in duplicate mode. 
+
+v 1.5.0b2
+	! Added more intelligent detection of xdot input. Older versions of 
+	  Graphviz does not include the 'xdotversion' attribute in the 
+	  output. 
+
+v 1.5.0b
+	+ Styles are now transfered to the PSTricks and PGF/TikZ backend.
+	+ Added a force straight line option to avoid using curves for 
+	  straight edges.
+	* PGF/TikZ is now set as the default backend.
+	! Fixed a line ending issue in data converted internally to the xdot format.
+    + Added the -V version command line switch
+    + Added the --encoding option
+    + Added option for switching node and graph draw order.
+    ! Fixed bug in PGF/TikZ color handling
+    + Added the --preview option to crop graphs
+    + Added --figpreamble and --figpostamble options and graph attributes.
+    + Added --docpreamble option and d2tdocpreamble graph attribute
+    + Added --graphstyle option
+    + Added --gvcols option
+    * Changed default PGF/TikZ arrow type to >=latex'
+
+v 1.0.1
+	* Fixed bug in gvcols.tex
+
+v 1.0.0
+    * First public release.
+
+

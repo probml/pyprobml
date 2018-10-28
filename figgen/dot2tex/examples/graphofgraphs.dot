@@ -1,0 +1,26 @@
+/*
+
+:Title: Graph of graphs
+:Tags: PGF
+
+This example shows that node content is not limited to text and math. 
+You can for instance insert graphics and create this weird graph of graphs.
+Download the PDF and zoom in to see the details. 
+
+Generated with::
+
+    $ neato -Txdot graphofgraphs.dot | dot2tex.py --crop -fpgf > graphofgraphs.tex
+    
+*/
+digraph G {
+	graph [mindist=0.5];
+	node [shape=plaintext, height=0.5];
+	edge [style="black!50, thin,-to"];
+	a_1 [texlbl="\raisebox{-.4\height}{\includegraphics[height=30bp]{balls.pdf}}"];
+	a_2 [texlbl="\raisebox{-.4\height}{\includegraphics[height=30bp]{pgfsnakes.pdf}}"];
+	a_3 [texlbl="\raisebox{-.4\height}{\includegraphics[height=30bp]{pgfarrows.pdf}}"];
+	a_4 [texlbl="\raisebox{-.4\height}{\includegraphics[height=30bp]{poltab.pdf}}"];
+	a_5 [texlbl="\raisebox{-.4\height}{\includegraphics[height=30bp]{subgraphs.pdf}}"];
+	a_1-> a_2 -> a_3 -> a_4 -> a_5 -> a_1;
+	a_2 -> a_5;
+}

@@ -1,0 +1,34 @@
+/*
+
+:Title: Automata
+:Tags: TikZ, topath, tikzedgelabels
+
+An example of how to use TikZ' automata libray and to paths to
+create a pretty state machine. 
+
+Generated with::
+
+	$ neato -Txdot tikzautomata.dot | dot2tex.py -ftikz > tikzautomata.tex
+
+*/
+digraph G {
+    d2ttikzedgelabels = true;
+    d2tstyleonly = true;
+    d2tdocpreamble = "\usetikzlibrary{automata}";
+    d2tfigpreamble = "\tikzstyle{every state}= \
+    [draw=blue!50,very thick,fill=blue!20]";
+    node [style="state"];
+    edge [lblstyle="auto",topath="bend left"];
+    A [style="state, initial"];
+    A -> B [label=2];
+    A -> D [label=7];
+    B -> A [label=1];
+    B -> B [label=3,topath="loop above"];
+    B -> C [label=4];
+    C -> F [label=5];
+    F -> B [label=8];
+    F -> D [label=7];
+    D -> E [label=2];
+    E -> A [label="1,6"];
+    F [style="state,accepting"];
+}

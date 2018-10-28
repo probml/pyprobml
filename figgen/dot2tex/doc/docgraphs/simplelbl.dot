@@ -1,0 +1,9 @@
+graph G {
+	mindist = 0.5;
+	node [shape="circle"];
+	d2tfigpreamble = "\tikzstyle{mystyle}=[fill=blue!20]";
+	edge [lblstyle="mystyle"];
+	a -- b [label="ab"];
+	b -- c [label="bc"];
+	c -- a [label="ca"];
+}

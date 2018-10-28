@@ -1,0 +1,6 @@
+digraph G {	
+	node [shape=circle];
+	a_1 [texlbl="$x^2+\frac{\sin y}{y^2+\cos \beta}+\gamma_3$"];
+	a_1 -> a_2 [label=" ", texlbl="$x_1+x_3^2+z+c+v~~$"];
+	a_2 -> a_1;
+}

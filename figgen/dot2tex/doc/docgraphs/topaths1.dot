@@ -1,0 +1,8 @@
+digraph G {
+    mindist = 0.5;
+    node [shape="circle"];
+    a -> b [topath="bend right"];
+    c -> b [topath="bend left"];
+    c -> a [topath="out=10,in=-90"];
+    b -> b [topath="loop above"];
+}

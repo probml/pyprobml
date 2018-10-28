@@ -1,18 +1,13 @@
 #http://nbviewer.jupyter.org/urls/sf.net/p/pyx/gallery/connect/attachment/connect.ipynb
 
-from math import sin, cos, pi
-from pyx import *
-from pyx.connector import arc, curve, line
-text.set(text.LatexRunner)
-text.preamble(r"\usepackage{times}")
-
 import os
 import sys
 root = "/Users/kpmurphy/github/pyprobml"
 folder = os.path.join(root, "figures")
 
-import imp
+
 fname = os.path.join(root, 'pyx/tools/pyxtools.py')
+#import imp
 #imp.load_source('tools', fname)
 exec(open(fname).read())
 

@@ -1,0 +1,4 @@
+digraph G {
+	node [shape=circle];
+	a_1-> a_2 -> a_3 -> a_1;
+}

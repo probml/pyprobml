@@ -1,0 +1,38 @@
+/*
+
+:Title: TikZ node shapes
+:Tags: TikZ, tikzedgelabels
+
+This example shows some of special `TikZ node shapes`_ that are available when using
+the ``tikz`` output format. 
+
+Generated with::
+
+ $ circo -Txdot tikzshapes.dot | dot2tex.py -ftikz -s > tikzshapes.tex
+ 
+ 
+.. _TikZ node shapes: http://www.fauskes.net/pgftikzexamples/node-shapes/
+
+*/
+graph G {
+	graph [mindist=0.5];
+	node [style="fill=green!20",texmode=math];
+	edge [lblstyle="above,sloped"];
+	d2ttikzedgelabels=true;
+	c [shape=circle];
+	n_1 [shape=diamond];
+	n_2 [shape=star];
+	n_3 [shape="forbidden sign"];
+	n_4 [shape="circle split", texlbl="$n$ \nodepart{lower} $4$"];
+	n_5 [shape="cross out"];
+	n_6 [shape="strike out"];
+	n_7 [shape="regular polygon,regular polygon sides=7"];
+	c -- n_1 [label="diamond"]; 
+	c -- n_2 [label="star"];
+	c -- n_3 [label="forbidden sign"];
+	c -- n_4 [label="circle split"];
+	c -- n_5 [label="cross out"];
+	c -- n_6 [label="strike out"];
+	c -- n_7 [label="regular polygon"];
+	c [style="fill=red!80"];
+}

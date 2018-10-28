@@ -1,0 +1,47 @@
+/*
+
+:Title: Two tank system
+:Tags: PGF
+
+This graph shows the structural model of a two tank system.
+
+Generated with::
+
+    $ dot2tex.py -fpgf tank.dot > tank.tex
+    
+*/
+graph G {
+    node[shape=doublecircle, fixedsize=true, width=0.4];
+    graph [style="rounded corners"];
+    subgraph cluster0 {
+    	style = "red, fill=blue!20,rounded corners";    	
+    	label = "Tank 1";
+    	node [texmode="math"]
+    	c_1--q_L; c_1--h_1;
+        c_2--q_P;	c_2--h_1;
+    	c_3--q_L; c_3--q_P; c_3--dh_1; 
+    	d_4--dh_1;d_4--h_1;
+    	dh_1 [label="\\dot{h}_1"];
+    }
+    
+    subgraph cluster1{
+	label = "Pipe";  
+	node [texmode="math"]
+	c_5--h_1; c_5--q_12;
+	q_12 [label="q_{12}"];
+    }
+    
+    c_5--h_2;
+    c_3--q_12;
+    c_6--q_12;
+    
+    subgraph cluster2{
+    	label = "Tank 2";
+    	node [texmode="math"]
+    	c_6--dh_2;c_6--q_2;
+    	d_7--dh_2; d_7--h_2;
+    	c_8--h_2;c_8--q_2;
+    	c_m--q_2;
+    	dh_2 [label="\\dot{h}_2"];
+    }
+}

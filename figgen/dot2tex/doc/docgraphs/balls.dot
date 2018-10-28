@@ -1,0 +1,13 @@
+// This graph uses special PGF/TikZ styles to create some interesting
+// visual effects. To get the snaked edges run dot2tex with the -s option
+// to force straight edges. Example
+// $ fdp -Txdot balls.dot | dot2tex -s > balls.tex
+graph G {
+	node [shape=circle, fixedsize=True, width="0.2", style="ball color = green", label=""];
+	edge [style="snake=zigzag, green"];
+	a_1 -- c -- a_2;
+	c [style="ball color=black"];
+	edge [style="snake=snake, blue", color=red];
+	node [style="ball color = red", label=""];
+	a_3 -- c -- a_4 --a_3;
+}

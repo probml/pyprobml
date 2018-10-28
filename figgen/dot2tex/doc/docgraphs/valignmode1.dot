@@ -1,0 +1,7 @@
+digraph G { 
+	node [fontsize=10];
+	node0 [label="{left|right}", shape=record];
+	node1 [shape=rectangle, label="node 1"]; 
+	node0 -> node1; 
+	rankdir=LR;
+}

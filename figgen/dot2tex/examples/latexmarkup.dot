@@ -1,0 +1,32 @@
+/*
+
+:Title: LaTeX markup
+:Tags: PGF
+
+*/
+digraph G {
+	node [fontcolor=red];
+	subgraph cluster0 {
+		node [style=filled,color=white, texmode=math];
+		style=filled;
+		color=lightgrey;
+		a_0 -> a_1 -> a_2 -> a_3;
+		label="latex";
+		texlbl="\LaTeX";
+	}
+	subgraph cluster1 {
+		node [style=filled, texmode=math, fontcolor=red];
+		b_0 -> b_1 -> b_2 -> b_3;
+		label = "process #2";
+		color=blue
+	}
+	start -> a_0;
+	start -> b_0;
+	a_1 -> b_3;
+	b_2 -> a_3;
+	a_3 -> a_0;
+	a_3 -> end;
+	b_3 -> end;
+	start [shape=diamond, texlbl="${\frac{\sqrt{\gamma+\beta}}{x^2+y^2}}$"];
+	end [shape=Msquare];
+}

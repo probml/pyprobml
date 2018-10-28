@@ -1,0 +1,26 @@
+/*
+
+:Title: PGF snakes
+:Tags: PGF
+
+Examples of PGF/TikZ snake line styles. See chapter 14.2 in the PGF/TikZ 
+manual for all availale snake styles. Note that the snake styles requires
+line operations, so you have to use the ``-s`` option.
+
+Generated with::
+
+ $ circo -Txdot pgfsnakes.dot | dot2tex.py -fpgf -s > pgfsnakes.tex
+ 
+*/
+graph G {
+	graph [mindist=0.5];
+	node [texmode="math", fixedsize=true, shape=circle, width=0.4, style="fill=green!20"];
+	c -- n_1 [style="snake=zigzag"];
+	c -- n_2 [style="snake=saw"];
+	c -- n_3 [style="snake=expanding waves, segment angle=10"];
+	c -- n_4 [style="snake=snake"];
+	c -- n_5 [style="snake=coil, segment amplitude=6pt"];
+	c -- n_6 [style="snake=brace"];
+	c -- n_7 [style="snake=triangles"];
+	c [style="fill=red!80"];
+}

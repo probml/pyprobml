@@ -1,0 +1,47 @@
+/*
+:Title: Styled subgraphs
+:Tags: PGF, Preproc
+
+This example shows how subgraphs can be styled using PGF/TikZ styles.
+Note that version 1.09 or higher of PGF/TikZ is required. 
+
+Generated with::
+
+    $ dot2tex.py -tmath --preproc subgraphs.dot | dot2tex.py --crop > subgraphs.tex
+
+*/
+digraph G {
+	d2tdocpreamble="\usetikzlibrary{patterns}";
+	size="6,6";
+	node [style="fill=blue!40"];
+	node [shape=circle, width=0.4];
+	a -> b -> c;
+	graph [style="rounded corners, shade"];
+	
+	subgraph cluster0 {
+		graph [style="pattern color=red, pattern=bricks, rounded corners"];
+		node [style = "fill=blue, semitransparent"];
+		x_0 -> y_0;
+		x_0 -> z_0;
+	}
+
+	subgraph cluster1 {
+		graph [style="snake=snake, fill=green!20"];
+		node [style = "fill=red!20"];
+		edge [style="->>"];
+		x_1 -> y_1;
+		x_1 -> z_1;
+	}
+
+	subgraph cluster2 {
+	    node [style=" "];
+		x_2 -> y_2;
+		x_2 -> z_2;
+	}
+
+	a -> x_0;
+	b -> x_1;
+	b -> x_2;
+	a -> z_2;
+	c -> z_1;
+}

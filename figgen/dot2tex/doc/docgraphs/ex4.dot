@@ -1,0 +1,10 @@
+digraph G {
+	a_1 [texlbl="$\frac{\gamma}{2x^2+y^3}$"];
+	a_1 -> a_2 -> a_3 -> a_1
+	node [texmode="math"];
+	a_1 -> b_1 -> b_2 -> a_3;
+	b_1 [label="\\frac{\\gamma}{x^2}"];
+	node [texmode="verbatim"]
+	b_4 [label="\\beta"] 
+	a_3 -> b_4 -> a_1;
+}

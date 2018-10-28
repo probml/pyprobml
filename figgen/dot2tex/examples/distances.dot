@@ -1,0 +1,25 @@
+/* 
+:Title: Distances
+:Tags: TikZ, tikzedgelabels
+
+Generated with::
+
+	$ circo -Txdot distances.dot |  dot2tex.py --crop --tikzedgelabels -ftikz -tmath -s > distances.tex
+
+*/
+graph G {
+	node [shape=circle,fixedsize = true,width=0.1,style="fill=blue!20"];
+	edge [lblstyle="fill=black!10,inner sep=1pt,sloped"];
+	K -- F [label="120"];
+	H -- S [label="650"];
+	H -- M [label="780"];
+	D -- B [label="490"];
+	D -- M [label="600"];
+	B -- M [label="580"];
+	H -- N [label="600"];
+	F -- H [label="490"];
+	S -- B [label="630"];
+	S -- N [label="210"];
+	S -- M [label="230"];
+	F --M [label="100"];  
+}

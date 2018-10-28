@@ -1,0 +1,32 @@
+/*
+
+:Title: State machine
+:Tags: PGF, Preproc
+
+This state machine is `based on an example`_ from the PGF and TikZ manual.
+The original looks much better. For small graphs you usually
+get better looking results by drawing them manually. 
+
+.. _based on an example: http://www.fauskes.net/pgftikzexamples/state-machine/
+
+Generated with::
+
+    $ dot2tex.py -tmath --preproc automata.dot |dot2tex.py --crop > automata.tex
+    
+    
+*/
+digraph automata {
+    rankdir=LR;
+    node [shape=circle];
+    edge [style=">=stealth',shorten >=1pt"];
+    q_a [shape=doublecircle];
+    q_a -> q_b [label="0,1,L"];
+    q_b -> q_b [label="1,1,L"];
+    q_b -> q_c [label="0,1,L"];
+    q_c -> q_e [label="1,0,R"];
+    q_e -> q_a [label="1,0,R"];
+    q_a -> q_c [label="1,1,R"];
+    q_c -> q_d [label="0,1,L"];
+    q_d -> q_d [label="1,1,R"];
+    q_d -> q_a [label="0,1,R"];
+}

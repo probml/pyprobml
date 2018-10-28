@@ -1,0 +1,25 @@
+/*
+:Title: PSTricks arrows
+:Tags: PSTricks
+
+Examples of Pstricks style arrows. 
+To generate this graph you can write::
+
+    $ circo -Txdot pstarrows.dot | dot2tex.py -fpst > pstarrows.tex
+
+*/
+digraph G {
+	d2tdocpreamble="\usepackage{pstricks-add}";
+	graph [mindist=0.5];
+	node [texmode="math", fixedsize=true, shape=circle, width=0.4, style="linecolor=red, fillcolor=white"];
+	edge [color="blue"];
+	c -> n_1 [style="arrows=->", texmode="math", label=">"];
+	c -> n_2 [style="arrows=->>", texmode="math", label=">>"];
+	c -> n_3 [style="arrows=-<", texmode="math", label="<"];
+	c -> n_4 [style="arrows=-*", texmode="math", label="*"];
+	c -> n_5 [style="arrows=-{]}", texmode="math", label="]"];
+	edge [color="red"];
+	c -> n_6 [style="arrows=-o", texmode="math", label="o"];
+	c -> n_7 [style="arrows=-H", texmode="math", label="H"];
+	c -> n_8 [style="arrows=->, nArrowsA=5", texmode="math"];
+}

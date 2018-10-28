@@ -1,0 +1,24 @@
+/*
+
+:Title: Snaked edges
+:Tags: PGF
+
+This graph uses special `PGF/TikZ`_ styles to create some interesting
+visual effects. To get the snaked edges run dot2tex with the ``-s`` option
+to force straight edges. 
+
+Generated with::
+
+    $ fdp -Txdot balls.dot | dot2tex.py -s -fpgf > balls.tex
+
+.. _PGF/TikZ: http://www.ctan.org/tex-archive/help/Catalogue/entries/pgf.html    
+*/
+graph G {
+	node [shape=circle, fixedsize=True, width="0.2", style="ball color = green", label=""];
+	edge [style="snake=zigzag, green"];
+	a_1 -- c -- a_2;
+	c [style="ball color=black"];
+	edge [style="snake=snake, blue", color=red];
+	node [style="ball color = red", label=""];
+	a_3 -- c -- a_4 --a_3;
+}

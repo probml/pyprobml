@@ -1,0 +1,11 @@
+digraph G {
+    node [shape=circle];
+    a -> b [label="label",lblstyle="draw=red,cross out"];
+    b -> c [label="test",lblstyle="below=0.5cm,rotate=20,fill=blue!20"];
+    a [label="aa",lblstyle="blue"];
+    b [lblstyle="font=\Huge"];
+    c [label="ccc", lblstyle="red,rotate=90"];
+    rankdir=LR;
+    label="Graph label";
+    lblstyle="draw,fill=red!20";
+}
