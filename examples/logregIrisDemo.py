@@ -11,6 +11,16 @@ from sklearn import linear_model, datasets
 
 # import the data 
 iris = datasets.load_iris()
+
+
+X = iris.data  
+Y = iris.target
+
+logreg = linear_model.LogisticRegression(C=1e5, multi_class='multinomial', 
+    solver='lbfgs')
+logreg.fit(X, Y)
+
+# Smaller dataset, for visualization purposes
 X = iris.data[:, :2]  # we only take the first two features.
 Y = iris.target
 

@@ -5,14 +5,14 @@ import numpy as np
 from scipy import signal
 from scipy import misc
 
-
+print("cross correlation demo")
 face = misc.face() - misc.face().mean()
 face = face.sum(-1)
 template = np.copy(face[700:800, 310:380]) # right eye
 template -= template.mean()
 noisyface = face + np.random.randn(*face.shape) * 50 # add noise
 corr = signal.correlate2d(noisyface, template, boundary='symm', mode='same')
-y, x = np.unravel_index(np.argmax(corr), corr.shape) # find the match
+y, x = np.unravel_index(-1*np.argmax(corr), corr.shape) # find the match
 
 
 fig, ((ax_orig, ax_template), (ax_noisy, ax_corr)) = plt.subplots(2, 2)
