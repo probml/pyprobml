@@ -10,7 +10,7 @@ DATA_DIR = 'data/'
 #import demos.linreg_1d_batch_demo
 #from demos.linreg_1d_batch_demo import main
 
-def nsubplots(n):
+def nsubplots2(n):
     '''Returns [ynum, xnum], which  how many plots in the y and x directions to
     cover n in total while keeping the aspect ratio close to rectangular'''
     print("calling nsubplots")
@@ -20,6 +20,7 @@ def nsubplots(n):
         xnum = np.ceil(np.sqrt(n));
         ynum = np.ceil(n/np.float(xnum));
     return ynum, xnum
+
 
 def add_ones(X):
     """Add a column of ones to X"""
