@@ -13,6 +13,7 @@ DATA_DIR = 'data/'
 def nsubplots(n):
     '''Returns [ynum, xnum], which  how many plots in the y and x directions to
     cover n in total while keeping the aspect ratio close to rectangular'''
+    print("calling nsubplots")
     if n==2:
         ynum = 2; xnum = 2;
     else:
