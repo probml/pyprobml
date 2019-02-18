@@ -1,11 +1,39 @@
-# Create a version of fig 4.19 from "Hands-on ML with Scikit-Learn" edn 1
-
-# Based on 
+# Create a version of fig 4.19 from "Hands-on ML with Scikit-Learn" 
+# by Aurelien Geron
+# Based on his original code here:
 # https://nbviewer.jupyter.org/github/ageron/handson-ml2/blob/master/04_training_linear_models.ipynb
 
 #%matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
+
+
+# plot range for theta1 and theta2
+t1a, t1b, t2a, t2b = -1, 3, -1.5, 1.5
+
+# create a grid of parameter combinations
+t1s = np.linspace(t1a, t1b, 500)
+t2s = np.linspace(t2a, t2b, 500)
+t1, t2 = np.meshgrid(t1s, t2s)
+params = np.c_[t1.ravel(), t2.ravel()]
+
+# create some data
+np.random.seed(1)
+N = 10
+D = 2
+X = np.random.randn(N, D)
+y = np.c_[2 * X[:, 0] + 0.5 * X[:, 1]]
+
+# compute MSE for all possible parameters
+J = (1/N * np.sum((params.dot(X.T) - y.T)**2, axis=1)).reshape(t1.shape)
+
+# Compute norm of parameter values
+N1 = np.linalg.norm(params, ord=1, axis=1).reshape(t1.shape)
+N2 = np.linalg.norm(params, ord=2, axis=1).reshape(t1.shape)
+
+
+# Initial value for gradient descent
+t_init = np.array([[0.25], [-1]])
 
 
 # batch gradient descent
@@ -43,34 +71,6 @@ def do_plot(l1=0, l2=0, ttl=""):
     plt.xlabel(r"$\theta_1$", fontsize=20)
     plt.ylabel(r"$\theta_2$", fontsize=20, rotation=0)
     plt.title(ttl, fontsize=16)
-
-
-# plot range for theta1 and theta2
-t1a, t1b, t2a, t2b = -1, 3, -1.5, 1.5
-
-# create a grid of parameter combinations
-t1s = np.linspace(t1a, t1b, 500)
-t2s = np.linspace(t2a, t2b, 500)
-t1, t2 = np.meshgrid(t1s, t2s)
-params = np.c_[t1.ravel(), t2.ravel()]
-
-# create some data
-np.random.seed(1)
-N = 10
-D = 2
-X = np.random.randn(N, D)
-y = np.c_[2 * X[:, 0] + 0.5 * X[:, 1]]
-
-# compute MSE for all possible parameters
-J = (1/N * np.sum((params.dot(X.T) - y.T)**2, axis=1)).reshape(t1.shape)
-
-# Compute norm of parameter values
-N1 = np.linalg.norm(params, ord=1, axis=1).reshape(t1.shape)
-N2 = np.linalg.norm(params, ord=2, axis=1).reshape(t1.shape)
-
-
-# Initial value for gradient descent
-t_init = np.array([[0.25], [-1]])
 
 
 do_plot(l1=0, l2=0, ttl="OLS")
