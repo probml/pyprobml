@@ -168,6 +168,8 @@ origin_onehot2 = pipeline.fit_transform(df['Origin'])
 # Convert origin string to one-hot encoding
 # New feature for sckit v0.20
 # https://jorisvandenbossche.github.io/blog/2017/11/20/categorical-encoder/
+# https://medium.com/bigdatarepublic/integrating-pandas-and-scikit-learn-with-pipelines-f70eb6183696
+
 from sklearn.preprocessing import OneHotEncoder
 def one_hot_encode_dataframe_col(df, colname):
   encoder = OneHotEncoder(sparse=False)
