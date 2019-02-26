@@ -16,7 +16,8 @@ y = iris.target
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.33, random_state=42)
 
-logreg = LogisticRegression(C=1e5, solver='lbfgs', multi_class='multinomial')
+# L2-regularizer lambda=1/C
+logreg = LogisticRegression(C=1e3, solver='lbfgs', multi_class='multinomial')
 logreg.fit(X_train, y_train)
 
 ypred = logreg.predict(X_test)

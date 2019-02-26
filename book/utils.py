@@ -81,6 +81,6 @@ def plot_decision_regions(X, y, classifier, class_names = None):
                   label=cl)
       handles.append(id)
     
-    if not(class_names is None): 
+    if class_names is not None: 
       ax.legend(handles, class_names, scatterpoints=1)
     return fig, ax

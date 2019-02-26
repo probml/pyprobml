@@ -1,3 +1,5 @@
+# Fit a classifier to the 20 newsgroup dataset
+
 #https://scikit-learn.org/dev/tutorial/text_analytics/working_with_text_data.html
 
 import numpy as np
@@ -8,11 +10,12 @@ from sklearn.datasets import fetch_20newsgroups
 data = fetch_20newsgroups(
     subset='train', categories=categories, shuffle=True, random_state=42)
 
-X = data.data; # list of strings
-Y = data.target; # numpy array of ints
-print("Num. docs {}".format(len(X))) # 2257
+print("Num. training docs {}".format(len(data.data))) # 2257
 
-def print_data(data, idx, nlines=20):
+
+for line in data.data[0].split("\n"): print(line)
+
+def print_data(data, idx, nlines=None):
   X = data.data; # list of strings
   Y = data.target; # numpy array of ints
   x = X[idx] # a string
@@ -20,11 +23,11 @@ def print_data(data, idx, nlines=20):
   label = data.target_names[y]
   lines = x.split("\n")
   print("Doc {} has length {}, class id is {}, label is {}".format(idx, len(lines), y, label))
-  if not(nlines is None):
+  if nlines is not None:
     lines = lines[:nlines]
   print("\n".join(lines))
 
-  
+
 print_data(data, 0)
 """
 Doc 0 has length 21, class id is 1, label is comp.graphics
@@ -53,7 +56,7 @@ Fax: 071 477-8565                            EC1V 0HB.
 
 
 
-print_data(data, 2)
+print_data(data, 2, nlines=20)
 """
 Doc 2 has length 69, class id is 3, label is soc.religion.christian
 
@@ -80,13 +83,59 @@ enormous emotional support to discuss this with someone and know that
 ...
 """
 
+#from sklearn.model_selection import train_test_split
+X_train = data.data
+y_train = data.target
 
+data_test = fetch_20newsgroups(subset='test',
+     categories=categories, shuffle=True, random_state=42)
+X_test = data_test.data
+y_test = data_test.target
+
+print("Num. testing docs {}".format(len(data_test.data))) # 1502
+
+###################
+# Fit logreg using tfidf
+
+from sklearn.pipeline import Pipeline
+import nltk
 from sklearn.feature_extraction.text import CountVectorizer
-count_vect = CountVectorizer()
-X_train_counts = count_vect.fit_transform(X) # Modifies count_vect
-print(X_train_counts.shape) #(2257, 35788)
+from sklearn.feature_extraction.text import TfidfTransformer
+pipeline = Pipeline([
+    ('bow', CountVectorizer(tokenizer=nltk.word_tokenize)),
+    ('tfidf', TfidfTransformer(use_idf=True, smooth_idf=True))
+    ])
+X_train_tfidf = pipeline.fit_transform(X_train) 
+print(np.shape(X_train_tfidf)) # (2257, 42100)
+X_test_tfidf = pipeline.transform(X_test)
+print(np.shape(X_test_tfidf)) # (1502, 42100)
 
-words = list(count_vect.vocabulary_.keys())
-counts = list(count_vect.vocabulary_.values())
-print(len(count_vect.vocabulary_)) # Dict of 35,788
+from sklearn.linear_model import LogisticRegression
+# For simplicity, we set the L2 regularizer to a constant lambda=1/C=1e-3
+logreg_tfidf = LogisticRegression(C=1e3, solver='lbfgs', multi_class='multinomial')
+logreg_tfidf.fit(X_train_tfidf, y_train)
+ypred_tfidf = logreg_tfidf.predict(X_test_tfidf)
+accuracy_tfidf =  np.mean(ypred_tfidf == y_test) 
+print(accuracy_tfidf) # 90.6%
+# According to https://scikit-learn.org/dev/tutorial/text_analytics/working_with_text_data.html,
+# multinomial naive Bayes (on tf-idf rep) gets  83.5% and an SVM gets 91% 
+
+###############
+# Now use word embeddings
+
+import spacy
+nlp = spacy.load('en_core_web_md', disable=['tagger','parser','ner']) # Just tokenize
+X_train_embed = [nlp(doc).vector for doc in X_train]
+print(np.shape(X_train_embed)) # (2257, 300)
+X_test_embed = [nlp(doc).vector for doc in X_test]
+print(np.shape(X_test_embed)) # (1502, 300)
+
+from sklearn.linear_model import LogisticRegression
+# For simplicity, we set the L2 regularizer to a constant lambda=1/C=1e-3
+logreg_embed = LogisticRegression(C=1e3, solver='lbfgs', multi_class='multinomial')
+logreg_embed.fit(X_train_embed, y_train)
+ypred_embed = logreg_embed.predict(X_test_embed)
+accuracy_embed =  np.mean(ypred_embed == y_test) 
+print(accuracy_embed) # 86.9%
+
 

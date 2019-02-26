@@ -1,13 +1,8 @@
 import numpy as np
 
-
-
-
 # https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html
 # http://www.pitt.edu/~naraehan/presentation/Movie+Reviews+sentiment+analysis+with+Scikit-Learn.html
 # https://medium.com/@cristhianboujon/how-to-list-the-most-common-words-from-text-corpus-using-scikit-learn-dad4d0cab41d
-
-
 
 corpus = [
    'This is the first document, I say.',
@@ -29,6 +24,7 @@ print(vectorizer.get_feature_names())
 # NLTK tokenzier keeps everything
 import nltk
 vectorizer = CountVectorizer(tokenizer=nltk.word_tokenize)
+#vectorizer = CountVectorizer(tokenizer=nltk.word_tokenize, min_df=1, max_features = 5)
 X = vectorizer.fit_transform(corpus)
 print(vectorizer.get_feature_names())
 #['!', ',', '.', '3', '?', 'and', 'ask', 'document', 'first', 'i', 'is', 'one', 'say', 'second', 'the', 'this', 'you']
@@ -48,7 +44,7 @@ Xtf = tf_transformer.transform(X)
 tf = X.todense()
 from sklearn.preprocessing import normalize
 Xpred1 = normalize(tf)
-Xpred2 = tf / np.sqrt(np.sum(np.power(tf,2),axis=1))
+Xpred2 = tf / np.sqrt(np.sum(tf**2,axis=1))
 assert np.isclose(Xtf.todense(), Xpred1).all()
 assert np.isclose(Xtf.todense(), Xpred2).all()
 print(np.round(Xtf.todense(),3))
