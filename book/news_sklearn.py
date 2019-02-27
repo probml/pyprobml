@@ -2,6 +2,9 @@
 
 #https://scikit-learn.org/dev/tutorial/text_analytics/working_with_text_data.html
 
+#
+#https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_20newsgroups_vectorized.html
+
 import numpy as np
 
 categories = ['alt.atheism', 'soc.religion.christian','comp.graphics', 'sci.med']
@@ -15,20 +18,6 @@ print("Num. training docs {}".format(len(data.data))) # 2257
 
 for line in data.data[0].split("\n"): print(line)
 
-def print_data(data, idx, nlines=None):
-  X = data.data; # list of strings
-  Y = data.target; # numpy array of ints
-  x = X[idx] # a string
-  y = Y[idx]
-  label = data.target_names[y]
-  lines = x.split("\n")
-  print("Doc {} has length {}, class id is {}, label is {}".format(idx, len(lines), y, label))
-  if nlines is not None:
-    lines = lines[:nlines]
-  print("\n".join(lines))
-
-
-print_data(data, 0)
 """
 Doc 0 has length 21, class id is 1, label is comp.graphics
 
@@ -55,33 +44,6 @@ Fax: 071 477-8565                            EC1V 0HB.
 """
 
 
-
-print_data(data, 2, nlines=20)
-"""
-Doc 2 has length 69, class id is 3, label is soc.religion.christian
-
-From: djohnson@cs.ucsd.edu (Darin Johnson)
-Subject: Re: harrassed at work, could use some prayers
-Organization: =CSE Dept., U.C. San Diego
-Lines: 63
-
-(Well, I'll email also, but this may apply to other people, so
-I'll post also.)
-
->I've been working at this company for eight years in various
->engineering jobs.  I'm female.  Yesterday I counted and realized that
->on seven different occasions I've been sexually harrassed at this
->company.
-
->I dreaded coming back to work today.  What if my boss comes in to ask
->me some kind of question...
-
-Your boss should be the person bring these problems to.  If he/she
-does not seem to take any action, keep going up higher and higher.
-Sexual harrassment does not need to be tolerated, and it can be an
-enormous emotional support to discuss this with someone and know that
-...
-"""
 
 #from sklearn.model_selection import train_test_split
 X_train = data.data
