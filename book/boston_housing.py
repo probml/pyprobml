@@ -72,7 +72,7 @@ for i in range(0,12):
     plt.xlabel(boston.feature_names[i])
     plt.ylabel("house price")
     plt.grid()
-save_fig("boston-housing-scatter")
+save_fig("boston-housing-scatter.pdf")
 plt.show()
 
 
@@ -111,6 +111,6 @@ mse = sklearn.metrics.mean_squared_error(y_test, ypred)
 plt.title("Boston housing, rmse {:.2f}".format(np.sqrt(mse)))
 xs = np.linspace(min(y), max(y), 100)
 plt.plot(xs, xs, '-')
-save_fig("boston-housing-predict")
+save_fig("boston-housing-predict.pdf")
 plt.show()
 

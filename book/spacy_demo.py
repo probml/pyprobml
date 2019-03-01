@@ -1,5 +1,8 @@
 # Demo of the Spacy NLP library 
 # Based on https://spacy.io/
+# See also
+# https://nlpforhackers.io/complete-guide-to-spacy/
+
 
 import spacy
 
@@ -31,32 +34,15 @@ billion billion NUM CD pobj xxxx True False
 """
     
 # With the medium model, 'is' and 'at' are not flagged as stop words.
-
+# This is a know bug.
+# https://github.com/explosion/spaCy/issues/922
+# Here is a fix.
+nlpm.vocab.add_flag(lambda s: s.lower() in spacy.lang.en.stop_words.STOP_WORDS, spacy.attrs.IS_STOP)
 doc = nlpm(u'Apple is looking at buying the U.K. startup FooCon for $1 billion.')  
 for token in doc:
     print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_,
           token.shape_, token.is_alpha, token.is_stop)
-"""
-Apple apple PROPN NNP nsubj Xxxxx True False
-is be VERB VBZ aux xx True False
-looking look VERB VBG ROOT xxxx True False
-at at ADP IN prep xx True False
-buying buy VERB VBG pcomp xxxx True False
-the the DET DT det xxx True False
-U.K. u.k. PROPN NNP compound X.X. False False
-startup startup NOUN NN dobj xxxx True False
-FooCon foocon PROPN NNP appos XxxXxx True False
-for for ADP IN prep xxx True False
-$ $ SYM $ quantmod $ False False
-1 1 NUM CD compound d False False
-billion billion NUM CD pobj xxxx True False
-. . PUNCT . punct . False False
-"""
 
-# The above is a know bug.
-# https://github.com/explosion/spaCy/issues/922
-# Here is a fix.
-nlpm.vocab.add_flag(lambda s: s.lower() in spacy.lang.en.stop_words.STOP_WORDS, spacy.attrs.IS_STOP)
 
 
 corpus=[    
