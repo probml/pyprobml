@@ -6,7 +6,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import sklearn
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -15,8 +14,8 @@ pd.set_option('display.max_rows', 20)
 pd.set_option('display.max_columns', 30)
 pd.set_option('display.width', 150) # wide windows
 
-#from utils import save_fig  
-exec(open('utils.py').read()) 
+from utils import save_fig  
+#exec(open('utils.py').read()) 
   
 #from sklearn.datasets import fetch_openml
 #auto = fetch_openml('autoMpg', cache=True)

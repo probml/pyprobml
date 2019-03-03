@@ -73,12 +73,18 @@ print(train_data[0])
 """
 
 embed_size = 16
-model = keras.Sequential()
-model.add(keras.layers.Embedding(vocab_size, embed_size))
-model.add(keras.layers.GlobalAveragePooling1D())
-model.add(keras.layers.Dense(16, activation=tf.nn.relu))
-model.add(keras.layers.Dense(1, activation=tf.nn.sigmoid))
+def make_model(embed_size):
+  model = keras.Sequential()
+  model.add(keras.layers.Embedding(vocab_size, embed_size))
+  model.add(keras.layers.GlobalAveragePooling1D())
+  model.add(keras.layers.Dense(16, activation=tf.nn.relu))
+  model.add(keras.layers.Dense(1, activation=tf.nn.sigmoid))
+  model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['acc'])
+  return model
 
+model = make_model(embed_size)
 model.summary()
 """
 _________________________________________________________________
@@ -97,9 +103,7 @@ Trainable params: 160,289
 Non-trainable params: 0
 _________________________________________________________________
 """
-model.compile(optimizer='adam',
-              loss='binary_crossentropy',
-              metrics=['acc'])
+
 
 x_val = train_data[:10000]
 partial_x_train = train_data[10000:]
@@ -116,7 +120,6 @@ history = model.fit(partial_x_train,
 
 results = model.evaluate(test_data, test_labels)
 print(results)
-
 
 history_dict = history.history
 print(history_dict.keys())
@@ -151,15 +154,36 @@ plt.show()
 
 # Now turn on early stopping
 # https://chrisalbon.com/deep_learning/keras/neural_network_early_stopping/
-from keras.callbacks import EarlyStopping, ModelCheckpoint
-# Set callback functions to early stop training and save the best model so far
-callbacks = [EarlyStopping(monitor='val_loss', patience=2),
-             ModelCheckpoint(filepath='imdb_keras_best_model', monitor='val_loss', save_best_only=True)]
 
-history = network.fit(train_features, # Features
-                      train_target, # Target vector
-                      epochs=20, # Number of epochs
-                      callbacks=callbacks, # Early stopping
-                      verbose=0, # Print description after each epoch
-                      batch_size=100, # Number of observations per batch
-                      validation_data=(test_features, test_target)) # Data for evaluation
+class PrintDot(keras.callbacks.Callback):
+  def on_epoch_end(self, epoch, logs):
+    if epoch % 100 == 0: print('')
+    print('.', end='')
+    
+callbacks = [PrintDot(),
+             keras.callbacks.EarlyStopping(monitor='val_loss', patience=2),
+             keras.callbacks.ModelCheckpoint(filepath='imdb_keras_best_model.ckpt',
+                                             monitor='val_loss', save_best_only=True)]
+
+# Reset parameters to a new random state
+model = make_model(embed_size)
+history = model.fit(
+    partial_x_train, partial_y_train, epochs=40, batch_size=512, 
+    validation_data=(x_val, y_val), verbose=0, callbacks=callbacks)
+print(history)
+
+history_dict = history.history
+acc = history_dict['acc']
+val_acc = history_dict['val_acc']
+loss = history_dict['loss']
+val_loss = history_dict['val_loss']
+epochs = range(1, len(acc) + 1)
+fig, ax = plt.subplots()
+plt.plot(epochs, loss, 'bo', label='Training loss') 
+plt.plot(epochs, val_loss, 'r-', label='Validation loss') 
+plt.title('Training and validation loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+save_fig("imdb-loss-early-stop.pdf")
+plt.show()

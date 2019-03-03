@@ -90,7 +90,7 @@ print("\nsklearn version")
 for nhidden in [0, 100]:
   print("using {} hidden units".format(nhidden))
   model_sk = keras.wrappers.scikit_learn.KerasClassifier(
-        make_model, nhidden=0, epochs=nepochs, batch_size=batch_size)
+        make_model, nhidden=nhidden, epochs=nepochs, batch_size=batch_size)
   time_start = time()
   history = model_sk.fit(x_train, y_train)
   print('time spent training {}'.format(time() - time_start))

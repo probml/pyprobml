@@ -28,7 +28,7 @@ def load_mnist_data_openml():
     y_test = y[n_train:]
     return X_train, X_test, y_train, y_test
   
-def load_mnist_data_keras():
+def load_mnist_data_keras(flatten=False):
    # Returns X_train: (60000, 28, 28), X_test: (10000, 28, 28), scaled [0..1] 
   # y_train: (60000,) 0..9 ints, y_test: (10000,)
     mnist = tf.keras.datasets.mnist
@@ -38,6 +38,13 @@ def load_mnist_data_keras():
     y_train = y_train.astype('int64')
     y_test = y_test.astype('int64')
     x_train, x_test = x_train / 255.0, x_test / 255.0
+    if flatten: 
+      Ntrain, D1, D2 = np.shape(x_train)
+      D = D1*D2
+      assert D == 784
+      Ntest = np.shape(x_test)[0]
+      x_train = np.reshape(x_train, (Ntrain, D))
+      x_test = np.reshape(x_test, (Ntest, D))
     return x_train, x_test, y_train, y_test
   
   

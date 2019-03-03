@@ -86,3 +86,17 @@ computed_similarities = sorted(computed_similarities, key=lambda item: -item[1])
 print([w[0].text for w in computed_similarities[:10]])
  
 # ['Queen', 'QUEEN', 'queen', 'King', 'KING', 'king', 'KIng', 'KINGS', 'kings', 'Kings']
+
+"""
+X = [word.vector for word in nlp.vocab if word.has_vector]
+print(np.shape(X)) # (684 755, 300)
+N = 10000; D = 300;
+X = np.random.rand(N,D)
+# datascience book p89 - correct, but gets memory error if N is too large
+time_start = time() 
+sqdst = np.sum((X[:,np.newaxis,:] - X[np.newaxis,:,:]) ** 2, axis=-1)
+print(time() - time_start)  
+i=10;j=200;assert np.isclose(sqdst[i,j], np.sum((X[i,:]-X[j,:])**2))
+"""
+
+
