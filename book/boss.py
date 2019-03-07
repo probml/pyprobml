@@ -44,11 +44,19 @@ def melting_temp_seq(x):
   nT = sum(c==3 for c in x)
   return 2*(nA+nT) + 4*(nG+nC)
 
+def temp_range(x):
+  temp = melting_temp_seq(x)
+  inrange = (temp*(12 <= temp)*(temp <= 16) + 
+    temp*(20 <= temp)*(temp <= 22))
+  return inrange
 
-seq_len = 3 # L
-embed_dim = 4# D 
+
+seq_len = 6 # L
+embed_dim = 5 # D 
+nhidden = 2
 alpha_size = 4 # A
-
+nseq = alpha_size ** seq_len
+print("Generating {} sequences of length {}".format(nseq, seq_len))
 S = list(all_dna_strings(seq_len)) # N-list of L-strings
 S1 = [list(s) for s in S] # N-list of L-lists
 S2 = np.array(S1) # N*L array of strings, N=A**L
@@ -66,15 +74,41 @@ assert (Xcold==X).all()
 
 def oracle_onehot_batch(Xhot):
   Xcold = enc.inverse_transform(Xhot)
-  return np.apply_along_axis(melting_temp_seq, 1,  Xcold)
+  #return np.apply_along_axis(melting_temp_seq, 1,  Xcold)
+  return np.apply_along_axis(temp_range, 1,  Xcold)
                           
 y = oracle_onehot_batch(Xhot)
 
-def build_model():
+def build_model_hot():
+  model = keras.Sequential([
+      keras.layers.Dense(nhidden, activation=tf.nn.relu),
+      keras.layers.Dense(1)
+  ])
+  optimizer = tf.keras.optimizers.Adam(0.01)
+  model.compile(optimizer=optimizer,
+                loss='mean_squared_error',
+                metrics=['mean_squared_error'])
+  return model
+
+
+"""
+model_hot = build_model_hot()
+model_hot.fit(Xhot, y, epochs=30)
+pred_hot = model_hot.predict(Xhot)
+
+plt.scatter(y, pred_hot)
+plt.xlabel('True Values')
+plt.ylabel('Predictions')
+plt.title('hot encoding')
+plt.show()
+"""
+
+def build_model_cold():
   model = keras.Sequential([
       keras.layers.Embedding(alpha_size, embed_dim, input_length=seq_len),
       keras.layers.Flatten(input_shape=(seq_len, embed_dim)),
-      keras.layers.Dense(2, activation=tf.nn.relu),
+      keras.layers.Dense(nhidden, activation=tf.nn.relu),
+      keras.layers.Dense(nhidden, activation=tf.nn.relu),
       keras.layers.Dense(1)
   ])
   optimizer = tf.keras.optimizers.Adam(0.01)
@@ -84,25 +118,38 @@ def build_model():
   return model
 
   
-model = build_model()
-model.fit(X, y, epochs=50)
+model = build_model_cold()
+model.fit(X, y, epochs=30)
 pred = model.predict(X)
+
 
 plt.scatter(y, pred)
 plt.xlabel('True Values')
 plt.ylabel('Predictions')
+plt.title('cold encoding')
+plt.show()
 
 
-"""
-model = keras.Sequential()
-model.add(keras.layers.Embedding(alpha_size, embed_dim, input_length=seq_len))
-#N = 32
-#input_array = np.random.randint(alpha_size, size=(N, seq_len))
-input_array = X
-model.compile('rmsprop', 'mse')
-output_array = model.predict(input_array)
-N = np.shape(input_array)[0]
-assert output_array.shape == (N, seq_len, embed_dim)
-"""
+def build_model_embed(model):
+  embed = keras.Sequential([
+      keras.layers.Embedding(alpha_size, embed_dim, input_length=seq_len,
+                             weights=model.layers[0].get_weights()),
+      keras.layers.Flatten(input_shape=(seq_len, embed_dim)),
+      keras.layers.Dense(nhidden, activation=tf.nn.relu,
+                         weights=model.layers[2].get_weights()),
+      keras.layers.Dense(nhidden, activation=tf.nn.relu,
+                         weights=model.layers[3].get_weights()),
+      #keras.layers.Dense(1, weights=model.layers[3].get_weights())
+  ])
+  return embed
 
+embedder = build_model_embed(model)
+Z = embedder.predict(X)
+N = np.shape(X)[0]
+assert (np.shape(Z) == (N,nhidden))
+
+plt.scatter(Z[:,0], Z[:,1], c=y)
+plt.title('embeddings')
+plt.colorbar()
+plt.show()
 
