@@ -1,4 +1,6 @@
 # https://github.com/ageron/handson-ml2/blob/master/09_unsupervised_learning.ipynb
+# Apache 2.0 license
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns

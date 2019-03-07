@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
-import utils
+from utils import save_fig
+import seaborn as sns
+from matplotlib.colors import ListedColormap
    
 iris = datasets.load_iris()
 ndims = 2 #4
@@ -37,11 +39,56 @@ print("Error rates on train {:0.3f} and test {:0.3f}".format(
     err_rate_train, err_rate_test))
 #Error rates on train 0.180 and test 0.200
 
+
+  
+# Based on # https://github.com/rasbt/python-machine-learning-book-2nd-edition/blob/master/code/ch05/ch05.py#L308
+def plot_decision_regions(X, y, classifier, class_names = None):
+    sns.set(style="ticks", color_codes=True)
+    fig, ax = plt.subplots()
+    markers = ('s', 'x', 'o', '^', 'v')
+    #colors = ('red', 'blue', 'lightgreen', 'gray', 'cyan')
+    #cmap = ListedColormap(colors[:len(np.unique(y))])
+    cmap = ListedColormap(sns.color_palette())
+
+    # plot the decision surface
+    x1_min, x1_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    x2_min, x2_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    npoints = 1000
+    X1, X2 = np.meshgrid(np.linspace(x1_min, x1_max, npoints),
+                           np.linspace(x2_min, x2_max, npoints))
+    Z = classifier.predict(np.array([X1.ravel(), X2.ravel()]).T)
+    Z = Z.reshape(X1.shape) # NxN array of ints, 0..C-1
+    class_ids = np.unique(y)
+    nclasses = len(class_ids)
+    colors = sns.color_palette()[0:nclasses]
+    levels = np.arange(0, nclasses+1)-0.1 # fills in regions z1 < Z <= z2
+    ax.contourf(X1, X2, Z, levels=levels, colors=colors, alpha=0.4)
+    ax.set(xlim = (X1.min(), X1.max()))
+    ax.set(ylim = (X2.min(), X2.max()))
+
+    # plot raw data
+    handles = []
+    for idx, cl in enumerate(class_ids):
+      color = np.atleast_2d(cmap(idx))
+      id = ax.scatter(x=X[y == cl, 0], 
+                  y=X[y == cl, 1],
+                  alpha=0.6, 
+                  c=color,
+                  edgecolor='black',
+                  marker=markers[idx], 
+                  label=cl)
+      handles.append(id)
+    
+    if class_names is not None: 
+      ax.legend(handles, class_names, scatterpoints=1)
+    return fig, ax
+
+
 if ndims==2:
-  fig, ax = utils.plot_decision_regions(X, y, logreg, iris.target_names)
+  fig, ax = plot_decision_regions(X, y, logreg, iris.target_names)
   ax.set(xlabel = 'Sepal length')
   ax.set(ylabel = 'Sepal width')
-  utils.save_fig("iris-logistic")
+  save_fig("iris-logistic")
   plt.show()
   
   # Get predictive distribution for some ambiguous test points

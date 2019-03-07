@@ -1,5 +1,6 @@
 # Based on 
 #https://github.com/ageron/handson-ml2/blob/master/03_classification.ipynb
+# Apache 2.0 license
 
 import numpy as np
 from time import time
@@ -105,13 +106,14 @@ time spent training 2.345
 """
 
 
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
+from sklearn.metrics import confusion_matrix, log_loss, accuracy_score
+from sklearn.metrics import precision_score, recall_score, f1_score
 
 
-def eval_classifier(ytrue, ypred, name):
-  print("evaluating {}".format(name))
+def eval_classifier(ytrue, yprobs1, name):
+  ypred = yprobs1>0.5
   A = accuracy_score(ytrue, ypred)  
+  L = log_loss(ytrue, yprobs1)
   P = precision_score(ytrue, ypred)
   R = recall_score(ytrue, ypred)
   C = confusion_matrix(ytrue, ypred)
@@ -123,38 +125,90 @@ def eval_classifier(ytrue, ypred, name):
   assert np.isclose(P, TP/(TP+FP+eps))
   assert np.isclose(R, TP/(TP+FN+eps))
   assert np.isclose(F1, 2*(P*R)/(P+R+eps))
-  print("acc {:0.3f}, prec {:0.3f}, recall {:0.3f}, F1 {:0.3f}".format(A, P, R, F1))
+  print("logloss {:0.3f}, acc {:0.3f}, prec {:0.3f}, recall {:0.3f}, F1 {:0.3f}".format(L, A, P, R, F1))
   print(C)
   
   
 for name, color, ls, model in models:
-  print(name)
+  print("\nEvaluating {} on train set".format(name))
+  ypred = model.predict(Xtrain)
+  yprobs = model.predict_proba(Xtrain)
+  ytrue = ytrain
+  assert np.isclose(ypred, np.argmax(yprobs, axis=1)).all()
+  yprobs1 = yprobs[:,1]
+  assert np.isclose(ypred, yprobs1>0.5).all()
+  eval_classifier(ytrue, yprobs1, name)
+
+#ytrue=ytrain; yprobs1=np.repeat(0.9, len(ytrain)); eval_classifier(ytrue, yprobs1, 'baseline1')
+#ytrue=ytrain; yprobs1=np.repeat(0.1, len(ytrain)); eval_classifier(ytrue, yprobs1, 'baseline0')
+
+"""
+Evaluating baseline on train set
+evaluating baseline
+logloss 0.294, acc 0.914, prec 0.000, recall 0.000, F1 0.000
+[[9137    0]
+ [ 863    0]]
+
+Evaluating LR-skl on train set
+evaluating LR-skl
+logloss 0.041, acc 0.988, prec 0.947, recall 0.906, F1 0.926
+[[9093   44]
+ [  81  782]]
+
+Evaluating LR-keras on train set
+/home/kpmurphy/anaconda3/envs/book/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples.
+  'precision', 'predicted', average, warn_for)
+/home/kpmurphy/anaconda3/envs/book/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: F-score is ill-defined and being set to 0.0 due to no predicted samples.
+  'precision', 'predicted', average, warn_for)
+evaluating LR-keras
+logloss 0.080, acc 0.975, prec 0.936, recall 0.761, F1 0.840
+[[9092   45]
+ [ 206  657]]
+
+Evaluating MLP on train set
+evaluating MLP
+logloss 0.009, acc 0.998, prec 0.994, recall 0.986, F1 0.990
+[[9132    5]
+ [  12  851]]
+"""
+
+for name, color, ls, model in models:
+  print("\nEvaluating {} on test set".format(name))
   ypred = model.predict(Xtest)
-  eval_classifier(ytest, ypred, name)
+  yprobs = model.predict_proba(Xtest)
+  ytrue = ytest
+  assert np.isclose(ypred, np.argmax(yprobs, axis=1)).all()
+  yprobs1 = yprobs[:,1]
+  assert np.isclose(ypred, yprobs1>0.5).all()
+  eval_classifier(ytrue, yprobs1, name)
 
 
 """
-
+Test set
 5 epochs
+baseline
 evaluating baseline
-acc 0.911, prec 0.000, recall 0.000, F1 0.000
+logloss 0.301, acc 0.911, prec 0.000, recall 0.000, F1 0.000
 [[9108    0]
  [ 892    0]]
 
-evaluating LR-keras
-acc 0.971, prec 0.918, recall 0.744, F1 0.822
-[[9049   59]
- [ 228  664]]
-
+LR-skl
 evaluating LR-skl
-acc 0.965, prec 0.802, recall 0.806, F1 0.804
+logloss 0.154, acc 0.965, prec 0.802, recall 0.806, F1 0.804
 [[8930  178]
  [ 173  719]]
 
+LR-keras
+evaluating LR-keras
+logloss 0.095, acc 0.971, prec 0.924, recall 0.737, F1 0.820
+[[9054   54]
+ [ 235  657]]
+
+MLP
 evaluating MLP
-acc 0.988, prec 0.981, recall 0.883, F1 0.930
-[[9093   15]
- [ 104  788]]
+logloss 0.036, acc 0.989, prec 0.966, recall 0.910, F1 0.937
+[[9079   29]
+ [  80  812]]
 
 """
 
