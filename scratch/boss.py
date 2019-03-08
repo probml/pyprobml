@@ -10,6 +10,56 @@ import pandas as pd
 
 np.random.seed(0)
 
+def encode_dna(s):
+  if s=='A':
+    return 0
+  if s=='C':
+    return 1
+  if s=='G':
+    return 2
+  if s=='T':
+    return 3
+  
+def encode_data(S):
+  # S is an N-list of L-strings, L=8, N=65536
+  S1 = [list(s) for s in S] # N-list of L-lists
+  S2 = np.array(S1) # (N,L) array of strings, N=A**L
+  X = np.vectorize(encode_dna)(S2) # (N,L) array of ints (in 0..A)
+  return X
+
+def decode_dna(x):
+  alpha = ['A', 'C', 'G', 'T']
+  return alpha[x]
+
+def decode_data(X):
+  S = np.vectorize(decode_dna)(X)
+  return S
+
+def zscore_normalize(data):
+  return (data - data.mean()) / np.maximum(data.std(), 1e-8)
+
+def min_max_normalize(data):
+  return (data - data.min()) / np.maximum(data.max() - data.min(), 1e-8)
+
+def get_8mer_data():
+  file_name = '/home/kpmurphy/github/pyprobml/data/8mers_crx_ref_r1.csv'
+  data = pd.read_csv(file_name, sep='\t')
+  S = data['seq'].values
+  y = data['val'].values
+  X = encode_data(S)
+  y = zscore_normalize(y)
+  return X, y
+
+Xall, yall = get_8mer_data()
+nseq, seq_len = np.shape(Xall)
+alpha_size = 4
+
+def oracle(x):
+  ndx = np.where((Xall==x).all(axis=1))
+  return yall[ndx]
+
+def oracle_batch(X):
+  return np.apply_along_axis(oracle, 1,  X)
 
 def gen_rnd_dna(seq_len):
   s = [random.choice([0,1,2,3]) for i in range(seq_len)]
@@ -19,60 +69,15 @@ def gen_all_dna(seq_len):
   S = [np.array(p) for p in itertools.product([0,1,2,3], repeat=seq_len)]
   return np.stack(S)
 
-def motif_distance(x, m):
-  # hamming distance of x to motif
-  # If m[i]=nan, it means locn i is a don't care
-  mask = [not(np.isnan(v)) for v in m] #np.where(m>0)
-  return np.sum(x[mask] != m[mask])
-
-
-
-seq_len = 6 # L
-alpha_size = 4 # A
-nseq = alpha_size ** seq_len
-print("Generating {} sequences of length {}".format(nseq, seq_len))
-
-motifs = [];
-#m = np.arange(seq_len, dtype=float)
-m = np.repeat(0.0, seq_len)
-m1 = np.copy(m)
-m1[0] = np.nan
-m2 = np.copy(m)
-m2[seq_len-1] = np.nan
-#motifs = [m1, m2]
-motifs = [m2]
-print("Motifs")
-print(motifs)
-  
-def oracle(x):
-  d = np.inf
-  for motif in motifs:
-    d = min(d, motif_distance(x, motif))
-  return d
-
-#m=np.array([np.nan,1,2,3]); x=np.array([0,1,2,3]); motif_distance(x,m)
-
-def oracle_batch(X):
-  return np.apply_along_axis(oracle, 1,  X)
-
-Xall = gen_all_dna(seq_len) # (N,L) array of ints (in 0..A)
-yall = oracle_batch(Xall)
-
-#np.where((X==[0,0,0,1,1,0]).all(axis=1))
-
-nminima = np.size(np.where(yall==min(yall)))
-plt.figure(figsize=(10, 4))
-plt.plot(range(nseq), yall);
-plt.title("oracle has {} minima".format(nminima))
-plt.show()
 
 # Extract training set based on "medium performing" strings
-bins = pd.qcut(yall, 4, labels=False, duplicates='drop')
-middle_bins = np.where(np.logical_or(bins==1, bins==2))
+bins = pd.qcut(yall, 100, labels=False, duplicates='drop')
+middle_bins = np.where(np.logical_or(bins>=25, bins<=75))
 Xtrain = Xall[middle_bins]
 ytrain = yall[middle_bins]
 ntrain = np.shape(Xtrain)[0]
 print("Training set has {} examples from {}".format(ntrain, nseq))
+
 
 embed_dim = 5 # D 
 nhidden = 10
@@ -91,7 +96,7 @@ def build_model():
   return model
   
 model = build_model()
-model.fit(Xtrain, ytrain, epochs=10, verbose=1)
+model.fit(Xtrain, ytrain, epochs=30, verbose=1, batch_size=32)
 ypred = model.predict(Xall)
 
 plt.figure()
@@ -115,7 +120,7 @@ def build_model_embed(model, ninclude_layers=nlayers):
 embedder = build_model_embed(model, 1)
 Z = embedder.predict(Xtrain)
 plt.figure()
-plt.scatter(Z[:,1], Z[:,2], c=ytrain)
+plt.scatter(Z[:,0], Z[:,1], c=ytrain)
 plt.title('embeddings of training set')
 plt.colorbar()
 plt.show()
@@ -131,16 +136,17 @@ sources = np.arange(4)
 dist_matrix = pairwise_distances(Z[sources], Z)
 nearest = np.argsort(dist_matrix, axis=1)
 knn = 100
-#fig, ax = plt.subplots(2,2)
-for source, ndx in enumerate(sources):
+fig, ax = plt.subplots(2,2)
+for i, source in enumerate(sources):
   ysource = oracle(Xall[source])
   nbrs = nearest[source, 0:knn];
-  #targets = np.argsort(abs(y-ysource))[:Knn] # cheating!
   dst = dist_matrix[source, nbrs];
   ytargets = oracle_batch(Xall[nbrs])
-  plt.figure()
-  plt.plot(dst, ytargets-ysource, 'o')
-  plt.title('f-value of nbrs relative to source {}'.format(source))
+  #plt.figure()
+  r = i // 2
+  c = i % 2
+  ax[r,c].plot(dst, ytargets-ysource, 'o')
+  ax[r,c].set_title('source {}'.format(source))
 plt.show()
 
     
@@ -164,7 +170,7 @@ class EnumerativeSolver:
     return x
   
   def update(self, x, y):
-    if y < self.current_best_val:
+    if y > self.current_best_val:
       self.current_best_seq = x
       self.current_best_val = y
       
@@ -183,9 +189,8 @@ class GPSolver:
   def propose(self):
     return gen_rnd_dna(self.seq_len)
  
-  
   def update(self, x, y):
-    if y < self.current_best_val:
+    if y > self.current_best_val:
       self.current_best_seq = x
       self.current_best_val = y
       
@@ -204,6 +209,6 @@ for t in range(nsteps):
   
 plt.figure()
 plt.plot(range(nsteps), history)
-            
+plt.title('Enumerative solver')
       
       
