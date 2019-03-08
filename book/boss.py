@@ -7,6 +7,8 @@ import itertools
 import random
 import matplotlib.pyplot as plt
 
+np.random.seed(0)
+
 def gen_rnd_dna_string(N, alphabet='ACGT'):
     return ''.join([random.choice(alphabet) for i in range(N)])
 
@@ -38,8 +40,8 @@ def motif_distance(x, m):
   return np.sum(x[mask] != m[mask])
 
 def oracle(x):
-  motifs = [ [np.nan, 1, 2, 3],
-           [1, 2, 3, np.nan]
+  motifs = [ [np.nan, 0, 0, 1],
+#           [1, 2, 3, np.nan]
             ];
   d = np.inf
   for motif in motifs:
@@ -54,7 +56,7 @@ def oracle_batch(X):
 seq_len = 4 # L
 embed_dim = 5 # D 
 nhidden = 10
-nlayers = 1
+nlayers = 2
 alpha_size = 4 # A
 nseq = alpha_size ** seq_len
 print("Generating {} sequences of length {}".format(nseq, seq_len))
@@ -84,32 +86,28 @@ def build_model():
 
   
 model = build_model()
-model.fit(X, y, epochs=50, verbose=0)
+model.fit(X, y, epochs=50, verbose=1)
 pred = model.predict(X)
 
 plt.figure()
 plt.scatter(y, pred)
 plt.xlabel('True Values')
 plt.ylabel('Predictions')
-plt.title('cold encoding')
 plt.show()
 
 
-def build_model_embed(model, include_final_layer=False):
+def build_model_embed(model, ninclude_layers=nlayers):
   embed = keras.Sequential()
   embed.add(keras.layers.Embedding(alpha_size, embed_dim, input_length=seq_len,
                              weights=model.layers[0].get_weights()))
   embed.add(keras.layers.Flatten(input_shape=(seq_len, embed_dim)),)
-  for l in range(nlayers):
+  for l in range(ninclude_layers):
       embed.add(keras.layers.Dense(nhidden, activation=tf.nn.relu,
                          weights=model.layers[2+l].get_weights()))
-  if include_final_layer:
-      embed.add(keras.layers.Dense(1, weights=model.layers[3+nlayers-1].get_weights()))
+
   return embed
 
-clone = build_model_embed(model, True)
-assert np.isclose(clone.predict(X), model.predict(X)).all()
-embedder = build_model_embed(model)
+embedder = build_model_embed(model, 1)
 Z = embedder.predict(X)
 N = np.shape(X)[0]
 assert (np.shape(Z) == (N,nhidden))
@@ -121,21 +119,29 @@ plt.colorbar()
 plt.show()
 
 
-from sklearn.metrics.pairwise import rbf_kernel
+from sklearn.metrics.pairwise import rbf_kernel, pairwise_distances
 kernel_matrix = rbf_kernel(Z, gamma=1)
-nearest = np.argsort(kernel_matrix, axis=1)
-K=3
-nearestK = np.argpartition(kernel_matrix, K+1, axis=1)
+dist_matrix = pairwise_distances(Z)
+#nearest = np.argsort(dist__matrix, axis=1)
+Knn = 200 # 100
+nearest = np.argpartition(dist_matrix, Knn+1, axis=1)
 
-source = 0;
-targets = range(min(nseq,500));
-dst = kernel_matrix[source, targets];
-plt.figure()
-plt.plot(targets, dst)
-plt.title('distance to other strings')
-
-ndx = nearest[source, targets];
-dst = kernel_matrix[0,ndx];
-plt.figure()
-plt.plot(targets, dst)
-plt.title('distance to nearest strings')
+search = range(Knn);
+for source in [0,1,2,3,4]:
+  ysource = oracle(X[source])
+  targets = nearest[source, search];
+  #targets = np.argsort(abs(y-ysource))[:Knn] # cheating!
+  dst = dist_matrix[source, targets];
+  ytargets = oracle_batch(X[targets])
+  """
+  plt.figure()
+  plt.plot(search, dst)
+  plt.title('distance from {}'.format(source))
+  
+  plt.figure()
+  plt.plot(search, ytargets-ysource)
+  plt.title('relative value of nbrs')
+  """
+  plt.figure()
+  plt.plot(dst, ytargets-ysource, 'o')
+  plt.title('relative value of nbrs')
