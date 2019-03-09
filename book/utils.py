@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import fetch_openml
 import tensorflow as tf
 
+import itertools
+import random
+
 def load_mnist_data_openml():
   # Returns X_train: (60000, 784), X_test: (10000, 784), scaled [0...1]
   # y_train: (60000,) 0..9 ints, y_test: (10000,)
@@ -58,3 +61,16 @@ def save_fig(filename, tight_layout=True, fig_extension="pdf", resolution=300):
     #plt.savefig(path, format=fig_extension, dpi=resolution)
     plt.savefig(path,  dpi=resolution)
     
+def zscore_normalize(data):
+  return (data - data.mean()) / np.maximum(data.std(), 1e-8)
+
+def min_max_normalize(data):
+  return (data - data.min()) / np.maximum(data.max() - data.min(), 1e-8)
+
+def gen_rnd_string(seq_len, alphabet=[0,1,2,3]):
+  s = [random.choice(alphabet) for i in range(seq_len)]
+  return np.array(s)
+
+def gen_all_strings(seq_len, alphabet=[0,1,2,3]):
+  S = [np.array(p) for p in itertools.product(alphabet, repeat=seq_len)]
+  return np.stack(S)

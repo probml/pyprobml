@@ -6,7 +6,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from utils import save_fig
-from bayes_opt_utils import BayesianOptimizer, GradientOptimizer, expected_improvement
+from bayes_opt_utils import BayesianOptimizer, MultiRestartGradientOptimizer, RandomOptimizer, expected_improvement
 
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import ConstantKernel
@@ -16,6 +16,8 @@ np.random.seed(0)
 save_figures = False
 
 def plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next=None, show_legend=False):
+    X = np.atleast_2d(X)
+    #Y = np.atleast_2d(Y)
     mu, std = gpr.predict(X, return_std=True)
     plt.fill_between(X.ravel(), 
                      mu.ravel() + 1.96 * std, 
@@ -30,7 +32,7 @@ def plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next=None, show_legend=F
         plt.legend()
 
 def plot_acquisition(X, Y, X_next, show_legend=False):
-    plt.plot(X, Y, 'r-', lw=1, label='Acquisition function')
+    plt.plot(X.ravel(), Y.ravel(), 'r-', lw=1, label='Acquisition function')
     plt.axvline(x=X_next, ls='--', c='k', lw=1, label='Next sampling location')
     if show_legend:
         plt.legend()    
@@ -110,41 +112,53 @@ The parameter nu controlling the smoothness of the learned function.
 
 
 # Keep track of visiting points for plotting purposes
+global X_sample, Y_sample
 X_sample = X_init
 Y_sample = Y_init
 
+def callback(X_next, Y_next, i):
+  global X_sample, Y_sample
+  X_next = np.atleast_2d(X_next)
+  Y_next = np.atleast_2d(Y_next)
+  # Plot samples, surrogate function, noise-free objective and next sampling location
+  #plt.subplot(n_iter, 2, 2 * i + 1)
+  plt.figure()
+  plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next, show_legend=i==0)
+  plt.title(f'Iteration {i+1}')
+  if save_figures: save_fig('bayes-opt-surrogate-{}.pdf'.format(i+1))
+  plt.show()
+  
+  plt.figure()
+  #plt.subplot(n_iter, 2, 2 * i + 2)
+  plot_acquisition(X, expected_improvement(X, X_sample, Y_sample, gpr), X_next, show_legend=i==0)
+  if save_figures: save_fig('bayes-opt-acquisition-{}.pdf'.format(i+1))
+  plt.show()
+  
+  # Add sample to previous samples
+  X_sample = np.vstack((X_sample, X_next))
+  Y_sample = np.vstack((Y_sample, Y_next))
+    
+  
+def callback_noplot(X_next, Y_next, i):
+  global X_sample, Y_sample
+  X_next = np.atleast_2d(X_next)
+  Y_next = np.atleast_2d(Y_next)
+  X_sample = np.vstack((X_sample, X_next))
+  Y_sample = np.vstack((Y_sample, Y_next))
+  
 n_restarts = 25
 np.random.seed(0)
 noise = 0.2
-acq_fn = expected_improvement
-acq_solver = GradientOptimizer(dim=1, bounds=bounds, n_restarts=n_restarts)
-solver = BayesianOptimizer(X_init, Y_init, gpr, acq_fn, acq_solver)
 n_iter = 10
+acq_fn = expected_improvement
+acq_solver = MultiRestartGradientOptimizer(dim=1, bounds=bounds, n_restarts=n_restarts)
+#acq_solver = RandomOptimizer(dim=1, bounds=bounds, n_samples=10)
+solver = BayesianOptimizer(X_init, Y_init, gpr, acq_fn, acq_solver, n_iter=n_iter, callback=callback)
+#solver = RandomOptimizer(dim=1, bounds=bounds, n_samples=n_iter, callback=callback)
 
+solver.maximize(f)
 
-for i in range(n_iter):
-    X_next = solver.propose()
-    Y_next = f(X_next, noise)
-    solver.update(X_next, Y_next)
-    
-    # Plot samples, surrogate function, noise-free objective and next sampling location
-    #plt.subplot(n_iter, 2, 2 * i + 1)
-    plt.figure()
-    plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next, show_legend=i==0)
-    plt.title(f'Iteration {i+1}')
-    if save_figures: save_fig('bayes-opt-surrogate-{}.pdf'.format(i+1))
-    plt.show()
-    
-    plt.figure()
-    #plt.subplot(n_iter, 2, 2 * i + 2)
-    plot_acquisition(X, expected_improvement(X, X_sample, Y_sample, gpr), X_next, show_legend=i==0)
-    if save_figures: save_fig('bayes-opt-acquisition-{}.pdf'.format(i+1))
-    plt.show()
-    
-    # Add sample to previous samples
-    X_sample = np.vstack((X_sample, X_next))
-    Y_sample = np.vstack((Y_sample, Y_next))
-  
+ 
 plot_convergence(X_sample, Y_sample)
 if save_figures: save_fig('bayes-opt-convergence.pdf')
 plt.show()

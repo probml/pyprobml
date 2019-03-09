@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.stats import norm
-  
+from utils import gen_rnd_string, gen_all_strings
+
 #from scipy.optimize import minimize
 import scipy.optimize
 
@@ -19,8 +20,11 @@ def expected_improvement(X, X_sample, Y_sample, surrogate, xi=0.01, noise_free=F
     Returns:
         Expected improvements at points X.
     '''
+    X = np.atleast_2d(X)
     mu, sigma = surrogate.predict(X, return_std=True)
-    sigma = sigma.reshape(-1, X_sample.shape[1])
+    # Make sigma have same shape as mu
+    #sigma = sigma.reshape(-1, X_sample.shape[1])
+    sigma = np.reshape(sigma, np.shape(mu))
     
     if noise_free:
       current_best = np.max(Y_sample)
@@ -39,13 +43,13 @@ def expected_improvement(X, X_sample, Y_sample, surrogate, xi=0.01, noise_free=F
 
 # bounds: D*2 array, where D = number parameter dimensions
 # bounds[:,0] are lower bounds, bounds[:,1] are upper bounds
-class GradientOptimizer:
-  def __init__(self, dim, bounds=None, n_restarts=1, method='L-BFGS-B'):
+class MultiRestartGradientOptimizer:
+  def __init__(self, dim, bounds=None, n_restarts=1, method='L-BFGS-B',
+               callback=None):
     self.bounds = bounds
     self.n_restarts = n_restarts
     self.method = method
     self.dim = dim
-  
   
   def maximize(self, objective):
     neg_obj = lambda x: -objective(x)
@@ -59,31 +63,37 @@ class GradientOptimizer:
         if res.fun < min_val:
             min_val = res.fun[0]
             best_x = res.x 
-    return best_x.reshape(-1, 1)
+    return best_x
+
  
 class RandomOptimizer:
-  def __init__(self, dim, bounds=None, n_restarts=10):
+  def __init__(self, dim, bounds=None, n_samples=None, callback=None):
     self.bounds = bounds
-    self.n_restarts = n_restarts
+    self.n_samples = n_samples
     self.dim = dim
+    self.callback = callback
   
   def maximize(self, objective):
-    neg_obj = lambda x: -objective(x)
     min_val = np.inf
     best_x = None
     # Find the best optimum by starting from n_restart different random points.
     candidates = np.random.uniform(self.bounds[:, 0], self.bounds[:, 1],
-                                   size=(self.n_restarts, self.dim))
-    for x0 in candidates:
-      res = neg_obj(x0)
-      if res < min_val:
-        min_val = res
-        best_x = x0
-    return best_x.reshape(-1, 1)
-  
+                                   size=(self.n_samples, self.dim))
+    for i, x in enumerate(candidates):
+      y = objective(x)
+      if self.callback is not None:
+        self.callback(x, y, i)
+      if y < min_val:
+        min_val = y
+        best_x = x
+    return best_x
+
+   
+
 class BayesianOptimizer:
   def __init__(self, X_init, Y_init, surrogate, 
-               acq_fn=expected_improvement, acq_solver=None):
+               acq_fn=expected_improvement, acq_solver=None,
+               n_iter=None, callback=None):
     self.current_best_arg = None
     self.current_best_val = np.inf
     self.X_sample = X_init
@@ -92,26 +102,59 @@ class BayesianOptimizer:
     self.surrogate.fit(self.X_sample, self.Y_sample)
     self.acq_fn = acq_fn
     self.acq_solver = acq_solver
+    self.n_iter = n_iter
+    self.callback = callback
   
   def propose(self):
-    def objective(X):
-      dim = self.X_sample.shape[1]
-      X = X.reshape(-1, dim) # make vector into matrix
-      return self.acq_fn(X, self.X_sample, self.Y_sample, self.surrogate)
-    X_next = self.acq_solver.maximize(objective)
-    return X_next
+    def objective(x):
+      return self.acq_fn(x, self.X_sample, self.Y_sample, self.surrogate)
+    x_next = self.acq_solver.maximize(objective)
+    return x_next
  
   def update(self, x, y):
-    self.X_sample = np.append(self.X_sample, x, axis=0)
-    self.Y_sample = np.append(self.Y_sample, y, axis=0)
+    X = np.atleast_2d(x)
+    Y = np.atleast_2d(y)
+    self.X_sample = np.append(self.X_sample, X, axis=0)
+    self.Y_sample = np.append(self.Y_sample, Y, axis=0)
     self.surrogate.fit(self.X_sample, self.Y_sample)
     if y > self.current_best_val:
       self.current_best_arg = x
       self.current_best_val = y
       
-  def current_best(self):
-    return (self.current_best_arg, self.current_best_val)
+  def maximize(self, objective):
+    for i in range(self.n_iter):
+      X_next = self.propose()
+      Y_next = objective(X_next)
+      self.update(X_next, Y_next)
+      if self.callback is not None:
+        self.callback(X_next, Y_next, i)
+    return self.current_best_arg, self.current_best_val
 
+
+class EnumerativeStringOptimizer:
+  def __init__(self, seq_len, alphabet=[0,1,2,3]):
+    self.seq_len = seq_len
+    self.Xall = gen_all_strings(seq_len, alphabet) # could use iterator
+    self.ndx = 0
+    self.current_best_arg = None
+    self.current_best_val = np.inf
+  
+  def propose(self):
+    x = self.Xall[self.ndx]
+    nseq = np.size(self.Xall)[0]
+    if self.ndx == nseq:
+      self.ndx = 0
+    else:
+      self.ndx += 1
+    return x
+  
+  def update(self, x, y):
+    if y > self.current_best_val:
+      self.current_best_arg = x
+      self.current_best_val = y
+      
+  
+  
 ##########    
 
 from sklearn.gaussian_process.kernels import Matern
