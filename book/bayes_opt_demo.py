@@ -1,11 +1,10 @@
+# Bayesian optimization of 1d continuous function
 # Modified from Martin Krasser's code
 # https://github.com/krasserm/bayesian-machine-learning/blob/master/bayesian_optimization.ipynb
-# Apahce 2.0 license
+# Apache 2.0 license
 
 import numpy as np
-
 import matplotlib.pyplot as plt
-
 from utils import save_fig
 
 np.random.seed(0)
@@ -77,12 +76,9 @@ plt.legend();
 save_fig('bayes-opt-init.pdf')
 plt.show()
 
-
-
-
 from scipy.stats import norm
 
-def expected_improvement(X, X_sample, Y_sample, gpr, xi=0.01):
+def expected_improvement(X, X_sample, Y_sample, gpr, xi=0.01, noise_free=False):
     '''
     Computes the EI at points X based on existing samples X_sample
     and Y_sample using a Gaussian process surrogate model.
@@ -98,17 +94,16 @@ def expected_improvement(X, X_sample, Y_sample, gpr, xi=0.01):
         Expected improvements at points X.
     '''
     mu, sigma = gpr.predict(X, return_std=True)
-    mu_sample = gpr.predict(X_sample)
-
     sigma = sigma.reshape(-1, X_sample.shape[1])
     
-    # Needed for noise-based model,
-    # otherwise use np.max(Y_sample).
-    # See also section 2.4 in [...]
-    mu_sample_opt = np.max(mu_sample)
+    if noise_free:
+      current_best = np.max(Y_sample)
+    else:
+      mu_sample = gpr.predict(X_sample)
+      current_best = np.max(mu_sample)
 
     with np.errstate(divide='warn'):
-        imp = mu - mu_sample_opt - xi
+        imp = mu - current_best - xi
         Z = imp / sigma
         ei = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
         ei[sigma == 0.0] = 0.0
@@ -148,63 +143,6 @@ def propose_location(acquisition, X_sample, Y_sample, gpr, bounds, n_restarts):
     return min_x.reshape(-1, 1)
 
 
-from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import ConstantKernel, Matern
-#from bayesian_optimization_util import plot_approximation, plot_acquisition
-
-# Gaussian process with Matérn kernel as surrogate model
-m52 = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
-gpr = GaussianProcessRegressor(kernel=m52, alpha=noise**2)
-
-# Initialize samples
-X_sample = X_init
-Y_sample = Y_init
-
-# Number of iterations
-n_iter = 10
-n_restarts = 25
-#plt.figure(figsize=(12, n_iter * 3))
-#plt.subplots_adjust(hspace=0.4)
-
-np.random.seed(0)
-noise = 0.2
-for i in range(n_iter):
-    # Update Gaussian process with existing samples
-    gpr.fit(X_sample, Y_sample)
-
-    # Obtain next sampling point from the acquisition function (expected_improvement)
-    X_next = propose_location(expected_improvement, X_sample, Y_sample, gpr, bounds, n_restarts)
-    
-    # Obtain next noisy sample from the objective function
-    Y_next = f(X_next, noise)
-    
-    # Plot samples, surrogate function, noise-free objective and next sampling location
-    #plt.subplot(n_iter, 2, 2 * i + 1)
-    plt.figure()
-    plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next, show_legend=i==0)
-    plt.title(f'Iteration {i+1}')
-    save_fig('bayes-opt-surrogate-{}.pdf'.format(i+1))
-    plt.show()
-    
-    plt.figure()
-    #plt.subplot(n_iter, 2, 2 * i + 2)
-    plot_acquisition(X, expected_improvement(X, X_sample, Y_sample, gpr), X_next, show_legend=i==0)
-    save_fig('bayes-opt-acquisition-{}.pdf'.format(i+1))
-    plt.show()
-    
-    # Add sample to previous samples
-    X_sample = np.vstack((X_sample, X_next))
-    Y_sample = np.vstack((Y_sample, Y_next))
-    
-#from bayesian_optimization_util import plot_convergence
-
-plot_convergence(X_sample, Y_sample)
-save_fig('bayes-opt-convergence.pdf')
-plt.show()
-    
-
-##############
-
 class GPMaximizer:
   def __init__(self, X_init, Y_init, gpr, bounds, n_restarts):
     self.current_best_arg = None
@@ -232,16 +170,41 @@ class GPMaximizer:
       
   def current_best(self):
     return (self.current_best_arg, self.current_best_val)
-  
+
+##########    
+    
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import ConstantKernel, Matern
+
+# https://github.com/scikit-learn/scikit-learn/blob/7b136e9/sklearn/gaussian_process/kernels.py#L1146
+class StringEmbedKernel(Matern):
+  def __init__(self, length_scale=1.0, length_scale_bounds=(1e-5, 1e5),
+                 nu=1.5, seq_len=None):
+        super().__init__(length_scale, length_scale_bounds)
+        self.seq_len = seq_len
+ 
+  def __call__(self, X, Y=None, eval_gradient=False):
+    print("seq len = {}".format(self.seq_len))
+    return super().__call__(X, Y=Y, eval_gradient=eval_gradient)
+
+
+################
+    
+kernel = ConstantKernel(1.0) * StringEmbedKernel(length_scale=1.0, nu=2.5, seq_len=42)
+kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
+gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
+
+
+n_restarts = 25
 np.random.seed(0)
 noise = 0.2
-m52 = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
-gpr = GaussianProcessRegressor(kernel=m52, alpha=noise**2)
 solver = GPMaximizer(X_init, Y_init, gpr, bounds, n_restarts)
 n_iter = 10
 for i in range(n_iter):
+    # Extract current data for plotting  
     X_sample = solver.X_sample
     Y_sample = solver.Y_sample
+    
     X_next = solver.propose()
     Y_next = f(X_next, noise)
     solver.update(X_next, Y_next)
@@ -251,48 +214,24 @@ for i in range(n_iter):
     plt.figure()
     plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next, show_legend=i==0)
     plt.title(f'Iteration {i+1}')
-    #save_fig('bayes-opt-surrogate-{}.pdf'.format(i+1))
+    save_fig('bayes-opt-surrogate-{}.pdf'.format(i+1))
     plt.show()
     
     plt.figure()
     #plt.subplot(n_iter, 2, 2 * i + 2)
     plot_acquisition(X, expected_improvement(X, X_sample, Y_sample, gpr), X_next, show_legend=i==0)
-    #save_fig('bayes-opt-acquisition-{}.pdf'.format(i+1))
+    save_fig('bayes-opt-acquisition-{}.pdf'.format(i+1))
     plt.show()
   
 plot_convergence(solver.X_sample, solver.Y_sample)
-#save_fig('bayes-opt-convergence.pdf')
+save_fig('bayes-opt-convergence.pdf')
 plt.show()
   
 ####################
- # skopt
- # https://scikit-optimize.github.io/
- 
+ # skopt, https://scikit-optimize.github.io/
+"""
 #from sklearn.base import clone
 from skopt import gp_minimize
-from skopt.learning import GaussianProcessRegressor
-from skopt.learning.gaussian_process.kernels import ConstantKernel, Matern, RBF
-
-
-# https://github.com/scikit-learn/scikit-learn/blob/7b136e9/sklearn/gaussian_process/kernels.py#L1146
-
-class StringEmbedKernel(Matern):
-  def __init__(self, length_scale=1.0, length_scale_bounds=(1e-5, 1e5),
-                 nu=1.5, seq_len=None):
-        #super(StringEmbedKernel, self).__init__(length_scale, length_scale_bounds)
-        super().__init__(length_scale, length_scale_bounds)
-        self.seq_len = seq_len
- 
-  def __call__(self, X, Y=None, eval_gradient=False):
-    print("seq len = {}".format(self.seq_len))
-    #return super(StringEmbedKernel, self).__call__(X, Y=Y, eval_gradient=eval_gradient)
-    return super().__call__(X, Y=Y, eval_gradient=eval_gradient)
-  
-m52 = ConstantKernel(1.0) * StringEmbedKernel(length_scale=1.0, nu=2.5, seq_len=42)
-#m52 = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
-
-gpr = GaussianProcessRegressor(kernel=m52, alpha=noise**2)
-mu, sigma = gpr.predict(X_init, return_std=True)
 
 np.random.seed(0)
 r = gp_minimize(lambda x: -f(np.array(x))[0], 
@@ -305,10 +244,8 @@ r = gp_minimize(lambda x: -f(np.array(x))[0],
                 x0=X_init.tolist(), # initial samples
                 y0=-Y_init.ravel())
 
-# Fit GP model to samples for plotting results
+# Fit GP model to samples for plotting results. Note negation of f.
 gpr.fit(r.x_iters, -r.func_vals)
-
-# Plot the fitted model and the noisy samples
 plot_approximation(gpr, X, Y, r.x_iters, -r.func_vals, show_legend=True)
 save_fig('bayes-opt-skopt.pdf')
 plt.show()
@@ -317,10 +254,9 @@ plot_convergence(np.array(r.x_iters), -r.func_vals)
 
 
 ###############
+# https://github.com/SheffieldML/GPyOpt
 
 import GPy
-import GPyOpt
-
 from GPyOpt.methods import BayesianOptimization
 
 kernel = GPy.kern.Matern52(input_dim=1, variance=1.0, lengthscale=1.0)
@@ -347,5 +283,5 @@ plt.show()
 
 optimizer.plot_convergence()
 
-####################
 
+"""
