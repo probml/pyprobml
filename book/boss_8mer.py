@@ -1,15 +1,10 @@
 
-
-import tensorflow as tf
-from tensorflow import keras
 import numpy as np
-import itertools
-import random
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from utils import zscore_normalize, gen_rnd_string, gen_all_strings
-from bayes_opt_utils import BayesianOptimizer, RandomOptimizer, EnumerativeStringOptimizer
+from utils import zscore_normalize
+import boss_utils
 
 np.random.seed(0)
 
@@ -38,7 +33,6 @@ def decode_data(X):
   S = np.vectorize(decode_dna)(X)
   return S
 
-
 def get_8mer_data():
   file_name = '/home/kpmurphy/github/pyprobml/data/8mers_crx_ref_r1.csv'
   data = pd.read_csv(file_name, sep='\t')
@@ -53,7 +47,7 @@ nseq, seq_len = np.shape(Xall)
 alpha_size = 4
 
 def oracle(x):
-  ndx = np.where((Xall==x).all(axis=1))
+  ndx = np.where((Xall==x).all(axis=1))[0][0]
   return yall[ndx]
 
 def oracle_batch(X):
@@ -79,45 +73,16 @@ perm = perm[:ninit]
 Xinit = Xtrain[perm]
 yinit = ytrain[perm]
 
-embed_dim = 5 # D 
-nhidden = 10
-nlayers = 2
-def build_model():
-  model = keras.Sequential()
-  model.add(keras.layers.Embedding(alpha_size, embed_dim, input_length=seq_len))
-  model.add(keras.layers.Flatten(input_shape=(seq_len, embed_dim)))
-  for l in range(nlayers):
-      model.add(keras.layers.Dense(nhidden, activation=tf.nn.relu))
-  model.add(keras.layers.Dense(1))
-  optimizer = tf.keras.optimizers.Adam(0.01)
-  model.compile(optimizer=optimizer,
-                loss='mean_squared_error',
-                metrics=['mean_squared_error'])
-  return model
-  
-model = build_model()
-model.fit(Xtrain, ytrain, epochs=30, verbose=1, batch_size=32)
-ypred = model.predict(Xall)
-
+predictor = boss_utils.learn_supervised_model(Xtrain, ytrain)
+ypred = predictor.predict(Xall)
 plt.figure()
 plt.scatter(yall, ypred)
 plt.xlabel('True Values')
 plt.ylabel('Predictions')
 plt.show()
 
+embedder = boss_utils.convert_to_embedder(predictor, seq_len)
 
-def build_model_embed(model, ninclude_layers=nlayers):
-  embed = keras.Sequential()
-  embed.add(keras.layers.Embedding(alpha_size, embed_dim, input_length=seq_len,
-                             weights=model.layers[0].get_weights()))
-  embed.add(keras.layers.Flatten(input_shape=(seq_len, embed_dim)),)
-  for l in range(ninclude_layers):
-      embed.add(keras.layers.Dense(nhidden, activation=tf.nn.relu,
-                         weights=model.layers[2+l].get_weights()))
-
-  return embed
-
-embedder = build_model_embed(model, 1)
 Z = embedder.predict(Xtrain)
 plt.figure()
 plt.scatter(Z[:,0], Z[:,1], c=ytrain)
@@ -149,41 +114,19 @@ for i, source in enumerate(sources):
   ax[r,c].set_title('source {}'.format(source))
 plt.show()
 
- 
-
-
-nsteps = 100
-solver = EnumerativeStringSolver(seq_len)
-history = []
-for t in range(nsteps):
-  x = solver.propose()
-  y = oracle(x)
-  solver.update(x, y)
-  xbest, ybest = solver.current_best()
-  history.append(ybest)
+def embed_fn(x):  
+  return embedder.predict(x)  
   
-plt.figure()
-plt.plot(range(nsteps), history)
-plt.title('Enumerative solver')
+n_iter=10
+methods = []
+methods.append('enum')
+methods.append('bayes')
+for method in methods:
+  np.random.seed(0)
+  ytrace = boss_utils.boss_maximize(method, oracle, Xinit, yinit,  embed_fn, n_iter=n_iter)    
+  plt.figure()
+  plt.plot(ytrace)
+  plt.title(method)
+
 
   
-
-def embed(x):
-  return embedder.predict(x)
-
-"""
-nsteps = 100
-solver = GPMaximizer(seq_len, embed, Xinit, yinit)
-history = []
-for t in range(nsteps):
-  x = solver.propose()
-  y = oracle(x)
-  print("queried {}, observed {}".format(x, y))
-  solver.update(x, y)
-  xbest, ybest = solver.current_best()
-  history.append(ybest)
-  
-plt.figure()
-plt.plot(range(nsteps), history)
-plt.title('BO solver')
-"""

@@ -95,7 +95,7 @@ class BayesianOptimizer:
                acq_fn=expected_improvement, acq_solver=None,
                n_iter=None, callback=None):
     self.current_best_arg = None
-    self.current_best_val = np.inf
+    self.current_best_val = -np.inf
     self.X_sample = X_init
     self.Y_sample = Y_init
     self.surrogate = surrogate
@@ -107,15 +107,18 @@ class BayesianOptimizer:
   
   def propose(self):
     def objective(x):
-      return self.acq_fn(x, self.X_sample, self.Y_sample, self.surrogate)
+      y = self.acq_fn(x, self.X_sample, self.Y_sample, self.surrogate)
+      if np.size(y)==1:
+        y = y[0] # convert to scalar
+      #print("BO acq obj x={}, y={}".format(x,y))
+      return y
     x_next = self.acq_solver.maximize(objective)
     return x_next
  
   def update(self, x, y):
     X = np.atleast_2d(x)
-    Y = np.atleast_2d(y)
     self.X_sample = np.append(self.X_sample, X, axis=0)
-    self.Y_sample = np.append(self.Y_sample, Y, axis=0)
+    self.Y_sample = np.append(self.Y_sample, y)
     self.surrogate.fit(self.X_sample, self.Y_sample)
     if y > self.current_best_val:
       self.current_best_arg = x
@@ -128,33 +131,73 @@ class BayesianOptimizer:
       self.update(X_next, Y_next)
       if self.callback is not None:
         self.callback(X_next, Y_next, i)
-    return self.current_best_arg, self.current_best_val
+    return self.current_best_arg
 
 
-class EnumerativeStringOptimizer:
-  def __init__(self, seq_len, alphabet=[0,1,2,3]):
+class StringOptimizer:
+  def __init__(self, seq_len, alphabet=[0,1,2,3],
+               n_iter=None, callback=None):
     self.seq_len = seq_len
-    self.Xall = gen_all_strings(seq_len, alphabet) # could use iterator
-    self.ndx = 0
     self.current_best_arg = None
-    self.current_best_val = np.inf
-  
+    self.current_best_val = -np.inf
+    self.n_iter = n_iter
+    self.callback = callback
+    self.alphabet = alphabet
+    
   def propose(self):
-    x = self.Xall[self.ndx]
-    nseq = np.size(self.Xall)[0]
-    if self.ndx == nseq:
-      self.ndx = 0
-    else:
-      self.ndx += 1
-    return x
+    pass
   
   def update(self, x, y):
     if y > self.current_best_val:
       self.current_best_arg = x
       self.current_best_val = y
       
+  def maximize(self, objective):
+    for i in range(self.n_iter):
+      X_next = self.propose()
+      Y_next = objective(X_next)
+      self.update(X_next, Y_next)
+      if self.callback is not None:
+        self.callback(X_next, Y_next, i)
+    return self.current_best_arg
   
+
+class EnumerativeStringOptimizer(StringOptimizer):
+  def __init__(self, seq_len, alphabet=[0,1,2,3],
+               n_iter=None, callback=None):
+    super().__init__(seq_len, alphabet, n_iter, callback)
+    self.Xall = gen_all_strings(seq_len, alphabet) # could use iterator
+    self.ndx = 0
+    
+  def propose(self):
+    x = self.Xall[self.ndx]
+    nseq = np.shape(self.Xall)[0]
+    if self.ndx == nseq-1:
+      self.ndx = 0
+    else:
+      self.ndx += 1
+    return x
   
+  def maximize(self, objective):
+    self.ndx = 0
+    for i in range(self.n_iter):
+      X_next = self.propose()
+      Y_next = objective(X_next)
+      self.update(X_next, Y_next)
+      if self.callback is not None:
+        self.callback(X_next, Y_next, i)
+    return self.current_best_arg
+  
+class RandomStringOptimizer(StringOptimizer):
+  def __init__(self, seq_len, alphabet=[0,1,2,3],
+               n_iter=None, callback=None):
+    super().__init__(seq_len, alphabet, n_iter, callback)
+    
+  def propose(self):
+    x = gen_rnd_string(self.seq_len, self.alphabet)
+    return x
+  
+
 ##########    
 
 from sklearn.gaussian_process.kernels import Matern

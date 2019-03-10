@@ -3,13 +3,16 @@
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import itertools
-import random
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from utils import zscore_normalize, gen_rnd_string, gen_all_strings
-from bayes_opt_utils import BayesianOptimizer, RandomOptimizer, EnumerativeStringOptimizer
+from utils import zscore_normalize
+from bayes_opt_utils import BayesianOptimizer, expected_improvement
+from bayes_opt_utils import EnumerativeStringOptimizer # RandomStringOptimizer
+
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import ConstantKernel
+from bayes_opt_utils import EmbedKernel
 
 np.random.seed(0)
 
@@ -53,7 +56,7 @@ nseq, seq_len = np.shape(Xall)
 alpha_size = 4
 
 def oracle(x):
-  ndx = np.where((Xall==x).all(axis=1))
+  ndx = np.where((Xall==x).all(axis=1))[0][0]
   return yall[ndx]
 
 def oracle_batch(X):
@@ -150,40 +153,47 @@ for i, source in enumerate(sources):
 plt.show()
 
  
+ytrace = boss_maximize(oracle, Xinit, yinit, 'bayes', embedder, n_iter=10)
 
+global ytrace
+ytrace = [np.max(yinit)]
+ 
+def callback_logger(xnext, ynext, i):
+  global ytrace
+  print("iter {}, x={}, y={}".format(i, xnext, ynext))
+  current_best = np.max(ytrace)
+  if ynext > current_best:
+    ytrace = np.append(ytrace, ynext)
+  else:
+    ytrace = np.append(ytrace, current_best)  
+  
+n_iter = 10
+solver = EnumerativeStringOptimizer(seq_len, n_iter=n_iter, callback=callback_logger)
 
-nsteps = 100
-solver = EnumerativeStringSolver(seq_len)
-history = []
-for t in range(nsteps):
-  x = solver.propose()
-  y = oracle(x)
-  solver.update(x, y)
-  xbest, ybest = solver.current_best()
-  history.append(ybest)
+solver.maximize(oracle)
   
 plt.figure()
-plt.plot(range(nsteps), history)
+plt.plot(ytrace)
 plt.title('Enumerative solver')
 
   
 
-def embed(x):
+def embed_fn(x):
   return embedder.predict(x)
+  
+kernel = ConstantKernel(1.0) * EmbedKernel(length_scale=1.0, nu=2.5, embed_fn=embed_fn)
+noise = np.std(yinit)
+gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
 
-"""
-nsteps = 100
-solver = GPMaximizer(seq_len, embed, Xinit, yinit)
-history = []
-for t in range(nsteps):
-  x = solver.propose()
-  y = oracle(x)
-  print("queried {}, observed {}".format(x, y))
-  solver.update(x, y)
-  xbest, ybest = solver.current_best()
-  history.append(ybest)
+np.random.seed(0)
+n_iter = 10
+acq_fn = expected_improvement
+n_seq = 4**seq_len
+acq_solver =  EnumerativeStringOptimizer(seq_len, n_iter=n_seq)
+solver = BayesianOptimizer(Xinit, yinit, gpr, acq_fn, acq_solver, n_iter=n_iter, callback=callback_logger)
+
+solver.maximize(oracle)
   
 plt.figure()
-plt.plot(range(nsteps), history)
+plt.plot(ytrace)
 plt.title('BO solver')
-"""
