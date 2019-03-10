@@ -104,13 +104,14 @@ class BayesianOptimizer:
     self.acq_solver = acq_solver
     self.n_iter = n_iter
     self.callback = callback
+    # Make sure you "pay" for the initial random guesses
+    self.val_history = np.repeat(np.max(Y_init), len(Y_init))
   
   def propose(self):
     def objective(x):
       y = self.acq_fn(x, self.X_sample, self.Y_sample, self.surrogate)
       if np.size(y)==1:
         y = y[0] # convert to scalar
-      #print("BO acq obj x={}, y={}".format(x,y))
       return y
     x_next = self.acq_solver.maximize(objective)
     return x_next
@@ -123,11 +124,13 @@ class BayesianOptimizer:
     if y > self.current_best_val:
       self.current_best_arg = x
       self.current_best_val = y
-      
+    self.val_history = np.append(self.val_history, self.current_best_val)
+    
   def maximize(self, objective):
     for i in range(self.n_iter):
       X_next = self.propose()
       Y_next = objective(X_next)
+      print("BO iter {}, xnext={}, ynext={}".format(i, X_next, Y_next))
       self.update(X_next, Y_next)
       if self.callback is not None:
         self.callback(X_next, Y_next, i)
@@ -143,6 +146,7 @@ class StringOptimizer:
     self.n_iter = n_iter
     self.callback = callback
     self.alphabet = alphabet
+    self.val_history = []
     
   def propose(self):
     pass
@@ -151,6 +155,7 @@ class StringOptimizer:
     if y > self.current_best_val:
       self.current_best_arg = x
       self.current_best_val = y
+    self.val_history = np.append(self.val_history, self.current_best_val)
       
   def maximize(self, objective):
     for i in range(self.n_iter):
@@ -180,13 +185,8 @@ class EnumerativeStringOptimizer(StringOptimizer):
   
   def maximize(self, objective):
     self.ndx = 0
-    for i in range(self.n_iter):
-      X_next = self.propose()
-      Y_next = objective(X_next)
-      self.update(X_next, Y_next)
-      if self.callback is not None:
-        self.callback(X_next, Y_next, i)
-    return self.current_best_arg
+    return super().maximize(objective)
+  
   
 class RandomStringOptimizer(StringOptimizer):
   def __init__(self, seq_len, alphabet=[0,1,2,3],
