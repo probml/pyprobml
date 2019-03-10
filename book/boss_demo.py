@@ -70,19 +70,21 @@ plt.show()
 
 ########
 
-  
-from bayes_opt_utils import BayesianOptimizer, expected_improvement
+
+import boss_problems, boss_models
+from bayes_opt_utils import BayesianOptimizer, BayesianOptimizerEmbedEnum
 from bayes_opt_utils import EnumerativeStringOptimizer, RandomStringOptimizer
+from bayes_opt_utils import expected_improvement
 
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import ConstantKernel
+from sklearn.gaussian_process.kernels import ConstantKernel, Matern
 from bayes_opt_utils import EmbedKernel
 
-niter = 3
+niter = 5
 
 # Before starting BO, we perform N random queries.
 # We compute the result of those queries here.
-n_bo_init = 3
+n_bo_init = 1
 ntrain = np.shape(Xtrain)[0] 
 perm = np.random.permutation(ntrain)
 perm = perm[:n_bo_init]
@@ -91,6 +93,7 @@ yinit = ytrain[perm]
   
 rnd_solver = RandomStringOptimizer(seq_len, n_iter=niter+n_bo_init)
 
+# Embed sequence then pass to kernel.
 # We use Matern kernel 1.5 since this only assumes first-orer differentiability.
 kernel = ConstantKernel(1.0) * EmbedKernel(length_scale=1.0, nu=1.5,
                        embed_fn=lambda x: embedder.predict(x))
@@ -98,21 +101,49 @@ gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
 acq_fn = expected_improvement
 n_seq = 4**seq_len
 acq_solver =  EnumerativeStringOptimizer(seq_len, n_iter=n_seq)
-bo_embed_solver = BayesianOptimizer(Xinit, yinit, gpr, acq_fn, acq_solver, n_iter=niter)
+bo_embed_solver_slow = BayesianOptimizer(
+    Xinit, yinit, gpr, acq_fn, acq_solver, n_iter=niter)
 
-# We use Matern kernel 1.5 since this only assumes first-orer differentiability.
+# Faster specialized version of above.
+kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=1.5)
+gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
+acq_fn = expected_improvement
+bo_embed_solver = BayesianOptimizerEmbedEnum(
+    seq_len, lambda x: embedder.predict(x), Xinit, yinit, gpr, acq_fn, n_iter=niter) 
+
+
+# One-hot encode integers before passing to kernel
+from sklearn.preprocessing import OneHotEncoder
+alpha_size = 4
+cat = np.array(range(alpha_size)); 
+cats = [cat]*seq_len
+enc =  OneHotEncoder(sparse=False, categories=cats)
+enc.fit(Xall)
+#Xhot = enc.transform(X)
+#Xcold = enc.inverse_transform(Xhot)
+#assert (Xcold==X).all()
+kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=1.5)
+gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
+acq_fn = expected_improvement
+bo_onehot_solver = BayesianOptimizerEmbedEnum(
+    seq_len, lambda x: enc.transform(x), Xinit, yinit, gpr, acq_fn, n_iter=niter)
+
+# Pass integers to kernel.
 kernel = ConstantKernel(1.0) * EmbedKernel(length_scale=1.0, nu=1.5,
                        embed_fn=lambda x: x)
 gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
 acq_fn = expected_improvement
 n_seq = 4**seq_len
 acq_solver =  EnumerativeStringOptimizer(seq_len, n_iter=n_seq)
-bo_onehot_solver = BayesianOptimizer(Xinit, yinit, gpr, acq_fn, acq_solver, n_iter=niter)
+bo_int_solver = BayesianOptimizer(Xinit, yinit, gpr, acq_fn, acq_solver, n_iter=niter)
 
 
+    
 methods = []
 methods.append((bo_embed_solver, 'BO-embed-enum'))
+#methods.append((bo_embed_solver_slow, 'BO-embed-enum-slow'))
 methods.append((bo_onehot_solver, 'BO-onehot-enum'))
+#methods.append((bo_int_solver, 'BO-int-enum'))
 methods.append((rnd_solver, 'RndSolver'))
 
 from time import time
@@ -125,7 +156,7 @@ for solver, name in methods:
   ytrace[name] = solver.val_history
   
 plt.figure()
-styles = ['k-o', 'r:s', 'b--^']
+styles = ['k-o', 'r:o', 'b--o', 'g-o', 'c:o', 'm--o', 'y-o']
 for i, tuple in enumerate(methods):
   style = styles[i]
   name = tuple[1]

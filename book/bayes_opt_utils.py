@@ -88,14 +88,12 @@ class RandomOptimizer:
         best_x = x
     return best_x
 
-   
+
 
 class BayesianOptimizer:
   def __init__(self, X_init, Y_init, surrogate, 
                acq_fn=expected_improvement, acq_solver=None,
                n_iter=None, callback=None):
-    self.current_best_arg = None
-    self.current_best_val = -np.inf
     self.X_sample = X_init
     self.Y_sample = Y_init
     self.surrogate = surrogate
@@ -106,6 +104,9 @@ class BayesianOptimizer:
     self.callback = callback
     # Make sure you "pay" for the initial random guesses
     self.val_history = np.repeat(np.max(Y_init), len(Y_init))
+    self.current_best_val = np.argmax(self.val_history)
+    ndx = np.argmax(self.val_history)
+    self.current_best_arg = X_init[ndx]
   
   def propose(self):
     def objective(x):
@@ -136,7 +137,39 @@ class BayesianOptimizer:
         self.callback(X_next, Y_next, i)
     return self.current_best_arg
 
+class BayesianOptimizerEmbedEnum(BayesianOptimizer):
+  def __init__(self, seq_len, embed_fn, 
+               X_init, Y_init, surrogate, 
+               acq_fn=expected_improvement, n_iter=None, callback=None,
+               alphabet=[0,1,2,3]):
+    self.embed_fn = embed_fn
+    self.alphabet = alphabet
+    self.seq_len = seq_len
+    Z_init = self.embed_fn(X_init)
+    super().__init__(Z_init, Y_init, surrogate, acq_fn=acq_fn,
+         acq_solver=None, n_iter=n_iter, callback=callback)
 
+  def propose(self):
+    Xall = gen_all_strings(self.seq_len, self.alphabet) 
+    nseq = np.shape(Xall)[0]
+    print("BO: evaluating {} sequences in parallel".format(nseq))
+    Zcandidates = self.embed_fn(Xall)
+    Zold = self.X_sample # already embedded
+    Y = self.acq_fn(Zcandidates, Zold, self.Y_sample, self.surrogate)
+    ndx = np.argmax(Y)
+    return Xall[ndx]
+  
+  def update(self, x, y):
+    X = np.atleast_2d(x)
+    Z = self.embed_fn(X)
+    self.X_sample = np.append(self.X_sample, Z, axis=0)
+    self.Y_sample = np.append(self.Y_sample, y)
+    self.surrogate.fit(self.X_sample, self.Y_sample)
+    if y > self.current_best_val:
+      self.current_best_arg = x
+      self.current_best_val = y
+    self.val_history = np.append(self.val_history, self.current_best_val)
+  
 class StringOptimizer:
   def __init__(self, seq_len, alphabet=[0,1,2,3],
                n_iter=None, callback=None):
