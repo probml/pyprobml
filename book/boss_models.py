@@ -14,7 +14,7 @@ def build_supervised_model(seq_len, nlayers):
   for l in range(nlayers):
       model.add(keras.layers.Dense(
           nhidden, activation=tf.nn.relu,
-          kernel_regularizer=keras.regularizers.l2(0.001)))
+          kernel_regularizer=keras.regularizers.l2(0.0001)))
   model.add(keras.layers.Dense(1))
   optimizer = tf.keras.optimizers.Adam(0.01)
   model.compile(optimizer=optimizer,
@@ -22,10 +22,10 @@ def build_supervised_model(seq_len, nlayers):
                 metrics=['mean_squared_error'])
   return model
   
-def learn_supervised_model(Xtrain, ytrain, nlayers):
+def learn_supervised_model(Xtrain, ytrain, nlayers, epochs=20):
   seq_len = np.shape(Xtrain)[1]
   model = build_supervised_model(seq_len, nlayers)
-  model.fit(Xtrain, ytrain, epochs=20, verbose=1, batch_size=32)
+  model.fit(Xtrain, ytrain, epochs=epochs, verbose=1, batch_size=32)
   return model 
 
 def convert_supervised_to_embedder(model, seq_len, nlayers):

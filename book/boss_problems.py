@@ -38,16 +38,20 @@ def get_8mer_data():
   y = utils.zscore_normalize(y)
   return X, y
 
-def tfbind_problem():
-  Xall, yall = get_8mer_data()
-  
+def tfbind_problem(max_ntrain = None, lower_bin=40, upper_bin=60):
+  Xall, yall = get_8mer_data()  
   # Extract training set based on "medium performing" strings
-  # These could be unlabeled (if we use an RNN feature extractor)
   bins = pd.qcut(yall, 100, labels=False, duplicates='drop')
-  middle_bins = np.where(np.logical_and(bins>=25, bins<=75))[0]
+  middle_bins = np.where(np.logical_and(bins>=lower_bin, bins<=upper_bin))[0]
   Xtrain = Xall[middle_bins]
   ytrain = yall[middle_bins]
   ntrain = np.shape(Xtrain)[0]
+  if max_ntrain is not None:
+    if ntrain > max_ntrain:
+      perm = np.random.permutation(ntrain)
+      Xtrain = Xtrain[perm[:max_ntrain]]
+      ytrain = ytrain[perm[:max_ntrain]]
+      ntrain = max_ntrain
   nseq = np.shape(Xall)[0]
   print("TFbind: Choosing {} training examples from {}".format(ntrain, nseq))
   
@@ -78,7 +82,7 @@ def make_motifs(seq_len):
   return motifs
 
 
-def motif_problem(seq_len, noise=0):
+def motif_problem(seq_len, noise=0, lower_bin=40, upper_bin=70):
   motifs = make_motifs(seq_len)
   
   def oracle(x):
@@ -99,8 +103,10 @@ def motif_problem(seq_len, noise=0):
   yall = oracle_batch(Xall)
 
   # Extract training set based on "medium performing" strings
-  bins = pd.qcut(yall, 10, labels=False, duplicates='drop') #0..9
-  middle_bins = np.where(np.logical_and(bins>=4, bins<=7))[0]
+  #bins = pd.qcut(yall, 10, labels=False, duplicates='drop') #0..9
+  #middle_bins = np.where(np.logical_and(bins>=4, bins<=7))[0]
+  bins = pd.qcut(yall, 100, labels=False, duplicates='drop')
+  middle_bins = np.where(np.logical_and(bins>=lower_bin, bins<=upper_bin))[0]
   Xtrain = Xall[middle_bins]
   ytrain = yall[middle_bins]
   ntrain = np.shape(Xtrain)[0]

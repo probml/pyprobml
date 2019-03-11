@@ -1,11 +1,14 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.stats import norm
 from utils import gen_rnd_string, gen_all_strings
 
 #from scipy.optimize import minimize
 import scipy.optimize
 
-def expected_improvement(X, X_sample, Y_sample, surrogate, xi=0.01, noise_free=False):
+def expected_improvement(X, X_sample, Y_sample, surrogate,
+                         improvement_thresh=0.01, trust_incumbent=False,
+                         greedy=False):
     '''
     Computes the EI at points X based on existing samples X_sample
     and Y_sample using a probabilistic surrogate model.
@@ -15,7 +18,8 @@ def expected_improvement(X, X_sample, Y_sample, surrogate, xi=0.01, noise_free=F
         X_sample: Sample locations (n x d).
         Y_sample: Sample values (n x 1).
         surrogate: a model with a predict that returns mu, sigma
-        xi: Exploitation-exploration trade-off parameter.
+        improvement_thresh: Exploitation-exploration trade-off parameter.
+        trust_incumbent: whether to trust current best obs. or re-evaluate
     
     Returns:
         Expected improvements at points X.
@@ -26,18 +30,19 @@ def expected_improvement(X, X_sample, Y_sample, surrogate, xi=0.01, noise_free=F
     #sigma = sigma.reshape(-1, X_sample.shape[1])
     sigma = np.reshape(sigma, np.shape(mu))
     
-    if noise_free:
+    if trust_incumbent:
       current_best = np.max(Y_sample)
     else:
       mu_sample = surrogate.predict(X_sample)
       current_best = np.max(mu_sample)
 
     with np.errstate(divide='warn'):
-        imp = mu - current_best - xi
+        imp = mu - current_best - improvement_thresh
         Z = imp / sigma
         ei = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
-        ei[sigma == 0.0] = 0.0
-
+        #ei[sigma == 0.0] = 0.0
+        ei[sigma < 1e-4] = 0.0
+      
     return ei
 
 
@@ -103,10 +108,10 @@ class BayesianOptimizer:
     self.n_iter = n_iter
     self.callback = callback
     # Make sure you "pay" for the initial random guesses
-    self.val_history = np.repeat(np.max(Y_init), len(Y_init))
-    self.current_best_val = np.argmax(self.val_history)
-    ndx = np.argmax(self.val_history)
-    self.current_best_arg = X_init[ndx]
+    self.val_history = Y_init
+    self.current_best_val = np.max(self.val_history)
+    best_ndx = np.argmax(self.val_history)
+    self.current_best_arg = X_init[best_ndx]
   
   def propose(self):
     def objective(x):
@@ -125,39 +130,48 @@ class BayesianOptimizer:
     if y > self.current_best_val:
       self.current_best_arg = x
       self.current_best_val = y
-    self.val_history = np.append(self.val_history, self.current_best_val)
+    self.val_history = np.append(self.val_history, y)
     
   def maximize(self, objective):
     for i in range(self.n_iter):
       X_next = self.propose()
       Y_next = objective(X_next)
-      print("BO iter {}, xnext={}, ynext={}".format(i, X_next, Y_next))
+      print("BO iter {}, xnext={}, ynext={:0.3f}".format(i, X_next, Y_next))
       self.update(X_next, Y_next)
       if self.callback is not None:
         self.callback(X_next, Y_next, i)
     return self.current_best_arg
 
 class BayesianOptimizerEmbedEnum(BayesianOptimizer):
-  def __init__(self, seq_len, embed_fn, 
+  def __init__(self, Xall, embed_fn, 
                X_init, Y_init, surrogate, 
                acq_fn=expected_improvement, n_iter=None, callback=None,
                alphabet=[0,1,2,3]):
     self.embed_fn = embed_fn
-    self.alphabet = alphabet
-    self.seq_len = seq_len
+    self.Xall = Xall
     Z_init = self.embed_fn(X_init)
     super().__init__(Z_init, Y_init, surrogate, acq_fn=acq_fn,
          acq_solver=None, n_iter=n_iter, callback=callback)
 
   def propose(self):
-    Xall = gen_all_strings(self.seq_len, self.alphabet) 
-    nseq = np.shape(Xall)[0]
-    print("BO: evaluating {} sequences in parallel".format(nseq))
-    Zcandidates = self.embed_fn(Xall)
+    Zcandidates = self.embed_fn(self.Xall)
     Zold = self.X_sample # already embedded
-    Y = self.acq_fn(Zcandidates, Zold, self.Y_sample, self.surrogate)
-    ndx = np.argmax(Y)
-    return Xall[ndx]
+    A = self.acq_fn(Zcandidates, Zold, self.Y_sample, self.surrogate)
+    ndxA = np.argmax(A)
+    #### debugging
+    current_iter = len(self.val_history)
+    mu, sigma = self.surrogate.predict(Zcandidates, return_std=True)
+    sigma = np.reshape(sigma, np.shape(mu))
+    ndxY = np.argmax(mu)
+    print("Iter {}, Best acq {} val {:0.3f} surrogate {:0.5f} std {:0.3f}".format(
+        current_iter, ndxA, A[ndxA], mu[ndxA], sigma[ndxA]))
+    print("Iter {}, Best surrgate {} val {:0.5f} std {:0.3f}".format(
+        current_iter, ndxY, mu[ndxY], sigma[ndxY])) 
+    plt.figure(figsize=(10,5)); plt.plot(A); plt.title('acq fn {}'.format(current_iter))
+    plt.figure(figsize=(10,5)); plt.plot(mu); plt.title('surrogate fn {}'.format(current_iter))
+    plt.figure(figsize=(10,5)); plt.plot(sigma); plt.title('sigma {}'.format(current_iter))
+    ###
+    return self.Xall[ndxA]
   
   def update(self, x, y):
     X = np.atleast_2d(x)
@@ -168,7 +182,7 @@ class BayesianOptimizerEmbedEnum(BayesianOptimizer):
     if y > self.current_best_val:
       self.current_best_arg = x
       self.current_best_val = y
-    self.val_history = np.append(self.val_history, self.current_best_val)
+    self.val_history = np.append(self.val_history, y)
   
 class StringOptimizer:
   def __init__(self, seq_len, alphabet=[0,1,2,3],
@@ -188,7 +202,7 @@ class StringOptimizer:
     if y > self.current_best_val:
       self.current_best_arg = x
       self.current_best_val = y
-    self.val_history = np.append(self.val_history, self.current_best_val)
+    self.val_history = np.append(self.val_history, y)
       
   def maximize(self, objective):
     for i in range(self.n_iter):
