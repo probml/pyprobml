@@ -38,10 +38,16 @@ def get_8mer_data():
   y = utils.zscore_normalize(y)
   return X, y
 
-def tfbind_problem(max_ntrain = None, lower_bin=40, upper_bin=60):
+def tfbind_problem(max_ntrain = None, lower_bin=40, upper_bin=60, max_nseq=None):
   Xall, yall = get_8mer_data()  
+  if max_nseq is not None:
+    nseq = np.shape(Xall)[0]
+    perm = np.random.permutation(nseq)
+    Xall = Xall[perm[:max_nseq]]
+    yall = yall[perm[:max_nseq]]
   # Extract training set based on "medium performing" strings
   bins = pd.qcut(yall, 100, labels=False, duplicates='drop')
+  print("tfbind bins min {} max {}".format(min(bins), max(bins)))
   middle_bins = np.where(np.logical_and(bins>=lower_bin, bins<=upper_bin))[0]
   Xtrain = Xall[middle_bins]
   ytrain = yall[middle_bins]
@@ -59,11 +65,22 @@ def tfbind_problem(max_ntrain = None, lower_bin=40, upper_bin=60):
     ndx = np.where((Xall==x).all(axis=1))[0][0]
     return yall[ndx]
   
-  return oracle, Xall, yall, Xtrain, ytrain, middle_bins
+  # https://stackoverflow.com/questions/2063425/python-elegant-inverse-function-of-intstring-base
+  stringify = lambda x: ''.join([str(digit) for digit in x])
+  Sall = np.apply_along_axis(stringify, 1, Xall)
+  Nall = np.array([int(s,4) for s in Sall])
+
+  def oracle_batch(X):
+    S = np.apply_along_axis(stringify, 1, X)
+    encoded = [int(s,4) for s in S]
+    ndx = [np.where(n == Nall)[0][0] for n in encoded]
+    return yall[ndx]
+  
+  return oracle, oracle_batch, Xall, yall, Xtrain, ytrain, middle_bins
 
 ###################
-  
 
+  
 def motif_distance(x, m):
   # hamming distance of x to motif
   # If m[i]=nan, it means locn i is a don't care
@@ -114,5 +131,5 @@ def motif_problem(seq_len, noise=0, lower_bin=40, upper_bin=70):
   print("Motifs: Choosing {} training examples from {}".format(ntrain, nseq))
   
 
-  return oracle, Xall, yall, Xtrain, ytrain, middle_bins
+  return oracle, oracle_batch, Xall, yall, Xtrain, ytrain, middle_bins
 

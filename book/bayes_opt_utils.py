@@ -136,7 +136,7 @@ class BayesianOptimizer:
     for i in range(self.n_iter):
       X_next = self.propose()
       Y_next = objective(X_next)
-      print("BO iter {}, xnext={}, ynext={:0.3f}".format(i, X_next, Y_next))
+      #print("BO iter {}, xnext={}, ynext={:0.3f}".format(i, X_next, Y_next))
       self.update(X_next, Y_next)
       if self.callback is not None:
         self.callback(X_next, Y_next, i)
@@ -149,6 +149,7 @@ class BayesianOptimizerEmbedEnum(BayesianOptimizer):
                alphabet=[0,1,2,3]):
     self.embed_fn = embed_fn
     self.Xall = Xall
+    self.logging = []
     Z_init = self.embed_fn(X_init)
     super().__init__(Z_init, Y_init, surrogate, acq_fn=acq_fn,
          acq_solver=None, n_iter=n_iter, callback=callback)
@@ -163,13 +164,12 @@ class BayesianOptimizerEmbedEnum(BayesianOptimizer):
     mu, sigma = self.surrogate.predict(Zcandidates, return_std=True)
     sigma = np.reshape(sigma, np.shape(mu))
     ndxY = np.argmax(mu)
-    print("Iter {}, Best acq {} val {:0.3f} surrogate {:0.5f} std {:0.3f}".format(
-        current_iter, ndxA, A[ndxA], mu[ndxA], sigma[ndxA]))
-    print("Iter {}, Best surrgate {} val {:0.5f} std {:0.3f}".format(
-        current_iter, ndxY, mu[ndxY], sigma[ndxY])) 
-    plt.figure(figsize=(10,5)); plt.plot(A); plt.title('acq fn {}'.format(current_iter))
-    plt.figure(figsize=(10,5)); plt.plot(mu); plt.title('surrogate fn {}'.format(current_iter))
-    plt.figure(figsize=(10,5)); plt.plot(sigma); plt.title('sigma {}'.format(current_iter))
+    str = "Iter {}, Best acq {} val {:0.5f} surrogate {:0.5f} std {:0.3f}, best surrogate {} val {:0.5f}".format(
+        current_iter, ndxA, A[ndxA], mu[ndxA], sigma[ndxA], ndxY, mu[ndxY])
+    self.logging.append(str)
+    #plt.figure(figsize=(10,5)); plt.plot(A); plt.title('acq fn {}'.format(current_iter))
+    #plt.figure(figsize=(10,5)); plt.plot(mu); plt.title('surrogate fn {}'.format(current_iter))
+    #plt.figure(figsize=(10,5)); plt.plot(sigma); plt.title('sigma {}'.format(current_iter))
     ###
     return self.Xall[ndxA]
   
@@ -184,15 +184,15 @@ class BayesianOptimizerEmbedEnum(BayesianOptimizer):
       self.current_best_val = y
     self.val_history = np.append(self.val_history, y)
   
-class StringOptimizer:
-  def __init__(self, seq_len, alphabet=[0,1,2,3],
+  
+class DiscreteOptimizer:
+  def __init__(self, Xall,
                n_iter=None, callback=None):
-    self.seq_len = seq_len
+    self.Xall = Xall
     self.current_best_arg = None
     self.current_best_val = -np.inf
     self.n_iter = n_iter
     self.callback = callback
-    self.alphabet = alphabet
     self.val_history = []
     
   def propose(self):
@@ -214,17 +214,16 @@ class StringOptimizer:
     return self.current_best_arg
   
 
-class EnumerativeStringOptimizer(StringOptimizer):
-  def __init__(self, seq_len, alphabet=[0,1,2,3],
+class EnumerativeDiscreteOptimizer(DiscreteOptimizer):
+  def __init__(self, Xall,
                n_iter=None, callback=None):
-    super().__init__(seq_len, alphabet, n_iter, callback)
-    self.Xall = gen_all_strings(seq_len, alphabet) # could use iterator
+    super().__init__(Xall, n_iter, callback)
     self.ndx = 0
     
   def propose(self):
     x = self.Xall[self.ndx]
-    nseq = np.shape(self.Xall)[0]
-    if self.ndx == nseq-1:
+    n = np.shape(self.Xall)[0]
+    if self.ndx == n-1:
       self.ndx = 0
     else:
       self.ndx += 1
@@ -235,16 +234,21 @@ class EnumerativeStringOptimizer(StringOptimizer):
     return super().maximize(objective)
   
   
-class RandomStringOptimizer(StringOptimizer):
-  def __init__(self, seq_len, alphabet=[0,1,2,3],
+class RandomDiscreteOptimizer(DiscreteOptimizer):
+  def __init__(self, Xall,
                n_iter=None, callback=None):
-    super().__init__(seq_len, alphabet, n_iter, callback)
+    super().__init__(Xall, n_iter, callback)
     
   def propose(self):
-    x = gen_rnd_string(self.seq_len, self.alphabet)
+    #x = gen_rnd_string(self.seq_len, self.alphabet)
+    n = np.shape(self.Xall)[0]
+    ndx = np.random.randint(low=0, high=n, size=1)
+    x = self.Xall[ndx]
     return x
   
 
+  
+  
 ##########    
 
 from sklearn.gaussian_process.kernels import Matern
