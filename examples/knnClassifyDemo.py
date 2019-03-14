@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as pl
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier as KNN
-from sklearn.cross_validation import cross_val_score
+from sklearn.model_selection import cross_val_score
 from  utils.util import DATA_DIR
 
 
