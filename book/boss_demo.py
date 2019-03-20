@@ -5,7 +5,7 @@ from time import time
 import boss_problems, boss_models
 
 np.random.seed(0)
-"""
+
 
 #problem = 'motif'
 #problem = 'tfbind'
@@ -87,7 +87,6 @@ plt.show()
 
 ########
 
-"""
 
 import boss_problems, boss_models
 #from bayes_opt_utils import BayesianOptimizer
@@ -105,6 +104,7 @@ noise = 1e-5 # np.std(yinit)
 # We tell EI the objective is noise free so that it trusts
 # the current best, rather than re-evaluating
 def EI(X, X_sample, Y_sample, surrogate):
+  X = np.atleast_2d(X)
   return expected_improvement(X, X_sample, Y_sample, surrogate,
                               improvement_thresh=0.01, trust_incumbent=True)
   

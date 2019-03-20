@@ -203,35 +203,7 @@ save_fig('bayes-opt-convergence.pdf')
 plt.show()
     
 
-##############
 
-class GPMaximizer:
-  def __init__(self, Xinit, yinit, noise_std=None):
-    self.seq_len = seq_len
-    self.noise_std = noise_std
-    self.current_best_seq = None
-    self.current_best_val = np.inf
-    self.X_sample = []
-    self.y_sample = []
-    self.nqueries = 0
-    m52 = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
-    if noise_std is None:
-      noise_std = np.std(yinit)
-    gpr = GaussianProcessRegressor(kernel=m52, alpha=noise_std**2)
-    gpr.fit(Xinit, yinit)
-    self.gpr = gpr
-  
-  def propose(self):
-    self.nqueries += 1
-    return gen_rnd_dna(self.seq_len)
- 
-  def update(self, x, y):
-    if y > self.current_best_val:
-      self.current_best_seq = x
-      self.current_best_val = y
-      
-  def current_best(self):
-    return (self.current_best_seq, self.current_best_val)
   
   
 ####################
@@ -241,25 +213,10 @@ class GPMaximizer:
 #from sklearn.base import clone
 from skopt import gp_minimize
 from skopt.learning import GaussianProcessRegressor
-from skopt.learning.gaussian_process.kernels import ConstantKernel, Matern, RBF
+from skopt.learning.gaussian_process.kernels import ConstantKernel, Matern
 
 
-# https://github.com/scikit-learn/scikit-learn/blob/7b136e9/sklearn/gaussian_process/kernels.py#L1146
-
-class StringEmbedKernel(Matern):
-  def __init__(self, length_scale=1.0, length_scale_bounds=(1e-5, 1e5),
-                 nu=1.5, seq_len=None):
-        #super(StringEmbedKernel, self).__init__(length_scale, length_scale_bounds)
-        super().__init__(length_scale, length_scale_bounds)
-        self.seq_len = seq_len
- 
-  def __call__(self, X, Y=None, eval_gradient=False):
-    print("seq len = {}".format(self.seq_len))
-    #return super(StringEmbedKernel, self).__call__(X, Y=Y, eval_gradient=eval_gradient)
-    return super().__call__(X, Y=Y, eval_gradient=eval_gradient)
-  
-m52 = ConstantKernel(1.0) * StringEmbedKernel(length_scale=1.0, nu=2.5, seq_len=42)
-#m52 = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
+m52 = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
 
 gpr = GaussianProcessRegressor(kernel=m52, alpha=noise**2)
 mu, sigma = gpr.predict(X_init, return_std=True)

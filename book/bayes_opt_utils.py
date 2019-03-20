@@ -1,7 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.stats import norm
-from utils import gen_rnd_string, gen_all_strings
 
 #from scipy.optimize import minimize
 import scipy.optimize
@@ -24,7 +22,7 @@ def expected_improvement(X, X_sample, Y_sample, surrogate,
     Returns:
         Expected improvements at points X.
     '''
-    X = np.atleast_2d(X)
+    #X = np.atleast_2d(X)
     mu, sigma = surrogate.predict(X, return_std=True)
     # Make sigma have same shape as mu
     #sigma = sigma.reshape(-1, X_sample.shape[1])
@@ -46,6 +44,7 @@ def expected_improvement(X, X_sample, Y_sample, surrogate,
     return ei
 
 
+
 # bounds: D*2 array, where D = number parameter dimensions
 # bounds[:,0] are lower bounds, bounds[:,1] are upper bounds
 class MultiRestartGradientOptimizer:
@@ -57,7 +56,8 @@ class MultiRestartGradientOptimizer:
     self.dim = dim
   
   def maximize(self, objective):
-    neg_obj = lambda x: -objective(x)
+    #neg_obj = lambda x: -objective(x)
+    neg_obj = lambda x: -objective(x.reshape(-1, 1))
     min_val = np.inf
     best_x = None
     candidates = np.random.uniform(self.bounds[:, 0], self.bounds[:, 1],
@@ -66,35 +66,12 @@ class MultiRestartGradientOptimizer:
         res = scipy.optimize.minimize(neg_obj, x0=x0, bounds=self.bounds,
                                      method=self.method)        
         if res.fun < min_val:
-            min_val = res.fun[0]
-            best_x = res.x 
-    return best_x
+          min_val = res.fun
+          best_x = res.x 
+    return best_x.reshape(-1, 1)
 
  
-class RandomOptimizer:
-  def __init__(self, dim, bounds=None, n_samples=None, callback=None):
-    self.bounds = bounds
-    self.n_samples = n_samples
-    self.dim = dim
-    self.callback = callback
   
-  def maximize(self, objective):
-    min_val = np.inf
-    best_x = None
-    # Find the best optimum by starting from n_restart different random points.
-    candidates = np.random.uniform(self.bounds[:, 0], self.bounds[:, 1],
-                                   size=(self.n_samples, self.dim))
-    for i, x in enumerate(candidates):
-      y = objective(x)
-      if self.callback is not None:
-        self.callback(x, y, i)
-      if y < min_val:
-        min_val = y
-        best_x = x
-    return best_x
-
-
-
 class BayesianOptimizer:
   def __init__(self, X_init, Y_init, surrogate, 
                acq_fn=expected_improvement, acq_solver=None,
@@ -141,128 +118,4 @@ class BayesianOptimizer:
       if self.callback is not None:
         self.callback(X_next, Y_next, i)
     return self.current_best_arg
-
-class BayesianOptimizerEmbedEnum(BayesianOptimizer):
-  def __init__(self, Xall, embed_fn, 
-               X_init, Y_init, surrogate, 
-               acq_fn=expected_improvement, n_iter=None, callback=None,
-               alphabet=[0,1,2,3]):
-    self.embed_fn = embed_fn
-    self.Xall = Xall
-    self.logging = []
-    Z_init = self.embed_fn(X_init)
-    super().__init__(Z_init, Y_init, surrogate, acq_fn=acq_fn,
-         acq_solver=None, n_iter=n_iter, callback=callback)
-
-  def propose(self):
-    Zcandidates = self.embed_fn(self.Xall)
-    Zold = self.X_sample # already embedded
-    A = self.acq_fn(Zcandidates, Zold, self.Y_sample, self.surrogate)
-    ndxA = np.argmax(A)
-    #### debugging
-    current_iter = len(self.val_history)
-    mu, sigma = self.surrogate.predict(Zcandidates, return_std=True)
-    sigma = np.reshape(sigma, np.shape(mu))
-    ndxY = np.argmax(mu)
-    str = "Iter {}, Best acq {} val {:0.5f} surrogate {:0.5f} std {:0.3f}, best surrogate {} val {:0.5f}".format(
-        current_iter, ndxA, A[ndxA], mu[ndxA], sigma[ndxA], ndxY, mu[ndxY])
-    self.logging.append(str)
-    #plt.figure(figsize=(10,5)); plt.plot(A); plt.title('acq fn {}'.format(current_iter))
-    #plt.figure(figsize=(10,5)); plt.plot(mu); plt.title('surrogate fn {}'.format(current_iter))
-    #plt.figure(figsize=(10,5)); plt.plot(sigma); plt.title('sigma {}'.format(current_iter))
-    ###
-    return self.Xall[ndxA]
-  
-  def update(self, x, y):
-    X = np.atleast_2d(x)
-    Z = self.embed_fn(X)
-    self.X_sample = np.append(self.X_sample, Z, axis=0)
-    self.Y_sample = np.append(self.Y_sample, y)
-    self.surrogate.fit(self.X_sample, self.Y_sample)
-    if y > self.current_best_val:
-      self.current_best_arg = x
-      self.current_best_val = y
-    self.val_history = np.append(self.val_history, y)
-  
-  
-class DiscreteOptimizer:
-  def __init__(self, Xall,
-               n_iter=None, callback=None):
-    self.Xall = Xall
-    self.current_best_arg = None
-    self.current_best_val = -np.inf
-    self.n_iter = n_iter
-    self.callback = callback
-    self.val_history = []
-    
-  def propose(self):
-    pass
-  
-  def update(self, x, y):
-    if y > self.current_best_val:
-      self.current_best_arg = x
-      self.current_best_val = y
-    self.val_history = np.append(self.val_history, y)
-      
-  def maximize(self, objective):
-    for i in range(self.n_iter):
-      X_next = self.propose()
-      Y_next = objective(X_next)
-      self.update(X_next, Y_next)
-      if self.callback is not None:
-        self.callback(X_next, Y_next, i)
-    return self.current_best_arg
-  
-
-class EnumerativeDiscreteOptimizer(DiscreteOptimizer):
-  def __init__(self, Xall,
-               n_iter=None, callback=None):
-    super().__init__(Xall, n_iter, callback)
-    self.ndx = 0
-    
-  def propose(self):
-    x = self.Xall[self.ndx]
-    n = np.shape(self.Xall)[0]
-    if self.ndx == n-1:
-      self.ndx = 0
-    else:
-      self.ndx += 1
-    return x
-  
-  def maximize(self, objective):
-    self.ndx = 0
-    return super().maximize(objective)
-  
-  
-class RandomDiscreteOptimizer(DiscreteOptimizer):
-  def __init__(self, Xall,
-               n_iter=None, callback=None):
-    super().__init__(Xall, n_iter, callback)
-    
-  def propose(self):
-    #x = gen_rnd_string(self.seq_len, self.alphabet)
-    n = np.shape(self.Xall)[0]
-    ndx = np.random.randint(low=0, high=n, size=1)
-    x = self.Xall[ndx]
-    return x
-  
-
-  
-  
-##########    
-
-from sklearn.gaussian_process.kernels import Matern
-# https://github.com/scikit-learn/scikit-learn/blob/7b136e9/sklearn/gaussian_process/kernels.py#L1146
-class EmbedKernel(Matern):
-  def __init__(self, length_scale=1.0, length_scale_bounds=(1e-5, 1e5),
-                 nu=1.5, embed_fn=None):
-        super().__init__(length_scale, length_scale_bounds)
-        self.embed_fn = embed_fn
- 
-  def __call__(self, X, Y=None, eval_gradient=False):
-    if self.embed_fn is not None:
-      X = self.embed_fn(X)
-      if Y is not None:
-        Y = self.embed_fn(Y)
-    return super().__call__(X, Y=Y, eval_gradient=eval_gradient)
 

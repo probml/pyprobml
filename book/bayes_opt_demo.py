@@ -6,11 +6,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from utils import save_fig
-from bayes_opt_utils import BayesianOptimizer, MultiRestartGradientOptimizer, RandomOptimizer, expected_improvement
+from bayes_opt_utils import BayesianOptimizer, MultiRestartGradientOptimizer, expected_improvement
 
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import ConstantKernel
-from bayes_opt_utils import EmbedKernel
+from sklearn.gaussian_process.kernels import ConstantKernel, Matern
 
 np.random.seed(0)
 save_figures = False
@@ -88,11 +87,8 @@ plt.show()
 
 ################
 
-def embed_fn(X):
-  return X
-  
-kernel = ConstantKernel(1.0) * EmbedKernel(length_scale=1.0, nu=2.5, embed_fn=embed_fn)
-#kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
+
+kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
 gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
 
 
@@ -111,15 +107,13 @@ The parameter nu controlling the smoothness of the learned function.
 """
 
 
-# Keep track of visiting points for plotting purposes
+# Keep track of visited points for plotting purposes
 global X_sample, Y_sample
 X_sample = X_init
 Y_sample = Y_init
 
 def callback(X_next, Y_next, i):
   global X_sample, Y_sample
-  X_next = np.atleast_2d(X_next)
-  Y_next = np.atleast_2d(Y_next)
   # Plot samples, surrogate function, noise-free objective and next sampling location
   #plt.subplot(n_iter, 2, 2 * i + 1)
   plt.figure()
@@ -135,8 +129,8 @@ def callback(X_next, Y_next, i):
   plt.show()
   
   # Add sample to previous samples
-  X_sample = np.vstack((X_sample, X_next))
-  Y_sample = np.vstack((Y_sample, Y_next))
+  X_sample = np.append(X_sample, np.atleast_2d(X_next), axis=0)
+  Y_sample = np.append(Y_sample, np.atleast_2d(Y_next), axis=0)
     
   
 def callback_noplot(X_next, Y_next, i):
@@ -152,9 +146,7 @@ noise = 0.2
 n_iter = 10
 acq_fn = expected_improvement
 acq_solver = MultiRestartGradientOptimizer(dim=1, bounds=bounds, n_restarts=n_restarts)
-#acq_solver = RandomOptimizer(dim=1, bounds=bounds, n_samples=10)
 solver = BayesianOptimizer(X_init, Y_init, gpr, acq_fn, acq_solver, n_iter=n_iter, callback=callback)
-#solver = RandomOptimizer(dim=1, bounds=bounds, n_samples=n_iter, callback=callback)
 
 solver.maximize(f)
 

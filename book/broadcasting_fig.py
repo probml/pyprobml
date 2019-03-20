@@ -188,7 +188,7 @@ ax.text(1, 4.5, r'${\tt np.arange(3).reshape((3,\, 1)) + np.arange(3)}$',
 ax.set_xlim(0, 16)
 ax.set_ylim(0.5, 12.5)
 
-plt.show()
-
 from utils import save_fig
 save_fig('broadcasting.pdf')
+plt.show()
+

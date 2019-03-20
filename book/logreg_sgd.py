@@ -1,4 +1,4 @@
-# Compare various online solvers (SGD, SAG) on various classification
+L# Compare various online solvers (SGD, SAG) on various classification
 # datasets using multinomial logisti regression with L2 regularizer.
 
 #https://scikit-learn.org/stable/modules/linear_model.html
