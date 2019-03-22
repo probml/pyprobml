@@ -24,7 +24,7 @@ def MakeDirSampleFig(alpha):
 
     plt.draw()
     SaveN = "DirSample" + str(alpha) + ".pdf"
-    plt.savefig(os.path.join('figures', SaveN))
+    plt.savefig(os.path.join('../figures', SaveN))
 
 MakeDirSampleFig(.1)
 MakeDirSampleFig(1.0)

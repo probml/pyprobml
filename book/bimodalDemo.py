@@ -25,5 +25,5 @@ mean_p = np.mean(xs * p)
 linewidth = 3
 plt.plot(xs, p, 'black', linewidth=linewidth)
 plt.vlines(mean_p, ymin=0, ymax=max(p), color='red', linewidth=linewidth)
-plt.savefig(os.path.join('figures', 'bimodalSpike'))
+plt.savefig(os.path.join('../figures', 'bimodalSpike'))
 plt.show()

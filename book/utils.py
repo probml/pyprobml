@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 #from sklearn.datasets import fetch_mldata
 from sklearn.datasets import fetch_openml
-import tensorflow as tf
+#import tensorflow as tf
 
 import itertools
 import random

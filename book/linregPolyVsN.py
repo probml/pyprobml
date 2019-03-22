@@ -83,7 +83,7 @@ for ModDeg in degrees:
     plt.xlabel('size of training set')
     plt.ylabel('mse')
     plt.title('truth = degree {}, model = degree {}'.format(TrueDeg, ModDeg))
-    plt.savefig(os.path.join('figures', 'polyfitN{}.pdf'.format(ModDeg)),orientation='landscape')
+    plt.savefig(os.path.join('../figures', 'polyfitN{}.pdf'.format(ModDeg)),orientation='landscape')
     plt.draw()
 
 plt.show()
