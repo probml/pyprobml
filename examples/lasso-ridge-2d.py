@@ -6,7 +6,7 @@
 #%matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
-
+import os
 
 # plot range for theta1 and theta2
 t1a, t1b, t2a, t2b = -1, 3, -1.5, 1.5
@@ -47,8 +47,7 @@ def bgd_path(theta, X, y, l1, l2, include_mse = 1, eta = 0.1, n_iterations = 50)
     return np.array(path)
 
 
-
-def do_plot(l1=0, l2=0, ttl=""):
+def do_plot(l1=0, l2=0, ttl="", figdir=None):
     JR = J + l1*N1 + l2*N2**2
     N = l1*N1 + l2*N2**2
     tr_min_idx = np.unravel_index(np.argmin(JR), JR.shape)
@@ -71,9 +70,14 @@ def do_plot(l1=0, l2=0, ttl=""):
     plt.xlabel(r"$\theta_1$", fontsize=20)
     plt.ylabel(r"$\theta_2$", fontsize=20, rotation=0)
     plt.title(ttl, fontsize=16)
+    if not(figdir is None):
+      fname = os.path.join(figdir, "{}.png".format(ttl))
+      plt.savefig(fname)
+    plt.show()
 
 
-do_plot(l1=0, l2=0, ttl="OLS")
-do_plot(l1=0.5, l2=0, ttl="lasso")
-do_plot(l1=0, l2=0.1, ttl="ridge")
+figdir = "../figures"
+do_plot(l1=0, l2=0, ttl="OLS-2d", figdir=figdir)
+do_plot(l1=0.5, l2=0, ttl="lasso-2d", figdir=figdir)
+do_plot(l1=0, l2=0.1, ttl="ridge-2d", figdir=figdir)
 

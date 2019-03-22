@@ -133,7 +133,7 @@ class MultiGaussProbDist(ProbDist):
     The prior for the covariance is a Wishart with mode I/Nprior, where Nprior
     is the effect strength of the prior.
     """
-    self._mean = np.mean(X, axis=0)
+    self._mean = np.mean(X, axis=0) 
     N, D = np.shape(X)
     S = np.cov(X, rowvar=0, ddof=1) * N # divide by N, not N-1
     Sprior = np.eye(D)
