@@ -4,15 +4,19 @@
 # Apache 2.0 license
 
 import numpy as np
-import matplotlib.pyplot as plt
-from utils import save_fig
 from bayes_opt_utils import BayesianOptimizer, MultiRestartGradientOptimizer, expected_improvement
+
+import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+save_figures = False
 
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import ConstantKernel, Matern
 
 np.random.seed(0)
-save_figures = False
+
 
 def plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next=None, show_legend=False):
     X = np.atleast_2d(X)

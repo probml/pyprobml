@@ -14,8 +14,9 @@ pd.set_option('display.max_rows', 20)
 pd.set_option('display.max_columns', 30)
 pd.set_option('display.width', 150) # wide windows
 
-from utils import save_fig  
-#exec(open('utils.py').read()) 
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+ 
   
 #from sklearn.datasets import fetch_openml
 #auto = fetch_openml('autoMpg', cache=True)
@@ -108,7 +109,7 @@ data = pd.concat( [df['MPG'], df['Origin']], axis=1)
 fig, ax = plt.subplots()
 ax = sns.boxplot(x='Origin', y='MPG', data=data)
 ax.axhline(data.MPG.mean(), color='r', linestyle='dashed', linewidth=2)
-save_fig("auto-mpg-origin-boxplot")
+plt.savefig(os.path.join(figdir, 'auto-mpg-origin-boxplot.pdf'))
 plt.show()
 
 # Plot mpg distribution for cars from different years
@@ -116,7 +117,7 @@ data = pd.concat( [df['MPG'], df['Year']], axis=1)
 fig, ax = plt.subplots()
 ax = sns.boxplot(x='Year', y='MPG', data=data)
 ax.axhline(data.MPG.mean(), color='r', linestyle='dashed', linewidth=2)
-save_fig("auto-mpg-year-boxplot")
+plt.savefig(os.path.join(figdir, 'auto-mpg-year-boxplot.pdf'))
 plt.show()
 
 

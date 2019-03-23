@@ -1,8 +1,14 @@
-import numpy as np
-import matplotlib.pyplot as plt
+#Plots the pmfs of binomial distributions with varying probability of success parameter
+
 from scipy.stats import binom
 
-#Plots the pmfs of binomial distributions with varying probability of success parameter
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+
 
 N = 10
 
@@ -19,6 +25,6 @@ for th in thetas:
     plt.xticks(X)
     plt.title(title)
     plt.draw()
-    plt.savefig('figures/binomDistTheta' + str(int(th*100)))
+    save_fig('binomDistTheta' + str(int(th*100)) + '.pdf')
 
 plt.show()

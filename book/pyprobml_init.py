@@ -3,6 +3,7 @@ import os
 #os.environ["PYPROBML"] = "/Users/kpmurphy/github/pyprobml"
 #figdir = os.path.join(os.environ["PYPROBML"], "figures")
 
+#exec(open('utils.py').read())
 
 #https://stackoverflow.com/questions/2632199/how-do-i-get-the-path-of-the-current-executed-file-in-python?lq=1
 from inspect import getsourcefile

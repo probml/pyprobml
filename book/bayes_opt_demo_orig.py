@@ -3,10 +3,11 @@
 # Apahce 2.0 license
 
 import numpy as np
-
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
-from utils import save_fig
 
 np.random.seed(0)
 
@@ -245,6 +246,7 @@ plot_convergence(np.array(r.x_iters), -r.func_vals)
 
 ###############
 
+# https://sheffieldml.github.io/GPy/
 import GPy
 import GPyOpt
 
