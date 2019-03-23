@@ -5,6 +5,7 @@ import numpy as np
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
 
 # Define two normal distrubutions and their corresponding weights.
 mu = [0, 2]
@@ -25,5 +26,5 @@ mean_p = np.mean(xs * p)
 linewidth = 3
 plt.plot(xs, p, 'black', linewidth=linewidth)
 plt.vlines(mean_p, ymin=0, ymax=max(p), color='red', linewidth=linewidth)
-plt.savefig(os.path.join('../figures', 'bimodalSpike'))
+plt.savefig(os.path.join(figdir, 'bimodalSpike.pdf'))
 plt.show()
