@@ -1,10 +1,14 @@
 # Taken from Jake VanderPlas' code
 # https://jakevdp.github.io/PythonDataScienceHandbook/06.00-figure-code.html#Broadcasting
 # CC-BY license
-
 # Adapted from astroML: see http://www.astroml.org/book_figures/appendix/fig_broadcast_visual.html
+
+
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 #------------------------------------------------------------
 # Draw a figure and axis with no boundary
@@ -188,7 +192,6 @@ ax.text(1, 4.5, r'${\tt np.arange(3).reshape((3,\, 1)) + np.arange(3)}$',
 ax.set_xlim(0, 16)
 ax.set_ylim(0.5, 12.5)
 
-from utils import save_fig
 save_fig('broadcasting.pdf')
 plt.show()
 

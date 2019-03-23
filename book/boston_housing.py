@@ -1,12 +1,16 @@
 # Boston housing demo
 
-import matplotlib.pyplot as plt
+
 import numpy as np
+import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 import pandas as pd
 import sklearn.datasets
 import sklearn.linear_model as lm
 from sklearn.model_selection import train_test_split
-from utils import save_fig
 
 # Prevent numpy from printing too many digits
 np.set_printoptions(precision=3)

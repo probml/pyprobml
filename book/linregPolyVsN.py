@@ -1,11 +1,16 @@
-
+# Linear regression as a function of training set size
 # Based on https://github.com/probml/pmtk3/blob/master/demos/linregPolyVsN.m
+
+import numpy as np
+import matplotlib.pyplot as plt
 import os
-#from utils.util import poly_data_make
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import MinMaxScaler 
-import matplotlib.pyplot as plt
-import numpy as np
+
 
 
 TrueDeg = 2 #The true degree of the model
@@ -18,8 +23,8 @@ def ExpandtoDeg(x,deg):
 def make_1dregression_data(n=21):
     np.random.seed(0)
     # Example from Romaine Thibaux
-    xtrain = np.linspace(0, 20, n)
-    xtest = np.arange(0, 20, 0.1)
+    xtrain = np.linspace(0.0, 20, n)
+    xtest = np.arange(0.0, 20, 0.1)
     sigma2 = 4
     w = np.array([-1.5, 1/9.])
     fun = lambda x: w[0]*x + w[1]*np.square(x)
@@ -53,10 +58,8 @@ for ModDeg in degrees:
     err = []
     errtrain = []
     for n in ns:
-        #Forming data
-        #xtrain, ytrain, xtest, _, ytest, _ = poly_data_make(sampling='thibaux', deg=TrueDeg, n=n)
         xtrain, ytrain, xtest, _, ytest, _ = make_1dregression_data(n=n)
-        #xtrain, ytrain, xtest, _, ytest, _ = make_poly_regression_data(deg=TrueDeg, n=n)
+
         
         #Rescaling data
         scaler = MinMaxScaler(feature_range=(-1, 1))
@@ -83,7 +86,7 @@ for ModDeg in degrees:
     plt.xlabel('size of training set')
     plt.ylabel('mse')
     plt.title('truth = degree {}, model = degree {}'.format(TrueDeg, ModDeg))
-    plt.savefig(os.path.join('../figures', 'polyfitN{}.pdf'.format(ModDeg)),orientation='landscape')
+    save_fig('polyfitN{}.pdf'.format(ModDeg))
     plt.draw()
 
 plt.show()
