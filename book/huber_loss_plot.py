@@ -1,10 +1,11 @@
 # Plots L2, L1 and Huber losses.
 
-import matplotlib.pyplot as plt
 import numpy as np
-
+import matplotlib.pyplot as plt
 import os
 figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 
 delta = 1.5
 huber = lambda x: (x**2/2) * (x <= delta) + (delta * abs(x) - delta**2/2) * (x > delta)
@@ -21,5 +22,5 @@ for i, fun in enumerate(funs):
 
 plt.axis([-3, 3, -0.5, 5])
 plt.legend()
-plt.savefig(os.path.join(figdir, 'huberLossPlot.pdf'))
+save_fig(os.path.join(figdir, 'huberLossPlot.pdf'))
 plt.show()

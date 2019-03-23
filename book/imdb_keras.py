@@ -2,13 +2,18 @@
 # Movie review classifier using keras. Based on 
 # https://www.tensorflow.org/tutorials/keras/basic_text_classification
 
+
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 from __future__ import absolute_import, division, print_function
 
 import tensorflow as tf
 from tensorflow import keras
 
-import numpy as np
-from utils import save_fig
 
 print(tf.__version__)
 np.random.seed(0)
@@ -124,7 +129,6 @@ print(results)
 history_dict = history.history
 print(history_dict.keys())
 
-import matplotlib.pyplot as plt
 
 acc = history_dict['acc']
 val_acc = history_dict['val_acc']

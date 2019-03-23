@@ -4,15 +4,17 @@
 
 from __future__ import absolute_import, division, print_function
 
-# TensorFlow and tf.keras
-import tensorflow as tf
-from tensorflow import keras
 
 import numpy as np
 import matplotlib.pyplot as plt
-from time import time
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
-from utils import save_fig
+
+import tensorflow as tf
+from tensorflow import keras
+from time import time
 
 print(tf.__version__)
 np.random.seed(0)

@@ -4,11 +4,13 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 
-from utils import save_fig
 
 def plot_gp(mu, cov, X, X_train=None, Y_train=None, samples=[]):
     X = X.ravel()
@@ -55,6 +57,7 @@ mu = np.zeros(X.shape)
 cov = kernel(X, X)
 
 # Draw three samples from the prior
+np.random.seed(42)
 samples = np.random.multivariate_normal(mu.ravel(), cov, 3)
 
 # Plot GP mean, confidence interval and samples 

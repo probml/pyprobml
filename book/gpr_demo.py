@@ -5,13 +5,15 @@
 # We assume the mean function is 0
 
 import numpy as np
-from numpy.linalg import inv
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
+from numpy.linalg import inv
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 
-from utils import save_fig
 
 np.random.seed(0)
 
@@ -252,8 +254,8 @@ plot_gp(mu_s, cov_s, X, X_train=X_train, Y_train=Y_train)
 ############
 # https://sheffieldml.github.io/GPy/
 # See also https://gpytorch.ai/
-import sys
-sys.path.append("/home/kpmurphy/github/GPy")
+#import sys
+#sys.path.append("/home/kpmurphy/github/GPy")
 
 import GPy
 

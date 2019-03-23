@@ -1,8 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+
 from mpl_toolkits.mplot3d import proj3d
 from scipy.stats import dirichlet
-import os
+
 
 grain = 250 #how many points along each axis to plot
 edgedist = 0.008 #How close to an extreme value of say [1,0,0] are we willing to plot.
@@ -36,5 +41,5 @@ ax.view_init(elev=25, azim=230)
 #ax.view_init(elev=25, azim=20)
 ax.set_zlabel('p')
 ax.set_title(r'$\alpha$'+'='+str(alpha))
+save_fig('DirSimplex%d.pdf' % (alpha*10))
 plt.show()
-plt.savefig(os.path.join('../figures', 'DirSimplex%d.pdf' % (alpha*10)))

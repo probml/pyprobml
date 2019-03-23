@@ -1,10 +1,14 @@
 # https://github.com/ageron/handson-ml2/blob/master/09_unsupervised_learning.ipynb
 # Apache 2.0 license
 
+
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 import seaborn as sns
-from utils import save_fig
 
 from sklearn.datasets import load_iris
 #from sklearn.cluster import KMeans
