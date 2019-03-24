@@ -1,9 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
+
+def save_fig(fname):
+    figdir = os.path.join(os.environ["PYPROBML"], "figures")
+    plt.tight_layout()    
+    fullname = os.path.join(figdir, fname)
+    print('saving to {}'.format(fullname))
+    plt.savefig(fullname)
 
 import scipy.spatial
 import matplotlib.tri as mtri

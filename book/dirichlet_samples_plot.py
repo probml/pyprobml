@@ -3,8 +3,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+def save_fig(fname):
+    figdir = os.path.join(os.environ["PYPROBML"], "figures")
+    plt.tight_layout()    
+    fullname = os.path.join(figdir, fname)
+    print('saving to {}'.format(fullname))
+    plt.savefig(fullname)
 
 np.random.seed(0)
 
@@ -27,7 +32,7 @@ def MakeDirSampleFig(alpha):
         ax[i].set_xlim([min(X) - .5, max(X) + .5])
 
     plt.draw()
-    SaveN = "DirSample" + str(alpha) + ".pdf"
+    SaveN = "dirSample" + str(int(np.round(10*alpha))) + ".pdf"
     save_fig(SaveN)
 
 MakeDirSampleFig(.1)
