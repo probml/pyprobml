@@ -3,19 +3,44 @@
 #https://github.com/ageron/handson-ml2/blob/master/03_classification.ipynb
 # Apache 2.0 license
 
+
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
-from utils import save_fig,load_mnist_data
+#from sklearn.datasets import fetch_mldata
+from sklearn.datasets import fetch_openml
+
+
+def load_mnist_data_openml():
+  # Returns X_train: (60000, 784), X_test: (10000, 784), scaled [0...1]
+  # y_train: (60000,) 0..9 ints, y_test: (10000,)
+    print("Downloading mnist...")
+    data = fetch_openml('mnist_784', version=1, cache=True)
+    print("Done")
+    #data = fetch_mldata('MNIST original')
+    X = data['data'].astype('float32')
+    y = data["target"].astype('int64')
+    # Normalize features
+    X = X / 255
+    # Create train-test split (as [Joachims, 2006])
+    n_train = 60000
+    X_train = X[:n_train]
+    y_train = y[:n_train]
+    X_test = X[n_train:]
+    y_test = y[n_train:]
+    return X_train, X_test, y_train, y_test
 
 mpl.rc('axes', labelsize=14)
 mpl.rc('xtick', labelsize=12)
 mpl.rc('ytick', labelsize=12)
 
 
-X_train, X_test, y_train, y_test = load_mnist_data()
+X_train, X_test, y_train, y_test = load_mnist_data_openml()
  
 def plot_digit(data):
     image = data.reshape(28, 28)

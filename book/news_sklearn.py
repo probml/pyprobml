@@ -84,6 +84,7 @@ print(accuracy_tfidf) # 90.6%
 
 ###############
 # Now use word embeddings
+# https://spacy.io/
 
 import spacy
 nlp = spacy.load('en_core_web_md', disable=['tagger','parser','ner']) # Just tokenize

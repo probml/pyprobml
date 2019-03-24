@@ -3,11 +3,16 @@
 # Apache 2.0 license
 
 import numpy as np
+import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+
 from time import time
 
 np.random.seed(42)
 
-import matplotlib.pyplot as plt
 from scipy.special import logit
 
 import tensorflow as tf
@@ -15,7 +20,25 @@ from tensorflow import keras
 
 from sklearn.linear_model import LogisticRegression
 
-from utils import load_mnist_data_keras, save_fig
+def load_mnist_data_keras(flatten=False):
+   # Returns X_train: (60000, 28, 28), X_test: (10000, 28, 28), scaled [0..1] 
+  # y_train: (60000,) 0..9 ints, y_test: (10000,)
+    mnist = tf.keras.datasets.mnist
+    (x_train, y_train),(x_test, y_test) = mnist.load_data()
+    x_train = x_train.astype('float32')
+    x_test = x_test.astype('float32')
+    y_train = y_train.astype('int64')
+    y_test = y_test.astype('int64')
+    x_train, x_test = x_train / 255.0, x_test / 255.0
+    if flatten: 
+      Ntrain, D1, D2 = np.shape(x_train)
+      D = D1*D2
+      assert D == 784
+      Ntest = np.shape(x_test)[0]
+      x_train = np.reshape(x_train, (Ntrain, D))
+      x_test = np.reshape(x_test, (Ntest, D))
+    return x_train, x_test, y_train, y_test
+  
 
 x_train, x_test, y_train, y_test = load_mnist_data_keras(flatten=True)
 # Take tiny train subset for speed

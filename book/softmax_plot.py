@@ -1,10 +1,14 @@
-#!/usr/bin/env python
 
 # Plot the softmax function.
 
-import matplotlib.pyplot as plt
+
 import numpy as np
+import matplotlib.pyplot as plt
 import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+
 from scipy.misc import logsumexp
  
 def softmax(a):
@@ -25,20 +29,12 @@ for i in range(len(T)):
     ax = plt.gca()
     ax.set_xticklabels([])
     
-plt.show()
+
 fname = 'softmax_temp.pdf'
 print(fname)
-plt.savefig(os.path.join('../figures', fname))
+save_fig(fname)
+plt.show()
 
 
 
-#for i in range(len(T)):
-#    plt.bar(ind, softmax(a / T[i]))
-#    plt.ylim(0, 1)
-#    plt.title('T = %d' % T[i])
-#    plt.show()
-#    #plt.savefig('softmax_temp%d.png' % T[i])
-#    fname = 'softmax_temp%d.pdf' % T[i]
-#    print(fname)
-#    plt.savefig(os.path.join('../figures', fname))
 

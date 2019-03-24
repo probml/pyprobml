@@ -5,15 +5,38 @@
 import numpy as np
 from time import time
 
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import MLPClassifier
 
 from sklearn.metrics import zero_one_loss
 
-from utils import load_mnist_data_openml, load_mnist_data_keras
 
-X_train, X_test, y_train, y_test = load_mnist_data_keras()
+
+#from sklearn.datasets import fetch_mldata
+from sklearn.datasets import fetch_openml
+
+
+def load_mnist_data_openml():
+  # Returns X_train: (60000, 784), X_test: (10000, 784), scaled [0...1]
+  # y_train: (60000,) 0..9 ints, y_test: (10000,)
+    print("Downloading mnist...")
+    data = fetch_openml('mnist_784', version=1, cache=True)
+    print("Done")
+    #data = fetch_mldata('MNIST original')
+    X = data['data'].astype('float32')
+    y = data["target"].astype('int64')
+    # Normalize features
+    X = X / 255
+    # Create train-test split (as [Joachims, 2006])
+    n_train = 60000
+    X_train = X[:n_train]
+    y_train = y[:n_train]
+    X_test = X[n_train:]
+    y_test = y[n_train:]
+    return X_train, X_test, y_train, y_test
+
+
+X_train, X_test, y_train, y_test = load_mnist_data_openml()
 
 
 max_iter = 10 # 400
