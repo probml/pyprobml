@@ -8,6 +8,7 @@ figdir = os.path.join(os.environ["PYPROBML"], "figures")
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
+
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import MinMaxScaler 
 

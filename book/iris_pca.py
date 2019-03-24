@@ -1,13 +1,18 @@
-from sklearn.datasets import load_iris
-from sklearn.decomposition import PCA
+# Project 4d iris to 3d and 2d usign PCA
+
 import numpy as np
 import matplotlib.pyplot as plt
-#%matplotlib inline
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+from sklearn.datasets import load_iris
+from sklearn.decomposition import PCA
+
 #from mpl_toolkits import mplot3d
-from mpl_toolkits.mplot3d import Axes3D
+#from mpl_toolkits.mplot3d import Axes3D
 #https://jakevdp.github.io/PythonDataScienceHandbook/04.12-three-dimensional-plotting.html
 
-from utils import save_fig
 
 
 iris = load_iris()

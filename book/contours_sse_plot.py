@@ -15,7 +15,7 @@ def make_1dregression_data(n=21):
     # Example from Romaine Thibaux
     xtrain = np.linspace(0.0, 20, n)
     xtest = np.arange(0.0, 20, 0.1)
-    sigma2 = 4
+    sigma2 = 1
     w = np.array([-1.5, 1/9.])
     fun = lambda x: w[0]*x + w[1]*np.square(x)
     # Apply function to make data

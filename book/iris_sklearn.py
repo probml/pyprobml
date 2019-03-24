@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import Axes3D
 import os
-figdir = "../figures"
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 
 from sklearn.datasets import load_iris
 iris = load_iris()
@@ -61,7 +62,6 @@ sns.set(style="ticks", color_codes=True)
 iris_df = df.copy()
 iris_df.columns = iris['feature_names'] + ['label'] 
 g = sns.pairplot(iris_df, vars = iris_df.columns[0:3] , hue="label")
-fname = os.path.join(figdir, "iris-scatterplot.pdf")
-plt.savefig(fname)
+save_fig("iris-scatterplot.pdf")
 plt.show()
 

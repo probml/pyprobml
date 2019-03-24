@@ -3,11 +3,16 @@
 # https://github.com/ageron/handson-ml2/blob/master/04_training_linear_models.ipynb
 # Apache 2.0 license
 
+
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 from sklearn.linear_model import LogisticRegression
 from sklearn import datasets
-from utils import save_fig
+
 
 iris = datasets.load_iris()
 

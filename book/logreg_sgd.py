@@ -1,14 +1,9 @@
-L# Compare various online solvers (SGD, SAG) on various classification
+# Compare various online solvers (SGD, SAG) on various classification
 # datasets using multinomial logisti regression with L2 regularizer.
 
 #https://scikit-learn.org/stable/modules/linear_model.html
 
-# https://github.com/scikit-learn-contrib/lightning
-"""
-import sys
-sys.path.append("/home/kpmurphy/github/lightning")
-sys.path.append("/home/kpmurphy/github/lightning/lightning/impl")
-"""
+
 
 import numpy as np
 import sklearn.preprocessing
