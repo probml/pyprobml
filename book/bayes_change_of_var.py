@@ -1,34 +1,50 @@
-
+# Based on https://github.com/probml/pmtk3/blob/master/demos/bayesChangeOfVar.m
+# MC on change of variables and empirical distribution, highlighting that
+# modes are not, in general, preserved.
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
 from scipy.stats import norm
+import os
 
+# Define a function to save figures in the correct directory. Requires the local
+# environment variable PYPROBML to be set to reference the pyprombl root directory.
+def save_fig(fname):
+    figdir = os.path.join(os.environ["PYPROBML"], "figures")
+    plt.savefig(os.path.join(figdir, fname))
 
+# Ensure stochastic reproducibility.
+np.random.seed(42)
+    
+# Define a mapping from x-space to y-space.
 def ginv(x):
     """transform func"""
-    return 1 / (1 + np.exp(-x + 5))
+    return 1 / (1 + np.exp(5 - x))
 
-mu, sigma = 6, 1
+# Define a probability density on x-space, and sample from it.
+mu = 6
+sigma = 1
 n = 10 ** 6
-x = norm.rvs(size=n, loc=mu, scale=sigma)
+x_samples = norm.rvs(size=n, loc=mu, scale=sigma)
+
+# Calculate a histogram for the samples in x-space and a histogram
+# for their transformations to y-space.
+hist_x, bin_edges_x = np.histogram(x_samples, bins=50, density=True)
+hist_y, bin_edges_y = np.histogram(ginv(x_samples), bins=50, density=True)
+
+# Plot the histograms, the mapping function, and an indication of how
+# the x-distribution's mean maps to y-space.
+linewidth = 5
+plt.bar(bin_edges_x[:-1], hist_x, color='red', align='edge', width=bin_edges_x[1] - bin_edges_x[0])
+plt.barh(bin_edges_y[:-1], hist_y, color='green', align='edge', height=bin_edges_y[1] - bin_edges_y[0])
 x_range = np.arange(0, 10, 0.01)
-#plot the histogram
-hist, bin_edges = np.histogram(x, bins=50, normed=True)
-pl.bar(bin_edges[:-1], hist, width=bin_edges[1] - bin_edges[0], color='r')
-hist, bin_edges = np.histogram(ginv(x), bins=50, normed=True)
-plt.barh(bin_edges[:-1], hist, height=bin_edges[1] - bin_edges[0], color='g')
+plt.plot(x_range, ginv(x_range), 'blue', linewidth=linewidth)
+plt.vlines(mu, ymin=0, ymax=ginv(mu), color='yellow', linewidth=linewidth)
+plt.hlines(ginv(mu), xmin=0, xmax=mu, color='yellow', linewidth=linewidth)
+plt.text(9, 1/10, r'$p_X$');
+plt.text(2/3, 2/10, r'$p_Y$');
+plt.text(9, ginv(9) - 1/10, r'$g$');
 
-#plot transform function
-plt.plot(x_range, ginv(x_range), 'b', lw=5)
-
-#plot line at mu
-plt.plot([mu, mu], [0, ginv(mu)], 'y', lw=5)
-plt.plot([0, mu], [ginv(mu), ginv(mu)], 'y', lw=5)
-
+## Save the figure.
 save_fig('bayesChangeOfVar.pdf')
 plt.show()
