@@ -1,12 +1,14 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import os
-import random
-
 # Bayesian model selection demo for polynomial regression
 # This illustartes that if we have more data, Bayes picks a more complex model.
 
 # Based on a demo by Zoubin Ghahramani
+
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import random
 
 random.seed(0)
 
@@ -28,7 +30,7 @@ def linregFitBayes(X, ytrain, **kwargs):
     #This function is structured so it can be expanded with the full set of options provided in
     #linregFitBayes.m in pmtk3.
     if kwargs['prior'] == 'EB':
-        args = {v for k, v in kwargs.iteritems() if k not in 'preproc'}
+        #args = {v for k, v in kwargs.items() if k not in 'preproc'}
         [model, logev, LHist] = linregFitEB(X, ytrain, kwargs['preproc'], maxIter=kwargs['maxIter'])
     else:
         raise ValueError('Unrecognized Prior type given')
@@ -44,9 +46,9 @@ def preprocessorApplyToTrain(preproc, X):
 def linregFitEB(X, y, preproc, **kwargs):
     #This closely follows the code of linregFitEbChen giving in pmtk3/toolbox
 
-    [preproc, X] = preprocessorApplyToTrain(preproc, X)
+    preproc, X = preprocessorApplyToTrain(preproc, X)
 
-    [N, M] = X.shape
+    N, M = X.shape
 
     XX = np.dot(np.transpose(X), X)
     XX2 = np.dot(X, np.transpose(X))
@@ -55,7 +57,7 @@ def linregFitEB(X, y, preproc, **kwargs):
     #This method can get stuck in local minima, so we should do multiple restarts.
 
     alpha = 0.01 #initially don't trust the prior
-    beta = 1 #initially trust the data
+    beta = 1.0 #initially trust the data
 
     L_old = - float('inf')
     Lhist = np.empty((kwargs['maxIter'], 1))
@@ -82,8 +84,8 @@ def linregFitEB(X, y, preproc, **kwargs):
         t1 = sum((y - np.dot(X, mn))*(y - np.dot(X, mn)))
         t2 = np.dot(np.transpose(mn), mn)
 
-        M = float(M)
-        N = float(N)
+        #M = float(M)
+        #N = float(N)
         gamma = M - alpha * np.trace(Sn)
         beta = (N - gamma) / t1
 
@@ -123,7 +125,7 @@ for n in Ns:
         [mod, logev] = linregFitBayes(X, ytrain, prior='EB', preproc=pp, maxIter=20) #Fit the model
         logevs.append(logev)
         Xtest = polyBasis(plotvals1d, deg) #Grid to test our prediction on
-        [mu, sig2] = linregPredictBayes(mod, Xtest)
+        mu, sig2 = linregPredictBayes(mod, Xtest)
         sig2 = np.sqrt(sig2)
         #Form line graph
         fig, ax = plt.subplots()
@@ -132,8 +134,8 @@ for n in Ns:
         upper = mu + sig2
         plt.plot(plotvals1d, trueOutput, 'g', plotvals1d, mu, 'r--', linewidth=2)
         plt.plot(plotvals1d, lower, 'b-' , plotvals1d, upper, 'b-', linewidth=0.5)
-        plt.title('d='+str(deg)+', logev='+str(np.round(logev, 2))+', EB')
-        plt.savefig(os.path.join('figures', 'linregEbModelSelVsN%dD%dEB'%(n, deg) + '.pdf'))
+        plt.title('d={}, logev={:0.2f}, EB'.format(deg, logev))
+        save_fig('linregEbModelSelVsN{}D{}EB.pdf'.format(n, deg))
         plt.draw()
 
     #Form bar graph showing the posterior probabilities for each model
@@ -144,8 +146,8 @@ for n in Ns:
     plt.xticks(list(range(len(PP))))
     plt.ylim([0, 1])
     ax.set_ylabel('P(M|D)')
-    plt.title('N='+str(n)+', Method=EB')
-    plt.savefig(os.path.join('figures', 'linregEbModelSelVsN' + str(n) + 'PostEB.pdf'))
+    plt.title('N={}'.format(n))
+    save_fig('linregEbModelSelVsN{}PostEB.pdf'.format(n))
     plt.draw()
 
 plt.show()

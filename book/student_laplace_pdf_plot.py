@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+
 
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 from scipy.stats import t, laplace, norm
     
 x = np.linspace(-4, 4, 100)
@@ -15,7 +19,8 @@ plt.plot(x, n, 'k:',
         x, l, 'r-')
 plt.legend(('Gauss', 'Student', 'Laplace'))
 plt.ylabel('pdf')
-plt.savefig('figures/studentLaplacePdfPlot_1.pdf')
+save_fig('studentLaplacePdf.pdf')
+plt.show()
 
 plt.figure()
 plt.plot(x, np.log(n), 'k:',
@@ -23,6 +28,5 @@ plt.plot(x, np.log(n), 'k:',
         x, np.log(l), 'r-')
 plt.ylabel('log pdf')
 plt.legend(('Gauss', 'Student', 'Laplace'))
-plt.savefig('figures/studentLaplacePdfPlot_2.pdf')
-
+save_fig('studentLaplaceLogpdf.pdf')
 plt.show()
