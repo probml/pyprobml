@@ -1,7 +1,11 @@
-#!/usr/bin/env python
 
-import matplotlib.pyplot as pl
+
 import numpy as np
+import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 from scipy.stats import norm
 
 
@@ -17,14 +21,14 @@ x_range = np.arange(0, 10, 0.01)
 hist, bin_edges = np.histogram(x, bins=50, normed=True)
 pl.bar(bin_edges[:-1], hist, width=bin_edges[1] - bin_edges[0], color='r')
 hist, bin_edges = np.histogram(ginv(x), bins=50, normed=True)
-pl.barh(bin_edges[:-1], hist, height=bin_edges[1] - bin_edges[0], color='g')
+plt.barh(bin_edges[:-1], hist, height=bin_edges[1] - bin_edges[0], color='g')
 
 #plot transform function
-pl.plot(x_range, ginv(x_range), 'b', lw=5)
+plt.plot(x_range, ginv(x_range), 'b', lw=5)
 
 #plot line at mu
-pl.plot([mu, mu], [0, ginv(mu)], 'y', lw=5)
-pl.plot([0, mu], [ginv(mu), ginv(mu)], 'y', lw=5)
+plt.plot([mu, mu], [0, ginv(mu)], 'y', lw=5)
+plt.plot([0, mu], [ginv(mu), ginv(mu)], 'y', lw=5)
 
-pl.savefig('bayesChangeOfVar.png')
-pl.show()
+save_fig('bayesChangeOfVar.pdf')
+plt.show()
