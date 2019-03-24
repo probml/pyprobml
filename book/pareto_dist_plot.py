@@ -9,10 +9,10 @@ def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 from scipy.stats import pareto
 
-params = [(0.001, 1), (0.001, 2), (0.001, 3), (0.1, 2)]
+params = [(0.1, 1), (0.1, 2),  (0.2, 1), (0.2, 2)]
 styles = ['b-', 'r:', 'k-.', 'g--']
 labels = ['m={:.2f}, k={:.2f}'.format(m, k) for m, k in params]
-x = np.linspace(0, 0.5, 100)
+x = np.linspace(0, 1, 100)
   
 for i, param in enumerate(params):
   m, k = param
@@ -21,8 +21,8 @@ for i, param in enumerate(params):
 
 plt.title('Pareto Distribution')
 plt.legend()
-plt.axis((-0.1, 0.5, 0, 20))
-save_fig('pareto-pdf.pdf')
+plt.axis((0.0, 0.5, 0, 20))
+save_fig('paretoPdf.pdf')
 plt.show()
 
 
@@ -30,8 +30,9 @@ for i, param in enumerate(params):
   m, k = param
   probabilities = pareto.pdf(x, k, scale=m)
   plt.loglog(x, probabilities, styles[i], label=labels[i])
-
+  
+plt.xlim(0.05, 1)
 plt.title('Log Pareto Distribution')
 plt.legend()
-save_fig('pareto-log-pdf2.pdf')
+save_fig('paretoLogPdf.pdf')
 plt.show()
