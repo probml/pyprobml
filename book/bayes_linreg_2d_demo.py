@@ -2,9 +2,13 @@
 #The goal is to reproduce fig 3.7 from Bishop's book.
 #We fit the linear model f(x,w) = w0 + w1*x and plot the posterior over w.
 
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+
 from scipy.stats import uniform, norm, multivariate_normal
 
 np.random.seed(0)
@@ -75,7 +79,7 @@ def adjustgraph(whitemark):
     return None
 
 figcounter = 1
-fig = plt.figure()
+fig = plt.figure(figsize=(10,10))
 
 #Top left plot only has a title.
 ax = fig.add_subplot(len(DataIndices),3,figcounter)
@@ -125,4 +129,4 @@ for di in DataIndices:
 
 fig.tight_layout()
 plt.show()
-plt.savefig(os.path.join('figures', 'bayesLinRegPlot2dB.pdf'))
+save_fig('bayesLinRegPlot2dB.pdf')

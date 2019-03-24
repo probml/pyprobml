@@ -1,9 +1,10 @@
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import os 
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 from scipy.stats import multivariate_normal
-from polyDataMake import polyDataMake
 from sklearn.linear_model import Ridge
 
 polydeg = 2 #Degree of design matrix
@@ -12,6 +13,53 @@ NFuncSamples = 10 #Number of sample coefficients to draw and use for prediction
 vis = 1 #Transparency of plotted lines - in case we wish to plot a bunch.
 
 np.random.seed(seed=1)
+
+from random import seed, getstate, setstate
+
+def polyDataMake(n=21,deg=3,sampling='sparse'):
+    old_state = getstate()
+    seed(0)
+
+    if sampling == 'irregular':
+        xtrain = np.array([np.linspace(-1,-.5,6),np.linspace(3,3.5,6)]).reshape(-1,1)
+    elif sampling == 'sparse':
+        xtrain = np.array([-3, -2, 0, 2, 3])
+    elif sampling == 'dense':
+        xtrain = np.array(np.arange(-5,5,.6))
+    elif sampling == 'thibaux':
+        xtrain = np.linspace(0,20,n)
+    else:
+        raise ValueError('Unrecognized sampling provided.')
+        
+    if sampling == 'thibaux':
+        seed(654321)
+        xtest = np.linspace(0,20,201)
+        sigma2 = 4
+        w = np.array([-1.5,1.0/9.0]).T
+        def fun(x):
+            return w[0]*x + w[1]*(x**2)
+    else:
+        xtest = np.linspace(-7,7,141)
+        if deg == 2:
+            def fun(x):
+                return 10 + x + x**2
+        elif deg == 3 :
+            def fun(x):
+                return 10 + x + x**3
+        else:
+            raise ValueError('Unrecognized degree.')
+        sigma2 = 25
+        
+    ytrain = fun(xtrain) + np.random.normal(size=xtrain.shape[0])*np.sqrt(sigma2)
+    ytestNoisefree = fun(xtest)
+    ytestNoisy = ytestNoisefree +  np.random.normal(size=xtest.shape[0])*np.sqrt(sigma2)
+    
+    def shp(x):
+        return np.asarray(x).reshape(-1,1)
+    
+    setstate(old_state)
+    return shp(xtrain), shp(ytrain), shp(xtest), shp(ytestNoisefree), shp(ytestNoisy), sigma2
+
 
 #Generate data
 xtrain, ytrain, xtest, ytestNoisefree, ytest, sigma2 =  polyDataMake(sampling = 'sparse', deg = 2)
@@ -35,7 +83,7 @@ def MakePlot(ypreds, SaveN, Title, lowerb = None, upperb = None):
     if Errlogi:
         plt.legend(loc=2)
     plt.title(Title)
-    plt.savefig(os.path.join('figures', SaveN +'.pdf'))
+    save_fig(SaveN +'.pdf')
 
 xtrainp = polyBasis(xtrain,polydeg)
 xtestp = polyBasis(xtest,polydeg)

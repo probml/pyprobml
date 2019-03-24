@@ -1,17 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+figdir = os.path.join(os.environ["PYPROBML"], "figures")
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+
 from mpl_toolkits.mplot3d import axes3d
 from scipy.stats import multivariate_normal
 
-Gs = ["full", "diagonal", "spherical"]
+Gs = ["Full", "Diag", "Spherical"]
 
 # Gaussian Parameters:
 # Mean:
 mu = [0, 0]
 # Covariances:
-Covs = {'full': [[2, 1.8], [1.8, 2]],
-        'diagonal': [[1, 0], [0, 3]],
-        'spherical': [[1, 0], [0, 1]]}
+Covs = {'Full': [[2, 1.8], [1.8, 2]],
+        'Diag': [[1, 0], [0, 3]],
+        'Spherical': [[1, 0], [0, 1]]}
 
 #Multivariate gaussian PDF
 def Gpdf(x, y, G):
@@ -29,8 +34,9 @@ def make_contour_plot(G):
     plt.axis('equal')
     plt.title(G)
     plt.draw()
+    save_fig('gaussPlot2dDemoContour{}.pdf'.format(G))
     plt.show()
-    plt.savefig('figures/Gaussian2D' + G+ 'Contour')
+    
 
 
 def make_surface_plot(G):
@@ -41,8 +47,8 @@ def make_surface_plot(G):
     #ax.axis('equal')
     #ax.title(G)f
     plt.draw()
+    save_fig('gaussPlot2dDemoSurf{}.pdf'.format(G))
     plt.show()
-    plt.savefig('figures/Gaussian2D' + G + 'Surface')
     
 for g in Gs:
     make_contour_plot(g)
