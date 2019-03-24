@@ -1,21 +1,33 @@
-import matplotlib.pyplot as plt
+# SGD on linear regression aka least mean squares
+# Written by Duane Rich
+# Based on https://github.com/probml/pmtk3/blob/master/demos/LMSdemoSimple.m
+
 import numpy as np
-import utils.util as util
-from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import os
+
+def save_fig(fname):
+    figdir = os.path.join(os.environ["PYPROBML"], "figures")
+    plt.tight_layout()    
+    fullname = os.path.join(figdir, fname)
+    print('saving to {}'.format(fullname))
+    plt.savefig(fullname)
+    
+
+#from mpl_toolkits.mplot3d import Axes3D
 from scipy.optimize import minimize
 
-plt.rcParams["figure.figsize"] = (10,10) # width x height
+plt.rcParams["figure.figsize"] = (5,5) # width x height
 
 np.random.seed(0)
 #Generating synthetic data:
 N = 21
 wTrue = np.array([1.45, 0.92])
-X = util.add_ones(np.random.uniform(-2, 2, N))
+X = np.random.uniform(-2, 2, N)
+X = np.column_stack((np.ones(N), X))
+
 y = wTrue[0] * X[:, 0] + wTrue[1] * X[:, 1] + np.random.normal(0, .1, N)
 
-# #Uncomment if we wish to use data generated from poly_data_make
-# x, y,_ ,_ ,_ ,_ = util.poly_data_make(sampling='thibaux', n=N)
-# X = util.add_ones(x)
 
 #Plot SSE surface over parameter space.
 v = np.arange(-1, 3, .1)
@@ -25,7 +37,7 @@ SS = SS.reshape(W0.shape)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(W0, W1, SS)
-plt.savefig('figures/linregSurfSSEPy.pdf')
+save_fig('lmsSSE.pdf')
 plt.draw()
 
 #Mean SE with gradient and Hessian:
@@ -161,7 +173,7 @@ if True:
     CS = plt.contour(W0, W1, SS)
     plt.plot(wOpt[0], wOpt[1], 'x', color='r', ms=10, mew=5)
     plt.plot(whist[:, 0], whist[:, 1], 'ko-', lw=2)
-    plt.savefig('figures/lmsTrajPy.pdf')
+    save_fig('lmsTraj.pdf')
     plt.draw()
 
 #Loss values over the parameter path compared to the optimal loss.    
@@ -171,7 +183,7 @@ if True:
     ax.set_title('RSS vs iteration')
     plt.plot(fvalhist,'ko-', lw=2)
     plt.axhline(fopt)
-    plt.savefig('figures/lmsRssHistPy.pdf')
+    save_fig('lmsRssHist.pdf')
     plt.draw()
 
 #Stepsize graph if desired:
@@ -180,7 +192,7 @@ if True:
     fig, ax = plt.subplots()
     ax.set_title('Stepsize vs iteration')
     plt.plot(stephist,'ko-', lw=2)
-    plt.savefig('figures/StepsizeHistPy.pdf')
+    save_fig('lmsStepSizeHist.pdf')
     plt.draw()
 
 plt.show()
