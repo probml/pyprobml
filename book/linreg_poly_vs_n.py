@@ -14,7 +14,6 @@ from sklearn.preprocessing import MinMaxScaler
 TrueDeg = 2 #The true degree of the model
 degrees = [1, 2, 14, 20] #The degrees of our design matrices
     
-#Function to expand from x to design matrix of degree deg
 def ExpandtoDeg(x,deg):
     return np.array([x**i for i in range(deg+1)]).transpose().reshape(-1,deg+1)
 
@@ -37,7 +36,7 @@ for ModDeg in degrees:
     err = []
     errtrain = []
     for n in ns:
-        xtrain, ytrain, xtest,ytest = make_1dregression_data(n=n)
+        xtrain, ytrain, xtest, ytest = make_1dregression_data(n=n)
 
         #Rescaling data
         scaler = MinMaxScaler(feature_range=(-1, 1))
@@ -65,6 +64,6 @@ for ModDeg in degrees:
     plt.ylabel('mse')
     plt.title('truth = degree {}, model = degree {}'.format(TrueDeg, ModDeg))
     save_fig('polyfitN{}.pdf'.format(ModDeg))
-    plt.draw()
+    plt.show()
 
 plt.show()
