@@ -9,30 +9,18 @@ import os
 figdir = os.path.join(os.environ["PYPROBML"], "figures")
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
-
-def make_1dregression_data(n=21):
-    np.random.seed(0)
-    # Example from Romaine Thibaux
-    xtrain = np.linspace(0.0, 20, n)
-    xtest = np.arange(0.0, 20, 0.1)
-    sigma2 = 4
-    w = np.array([-1.5, 1/9.])
-    fun = lambda x: w[0]*x + w[1]*np.square(x)
-    # Apply function to make data
-    ytrain = fun(xtrain) + np.random.normal(0, 1, xtrain.shape) * \
-        np.sqrt(sigma2)
-    ytestNoisefree = fun(xtest)
-    ytestNoisy = ytestNoisefree + np.random.normal(0, 1, xtest.shape) * \
-        np.sqrt(sigma2)
-    return xtrain, ytrain, xtest, ytestNoisefree, ytestNoisy, sigma2
-
+np.random.seed(0)
 N = 21
-X,y,_,_,_,_ = make_1dregression_data(N)
-
-X = np.concatenate((np.ones((N,1)), X.reshape(N,1)), axis=1)  
-w = np.linalg.lstsq(X, y)[0]
+x = np.linspace(0.0, 20, N)
+X0 = x.reshape(N,1)
+X = np.c_[np.ones((N,1)), X0]
+w = np.array([-1.5, 1/9.])
+y =  w[0]*x + w[1]*np.square(x)
+y = y + np.random.normal(0, 1, N) * 2
+        
+w = np.linalg.lstsq(X, y,  rcond=None)[0]
 print(w)
-y_estim = np.dot(X,w)
+y_estim = np.dot(X, w)
 
 plt.plot(X[:,1], y, 'o')
 plt.plot(X[:,1], y_estim, '-')
