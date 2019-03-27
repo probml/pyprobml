@@ -1,10 +1,9 @@
 # Taken from Jake VanderPlas' code
 # https://jakevdp.github.io/PythonDataScienceHandbook/06.00-figure-code.html#Broadcasting
-# CC-BY license
 # Adapted from astroML: see http://www.astroml.org/book_figures/appendix/fig_broadcast_visual.html
 
 
-import numpy as np
+#import numpy as np
 import matplotlib.pyplot as plt
 import os
 figdir = os.path.join(os.environ["PYPROBML"], "figures")

@@ -36,8 +36,8 @@ def MakePlot(ypreds, SaveN, Title, lowerb = None, upperb = None):
     #Function for creating and saving plots
     fig, ax = plt.subplots()
     ax.scatter(xtrain, ytrain, s=140, facecolors='none', edgecolors='r', label='training data')
-    plt.ylim([-10,80])    
-    plt.xlim([-8,8])
+    #plt.ylim([-10,80])    
+    #plt.xlim([-8,8])
     Errlogi = lowerb is not None or upperb is not None #Determines where we will be plotting error bars as well
     if Errlogi: 
         errspacing = [int(round(s)) for s in np.linspace(0,xtest.shape[0]-1,30)]
@@ -70,11 +70,11 @@ noisemle = np.var(ytrain - LinR.predict(xtrainp),ddof=(polydeg + 1)) #MLE noise 
 
 #plot a
 noisevec = np.array([np.sqrt(noisemle)] * ypredmle.shape[0])
-MakePlot(ypredmle, 'linregPostPredPlugin', 'plugin approximation (MLE)', noisevec, noisevec)
+MakePlot(ypredmle, 'linregPostPredPlugin', 'Plugin approximation', noisevec, noisevec)
 
 #plot b
 postnoise = np.array([np.sqrt(sigma2 + xtestp[i,:].T.dot(wcov.dot(xtestp[i,:]))) for i in range(xtestp.shape[0])])
-MakePlot(ypredmle, 'linregPostPredBayes', 'Posterior predictive (known variance)', postnoise, postnoise)
+MakePlot(ypredmle, 'linregPostPredBayes', 'Posterior predictive', postnoise, postnoise)
 
 #plot c
 MakePlot(ypredmle, 'linregPostPredSamplesPlugin', 'functions sampled from plugin approximation to posterior')

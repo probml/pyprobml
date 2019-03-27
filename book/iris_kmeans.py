@@ -1,5 +1,6 @@
-# https://github.com/ageron/handson-ml2/blob/master/09_unsupervised_learning.ipynb
-# Apache 2.0 license
+# GMM clustering on iris data
+# Based on https://github.com/ageron/handson-ml2/blob/master/09_unsupervised_learning.ipynb
+
 
 
 import numpy as np

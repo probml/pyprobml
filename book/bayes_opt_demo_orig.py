@@ -1,6 +1,6 @@
+# Bayesian optimization of 1d regression
 # Modified from Martin Krasser's code
 # https://github.com/krasserm/bayesian-machine-learning/blob/master/bayesian_optimization.ipynb
-# Apahce 2.0 license
 
 import numpy as np
 import matplotlib.pyplot as plt

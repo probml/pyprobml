@@ -12,7 +12,7 @@ from sklearn.linear_model import Ridge
 from sklearn.preprocessing import MinMaxScaler 
 
 TrueDeg = 2 #The true degree of the model
-degrees = [1, 2, 14, 20] #The degrees of our design matrices
+degrees = [1, 2, 10, 20] #The degrees of our design matrices
     
 def ExpandtoDeg(x,deg):
     return np.array([x**i for i in range(deg+1)]).transpose().reshape(-1,deg+1)
@@ -32,7 +32,7 @@ def make_1dregression_data(n=21):
 
     
 for ModDeg in degrees:
-    ns = np.round(np.linspace(10, 210, 20))
+    ns = [int(n) for n in np.round(np.linspace(10, 210, 20))]
     err = []
     errtrain = []
     for n in ns:

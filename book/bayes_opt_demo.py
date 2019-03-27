@@ -1,7 +1,7 @@
 # Bayesian optimization of 1d continuous function
 # Modified from Martin Krasser's code
 # https://github.com/krasserm/bayesian-machine-learning/blob/master/bayesian_optimization.ipynb
-# Apache 2.0 license
+
 
 import numpy as np
 from bayes_opt_utils import BayesianOptimizer, MultiRestartGradientOptimizer, expected_improvement

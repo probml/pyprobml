@@ -1,7 +1,7 @@
+# Visualize MNIST dataset
+# Code based on 
+# https://github.com/ageron/handson-ml2/blob/master/03_classification.ipynb
 
-# Visualization Code based on 
-#https://github.com/ageron/handson-ml2/blob/master/03_classification.ipynb
-# Apache 2.0 license
 
 
 import numpy as np

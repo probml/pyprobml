@@ -13,10 +13,10 @@ from scipy.special import beta
 from scipy.stats import binom
 
 
-N = 10
+N = 10 # Future sample size M
 # Hyperparameters
-a = 2;
-b = 2;
+a = 1
+b = 1
 N1 = 4
 N0 = 1
 
@@ -24,6 +24,7 @@ ind = np.arange(N+1)
 post_a = a + N1
 post_b = b + N0
 
+# Compound beta-binomial distribution
 distribution = []
 for k in range(N+1):
   distribution.append(comb(N,k) * beta(k+post_a, N-k+post_b) / beta(post_a, post_b))
@@ -36,7 +37,8 @@ ax.set_xticklabels(list(range(N+1)))
 save_fig('BBpostpred.pdf')
 plt.show()
 
-mu = (post_a - 1) / float(post_a + post_b - 2)
+# Plugin binomial distribution
+mu = (post_a - 1) / float(post_a + post_b - 2) # MAP estimate
 distribution = []
 rv = binom(N, mu)
 for k in range(N+1):
@@ -44,10 +46,9 @@ for k in range(N+1):
 
 fig,ax = plt.subplots()
 rects = ax.bar(ind, distribution, align='center')
-ax.set_title('incremental predictive')
+ax.set_title('plugin predictive')
 ax.set_xticks(list(range(N+1)))
 ax.set_xticklabels(list(range(N+1)))
-
 save_fig('BBpluginpred.pdf')
 plt.show()
 

@@ -1,6 +1,8 @@
+# ROC curve for different classifiers on mnist data
+# We use tensorflow/keras to fit MLPs
 # Based on 
 #https://github.com/ageron/handson-ml2/blob/master/03_classification.ipynb
-# Apache 2.0 license
+
 
 import numpy as np
 import matplotlib.pyplot as plt

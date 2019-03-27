@@ -1,7 +1,6 @@
 # Logistic regression on the iris flower dataset.
 # Code is based on Aurélien Geron's code
 # https://github.com/ageron/handson-ml2/blob/master/04_training_linear_models.ipynb
-# Apache 2.0 license
 
 
 import numpy as np

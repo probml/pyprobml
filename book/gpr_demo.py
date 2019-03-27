@@ -1,6 +1,6 @@
+# Gaussian process regression
 # Modified from Martin Krasser's code
 # https://github.com/krasserm/bayesian-machine-learning/blob/master/gaussian_processes.ipynb
-# Apache 2.0 license
 
 # We assume the mean function is 0
 
@@ -12,7 +12,7 @@ def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 from numpy.linalg import inv
 from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
+#from mpl_toolkits.mplot3d import Axes3D
 
 
 np.random.seed(0)
