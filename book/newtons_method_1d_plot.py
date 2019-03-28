@@ -1,14 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
-
+from pyprobml_utils import save_fig
 
 xmin = 0.1
 xmax = 12
