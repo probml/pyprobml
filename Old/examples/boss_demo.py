@@ -7,10 +7,9 @@ import boss_problems, boss_embed, boss_bayesopt
 np.random.seed(0)
 
 
-"""
-problem = 'motif'
+#problem = 'motif'
 #problem = 'tfbind'
-#problem = 'tfbind-small'
+problem = 'tfbind-small'
 
 if problem == 'motif':
   seq_len = 8
@@ -26,7 +25,7 @@ if problem == 'tfbind':
   hparams = {'epochs': 30, 'nlayers': 4, 'nhidden': 100, 'embed_dim': 64, 'seq_len': seq_len}
 
 if problem == 'tfbind-small':
-  max_nseq=20000
+  max_nseq=20000 # Use a subset of the data for rapid prototyping
   oracle, oracle_batch, Xall, yall, Xtrain, ytrain, train_ndx = boss_problems.tfbind_problem(
       lower_bin=50, upper_bin=99, max_nseq=max_nseq)
   seq_len = np.shape(Xall)[1]
@@ -87,7 +86,7 @@ plt.show()
 
 ########
 
-"""
+
 
 from boss_bayesopt import BayesianOptimizerEmbedEnum, RandomDiscreteOptimizer, expected_improvement
 
@@ -138,50 +137,6 @@ n_bo_iter = 5
 n_bo_init = 10 # # Before starting BO, we perform N random queries
 nseq = np.shape(Xall)[0] 
 
-
-
-
-############
-"""
-seed = 0
-np.random.seed(seed)
-perm = np.random.permutation(nseq)
-perm = perm[:n_bo_init]
-Xinit = Xall[perm]
-yinit = yall[perm]
-
-rnd_solver = RandomDiscreteOptimizer(Xall, n_iter=n_bo_iter+n_bo_init)
-  
-# We use Matern kernel 1.5 since this only assumes first-orer differentiability.
-kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=1.5)
-gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
-acq_fn = EI
-  
-# These methods embed all strings in Xall using specified embedder
-# and apply kernel and pick best according to EI
-bo_oracle_embed_solver = BayesianOptimizerEmbedEnum(
-  Xall, oracle_embed_fn, Xinit, yinit, gpr, acq_fn, n_iter=n_bo_iter) 
-  
-solver = bo_oracle_embed_solver
-name = 'BO-oracle-embed-enum'
-  
-ytrace = dict()
-print("Running {}".format(name))
-time_start = time()
-solver.maximize(oracle)   
-print('time spent by {} = {:0.3f}\n'.format(name, time() - time_start))
-ytrace[name] = np.maximum.accumulate(solver.val_history)
-
-plt.figure()
-styles = ['k-o', 'r:o', 'b--o', 'g-o', 'c:o', 'm--o', 'y-o']
-style = styles[0]
-plt.plot(ytrace[name], style, label=name)
-plt.axvline(n_bo_init)
-plt.legend()
-plt.title("seed = {}".format(seed))
-plt.show()
-
-"""
 
 def do_expt(seed):
   np.random.seed(seed)

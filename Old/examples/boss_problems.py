@@ -46,12 +46,15 @@ def min_max_normalize(data):
   return (data - data.min()) / np.maximum(data.max() - data.min(), 1e-8)
 
 def get_8mer_data():
-  file_name = '/home/kpmurphy/github/pyprobml/data/8mers_crx_ref_r1.csv'
+    # There are (4**8 - 256)/2 rows
+    # 256 is the number of palindromes 
+    # We divice by 2 since the DNA is double stranded
+  file_name = '/Users/kpmurphy/github/pyprobml/data/CRX_REF_R1_8mers.txt'
   data = pd.read_csv(file_name, sep='\t')
-  S = data['seq'].values
-  y = data['val'].values
+  S = data['8-mer'].values
+  y = data['Z-score'].values
   X = encode_data(S)
-  y = zscore_normalize(y)
+  #y = zscore_normalize(y)
   return X, y
 
 def tfbind_problem(max_ntrain = None, lower_bin=40, upper_bin=60, max_nseq=None):
