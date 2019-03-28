@@ -1,16 +1,22 @@
 # pyprobml
-Python 3 code for "Machine learning: a probabilistic perspective" (http://people.cs.ubc.ca/~murphyk/MLbook/) v2.0.
+Python 3 code for the second edition of my book "Machine learning: a probabilistic perspective" (http://people.cs.ubc.ca/~murphyk/MLbook/). This is work in progress, so expect rough edges.
 
-You should run the code from the repo root ('pyprobml' directory)
-using module execution, e.g.,
+The main code lives in pyprobml/book. You can execute any script from the command line
+using 'python foo.py', or from inside a Python IDE (like Spyder). 
 
-python -m examples.LMSdemo
+Many of the scripts create plots.
+These are saved to the directory PYROBML/figures. To **set this environment variable**, add the following
+line to your .bash_profile file before opening a new terminal:
+    export PYPROBML="/Users/kpmurphy/github/pyprobml" # replace with your download location
 
-To run all the examples you can use
-
-ls examples/*.py | sed 's/\//./' | sed s/\.[^\.]*$// | xargs -n 1 python -m
-
-from the repo root. This lists all the Python files under examples, turns the slash into a
-period, then removes the .py extension and finally feeds each line into python -m. 
+We assume you have installed numpy, scipy, matplotlib, pandas, scikit-learn.
+(These are all pre-installed in anaconda.) 
+Many of the scripts rely on extra libraries which you will need to install.
+This will often be indicated in the suffix of the filename, as follows:
+- tf or keras: install tensorflow (https://www.tensorflow.org/)
+- tfp: install tensorflow probability (pip install --upgrade tfp-nightly)
+- jax: install jax (https://github.com/google/jax)
+- pymc3: install pymc3 (https://docs.pymc.io/)
+- pytorch: install pytorch (https://pytorch.org/)
 
 
