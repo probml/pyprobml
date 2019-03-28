@@ -1,14 +1,11 @@
 
 import numpy as np
-import os
-import matplotlib.pyplot as plt
 
 #from sklearn.datasets import fetch_mldata
 from sklearn.datasets import fetch_openml
 import tensorflow as tf
 
 import itertools
-import random
 
 def load_mnist_data_openml():
   # Returns X_train: (60000, 784), X_test: (10000, 784), scaled [0...1]
@@ -56,10 +53,4 @@ def zscore_normalize(data):
 def min_max_normalize(data):
   return (data - data.min()) / np.maximum(data.max() - data.min(), 1e-8)
 
-def gen_rnd_string(seq_len, alphabet=[0,1,2,3]):
-  s = [random.choice(alphabet) for i in range(seq_len)]
-  return np.array(s)
 
-def gen_all_strings(seq_len, alphabet=[0,1,2,3]):
-  S = [np.array(p) for p in itertools.product(alphabet, repeat=seq_len)]
-  return np.stack(S)

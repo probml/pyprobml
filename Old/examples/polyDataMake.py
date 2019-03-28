@@ -1,6 +1,8 @@
 import numpy as np
 from random import seed, getstate, setstate
 
+# https://github.com/probml/pmtk3/blob/bb64a174c4ded561cfdba26d835e1aaa7221c368/matlabTools/stats/polyDataMake.m
+
 def polyDataMake(n=21,deg=3,sampling='sparse'):
     old_state = getstate()
     seed(0)

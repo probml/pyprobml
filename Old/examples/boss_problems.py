@@ -1,8 +1,18 @@
 import numpy as np
 import pandas as pd
-import utils
+
 
 np.random.seed(0)
+import random
+import itertools
+
+def gen_rnd_string(seq_len, alphabet=[0,1,2,3]):
+  s = [random.choice(alphabet) for i in range(seq_len)]
+  return np.array(s)
+
+def gen_all_strings(seq_len, alphabet=[0,1,2,3]):
+  S = [np.array(p) for p in itertools.product(alphabet, repeat=seq_len)]
+  return np.stack(S)
 
 def encode_dna(s):
   if s=='A':
@@ -29,13 +39,19 @@ def decode_data(X):
   S = np.vectorize(decode_dna)(X)
   return S
 
+def zscore_normalize(data):
+  return (data - data.mean()) / np.maximum(data.std(), 1e-8)
+
+def min_max_normalize(data):
+  return (data - data.min()) / np.maximum(data.max() - data.min(), 1e-8)
+
 def get_8mer_data():
   file_name = '/home/kpmurphy/github/pyprobml/data/8mers_crx_ref_r1.csv'
   data = pd.read_csv(file_name, sep='\t')
   S = data['seq'].values
   y = data['val'].values
   X = encode_data(S)
-  y = utils.zscore_normalize(y)
+  y = zscore_normalize(y)
   return X, y
 
 def tfbind_problem(max_ntrain = None, lower_bin=40, upper_bin=60, max_nseq=None):
@@ -116,7 +132,7 @@ def motif_problem(seq_len, noise=0, lower_bin=40, upper_bin=70):
   def oracle_batch(X):
     return np.apply_along_axis(oracle, 1,  X)
 
-  Xall = utils.gen_all_strings(seq_len) # (N,L) array of ints (in 0..A)
+  Xall = gen_all_strings(seq_len) # (N,L) array of ints (in 0..A)
   yall = oracle_batch(Xall)
 
   # Extract training set based on "medium performing" strings

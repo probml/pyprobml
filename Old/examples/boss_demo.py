@@ -2,14 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from time import time
 
-import boss_problems, boss_models
+import boss_problems, boss_embed, boss_bayesopt 
 
 np.random.seed(0)
 
 
-#problem = 'motif'
+"""
+problem = 'motif'
 #problem = 'tfbind'
-problem = 'tfbind-small'
+#problem = 'tfbind-small'
 
 if problem == 'motif':
   seq_len = 8
@@ -32,9 +33,8 @@ if problem == 'tfbind-small':
   hparams = {'epochs': 10, 'nlayers': 3, 'nhidden': 50, 'embed_dim': 32, 'seq_len': seq_len}
 
 
-
-nseq = np.shape(Xall)[0]
- 
+# Plot the GT function
+nseq = np.shape(Xall)[0] 
 plt.figure()
 plt.plot(range(nseq), yall, 'b')
 plt.plot(train_ndx, ytrain, 'r')
@@ -44,10 +44,10 @@ maxima = np.where(yall >= m-1*s)[0]
 plt.title('{} seq, {} maxima of value {:0.3f}'.format(len(yall), len(maxima), m))
 plt.show()
 
+# Fit a supervised predictor
 time_start = time()
-predictor = boss_models.learn_supervised_model(Xtrain, ytrain, hparams)
+predictor = boss_embed.learn_supervised_model(Xtrain, ytrain, hparams)
 print('time spent training {:0.3f}\n'.format(time() - time_start))
-
 ypred = predictor.predict(Xall)
 plt.figure()
 plt.scatter(yall, ypred)
@@ -55,8 +55,8 @@ plt.xlabel('True Values')
 plt.ylabel('Predictions')
 plt.show()
 
-embedder = boss_models.convert_supervised_to_embedder(predictor, hparams)
-
+# Extract embedding function and visualize embedding space
+embedder = boss_embed.convert_supervised_to_embedder(predictor, hparams)
 Z = embedder.predict(Xtrain)
 plt.figure()
 plt.scatter(Z[:,0], Z[:,1], c=ytrain)
@@ -64,7 +64,7 @@ plt.title('embeddings of training set')
 plt.colorbar()
 plt.show()
 
-
+# Are distances in embedding space correalted with differences in the target?
 from sklearn.metrics.pairwise import pairwise_distances
 sources = np.arange(4)
 dist_matrix = pairwise_distances(Z[sources], Z)
@@ -87,34 +87,33 @@ plt.show()
 
 ########
 
+"""
 
-import boss_problems, boss_models
-#from bayes_opt_utils import BayesianOptimizer
-from bayes_opt_utils import BayesianOptimizerEmbedEnum
-#from bayes_opt_utils import EnumerativeDiscreteOptimizer
-from bayes_opt_utils import RandomDiscreteOptimizer
-from bayes_opt_utils import expected_improvement
+from boss_bayesopt import BayesianOptimizerEmbedEnum, RandomDiscreteOptimizer, expected_improvement
 
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import ConstantKernel, Matern
-#from bayes_opt_utils import EmbedKernel
 
   
 noise = 1e-5 # np.std(yinit)
 # We tell EI the objective is noise free so that it trusts
-# the current best, rather than re-evaluating
+# the current best value, rather than re-evaluating previous queries.
 def EI(X, X_sample, Y_sample, surrogate):
   X = np.atleast_2d(X)
   return expected_improvement(X, X_sample, Y_sample, surrogate,
                               improvement_thresh=0.01, trust_incumbent=True)
-  
+
+# Different embedding functions before applying kernel
+
+# Ground truth z(x) = f*(x)  
 def oracle_embed_fn(X):
   return np.reshape(oracle_batch(X), (-1,1))
 
-
+# Proxy z(x) = f-hat(x)
 def predictor_embed_fn(X):
   return predictor.predict(X, batch_size=1000)
 
+# MLP features z(x) = h(x) from MLP
 def super_embed_fn(X):
   return embedder.predict(X, batch_size=1000)
   
@@ -127,6 +126,7 @@ cats = [cat]*seq_len
 enc =  OneHotEncoder(sparse=False, categories=cats)
 enc.fit(Xall)
 
+# One-hot embedding
 def onehot_embed_fn(X):
   return enc.transform(X)
 #Xhot = enc.transform(X)
@@ -134,81 +134,96 @@ def onehot_embed_fn(X):
 #assert (Xcold==X).all()
 
   
-n_bo_iter = 50
+n_bo_iter = 5
 n_bo_init = 10 # # Before starting BO, we perform N random queries
 nseq = np.shape(Xall)[0] 
 
+
+
+
+############
+"""
+seed = 0
+np.random.seed(seed)
+perm = np.random.permutation(nseq)
+perm = perm[:n_bo_init]
+Xinit = Xall[perm]
+yinit = yall[perm]
+
+rnd_solver = RandomDiscreteOptimizer(Xall, n_iter=n_bo_iter+n_bo_init)
   
+# We use Matern kernel 1.5 since this only assumes first-orer differentiability.
+kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=1.5)
+gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
+acq_fn = EI
+  
+# These methods embed all strings in Xall using specified embedder
+# and apply kernel and pick best according to EI
+bo_oracle_embed_solver = BayesianOptimizerEmbedEnum(
+  Xall, oracle_embed_fn, Xinit, yinit, gpr, acq_fn, n_iter=n_bo_iter) 
+  
+solver = bo_oracle_embed_solver
+name = 'BO-oracle-embed-enum'
+  
+ytrace = dict()
+print("Running {}".format(name))
+time_start = time()
+solver.maximize(oracle)   
+print('time spent by {} = {:0.3f}\n'.format(name, time() - time_start))
+ytrace[name] = np.maximum.accumulate(solver.val_history)
+
+plt.figure()
+styles = ['k-o', 'r:o', 'b--o', 'g-o', 'c:o', 'm--o', 'y-o']
+style = styles[0]
+plt.plot(ytrace[name], style, label=name)
+plt.axvline(n_bo_init)
+plt.legend()
+plt.title("seed = {}".format(seed))
+plt.show()
+
+"""
+
 def do_expt(seed):
   np.random.seed(seed)
   perm = np.random.permutation(nseq)
   perm = perm[:n_bo_init]
   Xinit = Xall[perm]
   yinit = yall[perm]
-
-
     
   rnd_solver = RandomDiscreteOptimizer(Xall, n_iter=n_bo_iter+n_bo_init)
   
-  """
-  # Embed sequence then pass to kernel.
   # We use Matern kernel 1.5 since this only assumes first-orer differentiability.
-  kernel = ConstantKernel(1.0) * EmbedKernel(length_scale=1.0, nu=1.5,
-                         embed_fn=lambda x: embedder.predict(x))
-  gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
-  acq_fn = expected_improvement
-  n_seq = np.shape(Xall)[0]
-  acq_solver =  EnumerativeDiscreteOptimizer(Xall, n_iter=n_seq)
-  bo_embed_solver_slow = BayesianOptimizer(
-      Xinit, yinit, gpr, acq_fn, acq_solver, n_iter=n_bo_iter)
-  """
-  
-  
-  
   kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=1.5)
+  # The GPR object gets mutated by the solver so we need to create
+  # new instances
   gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
   acq_fn = EI
+  
+  # These methods embed all strings in Xall using specified embedder
+  # and apply kernel and pick best according to EI
+  gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
   bo_oracle_embed_solver = BayesianOptimizerEmbedEnum(
       Xall, oracle_embed_fn, Xinit, yinit, gpr, acq_fn, n_iter=n_bo_iter) 
   
-  
-  kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=1.5)
   gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
-  acq_fn = EI
   bo_predictor_embed_solver = BayesianOptimizerEmbedEnum(
       Xall, predictor_embed_fn, Xinit, yinit, gpr, acq_fn, n_iter=n_bo_iter) 
   
-  
-  kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=1.5)
   gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
-  acq_fn = EI
   bo_super_embed_solver = BayesianOptimizerEmbedEnum(
       Xall, super_embed_fn, Xinit, yinit, gpr, acq_fn, n_iter=n_bo_iter) 
   
-  kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=1.5)
   gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
-  acq_fn = EI
   bo_onehot_embed_solver = BayesianOptimizerEmbedEnum(
       Xall, onehot_embed_fn, Xinit, yinit, gpr, acq_fn, n_iter=n_bo_iter)
   
-  """
-  # Pass integers to kernel.
-  kernel = ConstantKernel(1.0) * EmbedKernel(length_scale=1.0, nu=1.5,
-                         embed_fn=lambda x: x)
-  gpr = GaussianProcessRegressor(kernel=kernel, alpha=noise**2)
-  acq_fn = expected_improvement
-  n_seq = 4**seq_len
-  acq_solver =  EnumerativeStringOptimizer(seq_len, n_iter=n_seq)
-  bo_int_solver = BayesianOptimizer(Xinit, yinit, gpr, acq_fn, acq_solver, n_iter=n_bo_iter)
-  """
-  
+ 
       
   methods = []
   methods.append((bo_oracle_embed_solver, 'BO-oracle-embed-enum'))
   methods.append((bo_predictor_embed_solver, 'BO-predictor_embed-enum'))
   methods.append((bo_super_embed_solver, 'BO-super-embed-enum'))
   methods.append((bo_onehot_embed_solver, 'BO-onehot-enum'))
-  #methods.append((bo_int_solver, 'BO-int-enum'))
   methods.append((rnd_solver, 'RndSolver')) # Always do random last
   
   ytrace = dict()
@@ -229,7 +244,9 @@ def do_expt(seed):
   plt.legend()
   plt.title("seed = {}".format(seed))
   plt.show()
-    
+
+
 seeds = [0, 1, 2]
+#seeds = [0]
 for seed in seeds:
   do_expt(seed)
