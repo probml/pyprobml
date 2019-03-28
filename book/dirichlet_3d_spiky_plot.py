@@ -1,18 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
+from pyprobml_utils import save_fig
 
-#from mpl_toolkits.mplot3d import proj3d
+
+from mpl_toolkits.mplot3d import proj3d
 from scipy.stats import dirichlet
 
-grain = 200 #how many points along each axis to plot
+grain = 20 #how many points along each axis to plot
 edgedist = 0.008 #How close to an extreme value of say [1,0,0] are we willing to plot.
 weight = np.linspace(0, 1, grain)
 

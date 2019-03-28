@@ -48,18 +48,7 @@ def load_mnist_data_keras(flatten=False):
       x_test = np.reshape(x_test, (Ntest, D))
     return x_train, x_test, y_train, y_test
   
-  
-IMAGES_PATH = "../figures"
-os.makedirs(IMAGES_PATH, exist_ok=True)
 
-def save_fig(filename, tight_layout=True, fig_extension="pdf", resolution=300):
-    #path = os.path.join(IMAGES_PATH, filename + "." + fig_extension)
-    path = os.path.join(IMAGES_PATH, filename)
-    print("Saving figure to ", path)
-    if tight_layout:
-        plt.tight_layout()
-    #plt.savefig(path, format=fig_extension, dpi=resolution)
-    plt.savefig(path,  dpi=resolution)
     
 def zscore_normalize(data):
   return (data - data.mean()) / np.maximum(data.std(), 1e-8)

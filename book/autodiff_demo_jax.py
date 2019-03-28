@@ -59,7 +59,7 @@ preds3 = [predict(w, x) for x in X]
 preds4 = predict(w, X)
 assert np.allclose(preds, preds2)
 assert np.allclose(preds, preds3)
-assert np.allclose(preds, preds4)
+assert np.allclose(preds, preds4)dr
 
 grad_fun = grad(loss)
 grads = vmap(partial(grad_fun, w))(X,y)
