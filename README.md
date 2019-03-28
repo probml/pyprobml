@@ -7,7 +7,9 @@ using 'python foo.py', or from inside a Python IDE (like Spyder).
 Many of the scripts create plots.
 These are saved to the directory PYROBML/figures. To **set this environment variable**, add the following
 line to your .bash_profile file before opening a new terminal:
+```
     export PYPROBML="/Users/kpmurphy/github/pyprobml" # replace with your download location
+```
 
 We assume you have installed numpy, scipy, matplotlib, pandas, scikit-learn.
 (These are all pre-installed in anaconda.) 
