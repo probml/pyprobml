@@ -12,3 +12,11 @@ def save_fig(fname):
     except:
         print("Not saving {}".format(fname))
     
+    
+def get_data_dir():
+    try:
+        path = os.environ["PYPROBML"]
+        data_dir = os.path.join(path, "data")
+        return data_dir
+    except:
+        print("Cannot find data directory: environment variable PYPROBML not defined")
