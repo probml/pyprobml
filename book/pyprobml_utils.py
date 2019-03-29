@@ -20,3 +20,4 @@ def get_data_dir():
         return data_dir
     except:
         print("Cannot find data directory: environment variable PYPROBML not defined")
+        raise
