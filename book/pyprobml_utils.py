@@ -8,7 +8,7 @@ def save_fig(fname):
         plt.tight_layout()    
         fullname = os.path.join(figdir, fname)
         print('saving to {}'.format(fullname))
-		# bbox_inches="tight" used to help at least numbers_game.py plot titles to be displayed correctly in PDFs.
+        # bbox_inches="tight" used to help at least numbers_game.py plot titles to be displayed correctly in PDFs.
         plt.savefig(fullname, bbox_inches="tight")
     except:
         print("Not saving {}".format(fname))
