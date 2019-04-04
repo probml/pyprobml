@@ -4,15 +4,9 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
+from pyprobml_utils import save_fig
 
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
-    
+
 
 #from mpl_toolkits.mplot3d import Axes3D
 from scipy.optimize import minimize

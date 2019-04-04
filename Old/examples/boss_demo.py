@@ -8,8 +8,8 @@ np.random.seed(0)
 
 
 #problem = 'motif'
-#problem = 'tfbind'
-problem = 'tfbind-small'
+problem = 'tfbind'
+#problem = 'tfbind-small'
 
 if problem == 'motif':
   seq_len = 8
@@ -45,6 +45,7 @@ plt.show()
 
 # Fit a supervised predictor
 time_start = time()
+np.random.seed(1)
 predictor = boss_embed.learn_supervised_model(Xtrain, ytrain, hparams)
 print('time spent training {:0.3f}\n'.format(time() - time_start))
 ypred = predictor.predict(Xall)

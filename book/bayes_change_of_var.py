@@ -6,12 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 import os
-
-# Define a function to save figures in the correct directory. Requires the local
-# environment variable PYPROBML to be set to reference the pyprombl root directory.
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.savefig(os.path.join(figdir, fname))
+from pyprobml_utils import save_fig
 
 # Ensure stochastic reproducibility.
 np.random.seed(42)

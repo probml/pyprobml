@@ -4,9 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+from pyprobml_utils import save_fig
 
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import Ridge

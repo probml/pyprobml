@@ -64,13 +64,13 @@ ax_titles = ['raw', 'standarized', 'PCA whitened', 'ZCA whitened']
 ax_indices = [(0, 0), (0, 1), (1, 0), (1, 1)]
 
 fig, axes = plt.subplots(2, 2)
-for i in xrange(4):
+for i in range(4):
     mat = mat_list[i]
     ax = axes[ax_indices[i][0], ax_indices[i][1]]
     if i > 1:
         ax.set_aspect('equal', 'datalim')
     ax.plot(mat[:, 0], mat[:, 1], 'bx')
-    for j in xrange(min(mat.shape[0], 4)):
+    for j in range(min(mat.shape[0], 4)):
         ax.text(mat[j, 0], mat[j, 1], str(j + 1), size=18)
     draw_ell(ax, np.cov(mat.T), np.mean(mat, axis=0), 'blue')
     ax.set_title(ax_titles[i])
