@@ -1,0 +1,102 @@
+# Inference in student network using autodiff compared to pgmpy.
+
+#https://github.com/pgmpy/pgmpy_notebook/blob/master/notebooks/2.%20Bayesian%20Networks.ipynb
+
+"""
+Network structure:
+I     D
+| \   /
+v   v
+S   G
+    |
+    v
+    L
+All nodes are binary except G (grade), which has 3 levels.
+"""
+    
+import numpy as onp # original numpy
+import jax.numpy as np
+
+import bayesnet_inf_autodiff as bn
+
+from pgmpy.models import BayesianModel
+from pgmpy.factors.discrete import TabularCPD
+from pgmpy.inference import VariableElimination
+
+
+dag = {'I':[], 'D':[], 'G':['I','D'], 'S':['I'], 'L':['G']}
+paramsD = np.array([0.6, 0.4])
+paramsI = np.array([0.7, 0.3])
+paramsG = np.array([[0.3, 0.05, 0.9,  0.5],
+                      [0.4, 0.25, 0.08, 0.3],
+                      [0.3, 0.7,  0.02, 0.2]])
+paramsG = np.reshape(paramsG, (3,2,2)) # paramsG[G,I,D]
+paramsL = np.array([[0.1, 0.4, 0.99],
+                    [0.9, 0.6, 0.01]])
+paramsS = np.array([[0.95, 0.2],
+                    [0.05, 0.8]])
+params = {'D': paramsD, 'I': paramsI, 'G': paramsG, 'L': paramsL, 'S': paramsS}
+
+
+def infer_autodiff(dag, params, evidence, query):
+    prob_ev, probs = bn.marginal_probs(dag, params, evidence)
+    marginal = onp.array(probs[query]) # cast back to vanilla numpy array
+    return marginal
+
+# Now verify results using PGMPY
+# For pgmpy, DAG is specified a list of pairs 
+# eg [('D', 'G'), ('I', 'G'), ('G', 'L'), ('I', 'S')]
+edges = []
+nodes = list(dag.keys())
+for n in nodes:
+    for pa in dag[n]:
+        edge = (pa, n)
+        edges.append(edge)
+model = BayesianModel(edges)
+
+cpd_d = TabularCPD(variable='D', variable_card=2, values=[paramsD])
+
+cpd_i = TabularCPD(variable='I', variable_card=2, values=[paramsI])
+
+cpd_g = TabularCPD(variable='G', variable_card=3, 
+                   values=np.reshape(paramsG, (3, 2*2)),
+                   evidence=['I', 'D'],
+                   evidence_card=[2, 2])
+
+cpd_l = TabularCPD(variable='L', variable_card=2, 
+                   values=paramsL,
+                   evidence=['G'],
+                   evidence_card=[3])
+
+cpd_s = TabularCPD(variable='S', variable_card=2,
+                   values=paramsS,
+                   evidence=['I'],
+                   evidence_card=[2])
+
+
+model.add_cpds(cpd_d, cpd_i, cpd_g, cpd_l, cpd_s)
+model.check_model()
+
+
+def infer_pgmpy(model, evidence, query):
+    # pgmpy only supports marginal queries
+    infer = VariableElimination(model)
+    factor = infer.query([query], evidence=evidence) [query]
+    marginal = factor.values # convert from DiscreteFactor to np array
+    return marginal
+
+## Check they match
+    
+evlist = []
+evlist.append({})
+evlist.append({'G': 0, 'D': 0})
+evlist.append({'L': 0, 'D': 1, 'S': 1})
+for evidence in evlist:
+    all_nodes = set(dag.keys())
+    vis_nodes = set(evidence.keys())
+    hid_nodes = all_nodes.difference(vis_nodes)
+    for query in hid_nodes:
+        prob_ad = infer_autodiff(dag, params, evidence, query)
+        prob_pgm = infer_pgmpy(model, evidence, query)
+        assert onp.allclose(prob_ad, prob_pgm)
+
