@@ -14,6 +14,13 @@ Implements inference in a Bayes net using autodiff applied to Z=einsum(factors).
  EMNLP Workshop on Structured Prediction for NLP. 
  http://cs.jhu.edu/~jason/papers/eisner.spnlp16.pdf
  
+ The idea of using einsum instead of an arithmetic circuit to compute Z
+ is based on
+ "Tensor Variable Elimination for Plated Factor Graphs"
+ Fritz Obermeyer, Eli Bingham, Martin Jankowiak, Justin Chiu, Neeraj Pradhan, Alexander Rush, Noah Goodman
+ Arxiv 2019 (https://arxiv.org/abs/1902.03210)
+ 
+ 
  For a demo of how to use this code, see
  https://github.com/probml/pyprobml/blob/master/book/student_pgm_inf_autodiff.py
  For a unit test see
@@ -112,9 +119,6 @@ def marginal_probs(dag, params, evidence, elim_order=None):
         probs[name] = onp.array(probs[name]) # cast back to vanilla numpy array
     return prob_ev, probs
 
-def marginals_batch(dag, params, evidence_list, elim_order=None):
-    f = lambda ev:  marginal_probs(dag, params, ev, elim_order)
-    return vmap(f)(evidence_list)
     
     
 def compute_elim_order(dag, params):
@@ -124,7 +128,10 @@ def compute_elim_order(dag, params):
     evectors = make_evidence_vectors(cardinality, evidence)
     str = make_einsum_string(dag)
     factors = make_list_of_factors(dag, params, evectors)
-    elim_order = np.einsum_path(str, *factors, optimize='optimal')[0]
+    nnodes = len(dag.keys())
+    #print('computing elimination order for DAG with {} nodes'.format(nnodes))
+    #elim_order = np.einsum_path(str, *factors, optimize='optimal')[0]
+    elim_order = np.einsum_path(str, *factors, optimize='greedy')[0]
     return elim_order
         
 # Class that provides syntactic sugar on top of above functions.
@@ -132,18 +139,14 @@ class BayesNetInfAutoDiff:
     def __init__(self, dag, params):
         self._dag = dag
         self._params = params
-        # unfortunately jax.np.einsum_path is not yet implemented
-        #self._elim_order = compute_elim_order(dag, params)
-        self._elim_order = None
+        self._elim_order = compute_elim_order(dag, params)
+        #self._elim_order = None
         
     def infer_marginals(self, evidence):
         prob_ev, marginals = marginal_probs(self._dag, self._params, evidence,
                                         self._elim_order)
         return marginals
     
-    def infer_prob_evidence(self, evidence):
-        prob_ev, marginals = marginal_probs(self._dag, self._params, evidence,
-                                        self._elim_order)
-        return prob_ev
+   
     
     

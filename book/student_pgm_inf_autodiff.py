@@ -88,7 +88,7 @@ def infer_pgmpy(evidence, query):
 ## Check both inference engines give same posterior marginals 
     
 evlist = []
-#evlist.append({})
+evlist.append({})
 evlist.append({'G': 0, 'D': 0})
 evlist.append({'L': 0, 'D': 1, 'S': 1})
 for evidence in evlist:
@@ -100,6 +100,4 @@ for evidence in evlist:
         prob_pgm = infer_pgmpy(evidence, query)
         assert onp.allclose(prob_ad, prob_pgm)
 
-# batch inference
-#normalizers, marginals = bn.marginals_batch(dag, params, evlist)
     

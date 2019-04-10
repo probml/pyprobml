@@ -91,5 +91,65 @@ for n in range(N):
         L[n,c] = s
 assert np.allclose(L, np.einsum('ntk,kd,dc->nc', S, W, V))
 
+
 path = np.einsum_path('ntk,kd,dc->nc', S, W, V, optimize='optimal')[0]
 assert np.allclose(L, np.einsum('ntk,kd,dc->nc', S, W, V, optimize=path))
+
+
+import jax.numpy as jnp
+path = jnp.einsum_path('ntk,kd,dc->nc', S, W, V, optimize='optimal')[0]
+assert np.allclose(L, jnp.einsum('ntk,kd,dc->nc', S, W, V, optimize=path))
+
+# Use full student network from KOller and Friedman
+str = 'c,dc,gdi,si,lg,jls,hgj->'
+K = 5
+cptC = np.random.randn(K)
+cptD = np.random.randn(K,K)
+cptG = np.random.randn(K,K,K)
+cptS = np.random.randn(K,K)
+cptL = np.random.randn(K,K)
+cptJ = np.random.randn(K,K,K)
+cptH = np.random.randn(K,K,K)
+cpts = [cptC, cptD, cptG, cptS, cptL, cptJ, cptH]
+path_info = np.einsum_path(str, *cpts, optimize='optimal')
+print(path_info[0]) # 'einsum_path', (0, 1), (0, 5), (0, 4), (0, 3), (0, 2), (0, 1)]
+print(path_info[1])
+'''
+  Complete contraction:  c,dc,gdi,si,lg,jls,hgj->
+         Naive scaling:  8
+     Optimized scaling:  4
+      Naive FLOP count:  2.734e+06
+  Optimized FLOP count:  2.176e+03
+   Theoretical speedup:  1256.606
+  Largest intermediate:  1.250e+02 elements
+--------------------------------------------------------------------------
+scaling                  current                                remaining
+--------------------------------------------------------------------------
+   2                     dc,c->d                    gdi,si,lg,jls,hgj,d->
+   3                   d,gdi->gi                       si,lg,jls,hgj,gi->
+   3                   gi,si->gs                          lg,jls,hgj,gs->
+   3                  gs,lg->gls                            jls,hgj,gls->
+   4                 gls,jls->gj                                 hgj,gj->
+   3                    gj,hgj->                                       ->
+'''
+
+path_info = np.einsum_path(str, *cpts, optimize='greedy')
+print(path_info[1])
+'''
+  Complete contraction:  c,dc,gdi,si,lg,jls,hgj->
+         Naive scaling:  8
+     Optimized scaling:  5
+      Naive FLOP count:  2.734e+06
+  Optimized FLOP count:  7.101e+03
+   Theoretical speedup:  385.069
+  Largest intermediate:  1.250e+02 elements
+--------------------------------------------------------------------------
+scaling                  current                                remaining
+--------------------------------------------------------------------------
+   5                hgj,jls->gls                     c,dc,gdi,si,lg,gls->
+   3                  gls,lg->gs                         c,dc,gdi,si,gs->
+   2                     dc,c->d                            gdi,si,gs,d->
+   3                   d,gdi->gi                               si,gs,gi->
+   3                   gs,si->gi                                  gi,gi->
+   2                     gi,gi->                                       ->
+'''

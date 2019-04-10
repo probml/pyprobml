@@ -37,8 +37,3 @@ prob_ev, probs = bn.marginal_probs(dag, params, evidence)
 assert prob_ev==0.1
 assert np.allclose(probs['B'], [0.0, 1.0])
 
-# batch inference
-evlist = []
-evlist.append({'A':1, 'C':0})
-evlist.append({'A':1, 'B':1})
-normalizers, marginals = bn.marginals_batch(dag, params, evlist)
