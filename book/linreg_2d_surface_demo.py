@@ -4,13 +4,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from pyprobml_utils import save_fig
 
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
     
 import scipy.io
 from mpl_toolkits.mplot3d import Axes3D
@@ -35,20 +30,21 @@ for use_quad in (False, True):
   ax.set_zlim(15, 19)
   ax.scatter(X[:,0], X[:,1], y, color='r')
 
-  xrange = np.linspace(min(X[:,0]), max(X[:,0]), 10)
-  yrange = np.linspace(min(X[:,1]), max(X[:,1]), 10)
+  n = 10
+  xrange = np.linspace(min(X[:,0]), max(X[:,0]), n)
+  yrange = np.linspace(min(X[:,1]), max(X[:,1]), n)
   xx, yy = np.meshgrid(xrange, yrange)
-  flatxx = xx.reshape((100, 1))
-  flatyy = yy.reshape((100, 1))
+  flatxx = xx.reshape((n**2, 1))
+  flatyy = yy.reshape((n**2, 1))
   w = np.linalg.lstsq(phi, y)[0]
 
   z = np.column_stack((flatxx, flatyy))
-  z = np.column_stack((np.ones(100), z))
+  z = np.column_stack((np.ones(n**2), z))
   if use_quad:
     z = np.column_stack((z, flatxx**2, flatyy**2))
 
-  z = np.dot(z , w)
-  ax.plot_surface(xx, yy, z.reshape(10, 10),
+  f = np.dot(z , w)
+  ax.plot_surface(xx, yy, f.reshape(n, n),
                   rstride=1, cstride=1, cmap='jet')
 
   name = 'linregSurfaceLinear.pdf'
