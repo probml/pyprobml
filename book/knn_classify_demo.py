@@ -33,6 +33,7 @@ for i in range(len(y_unique)):
              c=colors[i])
 plt.title('train')
 save_fig('knnClassifyDemoTrain.pdf')
+plt.show()
 
 plt.figure()
 for i in range(len(y_unique)):
@@ -42,6 +43,7 @@ for i in range(len(y_unique)):
              c=colors[i])
 plt.title('test')
 save_fig('knnClassifyDemoTest.pdf')
+plt.show()
 
 x = np.linspace(np.min(x_test[:, 0]), np.max(x_test[:, 0]), 200)
 y = np.linspace(np.min(x_test[:, 1]), np.max(x_test[:, 1]), 200)
@@ -62,8 +64,8 @@ for k in [1, 2, 5]:
                  marker=markers[i],
                  c=colors[i])
   plt.title('k=%s' % (k))
-  plt.show()
   save_fig('knnClassify{}.pdf'.format(k))
+  plt.show()
 
 #plot train err and test err with different k
 #ks = [int(n) for n in np.linspace(1, ntrain, 10)]

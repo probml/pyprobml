@@ -16,8 +16,9 @@ import scipy.io
 from mpl_toolkits.mplot3d import Axes3D
 
 
-mu = np.array([[-1,-1], [-1,1], [1,0]]) # K*2
-Sigma = [ 0.1*np.eye(2),  0.1*np.eye(2), np.array([[0.1,0], [0, 3]])]
+mu = np.array([[-1.5,1.5], [-0.75,-1.5], [0.75,0]]) # K*2
+s = 0.08
+Sigma = [ s*np.eye(2),  s*np.eye(2), np.array([[s,0], [0, 3]])]
 weights = np.array([2,2,10])
 mixdist = dict()
 K = np.shape(mu)[0]
@@ -53,6 +54,7 @@ ax = Axes3D(fig)
 ax.plot_surface(xx, yy, f.reshape(n, n),
               rstride=1, cstride=1, cmap='jet')
 
+save_fig('rbf-boss-surface.png')
 plt.show()
 
 N  = X.shape[0]
@@ -70,36 +72,68 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 plt.plot(XX[yy==1, 0], XX[yy==1, 1], "ro")
 plt.plot(XX[yy==0, 0], XX[yy==0, 1], "bx")
+save_fig('rbf-boss-binary.png')
 plt.show()
 
+
+
+def quantize_data(XX, centroids):
+    kmeans = KMeans(n_clusters=K, random_state=0)
+    kmeans.cluster_centers_ = centroids
+    zz = kmeans.predict(XX)
+    return zz
+
+def plot_quantized_data(XX, centroids, zz, offset, fname):
+    K = np.max(zz)+1
+    cmap = plt.cm.rainbow
+    cmap_norm = matplotlib.colors.Normalize(vmin=0, vmax=K-1)
+    #https://stackoverflow.com/questions/43009724/how-can-i-convert-numbers-to-a-color-scale-in-matplotlib
+    plt.figure()
+    for k in range(K):
+        ndx = np.where(zz==k)
+        color = cmap(cmap_norm(k))
+        plt.plot(XX[ndx, 0], XX[ndx, 1], 'o', color=color)
+        plt.plot(centroids[k,0], centroids[k,1], 'kx')
+        plt.text(centroids[k,0], centroids[k,1], '{}'.format(k+offset), fontsize=14)
+    save_fig(fname)
+    plt.show()
+
+
 B = 5
-xrange = np.linspace(-2, 2, B)
-yrange = np.linspace(-2, 2, B)
-B = 3
 xrange = np.linspace(-1.5, 1.5, B)
 yrange = np.linspace(-1.5, 1.5,  B)
 K = B**2
-centroids = np.zeros((K,2))
+centroids2d = np.zeros((K,2))
 k = 0
 for i in range(B):
     for j in range(B):
-        centroids[k] = np.array([xrange[i], yrange[j]])
+        centroids2d[k] = np.array([xrange[i], yrange[j]])
         k += 1
+        
+centroidsv = np.zeros((B,2))
+for b in range(B):
+    centroidsv[b] = np.array([0, yrange[b]])
+   
+centroidsh = np.zeros((B,2))
+for b in range(B):
+    centroidsh[b] = np.array([xrange[b], 0])
+      
+        
 
-kmeans = KMeans(n_clusters=K, random_state=0)
-kmeans.cluster_centers_ = centroids
-zz = kmeans.predict(XX)
+zv = quantize_data(XX, centroidsv)
+plot_quantized_data(XX, centroidsv, zv, 0, 'rbf-boss-vqv.png')
 
-cmap = plt.cm.rainbow
-cmap_norm = matplotlib.colors.Normalize(vmin=0, vmax=K-1)
-#https://stackoverflow.com/questions/43009724/how-can-i-convert-numbers-to-a-color-scale-in-matplotlib
+zh = quantize_data(XX, centroidsh)
+plot_quantized_data(XX, centroidsh, zh, B, 'rbf-boss-vqh.png')
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-for k in range(K):
-    ndx = np.where(zz==k)
-    color = cmap(cmap_norm(k))
-    plt.plot(XX[ndx, 0], XX[ndx, 1], 'o', color=color)
-    plt.plot(centroids[k,0], centroids[k,1], 'kx')
-    plt.text(centroids[k,0], centroids[k,1], '{}'.format(k), fontsize=14)
-plt.show()
+z2d = quantize_data(XX, centroids2d)
+plot_quantized_data(XX, centroids2d, z2d, 2*B, 'rbf-boss-vq2d.png')
+
+
+if 0:
+    #centroids2 = np.array([[0,1], [0,-1]]) # split vertically (x0=*)
+    #centroids3 = np.array([[-1,0], [1,0]]) # split horizontally (x1=*)
+    #ZZ2 = quantize_data(XX, centroids2)
+    #plot_quantized_data(XX, centroids2, ZZ2)
+    ZZ3 = quantize_data(XX, centroids3)
+    plot_quantized_data(XX, centroids3, ZZ3)
