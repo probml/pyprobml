@@ -60,7 +60,7 @@ def make_convergence_plots():
     theta_init = np.array([[1], [-1]])
     sf = 3
 
-    theta_trajectory_steepest = theta_init.dot(np.ones((1, 1000000)))
+    theta_trajectory_steepest = theta_init.dot(np.ones((1, 10000)))
     theta_trajectory_natural = theta_trajectory_steepest.copy()
     L_trajectory_steepest = np.zeros((1, theta_trajectory_steepest.shape[1] - 1))
     L_trajectory_natural = np.zeros_like(L_trajectory_steepest)
