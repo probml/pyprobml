@@ -79,10 +79,12 @@ plt.figure()
 plt.loglog(wordcounts, label='word counts');
 plt.ylabel('log frequency')
 plt.xlabel('log rank')
-c = 10
+c = 10.0
 x = np.arange(c, len(wordcounts)) # rank
 N = np.sum(wordcounts)
-y = np.power(x*1.0, -1) * N # predictted frequencey
+kappa = 0.1
+a = -1
+y = kappa*np.power(x, a) * N # predictted frequencey
 plt.loglog(x, y, label='linear prediction')
 plt.legend();
 save_fig('timemachine-zipf-1.pdf')
