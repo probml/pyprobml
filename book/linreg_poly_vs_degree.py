@@ -9,6 +9,7 @@ from pyprobml_utils import save_fig
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import MinMaxScaler 
+import sklearn.metrics 
 from sklearn.metrics import mean_squared_error as mse
 
 def make_1dregression_data(n=21):
@@ -37,12 +38,14 @@ ndegs = np.max(degs)
 mse_train = np.empty(ndegs)
 mse_test = np.empty(ndegs)
 ytest_pred_stored = np.empty(ndegs, dtype=np.ndarray)
+ytrain_pred_stored = np.empty(ndegs, dtype=np.ndarray)
 for deg in degs:
     model = LinearRegression()
     poly_features = PolynomialFeatures(degree=deg, include_bias=False)
     Xtrain_poly = poly_features.fit_transform(Xtrain)
     model.fit(Xtrain_poly, ytrain)
     ytrain_pred = model.predict(Xtrain_poly)
+    ytrain_pred_stored[deg-1] = ytrain_pred
     Xtest_poly = poly_features.transform(Xtest)
     ytest_pred = model.predict(Xtest_poly)
     mse_train[deg-1] = mse(ytrain_pred, ytrain) 
@@ -70,3 +73,41 @@ for deg in chosen_degs:
     plt.title('degree {}'.format(deg))
     save_fig('polyfitDegree{}.pdf'.format(deg))
     plt.show()
+    
+# Plot residuals
+#https://blog.minitab.com/blog/adventures-in-statistics-2/why-you-need-to-check-your-residual-plots-for-regression-analysis
+chosen_degs = [1, 2, 14, 20]
+for deg in chosen_degs:
+    fig, ax = plt.subplots()
+    ypred =  ytrain_pred_stored[deg-1]
+    residuals = ytrain - ypred
+    ax.plot(ypred, residuals, 'o')
+    ax.set_xlabel('predicted y')
+    ax.set_ylabel('residual')
+    plt.title('degree {}. Predictions on the training set'.format(deg))
+    save_fig('polyfitDegree{}Residuals.pdf'.format(deg))
+    plt.show()
+
+
+# Plot fit vs actual
+# https://blog.minitab.com/blog/adventures-in-statistics-2/regression-analysis-how-do-i-interpret-r-squared-and-assess-the-goodness-of-fit  
+chosen_degs = [1, 2, 14, 20]
+for deg in chosen_degs:
+    for train in [True, False]:
+        if train:
+            ytrue = ytrain
+            ypred = ytrain_pred_stored[deg-1]
+            dataset = 'Train'
+        else:
+            ytrue = ytest
+            ypred = ytest_pred_stored[deg-1]
+            dataset = 'Test'
+        fig, ax = plt.subplots()
+        ax.scatter(ytrue, ypred)
+        ax.plot(ax.get_xlim(), ax.get_ylim(), ls="--", c=".3")
+        ax.set_xlabel('true y')
+        ax.set_ylabel('predicted y')
+        r2 = sklearn.metrics.r2_score(ytrue, ypred)
+        plt.title('degree {}. R2 on {} = {:0.3f}'.format(deg, dataset, r2))
+        save_fig('polyfitDegree{}FitVsActual{}.pdf'.format(deg, dataset))
+        plt.show()
