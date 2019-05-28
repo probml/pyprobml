@@ -36,10 +36,8 @@ plt.title('Quadratic convergence')
 #fig.subplots_adjust(hspace=0)
 plt.tight_layout()
 plt.draw()
-plt.show()
-    
-plt.show()
+
 fname = 'convergenceRates.pdf'
 print(fname)
 save_fig(fname)
-
+plt.show()
