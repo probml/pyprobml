@@ -15,15 +15,18 @@ from sklearn import datasets
 
 iris = datasets.load_iris()
 
-# Initially use 1 feature
+########################
+# Initially use 1 feature, 2 classes
+
 X = iris["data"][:, 3:]  # petal width
 y = (iris["target"] == 2).astype(np.int)  # 1 if Iris-Virginica, else 0'
-log_reg = LogisticRegression(solver="lbfgs", random_state=42)
+log_reg = LogisticRegression(solver="lbfgs", penalty='none')
 log_reg.fit(X, y)
 
 X_new = np.linspace(0, 3, 1000).reshape(-1, 1)
 y_proba = log_reg.predict_proba(X_new)
 decision_boundary = X_new[y_proba[:, 1] >= 0.5][0]
+
 
 plt.figure(figsize=(8, 3))
 plt.plot(X[y==0], y[y==0], "bs")
@@ -42,12 +45,13 @@ save_fig("iris-logreg-1d.pdf")
 plt.show()
 
 
-# Now use 2 features
+########################
+# Now use 2 features, 2 classes
 
 X = iris["data"][:, (2, 3)]  # petal length, petal width
-y = (iris["target"] == 2).astype(np.int)
+y = (iris["target"] == 2).astype(np.int) # 1 if Iris-Virginica, else 0
 
-log_reg = LogisticRegression(solver="lbfgs", C=10**10, random_state=42)
+log_reg = LogisticRegression(solver="lbfgs", penalty='none')
 log_reg.fit(X, y)
 
 x0, x1 = np.meshgrid(
@@ -80,11 +84,14 @@ save_fig("iris-logreg-2d-2class.pdf")
 plt.show()
 
 
+
+########################
 # Now use 2 features and all 3 classes
 X = iris["data"][:, (2, 3)]  # petal length, petal width
 y = iris["target"]
 
-softmax_reg = LogisticRegression(multi_class="multinomial",solver="lbfgs", C=10, random_state=42)
+softmax_reg = LogisticRegression(multi_class="multinomial", solver="lbfgs", penalty="none")
+#softmax_reg = LogisticRegression(multi_class="multinomial",solver="lbfgs", C=10, random_state=42)
 softmax_reg.fit(X, y)
 
 x0, x1 = np.meshgrid(
@@ -146,3 +153,35 @@ plt.show()
 X = [[2.5, 3.0]] # (1,2) array
 y_probs = softmax_reg.predict_proba(X)
 print(np.round(y_probs, 2)) # [[0.53 0.37 0.1 ]]
+
+
+########################
+# Fit model and evaluate on separate test set
+
+from sklearn.model_selection import train_test_split
+iris = datasets.load_iris()
+X = iris.data[:, :2]  # we only take the first two features to make problem harder
+#X = iris.data # use all data
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.33, random_state=42)
+
+logreg = LogisticRegression(solver='lbfgs', multi_class='multinomial', penalty='none')
+logreg.fit(X_train, y_train)
+
+y_pred = logreg.predict(X_test)
+errs = (y_pred != y_test)
+nerrs = np.sum(errs)
+print("Made {} errors out of {}, on instances {}".format(nerrs, len(y_pred), np.where(errs)))
+# With ndims=2: Made 10 errors out of 50, on instances
+#  (array([ 4, 15, 21, 32, 35, 36, 40, 41, 42, 48]),)
+
+
+from sklearn.metrics import zero_one_loss
+err_rate_test = zero_one_loss(y_test, y_pred)
+assert np.isclose(err_rate_test, nerrs / len(y_pred))
+err_rate_train =  zero_one_loss(y_train, logreg.predict(X_train))
+print("Error rates on train {:0.3f} and test {:0.3f}".format(
+    err_rate_train, err_rate_test))
+#Error rates on train 0.180 and test 0.200

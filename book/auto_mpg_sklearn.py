@@ -201,19 +201,43 @@ year = df.pop('Year')
 decade = [ 70 if (y>=70 and y<=79) else 80 for y in year ]
 df['Decade'] =  pd.Series(decade, dtype='category')
 
+
 #
 # Make feature cross between #decades and origin (2*3 values)
 import patsy
 y = df.pop("MPG") # Remove target column from dataframe and store
-df.columns = ['Cyl', 'Dsp','HP', 'Wgt', 'Acc',  'Org', 'Dec'] # Shorten names
-df['Org'] = df['Org'].replace(['USA','Europe','Japan'], ['U','J','E'])
-df_cross = patsy.dmatrix('Dec:Org + Cyl + Dsp + HP + Wgt + Acc', df, return_type='dataframe')
-df_cross.tail()
+df.columns = ['Cyl', 'Dsp', 'HP', 'Wgt', 'Acc',  'O', 'D'] # Shorten names
+df['O'] = df['O'].replace(['USA','Europe','Japan'], ['U','J','E'])
+df_cross = patsy.dmatrix('D:O + Cyl + Dsp + HP + Wgt + Acc', df, return_type='dataframe')
+print(df_cross.tail())
+
+#
+# Make feature cross between #decades and origin (2*3 values)
+import patsy
+y = df.pop("MPG") # Remove target column from dataframe and store
+df.columns = ['Cyl', 'Dsp', 'HP', 'Wgt', 'Acc',  'O', 'D'] # Shorten names
+df['O'] = df['O'].replace(['USA','Europe','Japan'], ['U','E','J'])
+df_cross = patsy.dmatrix('D:O + Cyl + Dsp + HP + Wgt + Acc', df, return_type='dataframe')
+print(df_cross.tail())
 """
-      Intercept  Org[T.J]  Org[T.U]  Dec[T.80]:Org[E]  Dec[T.80]:Org[J]  Dec[T.80]:Org[U]  Cyl    Dsp     HP     Wgt   Acc
-387        1.0       0.0       1.0               0.0               0.0               1.0  6.0  262.0   85.0  3015.0  17.0
-388        1.0       0.0       1.0               0.0               0.0               1.0  4.0  156.0   92.0  2585.0  14.5
-389        1.0       0.0       1.0               0.0               0.0               1.0  6.0  232.0  112.0  2835.0  14.7
-390        1.0       0.0       0.0               1.0               0.0               0.0  4.0  144.0   96.0  2665.0  13.9
-391        1.0       0.0       1.0               0.0               0.0               1.0  4.0  135.0   84.0  2370.0  13.0
+     Intercept  O[T.J]  O[T.U]  D[T.80]:O[E]  D[T.80]:O[J]  D[T.80]:O[U]  Cyl    Dsp     HP     Wgt   Acc
+387        1.0     0.0     1.0           0.0           0.0           1.0  6.0  262.0   85.0  3015.0  17.0
+388        1.0     0.0     1.0           0.0           0.0           1.0  4.0  156.0   92.0  2585.0  14.5
+389        1.0     0.0     1.0           0.0           0.0           1.0  6.0  232.0  112.0  2835.0  14.7
+390        1.0     0.0     0.0           1.0           0.0           0.0  4.0  144.0   96.0  2665.0  13.9
+391        1.0     0.0     1.0           0.0           0.0           1.0  4.0  135.0   84.0  2370.0  13.0
 """
+
+############### Simplified example
+cylinders = pd.Series([4,   2,    3,   2,   4], dtype='int')
+colors = pd.Series(['R', 'R', 'G', 'B', 'R'], dtype='category')
+origin = pd.Series(['U', 'J', 'J', 'U', 'U'], dtype='category')
+data = {'Cyl': cylinders, 'C': colors, 'O': origin}
+df = pd.DataFrame(data=data)
+
+import patsy
+df_onehot = patsy.dmatrix('Cyl + C + O', df, return_type='dataframe')
+print(df_onehot)
+
+df_cross = patsy.dmatrix('Cyl + C + O + C:O', df, return_type='dataframe')
+print(df_cross)

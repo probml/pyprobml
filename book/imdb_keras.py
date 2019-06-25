@@ -2,6 +2,7 @@
 # Movie review classifier using keras. Based on 
 # https://www.tensorflow.org/tutorials/keras/basic_text_classification
 
+from __future__ import absolute_import, division, print_function
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,7 +10,7 @@ import os
 figdir = os.path.join(os.environ["PYPROBML"], "figures")
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
-from __future__ import absolute_import, division, print_function
+
 
 import tensorflow as tf
 from tensorflow import keras
@@ -111,13 +112,13 @@ _________________________________________________________________
 
 
 x_val = train_data[:10000]
-partial_x_train = train_data[10000:]
+x_train = train_data[10000:]
 
 y_val = train_labels[:10000]
-partial_y_train = train_labels[10000:]
+y_train = train_labels[10000:]
 
-history = model.fit(partial_x_train,
-                    partial_y_train,
+history = model.fit(x_train,
+                    y_train,
                     epochs=40,
                     batch_size=512,
                     validation_data=(x_val, y_val),
@@ -165,16 +166,15 @@ class PrintDot(keras.callbacks.Callback):
     print('.', end='')
     
 callbacks = [PrintDot(),
-             keras.callbacks.EarlyStopping(monitor='val_loss', patience=2),
+             keras.callbacks.EarlyStopping(monitor='val_acc', patience=2),
              keras.callbacks.ModelCheckpoint(filepath='imdb_keras_best_model.ckpt',
-                                             monitor='val_loss', save_best_only=True)]
+                                             monitor='val_acc', save_best_only=True)]
 
 # Reset parameters to a new random state
 model = make_model(embed_size)
 history = model.fit(
-    partial_x_train, partial_y_train, epochs=40, batch_size=512, 
+    x_train, y_train, epochs=40, batch_size=512, 
     validation_data=(x_val, y_val), verbose=0, callbacks=callbacks)
-print(history)
 
 history_dict = history.history
 acc = history_dict['acc']
