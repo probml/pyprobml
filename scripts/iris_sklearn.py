@@ -1,8 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+#figdir = os.path.join(os.environ["PYPROBML"], "figures")
+#def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+def save_fig(fname):
+    root = os.getenv('PYPROBML') # None if key does not exist
+    if root:
+        plt.savefig(os.path.join(root, 'figures', fname))
 
 
 from sklearn.datasets import load_iris
