@@ -24,14 +24,14 @@ pgm.add_node(daft.Node("z2", r"$h_2$", 3, 2))
 
 pgm.add_node(daft.Node("y", r"$y$", 2.5, 3))
 
-pgm.add_edge("bias1", "z1", label="-1.5", xoffset=-0.3)
-pgm.add_edge("bias2", "z2", label="0.0", xoffset=+0.3)
+pgm.add_edge("bias1", "z1", label="-1.5", xoffset=-0.4)
+pgm.add_edge("bias2", "z2", label="-0.5", xoffset=+0.4)
 pgm.add_edge("x1", "z1", label="+1", xoffset=-0.3)
 pgm.add_edge("x1", "z2", label="+1", xoffset=-0.4)
 pgm.add_edge("x2", "z1", label="+1", xoffset=0.4)
 pgm.add_edge("x2", "z2", label="+1", xoffset=0.3)
 
-pgm.add_edge("biasy", "y", label="0.0", xoffset=-0.3)
+pgm.add_edge("biasy", "y", label="-0.5", xoffset=-0.4)
 pgm.add_edge("z1", "y", label="-1", xoffset=-0.3)
 pgm.add_edge("z2", "y", label="+1", xoffset=0.3)
 
