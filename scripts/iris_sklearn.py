@@ -9,7 +9,7 @@ def save_fig(fname):
     if root:
         plt.savefig(os.path.join(root, 'figures', fname))
 
-
+import sklearn
 from sklearn.datasets import load_iris
 iris = load_iris()
 # show attributes
