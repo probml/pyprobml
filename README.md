@@ -1,7 +1,7 @@
 # pyprobml
 Python 3 code for the second edition of my book "Machine learning: a probabilistic perspective" (http://people.cs.ubc.ca/~murphyk/MLbook/). This is work in progress, so expect rough edges.
 
-The main code lives in pyprobml/book. You can execute any script from the command line
+The main code lives in [scripts](scripts). You can execute any script from the command line
 using 'python foo.py', or from inside a Python IDE (like Spyder). 
 
 Many of the scripts create plots.
