@@ -6,8 +6,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+#figdir = os.path.join(os.environ["PYPROBML"], "figures")
+figdir = "../figures"
+def save_fig(fname):
+    if figdir: plt.savefig(os.path.join(figdir, fname))
 
 from sklearn.linear_model import LogisticRegression
 from sklearn import datasets
@@ -20,7 +22,10 @@ iris = datasets.load_iris()
 
 X = iris["data"][:, 3:]  # petal width
 y = (iris["target"] == 2).astype(np.int)  # 1 if Iris-Virginica, else 0'
-log_reg = LogisticRegression(solver="lbfgs", penalty='none')
+#log_reg = LogisticRegression(solver="lbfgs", penalty='none')
+# Penalty='none' introduced in sklearn 0.21.
+# For older versions, use this method:
+log_reg = LogisticRegression(solver="lbfgs", C=1000)
 log_reg.fit(X, y)
 
 X_new = np.linspace(0, 3, 1000).reshape(-1, 1)
@@ -51,7 +56,10 @@ plt.show()
 X = iris["data"][:, (2, 3)]  # petal length, petal width
 y = (iris["target"] == 2).astype(np.int) # 1 if Iris-Virginica, else 0
 
-log_reg = LogisticRegression(solver="lbfgs", penalty='none')
+# penalty='none' is introduced in sklearn 0.21
+#log_reg = LogisticRegression(solver="lbfgs", penalty='none')
+# For older versions, we can simulate no regularization by using a large C
+log_reg = LogisticRegression(solver="lbfgs", C=1000)
 log_reg.fit(X, y)
 
 x0, x1 = np.meshgrid(
@@ -90,8 +98,8 @@ plt.show()
 X = iris["data"][:, (2, 3)]  # petal length, petal width
 y = iris["target"]
 
-softmax_reg = LogisticRegression(multi_class="multinomial", solver="lbfgs", penalty="none")
-#softmax_reg = LogisticRegression(multi_class="multinomial",solver="lbfgs", C=10, random_state=42)
+#softmax_reg = LogisticRegression(multi_class="multinomial", solver="lbfgs", penalty="none")
+softmax_reg = LogisticRegression(multi_class="multinomial",solver="lbfgs", C=1000, random_state=42)
 softmax_reg.fit(X, y)
 
 x0, x1 = np.meshgrid(
@@ -167,7 +175,8 @@ y = iris.target
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.33, random_state=42)
 
-logreg = LogisticRegression(solver='lbfgs', multi_class='multinomial', penalty='none')
+#logreg = LogisticRegression(solver='lbfgs', multi_class='multinomial', penalty='none')
+logreg = LogisticRegression(solver='lbfgs', multi_class='multinomial', C=1000)
 logreg.fit(X_train, y_train)
 
 y_pred = logreg.predict(X_test)
