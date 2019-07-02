@@ -38,7 +38,7 @@ These are listed below.
 * Chapter 1 (Introduction)
     * [iris_explore](notebooks/iris_explore.ipynb).
     * [autompg_explore](notebooks/autompg_explore.ipynb).
-    * (autompg_preprocessing)[notebooks/autompg_preprocessing.ipynb]. 
+    * [autompg_preprocessing](notebooks/autompg_preprocessing.ipynb). 
 * Chapter 2 (Linear algebra)
     * Foo. Needs jax.
 * Chapter 3 (Probabilty).
