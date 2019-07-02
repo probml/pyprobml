@@ -7,8 +7,11 @@ from __future__ import absolute_import, division, print_function
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+figdir = "../figures"
+def save_fig(fname):
+    if figdir:
+        plt.savefig(os.path.join(figdir, fname))
 
 
 
@@ -80,6 +83,8 @@ print(train_data[0])
 
 embed_size = 16
 def make_model(embed_size):
+  tf.random.set_seed(42)
+  np.random.seed(42)
   model = keras.Sequential()
   model.add(keras.layers.Embedding(vocab_size, embed_size))
   model.add(keras.layers.GlobalAveragePooling1D())
@@ -119,7 +124,7 @@ y_train = train_labels[10000:]
 
 history = model.fit(x_train,
                     y_train,
-                    epochs=40,
+                    epochs=50,
                     batch_size=512,
                     validation_data=(x_val, y_val),
                     verbose=1)
@@ -173,7 +178,7 @@ callbacks = [PrintDot(),
 # Reset parameters to a new random state
 model = make_model(embed_size)
 history = model.fit(
-    x_train, y_train, epochs=40, batch_size=512, 
+    x_train, y_train, epochs=50, batch_size=512, 
     validation_data=(x_val, y_val), verbose=0, callbacks=callbacks)
 
 history_dict = history.history

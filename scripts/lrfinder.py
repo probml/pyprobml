@@ -154,15 +154,7 @@ class OneCycleScheduler(keras.callbacks.Callback):
         K.set_value(self.model.optimizer.lr, rate)
         self.rate_hist.append(K.get_value(self.model.optimizer.lr))
 
-def interpolate_broken(i, iter1, iter2, rate1, rate2):
-        return ((rate2 - rate1) * (iter2 - i)
-                / (iter2 - iter1) + rate1)
-def interpolate(i, iter1, iter2, rate1, rate2):
-        return ((rate2 - rate1) * (i - iter1)
-                / (iter2 - iter1) + rate1)
-lr = [interpolate(i, 0, 965, 0.005, 0.05) for i in range(965)]
 
-        
 #https://stackoverflow.com/questions/48198031/keras-add-variables-to-progress-bar/48206009#48206009
 n_epochs = 5
 n_steps_per_epoch = len(X_train) // batch_size

@@ -93,9 +93,8 @@ perf_schedule = keras.callbacks.ReduceLROnPlateau(factor=0.5, patience=5)
 # Make plots
 schedules = {'power': power_schedule,
              'exp': exponential_schedule,
-             'piecewise': piecewise_schedule}
-
-schedules = {'perf': perf_schedule}
+             'piecewise': piecewise_schedule,
+             'perf': perf_schedule}
 
 for name, lr_scheduler in schedules.items():
     tf.random.set_seed(42)
