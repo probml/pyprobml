@@ -1,4 +1,4 @@
-# Taken from Jake VanderPlas' code
+# Modified from Jake VanderPlas' code
 # https://jakevdp.github.io/PythonDataScienceHandbook/06.00-figure-code.html#Broadcasting
 # Adapted from astroML: see http://www.astroml.org/book_figures/appendix/fig_broadcast_visual.html
 
@@ -6,7 +6,7 @@
 #import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
+figdir = "../figures"
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 #------------------------------------------------------------
@@ -192,5 +192,6 @@ ax.set_xlim(0, 16)
 ax.set_ylim(0.5, 12.5)
 
 save_fig('broadcasting.pdf')
+save_fig('broadcasting.png')
 plt.show()
 
