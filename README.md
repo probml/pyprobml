@@ -6,14 +6,14 @@ Python 3 code for the second edition of my book "Machine learning: a probabilist
 ## Installation
 
 We assume you have installed numpy, scipy, matplotlib, seaborn, pandas, scikit-learn, etc.
-(All of these are bundled with anaconda.)
+(All of these are bundled with [anaconda](https://www.anaconda.com/distribution/).)
 
 Some scripts rely on additional libraries, such as the following: 
-- tf 2.0: tensorflow (https://www.tensorflow.org/)
-- tfp:  tensorflow probability (pip install --upgrade tfp-nightly)
-- jax:   (https://github.com/google/jax)
-- pymc3:  (https://docs.pymc.io/)
-- pytorch:  (https://pytorch.org/)
+- [tensorflow 2.0](https://www.tensorflow.org/)
+- [tensorflow probability](https://www.tensorflow.org/probability)
+- [jax](https://github.com/google/jax)
+- [pytorch](https://pytorch.org/)
+- [pymc3](https://docs.pymc.io/)
 
 You also need to define the PYPROBML environment variable.
 You can do this by adding the following
@@ -32,19 +32,11 @@ Many of the scripts create plots, which are saved to PYROBML/figures.
 
 ## Notebooks
 
-We have created a few notebooks to illustrate some of the techniques in more detail.
-These are listed below.
+We have created  notebooks for each chapter to illustrate some of the techniques in more detail.
 
-* Chapter 1 (Introduction)
-    * [iris_explore](notebooks/iris_explore.ipynb).
-    * [autompg_explore](notebooks/autompg_explore.ipynb).
-    * [autompg_preprocessing](notebooks/autompg_preprocessing.ipynb). 
-* Chapter 2 (Linear algebra)
-    * Foo. Needs jax.
-* Chapter 3 (Probabilty).
-    * None yet.
-* Chapter 4 (Probabilistic graphical models).
-    * None yet.
+* [Introduction](https://github.com/probml/pyprobml/blob/master/notebooks/introduction.ipynb)
+* [Linear algebra](https://github.com/probml/pyprobml/blob/master/notebooks/linear_algebra.ipynb)
+* [Optimization](https://github.com/probml/pyprobml/blob/master/notebooks/optimization.ipynb)
     
 
 
