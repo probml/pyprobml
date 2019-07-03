@@ -13,7 +13,6 @@ Some scripts rely on additional libraries, such as the following:
 - [tensorflow probability](https://www.tensorflow.org/probability)
 - [jax](https://github.com/google/jax)
 - [pytorch](https://pytorch.org/)
-- [pymc3](https://docs.pymc.io/)
 
 You also need to define the PYPROBML environment variable.
 You can do this by adding the following
@@ -32,10 +31,11 @@ Many of the scripts create plots, which are saved to PYROBML/figures.
 
 ## Notebooks
 
-We have created  notebooks for each chapter to illustrate some of the techniques in more detail.
+We have created notebooks for some of the chapters to show how to convert the theory in the book into practice. (Work in progress...)
 
 * [Introduction](https://github.com/probml/pyprobml/blob/master/notebooks/introduction.ipynb)
 * [Linear algebra](https://github.com/probml/pyprobml/blob/master/notebooks/linear_algebra.ipynb)
+* [Probability](https://github.com/probml/pyprobml/blob/master/notebooks/probability.ipynb)
 * [Optimization](https://github.com/probml/pyprobml/blob/master/notebooks/optimization.ipynb)
     
 
