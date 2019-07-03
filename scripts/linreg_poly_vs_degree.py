@@ -4,7 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pyprobml_utils import save_fig
+import os
 
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
@@ -12,6 +12,10 @@ from sklearn.preprocessing import MinMaxScaler
 import sklearn.metrics 
 from sklearn.metrics import mean_squared_error as mse
 
+figdir = "../figures"
+def save_fig(fname):
+    if figdir: plt.savefig(os.path.join(figdir, fname))
+    
 def make_1dregression_data(n=21):
     np.random.seed(0)
     xtrain = np.linspace(0.0, 20, n)

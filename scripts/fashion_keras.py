@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
+figdir = "../figures"
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
@@ -56,7 +56,7 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 
 
-# We just train for 2 epochs because (1) it is faster, and (@)
+# We just train for 2 epochs because (1) it is faster, and (2)
 # it produces more errors, which makes for a more interesting plot :)
 time_start = time()
 model.fit(train_images, train_labels, epochs=2)
