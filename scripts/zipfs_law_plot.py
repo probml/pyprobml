@@ -8,10 +8,12 @@ import re
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from pyprobml_utils import save_fig, get_data_dir
 
-datadir = get_data_dir()
-fname = os.path.join(datadir, 'timemachine.txt')
+figdir = "../figures"
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+data_dir = "../data"
+fname = os.path.join(data_dir, 'timemachine.txt')
 
 with open(fname, 'r') as f:
     lines = f.readlines()

@@ -27,7 +27,10 @@ def qr_solve_under(A, b):
     c = scipy.linalg.solve_triangular(R, b)
     m, n = A.shape
     x = np.zeros(n)
-    x[:m] = np.dot(Q, c) # other components are zero
+    xx = np.dot(Q, c)
+    xx = xx[:,0]
+    K = xx.shape[0]
+    x[:K] = xx # other components are zero
     return x
 
 
@@ -58,7 +61,6 @@ def run_demo(m, n):
         residual = b -  np.dot(A, soln)
         print('method {}, norm {:0.5f}, residual {:0.5f}'.format(method, np.linalg.norm(soln), np.linalg.norm(residual)))
         print(soln.T)
-        print('\n')
     
     # https://stackoverflow.com/questions/33559946/numpy-vs-mldivide-matlab-operator
     if m < n: # underdetermined
@@ -70,7 +72,6 @@ def run_demo(m, n):
             residual = b -  np.dot(A, soln)
             print('sparse qr, norm {:0.5f}, residual {:0.5f}'.format(np.linalg.norm(soln), np.linalg.norm(residual)))
             print(soln.T) 
-            print('\n')
     
 m = 5; n = 3 # Overdetermined
 run_demo(m, n)

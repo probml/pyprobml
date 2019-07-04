@@ -2,7 +2,7 @@
 # https://github.com/google/jax
 import numpy as onp # original numpy
 import jax.numpy as np
-from jax import grad
+from jax import grad, hessian
 
 onp.random.seed(42)
 D = 5
@@ -78,50 +78,6 @@ grad_fun = jit(grad(loss))
 grads = vmap(partial(grad_fun, w))(X,y)
 assert np.allclose(grads, grads2)
 
-
-# Now work with Jacobians
-
-from jax import jacfwd, jacrev
-
-Din = 3; Dout = 4;
-A = onp.random.randn(Dout, Din)
-def fun(x):
-    return np.dot(A, x)
-x = onp.random.randn(Din)
-Jf = jacfwd(fun)(x)
-Jr = jacrev(fun)(x)
-assert np.allclose(Jf, Jr)
-assert np.allclose(Jf, A)
-
-# If the function outputs a scalar, the Jacobian is the gradient vector
-Din = 3; Dout = 1;
-A = onp.random.randn(Dout, Din)
-def fun(x):
-    return np.dot(A, x)[0]
-x = onp.random.randn(Din)
-J = jacrev(fun)(x)
-g = grad(fun)(x)
-assert np.allclose(J, g)
-
- 
-def obj(w):
-    return loss(w, X, y)
-grad0 = lambda w: grad(loss)(w, X, y)
-grad1 = grad(obj)
-grad2 = jacrev(obj)
-assert np.allclose(grad1(w), grad2(w))
-
-# Now work with Hessians
-
-def hessian(fun):
-  return jacfwd(jacrev(fun))
-
-# Quadratic form
-A = onp.random.randn(D, D)
-x = onp.random.randn(D)
-myfun = lambda x: np.dot(x, np.dot(A, x))
-H = hessian(myfun)(x)
-assert np.allclose(H, A+A.T)
 
 # Logistic regression
 H1 = hessian(loss)(w, X, y)
