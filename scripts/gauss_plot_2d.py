@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
+figdir = "../figures"
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
@@ -10,10 +10,7 @@ from scipy.stats import multivariate_normal
 
 Gs = ["Full", "Diag", "Spherical"]
 
-# Gaussian Parameters:
-# Mean:
 mu = [0, 0]
-# Covariances:
 Covs = {'Full': [[2, 1.8], [1.8, 2]],
         'Diag': [[1, 0], [0, 3]],
         'Spherical': [[1, 0], [0, 1]]}

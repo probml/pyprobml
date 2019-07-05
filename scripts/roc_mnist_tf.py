@@ -7,7 +7,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
+figdir = "../figures"
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
@@ -181,10 +181,6 @@ logloss 0.041, acc 0.988, prec 0.947, recall 0.906, F1 0.926
  [  81  782]]
 
 Evaluating LR-keras on train set
-/home/kpmurphy/anaconda3/envs/book/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples.
-  'precision', 'predicted', average, warn_for)
-/home/kpmurphy/anaconda3/envs/book/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: F-score is ill-defined and being set to 0.0 due to no predicted samples.
-  'precision', 'predicted', average, warn_for)
 evaluating LR-keras
 logloss 0.080, acc 0.975, prec 0.936, recall 0.761, F1 0.840
 [[9092   45]
