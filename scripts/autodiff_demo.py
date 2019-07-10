@@ -3,6 +3,7 @@
 
 import numpy as np
 from scipy.misc import logsumexp
+np.set_printoptions(precision=3)
 
 USE_JAX = True
 USE_TORCH = True
@@ -16,7 +17,7 @@ def set_seed(seed):
     onp.random.seed(seed)
     
 def randn(args):
-    return onp.random.randn(args)
+    return onp.random.randn(*args)
         
 def randperm(args):
     return onp.random.permutation(args)

@@ -28,8 +28,8 @@ import numpy as onp # original numpy
 def set_seed(seed):
     onp.random.seed(seed)
     
-def randn(args):
-    return onp.random.randn(args)
+def randn(*args):
+    return onp.random.randn(*args)
         
 def randperm(args):
     return onp.random.permutation(args)
@@ -87,13 +87,16 @@ if USE_TF:
 import sklearn.datasets
 from sklearn.model_selection import train_test_split
 
-iris = sklearn.datasets.load_iris()
-X = iris["data"][:,:3] # Just take first 3 features to make problem harder
-y = (iris["target"] == 2).astype(onp.int)  # 1 if Iris-Virginica, else 0'
-N, D = X.shape # 150, 4
+if True:
+    iris = sklearn.datasets.load_iris()
+    X = iris["data"][:,:] 
+    y = (iris["target"] == 2).astype(onp.int)  # 1 if Iris-Virginica, else 0
+else:
+    X, y = sklearn.datasets.make_classification(
+            n_samples=1000, n_features=10, n_informative=5, random_state=42)
 
-X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.33, random_state=42)
+N, D = X.shape 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
 N_train = X_train.shape[0]
 N_test = X_test.shape[0]
 
@@ -134,24 +137,22 @@ def NLL_grad(weights, batch):
 ###########
 # Define a test function for comparing solvers
 
-def evaluate_params(w_opt, w_est, name):
-    #print("parameters from optimal\n{}".format(w_opt))
-    #print("parameters from {}\n{}".format(name, w_est))
-    print("parameters max delta: {}".format(np.max(np.abs(w_opt - w_est))))
-
-def evaluate_preds(w_opt, w_est, name):
-    p_opt = predict_prob(w_opt, X_test)
-    p_est = predict_prob(w_est, X_test)
-    #print("predictions from optimal\n{}".format(np.round(p_opt, 3)))
-    #print("predictions from {}\n{}".format(name, np.round(p_est, 3)))
-    print("predictions max delta: {}".format(np.max(np.abs(p_opt - p_est))))
+def evaluate_preds(w_opt, w_est, X):
+    p_opt = predict_prob(w_opt, X)
+    p_est = predict_prob(w_est, X)
+    delta = np.max(np.abs(p_opt - p_est))
+    print("predictions max delta: {}".format(delta))
+    return delta
 
 def evaluate(w_opt, w_est, name):
     print("evaluating {}".format(name))
-    evaluate_params(w_opt, w_est, name)
-    evaluate_preds(w_opt, w_est, name)
-    
-loss_history_dict = {}
+    delta = np.max(np.abs(w_opt - w_est))
+    print("parameters max delta: {}".format(delta))
+    train_delta = evaluate_preds(w_opt, w_est, X_train)
+    test_delta = evaluate_preds(w_opt, w_est, X_test)
+    train_delta = NLL(w_est, (X_train, y_train))
+    test_delta = NLL(w_est, (X_test, y_test)) 
+    return train_delta, test_delta
 
 ###
 # Fit with sklearn. We will use this as the "gold standard"
@@ -198,96 +199,98 @@ if USE_JAX:
     evaluate(w_mle_sklearn, w_mle_scipy, "scipy-bfgs-jax")
     
 ###################
-# pytorch using full batch GD
+# pytorch 
 
 #https://github.com/yangzhangalmo/pytorch-iris/blob/master/main.py
 #https://m-alcu.github.io/blog/2018/02/10/logit-pytorch/
 
-if USE_TORCH:
-    import torch
-    import torch.nn.functional as F
-    
-    class Model(torch.nn.Module):
-        def __init__(self):
-            super(Model, self).__init__()
-            self.linear = torch.nn.Linear(D, 1, bias=False) 
-            
-        def forward(self, x):
-            y_pred = torch.sigmoid(self.linear(x))
-            return y_pred
+
+import torch
+from torch.utils.data import DataLoader, TensorDataset
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.linear = torch.nn.Linear(D, 1, bias=False) 
         
-    x_train_tensor = torch.Tensor(X_train).to(device)
-    y_train_tensor = torch.Tensor(y_train).to(device)
+    def forward(self, x):
+        y_pred = torch.sigmoid(self.linear(x))
+        return y_pred
     
-    set_seed(0)
+x_train_tensor = torch.Tensor(X_train)
+y_train_tensor = torch.Tensor(y_train)
+data_set = TensorDataset(x_train_tensor, y_train_tensor)
+criterion = torch.nn.BCELoss(reduction='mean')
+
+expts = []
+#expts.append({'lr':0.1, 'bs':N_train, 'epochs':1000})
+ep = 100
+#expts.append({'lr':1, 'bs':2, 'epochs':ep})
+expts.append({'lr':0.1, 'bs':2, 'epochs':ep})
+expts.append({'lr':0.01, 'bs':2, 'epochs':ep})
+expts.append({'lr':'armijo', 'bs':2, 'epochs':ep})
+expts.append({'lr':'armijo', 'bs':10, 'epochs':ep})
+expts.append({'lr':'armijo', 'bs':N_train, 'epochs':ep})
+
+#  pytorch using SGD with armijo line search
+# https://github.com/IssamLaradji/stochastic_line_search/blob/master/main.py
+from armijo_sgd import SGD_Armijo, ArmijoModel
+   
+for expt in expts:
+    lr = expt['lr']
+    bs = expt['bs']
+    max_epochs = expt['epochs']
+    seed = 0
+    set_seed(seed)
     model = Model()
-    criterion = torch.nn.BCELoss(reduction='mean')
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
-    
-    name = 'torch-GD-0.1'
+    model.train() # set to training mode
+    data_loader = DataLoader(data_set, batch_size=bs, shuffle=True)
+    n_batches = len(data_loader)
     loss_history = []
-    n_epochs = 1000
-    print_every = max(1, int(0.25*n_epochs))
-    for epoch in range(n_epochs):
-        y_pred = model(x_train_tensor)
-        loss = criterion(y_pred, y_train_tensor)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-        train_loss = loss.detach().numpy()
+    print_every = max(1, int(0.25*max_epochs))
+    if lr == 'armijo':
+        name = 'sgd-armijo-bs{}'.format(bs)
+        opt_model = ArmijoModel(model, criterion)
+        optimizer = SGD_Armijo(opt_model, batch_size=bs, dataset_size=N_train)   
+        opt_model.opt = optimizer
+        armijo = True
+    else:
+        name = 'sgd-lr{:0.3f}-bs{}'.format(lr, bs)
+        optimizer = torch.optim.SGD(model.parameters(), lr=lr)
+        armijo = False
+    
+    print('starting {}'.format(name))
+    for epoch in range(max_epochs):
+        loss_sum = 0.0
+        for step, (x_batch, y_batch) in enumerate(data_loader):
+            if armijo:     
+                loss = opt_model.step((x_batch, y_batch))
+                loss_sum += loss
+            else:
+                optimizer.zero_grad()
+                y_pred = model(x_batch)
+                loss = criterion(y_pred, y_batch)
+                loss.backward()
+                optimizer.step()
+                loss_sum += loss.detach().numpy()
+        train_loss = loss_sum / n_batches
         loss_history.append(train_loss)
         if epoch % print_every == 0:
             print("epoch {}, loss {}".format(epoch, train_loss)) 
-        
+    print("Final epoch {}, loss {}".format(epoch, train_loss))   
         
     params_torch = list(model.parameters())
     w_torch = params_torch[0][0].detach().numpy() #(D,) vector
     #offset = params_torch[1].detach().numpy() # scalar
-    evaluate(w_mle_sklearn, w_torch, name)
+    train_delta, test_delta = evaluate(w_mle_sklearn, w_torch, name)
     plt.plot(loss_history)
-    plt.title(name)
+    plt.title('{}, train {:0.3f}, test {:0.3f}'.format(name, train_delta, test_delta))
     plt.show()
-
-###################
-#  pytorch using full batch GD with armijo line search
-# https://github.com/IssamLaradji/stochastic_line_search/blob/master/main.py
-
-if USE_TORCH:
-    #import sys
-    #sys.path.append('/home/murphyk/github/pyprobml/scripts') 
-    #import armijo_sgd
-    from armijo_sgd import SGD_Armijo, ArmijoModel
-
-    set_seed(0)
-    model = Model()
-    criterion = torch.nn.BCELoss(size_average=True)
-    model = ArmijoModel(model, criterion)
-    optimizer = SGD_Armijo(model, batch_size=N_train, dataset_size=N_train)   
-    model.opt = optimizer
-    model.train() # enter training mode
     
-    name = 'torch-GD-Armijo'
-    loss_history = []
-    n_epochs = 1000
-    print_every = max(1, int(0.25*n_epochs))
-    for epoch in range(n_epochs):
-        batch = (x_train_tensor, y_train_tensor)
-        train_loss = model.step(batch)
-        loss_history.append(train_loss)
-        if epoch % print_every == 0:
-            print("epoch {}, loss {}".format(epoch, train_loss)) 
-        
-    params_torch = list(model.parameters())
-    w_torch = params_torch[0][0].detach().numpy() #(D,) vector
-    evaluate(w_mle_sklearn, w_torch, name)
-    plt.plot(loss_history)
-    plt.title(name)
-    plt.show()
-
-
-
-
     
+
+
+
 # Bare bones SGD
 
 
