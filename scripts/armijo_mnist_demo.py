@@ -1,7 +1,11 @@
-# We apply different SGD optimizers to a CNN on MNIST
+# We compare armijo line search to fixed learning rate SGD 
+# when used to fit a CNN / MLP to MNIST
 
-# Based on various tutorials
+# Linesearch code is from
+# https://github.com/IssamLaradji/stochastic_line_search/blob/master/main.py
+from armijo_sgd import SGD_Armijo, ArmijoModel
 
+# Neural net code is based on various tutorials
 #https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#sphx-glr-beginner-blitz-cifar10-tutorial-py
 #https://github.com/CSCfi/machine-learning-scripts/blob/master/notebooks/pytorch-mnist-mlp.ipynb
 
@@ -20,9 +24,11 @@ device = torch.device("cuda:0" if use_cuda else "cpu")
 torch.backends.cudnn.benchmark = True
 print('Using PyTorch version:', torch.__version__, ' Device:', device)
 
-# If you want Armijo linesearch
-# https://github.com/IssamLaradji/stochastic_line_search/blob/master/main.py
-from armijo_sgd import SGD_Armijo, ArmijoModel
+
+figdir = "../figures"
+import os
+def save_fig(fname):
+    if figdir: plt.savefig(os.path.join(figdir, fname))
 
 ############
 # Get data
@@ -71,32 +77,35 @@ criterion = nn.CrossEntropyLoss(reduction='mean')
 # Therefore we don't need the LogSoftmax on the final layer
 # But we do need it if we use NLLLoss
 
+# The Armijo method assumes gradient noise goes to zero,
+# so it is important that we don't have dropout layers.
 
 class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
         self.conv1 = nn.Conv2d(ncolors, 10, kernel_size=5)
         self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
-        self.dropout = nn.Dropout2d()
+        #self.dropout = nn.Dropout2d()
         self.fc1 = nn.Linear(320, 50)
         self.fc2 = nn.Linear(50, 10)
     
     def forward(self, x):
-        # input is 28x28xncolors
+        # input is 28x28x1
         # conv1(kernel=5, filters=10) 28x28x10 -> 24x24x10
         # max_pool(kernel=2) 24x24x10 -> 12x12x10
         x = F.relu(F.max_pool2d(self.conv1(x), 2))
         
         # conv2(kernel=5, filters=20) 12x12x20 -> 8x8x20
         # max_pool(kernel=2) 8x8x20 -> 4x4x20
-        x = F.relu(F.max_pool2d(self.dropout(self.conv2(x)), 2))
-        
+        #x = F.relu(F.max_pool2d(self.dropout(self.conv2(x)), 2))
+        x = F.relu(F.max_pool2d(self.conv2(x), 2))
+
         # flatten 4x4x20 = 320
         x = x.view(-1, 320)
         
         # 320 -> 50
         x = F.relu(self.fc1(x))
-        x = F.dropout(x, training=self.training)
+        #x = F.dropout(x, training=self.training)
         
         # 50 -> 10
         x = self.fc2(x)
@@ -108,17 +117,17 @@ class MLP(nn.Module):
     def __init__(self):
         super(MLP, self).__init__()
         self.fc1 = nn.Linear(ncolors*height*width, 50)
-        self.fc1_drop = nn.Dropout(0.2)
+        #self.fc1_drop = nn.Dropout(0.2)
         self.fc2 = nn.Linear(50, 50)
-        self.fc2_drop = nn.Dropout(0.2)
+        #self.fc2_drop = nn.Dropout(0.2)
         self.fc3 = nn.Linear(50, nclasses)
 
     def forward(self, x):
         x = x.view(-1, ncolors*height*width)
         x = F.relu(self.fc1(x))
-        x = self.fc1_drop(x)
+        #x = self.fc1_drop(x)
         x = F.relu(self.fc2(x))
-        x = self.fc2_drop(x)
+        #x = self.fc2_drop(x)
         x = self.fc3(x)
         #return F.log_softmax(x, dim=1)
         return x
@@ -147,38 +156,71 @@ def make_model(name, seed=0):
 
 ###############
 
+# Define each expermental configuration
 expts = []
-ep = 5
+ep = 4
 #model = 'Logreg'
-#model = 'MLP'
-model = 'CNN'
+model = 'MLP'
+#model = 'CNN'
 bs = 10
-expts.append({'lr':0.1, 'bs':bs, 'epochs':ep, 'model': model})
-expts.append({'lr':0.01, 'bs':bs, 'epochs':ep, 'model': model})
 expts.append({'lr':'armijo', 'bs':bs, 'epochs':ep, 'model': model})
+expts.append({'lr':0.01, 'bs':bs, 'epochs':ep, 'model': model})
+expts.append({'lr':0.1, 'bs':bs, 'epochs':ep, 'model': model})
+#expts.append({'lr':0.5, 'bs':bs, 'epochs':ep, 'model': model})
 
-
-def fit_epoch(model, optimizer, train_loader, loss_history, model_contains_opt=False):    
+def eval_loss(model, loader):    
+    avg_loss = 0.0
+    for step, (x_batch, y_batch) in enumerate(loader):
+        # Copy data to GPU if needed
+        x_batch = x_batch.to(device)
+        y_batch = y_batch.to(device)
+        y_pred = model(x_batch)
+        loss = criterion(y_pred, y_batch)
+        avg_loss += loss.item()
+    # Compute average loss per example
+    # Note that the criterion already averages within each batch.
+    n_batches = len(loader)
+    avg_loss /= n_batches 
+    return avg_loss       
+    
+def fit_epoch(model, optimizer, train_loader, loss_history):    
     epoch_loss = 0.0
     for step, (x_batch, y_batch) in enumerate(train_loader):
         # Copy data to GPU if needed
         x_batch = x_batch.to(device)
         y_batch = y_batch.to(device)
-        if model_contains_opt:     
-            batch_loss = model.step((x_batch, y_batch))
-        else:
+        # Function to (re)evaluate loss and its gradient for this step.
+        def closure():
             optimizer.zero_grad()
             y_pred = model(x_batch)
             loss = criterion(y_pred, y_batch)
             loss.backward()
-            optimizer.step()
-            #loss_scalar = loss.detach().cpu().numpy()
-            batch_loss = loss.item()
+            return loss
+        loss = optimizer.step(closure)
+        batch_loss = loss.item()
         epoch_loss += batch_loss
         loss_history.append(batch_loss)
-    epoch_loss /= len(train_loader) # loss function already averages over batch size
+    # Compute average loss per example for this epoch.
+    # Note that the criterion already averages within each batch.
+    n_batches = len(train_loader)
+    epoch_loss /= n_batches 
+    return epoch_loss 
+
+def fit_epoch_armijo(model, optimizer, train_loader, loss_history, step_size_history):    
+    epoch_loss = 0.0
+    for step, (x_batch, y_batch) in enumerate(train_loader):
+        x_batch = x_batch.to(device)
+        y_batch = y_batch.to(device)
+        batch_loss, step_size = model.step((x_batch, y_batch))
+        epoch_loss += batch_loss
+        loss_history.append(batch_loss)
+        step_size_history.append(step_size)
+    n_batches = len(train_loader)
+    epoch_loss /= n_batches
     return epoch_loss
-   
+
+    
+results_dict = {}
 for expt in expts:
     lr = expt['lr']
     bs = expt['bs']
@@ -189,12 +231,14 @@ for expt in expts:
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=bs,
                                           shuffle=True, num_workers=2)
     n_batches = len(train_loader)
-    loss_history = []
+    batch_loss_history = []
+    epoch_loss_history = []
+    step_size_history = []
     print_every = max(1, int(0.1*max_epochs))
     if lr == 'armijo':
         name = '{}-armijo-bs{}'.format(model_name, bs)
         model = ArmijoModel(model, criterion)
-        optimizer = SGD_Armijo(model, batch_size=bs, dataset_size=N_train)   
+        optimizer = SGD_Armijo(model, batch_size=bs, dataset_size=N_train)  
         model.opt = optimizer
         armijo = True
     else:
@@ -204,17 +248,58 @@ for expt in expts:
     
     print('starting {}'.format(name))
     for epoch in range(max_epochs):
-        epoch_loss = fit_epoch(model, optimizer, train_loader, loss_history, armijo)
+        if armijo:
+           epoch_loss = fit_epoch_armijo(model, optimizer, train_loader, batch_loss_history, step_size_history)
+        else:
+            epoch_loss = fit_epoch(model, optimizer, train_loader, batch_loss_history)
+        epoch_loss = eval_loss(model, train_loader)
+        epoch_loss_history.append(epoch_loss)
         if epoch % print_every == 0:
             print("epoch {}, loss {}".format(epoch, epoch_loss)) 
             
-    print("Final epoch {}, loss {}".format(epoch, epoch_loss))        
-    plt.plot(loss_history)
-    plt.title('{}, train loss {:0.3f}'.format(name, epoch_loss))
-    plt.show()
+    label = '{}-final-loss{:0.3f}'.format(name, epoch_loss)
+    results = {'label': label, 'batch_loss_history': batch_loss_history,
+               'epoch_loss_history': epoch_loss_history, 'step_size_history': step_size_history}
+    results_dict[name] = results
+
+
+plt.figure()
+name = 'MLP-armijo-bs10'
+results = results_dict[name]
+plt.plot(results['step_size_history'])
+plt.ylabel('stepsize')
+save_fig('armijo-mnist-stepsize.png')
+plt.show()
+
+plt.figure()
+for name, results in results_dict.items():
+    label = results['label']
+    y = results['epoch_loss_history']
+    plt.plot(y, label=label)
+    plt.legend()
+save_fig('armijo-mnist-epoch-loss.png')
+plt.show()
+
+# Add smoothed version of batch loss history to results dict    
+import pandas as pd
+for name, results in results_dict.items():
+    loss_history = results['batch_loss_history']  
+    df = pd.Series(loss_history)
+    nsteps = len(loss_history)
+    smoothed = pd.Series.ewm(df, span=0.1*nsteps).mean()
+    results['batch_loss_history_smoothed'] = smoothed
     
-
-
-
+# Plot curves on one figure
+plt.figure() 
+for name, results in results_dict.items():
+    label = results['label']
+    y = results['batch_loss_history_smoothed']
+    nsteps = len(y)
+    x = np.arange(nsteps)
+    ndx = np.arange(int(0.2*nsteps), nsteps) # skip first 20%
+    #plt.figure()
+    plt.plot(x[ndx], y[ndx], label=label)
+plt.legend()
+save_fig('armijo-mnist-batch-loss.png')
+plt.show()
     
-

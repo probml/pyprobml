@@ -174,6 +174,6 @@ class ArmijoModel(nn.Module):
             return loss
 
         minibatch_loss = self.opt.step(closure)
-        return float(minibatch_loss)
+        return float(minibatch_loss), self.opt.state['step_size']
 
 

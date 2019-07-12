@@ -44,6 +44,7 @@ def selu(z, scale=scale_0_1, alpha=alpha_0_1):
 z = np.linspace(-5, 5, 200)
 
 #plt.figure(figsize=(11,4))
+plt.figure()
 plt.plot(z, heaviside(z), "r-", linewidth=2, label="Heaviside")
 plt.plot(z, sigmoid(z), "g--", linewidth=2, label="Sigmoid")
 plt.plot(z, np.tanh(z), "b-", linewidth=2, label="Tanh")

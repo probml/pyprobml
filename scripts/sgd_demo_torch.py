@@ -12,17 +12,13 @@ import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
 
-
-
 import torch
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda:0" if use_cuda else "cpu")
 torch.backends.cudnn.benchmark = True
 print('Using PyTorch version:', torch.__version__, ' Device:', device)
 
-# If you want Armijo linesearch
-# https://github.com/IssamLaradji/stochastic_line_search/blob/master/main.py
-from armijo_sgd import SGD_Armijo, ArmijoModel
+
 
 ############
 # Get data
@@ -155,25 +151,24 @@ model = 'CNN'
 bs = 10
 expts.append({'lr':0.1, 'bs':bs, 'epochs':ep, 'model': model})
 expts.append({'lr':0.01, 'bs':bs, 'epochs':ep, 'model': model})
-expts.append({'lr':'armijo', 'bs':bs, 'epochs':ep, 'model': model})
 
 
-def fit_epoch(model, optimizer, train_loader, loss_history, model_contains_opt=False):    
+def fit_epoch(model, optimizer, train_loader, loss_history):    
     epoch_loss = 0.0
     for step, (x_batch, y_batch) in enumerate(train_loader):
         # Copy data to GPU if needed
         x_batch = x_batch.to(device)
         y_batch = y_batch.to(device)
-        if model_contains_opt:     
-            batch_loss = model.step((x_batch, y_batch))
-        else:
-            optimizer.zero_grad()
-            y_pred = model(x_batch)
-            loss = criterion(y_pred, y_batch)
-            loss.backward()
-            optimizer.step()
-            #loss_scalar = loss.detach().cpu().numpy()
-            batch_loss = loss.item()
+        
+        # Forwards-backwards pass
+        optimizer.zero_grad()
+        y_pred = model(x_batch)
+        loss = criterion(y_pred, y_batch)
+        loss.backward()
+        optimizer.step()
+        
+        # Track metrics
+        batch_loss = loss.item()
         epoch_loss += batch_loss
         loss_history.append(batch_loss)
     epoch_loss /= len(train_loader) # loss function already averages over batch size
@@ -191,20 +186,12 @@ for expt in expts:
     n_batches = len(train_loader)
     loss_history = []
     print_every = max(1, int(0.1*max_epochs))
-    if lr == 'armijo':
-        name = '{}-armijo-bs{}'.format(model_name, bs)
-        model = ArmijoModel(model, criterion)
-        optimizer = SGD_Armijo(model, batch_size=bs, dataset_size=N_train)   
-        model.opt = optimizer
-        armijo = True
-    else:
-        name = '{}-lr{:0.3f}-bs{}'.format(model_name, lr, bs)
-        optimizer = torch.optim.SGD(model.parameters(), lr=lr)
-        armijo = False
+    name = '{}-lr{:0.3f}-bs{}'.format(model_name, lr, bs)
+    optimizer = torch.optim.SGD(model.parameters(), lr=lr)
     
     print('starting {}'.format(name))
     for epoch in range(max_epochs):
-        epoch_loss = fit_epoch(model, optimizer, train_loader, loss_history, armijo)
+        epoch_loss = fit_epoch(model, optimizer, train_loader, loss_history)
         if epoch % print_every == 0:
             print("epoch {}, loss {}".format(epoch, epoch_loss)) 
             
