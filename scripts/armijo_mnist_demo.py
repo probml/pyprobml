@@ -168,8 +168,10 @@ expts.append({'lr':0.01, 'bs':bs, 'epochs':ep, 'model': model})
 expts.append({'lr':0.1, 'bs':bs, 'epochs':ep, 'model': model})
 #expts.append({'lr':0.5, 'bs':bs, 'epochs':ep, 'model': model})
 
+@torch.no_grad()
 def eval_loss(model, loader):    
     avg_loss = 0.0
+    model.eval()
     for step, (x_batch, y_batch) in enumerate(loader):
         # Copy data to GPU if needed
         x_batch = x_batch.to(device)
@@ -185,6 +187,7 @@ def eval_loss(model, loader):
     
 def fit_epoch(model, optimizer, train_loader, loss_history):    
     epoch_loss = 0.0
+    model.train()
     for step, (x_batch, y_batch) in enumerate(train_loader):
         # Copy data to GPU if needed
         x_batch = x_batch.to(device)
@@ -249,9 +252,9 @@ for expt in expts:
     print('starting {}'.format(name))
     for epoch in range(max_epochs):
         if armijo:
-           epoch_loss = fit_epoch_armijo(model, optimizer, train_loader, batch_loss_history, step_size_history)
+           avg_batch_loss = fit_epoch_armijo(model, optimizer, train_loader, batch_loss_history, step_size_history)
         else:
-            epoch_loss = fit_epoch(model, optimizer, train_loader, batch_loss_history)
+            avg_batch_loss = fit_epoch(model, optimizer, train_loader, batch_loss_history)
         epoch_loss = eval_loss(model, train_loader)
         epoch_loss_history.append(epoch_loss)
         if epoch % print_every == 0:
