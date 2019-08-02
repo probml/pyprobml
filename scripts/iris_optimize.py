@@ -4,16 +4,9 @@ import numpy as np
 np.set_printoptions(precision=3)
 import sklearn
 import scipy
-from scipy.misc import logsumexp
 import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
-from mpl_toolkits.mplot3d import Axes3D
-import seaborn as sns
-import warnings
-warnings.filterwarnings('ignore')
-import itertools
-import time
-from functools import partial
+
+from scipy.misc import logsumexp
 
 import os
 figdir = "../figures" # set this to '' if you don't want to save figures
