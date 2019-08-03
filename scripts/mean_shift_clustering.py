@@ -1,6 +1,7 @@
 # Mean shift for clustering 2d data
 # From 
 #https://github.com/log0/build-your-own-meanshift/blob/master/Meanshift%20In%202D.ipynb
+#http://www.chioka.in/meanshift-algorithm-for-the-rest-of-us-python/
 
 import math
 import matplotlib.pyplot as plt
