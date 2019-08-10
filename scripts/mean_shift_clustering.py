@@ -38,10 +38,14 @@ def gaussian_kernel(distance, bandwidth):
     return val
 
 look_distance = 5 #  # How far to look for neighbours.
-kernel_bandwidth = 2 # # Kernel parameter.
+#kernel_bandwidth = 2 # # Kernel parameter.
 
-#kernel_bandwidth = estimate_bandwidth(original_X, quantile=0.2)
-#print(kernel_bandwidth)
+quantile = 0.1 # good results
+#quantile = 0.3 # default value, gives bad results
+kernel_bandwidth = estimate_bandwidth(original_X, quantile=quantile)
+print("quantile {}, bandwidth {}".format(quantile, kernel_bandwidth))
+bandwidth_str = '{}'.format(int(kernel_bandwidth*10))
+quantile_str = '{}'.format(int(quantile*10))
 
 X = np.copy(original_X)
 # print('Initial X: ', X)
@@ -75,10 +79,10 @@ for it in range(n_iterations):
 
 
 plt.figure()
-plt.title('Initial state')
+plt.title('Initial state, quantile {:0.2f}, bandwidth {:0.2f}'.format(quantile, kernel_bandwidth))
 plt.plot(original_X[:,0], original_X[:,1], 'bo')
 plt.plot(original_X[:,0], original_X[:,1], 'ro')
-save_fig('meanshift-cluster-init.pdf')
+save_fig('meanshift-cluster-init-Q{}.pdf'.format(quantile_str))
 plt.show()
 
 for i in range(n_iterations):
@@ -86,6 +90,6 @@ for i in range(n_iterations):
     plt.title('Iteration: %d' % i)
     plt.plot(original_X[:,0], original_X[:,1], 'bo')
     plt.plot(past_X[i][:,0], past_X[i][:,1], 'ro')
-    save_fig('meanshift-cluster-iter{}.pdf'.format(i))
+    save_fig('meanshift-cluster-iter{}-Q{}.pdf'.format(i, quantile_str))
     plt.show()
     
