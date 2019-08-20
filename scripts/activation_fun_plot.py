@@ -1,4 +1,4 @@
-# Plots various neural net activation functions.
+o# Plots various neural net activation functions.
 
 import numpy as np
 import matplotlib.pyplot as plt
