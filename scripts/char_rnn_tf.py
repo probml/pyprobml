@@ -63,7 +63,7 @@ model = keras.models.Sequential([
     
 model.compile(loss="sparse_categorical_crossentropy", optimizer="adam")
 history = model.fit(dataset, steps_per_epoch=train_size // batch_size,
-                    epochs=10)
+                    epochs=1)
 
 def preprocess(texts):
     X = np.array(tokenizer.texts_to_sequences(texts)) - 1
