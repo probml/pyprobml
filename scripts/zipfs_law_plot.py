@@ -79,8 +79,8 @@ Most common trigrams
 
 plt.figure()
 plt.loglog(wordcounts, label='word counts');
-plt.ylabel('log frequency')
-plt.xlabel('log rank')
+plt.ylabel('frequency')
+plt.xlabel('rank')
 c = 10.0
 x = np.arange(c, len(wordcounts)) # rank
 N = np.sum(wordcounts)

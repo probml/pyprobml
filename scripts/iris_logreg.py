@@ -74,13 +74,10 @@ plt.figure(figsize=(10, 4))
 plt.plot(X[y==0, 0], X[y==0, 1], "bs")
 plt.plot(X[y==1, 0], X[y==1, 1], "g^")
 
-zz = y_proba[:, 1].reshape(x0.shape)
-contour = plt.contour(x0, x1, zz, cmap=plt.cm.brg)
-
-
+zz_prob = y_proba[:, 1].reshape(x0.shape)
+contour = plt.contour(x0, x1, zz_prob, cmap=plt.cm.brg)
 left_right = np.array([2.9, 7])
 boundary = -(log_reg.coef_[0][0] * left_right + log_reg.intercept_[0]) / log_reg.coef_[0][1]
-
 plt.clabel(contour, inline=1, fontsize=12)
 plt.plot(left_right, boundary, "k--", linewidth=3)
 plt.text(3.5, 1.5, "Not Iris-Virginica", fontsize=14, color="b", ha="center")
@@ -91,6 +88,25 @@ plt.axis([2.9, 7, 0.8, 2.7])
 save_fig("iris-logreg-2d-2class.pdf")
 plt.show()
 
+
+
+plt.figure(figsize=(10, 4))
+plt.plot(X[y==0, 0], X[y==0, 1], "bs")
+plt.plot(X[y==1, 0], X[y==1, 1], "g^")
+
+y_pred = log_reg.predict(X_new)
+zz = y_pred.reshape(x0.shape)
+left_right = np.array([2.9, 7])
+boundary = -(log_reg.coef_[0][0] * left_right + log_reg.intercept_[0]) / log_reg.coef_[0][1]
+plt.clabel(contour, inline=1, fontsize=12)
+plt.plot(left_right, boundary, "k--", linewidth=3)
+plt.text(3.5, 1.5, "Not Iris-Virginica", fontsize=14, color="b", ha="center")
+plt.text(6.5, 2.3, "Iris-Virginica", fontsize=14, color="g", ha="center")
+plt.xlabel("Petal length", fontsize=14)
+plt.ylabel("Petal width", fontsize=14)
+plt.axis([2.9, 7, 0.8, 2.7])
+save_fig("iris-logreg-2d-2class-no-probs.pdf")
+plt.show()
 
 
 ########################
@@ -112,7 +128,7 @@ X_new = np.c_[x0.ravel(), x1.ravel()]
 y_proba = softmax_reg.predict_proba(X_new)
 y_predict = softmax_reg.predict(X_new)
 
-zz1 = y_proba[:, 1].reshape(x0.shape)
+zz_prob = y_proba[:, 1].reshape(x0.shape)
 zz = y_predict.reshape(x0.shape)
 
 plt.figure()
@@ -128,7 +144,7 @@ custom_cmap = ListedColormap(['#9898ff','#fafab0','#a0faa0'])
 #custom_cmap = ListedColormap(sns.color_palette())
                               
 plt.contourf(x0, x1, zz, cmap=custom_cmap)
-contour = plt.contour(x0, x1, zz1, cmap=plt.cm.brg)
+contour = plt.contour(x0, x1, zz_prob, cmap=plt.cm.brg) 
 plt.clabel(contour, inline=1, fontsize=12)
 plt.xlabel("Petal length", fontsize=14)
 plt.ylabel("Petal width", fontsize=14)
