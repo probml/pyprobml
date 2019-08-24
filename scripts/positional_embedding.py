@@ -64,7 +64,7 @@ ax2.plot([p1, p2], [i1, i1], "bo")
 ax2.axis([0, max_steps - 1, 0, crop_i])
 ax2.set_xlabel("$p$", fontsize=16)
 ax2.set_ylabel("$i$", rotation=0, fontsize=16)
-plt.savefig("positional_embedding_plot")
+save_fig("positional-embedding-plot")
 plt.show()
 
 '''

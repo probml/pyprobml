@@ -1,5 +1,6 @@
 # Based on
 # https://github.com/tensorflow/docs/blob/master/site/en/tutorials/keras/basic_classification.ipynb
+# See also https://www.tensorflow.org/beta/tutorials/keras/basic_classification
 # (MIT License)
 
 from __future__ import absolute_import, division, print_function
@@ -51,6 +52,8 @@ model = keras.Sequential([
     keras.layers.Dense(10, activation=tf.nn.softmax)
 ])
 
+model.summary()
+    
 model.compile(optimizer='adam', 
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
@@ -129,7 +132,7 @@ for i in range(num_images):
   plot_image_and_label(predictions[i], test_labels[i], test_images[i])
   plt.subplot(num_rows, 2*num_cols, 2*i+2)
   plot_label_dist(predictions[i], test_labels[i])
-save_fig("fashion-mnist-predictions.pdf")
+save_fig("fashion-mlp-predictions-2epochs.pdf")
 plt.show()
 
 

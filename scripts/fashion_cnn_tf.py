@@ -1,10 +1,11 @@
-# Based on
-# https://github.com/tensorflow/docs/blob/master/site/en/tutorials/keras/basic_classification.ipynb
-# (MIT License)
-
-from __future__ import absolute_import, division, print_function
+# Fit a simple CNN to fashionMNIST
+# Modified from
+#https://www.tensorflow.org/beta/tutorials/images/intro_to_cnns
 
 
+from __future__ import absolute_import, division, print_function, unicode_literals
+
+from time import time
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -13,96 +14,59 @@ def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
 import tensorflow as tf
-from tensorflow import keras
-from time import time
 
-print(tf.__version__)
-np.random.seed(0)
+from tensorflow.keras import datasets, layers, models
 
-data = keras.datasets.cifar10
-#data = keras.datasets.mnist
-#data = keras.datasets.fashion_mnist
+#(train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()
+(train_images, train_labels), (test_images, test_labels) = datasets.fashion_mnist.load_data()
 
+train_images = train_images.reshape((60000, 28, 28, 1))
+test_images = test_images.reshape((10000, 28, 28, 1))
 
+# Normalize pixel values to be between 0 and 1
+train_images, test_images = train_images / 255.0, test_images / 255.0
 
-(train_images, train_labels), (test_images, test_labels) = data.load_data()
-train_images = train_images / 255.0
-test_images = test_images / 255.0
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(10, activation='softmax'))
 
-print(np.shape(train_images))
-print(np.shape(test_images))
-
-# For MNIST:
-#(60000, 28, 28)
-#(10000, 28, 28)
-
-# For CIFAR:
-# (50000, 32, 32, 3)
-# (10000, 32, 32, 3)
-
-class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 
-               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
-
-plt.figure(figsize=(10,10))
-for i in range(25):
-    plt.subplot(5,5,i+1)
-    plt.xticks([])
-    plt.yticks([])
-    plt.grid(False)
-    plt.imshow(train_images[i], cmap=plt.cm.binary)
-    plt.xlabel(class_names[train_labels[i]])
-save_fig("fashion-mnist-data.pdf")
-plt.show()
+model.summary()
 
 
-model = keras.Sequential([
-    keras.layers.Flatten(input_shape=(28, 28)),
-    keras.layers.Dense(128, activation=tf.nn.relu),
-    keras.layers.Dense(10, activation=tf.nn.softmax)
-])
-
-model.compile(optimizer='adam', 
+model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-
-# We just train for 2 epochs because (1) it is faster, and (2)
-# it produces more errors, which makes for a more interesting plot :)
+# We just train for 2 epochs so we can compare to
+# fashion_mlp_tf
 time_start = time()
 model.fit(train_images, train_labels, epochs=2)
 print('time spent training {:0.3f}'.format(time() - time_start))
-
-predictions = model.predict(test_images)
-print(np.shape(predictions))
 
 # Overall accuracy
 train_loss, train_acc = model.evaluate(train_images, train_labels)
 print('Train accuracy:', train_acc)
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 print('Test accuracy:', test_acc)
-"""
-60000/60000 [==============================] - 4s 65us/sample - loss: 0.3328 - acc: 0.8784
-Train accuracy: 0.87841666
-10000/10000 [==============================] - 1s 140us/sample - loss: 0.3851 - acc: 0.8615
-Test accuracy: 0.8615
-"""
 
-# To apply prediction to a single image, we need to reshape to an (N,D,D) tensor
-# where N=1
-img = test_images[0]
-img = (np.expand_dims(img,0))
-print(img.shape)
-predictions_single = model.predict(img)
-print(predictions_single.shape)
-"""
-(1, 28, 28)
-(1, 10)
-"""
+predictions = model.predict(test_images)
+print(np.shape(predictions))
+
+class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+
 
 def plot_image_and_label(predictions_array, true_label, img):
   plt.grid(False)
   plt.xticks([])
   plt.yticks([])
+  img = np.reshape(img, (28, 28)) # drop any trailing dimension of size 1
   plt.imshow(img, cmap=plt.cm.binary)
   predicted_label = np.argmax(predictions_array)
   if predicted_label == true_label:
@@ -139,8 +103,9 @@ for i in range(num_images):
   plot_image_and_label(predictions[i], test_labels[i], test_images[i])
   plt.subplot(num_rows, 2*num_cols, 2*i+2)
   plot_label_dist(predictions[i], test_labels[i])
-save_fig("fashion-mnist-predictions.pdf")
+save_fig("fashion-cnn-predictions.pdf")
 plt.show()
+
 
 
 

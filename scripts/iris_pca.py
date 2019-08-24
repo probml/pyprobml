@@ -9,11 +9,9 @@ def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 from sklearn.datasets import load_iris
 from sklearn.decomposition import PCA
 
-#from mpl_toolkits import mplot3d
-#from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import Axes3D
 #https://jakevdp.github.io/PythonDataScienceHandbook/04.12-three-dimensional-plotting.html
-
-
 
 iris = load_iris()
 X = iris.data 
