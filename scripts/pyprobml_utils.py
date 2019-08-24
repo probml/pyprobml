@@ -2,7 +2,8 @@
 import os
 import matplotlib.pyplot as plt
 
-pyprobml_test = 'foo'
+def pyprobml_test():
+    print('welcome to python probabilistic ML library')
 
 figdir = "../figures"
 def save_fig(fname):
