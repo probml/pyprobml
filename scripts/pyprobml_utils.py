@@ -2,6 +2,8 @@
 import os
 import matplotlib.pyplot as plt
 
+pyprobml_test = 'foo'
+
 figdir = "../figures"
 def save_fig(fname):
     try:
@@ -9,3 +11,5 @@ def save_fig(fname):
         plt.savefig(os.path.join(figdir, fname))
     except:
         print('did not save figure {}, since figdir not defined'.format(fname))
+        
+        
