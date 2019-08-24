@@ -3,14 +3,16 @@
 # https://github.com/ageron/handson-ml2/blob/master/17_autoencoders_and_gans.ipynb
 
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
+
 import os
 figdir = "../figures"
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 import tensorflow as tf
 from tensorflow import keras
+
+from sklearn.manifold import TSNE
 
 def plot_image(image):
     plt.imshow(image, cmap="binary")
@@ -46,7 +48,7 @@ history = stacked_ae.fit(X_train, X_train, epochs=20,
 
 def show_reconstructions(model, images=X_valid, n_images=5):
     reconstructions = model.predict(images[:n_images])
-    fig = plt.figure(figsize=(n_images * 1.5, 3))
+    plt.figure(figsize=(n_images * 1.5, 3))
     for image_index in range(n_images):
         plt.subplot(2, n_images, 1 + image_index)
         plot_image(images[image_index])
@@ -60,8 +62,6 @@ plt.show()
 # Visualize 2d manifold using tSNE
 
 np.random.seed(42)
-
-from sklearn.manifold import TSNE
 
 X_valid_compressed = stacked_encoder.predict(X_valid)
 tsne = TSNE()
@@ -77,8 +77,8 @@ for index, position in enumerate(X_valid_2D):
     dist = np.sum((position - image_positions) ** 2, axis=1)
     if np.min(dist) > 0.02: # if far enough from other images
         image_positions = np.r_[image_positions, [position]]
-        imagebox = mpl.offsetbox.AnnotationBbox(
-            mpl.offsetbox.OffsetImage(X_valid[index], cmap="binary"),
+        imagebox = matplotlib.offsetbox.AnnotationBbox(
+            matplotlib.offsetbox.OffsetImage(X_valid[index], cmap="binary"),
             position, bboxprops={"edgecolor": cmap(y_valid[index]), "lw": 2})
         plt.gca().add_artist(imagebox)
 plt.axis("off")
