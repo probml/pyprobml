@@ -37,9 +37,9 @@ Many of the scripts create plots, which are saved to ../figures.
 
 
 
-## Installation
+### Installation
 
-We assume you have installed numpy, scipy, matplotlib, seaborn, pandas, scikit-learn, etc.
+To runt the scripts, we assume you have installed numpy, scipy, matplotlib, seaborn, pandas, scikit-learn, etc.
 (All of these are bundled with [anaconda](https://www.anaconda.com/distribution/).)
 
 Some scripts rely on additional libraries, such as the following: 
