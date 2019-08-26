@@ -6,29 +6,28 @@ Python 3 code for the second edition of my book "Machine learning: a probabilist
 I have created IPython notebooks for each of the chapters. When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), which has nearly all the libraries you will need (e.g., scikit-learn, tensorflow 2, PyTorch) pre-installed. If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples will run much faster. Furthermore, the whole service is free! Alternatively, you can run these notebooks locally in Jupyter, but then you will have to install the packages yourself (see instructions below).
 
 ### Foundations
-* [Introduction](https://github.com/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb)
-* [Linear algebra](https://github.com/probml/pyprobml/blob/master/notebooks/linalg/linalg.ipynb)
-* [Probability](https://github.com/probml/pyprobml/blob/master/notebooks/prob/prob.ipynb)
-* [Information theory](https://github.com/probml/pyprobml/blob/master/notebooks/info/info.ipynb)
-* [Bayesian statistics](https://github.com/probml/pyprobml/blob/master/notebooks/bayes/bayes.ipynb)
-* [Frequentist statistics](https://github.com/probml/pyprobml/blob/master/notebooks/freq/freq.ipynb)
-* [Statistical models](https://github.com/probml/pyprobml/blob/master/notebooks/statmod/statmod.ipynb)
+* [Introduction](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb)
+* [Linear algebra](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/linalg/linalg.ipynb)
+* [Probability](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/prob/prob.ipynb)
+* [Information theory](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/info/info.ipynb)
+* [Bayesian statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/bayes/bayes.ipynb)
+* [Frequentist statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/freq/freq.ipynb)
+* [Statistical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod/statmod.ipynb)
 
 ### Algorithms
-* [Optimization](https://github.com/probml/pyprobml/blob/master/notebooks/opt/opt.ipynb)
-* [Graphical model inference](https://github.com/probml/pyprobml/blob/master/notebooks/pgminf/pgminf.ipynb)
-* [Variational inference](https://github.com/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb)   
-* [Monte Carlo inference](https://github.com/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb)
-* [Reinforcement learning](https://github.com/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb)
+* [Optimization](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt/opt.ipynb)
+* [Graphical model inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgminf/pgminf.ipynb)
+* [Variational inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb)   
+* [Monte Carlo inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb)
+* [Reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb)
 
 ### Models
-* [Generalized linear models](https://github.com/probml/pyprobml/blob/master/notebooks/glm/glm.ipynb)
-* [Deep neural networks](https://github.com/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
-* [DNN](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
-* [Graphical models](https://github.com/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb)
-* [Latent variable models](https://github.com/probml/pyprobml/blob/master/notebooks/lvm/lvm.ipynb)
-* [Models for sequences and graphs](https://github.com/probml/pyprobml/blob/master/notebooks/seq/seq.ipynb)
-* [Gaussian processes](https://github.com/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb)
+* [Generalized linear models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/glm/glm.ipynb)
+* [Deep neural networks](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
+* [Graphical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb)
+* [Latent variable models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lvm/lvm.ipynb)
+* [Models for sequences and graphs](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/seq/seq.ipynb)
+* [Gaussian processes](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb)
 
 
 ## Scripts
