@@ -24,6 +24,7 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 ### Models
 * [Generalized linear models](https://github.com/probml/pyprobml/blob/master/notebooks/glm/glm.ipynb)
 * [Deep neural networks](https://github.com/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
+* [DNN](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
 * [Graphical models](https://github.com/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb)
 * [Latent variable models](https://github.com/probml/pyprobml/blob/master/notebooks/lvm/lvm.ipynb)
 * [Models for sequences and graphs](https://github.com/probml/pyprobml/blob/master/notebooks/seq/seq.ipynb)
@@ -40,11 +41,11 @@ Many of the scripts create plots, which are saved to ../figures.
 
 To run the scripts, we assume you have installed numpy, scipy, matplotlib, seaborn, pandas, scikit-learn, etc.
 (All of these are bundled with [anaconda](https://www.anaconda.com/distribution/).)
-
 Some scripts rely on additional libraries, such as the following: 
 - [tensorflow 2.0](https://www.tensorflow.org/)
 - [tensorflow probability](https://www.tensorflow.org/probability)
 - [jax](https://github.com/google/jax)
 - [pytorch](https://pytorch.org/)
-Scripts that need these libraries end in tf, jax, or pt respectively.
+Scripts that need these libraries have filenames that end in tf, jax, or pt respectively.
+If you have problems running these, open up one of the notebooks above in Google Colab - which will have the various packages already installed - and then import the script.
 
