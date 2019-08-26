@@ -3,7 +3,9 @@ Python 3 code for the second edition of my book "Machine learning: a probabilist
 
 ## Notebooks
 
-I have created IPython notebooks for each of the chapters. When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.sandbox.google.com/notebooks/welcome.ipynb),  which has nearly all the libraries you will need (e.g., scikit-learn, tensorflow 2, PyTorch) pre-installed. If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples will run much faster. Furthermore, the whole service is free! The main limitation seems to be the [12GB memory limit](https://github.com/googlecolab/colabtools/issues/253). This should suffice for small experiments. For bigger jobs, you may need to buy cloud credit. Alternatively, you can run these notebooks locally on your desktop in Jupyter, but then you will have to install the packages yourself (see instructions below).
+I have created IPython notebooks for each of the chapters. When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.sandbox.google.com/notebooks/welcome.ipynb),  which has all the libraries you will need (e.g., scikit-learn, tensorflow 2, PyTorch) pre-installed. Furthermore, this is free, so all you need is a web browser and an internet connection.
+
+If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples (especially those that use deep neural networks) will run much faster. The main limitation seems to be the [12GB memory limit](https://github.com/googlecolab/colabtools/issues/253). This should suffice for small experiments. For bigger jobs, you may need to buy cloud credit. Alternatively, you can run these notebooks locally on your desktop in Jupyter, but then you will have to install the packages yourself (see instructions below).
 
 ### Foundations
 * [Introduction](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb)
@@ -41,10 +43,11 @@ Many of the scripts create plots, which are saved to ../figures.
 To run the scripts, we assume you have installed numpy, scipy, matplotlib, seaborn, pandas, scikit-learn, etc.
 (All of these are bundled with [anaconda](https://www.anaconda.com/distribution/).)
 Some scripts rely on additional libraries, such as the following: 
-- [tensorflow 2.0](https://www.tensorflow.org/)
-- [tensorflow probability](https://www.tensorflow.org/probability)
-- [jax](https://github.com/google/jax)
-- [pytorch](https://pytorch.org/)
+
+- [Tensorflow 2.0](https://www.tensorflow.org/)
+- [JAX](https://github.com/google/jax)
+- [PyTorch](https://pytorch.org/)
+
 Scripts that need these libraries have filenames that end in tf, jax, or pt respectively.
 If you have problems running these, open up one of the notebooks above in Google Colab - which will have the various packages already installed - and then import the script.
 
