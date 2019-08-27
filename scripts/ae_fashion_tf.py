@@ -14,9 +14,6 @@ from tensorflow import keras
 
 from sklearn.manifold import TSNE
 
-def plot_image(image):
-    plt.imshow(image, cmap="binary")
-    plt.axis("off")
 
 (X_train_full, y_train_full), (X_test, y_test) = keras.datasets.fashion_mnist.load_data()
 X_train_full = X_train_full.astype(np.float32) / 255
@@ -46,6 +43,11 @@ stacked_ae.compile(loss="binary_crossentropy",
 history = stacked_ae.fit(X_train, X_train, epochs=20,
                          validation_data=[X_valid, X_valid])
 
+
+def plot_image(image):
+    plt.imshow(image, cmap="binary")
+    plt.axis("off")
+    
 def show_reconstructions(model, images=X_valid, n_images=5):
     reconstructions = model.predict(images[:n_images])
     plt.figure(figsize=(n_images * 1.5, 3))
