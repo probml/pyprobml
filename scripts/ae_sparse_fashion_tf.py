@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 
 import os
 figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+def save_fig(fname):
+    plt.tight_layout()
+    plt.savefig(os.path.join(figdir, fname))
 
 import tensorflow as tf
 from tensorflow import keras
@@ -43,13 +45,14 @@ def rounded_accuracy(y_true, y_pred):
 tf.random.set_seed(42)
 np.random.seed(42)
 
+Nhidden = 300 # Geron uses 30 for the simple AE, 300 for the regularized ones
 simple_encoder = keras.models.Sequential([
     keras.layers.Flatten(input_shape=[28, 28]),
     keras.layers.Dense(100, activation="selu"),
-    keras.layers.Dense(30, activation="sigmoid"),
+    keras.layers.Dense(Nhidden, activation="sigmoid"),
 ])
 simple_decoder = keras.models.Sequential([
-    keras.layers.Dense(100, activation="selu", input_shape=[30]),
+    keras.layers.Dense(100, activation="selu", input_shape=[Nhidden]),
     keras.layers.Dense(28 * 28, activation="sigmoid"),
     keras.layers.Reshape([28, 28])
 ])
@@ -58,9 +61,6 @@ simple_ae.compile(loss="binary_crossentropy", optimizer=keras.optimizers.SGD(lr=
                   metrics=[rounded_accuracy])
 history = simple_ae.fit(X_train, X_train, epochs=10,
                         validation_data=[X_valid, X_valid])
-
-show_reconstructions(simple_ae)
-plt.show()
 
 
 # To visualize statistics of the hidden units
@@ -75,32 +75,12 @@ def plot_percent_hist(ax, data, bins):
         lambda y, position: "{}%".format(int(np.round(100 * y)))))
     ax.grid(True)
 
-def plot_activations_histogram(encoder, height=1, n_bins=10):
-    X_valid_codings = encoder(X_valid).numpy()
-    activation_means = X_valid_codings.mean(axis=0)
-    mean = activation_means.mean()
-    bins = np.linspace(0, 1, n_bins + 1)
-
-    fig, [ax1, ax2] = plt.subplots(figsize=(10, 3), nrows=1, ncols=2, sharey=True)
-    plot_percent_hist(ax1, X_valid_codings.ravel(), bins)
-    ax1.plot([mean, mean], [0, height], "k--", label="Overall Mean = {:.2f}".format(mean))
-    ax1.legend(loc="upper center", fontsize=14)
-    ax1.set_xlabel("Activation")
-    ax1.set_ylabel("% Activations")
-    ax1.axis([0, 1, 0, height])
-    plot_percent_hist(ax2, activation_means, bins)
-    ax2.plot([mean, mean], [0, height], "k--")
-    ax2.set_xlabel("Neuron Mean Activation")
-    ax2.set_ylabel("% Neurons")
-    ax2.axis([0, 1, 0, height])
-
 def plot_activations_histogram2(encoder, height=1, n_bins=10, fname_base=""):
     X_valid_codings = encoder(X_valid).numpy()
     activation_means = X_valid_codings.mean(axis=0)
     mean = activation_means.mean()
     bins = np.linspace(0, 1, n_bins + 1)
 
-    #fig, [ax1, ax2] = plt.subplots(figsize=(10, 3), nrows=1, ncols=2, sharey=True)
     fig, ax1 = plt.subplots()
     plot_percent_hist(ax1, X_valid_codings.ravel(), bins)
     ax1.plot([mean, mean], [0, height], "k--", label="Overall Mean = {:.2f}".format(mean))
@@ -114,19 +94,24 @@ def plot_activations_histogram2(encoder, height=1, n_bins=10, fname_base=""):
     
     fig, ax2 = plt.subplots()
     plot_percent_hist(ax2, activation_means, bins)
-    ax2.plot([mean, mean], [0, height], "k--")
+    ax2.plot([mean, mean], [0, height], "k--", label="Overall Mean = {:.2f}".format(mean))
     ax2.set_xlabel("Neuron Mean Activation")
     ax2.set_ylabel("% Neurons")
     ax2.axis([0, 1, 0, height])
     fname_act = '{}-neurons.pdf'.format(fname_base)
     save_fig(fname_act)
     plt.show()
+
+def plot_activations_heatmap(encoder, N=100):
+    X = encoder(X_valid).numpy()
+    plt.figure(figsize=(10,5))
+    plt.imshow(X[:N,:])
     
-# We see that most units fire about 50% of the time (not very sparse...)    
-plot_activations_histogram(simple_encoder, height=0.35)
-save_fig("ae-sparse-noreg.pdf")
-plt.show()
+show_reconstructions(simple_ae)
 plot_activations_histogram2(simple_encoder, height=0.35, fname_base="ae-sparse-noreg")
+plot_activations_heatmap(simple_encoder)
+save_fig("ae-sparse-noreg-heatmap.pdf")
+plt.show()
 
 
 # Add L1 regularizer
@@ -136,13 +121,13 @@ np.random.seed(42)
 sparse_l1_encoder = keras.models.Sequential([
     keras.layers.Flatten(input_shape=[28, 28]),
     keras.layers.Dense(100, activation="selu"),
-    keras.layers.Dense(300, activation="sigmoid"),
+    keras.layers.Dense(Nhidden, activation="sigmoid"),
     keras.layers.ActivityRegularization(l1=1e-3)  # Alternatively, you could add
                                                   # activity_regularizer=keras.regularizers.l1(1e-3)
                                                   # to the previous layer.
 ])
 sparse_l1_decoder = keras.models.Sequential([
-    keras.layers.Dense(100, activation="selu", input_shape=[300]),
+    keras.layers.Dense(100, activation="selu", input_shape=[Nhidden]),
     keras.layers.Dense(28 * 28, activation="sigmoid"),
     keras.layers.Reshape([28, 28])
 ])
@@ -153,10 +138,10 @@ history = sparse_l1_ae.fit(X_train, X_train, epochs=10,
                            validation_data=[X_valid, X_valid])
 
 show_reconstructions(sparse_l1_ae)
-plot_activations_histogram(sparse_l1_encoder)
-save_fig("ae-sparse-L1reg.pdf")
-plt.show()
 plot_activations_histogram2(sparse_l1_encoder, fname_base="ae-sparse-L1reg")
+plot_activations_heatmap(sparse_l1_encoder)
+save_fig("ae-sparse-L1reg-heatmap.pdf")
+plt.show()
 
 # KL method
 p = 0.1
@@ -195,10 +180,10 @@ kld_reg = KLDivergenceRegularizer(weight=0.05, target=0.1)
 sparse_kl_encoder = keras.models.Sequential([
     keras.layers.Flatten(input_shape=[28, 28]),
     keras.layers.Dense(100, activation="selu"),
-    keras.layers.Dense(300, activation="sigmoid", activity_regularizer=kld_reg)
+    keras.layers.Dense(Nhidden, activation="sigmoid", activity_regularizer=kld_reg)
 ])
 sparse_kl_decoder = keras.models.Sequential([
-    keras.layers.Dense(100, activation="selu", input_shape=[300]),
+    keras.layers.Dense(100, activation="selu", input_shape=[Nhidden]),
     keras.layers.Dense(28 * 28, activation="sigmoid"),
     keras.layers.Reshape([28, 28])
 ])
@@ -209,8 +194,8 @@ history = sparse_kl_ae.fit(X_train, X_train, epochs=10,
                            validation_data=[X_valid, X_valid])
 
 show_reconstructions(sparse_kl_ae)
-
-plot_activations_histogram(sparse_kl_encoder)
-save_fig("ae-sparse-KLreg.pdf")
-plt.show()
 plot_activations_histogram2(sparse_kl_encoder,  fname_base="ae-sparse-KLreg")
+plot_activations_heatmap(sparse_kl_encoder)
+save_fig("ae-sparse-KLreg-heatmap.pdf")
+plt.show()
+
