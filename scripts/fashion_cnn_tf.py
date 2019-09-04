@@ -107,6 +107,19 @@ save_fig("fashion-cnn-predictions.pdf")
 plt.show()
 
 
+ndx = [11, 12, 13, 14]
+num_rows = 2
+num_cols = 2
+num_images = num_rows*num_cols
+plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+for i in range(num_images):
+  j = ndx[i]
+  plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plot_image_and_label(predictions[j], test_labels[j], test_images[j])
+  plt.subplot(num_rows, 2*num_cols, 2*i+2)
+  plot_label_dist(predictions[j], test_labels[j])
+save_fig("fashion-cnn-predictions-2epochs-errors.pdf")
+plt.show()
 
 
 
