@@ -18,16 +18,19 @@ dataname = 'celeb_a' # 1.3GB
 # Useful pre-processing functions
 #https://github.com/google/compare_gan/blob/master/compare_gan/datasets.py
   
-def preprocess_celeba(features):
-    """Returns 64x64x3 image and constant label."""
-    image = features["image"]
-    image = tf.image.resize_image_with_crop_or_pad(image, 160, 160)
-    # Note: possibly consider using NumPy's imresize(image, (64, 64))
-    image = tf.image.resize_images(image, [64, 64])
-    image = tf.cast(image, tf.float32) / 255.0
-    label = tf.constant(0, dtype=tf.int32)
-    return image, label
+
     
+def preprocess_celeba_tf(features, crop=True):
+    # Crop, resize and scale to [0,1]
+     # If input is not square, and we resize to a square, we will 
+    # get distortions. So better to take a square crop first..
+    img = features["image"]
+    if crop:
+        img = tf.image.resize_with_crop_or_pad(img, 160, 160)
+    img = tf.image.resize(img, [H, W])
+    img = tf.cast(img, tf.float32) / 255.0
+    #img = img.numpy()
+    return img
 
 datasets, datasets_info = tfds.load(name=dataname, with_info=True, as_supervised=False)
 print(datasets_info)
@@ -134,5 +137,30 @@ The dataset can be employed as the training and test sets for the following comp
 
 input_shape = datasets_info.features['image'].shape
 print(input_shape) #  (218, 178, 3)
+H, W, C = input_shape
+nvalid = 19867
 
+attr_names  = datasets_info.features['attributes'].keys()
+names = list(attr_names)
+names.append('imgnum')
+import pandas as pd
 
+val_dataset = datasets['validation']
+
+df = pd.DataFrame(columns=names)
+i = 0
+images= np.zeros((nvalid, H, W, 3))
+for sample in val_dataset:
+    #print(sample)
+    img = sample['image']
+    attr = sample['attributes']
+    d = {'imgnum': i}
+    for k in attr_names:
+        v = attr[k].numpy()
+        d[k] = v
+    df = df.append(d, ignore_index=True)
+    print(df)
+    i += 1
+    if i > 2:
+        break
+                          
