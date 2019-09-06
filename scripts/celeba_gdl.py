@@ -1,5 +1,13 @@
+# Illustrate latent space embedding and arithmetic for  VAE on CelebA faces images
+# Code is based on 
+# https://nbviewer.jupyter.org/github/davidADSP/GDL_code/blob/master/03_06_vae_faces_analysis.ipynb
+# Full dataset can be downloaded from https://www.kaggle.com/jessicali9530/celeba-dataset
+
+# In this code, we use a vacuous vae model that does nothing,
+# just to check the plumbing. You should redefine vae_encode and
+# vae_decode for a real model.
+
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 import os
@@ -8,21 +16,43 @@ def save_fig(fname):
     plt.tight_layout()
     plt.savefig(os.path.join(figdir, fname))
 
-import tensorflow as tf
-from tensorflow import keras
-import tensorflow_datasets as tfds
+#import tensorflow as tf
+#from tensorflow import keras
+#import tensorflow_datasets as tfds
 
-# Use Kaggle version of CELEBA
-# Download from https://www.kaggle.com/jessicali9530/celeba-dataset
-
-
-# https://nbviewer.jupyter.org/github/davidADSP/GDL_code/blob/master/03_06_vae_faces_analysis.ipynb
 
 import pandas as pd
-from scipy.stats import norm
+#from scipy.stats import norm
 
-from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, save_img, img_to_array
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+#from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, save_img, img_to_array
 #from keras.preprocessing.image import ImageDataGenerator, load_img, save_img, img_to_array
+
+
+vae = []
+latent_dim = 50
+INPUT_DIM = (128,128,3)
+
+# Make some dummy functions
+def vae_encode(model, x):
+  #mean, logvar = model.inference_net(x)
+  #return mean
+  N = x.shape[0]
+  return np.zeros((N, latent_dim))
+
+def vae_decode(model, z_points):
+  #return model.decode(z_points)
+  N = z_points.shape[0]
+  return np.zeros((N,128,128,3))
+
+DATA_FOLDER = '/home/murphyk/Data/CelebA/'
+IMAGE_FOLDER = '/home/murphyk/Data/CelebA/img_align_celeba/'
+
+
+
+att = pd.read_csv(os.path.join(DATA_FOLDER, 'list_attr_celeba.csv'))
+att.head()
+
 
 class ImageLabelLoader():
     def __init__(self, image_folder, target_size):
@@ -57,33 +87,8 @@ class ImageLabelLoader():
         return data_flow
 
 
-vae = []
-latent_dim = 50
-
-# Make some dummy functions
-def vae_encode(model, x):
-  #mean, logvar = model.inference_net(x)
-  #return mean
-  N = x.shape[0]
-  return np.zeros((N, latent_dim))
-
-def vae_decode(model, z_points):
-  #return model.decode(z_points)
-  N = z_points.shape[0]
-  return np.zeros((N,128,128,3))
-
-
-
-DATA_FOLDER = '/home/murphyk/Data/CelebA/'
-IMAGE_FOLDER = '/home/murphyk/Data/CelebA/img_align_celeba/'
-
-INPUT_DIM = (128,128,3)
-
-att = pd.read_csv(os.path.join(DATA_FOLDER, 'list_attr_celeba.csv'))
-
 imageLoader = ImageLabelLoader(IMAGE_FOLDER, INPUT_DIM[:2])
 
-att.head()
 
 #######
 # Reconstructing images
@@ -95,12 +100,6 @@ data_flow_generic = imageLoader.build(att, n_to_show)
 example_batch = next(data_flow_generic)
 example_images = example_batch[0]
 
-#z_points = vae.encoder.predict(example_images)
-z_points = vae_encode(vae, example_images)
-
-#reconst_images = vae.decoder.predict(z_points)
-reconst_images = vae_decode(vae, z_points)
-
 fig = plt.figure(figsize=(15, 3))
 fig.subplots_adjust(hspace=0.4, wspace=0.4)
 
@@ -109,6 +108,9 @@ for i in range(n_to_show):
     sub = fig.add_subplot(2, n_to_show, i+1)
     sub.axis('off')        
     sub.imshow(img)
+
+z_points = vae_encode(vae, example_images)
+reconst_images = vae_decode(vae, z_points)
 
 for i in range(n_to_show):
     img = reconst_images[i].squeeze()
