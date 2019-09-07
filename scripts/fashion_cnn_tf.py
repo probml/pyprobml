@@ -9,13 +9,18 @@ from time import time
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+
+
+import tensorflow as tf
+from tensorflow.keras import datasets, layers, models
+
+devices = tf.config.experimental.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(devices[0], True)
+
 figdir = "../figures"
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
-import tensorflow as tf
-
-from tensorflow.keras import datasets, layers, models
 
 #(train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()
 (train_images, train_labels), (test_images, test_labels) = datasets.fashion_mnist.load_data()
