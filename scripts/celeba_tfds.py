@@ -32,6 +32,7 @@ def preprocess_celeba_tf(features, H=64, W=64, crop=True):
     img = img.numpy()
     return img
 
+tfds.disable_progress_bar()
 datasets, datasets_info = tfds.load(name=dataname, with_info=True, as_supervised=False)
 print(datasets_info)
 
