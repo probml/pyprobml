@@ -96,6 +96,16 @@ schedules = {'power': power_schedule,
              'piecewise': piecewise_schedule,
              'perf': perf_schedule}
 
+def ema(y, beta):
+    """Exponentially weighted average."""
+    n = len(y)
+    zs = np.zeros(n)
+    z = 0
+    for i in range(n):
+        z = beta*z + (1 - beta)*y[i]
+        zs[i] = z
+    return zs
+
 for name, lr_scheduler in schedules.items():
     tf.random.set_seed(42)
     np.random.seed(42)
@@ -113,9 +123,13 @@ for name, lr_scheduler in schedules.items():
     
     if name == 'perf':
         ax2 = plt.gca().twinx()
-        ax2.plot(history.epoch, history.history["val_loss"], "r^-")
+        hist = history.history["val_loss"]
+        ax2.plot(history.epoch, hist, "r^-")
         ax2.set_ylabel('Validation Loss', color='r')
         ax2.tick_params('y', colors='r')
+        
+        plt.figure()
+        plt.plot(history.epoch, ema(hist, 0.95))
         
     fname = 'lrschedule-{}.pdf'.format(name)
     save_fig(fname)

@@ -102,6 +102,7 @@ model.compile(loss="sparse_categorical_crossentropy",
 
 batch_size = 128
 rates, losses = find_learning_rate(model, X_train_scaled, y_train, epochs=1, batch_size=batch_size)
+plt.figure()
 plot_lr_vs_loss(rates, losses)
 save_fig("lrfinder-raw.pdf")
 plt.show()
@@ -113,13 +114,31 @@ x = rates
 y = np.array(losses, dtype=np.float64)
 df = pd.Series(y)
 filtered = pd.Series.ewm(df, span=10).mean()
+plt.figure() #figsize=(10,6))
+plt.plot(x, y)
+#plt.plot(x, filtered)
+plt.gca().set_xscale('log')
+plt.xlabel("Learning rate")
+plt.ylabel("Loss")
+save_fig("lrfinder-unfiltered.pdf")
+plt.show()
+
+plt.figure() #figsize=(10,6))
+#plt.plot(x, y)
+plt.plot(x, filtered)
+plt.gca().set_xscale('log')
+plt.xlabel("Learning rate")
+plt.ylabel("Loss")
+save_fig("lrfinder-filtered.pdf")
+plt.show()
+
 plt.figure(figsize=(10,6))
 plt.plot(x, y)
 plt.plot(x, filtered)
 plt.gca().set_xscale('log')
 plt.xlabel("Learning rate")
 plt.ylabel("Loss")
-save_fig("lrfinder-filtered.pdf")
+save_fig("lrfinder-filtered-both.pdf")
 plt.show()
 
 
@@ -130,7 +149,8 @@ class OneCycleScheduler(keras.callbacks.Callback):
         self.max_rate = max_rate
         self.start_rate = start_rate or max_rate / 10
         self.last_iterations = last_iterations or iterations // 10 + 1
-        self.half_iteration = (iterations - self.last_iterations) // 2
+        #self.half_iteration = (iterations - self.last_iterations) // 2
+        self.half_iteration = self.last_iterations // 2
         self.last_rate = last_rate or self.start_rate / 1000
         self.iteration = 0
         self.rate_hist = []
