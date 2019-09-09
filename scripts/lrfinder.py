@@ -132,7 +132,7 @@ plt.ylabel("Loss")
 save_fig("lrfinder-filtered.pdf")
 plt.show()
 
-plt.figure(figsize=(10,6))
+plt.figure() #figsize=(10,6))
 plt.plot(x, y)
 plt.plot(x, filtered)
 plt.gca().set_xscale('log')
