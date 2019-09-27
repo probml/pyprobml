@@ -29,7 +29,7 @@ If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples (
 * [Graphical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb)
 * [Latent variable models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lvm/lvm.ipynb)
 * [Gaussian processes](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb)
-* [Models for graphs, manifolds and clusters](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/seq/seq.ipynb)
+* [Models for graphs, manifolds and clusters](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/graphs/graphs.ipynb)
 * [Reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb)
 
 ## Scripts
