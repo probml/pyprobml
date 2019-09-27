@@ -42,12 +42,6 @@ Many of the scripts create plots, which are saved to ../figures.
 
 To run the scripts, we assume you have installed numpy, scipy, matplotlib, seaborn, pandas, scikit-learn, etc.
 (All of these are bundled with [anaconda](https://www.anaconda.com/distribution/).)
-Some scripts rely on additional libraries, such as the following: 
-
-- [Tensorflow 2.0](https://www.tensorflow.org/)
-- [JAX](https://github.com/google/jax)
-- [PyTorch](https://pytorch.org/)
-
-Scripts that need these libraries have filenames that end in tf, jax, or pt respectively.
+Some scripts rely on additional libraries, such as [Tensorflow 2.0](https://www.tensorflow.org/) and [JAX](https://github.com/google/jax). Scripts that need these libraries have filenames that end in tf and jax respectively.
 If you have problems running these, open up one of the notebooks above in Google Colab - which will have the various packages already installed - and then import the script.
 
