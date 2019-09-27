@@ -1,8 +1,0 @@
-digraph G {
-	start;
-	end;
-	node [texmode="math"];
-	a_1;
-	a_2;
-	start -> a_1 -> a_2 -> end;
-}
