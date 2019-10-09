@@ -8,30 +8,30 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples (especially those that use deep neural networks) will run much faster. The main limitation seems to be the [12GB memory limit](https://github.com/googlecolab/colabtools/issues/253). This should suffice for small experiments. For bigger jobs, you may need to buy cloud credit. Alternatively, you can run these notebooks locally on your desktop in Jupyter, but then you will have to install the packages yourself (see instructions below).
 
 ### Foundations
-* [Introduction](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb)
-* [Linear algebra](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/linalg/linalg.ipynb)
-* [Calculus](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/calc/calc.ipynb)
-* [Probability](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/prob/prob.ipynb)
-* [Information theory](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/info/info.ipynb)
-* [Bayesian statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/bayes/bayes.ipynb)
-* [Frequentist statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/freq/freq.ipynb)
-* [Statistical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod/statmod.ipynb)
+* [Introduction](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb?flush_cache=true)
+* [Linear algebra](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/linalg/linalg.ipynb?flush_cache=true)
+* [Calculus](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/calc/calc.ipynb?flush_cache=true)
+* [Probability](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/prob/prob.ipynb?flush_cache=true)
+* [Information theory](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/info/info.ipynb?flush_cache=true)
+* [Bayesian statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/bayes/bayes.ipynb?flush_cache=true)
+* [Frequentist statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/freq/freq.ipynb?flush_cache=true)
+* [Statistical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod/statmod.ipynb?flush_cache=true)
 
 ### Algorithms
-* [Optimization](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt/opt.ipynb)
-* [Graphical model inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgminf/pgminf.ipynb)
-* [Variational inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb)   
-* [Monte Carlo inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb)
+* [Optimization](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt/opt.ipynb?flush_cache=true)
+* [Graphical model inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgminf/pgminf.ipynb?flush_cache=true)
+* [Variational inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb?flush_cache=true)   
+* [Monte Carlo inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb?flush_cache=true)
 
 ### Models
-* [Generalized linear models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/glm/glm.ipynb)
-* [Deep neural networks](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
-* [Graphical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb)
-* [Visible generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/genmo/genmo.ipynb)
-* [Latent generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lvm/lvm.ipynb)
-* [Gaussian processes](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb)
-* [Models for graphs, manifolds and clusters](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/graphs/graphs.ipynb)
-* [Reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb)
+* [Generalized linear models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/glm/glm.ipynb?flush_cache=true)
+* [Deep neural networks](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb?flush_cache=true)
+* [Graphical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb?flush_cache=true)
+* [Visible generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/genmo/genmo.ipynb?flush_cache=true)
+* [Latent generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lvm/lvm.ipynb?flush_cache=true)
+* [Gaussian processes](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb?flush_cache=true)
+* [Models for graphs, manifolds and clusters](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/graphs/graphs.ipynb?flush_cache=true)
+* [Reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb?flush_cache=true)
 
 ## Scripts
 
