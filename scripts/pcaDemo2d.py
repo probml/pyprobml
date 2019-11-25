@@ -46,6 +46,6 @@ figdir = "../figures"
 def save_fig(fname):
     plt.savefig(os.path.join(figdir, fname))
 
-save_fig("pcaDemo2dProjection")
+save_fig("pcaDemo2dProjection.pdf")
 
 plt.draw()
