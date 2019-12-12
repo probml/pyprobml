@@ -81,7 +81,7 @@ A = df_all[attr_names].to_numpy() # (202599, 40)
 plt.imshow(A[:20,:], cmap='gray') # visualize attributes
 plt.show()
 
-N = 20000 # number of files we want to use
+N = 40000 # number of files we want to use
 df_small = df_all[:N] # we can take first N files since they are shuffled
 
 
@@ -121,7 +121,7 @@ shutil.make_archive(out_folder, 'zip', out_folder)
 print('made {}.zip'.format(out_folder))
 
 # Manually upload zip and csv files to
-#https://github.com/probml/pyprobml/blob/master/data/
+#https://github.com/probml/pyprobml/blob/master/data/CelebA
 
 '''
 # Load it back
