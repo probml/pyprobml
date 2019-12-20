@@ -15,10 +15,12 @@ If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples (
 * [Information theory](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/info/info.ipynb?flush_cache=true)
 * [Bayesian statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/bayes/bayes.ipynb?flush_cache=true)
 * [Frequentist statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/freq/freq.ipynb?flush_cache=true)
-* [Statistical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod/statmod.ipynb?flush_cache=true)
+* [Statistical models: discriminative](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-discrim/statmod-discrim.ipynb?flush_cache=true)
+* [Statistical models: generative](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-gen/statmod-gen.ipynb?flush_cache=true)
 
 ### Algorithms
-* [Optimization](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt/opt.ipynb?flush_cache=true)
+* [Optimization: continuous problems](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt-cts/opt-cts.ipynb?flush_cache=true)
+* [Optimization: discrete and blackbox problems](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt-discrete/opt-discrete.ipynb?flush_cache=true)
 * [Graphical model inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgminf/pgminf.ipynb?flush_cache=true)
 * [Variational inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb?flush_cache=true)   
 * [Monte Carlo inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb?flush_cache=true)
