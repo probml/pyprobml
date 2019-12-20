@@ -17,6 +17,7 @@ If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples (
 * [Frequentist statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/freq/freq.ipynb?flush_cache=true)
 * [Statistical models: discriminative](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-discrim/statmod-discrim.ipynb?flush_cache=true)
 * [Statistical models: generative](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-gen/statmod-gen.ipynb?flush_cache=true)
+* [Statistical models: structured](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-struct/statmod-struct.ipynb?flush_cache=true)
 
 ### Algorithms
 * [Optimization: continuous problems](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt-cts/opt-cts.ipynb?flush_cache=true)
