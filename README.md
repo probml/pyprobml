@@ -21,19 +21,21 @@ If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples (
 ### Algorithms
 * [Optimization: continuous problems](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt-cts/opt-cts.ipynb?flush_cache=true)
 * [Optimization: discrete and blackbox problems](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt-discrete/opt-discrete.ipynb?flush_cache=true)
-* [Graphical model inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgminf/pgminf.ipynb?flush_cache=true)
-* [Variational inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb?flush_cache=true)   
-* [Monte Carlo inference](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb?flush_cache=true)
+* [Belief propagation](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/bp/bp.ipynb?flush_cache=true)
+* [Variational methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb?flush_cache=true)   
+* [Monte Carlo methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb?flush_cache=true)
 
 ### Models
-* [Generalized linear models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/glm/glm.ipynb?flush_cache=true)
+* [Sparse models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/sparse/sparse.ipynb?flush_cache=true)
 * [Deep neural networks](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb?flush_cache=true)
 * [Graphical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb?flush_cache=true)
-* [Visible generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/genmo/genmo.ipynb?flush_cache=true)
-* [Latent generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lvm/lvm.ipynb?flush_cache=true)
+* [Latent factor models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lfm/lfm.ipynb?flush_cache=true)
+* [Other deep generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/genmo/genmo.ipynb?flush_cache=true)
 * [Gaussian processes](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb?flush_cache=true)
-* [Models for graphs, manifolds and clusters](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/graphs/graphs.ipynb?flush_cache=true)
-* [Reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb?flush_cache=true)
+* [Models for sequences](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/seq/seq.ipynb?flush_cache=true)
+* [Models for graphs](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/graphs/graphs.ipynb?flush_cache=true)
+* [Models for reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb?flush_cache=true)
+* [Causal models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/causal/causal.ipynb?flush_cache=true)
 
 ## Scripts
 
