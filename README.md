@@ -3,9 +3,7 @@ Python 3 code for the second edition of my book [Machine learning: a probabilist
 
 ## Notebooks
 
-I have created IPython notebooks for each of the chapters. When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.sandbox.google.com/notebooks/welcome.ipynb),  which has all the libraries you will need (e.g., scikit-learn, tensorflow 2, PyTorch) pre-installed. Furthermore, this is free, so all you need is a web browser and an internet connection.
-
-If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples (especially those that use deep neural networks) will run much faster. The main limitation seems to be the [12GB memory limit](https://github.com/googlecolab/colabtools/issues/253). This should suffice for small experiments. For bigger jobs, you may need to buy cloud credit. Alternatively, you can run these notebooks locally on your desktop in Jupyter, but then you will have to install the packages yourself (see instructions below).
+I have created IPython notebooks for each of the chapters. When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.sandbox.google.com/notebooks/welcome.ipynb),  which has all the libraries you will need (e.g., scikit-learn, tensorflow 2, PyTorch) pre-installed. Furthermore, this is free, so all you need is a web browser and an internet connection. (Be sure to select 'GPU' from the 'Runtime' menu at the top of Colab.) Alternatively, you can run these notebooks locally on your desktop in Jupyter, but then you will have to install the packages yourself (see instructions below).
 
 ### Foundations
 * [Introduction](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb?flush_cache=true)
