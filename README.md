@@ -29,10 +29,12 @@ If you select 'GPU' from the 'Runtime' menu at the top of Colab, many examples (
 ### Models
 * [Sparse models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/sparse/sparse.ipynb?flush_cache=true)
 * [Deep neural networks](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb?flush_cache=true)
+* [Gaussian processes](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb?flush_cache=true)
+* [Other kernel methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/kernel/kernel.ipynb?flush_cache=true)
+* [Other Bayesian non-parametric models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/npbayes/npbayes.ipynb?flush_cache=true)
 * [Graphical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb?flush_cache=true)
 * [Latent factor models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lfm/lfm.ipynb?flush_cache=true)
 * [Other deep generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/genmo/genmo.ipynb?flush_cache=true)
-* [Gaussian processes](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb?flush_cache=true)
 * [Models for sequences](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/seq/seq.ipynb?flush_cache=true)
 * [Models for graphs](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/graphs/graphs.ipynb?flush_cache=true)
 * [Models for reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb?flush_cache=true)
