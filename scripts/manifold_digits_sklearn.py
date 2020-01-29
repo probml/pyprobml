@@ -86,7 +86,7 @@ for i in range(n_img_per_row):
 plt.imshow(img, cmap=plt.cm.binary)
 plt.xticks([])
 plt.yticks([])
-plt.title('A selection from the 64-dimensional digits dataset')
+#plt.title('A selection from the 64-dimensional digits dataset')
 save_fig('manifold_digits_data.pdf')
 
 
@@ -141,3 +141,41 @@ X_tsne = tsne.fit_transform(X)
 plot_embedding(X_tsne,  "t-SNE embedding")
 save_fig('manifold_digits_tsne.pdf')
 plt.show()
+
+# ----------------------------------------------------------------------
+# Spectral embedding of the digits dataset
+print("Computing Spectral embedding")
+embedder = manifold.SpectralEmbedding(n_components=2, random_state=0,
+                                      eigen_solver="arpack")
+X_se = embedder.fit_transform(X)
+plot_embedding(X_se, "Spectral embedding")
+save_fig('manifold_digits_SE.pdf')
+plt.show()
+
+# ----------------------------------------------------------------------
+# Locally linear embedding of the digits dataset
+print("Computing LLE embedding")
+embedder = manifold.LocallyLinearEmbedding(n_neighbors, n_components=2,
+                                      method='standard')
+X_lle = embedder.fit_transform(X)
+plot_embedding(X_lle, "Locally Linear Embedding")
+save_fig('manifold_digits_LLE.pdf')
+plt.show()
+
+# ----------------------------------------------------------------------
+# Isomap projection of the digits dataset
+print("Computing Isomap projection")
+X_iso = manifold.Isomap(n_neighbors, n_components=2).fit_transform(X)
+plot_embedding(X_iso, "Isomap")
+save_fig('manifold_digits_isomap.pdf')
+plt.show()
+
+# ----------------------------------------------------------------------
+from sklearn.decomposition import KernelPCA
+print("Computing kPCA")
+transformer = KernelPCA(n_components=2, kernel='rbf', gamma=10)
+X_kpca = transformer.fit_transform(X)
+plot_embedding(X_kpca, "kPCA")
+save_fig('manifold_digits_kPCA.pdf')
+plt.show()
+

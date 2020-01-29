@@ -3,7 +3,7 @@
 
 #https://pygam.readthedocs.io/en/latest/notebooks/quick_start.html#
 import pygam
-from pygam import LinearGAM, s
+from pygam import LinearGAM, s p66
 
 import numpy as np
 np.random.seed(42)
