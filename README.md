@@ -8,7 +8,7 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 ### Foundations
 * [Introduction](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb?flush_cache=true)
 * [Linear algebra](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/linalg/linalg.ipynb?flush_cache=true)
-* [Calculus](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/calc/calc.ipynb?flush_cache=true)
+* [Sets, functions, graphs and manifolds](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/calc/calc.ipynb?flush_cache=true)
 * [Probability](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/prob/prob.ipynb?flush_cache=true)
 * [Information theory](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/info/info.ipynb?flush_cache=true)
 * [Bayesian statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/bayes/bayes.ipynb?flush_cache=true)
@@ -26,11 +26,8 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 * [Monte Carlo methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb?flush_cache=true)
 
 ### Models
-* [Sparse models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/sparse/sparse.ipynb?flush_cache=true)
 * [Deep neural networks](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb?flush_cache=true)
-* [Gaussian processes](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb?flush_cache=true)
-* [Other kernel methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/kernel/kernel.ipynb?flush_cache=true)
-* [Other Bayesian non-parametric models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/npbayes/npbayes.ipynb?flush_cache=true)
+* [Non-parametric models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb?flush_cache=true)
 * [Graphical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb?flush_cache=true)
 * [Latent factor models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lfm/lfm.ipynb?flush_cache=true)
 * [Other deep generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/genmo/genmo.ipynb?flush_cache=true)
