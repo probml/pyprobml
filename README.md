@@ -20,6 +20,7 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 ### Algorithms
 * [Optimization: continuous problems](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt-cts/opt-cts.ipynb?flush_cache=true)
 * [Optimization: discrete and blackbox problems](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt-discrete/opt-discrete.ipynb?flush_cache=true)
+* [Reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb?flush_cache=true)
 * [Belief propagation](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/bp/bp.ipynb?flush_cache=true)
 * [Variational methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb?flush_cache=true)   
 * [Monte Carlo methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb?flush_cache=true)
@@ -35,7 +36,6 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 * [Other deep generative models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/genmo/genmo.ipynb?flush_cache=true)
 * [Models for sequences](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/seq/seq.ipynb?flush_cache=true)
 * [Models for graphs](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/graphs/graphs.ipynb?flush_cache=true)
-* [Models for reinforcement learning](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/rl/rl.ipynb?flush_cache=true)
 * [Causal models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/causal/causal.ipynb?flush_cache=true)
 
 ## Scripts
