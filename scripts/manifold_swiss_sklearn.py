@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import NullFormatter
 
-from sklearn import manifold, datasets
+from sklearn import manifold, datasets, decomposition
 
 from pyprobml_utils import save_fig
 
@@ -49,6 +49,7 @@ def run_expt(X, color, expt_name):
                   n_neighbors, n_components, eigen_solver='auto')
     
     methods = OrderedDict()
+    methods['PCA'] = decomposition.TruncatedSVD(n_components=n_components)
     methods['LLE'] = LLE(method='standard')
     #methods['LTSA'] = LLE(method='ltsa')
     #methods['Hessian LLE'] = LLE(method='hessian')
@@ -59,6 +60,7 @@ def run_expt(X, color, expt_name):
                                                n_neighbors=n_neighbors)
     methods['t-SNE'] = manifold.TSNE(n_components=n_components, init='pca',
                                      random_state=0)
+    methods['kPCA'] = decomposition.KernelPCA(n_components=n_components, kernel='rbf')
     
     # Plot results
     for i, (label, method) in enumerate(methods.items()):
@@ -76,7 +78,7 @@ def run_expt(X, color, expt_name):
         ax.xaxis.set_major_formatter(NullFormatter())
         ax.yaxis.set_major_formatter(NullFormatter())
         ax.axis('tight')
-        save_fig('{}.pdf', ttl)
+        save_fig('{}.pdf'.format(ttl))
         plt.show()
     
   
@@ -86,7 +88,7 @@ n_points = 1000
 noise_levels = [0, 1.0]
 dataset_name = 'swiss'
 for noise_ndx, noise in enumerate(noise_levels):
-    expt_name = 'manifold-{}-noise-{:0.2f}'.format(dataset_name, noise)
+    expt_name = 'manifold-{}-noise-{}'.format(dataset_name, noise_ndx)
     #X, color = datasets.make_s_curve(n_points, random_state=0)
     X, color = datasets.make_swiss_roll(n_points, noise=noise, random_state=0)
     run_expt(X, color, expt_name)
