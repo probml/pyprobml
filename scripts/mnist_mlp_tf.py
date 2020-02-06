@@ -6,7 +6,8 @@ import sklearn
 
 from time import time
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
+figdir = "../figures"
+#figdir = os.path.join(os.environ["PYPROBML"], "figures")
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 

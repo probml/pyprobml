@@ -49,12 +49,14 @@ def run_expt(X, color, expt_name):
                   n_neighbors, n_components, eigen_solver='auto')
     
     methods = OrderedDict()
+    methods['Isomap'] = manifold.Isomap(n_neighbors, n_components)
+    
     methods['PCA'] = decomposition.TruncatedSVD(n_components=n_components)
     methods['LLE'] = LLE(method='standard')
     #methods['LTSA'] = LLE(method='ltsa')
     #methods['Hessian LLE'] = LLE(method='hessian')
     #methods['Modified LLE'] = LLE(method='modified')
-    methods['Isomap'] = manifold.Isomap(n_neighbors, n_components)
+
     methods['MDS'] = manifold.MDS(n_components, max_iter=100, n_init=1)
     methods['SE'] = manifold.SpectralEmbedding(n_components=n_components,
                                                n_neighbors=n_neighbors)
@@ -85,11 +87,11 @@ def run_expt(X, color, expt_name):
     
     
 n_points = 1000
-noise_levels = [0, 1.0]
+noise_levels = [0, 0.2, 0.5, 1.0]
 dataset_name = 'swiss'
 for noise_ndx, noise in enumerate(noise_levels):
-    expt_name = 'manifold-{}-noise-{}'.format(dataset_name, noise_ndx)
+    expt_name = 'manifold-{}-noise-{}'.format(dataset_name, int(noise*100))
     #X, color = datasets.make_s_curve(n_points, random_state=0)
-    X, color = datasets.make_swiss_roll(n_points, noise=noise, random_state=0)
+    X, color = datasets.make_swiss_roll(n_points, noise=noise, random_state=42)
     run_expt(X, color, expt_name)
     
