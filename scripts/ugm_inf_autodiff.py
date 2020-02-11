@@ -82,19 +82,21 @@ def compute_logZ(nodePotsLog):
         nodePots.append(jnp.exp(nodePotsLog[i]))
     return jnp.log(compute_Z(nodePots))
 
-# sanity check
-
-
+gg = grad(jnp.log())
 g = grad(compute_logZ)(nodePotsLog)
 margProbs = []
 for i in range(nnodes):
     margProbs.append(onp.array(g[i]))
 
-
-
 assert onp.allclose(margProbs[0], marg0)
 assert onp.allclose(margProbs[1], marg1)
 assert onp.allclose(margProbs[2], marg2)
 
+# Super short version
+logZ_fun = lambda logpots: jnp.log(jnp.einsum('A,B,C,AB,BC', *[jnp.exp(lp) for lp in logpots]))
+logpots = nodePotsLog + edgePotsLog
+logZ = logZ_fun(logpots)
+assert onp.isclose(logZ, onp.log(Z))
+probs = grad(logZ_fun)(logpots)
 
 
