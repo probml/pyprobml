@@ -18,6 +18,7 @@ All nodes are binary except G (grade), which has 3 levels.
 import numpy as onp # original numpy
 import jax.numpy as np
 
+
 import bayesnet_inf_autodiff as bn
 
 from pgmpy.models import BayesianModel
