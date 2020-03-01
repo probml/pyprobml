@@ -19,6 +19,8 @@ import seaborn as sns
 import tensorflow.compat.v2 as tf
 tf.enable_v2_behavior()
 
+import scipy.stats
+
 import tensorflow_probability as tfp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -49,8 +51,6 @@ x_ranges = [ [-20, 60]]
 ns = [1000]
 
 def load_dataset():
-  w0 = 1.0 #0.125
-  b0 = 0.0 #5.
   def s(x): #std of noise
     g = (x - x_range[0]) / (x_range[1] - x_range[0])
     return (0.25 + g**2.)
@@ -62,9 +62,7 @@ def load_dataset():
     #x1 = (xr[1] - xr[0]) * np.random.rand(n) + xr[0]
     x1 = np.linspace(xr[0], xr[1], n)
     eps = np.random.randn(n) * s(x1)
-    #y1 = (w0 * x1 * (1. + np.sin(0.5*x1)) + b0) + eps
-    #y1 = (w0 * x1  + 10*np.sin(0.5*x1) + b0) + eps
-    y1 = (w0 * np.sin(0.2*x1) + b0) + eps
+    y1 = (1 * np.sin(0.2*x1) + 0.1 * x1) + eps
     x = np.concatenate((x, x1))
     y = np.concatenate((y, y1))
   print(x.shape)
@@ -175,7 +173,7 @@ class DensityNetwork(tf.keras.Model):
 # using the MSE the residuals.
 
 fixed_vars = [None, 1]
-
+        
 for fixed_var in fixed_vars:
     model = DensityNetwork([1, 50, 50], [20, 1], fixed_var)
     negloglik = lambda y, rv_y: -rv_y.log_prob(y)
@@ -184,9 +182,11 @@ for fixed_var in fixed_vars:
     if fixed_var is not None:
         # estimate MLE of sigma
         yhat_train = model(x)
-        ypred = yhat_train.mean().numpy()
+        ypred = yhat_train.mean().numpy()[:,0]
+        print(ypred.shape)
         residuals = (y-ypred)
         mse = np.mean((residuals ** 2))
+        #mse = scipy.stats.trim_mean(residuals ** 2, proportiontocut=0.1)
         model.fixed_variance = mse
         print(model.fixed_variance)
     yhat = model(x_tst) # a Gaussian distribution object
@@ -201,15 +201,14 @@ for fixed_var in fixed_vars:
     plt.plot(x, y, 'b.', label='observed');
     m = yhat.mean()
     s = yhat.stddev()
-    
     plt.plot(x_tst, m, 'r', linewidth=4, label='mean');
     plt.plot(x_tst, m + 2 * s, 'g', linewidth=2, label=r'mean + 2 stddev');
     plt.plot(x_tst, m - 2 * s, 'g', linewidth=2, label=r'mean - 2 stddev');
+    #plt.ylim([-10,10])
     if fixed_var:
         save_fig('nonlinreg_1d_hetero_fixed.pdf')
     else:
         save_fig('nonlinreg_1d_hetero_adaptive.pdf')
     plt.show()
          
-    
     
