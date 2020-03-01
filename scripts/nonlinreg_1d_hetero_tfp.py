@@ -172,7 +172,7 @@ class DensityNetwork(tf.keras.Model):
 # to minimizing MSE. In this case, we compute the MLE of sigma^2 after training
 # using the MSE the residuals.
 
-fixed_vars = [None, 1]
+fixed_vars = [None,  1]
         
 for fixed_var in fixed_vars:
     model = DensityNetwork([1, 50, 50], [20, 1], fixed_var)
