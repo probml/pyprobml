@@ -75,8 +75,6 @@ class BayesianDenseLayer(tf.keras.Model):
         
         
     def call(self, x, sampling=True):
-        print('calling layer')
-        print(x.shape)
         if sampling:
             w = self.weight.sample()
             b = self.bias.sample()
@@ -296,19 +294,24 @@ class BayesianDenseRegression(tf.keras.Model):
     
     
     @tf.function
-    def sample(self, x):
-        """Draw one sample from the predictive distribution"""
+    def sample(self, x, obs_noise=False):
+        """Draw one sample from the predictive distribution.
+        If obs_noise=True, we add observation noise, and thus predict y(x).
+        If obs_noise=False, we predict f(x), which is the underlying mean fn."""
         preds = self.call(x)
-        return tfd.Normal(preds[:,0], preds[:,1]).sample()
+        if obs_noise:
+            return tfd.Normal(preds[:,0], preds[:,1]).sample()
+        else:
+            return preds[:,0]
     
     
-    def samples(self, x, n_samples=1):
+    def samples(self, x, n_samples=1, obs_noise=False):
         """Draw multiple samples from the predictive distribution"""
         samples = np.zeros((x.shape[0], n_samples))
         for i in range(n_samples):
-            samples[:,i] = self.sample(x)
+            samples[:,i] = self.sample(x, obs_noise)
         return samples
-    
+
     
     @property
     def losses(self):
