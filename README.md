@@ -13,9 +13,13 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 * [Information theory](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/info/info.ipynb?flush_cache=true)
 * [Bayesian statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/bayes/bayes.ipynb?flush_cache=true)
 * [Frequentist statistics](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/freq/freq.ipynb?flush_cache=true)
-* [Statistical models: discriminative](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-discrim/statmod-discrim.ipynb?flush_cache=true)
-* [Statistical models: generative](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-gen/statmod-gen.ipynb?flush_cache=true)
-* [Statistical models: structured](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-struct/statmod-struct.ipynb?flush_cache=true)
+
+
+### Models 1
+* [Discriminative models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-discrim/statmod-discrim.ipynb?flush_cache=true)
+* [Deep neural networks I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb?flush_cache=true)
+* [Generative models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-gen/statmod-gen.ipynb?flush_cache=true)
+* [Probabilistic graphical models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-struct/statmod-struct.ipynb?flush_cache=true)
 
 ### Algorithms
 * [Optimization: continuous problems](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/opt-cts/opt-cts.ipynb?flush_cache=true)
@@ -25,8 +29,8 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 * [Variational methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/vi/vi.ipynb?flush_cache=true)   
 * [Monte Carlo methods](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/mc/mc.ipynb?flush_cache=true)
 
-### Models
-* [Deep neural networks](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb?flush_cache=true)
+### Models II
+* [Deep neural networks II](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn2/dnn2.ipynb?flush_cache=true)
 * [Non-parametric models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/gp/gp.ipynb?flush_cache=true)
 * [Graphical models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/pgm/pgm.ipynb?flush_cache=true)
 * [Latent factor models](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/lfm/lfm.ipynb?flush_cache=true)
