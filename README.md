@@ -23,6 +23,9 @@ Some scripts rely on additional libraries, such as [Tensorflow 2.0](https://www.
 A snapshot (as of 3/11/20) of the book's table of contents is shown below.
 The book should become available (both in print, and online for free) in December 2020.
 
+
+<img src="https://github/probml/pyprobml/blob/master/toc-200311.png" alt="TOC">
+
 ![Image of TOC](https://github/probml/pyprobml/blob/master/toc-200311.png)
 
 
