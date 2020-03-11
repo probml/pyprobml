@@ -1,0 +1,191 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "dnn.ipynb",
+      "provenance": [],
+      "collapsed_sections": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "YMlYEa1DlIdI",
+        "colab_type": "text"
+      },
+      "source": [
+        "# Deep neural networks \n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "iNPxS24VcPwr",
+        "colab_type": "text"
+      },
+      "source": [
+        "## Software for deep learning <a class=\"anchor\" id=\"DL\"></a>\n",
+        "\n",
+        "\n",
+        "Deep learning is about composing differentiable functions into more complex functions, represented as a computation graph, and then using automatic differentiation (\"autograd\") to compute gradients, which we can pass to an optimizer, to fit the function to data. This is sometimes called \"differentiable programming\".\n",
+        "\n",
+        "There are several libraries that can execute such computation graphs on hardware accelerators, such as GPUs. (Some libraries also support distributed computation, but we will not need use this feature in this book.) We list a few popular libraries below.\n",
+        "\n",
+        "\n",
+        "\n",
+        "<table align=\"left\">\n",
+        "    <tr>\n",
+        "        <th style=\"text-align:left\">Name</th>\n",
+        "        <th style=\"text-align:left\" width=\"400\">Functionality</th>\n",
+        "      <th style=\"text-align:left\">More info</th>\n",
+        "    <tr> \n",
+        "        <td style=\"text-align:left\"> <a href=\"http://www.tensorflow.org\">Tensorflow 2</a></td>\n",
+        "            <td style=\"text-align:left\"> Accelerated numpy-like library with autograd support. Keras API.</td>\n",
+        "     <td style=\"text-align:left\"><a href=\"https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/tf.ipynb\">TF notebook</a>\n",
+        "               <tr>\n",
+        "        <td style=\"text-align:left\"> <a href=\"http://github.com/google/jax\">JAX</a></td>\n",
+        "        <td style=\"text-align:left\">Accelerated numpy, functional code transformations (autograd, JIT, VMAP, etc)</td>\n",
+        "            <td style=\"text-align:left\">\n",
+        "              <a href=\"https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb\">JAX notebook</a>\n",
+        "    <tr>\n",
+        "        <td style=\"text-align:left\"> <a href=\"http://pytorch.org\">Pytorch</a></td>\n",
+        "         <td style=\"text-align:left\"> Similar to TF 2</td>\n",
+        "       <td style=\"text-align:left\">\n",
+        "       <a href=\"https://pytorch.org/tutorials/\">Official PyTorch tutorials</a>\n",
+        "              <tr>\n",
+        "        <td style=\"text-align:left\"> <a href=\"https://mxnet.apache.org/\">MXNet</a>\n",
+        "            <td  style=\"text-align:left\"> Similar to TF 2. Gluon  API.\n",
+        "              <td style=\"text-align:left\">\n",
+        "                <a href=\"http://www.d2l.ai/\">  Dive into deep learning book</a>       \n",
+        "</table>\n",
+        "     "
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "wm0qtoExrepG",
+        "colab_type": "text"
+      },
+      "source": [
+        "# Multilayer perceptrons (MLPs)\n",
+        "\n",
+        "In this section, we give some examples of MLPs using TF2.\n",
+        "(* denotes official TF tutorials, which are not part of the pyprobml repo.)\n",
+        "\n",
+        "* [Auto-MPG regression *](https://www.tensorflow.org/tutorials/keras/regression)\n",
+        "* [Tabular medical data classification *](https://www.tensorflow.org/tutorials/structured_data/feature_columns)\n",
+        "*  [FashionMNIST image classification](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/fashion_mlp_tf.ipynb) \n",
+        "* [FashionMNIST image classification *](https://www.tensorflow.org/tutorials/keras/classification)\n",
+        "* [IMDB movie review sentiment classification](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/imdb_mlp_tf.ipynb) \n",
+        "* [IMDB movie review sentiment classification using pre-trained word embeddings from TF-hub *](https://www.tensorflow.org/tutorials/keras/text_classification_with_hub)\n",
+        "* [IMDB movie review sentiment classification using keras pre-processed data *](https://www.tensorflow.org/tutorials/keras/text_classification)\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "JA6_4rP_qnN0",
+        "colab_type": "text"
+      },
+      "source": [
+        "# Convolutional neural networks (CNNs)\n",
+        "\n",
+        "In this section, we give some examples of CNNs using TF2. (* denotes official TF tutorials, which are not part of the pyprobml repo.)\n",
+        "\n",
+        "## Image classification \n",
+        "\n",
+        "* [FashionMNIST image classification](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/fashion_cnn_tf.ipynb) \n",
+        "* [Dogs vs cats image classification *](https://www.tensorflow.org/tutorials/images/classification)\n",
+        "* [Transfer learning of a mobilenet model (trained on Imagenet) from keras to dogs vs cats classification *](https://www.tensorflow.org/tutorials/images/transfer_learning)\n",
+        "* [Transfer learning of a mobilenet model (trained on Imagenet) from TF-hub to flower classification *](https://www.tensorflow.org/tutorials/images/transfer_learning_with_hub)\n",
+        "\n",
+        "## Other vision tasks \n",
+        "* [Image segmentation using Oxford-IIT pets dataset *](https://www.tensorflow.org/tutorials/images/segmentation)\n",
+        "* [Object detection using TF-hub *](https://github.com/tensorflow/hub/blob/master/examples/colab/object_detection.ipynb)\n",
+        "* [More advanced object detection *](https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "I66gZBkxqvBk",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "lGmMbzzh1_uw",
+        "colab_type": "text"
+      },
+      "source": [
+        "# Recurrent neural networks (RNN)\n",
+        "\n",
+        "In this section, we give some examples of RNNs using TF2.\n",
+        "\n",
+        " (* denotes official TF tutorials, which are not part of the pyprobml repo.)\n",
+        "\n",
+        "* [IMDB movie  review sentiment classification *](https://www.tensorflow.org/tutorials/text/text_classification_rnn)\n",
+        "* [Character level generation for Shakespeare *](https://www.tensorflow.org/tutorials/text/text_generation)\n",
+        "* [Time series forecasting *](https://www.tensorflow.org/tutorials/structured_data/time_series)\n",
+        "* [Image captioning *](https://www.tensorflow.org/tutorials/text/image_captioning)\n",
+        "* [Neural machine translation using RNN with attention *](https://www.tensorflow.org/tutorials/text/nmt_with_attention)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "DA3WDCMA4Yq6",
+        "colab_type": "text"
+      },
+      "source": [
+        "# Transformers\n",
+        "\n",
+        "In this section, we give some examples of transformers using TF2.\n",
+        "\n",
+        " (* denotes official TF tutorials, which are not part of the pyprobml repo.)\n",
+        "\n",
+        " * [Portugese to English translation *](https://www.tensorflow.org/tutorials/text/transformer)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5mVEwticwTAC",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": 0,
+      "outputs": []
+    }
+  ]
+}
