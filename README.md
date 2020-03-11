@@ -5,6 +5,10 @@ Python 3 code for the second edition of my book [Machine learning: a probabilist
 
 I have created IPython notebooks for each of the chapters. When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.sandbox.google.com/notebooks/welcome.ipynb),  which has all the libraries you will need (e.g., scikit-learn, tensorflow 2, PyTorch) pre-installed. Furthermore, this is free, so all you need is a web browser and an internet connection. (Be sure to select 'GPU' from the 'Runtime' menu at the top of Colab.) Alternatively, you can run these notebooks locally on your desktop in Jupyter, but then you will have to install the packages yourself (see instructions below).
 
+<!--
+* [Introduction](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb?flush_cache=true)
+-->
+
 ### Foundations
 * [Introduction](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/intro/intro.ipynb?flush_cache=true)
 * [Linear algebra](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/linalg/linalg.ipynb?flush_cache=true)
@@ -17,7 +21,7 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 
 ### Models 1
 * [Discriminative models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-discrim/statmod-discrim.ipynb?flush_cache=true)
-* [Deep neural networks I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb?flush_cache=true)
+* [Deep neural networks I](github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
 * [Generative models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-gen/statmod-gen.ipynb?flush_cache=true)
 * [Probabilistic graphical models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-struct/statmod-struct.ipynb?flush_cache=true)
 
