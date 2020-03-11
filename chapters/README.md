@@ -25,9 +25,19 @@
 [discrim1-code]: https://github.com/probml/pyprobml/blob/master/chapters/discrim1/README.md
 [discrim1-html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/discrim1/index.html
 
+[dnn1-code]: https://github.com/probml/pyprobml/blob/master/chapters/dnn1/README.md
+[dnn1-html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/dnn1/index.html
+
+[genmo1-code]: https://github.com/probml/pyprobml/blob/master/chapters/genmo1/README.md
+[genmo1-html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/genmo1/index.html
+
+[pgm1-code]: https://github.com/probml/pyprobml/blob/master/chapters/pgm1/README.md
+[pgm1-html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/pgm1/index.html
+
 
 |Chapter|Code|Text|
 |-------|----|----|
+|Part I: Foundations|||
 |Ch. 1: Introduction|[link][intro-code]|[link][intro-html]|
 |Ch. 2: Linear algebra|[link][linalg-code]|[link][linalg-html]|
 |Ch. 3: Math|[link][math-code]|[link][math-html]|
@@ -35,8 +45,12 @@
 |Ch. 5: Information theory|[link][info-code]|[link][info-html]|
 |Ch. 6: Bayesian statistics|[link][bayes-code]|[link][bayes-html]|
 |Ch. 7: Frequentist statistics|[link][freq-code]|[link][freq-html]|
-|-------|----|----|
+|Part II: Models|||
 |Ch. 8: Discriminative models 1|[link][discrim1-code]|[link][discrim1-html]|
+|Ch. 9: Deep neural networks 1|[link][dnn1-code]|[link][dnn1-html]|
+|Ch. 10: Generative models 1|[link][genmo1-code]|[link][genmo1-html]|
+|Ch. 11: Probabilistic graphical models 1|[link][pgm1-code]|[link][pgm1-html]|
+|Part III: Algorithms|||
 
 
 
