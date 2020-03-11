@@ -21,7 +21,7 @@ I have created IPython notebooks for each of the chapters. When you open a noteb
 
 ### Models 1
 * [Discriminative models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-discrim/statmod-discrim.ipynb?flush_cache=true)
-* [Deep neural networks I](github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
+* [Deep neural networks I](https://github.com/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb)
 * [Generative models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-gen/statmod-gen.ipynb?flush_cache=true)
 * [Probabilistic graphical models I](https://nbviewer.jupyter.org/github/probml/pyprobml/blob/master/notebooks/statmod-struct/statmod-struct.ipynb?flush_cache=true)
 
