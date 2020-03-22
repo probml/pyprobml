@@ -17,58 +17,64 @@ end
 function [states_new] = integrate_ODE_onestep(states, params, pop, Mt)
 % Integrates the ODE eqns 1-4 for one time step using RK4 method
 
-[S, E, Is, Ia, ~] = unpack_states(states); % nloc * nens
+[S, E, IR, IU, O] = unpack_states(states); % nloc * nens
+% S = suspectible (original name Ts)
+% E = exposed (original name Te)
+% IR = infected reported (original name TIs)
+% IU = infected unreported (original name Tia)
 
 % first step of RK4
-Ts0=S;
-Te0=E;
-TIs0=Is; 
-Tia0=Ia;
 first_step = true;
 
-stats = compute_stats(Ts0, Te0, TIs0, Tia0, Mt, pop, params, first_step);
+stats = compute_stats(S, E, IR, IU, Mt, pop, params, first_step);
 stats = sample_stats(stats);
-[sk1, ek1, Isk1, iak1, ik1i] = compute_deltas(stats);
+[S1delta, E1delta, IR1delta, IU1delta, O1delta] = compute_deltas(stats);
+
+S1=S+S1delta/2;
+E1=E+E1delta/2;
+IR1=IR+IR1delta/2;
+IU1=IU+IU1delta/2;
+
 
 %second step
-Ts1=S+sk1/2;
-Te1=E+ek1/2;
-TIs1=Is+Isk1/2;
-Tia1=Ia+iak1/2;
 first_step = false;
-
-stats = compute_stats(Ts1, Te1, TIs1, Tia1, Mt, pop, params, first_step);
+stats = compute_stats(S1, E1, IR1, IU1, Mt, pop, params, first_step);
 stats = sample_stats(stats);
-[sk2, ek2, Isk2, iak2, ik2i] = compute_deltas(stats); 
+[S2delta, E2delta, IR2delta, IU2delta, O2delta] = compute_deltas(stats);
+
+
+S2=S+S2delta/2;
+E2=E+E2delta/2;
+IR2=IR+IR2delta/2;
+IU2=IU+IU2delta/2;
+
 
 %third step
-Ts2=S+sk2/2;
-Te2=E+ek2/2;
-TIs2=Is+Isk2/2;
-Tia2=Ia+iak2/2;
 
-stats = compute_stats(Ts2, Te2, TIs2, Tia2, Mt, pop, params, first_step);
-stats = sample_stats(stats);
-[sk3, ek3, Isk3, iak3, ik3i] = compute_deltas(stats); 
+stats = compute_stats(S2, E2, IR2, IU2, Mt, pop, params, first_step);
+stats = sample_stats(stats); 
+[S3delta, E3delta, IR3delta, IU3delta, O3delta] = compute_deltas(stats); 
+
+S3=S+S3delta;
+E3=E+E3delta;
+IR3=IR+IR3delta;
+IU3=IU+IU3delta;
+
+
 %fourth step
-Ts3=S+sk3;
-Te3=E+ek3;
-TIs3=Is+Isk3;
-Tia3=Ia+iak3;
-
-stats = compute_stats(Ts3, Te3, TIs3, Tia3, Mt, pop, params, first_step);
-stats = sample_stats(stats);
-[sk4, ek4, Isk4, iak4, ik4i] = compute_deltas(stats); 
+stats = compute_stats(S3, E3, IR3, IU3, Mt, pop, params, first_step);
+stats = sample_stats(stats); 
+[S4delta, E4delta, IR4delta, IU4delta, O4delta] = compute_deltas(stats); 
 
 
 %%%%% Compute final states
-S_new=S+round(sk1/6+sk2/3+sk3/3+sk4/6);
-E_new=E+round(ek1/6+ek2/3+ek3/3+ek4/6);
-Is_new=Is+round(Isk1/6+Isk2/3+Isk3/3+Isk4/6);
-Ia_new=Ia+round(iak1/6+iak2/3+iak3/3+iak4/6);
-Incidence_new=round(ik1i/6+ik2i/3+ik3i/3+ik4i/6);
+S_new=S+round(S1delta/6+S2delta/3+S3delta/3+S4delta/6);
+E_new=E+round(E1delta/6+E2delta/3+E3delta/3+E4delta/6);
+IR_new=IR+round(IR1delta/6+IR2delta/3+IR3delta/3+IR4delta/6);
+IU_new=IU+round(IU1delta/6+IU2delta/3+IU3delta/3+IU4delta/6);
+Incidence_new=round(O1delta/6+O2delta/3+O3delta/3+O4delta/6);
 obs_new=Incidence_new;
-states_new = pack_states(S_new, E_new, Is_new, Ia_new, obs_new);
+states_new = pack_states(S_new, E_new, IR_new, IU_new, obs_new);
 
 end
 
@@ -108,33 +114,32 @@ function stats=pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, E
 end
     
 
-
-function stats = compute_stats(Ts, Te, TIs, Tia, Mt, pop, params, step1)
-[num_loc, num_ens] = size(Ts);
+function stats = compute_stats(S, E, IR, IU, Mt, pop, params, step1)
+[num_loc, num_ens] = size(S);
 [beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
 
 if step1
-    ESenter=(ones(num_loc,1)*theta).*(Mt*(Ts./(pop-Tia)));
-    ESleft=min((ones(num_loc,1)*theta).*(Ts./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Ts);
-    EEenter=(ones(num_loc,1)*theta).*(Mt*(Te./(pop-Tia)));
-    EEleft=min((ones(num_loc,1)*theta).*(Te./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Te);
-    EIaenter=(ones(num_loc,1)*theta).*(Mt*(Tia./(pop-Tia)));
-    EIaleft=min((ones(num_loc,1)*theta).*(Tia./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Tia);
+    ESenter=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IU)));
+    ESleft=min((ones(num_loc,1)*theta).*(S./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),S);
+    EEenter=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IU)));
+    EEleft=min((ones(num_loc,1)*theta).*(E./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),E);
+    EIaenter=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
+    EIaleft=min((ones(num_loc,1)*theta).*(IU./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),IU);
 else
-    ESenter=(ones(num_loc,1)*theta).*(Mt*(Ts./(pop-TIs)));
-    ESleft=min((ones(num_loc,1)*theta).*(Ts./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Ts);
-    EEenter=(ones(num_loc,1)*theta).*(Mt*(Te./(pop-TIs)));
-    EEleft=min((ones(num_loc,1)*theta).*(Te./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Te);
-    EIaenter=(ones(num_loc,1)*theta).*(Mt*(Tia./(pop-TIs)));
-    EIaleft=min((ones(num_loc,1)*theta).*(Tia./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Tia);
+    ESenter=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IR)));
+    ESleft=min((ones(num_loc,1)*theta).*(S./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),S);
+    EEenter=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IR)));
+    EEleft=min((ones(num_loc,1)*theta).*(E./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),E);
+    EIaenter=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
+    EIaleft=min((ones(num_loc,1)*theta).*(IU./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),IU);
 end
 
-Eexps=(ones(num_loc,1)*beta).*Ts.*TIs./pop;
-Eexpa=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*Ts.*Tia./pop;
-Einfs=(ones(num_loc,1)*alpha).*Te./(ones(num_loc,1)*Z);
-Einfa=(ones(num_loc,1)*(1-alpha)).*Te./(ones(num_loc,1)*Z);
-Erecs=TIs./(ones(num_loc,1)*D);
-Ereca=Tia./(ones(num_loc,1)*D);
+Eexps=(ones(num_loc,1)*beta).*S.*IR./pop;
+Eexpa=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*S.*IU./pop;
+Einfs=(ones(num_loc,1)*alpha).*E./(ones(num_loc,1)*Z);
+Einfa=(ones(num_loc,1)*(1-alpha)).*E./(ones(num_loc,1)*Z);
+Erecs=IR./(ones(num_loc,1)*D);
+Ereca=IU./(ones(num_loc,1)*D);
 
 stats = pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca);
 stats = max(stats, 0);
@@ -154,7 +159,18 @@ samples = reshape(samples, sz);
 %}
 end
 
-function [sk, ek, Isk, iak, ik] = compute_deltas(stats)
+function [Sdelta, Edelta, IRdelta, IUdelta, Odelta] = compute_deltas(stats)
+% each delta is nloc*nens
+[ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca] = unpack_stats(stats);
+Sdelta = -Eexps-Eexpa+ESenter-ESleft;
+Edelta = Eexps+Eexpa-Einfs-Einfa+EEenter-EEleft;
+IRdelta = Einfs-Erecs;
+IUdelta = Einfa-Ereca+EIaenter-EIaleft;
+Odelta = Einfs;
+end
+    
+
+function [sk, ek, Isk, iak, ik] = compute_deltas2(stats)
 % each delta is nloc*nens
 [ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca] = unpack_stats(stats);
 sk=-Eexps-Eexpa+ESenter-ESleft;
@@ -163,4 +179,3 @@ Isk=Einfs-Erecs;
 iak=Einfa-Ereca+EIaenter-EIaleft;
 ik=Einfs;
 end
-    

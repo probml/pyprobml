@@ -228,3 +228,5 @@ x(obsidx,:)=obs;
 pop=pop-sum(M(:,:,ts),1)'*theta+sum(M(:,:,ts),2)*theta;
 minfrac=0.6;
 pop(pop<minfrac*pop0)=pop0(pop<minfrac*pop0)*minfrac;
+
+
