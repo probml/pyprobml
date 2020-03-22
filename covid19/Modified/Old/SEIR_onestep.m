@@ -20,40 +20,43 @@ function [states_new] = integrate_ODE_onestep(states, params, pop, Mt)
 [S, E, Is, Ia, ~] = unpack_states(states); % nloc * nens
 
 % first step of RK4
+Ts0=S;
+Te0=E;
+TIs0=Is; 
+Tia0=Ia;
 first_step = true;
 
-stats = compute_stats(S, E, Is, Ia, Mt, pop, params, first_step);
+stats = compute_stats(Ts0, Te0, TIs0, Tia0, Mt, pop, params, first_step);
 stats = sample_stats(stats);
 [sk1, ek1, Isk1, iak1, ik1i] = compute_deltas(stats);
 
 %second step
-S1=S+sk1/2;
-E1=E+ek1/2;
-Is1=Is+Isk1/2;
-Ia1=Ia+iak1/2;
+Ts1=S+sk1/2;
+Te1=E+ek1/2;
+TIs1=Is+Isk1/2;
+Tia1=Ia+iak1/2;
 first_step = false;
 
-stats = compute_stats(S1, E1, Is1, Ia1, Mt, pop, params, first_step);
+stats = compute_stats(Ts1, Te1, TIs1, Tia1, Mt, pop, params, first_step);
 stats = sample_stats(stats);
 [sk2, ek2, Isk2, iak2, ik2i] = compute_deltas(stats); 
 
 %third step
-S2=S+sk2/2;
-E2=E+ek2/2;
-Is2=Is+Isk2/2;
-Ia2=Ia+iak2/2;
+Ts2=S+sk2/2;
+Te2=E+ek2/2;
+TIs2=Is+Isk2/2;
+Tia2=Ia+iak2/2;
 
-stats = compute_stats(S2, E2, Is2, Ia2, Mt, pop, params, first_step);
+stats = compute_stats(Ts2, Te2, TIs2, Tia2, Mt, pop, params, first_step);
 stats = sample_stats(stats);
 [sk3, ek3, Isk3, iak3, ik3i] = compute_deltas(stats); 
-
 %fourth step
-S3=S+sk3;
-E3=E+ek3;
-Is3=Is+Isk3;
-Ia3=Ia+iak3;
+Ts3=S+sk3;
+Te3=E+ek3;
+TIs3=Is+Isk3;
+Tia3=Ia+iak3;
 
-stats = compute_stats(S3, E3, Is3, Ia3, Mt, pop, params, first_step);
+stats = compute_stats(Ts3, Te3, TIs3, Tia3, Mt, pop, params, first_step);
 stats = sample_stats(stats);
 [sk4, ek4, Isk4, iak4, ik4i] = compute_deltas(stats); 
 
@@ -105,36 +108,33 @@ function stats=pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, E
 end
     
 
-% S = suspectible (original name Ts)
-% E = exposed (original name Te)
-% IR = infected reported (original name TIs)
-% IU = infected unreported (original name Tia)
-function stats = compute_stats(S, E, IR, IU, Mt, pop, params, step1)
-[num_loc, num_ens] = size(S);
+
+function stats = compute_stats(Ts, Te, TIs, Tia, Mt, pop, params, step1)
+[num_loc, num_ens] = size(Ts);
 [beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
 
 if step1
-    ESenter=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IU)));
-    ESleft=min((ones(num_loc,1)*theta).*(S./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),S);
-    EEenter=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IU)));
-    EEleft=min((ones(num_loc,1)*theta).*(E./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),E);
-    EIaenter=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
-    EIaleft=min((ones(num_loc,1)*theta).*(IU./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),IU);
+    ESenter=(ones(num_loc,1)*theta).*(Mt*(Ts./(pop-Tia)));
+    ESleft=min((ones(num_loc,1)*theta).*(Ts./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Ts);
+    EEenter=(ones(num_loc,1)*theta).*(Mt*(Te./(pop-Tia)));
+    EEleft=min((ones(num_loc,1)*theta).*(Te./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Te);
+    EIaenter=(ones(num_loc,1)*theta).*(Mt*(Tia./(pop-Tia)));
+    EIaleft=min((ones(num_loc,1)*theta).*(Tia./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Tia);
 else
-    ESenter=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IR)));
-    ESleft=min((ones(num_loc,1)*theta).*(S./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),S);
-    EEenter=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IR)));
-    EEleft=min((ones(num_loc,1)*theta).*(E./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),E);
-    EIaenter=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
-    EIaleft=min((ones(num_loc,1)*theta).*(IU./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),IU);
+    ESenter=(ones(num_loc,1)*theta).*(Mt*(Ts./(pop-TIs)));
+    ESleft=min((ones(num_loc,1)*theta).*(Ts./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Ts);
+    EEenter=(ones(num_loc,1)*theta).*(Mt*(Te./(pop-TIs)));
+    EEleft=min((ones(num_loc,1)*theta).*(Te./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Te);
+    EIaenter=(ones(num_loc,1)*theta).*(Mt*(Tia./(pop-TIs)));
+    EIaleft=min((ones(num_loc,1)*theta).*(Tia./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Tia);
 end
 
-Eexps=(ones(num_loc,1)*beta).*S.*IR./pop;
-Eexpa=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*S.*IU./pop;
-Einfs=(ones(num_loc,1)*alpha).*E./(ones(num_loc,1)*Z);
-Einfa=(ones(num_loc,1)*(1-alpha)).*E./(ones(num_loc,1)*Z);
-Erecs=IR./(ones(num_loc,1)*D);
-Ereca=IU./(ones(num_loc,1)*D);
+Eexps=(ones(num_loc,1)*beta).*Ts.*TIs./pop;
+Eexpa=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*Ts.*Tia./pop;
+Einfs=(ones(num_loc,1)*alpha).*Te./(ones(num_loc,1)*Z);
+Einfa=(ones(num_loc,1)*(1-alpha)).*Te./(ones(num_loc,1)*Z);
+Erecs=TIs./(ones(num_loc,1)*D);
+Ereca=Tia./(ones(num_loc,1)*D);
 
 stats = pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca);
 stats = max(stats, 0);
