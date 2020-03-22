@@ -17,6 +17,7 @@ num_loc=size(pop,1);
 
 dt1 = 1;
 
+
 %first step
 ESenter=dt1*(ones(num_loc,1)*theta).*(Mt*(S./(pop-Ia)));
 ESleft=min(dt1*(ones(num_loc,1)*theta).*(S./(pop-Ia)).*(sum(Mt)'*ones(1,num_ens)),dt1*S);
@@ -39,7 +40,29 @@ Eexps=max(Eexps,0);Eexpa=max(Eexpa,0);
 Einfs=max(Einfs,0);Einfa=max(Einfa,0);
 Erecs=max(Erecs,0);Ereca=max(Ereca,0);
 
-%%%%%%%%%%stochastic version
+
+
+Ts0=S;
+Te0=E;
+TIs0=Is; 
+Tia0=Ia;
+stats = compute_stats(Ts0, Te0, TIs0, Tia0, Mt, pop, params, true);
+[ESenter2, ESleft2, EEenter2, EEleft2, EIaenter2, EIaleft2, Eexps2, Eexpa2, ...
+    Einfs2, Einfa2, Erecs2, Ereca2] = unpack_stats(stats);
+assert(approxeq(ESenter, ESenter2))
+assert(approxeq(ESleft, ESleft2))
+assert(approxeq(EEenter, EEenter2))
+assert(approxeq(EEleft, EEleft2))
+assert(approxeq(EIaenter, EIaenter2))
+assert(approxeq(EIaleft, EIaleft2))
+assert(approxeq(Eexps, Eexps2))
+assert(approxeq(Eexpa, Eexpa2))
+assert(approxeq(Einfs, Einfs2))
+assert(approxeq(Einfa, Einfa2))
+assert(approxeq(Erecs, Erecs2))
+assert(approxeq(Ereca, Ereca2))
+
+%{
 ESenter=poissrnd(ESenter);ESleft=poissrnd(ESleft);
 EEenter=poissrnd(EEenter);EEleft=poissrnd(EEleft);
 EIaenter=poissrnd(EIaenter);EIaleft=poissrnd(EIaleft);
@@ -49,12 +72,21 @@ Einfs=poissrnd(Einfs);
 Einfa=poissrnd(Einfa);
 Erecs=poissrnd(Erecs);
 Ereca=poissrnd(Ereca);
+%}
 
+stats = sample_stats(stats);
+
+
+%{
 sk1=-Eexps-Eexpa+ESenter-ESleft;
 ek1=Eexps+Eexpa-Einfs-Einfa+EEenter-EEleft;
 Isk1=Einfs-Erecs;
 iak1=Einfa-Ereca+EIaenter-EIaleft;
 ik1i=Einfs;
+%}
+
+[sk1, ek1, Isk1, iak1, ik1i] = compute_deltas(stats); % each term is nloc*nens
+
 
 %second step
 Ts1=S+sk1/2;
@@ -100,6 +132,8 @@ Isk2=Einfs-Erecs;
 iak2=Einfa-Ereca+EIaenter-EIaleft;
 ik2i=Einfs;
 
+    
+
 %third step
 Ts2=S+sk2/2;
 Te2=E+ek2/2;
@@ -126,6 +160,9 @@ EIaenter=max(EIaenter,0);EIaleft=max(EIaleft,0);
 Eexps=max(Eexps,0);Eexpa=max(Eexpa,0);
 Einfs=max(Einfs,0);Einfa=max(Einfa,0);
 Erecs=max(Erecs,0);Ereca=max(Ereca,0);
+
+   
+   
 
 %%%%%%%%%%stochastic version
 ESenter=poissrnd(ESenter);ESleft=poissrnd(ESleft);
@@ -205,3 +242,127 @@ ndx = find(pop_new < minfrac*pop0);
 pop_new(ndx)=pop0(ndx)*minfrac;
 
 end
+
+
+function [ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca] = unpack_stats(stats)
+    ESenter = stats(:,:,1);
+    ESleft = stats(:,:,2);
+    EEenter = stats(:,:,3);
+    EEleft = stats(:,:,4);
+    EIaenter = stats(:,:,5);
+    EIaleft = stats(:,:,6);
+    Eexps = stats(:,:,7);
+    Eexpa = stats(:,:,8);
+    Einfs = stats(:,:,9);
+    Einfa = stats(:,:,10);
+    Erecs = stats(:,:,11);
+    Ereca = stats(:,:,12);
+end
+
+function stats=pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca)
+    % stats is num_loc * num_ens * num_stats
+    num_stats = 12; % U1...U12 in paper
+    [num_loc, num_ens] = size(ESenter);
+    stats = zeros(num_loc, num_ens, num_stats);
+    stats(:,:,1)=ESenter;
+    stats(:,:,2)=ESleft;
+    stats(:,:,3)=EEenter;
+    stats(:,:,4)=EEleft;
+    stats(:,:,5)=EIaenter;
+    stats(:,:,6)=EIaleft;
+    stats(:,:,7)=Eexps;
+    stats(:,:,8)=Eexpa;
+    stats(:,:,9)=Einfs;
+    stats(:,:,10)=Einfa;
+    stats(:,:,11)=Erecs;
+    stats(:,:,12)=Ereca;
+end
+    
+
+
+function stats = compute_stats(Ts, Te, TIs, Tia, Mt, pop, params, step1)
+[num_loc, num_ens] = size(Ts);
+[beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
+
+if step1
+    ESenter=(ones(num_loc,1)*theta).*(Mt*(Ts./(pop-Tia)));
+    ESleft=min((ones(num_loc,1)*theta).*(Ts./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Ts);
+    EEenter=(ones(num_loc,1)*theta).*(Mt*(Te./(pop-Tia)));
+    EEleft=min((ones(num_loc,1)*theta).*(Te./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Te);
+    EIaenter=(ones(num_loc,1)*theta).*(Mt*(Tia./(pop-Tia)));
+    EIaleft=min((ones(num_loc,1)*theta).*(Tia./(pop-Tia)).*(sum(Mt)'*ones(1,num_ens)),Tia);
+else
+    ESenter=(ones(num_loc,1)*theta).*(Mt*(Ts./(pop-TIs)));
+    ESleft=min((ones(num_loc,1)*theta).*(Ts./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Ts);
+    EEenter=(ones(num_loc,1)*theta).*(Mt*(Te./(pop-TIs)));
+    EEleft=min((ones(num_loc,1)*theta).*(Te./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Te);
+    EIaenter=(ones(num_loc,1)*theta).*(Mt*(Tia./(pop-TIs)));
+    EIaleft=min((ones(num_loc,1)*theta).*(Tia./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Tia);
+end
+
+Eexps=(ones(num_loc,1)*beta).*Ts.*TIs./pop;
+Eexpa=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*Ts.*Tia./pop;
+Einfs=(ones(num_loc,1)*alpha).*Te./(ones(num_loc,1)*Z);
+Einfa=(ones(num_loc,1)*(1-alpha)).*Te./(ones(num_loc,1)*Z);
+Erecs=TIs./(ones(num_loc,1)*D);
+Ereca=Tia./(ones(num_loc,1)*D);
+
+stats = pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca);
+stats = max(stats, 0);
+end
+
+function stats = compute_stats_old(Ts, Te, TIs, Tia, Mt, pop, params)
+[num_loc, num_ens] = size(Ts);
+[beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
+ 
+ESenter=(ones(num_loc,1)*theta).*(Mt*(Ts./(pop-TIs)));
+ESleft=min((ones(num_loc,1)*theta).*(Ts./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Ts);
+EEenter=(ones(num_loc,1)*theta).*(Mt*(Te./(pop-TIs)));
+EEleft=min((ones(num_loc,1)*theta).*(Te./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Te);
+EIaenter=(ones(num_loc,1)*theta).*(Mt*(Tia./(pop-TIs)));
+EIaleft=min((ones(num_loc,1)*theta).*(Tia./(pop-TIs)).*(sum(Mt)'*ones(1,num_ens)),Tia);
+
+Eexps=(ones(num_loc,1)*beta).*Ts.*TIs./pop;
+Eexpa=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*Ts.*Tia./pop;
+Einfs=(ones(num_loc,1)*alpha).*Te./(ones(num_loc,1)*Z);
+Einfa=(ones(num_loc,1)*(1-alpha)).*Te./(ones(num_loc,1)*Z);
+Erecs=TIs./(ones(num_loc,1)*D);
+Ereca=Tia./(ones(num_loc,1)*D);
+
+ESenter=max(ESenter,0);ESleft=max(ESleft,0);
+EEenter=max(EEenter,0);EEleft=max(EEleft,0);
+EIaenter=max(EIaenter,0);EIaleft=max(EIaleft,0);
+Eexps=max(Eexps,0);Eexpa=max(Eexpa,0);
+Einfs=max(Einfs,0);Einfa=max(Einfa,0);
+Erecs=max(Erecs,0);Ereca=max(Ereca,0);
+
+stats=pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca);
+end
+
+
+
+
+
+function stats = sample_stats(stats)
+[ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca] = unpack_stats(stats);
+ESenter=poissrnd(ESenter);ESleft=poissrnd(ESleft);
+EEenter=poissrnd(EEenter);EEleft=poissrnd(EEleft);
+EIaenter=poissrnd(EIaenter);EIaleft=poissrnd(EIaleft);
+Eexps=poissrnd(Eexps);
+Eexpa=poissrnd(Eexpa);
+Einfs=poissrnd(Einfs);
+Einfa=poissrnd(Einfa);
+Erecs=poissrnd(Erecs);
+Ereca=poissrnd(Ereca);
+stats=pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca);
+end
+
+function [sk, ek, Isk, iak, ik] = compute_deltas(stats)
+[ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca] = unpack_stats(stats);
+sk=-Eexps-Eexpa+ESenter-ESleft;
+ek=Eexps+Eexpa-Einfs-Einfa+EEenter-EEleft;
+Isk=Einfs-Erecs;
+iak=Einfa-Ereca+EIaenter-EIaleft;
+ik=Einfs;
+end
+    
