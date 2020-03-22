@@ -1,4 +1,4 @@
-function [x]=initialize_state(pop,num_ens, M)
+function [x]=initialize_state(pop, num_ens, M)
 % x is (375*5, num_ens)
 
 num_loc=size(pop,1);
