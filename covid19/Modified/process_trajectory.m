@@ -1,9 +1,9 @@
-function x_post = process_trajectory(x, M, pop, num_ens, obs_truth, OEV, lambda, rnds, num_times)
+function x_post = process_trajectory(x, M, pop, obs_truth, OEV, lambda, gam_rnds)
 
-disp('process_trajectory')
-num_loc = size(obs_truth, 1);
-%num_times = size(obs_truth, 2);
-num_var = size(x,1); % states and params
+
+[num_var, num_ens] = size(x);
+[num_loc, num_times] = size(obs_truth);
+
 pop0=pop*ones(1,num_ens);
 
 %observation operator: obs=Hx
@@ -21,26 +21,13 @@ for t=1:num_times
     x=mean(x,2)*ones(1,num_ens)+lambda*(x-mean(x,2)*ones(1,num_ens));
     x=checkbound(x,pop);
     %integrate forward
-    [x,pop]=SEIR(x,M,pop,t,pop0);
+    [x,pop]=SEIR_refactored(x,M,pop,t,pop0);
     obs_cnt=H*x;%new infection
 
-    %{
-    %add reporting delay
-    for k=1:num_ens
-        for l=1:num_loc
-            if obs_cnt(l,k)>0
-                rnd=datasample(rnds,obs_cnt(l,k));
-                for h=1:length(rnd)
-                    if (t+rnd(h)<=num_times)
-                        obs_temp(l,k,t+rnd(h))=obs_temp(l,k,t+rnd(h))+1;
-                    end
-                end
-            end
-        end
-    end
+    obs_temp = add_delayed_obs(obs_temp, t, obs_cnt, gam_rnds);
     obs_ens=obs_temp(:,:,t);%observation at t
-    %}
-    obs_ens = obs_cnt; % predicted observed counts
+    
+    %obs_ens = obs_cnt; % predicted observed counts
 
     %loop through local observations
     for l=1:num_loc
@@ -82,3 +69,33 @@ for t=1:num_times
 end
 
 end
+
+function pred_obs_seq = add_delayed_obs(pred_obs_seq, t, pred_obs_now, gam_rnds)
+%pred_obs_seq=zeros(num_loc,num_ens,num_times);%records of reported cases
+% pred_obs_now(l,e)
+% gamrnds is a stream of gamma random numbers
+[num_loc, num_ens, num_times] = size(pred_obs_seq);
+ %add reporting delay
+ 
+Td=9;%average reporting delay
+a=1.85;%shape parameter of gamma distribution
+b=Td/a;%scale parameter of gamma distribution
+%gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
+
+for k=1:num_ens
+    for l=1:num_loc
+        N = pred_obs_now(l,k);
+        if N>0
+            gam_rnds = ceil(gamrnd(a,b,1e4,1));
+            rnd=datasample(gam_rnds,N);
+            % sample N random delays, and insert current observations later
+            for h=1:length(rnd)
+                if (t+rnd(h)<=num_times)
+                    pred_obs_seq(l,k,t+rnd(h))=pred_obs_seq(l,k,t+rnd(h))+1;
+                end
+            end
+        end
+    end
+end
+end
+

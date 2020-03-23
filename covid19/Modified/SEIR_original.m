@@ -1,8 +1,10 @@
-function [x,pop]=SEIR(x,M,pop,ts,pop0, legacy)
+function [x,pop]=SEIR(x, M, pop, ts, pop0, legacy)
 
 % if legacy=true, we emulate the original buggy matlab code
 % (bug confirmed by author)
-
+if nargin < 6
+    legacy = false;
+end
 
 dt=1;
 tmstep=1;

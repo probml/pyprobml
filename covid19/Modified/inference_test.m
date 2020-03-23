@@ -5,6 +5,13 @@ load('Data/incidence.mat') %load observation
 
 [num_times, num_loc] =size(incidence);
 obs_truth=incidence'; % obs(l,t)
+
+num_ens = 4;
+num_iter = 2;
+num_times = 3; % can reduce this to < 14 for debugging
+seed = 42;
+obs_truth = obs_truth(:, 1:num_times);
+
 %set observed error variance
 OEV=zeros(num_loc,num_times);
 for l=1:num_loc
@@ -13,16 +20,12 @@ for l=1:num_loc
     end
 end
 
-num_ens = 4;
-num_iter = 2;
-num_times = 3;
-seed = 42;
 
 Td=9;%average reporting delay
 a=1.85;%shape parameter of gamma distribution
 b=Td/a;%scale parameter of gamma distribution
-%gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
-gam_rnds = [];
+gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
+
 
 rng(seed); 
 [theta1, para_post1, xpost1] = inference1(M, pop, obs_truth, OEV, ...

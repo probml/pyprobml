@@ -41,13 +41,14 @@ for n=1:num_iter
         para=mvnrnd(theta(:,n)',Sigma,num_ens)';%generate parameters
         x(end-5:end,:)=para;
     end
-    %check rnd params are in range
-    %x=checkbound_ini(x,pop0);
     x=checkbound(x,pop0);
     
-    x_post_iter = process_trajectory(x, M, pop, num_ens, obs_truth, OEV, lambda, gam_rnds, num_times);
+    x_post_iter = process_trajectory(x, M, pop, obs_truth, OEV, lambda, gam_rnds);
+    para_post_iter = x_post_iter(end-5:end, :, :);
+    
     x_post(:,:,:,n) = x_post_iter;
-    para_post(:,:,:,n) = x_post_iter(end-5:end, :, :);
+    para_post(:,:,:,n) = para_post_iter;
+    
     para=para_post(:,:,:,n);
     temp=squeeze(mean(para,2));%average over ensemble members
     theta(:,n+1)=mean(temp,2);%average over time

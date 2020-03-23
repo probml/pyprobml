@@ -52,15 +52,22 @@ for n=1:Iter
         x=mean(x,2)*ones(1,num_ens)+lambda*(x-mean(x,2)*ones(1,num_ens));
         x=checkbound(x,pop);
         %integrate forward
-        [x,pop]=SEIR(x,M,pop,t,pop0);
+        [x,pop]=SEIR_original(x,M,pop,t,pop0);
         obs_cnt=H*x;%new infection
 
-        %{
+        
+    Td=9;%average reporting delay
+    a=1.85;%shape parameter of gamma distribution
+    b=Td/a;%scale parameter of gamma distribution
+    %gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
+
         %add reporting delay
         for k=1:num_ens
             for l=1:num_loc
                 if obs_cnt(l,k)>0
-                    rnd=datasample(gam_rnds,obs_cnt(l,k));
+                    N = obs_cnt(l,k);
+                    gam_rnds = ceil(gamrnd(a,b,1e4,1));
+                    rnd=datasample(gam_rnds,N);
                     for h=1:length(rnd)
                         if (t+rnd(h)<=num_times)
                             obs_temp(l,k,t+rnd(h))=obs_temp(l,k,t+rnd(h))+1;
@@ -70,9 +77,9 @@ for n=1:Iter
             end
         end
         obs_ens=obs_temp(:,:,t);%observation at t
-        %}
         
-        obs_ens = obs_cnt; % predicted observed counts
+        
+        %obs_ens = obs_cnt; % predicted observed counts
         
         %loop through local observations
         for l=1:num_loc
@@ -122,3 +129,6 @@ for n=1:Iter
 end
 
 end
+
+
+
