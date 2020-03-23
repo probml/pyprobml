@@ -16,10 +16,14 @@ rng(seed);
 
 t=10;
 rng(seed);
-[x1,pop1]=SEIR(x0,M,pop,t,pop0);
+%[x1,pop1]=SEIR_original(x0,M,pop,t,pop0);
+[x1,pop1]=SEIR_original_buggy(x0,M,pop,t,pop0);
+
  
 rng(seed);
-[x1new,pop1new]=SEIR_new(x0,M,pop,t,pop0);
+%[x1new,pop1new]=SEIR_refactored(x0,M,pop,t,pop0);
+[x1new,pop1new]=SEIR_refactored_buggy(x0,M,pop,t,pop0);
+
 assert(approxeq(x1, x1new))
 assert(approxeq(pop1, pop1new))
 
