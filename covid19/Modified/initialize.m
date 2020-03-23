@@ -1,7 +1,7 @@
-function [x,paramax,paramin]=initialize(pop,num_ens)
+function [x,paramax,paramin]=initialize(M, pop,num_ens)
 %Initialize the metapopulation SEIRS model
 
-load('Data/M.mat') %load mobility
+%load('Data/M.mat') %load mobility
 num_loc=size(pop,1);
 % num_var=5*num_loc+6;
 % S,E,Is,Ia,obs,...,beta,mu,theta,Z,alpha,D

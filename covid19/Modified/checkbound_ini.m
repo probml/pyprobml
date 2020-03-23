@@ -29,7 +29,9 @@ for i=1:6
     index_out=find(index>0);
     index_in=find(index==0);
     %redistribute out bound ensemble members
-    x(end-6+i,index_out)=datasample(x(end-6+i,index_in),length(index_out));
+    if ~isempty(index_out)
+     x(end-6+i,index_out)=datasample(x(end-6+i,index_in),length(index_out));
+    end
 end
 
 end
