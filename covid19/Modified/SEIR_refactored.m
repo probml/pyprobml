@@ -1,11 +1,12 @@
-function [x_new, pop_new] = SEIR_refactored(x,M,pop,ts,pop0)
+function [x_new, pop_new] = SEIR_refactored(x, M, pop, ts, pop0, legacy)
 
-% This is a clean rewrite of SEIR_original.m
-% It includes some bug fixes re eqn U12 confirmed with the author.
+% This is a clean rewrite of SEIR.m
+% if legacy=true, we emulate the original buggy matlab code
+% (bug confirmed by author)
 
 [states, params] = unpack_x(x);
 Mt = M(:,:,ts);
-[states_new] = integrate_ODE_onestep(states, params, pop, Mt);
+[states_new] = integrate_ODE_onestep(states, params, pop, Mt, legacy);
 
 [beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
 pop_new = pop + sum(Mt,2)*theta - sum(Mt,1)'*theta;  % eqn 5
@@ -17,7 +18,7 @@ x_new = pack_x(states_new, params);
 
 end
 
-function [states_new] = integrate_ODE_onestep(states, params, pop, Mt)
+function [states_new] = integrate_ODE_onestep(states, params, pop, Mt, legacy)
 % Integrates the ODE eqns 1-4 for one time step using RK4 method
 
 [S, E, IR, IU, O] = unpack_states(states); % nloc * nens
@@ -28,7 +29,7 @@ function [states_new] = integrate_ODE_onestep(states, params, pop, Mt)
 
 % first step of RK4
 
-stats = compute_stats(S, E, IR, IU, Mt, pop, params);
+stats = compute_stats(S, E, IR, IU, Mt, pop, params, 1, legacy);
 stats = sample_stats(stats);
 [S1delta, E1delta, IR1delta, IU1delta, O1delta] = compute_deltas(stats);
 
@@ -39,7 +40,7 @@ IU1=IU+IU1delta/2;
 
 
 %second step
-stats = compute_stats(S1, E1, IR1, IU1, Mt, pop, params);
+stats = compute_stats(S1, E1, IR1, IU1, Mt, pop, params, 2, legacy);
 stats = sample_stats(stats);
 [S2delta, E2delta, IR2delta, IU2delta, O2delta] = compute_deltas(stats);
 
@@ -52,7 +53,7 @@ IU2=IU+IU2delta/2;
 
 %third step
 
-stats = compute_stats(S2, E2, IR2, IU2, Mt, pop, params);
+stats = compute_stats(S2, E2, IR2, IU2, Mt, pop, params, 3, legacy);
 stats = sample_stats(stats); 
 [S3delta, E3delta, IR3delta, IU3delta, O3delta] = compute_deltas(stats); 
 
@@ -63,7 +64,7 @@ IU3=IU+IU3delta;
 
 
 %fourth step
-stats = compute_stats(S3, E3, IR3, IU3, Mt, pop, params);
+stats = compute_stats(S3, E3, IR3, IU3, Mt, pop, params, 4, legacy);
 stats = sample_stats(stats); 
 [S4delta, E4delta, IR4delta, IU4delta, O4delta] = compute_deltas(stats); 
 
@@ -169,20 +170,31 @@ function [U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12] = unpack_stats_orde
 end
     
 
-function stats = compute_stats(S, E, IR, IU, Mt, pop, params)
+function stats = compute_stats(S, E, IR, IU, Mt, pop, params, step, legacy)
+
 [num_loc, num_ens] = size(S);
 [beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
 
-U3=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IU)));
-U4=min((ones(num_loc,1)*theta).*(S./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),S);
-U7=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IU)));
-U8=min((ones(num_loc,1)*theta).*(E./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),E);
+if legacy
+    if (step==1)
+        % Incorreclty uses Ia=IU in denominator
+        popp = pop - IU;
+    else
+        % correctl uses Tis=IR in denominator
+        popp = pop - IR;
+    end
+else
+    popp = pop - IR;
+end
 
-% Fixing bug in original matlab code (confirmed by author)
-U11=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IR)));
-
-% Fixing bug in paper (confirmed by author)
-U12 = (ones(num_loc,1)*theta).*(IU./(pop-IR)).*(sum(Mt)'*ones(1,num_ens));
+U3 =(ones(num_loc,1)*theta).*(Mt*(S./popp)); %ESenter
+U4 =(ones(num_loc,1)*theta).*(S./popp).*(sum(Mt)'*ones(1,num_ens)); %ESleft
+U4 = min(U4, S);
+U7=(ones(num_loc,1)*theta).*(Mt*(E./popp)); %EEenter
+U8=(ones(num_loc,1)*theta).*(E./popp).*(sum(Mt)'*ones(1,num_ens)); %EEleft
+U8 = min(U8, E);
+U11=(ones(num_loc,1)*theta).*(Mt*(IU./popp)); % EIaenter
+U12 = (ones(num_loc,1)*theta).*(IU./popp).*(sum(Mt)'*ones(1,num_ens)); % EIaleft 
 U12 = min(U12, IU);
 
 U1=(ones(num_loc,1)*beta).*S.*IR./pop;

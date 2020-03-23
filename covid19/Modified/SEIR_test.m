@@ -14,15 +14,17 @@ rng(seed);
 % x has size (375*5 + 6, num_ens) = (1875 + 6, 2) = 1881, 2
 %S,E,Is,Ia,obs,...,beta,mu,theta,Z,alpha,D
 
+
+% if legacy=true, we emulate the original buggy matlab code
+% (bug confirmed by author)
+legacy = true;
+
 t=10;
 rng(seed);
-%[x1,pop1]=SEIR_original(x0,M,pop,t,pop0);
-[x1,pop1]=SEIR_original_buggy(x0,M,pop,t,pop0);
+[x1,pop1]=SEIR_original(x0,M,pop,t,pop0, legacy);
 
- 
 rng(seed);
-%[x1new,pop1new]=SEIR_refactored(x0,M,pop,t,pop0);
-[x1new,pop1new]=SEIR_refactored_buggy(x0,M,pop,t,pop0);
+[x1new,pop1new]=SEIR_refactored(x0,M,pop,t,pop0, legacy);
 
 assert(approxeq(x1, x1new))
 assert(approxeq(pop1, pop1new))
