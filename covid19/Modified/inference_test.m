@@ -25,14 +25,15 @@ b=Td/a;%scale parameter of gamma distribution
 gam_rnds = [];
 
 rng(seed); 
-[xpost1, theta1] = inference1(M, pop, obs_truth, OEV, ...
+[theta1, para_post1, xpost1] = inference1(M, pop, obs_truth, OEV, ...
     num_ens, num_iter, num_times, gam_rnds);
 % xpost is 1881 x num_ens x num_times x num_iter
 % where 1881 = 1875 + 6, 1875 = 375*5
 
 rng(seed); 
-[xpost2, theta2] = inference2(M, pop, obs_truth, OEV, ...
+[theta2, para_post2, xpost2] = inference2(M, pop, obs_truth, OEV, ...
     num_ens, num_iter, num_times, gam_rnds);
 
 assert(approxeq(xpost1, xpost2))
 assert(approxeq(theta1, theta2))
+assert(approxeq(para_post1, para_post2))

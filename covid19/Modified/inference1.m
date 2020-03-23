@@ -116,7 +116,7 @@ for n=1:Iter
     para_post(:,:,:,n) = para_post_iter;
     x_post(:,:,:,n) = x_post_iter;
     
-    para=x_post_iter(end-5:end,:,1:num_times);
+    para=para_post_iter;
     temp=squeeze(mean(para,2));%average over ensemble members
     theta(:,n+1)=mean(temp,2);%average over time
 end

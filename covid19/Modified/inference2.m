@@ -48,7 +48,7 @@ for n=1:num_iter
     x_post_iter = process_trajectory(x, M, pop, num_ens, obs_truth, OEV, lambda, gam_rnds, num_times);
     x_post(:,:,:,n) = x_post_iter;
     para_post(:,:,:,n) = x_post_iter(end-5:end, :, :);
-    para=x_post(end-5:end,:,:,n);
+    para=para_post(:,:,:,n);
     temp=squeeze(mean(para,2));%average over ensemble members
     theta(:,n+1)=mean(temp,2);%average over time
 end
