@@ -177,15 +177,34 @@ if step1
     U4=min((ones(num_loc,1)*theta).*(S./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),S);
     U7=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IU)));
     U8=min((ones(num_loc,1)*theta).*(E./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),E);
+    
     U11=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
-    U12=min((ones(num_loc,1)*theta).*(IU./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),IU);
+    % According to the paper, U11 should have IR in denominator: 
+    %U11=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IR)));
+    % However, according to the original code, for step 1, U11 is given by
+    %EIaenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(Ia(:,:,tcnt)./(pop-Ia(:,:,tcnt))));
+    % where Ia=IU and Is=IR
+    
+    U12 = (ones(num_loc,1)*theta).*(IU./(pop-IU)).*(sum(Mt)'*ones(1,num_ens));
+    U12 = min(U12, IU);
+    %EIaleft=min(dt1*(ones(num_loc,1)*theta).*(Ia(:,:,tcnt)./(pop-Ia(:,:,tcnt))).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*Ia(:,:,tcnt));
+     
 else
     U3=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IR)));
     U4=min((ones(num_loc,1)*theta).*(S./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),S);
     U7=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IR)));
     U8=min((ones(num_loc,1)*theta).*(E./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),E);
-    U11=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
-    U12=min((ones(num_loc,1)*theta).*(IU./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),IU);
+    
+    U11=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IR)));
+    % U11(i,e) = theta(i,e) * sum_j M(i,j) U(j,e)/pop(j,e)-R(j,e)
+    %EIaenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(Tia1./(pop-Tis1)));
+     
+    U12 = (ones(num_loc,1)*theta).*(IU./(pop-IR)).*(sum(Mt)'*ones(1,num_ens));
+    U12 = min(U12, IU);
+    % According to the paper, U12 should have IU in denominator:
+    % U12=min((ones(num_loc,1)*theta).*(IU./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),IU);
+    % However, according to the original code, for step >1, U12 is given by
+    %  EIaleft=min(dt1*(ones(num_loc,1)*theta).*(Tia1./(pop-Tis1)).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*Tia1);
 end
 
 U1=(ones(num_loc,1)*beta).*S.*IR./pop;

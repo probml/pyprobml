@@ -1,4 +1,5 @@
-function [x_post_iter, theta] = inference1(M, pop, incidence, num_ens, Iter, num_times, gam_rnds)
+function [theta, para_post, x_post] = inference1(M, pop, obs_truth, OEV, ...
+    num_ens, Iter, num_times, gam_rnds)
 
 disp('inference1')
 
@@ -9,27 +10,19 @@ for i=1:num_loc
     H(i,(i-1)*5+5)=1;
 end
 
-%num_times=size(incidence,1);
-obs_truth=incidence';
-%set OEV
-OEV=zeros(num_loc,num_times);
-for l=1:num_loc
-    for t=1:num_times
-        OEV(l,t)=max(4,obs_truth(l,t)^2/4);
-    end
-end
 pop0=pop*ones(1,num_ens);
 [x,paramax,paramin]=initialize(M, pop0,num_ens);%get parameter range
+
 num_var=size(x,1);%number of state variables
 num_para=size(paramax,1);%number of parameters
 theta=zeros(num_para,Iter+1);%mean parameters at each iteration
 para_post=zeros(num_para,num_ens,num_times,Iter);%posterior parameters
+x_post=zeros(num_var,num_ens,num_times,Iter); %
+
 sig=zeros(1,Iter);%variance shrinking parameter
 alp=0.9;%variance shrinking rate
 SIG=(paramax-paramin).^2/4;%initial covariance of parameters
 lambda=1.1;%inflation parameter to aviod divergence within each iteration
-
-x_post_iter=zeros(num_var,num_ens,num_times,Iter);
 
 for n=1:Iter
     fprintf('iteration %d\n', n)
@@ -49,9 +42,8 @@ for n=1:Iter
     %correct lower/upper bounds of the parameters
     %x=checkbound_ini(x,pop0);
     x=checkbound(x,pop0);
-    %Begin looping through observations
-    x_prior=zeros(num_var,num_ens,num_times);%prior
-    x_post=zeros(num_var,num_ens,num_times);%posterior
+    x_post_iter=zeros(num_var,num_ens,num_times);
+    para_post_iter=zeros(num_para,num_ens,num_times);
     pop=pop0;
     obs_temp=zeros(num_loc,num_ens,num_times);%records of reported cases
     for t=1:num_times
@@ -82,7 +74,6 @@ for n=1:Iter
         
         obs_ens = obs_cnt; % predicted observed counts
         
-        x_prior(:,:,t)=x;%set prior
         %loop through local observations
         for l=1:num_loc
             %Get the variance of the ensemble
@@ -119,12 +110,13 @@ for n=1:Iter
             %Corrections to DA produced aphysicalities
             x = checkbound(x,pop);
         end
-        x_post(:,:,t)=x;
-        para_post(:,:,t,n)=x(end-5:end,:);
+        x_post_iter(:,:,t)=x;
+        para_post_iter(:,:,t)=x(end-5:end,:);
     end
-    x_post_iter(:,:,:,n) = x_post;
+    para_post(:,:,:,n) = para_post_iter;
+    x_post(:,:,:,n) = x_post_iter;
     
-    para=x_post(end-5:end,:,1:num_times);
+    para=x_post_iter(end-5:end,:,1:num_times);
     temp=squeeze(mean(para,2));%average over ensemble members
     theta(:,n+1)=mean(temp,2);%average over time
 end
