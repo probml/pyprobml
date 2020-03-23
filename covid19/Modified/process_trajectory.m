@@ -1,4 +1,4 @@
-function x_post = process_trajectory(x, M, pop, obs_truth, OEV, lambda, gam_rnds)
+function x_post = process_trajectory(x, M, pop, obs_truth, OEV, lambda)
 
 
 [num_var, num_ens] = size(x);
@@ -24,7 +24,7 @@ for t=1:num_times
     [x,pop]=SEIR_refactored(x,M,pop,t,pop0);
     obs_cnt=H*x;%new infection
 
-    obs_temp = add_delayed_obs(obs_temp, t, obs_cnt, gam_rnds);
+    obs_temp = add_delayed_obs(obs_temp, t, obs_cnt);
     obs_ens=obs_temp(:,:,t);%observation at t
     
     %obs_ens = obs_cnt; % predicted observed counts
@@ -70,32 +70,4 @@ end
 
 end
 
-function pred_obs_seq = add_delayed_obs(pred_obs_seq, t, pred_obs_now, gam_rnds)
-%pred_obs_seq=zeros(num_loc,num_ens,num_times);%records of reported cases
-% pred_obs_now(l,e)
-% gamrnds is a stream of gamma random numbers
-[num_loc, num_ens, num_times] = size(pred_obs_seq);
- %add reporting delay
- 
-Td=9;%average reporting delay
-a=1.85;%shape parameter of gamma distribution
-b=Td/a;%scale parameter of gamma distribution
-%gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
-
-for k=1:num_ens
-    for l=1:num_loc
-        N = pred_obs_now(l,k);
-        if N>0
-            gam_rnds = ceil(gamrnd(a,b,1e4,1));
-            rnd=datasample(gam_rnds,N);
-            % sample N random delays, and insert current observations later
-            for h=1:length(rnd)
-                if (t+rnd(h)<=num_times)
-                    pred_obs_seq(l,k,t+rnd(h))=pred_obs_seq(l,k,t+rnd(h))+1;
-                end
-            end
-        end
-    end
-end
-end
 
