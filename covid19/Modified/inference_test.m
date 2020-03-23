@@ -8,7 +8,7 @@ obs_truth=incidence'; % obs(l,t)
 
 num_ens = 4;
 num_iter = 2;
-num_times = 3; % can reduce this to < 14 for debugging
+num_times = 2; % can reduce this to < 14 for debugging
 seed = 42;
 obs_truth = obs_truth(:, 1:num_times);
 
