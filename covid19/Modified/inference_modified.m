@@ -1,5 +1,5 @@
-function [para_post, z_post] = inference_modified(M, pop, obs_truth, OEV, ...
-    num_ens, Iter, num_times, rnds, legacy)
+function [para_post, z_post] = inference_modified(M, pop, obs_truth, ...
+    num_ens, num_iter, legacy)
 % para_post is nparams * num_ens * num_times * Iter
 % z_post is nstates * num_ens * num_times * Iter,
 % where nstates = 1875 = 375*5
@@ -16,14 +16,14 @@ function [para_post, z_post] = inference_modified(M, pop, obs_truth, OEV, ...
 %KPM
 load M %load mobility
 load pop %load population
-    
+%}
+
 Td=9;%average reporting delay
 a=1.85;%shape parameter of gamma distribution
 b=Td/a;%scale parameter of gamma distribution
 rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
-%}
-    
-num_loc=size(M,1);%number of locations
+
+[num_loc, num_times] = size(obs_truth);
 %observation operator: obs=Hx
 H=zeros(num_loc,5*num_loc+6);
 for i=1:num_loc
@@ -35,15 +35,15 @@ end
 load incidence %load observation
 num_times=size(incidence,1);
 obs_truth=incidence';
-%set OEV
+%}
 OEV=zeros(num_loc,num_times);
 for l=1:num_loc
     for t=1:num_times
         OEV(l,t)=max(4,obs_truth(l,t)^2/4);
     end
 end
-num_ens=300;%number of ensemble
-%}
+%num_ens=300;%number of ensemble
+
 
 pop0=pop*ones(1,num_ens);
 [x,paramax,paramin]=initialize(pop0,num_ens);
@@ -52,16 +52,16 @@ num_var=size(x,1);%number of state variables
 %IF setting
 %Iter=10;%number of iterations %KPM
 num_para=size(paramax,1);%number of parameters
-theta=zeros(num_para,Iter+1);%mean parameters at each iteration
-para_post=zeros(num_para,num_ens,num_times,Iter);%posterior parameters
-sig=zeros(1,Iter);%variance shrinking parameter
+theta=zeros(num_para,num_iter+1);%mean parameters at each iteration
+para_post=zeros(num_para,num_ens,num_times,num_iter);%posterior parameters
+sig=zeros(1,num_iter);%variance shrinking parameter
 alp=0.9;%variance shrinking rate
 SIG=(paramax-paramin).^2/4;%initial covariance of parameters
 lambda=1.1;%inflation parameter to aviod divergence within each iteration
 %start iteration for Iter round
 num_states = num_var - num_para; % KPM
-z_post=zeros(num_states,num_ens,num_times,Iter);%KPM
-for n=1:Iter
+z_post=zeros(num_states,num_ens,num_times,num_iter);%KPM
+for n=1:num_iter
     sig(n)=alp^(n-1);
     %generate new ensemble members using multivariate normal distribution
     Sigma=diag(sig(n)^2*SIG);

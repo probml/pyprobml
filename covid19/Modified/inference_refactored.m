@@ -1,7 +1,9 @@
-function [para_post, z_post] = inference_refactored(M, pop_static, obs_truth, OEV, ...
-    num_ens, num_iter, num_times, gam_rnds, legacy)
+function [para_post, z_post] = inference_refactored(M, pop_static, obs_truth, ...
+    num_ens, num_iter, legacy)
 
-num_loc = size(M,1);%number of locations
+if nargin < 6, legacy = false; end
+
+[num_loc, num_times] = size(obs_truth);
 [param0_ens, paramax,paramin]=initialize_params(num_ens);
 num_para = size(param0_ens,1); % beta,mu,theta,Z,alpha,D
 num_states = num_loc*5; % for each locn, S, E, IR, IU, O
@@ -15,6 +17,19 @@ z_post=zeros(num_states,num_ens,num_times,num_iter);
 var_shrinkage_factor = 0.9; 
 SIG=(paramax-paramin).^2/4; %initial covariance of parameters
 inflation_factor=1.1;
+
+%set observed error variance
+OEV=zeros(num_loc,num_times);
+for l=1:num_loc
+    for t=1:num_times
+        OEV(l,t)=max(4,obs_truth(l,t)^2/4);
+    end
+end
+
+Td=9;%average reporting delay
+a=1.85;%shape parameter of gamma distribution
+b=Td/a;%scale parameter of gamma distribution
+gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generate gamma random numbers
 
 for n=1:num_iter
     fprintf('iteration %d\n', n)
