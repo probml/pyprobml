@@ -1,7 +1,5 @@
 function [theta, para_post, x_post] = inference2(M, pop, obs_truth, OEV, ...
-    num_ens, num_iter, num_times, gam_rnds)
-
-disp('inference2')
+    num_ens, num_iter, num_times, gam_rnds, legacy)
 
 num_loc=size(M,1);%number of locations
 %observation operator: obs=Hx
@@ -11,7 +9,7 @@ for i=1:num_loc
 end
 
 pop0=pop*ones(1,num_ens);
-[x,paramax,paramin]=initialize(M, pop0,num_ens);%get parameter range
+[x,paramax,paramin]=initialize(pop0,num_ens);%get parameter range
 num_var=size(x,1);%number of state variables
 num_para=size(paramax,1);%number of parameters
 
@@ -25,7 +23,6 @@ SIG=(paramax-paramin).^2/4;%initial covariance of parameters
 lambda=1.1;%inflation parameter to aviod divergence within each iteration
 
 
-
 for n=1:num_iter
     fprintf('iteration %d\n', n)
     sig(n)=alp^(n-1);
@@ -33,22 +30,20 @@ for n=1:num_iter
     Sigma=diag(sig(n)^2*SIG);
     if (n==1)
         %first guess of state space
-        [x,~,~]=initialize(M, pop0,num_ens);
+        [x,~,~]=initialize(pop0,num_ens);
         para=x(end-5:end,:);
         theta(:,1)=mean(para,2);%mean parameter
     else
-        [x,~,~]=initialize(M, pop0,num_ens);
+        [x,~,~]=initialize(pop0,num_ens);
         para=mvnrnd(theta(:,n)',Sigma,num_ens)';%generate parameters
         x(end-5:end,:)=para;
     end
     x=checkbound(x,pop0);
     
-    x_post_iter = process_trajectory6(x, M, pop, obs_truth, OEV, lambda);
+    x_post_iter = process_trajectory6(x, M, pop, obs_truth, OEV, lambda, gam_rnds, legacy);
     para_post_iter = x_post_iter(end-5:end, :, :);
-    
     x_post(:,:,:,n) = x_post_iter;
     para_post(:,:,:,n) = para_post_iter;
-    
     para=para_post(:,:,:,n);
     temp=squeeze(mean(para,2));%average over ensemble members
     theta(:,n+1)=mean(temp,2);%average over time

@@ -1,5 +1,11 @@
-function [x,pop]=SEIR(x,M,pop,ts,pop0)
-%the metapopulation SEIR model
+function [x,pop]=SEIR(x, M, pop, ts, pop0, legacy)
+
+% if legacy=true, we emulate the original buggy matlab code
+% (bug confirmed by author)
+if nargin < 6
+    legacy = false;
+end
+
 dt=1;
 tmstep=1;
 %integrate forward for one day
@@ -41,12 +47,19 @@ for t=ts+dt:dt:ts+tmstep
     tcnt=tcnt+1;
     dt1=dt;
     %first step
-    ESenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(S(:,:,tcnt)./(pop-Ia(:,:,tcnt))));
-    ESleft=min(dt1*(ones(num_loc,1)*theta).*(S(:,:,tcnt)./(pop-Ia(:,:,tcnt))).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*S(:,:,tcnt));
-    EEenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(E(:,:,tcnt)./(pop-Ia(:,:,tcnt))));
-    EEleft=min(dt1*(ones(num_loc,1)*theta).*(E(:,:,tcnt)./(pop-Ia(:,:,tcnt))).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*E(:,:,tcnt));
-    EIaenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(Ia(:,:,tcnt)./(pop-Ia(:,:,tcnt))));
-    EIaleft=min(dt1*(ones(num_loc,1)*theta).*(Ia(:,:,tcnt)./(pop-Ia(:,:,tcnt))).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*Ia(:,:,tcnt));
+    if legacy
+        popp = pop-Ia(:,:,tcnt); % pop-IU, bug
+    else
+        popp = pop-Is(:,:,tcnt); % pop-IR
+    end
+    ESenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(S(:,:,tcnt)./popp));
+    ESleft=min(dt1*(ones(num_loc,1)*theta).*(S(:,:,tcnt)./popp).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*S(:,:,tcnt));
+    EEenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(E(:,:,tcnt)./popp));
+    EEleft=min(dt1*(ones(num_loc,1)*theta).*(E(:,:,tcnt)./popp).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*E(:,:,tcnt));
+    EIaenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(Ia(:,:,tcnt)./popp)); 
+    EIaleft=min(dt1*(ones(num_loc,1)*theta).*(Ia(:,:,tcnt)./popp).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*Ia(:,:,tcnt));
+    
+  
     
     Eexps=dt1*(ones(num_loc,1)*beta).*S(:,:,tcnt).*Is(:,:,tcnt)./pop;
     Eexpa=dt1*(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*S(:,:,tcnt).*Ia(:,:,tcnt)./pop;
@@ -84,13 +97,14 @@ for t=ts+dt:dt:ts+tmstep
     Tis1=Is(:,:,tcnt)+isk1/2;
     Tia1=Ia(:,:,tcnt)+iak1/2;
     
+   
     ESenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(Ts1./(pop-Tis1)));
     ESleft=min(dt1*(ones(num_loc,1)*theta).*(Ts1./(pop-Tis1)).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*Ts1);
     EEenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(Te1./(pop-Tis1)));
     EEleft=min(dt1*(ones(num_loc,1)*theta).*(Te1./(pop-Tis1)).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*Te1);
-    EIaenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(Tia1./(pop-Tis1)));
+    EIaenter=dt1*(ones(num_loc,1)*theta).*(M(:,:,ts)*(Tia1./(pop-Tis1))); 
     EIaleft=min(dt1*(ones(num_loc,1)*theta).*(Tia1./(pop-Tis1)).*(sum(M(:,:,ts))'*ones(1,num_ens)),dt1*Tia1);
-    
+
     Eexps=dt1*(ones(num_loc,1)*beta).*Ts1.*Tis1./pop;
     Eexpa=dt1*(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*Ts1.*Tia1./pop;
     Einfs=dt1*(ones(num_loc,1)*alpha).*Te1./(ones(num_loc,1)*Z);
@@ -228,3 +242,5 @@ x(obsidx,:)=obs;
 pop=pop-sum(M(:,:,ts),1)'*theta+sum(M(:,:,ts),2)*theta;
 minfrac=0.6;
 pop(pop<minfrac*pop0)=pop0(pop<minfrac*pop0)*minfrac;
+
+
