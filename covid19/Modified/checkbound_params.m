@@ -1,5 +1,6 @@
 function params = checkbound_params(params, first_iter)
-% x is 6 x num_ens
+% params is 6 x num_ens
+if nargin < 2, first_iter = false; end
 
 [paramin, paramax] = param_bounds;
 nparams = length(paramin);
