@@ -1,37 +1,18 @@
-function [para_post, z_post] = inference_modified(M, pop, obs_truth, OEV, ...
-    num_ens, Iter, num_times, rnds, legacy)
-% para_post is nparams * num_ens * num_times * Iter
-% z_post is nstates * num_ens * num_times * Iter,
-% where nstates = 1875 = 375*5
-
-        
-% Modifications by Kevin Patrick Murphy are marked KPM
-% The cchanges just correspond to passing in arguments externally, 
-% so that we can compare implementatons, and returning results
-% instead of storing to file. 
-% Also, we call SEIR_modified instead of SEIR_original, since the
-% former fixes a bug.
-
-%{
-%KPM
+function inference()
+%Inference for the metapopulation SEIR model
+%Programmed by Sen Pei (contact:sp3449@cumc.columbia.edu)
 load M %load mobility
 load pop %load population
-    
 Td=9;%average reporting delay
 a=1.85;%shape parameter of gamma distribution
 b=Td/a;%scale parameter of gamma distribution
 rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
-%}
-    
 num_loc=size(M,1);%number of locations
 %observation operator: obs=Hx
 H=zeros(num_loc,5*num_loc+6);
 for i=1:num_loc
     H(i,(i-1)*5+5)=1;
 end
-
-%{
-%KPM
 load incidence %load observation
 num_times=size(incidence,1);
 obs_truth=incidence';
@@ -43,14 +24,11 @@ for l=1:num_loc
     end
 end
 num_ens=300;%number of ensemble
-%}
-
 pop0=pop*ones(1,num_ens);
-[x,paramax,paramin]=initialize(pop0,num_ens);
+[x,paramax,paramin]=initialize(pop0,num_ens);%get parameter range
 num_var=size(x,1);%number of state variables
-
 %IF setting
-%Iter=10;%number of iterations %KPM
+Iter=10;%number of iterations
 num_para=size(paramax,1);%number of parameters
 theta=zeros(num_para,Iter+1);%mean parameters at each iteration
 para_post=zeros(num_para,num_ens,num_times,Iter);%posterior parameters
@@ -59,8 +37,6 @@ alp=0.9;%variance shrinking rate
 SIG=(paramax-paramin).^2/4;%initial covariance of parameters
 lambda=1.1;%inflation parameter to aviod divergence within each iteration
 %start iteration for Iter round
-num_states = num_var - num_para; % KPM
-z_post=zeros(num_states,num_ens,num_times,Iter);%KPM
 for n=1:Iter
     sig(n)=alp^(n-1);
     %generate new ensemble members using multivariate normal distribution
@@ -76,11 +52,10 @@ for n=1:Iter
         x(end-5:end,:)=para;
     end
     %correct lower/upper bounds of the parameters
-    %x=checkbound_ini(x,pop0); %KPM
-    x=checkbound(x,pop0); %KPM
+    x=checkbound_ini(x,pop0);
     %Begin looping through observations
     x_prior=zeros(num_var,num_ens,num_times);%prior
-    %x_post=zeros(num_var,num_ens,num_times);%posterior
+    x_post=zeros(num_var,num_ens,num_times);%posterior
     pop=pop0;
     obs_temp=zeros(num_loc,num_ens,num_times);%records of reported cases
     for t=1:num_times
@@ -88,8 +63,7 @@ for n=1:Iter
         x=mean(x,2)*ones(1,num_ens)+lambda*(x-mean(x,2)*ones(1,num_ens));
         x=checkbound(x,pop);
         %integrate forward
-        %[x,pop]=SEIR(x,M,pop,t,pop0); %KPM
-        [x,pop]=SEIR_modified(x,M,pop,t,pop0,legacy); %KPM
+        [x,pop]=SEIR(x,M,pop,t,pop0);
         obs_cnt=H*x;%new infection
         %add reporting delay
         for k=1:num_ens
@@ -142,18 +116,15 @@ for n=1:Iter
             %Corrections to DA produced aphysicalities
             x = checkbound(x,pop);
         end
-        %x_post(:,:,t)=x;
-        z_post(:,:,t,n) = x(1:end-6,:);
-        para_post(:,:,t,n) = x(end-5:end,:);
+        x_post(:,:,t)=x;
+        para_post(:,:,t,n)=x(end-5:end,:);
     end
-    %z_post(:,:,:,n) = x_post(1:end-6,:,:);
-    para=para_post(:,:,:,n);
+    para=x_post(end-5:end,:,1:num_times);
     temp=squeeze(mean(para,2));%average over ensemble members
     theta(:,n+1)=mean(temp,2);%average over time
 end
 
-%save('inference','para_post','theta');
-end
+save('inference','para_post','theta');
 
 function x = checkbound_ini(x,pop)
 %S,E,Is,Ia,obs,...,beta,mu,theta,Z,alpha,D
@@ -187,7 +158,6 @@ for i=1:6
     %redistribute out bound ensemble members
     x(end-6+i,index_out)=datasample(x(end-6+i,index_in),length(index_out));
 end
-end
 
 function x = checkbound(x,pop)
 %S,E,Is,Ia,obs,...,beta,mu,theta,Z,alpha,D
@@ -216,5 +186,4 @@ end
 for i=1:6
     x(end-6+i,x(end-6+i,:)<xmin(i))=xmin(i)*(1+0.1*rand(sum(x(end-6+i,:)<xmin(i)),1));
     x(end-6+i,x(end-6+i,:)>xmax(i))=xmax(i)*(1-0.1*rand(sum(x(end-6+i,:)>xmax(i)),1));
-end
 end
