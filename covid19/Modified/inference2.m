@@ -43,7 +43,7 @@ for n=1:num_iter
     end
     x=checkbound(x,pop0);
     
-    x_post_iter = process_trajectory3(x, M, pop, obs_truth, OEV, lambda);
+    x_post_iter = process_trajectory4(x, M, pop, obs_truth, OEV, lambda);
     para_post_iter = x_post_iter(end-5:end, :, :);
     
     x_post(:,:,:,n) = x_post_iter;

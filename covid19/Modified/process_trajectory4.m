@@ -1,4 +1,4 @@
-function x_locs_ens_times = process_trajectory3(x_locs_ens_0, mobility_locs_times, ...
+function x_locs_ens_times = process_trajectory4(x_locs_ens_0, mobility_locs_times, ...
     pop_locs, obs_truth_locs_times, obs_var_locs_times, x_inflation)
 
 [num_var, num_ens] = size(x_locs_ens_0);
@@ -11,18 +11,32 @@ for i=1:num_loc
 end
 G = sum(mobility_locs_times,3); % connectivity structure of graph
 
-pop0 = pop_locs * ones(1,num_ens);
-pop_locs_ens_t = pop0;
-obs_pred_locs_ens_times=zeros(num_loc,num_ens,num_times);
-x_locs_ens_times =zeros(num_var,num_ens,num_times);
+pop_locs_ens_0 = pop_locs * ones(1,num_ens);
+pop_locs_ens_t = pop_locs_ens_0;
+obs_pred_locs_ens_times = zeros(num_loc,num_ens,num_times);
+x_locs_ens_times = zeros(num_var,num_ens,num_times);
 x_locs_ens_t = x_locs_ens_0;
 for t=1:num_times
      fprintf('timestep %d\n', t)  
     %inflation
     x_locs_ens_t=mean(x_locs_ens_t,2)*ones(1,num_ens)+x_inflation*(x_locs_ens_t-mean(x_locs_ens_t,2)*ones(1,num_ens));
-    x_locs_ens_t=checkbound(x_locs_ens_t,pop_locs_ens_t);
+    x_locs_ens_t=checkbound(x_locs_ens_t, pop_locs_ens_t);
+    
     %integrate forward
-    [x_locs_ens_t,pop_locs_ens_t]=SEIR_refactored(x_locs_ens_t,mobility_locs_times,pop_locs_ens_t,t,pop0);
+    %[x_locs_ens_t,pop_locs_ens_t]=SEIR_refactored(x_locs_ens_t,mobility_locs_times,pop_locs_ens_t,t,pop_locs_ens_0);
+  
+    [states, params] = unpack_x(x_locs_ens_t);
+    Mt = mobility_locs_times(:,:,t);
+    [states_new] = integrate_ODE_onestep(states, params, pop_locs_ens_t, Mt, false);
+    [beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
+    pop_new = pop_locs_ens_t + sum(Mt,2)*theta - sum(Mt,1)'*theta;  % eqn 5
+    minfrac=0.6;
+    ndx = find(pop_new < minfrac*pop_locs_ens_0);
+    pop_new(ndx)=pop_locs_ens_0(ndx)*minfrac;
+    x_new = pack_x(states_new, params);
+    x_locs_ens_t = x_new;
+    pop_locs_ens_t = pop_new;
+    
     pred_cnt=H*x_locs_ens_t; % predicted number of new infections at current time
     obs_pred_locs_ens_times = add_delayed_obs(obs_pred_locs_ens_times, t, pred_cnt);
     obs_pred_locs_ens_t=obs_pred_locs_ens_times(:,:,t); % (l,e)
