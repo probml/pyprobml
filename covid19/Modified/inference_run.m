@@ -8,10 +8,11 @@ obs_truth=incidence'; % obs(l,t)
 num_ens = 300;
 num_iter = 10; %~1 minute per iteration
 seed = 42;
+legacy = true;
 
 rng(seed); 
 tic
-[theta, ppost, zpost] = inference_refactored(M, pop, obs_truth,  num_ens, num_iter);
+[theta, ppost, zpost] = inference_refactored(M, pop, obs_truth,  num_ens, num_iter, legacy);
 toc
 
 % zpost: num_states * num_ens * num_times * num_iter
@@ -19,6 +20,6 @@ toc
 % ppost: num_params * num_ens  * num_times * num_iter
 % num_params = 6
 
-datadir = '~/covid19/Results';
-fname = sprintf('%s/results_E%d_I%d_S%d.mat', data_dir, num_ens, num_iter, seed);
+data_dir = '~/covid19/Results';
+fname = sprintf('%s/leg-results-E%d-I%d-S%d.mat', data_dir, num_ens, num_iter, seed);
 save(fname, 'theta', 'zpost','ppost');

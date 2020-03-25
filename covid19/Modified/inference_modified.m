@@ -76,8 +76,11 @@ for n=1:num_iter
         x(end-5:end,:)=para;
     end
     %correct lower/upper bounds of the parameters
-    %x=checkbound_ini(x,pop0); %KPM
-    x=checkbound(x,pop0); %KPM
+    if legacy
+        x=checkbound_ini(x,pop0); %KPM
+    else
+        x=checkbound(x,pop0); %KPM
+    end
     %Begin looping through observations
     x_prior=zeros(num_var,num_ens,num_times);%prior
     %x_post=zeros(num_var,num_ens,num_times);%posterior

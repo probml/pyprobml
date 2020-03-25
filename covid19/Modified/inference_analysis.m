@@ -3,8 +3,8 @@
 if false
     % results from executing the following: 
     % rng(42); inference(); 
-    fname = 'inference';
-    results = load(fname);
+    data_dir = '~/covid19/Results/';
+    results = load('%s/inference.mat', data_dir);
     ppost = results.para_post;
     theta = results.theta;
     ttl = 'original-E300-I10-S42';
@@ -13,13 +13,13 @@ else
     num_ens = 300;
     num_iter = 10;
     seed = 42;
-    datadir = '~/covid19/Results/';
-    fname = sprintf('%s/results-E%d-I%d-S%d', data_dir, num_ens, num_iter, seed);
-    results = load(fname); % zpost, ppost
+    data_dir = '~/covid19/Results/';
+    fname = sprintf('results-E%d-I%d-S%d', num_ens, num_iter, seed);
+    results = load(sprintf('%s/%s.mat', data_dir, fname)); % zpost, ppost
     ppost = results.ppost;
     ttl = safeStr(fname);
 end
-figfolder = '../Figures/';
+figfolder = '~/covid/Figures/';
 
 param_names = {'\beta', '\mu', '\theta', 'Z', '\alpha', 'D'};
 nparams = length(param_names);

@@ -44,7 +44,11 @@ for n=1:num_iter
         z0_ens = initialize_state(pop_static, num_ens, M);
         param0_ens=mvnrnd(theta(:,n)',Sigma,num_ens)';%generate parameters
     end
-    param0_ens = checkbound_params(param0_ens); 
+    if legacy
+        param0_ens = checkbound_params_init(param0_ens); 
+    else
+        param0_ens = checkbound_params(param0_ens);
+    end
     z0_ens = checkbound_states(z0_ens, pop0_ens);
     [z_post_iter, p_post_iter] = ensembleKF1(z0_ens, param0_ens, ...
         M, pop_static, obs_truth, OEV, inflation_factor, gam_rnds, legacy);
