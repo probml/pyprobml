@@ -8,7 +8,7 @@ obs_truth=incidence'; % obs(l,t)
 num_ens = 300;
 num_iter = 10; %~1 minute per iteration
 seed = 42;
-legacy = true;
+legacy = false;
 
 rng(seed); 
 tic
@@ -21,5 +21,9 @@ toc
 % num_params = 6
 
 data_dir = '~/covid19/Results';
-fname = sprintf('%s/leg-results-E%d-I%d-S%d.mat', data_dir, num_ens, num_iter, seed);
+if legacy
+    fname = sprintf('%s/leg-results-E%d-I%d-S%d.mat', data_dir, num_ens, num_iter, seed);
+else
+    fname = sprintf('%s/results-E%d-I%d-S%d.mat', data_dir, num_ens, num_iter, seed);
+end
 save(fname, 'theta', 'zpost','ppost');

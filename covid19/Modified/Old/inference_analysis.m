@@ -13,16 +13,37 @@ else
     num_ens = 300;
     num_iter = 10;
     seed = 42;
+    legacy = false;
     data_dir = '~/covid19/Results/';
-    fname = sprintf('results-E%d-I%d-S%d', num_ens, num_iter, seed);
+    if legacy
+         fname = sprintf('leg-results-E%d-I%d-S%d', num_ens, num_iter, seed);
+    else
+        fname = sprintf('leg-results-E%d-I%d-S%d', num_ens, num_iter, seed);
+    end
     results = load(sprintf('%s/%s.mat', data_dir, fname)); % zpost, ppost
     ppost = results.ppost;
     ttl = safeStr(fname);
 end
-figfolder = '~/covid/Figures/';
+figfolder = '~/covid19/Figures/';
 
 param_names = {'\beta', '\mu', '\theta', 'Z', '\alpha', 'D'};
 nparams = length(param_names);
+nbins  = 10;
+
+% fig S8: Histogram of R
+figure;
+[nparams, nsamples, ntimes, niter] = size(ppost);
+%samples = ppost(:,:,1,end);
+samples = reshape(ppost(:,:,:,:), [nparams, nsamples*ntimes*niter]);
+R = compute_reproductive_number(samples);
+histogram(R, nbins, 'Normalization','probability');
+m = mean(R);
+h=xline(m, '-r');
+set(h, 'linewidth', 3);
+title(sprintf('mean %5.3f', m))
+xlabel('R_e') 
+fname = sprintf('%s%s-R-hist', figfolder, ttl);
+print(fname, '-dpng')
 
 % Figure S4: histogram of params
 [paramin, paramax] = param_bounds();

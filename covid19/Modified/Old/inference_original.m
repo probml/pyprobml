@@ -1,6 +1,8 @@
-function inference()
+function para_post = inference()
 %Inference for the metapopulation SEIR model
 %Programmed by Sen Pei (contact:sp3449@cumc.columbia.edu)
+
+rng(42);
 load M %load mobility
 load pop %load population
 Td=9;%average reporting delay
@@ -10,7 +12,7 @@ rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
 num_loc=size(M,1);%number of locations
 %observation operator: obs=Hx
 H=zeros(num_loc,5*num_loc+6);
-for i=1:num_loc
+for i=1:num_loc               
     H(i,(i-1)*5+5)=1;
 end
 load incidence %load observation
@@ -28,7 +30,7 @@ pop0=pop*ones(1,num_ens);
 [x,paramax,paramin]=initialize(pop0,num_ens);%get parameter range
 num_var=size(x,1);%number of state variables
 %IF setting
-Iter=10;%number of iterations
+Iter=3; %10;%number of iterations
 num_para=size(paramax,1);%number of parameters
 theta=zeros(num_para,Iter+1);%mean parameters at each iteration
 para_post=zeros(num_para,num_ens,num_times,Iter);%posterior parameters
@@ -59,6 +61,7 @@ for n=1:Iter
     pop=pop0;
     obs_temp=zeros(num_loc,num_ens,num_times);%records of reported cases
     for t=1:num_times
+    fprintf('inference_original: iter %d time %d\n', n, t)
         %inflation
         x=mean(x,2)*ones(1,num_ens)+lambda*(x-mean(x,2)*ones(1,num_ens));
         x=checkbound(x,pop);
@@ -124,7 +127,8 @@ for n=1:Iter
     theta(:,n+1)=mean(temp,2);%average over time
 end
 
-save('inference','para_post','theta');
+save('inference_E100_I3_S42.mat','para_post');
+end
 
 function x = checkbound_ini(x,pop)
 %S,E,Is,Ia,obs,...,beta,mu,theta,Z,alpha,D
@@ -158,6 +162,7 @@ for i=1:6
     %redistribute out bound ensemble members
     x(end-6+i,index_out)=datasample(x(end-6+i,index_in),length(index_out));
 end
+end
 
 function x = checkbound(x,pop)
 %S,E,Is,Ia,obs,...,beta,mu,theta,Z,alpha,D
@@ -186,4 +191,5 @@ end
 for i=1:6
     x(end-6+i,x(end-6+i,:)<xmin(i))=xmin(i)*(1+0.1*rand(sum(x(end-6+i,:)<xmin(i)),1));
     x(end-6+i,x(end-6+i,:)>xmax(i))=xmax(i)*(1-0.1*rand(sum(x(end-6+i,:)>xmax(i)),1));
+end
 end
