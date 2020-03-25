@@ -1,31 +1,29 @@
-function plot_results()
+function plot_params()
 
-data_dir = '~/covid19/Results/';
+results_folder = '~/covid19/Results/';
     
-if true
+%{
     % results from executing the following: 
     % rng(42); inference(); 
-    results = load(sprintf('%s/inference.mat', data_dir));
+    results = load(sprintf('%s/inference.mat', results_folder));
     ppost = results.para_post;
     theta = results.theta;
     ttl = 'original-E300-I10-S42';
-else
-    % results from exeucting inference_run.m 
-    num_ens = 300;
-    num_iter = 10;
-    seed = 42;
-    legacy = false;
-    if legacy
-         fname = sprintf('leg-results-E%d-I%d-S%d', num_ens, num_iter, seed);
-    else
-        fname = sprintf('leg-results-E%d-I%d-S%d', num_ens, num_iter, seed);
-    end
-    results = load(sprintf('%s/%s.mat', data_dir, fname)); % zpost, ppost
-    ppost = results.ppost;
-    theta = results.theta;
-    ttl = safeStr(fname);
-end
-figfolder = '~/covid19/Figures';
+%}
+
+% results from exeucting inference_run.m 
+num_ens = 300;
+num_iter = 10;
+seed = 42;
+fname = sprintf('leg-results-E%d-I%d-S%d', num_ens, num_iter, seed);
+results = load(sprintf('%s/%s.mat', results_folder, fname)); 
+ppost = results.ppost;
+theta = results.theta;
+%zpost = results.zpost; % nloc*5 x nens x ntimes x niter
+ttl = safeStr(fname);
+
+
+fig_folder = '~/covid19/Figures';
 
 param_names = {'\beta', '\mu', '\theta', 'Z', '\alpha', 'D'};
 
@@ -34,31 +32,31 @@ param_names = {'\beta', '\mu', '\theta', 'Z', '\alpha', 'D'};
 samples = reshape(ppost(:,:,:,:), [nparams, nsamples*ntimes*niter]);
 plot_R_hist(samples);
 suptitle(sprintf('R, %s', ttl));
-fname = sprintf('%s/%s-R-hist', figfolder, ttl);
+fname = sprintf('%s/%s-R-hist', fig_folder, ttl);
 print(fname, '-dpng');
 
 params = ppost(:,:,1,end); % first time step of final iteration
 plot_param_hist(params, param_names);
 suptitle(sprintf('param-hist at start of final iter, %s', ttl));
-fname = sprintf('%s/%s-params-hist-final', figfolder, ttl);
+fname = sprintf('%s/%s-params-hist-final', fig_folder, ttl);
 print(fname, '-dpng');
 
 params = ppost(:,:,1,end); % first time step of final iteration
 plot_param_boxplot(params, param_names);
 suptitle(sprintf('param-box at start of final iter, %s', ttl));
-fname = sprintf('%s/%s-params-box-final', figfolder, ttl);
+fname = sprintf('%s/%s-params-box-final', fig_folder, ttl);
 print(fname, '-dpng');
 
 params = ppost; % all the samples
 plot_param_boxplot_over_iter(params, param_names);
 suptitle(sprintf('param-box vs iter, %s', ttl));
-fname = sprintf('%s/%s-params-box-iter', figfolder, ttl);
+fname = sprintf('%s/%s-params-box-iter', fig_folder, ttl);
 print(fname, '-dpng');
 
 params = theta;
 plot_param_mean_over_iter(params, param_names);
 suptitle(sprintf('param-mean vs iter, %s', ttl));
-fname = sprintf('%s/%s-params-mean-iter', figfolder, ttl);
+fname = sprintf('%s/%s-params-mean-iter', fig_folder, ttl);
 print(fname, '-dpng');
 
 

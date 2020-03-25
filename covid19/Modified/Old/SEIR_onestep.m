@@ -79,39 +79,57 @@ states_new = pack_states(S_new, E_new, IR_new, IU_new, obs_new);
 end
 
 
-function [ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca] = unpack_stats(stats)
-    ESenter = stats(:,:,1);
-    ESleft = stats(:,:,2);
-    EEenter = stats(:,:,3);
-    EEleft = stats(:,:,4);
-    EIaenter = stats(:,:,5);
-    EIaleft = stats(:,:,6);
-    Eexps = stats(:,:,7);
-    Eexpa = stats(:,:,8);
-    Einfs = stats(:,:,9);
-    Einfa = stats(:,:,10);
-    Erecs = stats(:,:,11);
-    Ereca = stats(:,:,12);
-end
+%{
+Original code used these names
 
-function stats=pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca)
+    % U3 = ESenter
+    % U4 = ESleft
+     % U7 = EEenter
+    % U8 = EEleft
+    % U11 = EIaenter
+     % U12 = EIaleft
+     % U1 = Eexpds
+    % U2  = Eexpa
+   % U5 = Einfs
+     % U6 = Einfa
+     % U9 = Erecs
+     % U10 = Ereca
+%}
+
+function stats=pack_stats(U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10)
     % stats is num_loc * num_ens * num_stats
     num_stats = 12; % U1...U12 in paper
-    [num_loc, num_ens] = size(ESenter);
+    [num_loc, num_ens] = size(U3);
     stats = zeros(num_loc, num_ens, num_stats);
-    stats(:,:,1)=ESenter; % U3 
-    stats(:,:,2)=ESleft; % U4
-    stats(:,:,3)=EEenter; % U7
-    stats(:,:,4)=EEleft; % U8
-    stats(:,:,5)=EIaenter; % U11
-    stats(:,:,6)=EIaleft; % U12
-    stats(:,:,7)=Eexps; % U1 
-    stats(:,:,8)=Eexpa; % U2 
-    stats(:,:,9)=Einfs; % U5
-    stats(:,:,10)=Einfa; % U6
-    stats(:,:,11)=Erecs; % U9
-    stats(:,:,12)=Ereca; % U10
+    stats(:,:,1)=U3;  
+    stats(:,:,2)=U4; 
+    stats(:,:,3)=U7; 
+    stats(:,:,4)=U8; 
+    stats(:,:,5)=U11; 
+    stats(:,:,6)=U12; 
+    stats(:,:,7)=U1; 
+    stats(:,:,8)=U2; 
+    stats(:,:,9)=U5; 
+    stats(:,:,10)=U6; 
+    stats(:,:,11)=U9; 
+    stats(:,:,12)=U10; 
 end
+
+function [U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10] = unpack_stats(stats)
+    U3 = stats(:,:,1);
+    U4 = stats(:,:,2);
+    U7 = stats(:,:,3);
+    U8 = stats(:,:,4);
+    U11 = stats(:,:,5);
+    U12 = stats(:,:,6);
+    U1 = stats(:,:,7);
+    U2 = stats(:,:,8);
+    U5 = stats(:,:,9);
+    U6 = stats(:,:,10);
+    U9 = stats(:,:,11);
+    U10 = stats(:,:,12);
+end
+
     
 
 function stats = compute_stats(S, E, IR, IU, Mt, pop, params, step1)
@@ -119,29 +137,29 @@ function stats = compute_stats(S, E, IR, IU, Mt, pop, params, step1)
 [beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
 
 if step1
-    ESenter=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IU)));
-    ESleft=min((ones(num_loc,1)*theta).*(S./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),S);
-    EEenter=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IU)));
-    EEleft=min((ones(num_loc,1)*theta).*(E./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),E);
-    EIaenter=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
-    EIaleft=min((ones(num_loc,1)*theta).*(IU./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),IU);
+    U3=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IU)));
+    U4=min((ones(num_loc,1)*theta).*(S./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),S);
+    U7=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IU)));
+    U8=min((ones(num_loc,1)*theta).*(E./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),E);
+    U11=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
+    U12=min((ones(num_loc,1)*theta).*(IU./(pop-IU)).*(sum(Mt)'*ones(1,num_ens)),IU);
 else
-    ESenter=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IR)));
-    ESleft=min((ones(num_loc,1)*theta).*(S./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),S);
-    EEenter=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IR)));
-    EEleft=min((ones(num_loc,1)*theta).*(E./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),E);
-    EIaenter=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
-    EIaleft=min((ones(num_loc,1)*theta).*(IU./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),IU);
+    U3=(ones(num_loc,1)*theta).*(Mt*(S./(pop-IR)));
+    U4=min((ones(num_loc,1)*theta).*(S./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),S);
+    U7=(ones(num_loc,1)*theta).*(Mt*(E./(pop-IR)));
+    U8=min((ones(num_loc,1)*theta).*(E./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),E);
+    U11=(ones(num_loc,1)*theta).*(Mt*(IU./(pop-IU)));
+    U12=min((ones(num_loc,1)*theta).*(IU./(pop-IR)).*(sum(Mt)'*ones(1,num_ens)),IU);
 end
 
-Eexps=(ones(num_loc,1)*beta).*S.*IR./pop;
-Eexpa=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*S.*IU./pop;
-Einfs=(ones(num_loc,1)*alpha).*E./(ones(num_loc,1)*Z);
-Einfa=(ones(num_loc,1)*(1-alpha)).*E./(ones(num_loc,1)*Z);
-Erecs=IR./(ones(num_loc,1)*D);
-Ereca=IU./(ones(num_loc,1)*D);
+U1=(ones(num_loc,1)*beta).*S.*IR./pop;
+U2=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*S.*IU./pop;
+U5=(ones(num_loc,1)*alpha).*E./(ones(num_loc,1)*Z);
+U6=(ones(num_loc,1)*(1-alpha)).*E./(ones(num_loc,1)*Z);
+U9=IR./(ones(num_loc,1)*D);
+U10=IU./(ones(num_loc,1)*D);
 
-stats = pack_stats(ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca);
+stats = pack_stats(U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10);
 stats = max(stats, 0);
 end
 
@@ -161,21 +179,21 @@ end
 
 function [Sdelta, Edelta, IRdelta, IUdelta, Odelta] = compute_deltas(stats)
 % each delta is nloc*nens
-[ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca] = unpack_stats(stats);
-Sdelta = -Eexps-Eexpa+ESenter-ESleft;
-Edelta = Eexps+Eexpa-Einfs-Einfa+EEenter-EEleft;
-IRdelta = Einfs-Erecs;
-IUdelta = Einfa-Ereca+EIaenter-EIaleft;
-Odelta = Einfs;
+[U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10] = unpack_stats(stats);
+Sdelta = -U1-U2+U3-U4;
+Edelta = U1+U2-U5-U6+U7-U8;
+IRdelta = U5-U9;
+IUdelta = U6-U10+U11-U12;
+Odelta = U5;
 end
     
 
 function [sk, ek, Isk, iak, ik] = compute_deltas2(stats)
 % each delta is nloc*nens
-[ESenter, ESleft, EEenter, EEleft, EIaenter, EIaleft, Eexps, Eexpa, Einfs, Einfa, Erecs, Ereca] = unpack_stats(stats);
-sk=-Eexps-Eexpa+ESenter-ESleft;
-ek=Eexps+Eexpa-Einfs-Einfa+EEenter-EEleft;
-Isk=Einfs-Erecs;
-iak=Einfa-Ereca+EIaenter-EIaleft;
-ik=Einfs;
+[U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10] = unpack_stats(stats);
+sk=-U1-U2+U3-U4;
+ek=U1+U2-U5-U6+U7-U8;
+Isk=U5-U9;
+iak=U6-U10+U11-U12;
+ik=U5;
 end
