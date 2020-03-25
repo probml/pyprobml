@@ -17,11 +17,11 @@ legacy = false; %true;
 
 rng(seed); 
 disp('inference')
-[para_post1, zpost1] = inference_refactored(M, pop, obs_truth,  num_ens, num_iter, legacy);
+[theta, para_post1, zpost1] = inference_refactored(M, pop, obs_truth,  num_ens, num_iter, legacy);
 
 rng(seed); 
 disp('inference_orig')
-[para_post0, zpost0] = inference_modified(M, pop, obs_truth, num_ens, num_iter, legacy);
+[theta, para_post0, zpost0] = inference_modified(M, pop, obs_truth, num_ens, num_iter, legacy);
 
 assert(approxeq(zpost0, zpost1))
 assert(approxeq(para_post0, para_post1))
