@@ -1,0 +1,49 @@
+function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(params, mobility_locs_times, pop_locs, num_ens)
+
+[num_loc, num_locs2, num_times] = size(mobility_locs_times);
+z_locs_ens_0 = initialize_state(pop_locs, num_ens, mobility_locs_times);
+[beta, mu, theta, Z, alpha, D] = unpack_params(params); 
+params_ens_0 = params * ones(1,num_ens);
+
+
+Td=9;%average reporting delay
+a=1.85;%shape parameter of gamma distribution
+b=Td/a;%scale parameter of gamma distribution
+gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generate gamma random numbers
+
+
+%observation operator: obs=Hz
+Hz=zeros(num_loc,5*num_loc);
+for i=1:num_loc
+    Hz(i,(i-1)*5+5)=1;
+end
+
+pop_locs_ens_0 = pop_locs * ones(1,num_ens);
+pop_locs_ens_t = pop_locs_ens_0;
+obs_pred_locs_ens_times = zeros(num_loc,num_ens,num_times);
+z_locs_ens_times = zeros(num_var, num_ens,num_times);
+z_locs_ens_t = z_locs_ens_0;
+
+for t=1:num_times
+     fprintf('timestep %d\n', t)  
+     % z_locs_ens_t = inflate(z_locs_ens_t, inflation);
+     z_locs_ens_t = checkbound_states(z_locs_ens_t, pop_locs_ens_t);
+
+     % integrate forward
+     Mt = mobility_locs_times(:,:,t);
+    [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, params_ens0, pop_locs_ens_t, Mt);
+    z_locs_ens_times(:,:,t)=z_locs_ens_t;
+        
+    % compute new predicted population
+    pop_new = pop_locs_ens_t + sum(Mt,2)*theta - sum(Mt,1)'*theta;  % eqn 5
+    minfrac=0.6;
+    ndx = find(pop_new < minfrac*pop_locs_ens_0);
+    pop_new(ndx)=pop_locs_ens_0(ndx)*minfrac;
+    pop_locs_ens_t = pop_new;
+    
+    % generate observaions
+     pred_cnt = Hz * z_locs_ens_t; % predicted counts
+    obs_pred_locs_ens_times = add_delayed_obs(obs_pred_locs_ens_times, t, pred_cnt, gam_rnds);
+end
+
+end

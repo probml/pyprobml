@@ -7,6 +7,8 @@ num_loc=size(pop,1);
 % num_var=5*num_loc
 % S,E,Is,Ia,obs
 % prior range
+
+%{
 Slow=1.0;Sup=1.0;%susceptible fraction
 Elow=0;Eup=0;%exposed
 Irlow=0;Irup=0;%documented infection
@@ -19,18 +21,19 @@ for i=1:num_loc
     xmin=[xmin;Slow*pop(i);Elow*pop(i);Irlow*pop(i);Iulow*pop(i);obslow];
     xmax=[xmax;Sup*pop(i);Eup*pop(i);Irup*pop(i);Iuup*pop(i);obsup];
 end
+%}
+
+xmin = zeros(1,num_loc*5);
+xmax = zeros(1,num_loc*5);
 
 %seeding in Wuhan (city 170)
 seedid=170;
-%E
-xmin((seedid-1)*5+2)=0;xmax((seedid-1)*5+2)=2000;
-%Is
-%xmin((seedid-1)*5+3)=0;xmax((seedid-1)*5+3)=0;
-%Ia
-xmin((seedid-1)*5+4)=0;xmax((seedid-1)*5+4)=2000;
-%Latin Hypercubic Sampling
+xmin((seedid-1)*5+2)=0;xmax((seedid-1)*5+2)=2000; %E
+xmin((seedid-1)*5+4)=0;xmax((seedid-1)*5+4)=2000; %IU
+ %Latin Hypercubic Sampling
 x=lhsu(xmin,xmax,num_ens);
 x=x';
+
 for i=1:num_loc
     x((i-1)*5+1:(i-1)*5+4,:)=round(x((i-1)*5+1:(i-1)*5+4,:));
 end
@@ -47,5 +50,6 @@ for i=1:num_loc
         x((i-1)*5+4,:)=round(C(i)*3*Iawuhan/pop(seedid));
     end
 end
+
 
 end

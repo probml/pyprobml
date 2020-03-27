@@ -1,10 +1,10 @@
-function s=lhsu(xmin,xmax,nsample)
+function s=lhsu(xmin,xmax,nsample, random)
 % latin hypercube sampling utility
 % xmin(i) min value for site i=1:nvar
 % xmax(i)
 % s(nsamples, nvar)
 
-random = false;
+if nargin < 4, random = falseC(; end
 
 if random
     % original code
