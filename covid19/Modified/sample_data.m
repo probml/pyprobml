@@ -1,10 +1,14 @@
-function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(params, mobility_locs_times, pop_locs, num_ens)
+function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(params, ...
+    mobility_locs_times, pop_locs, num_ens, add_delay)
+
+rnd_init = true;
+legacy = false; %true;
 
 [num_loc, num_locs2, num_times] = size(mobility_locs_times);
-z_locs_ens_0 = initialize_state(pop_locs, num_ens, mobility_locs_times);
+z_locs_ens_0 = initialize_state(pop_locs, num_ens, mobility_locs_times, rnd_init);
 [beta, mu, theta, Z, alpha, D] = unpack_params(params); 
 params_ens_0 = params * ones(1,num_ens);
-
+inflation_factor=1.1;
 
 Td=9;%average reporting delay
 a=1.85;%shape parameter of gamma distribution
@@ -21,17 +25,18 @@ end
 pop_locs_ens_0 = pop_locs * ones(1,num_ens);
 pop_locs_ens_t = pop_locs_ens_0;
 obs_pred_locs_ens_times = zeros(num_loc,num_ens,num_times);
+num_var = num_loc*5;
 z_locs_ens_times = zeros(num_var, num_ens,num_times);
 z_locs_ens_t = z_locs_ens_0;
 
 for t=1:num_times
-     fprintf('timestep %d\n', t)  
-     % z_locs_ens_t = inflate(z_locs_ens_t, inflation);
+     %fprintf('timestep %d\n', t)  
+     z_locs_ens_t = inflate(z_locs_ens_t, inflation_factor);
      z_locs_ens_t = checkbound_states(z_locs_ens_t, pop_locs_ens_t);
 
      % integrate forward
      Mt = mobility_locs_times(:,:,t);
-    [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, params_ens0, pop_locs_ens_t, Mt);
+    [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt, legacy);
     z_locs_ens_times(:,:,t)=z_locs_ens_t;
         
     % compute new predicted population
@@ -43,7 +48,17 @@ for t=1:num_times
     
     % generate observaions
      pred_cnt = Hz * z_locs_ens_t; % predicted counts
-    obs_pred_locs_ens_times = add_delayed_obs(obs_pred_locs_ens_times, t, pred_cnt, gam_rnds);
+     if add_delay
+        obs_pred_locs_ens_times = add_delayed_obs(obs_pred_locs_ens_times, t, pred_cnt, gam_rnds);
+     else
+        obs_pred_locs_ens_times(:,:,t) = pred_cnt;
+     end
 end
 
+end
+
+function y = inflate(x, inflation)
+    N = size(x,2);
+    m = mean(x,2);
+    y = m*ones(1,N) + inflation*(x - m*ones(1,N));
 end

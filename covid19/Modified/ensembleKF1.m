@@ -1,6 +1,10 @@
-function [z_locs_ens_times, p_ens_times] = ensembleKF1(z_locs_ens_0, p_ens_0, ...
+function [z_locs_ens_times, p_ens_times, obs_pred_locs_ens_times_delayed, ...
+    obs_pred_locs_ens_times_instant] = ...
+    ensembleKF1(z_locs_ens_0, p_ens_0, ...
     mobility_locs_times, pop_locs, obs_truth_locs_times, obs_var_locs_times, ...
-    inflation, gam_rnds, legacy)
+    inflation, gam_rnds, legacy, const_params)
+
+if nargin < 10, const_params = false; end
 
 [num_var, num_ens] = size(z_locs_ens_0);
 [num_loc, num_times] = size(obs_truth_locs_times);
@@ -15,7 +19,8 @@ G = sum(mobility_locs_times,3); % connectivity structure of graph
 
 pop_locs_ens_0 = pop_locs * ones(1,num_ens);
 pop_locs_ens_t = pop_locs_ens_0;
-obs_pred_locs_ens_times = zeros(num_loc,num_ens,num_times);
+obs_pred_locs_ens_times_delayed = zeros(num_loc,num_ens,num_times);
+obs_pred_locs_ens_times_instant = zeros(num_loc,num_ens,num_times);
 z_locs_ens_times = zeros(num_var, num_ens,num_times);
 p_ens_times = zeros(num_params, num_ens,num_times);
 z_locs_ens_t = z_locs_ens_0;
@@ -41,19 +46,26 @@ for t=1:num_times
     pop_locs_ens_t = pop_new;
    
     pred_cnt = Hz * z_locs_ens_t; % predicted counts
-    obs_pred_locs_ens_times = add_delayed_obs(obs_pred_locs_ens_times, t, pred_cnt, gam_rnds);
-    obs_pred_locs_ens_t=obs_pred_locs_ens_times(:,:,t); % (l,e)
+    obs_pred_locs_ens_times_instant(:,:,t) = pred_cnt;
+    obs_pred_locs_ens_times_delayed = add_delayed_obs(...
+        obs_pred_locs_ens_times_delayed, t, pred_cnt, gam_rnds);
+    obs_pred_locs_ens_t=obs_pred_locs_ens_times_delayed(:,:,t); % (l,e)
     %absorb observation at each location sequentially
     for l=1:num_loc
         neighbors=union(find(G(:,l)>0),find(G(l,:)>0));
         nbrs=[neighbors;l];%add location l      
+        obs = obs_truth_locs_times(l,t);
         [dz, dp] = compute_update_given_lt(z_locs_ens_t, p_ens_t, ...
             obs_pred_locs_ens_t(l,:), ...
-            obs_truth_locs_times(l,t), obs_var_locs_times(l,t), nbrs);
+            obs, obs_var_locs_times(l,t), nbrs);
         z_locs_ens_t = z_locs_ens_t + dz;
         z_locs_ens_t = checkbound_states(z_locs_ens_t, pop_locs_ens_t);
-        p_ens_t = p_ens_t + dp;
-        p_ens_t = checkbound_params(p_ens_t);
+        if const_params
+            p_ens_t = p_ens_0;
+        else
+             p_ens_t = p_ens_t + dp;
+             p_ens_t = checkbound_params(p_ens_t);
+        end
     end
     z_locs_ens_times(:,:,t)=z_locs_ens_t;
     p_ens_times(:,:,t)=p_ens_t;
