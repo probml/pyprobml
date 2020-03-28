@@ -1,5 +1,9 @@
-function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(params, ...
-    mobility_locs_times, pop_locs, num_ens, add_delay)
+function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(model, data, num_ens)
+
+params = model.params;
+add_delay = model.add_delay;
+mobility_locs_times = data.M;
+pop_locs = data.pop;
 
 rnd_init = true;
 legacy = false; %true;

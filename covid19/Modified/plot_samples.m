@@ -1,47 +1,30 @@
 
-function plot_samples()
+function plot_samples(model, data, num_ens, fig_folder)
 
-load('../Data/M.mat') %M(l,l,t)
-load('../Data/pop.mat') % pop(l)
-load('../Data/incidence.mat') % O(t,l)
-fig_folder = '~/covid19/Figures';
-
-[num_times, num_loc] =size(incidence);
-obs_truth=incidence'; % obs(l,t)
+obs_truth = data.obs_truth;
+[num_loc, num_times] = size(obs_truth);
 wuhan = 170;
-
 obs_truth_wuhan = obs_truth(wuhan,:);
 obs_truth_all = sum(obs_truth); % sum over all locations
 max_count = max(obs_truth_all(:)); % max over time to set scale
-
-
-rng(42);
-num_ens = 100;
-
-delays = [false, true];
-for j=1:length(delays)
-    add_delay = delays(j);
-    
-
-param_ndx = 1;
-params = set_params(param_ndx);
-[obs_samples, state_samples] = sample_data(params, M, pop, num_ens, add_delay);
+  
+[obs_samples] = sample_data(model, data, num_ens);
     
 obs_samples_all =  squeeze(sum(obs_samples,1));
 obs_samples_wuhan = squeeze(obs_samples(wuhan,:,:));
 
 truth_list = {obs_truth_all, obs_truth_wuhan};
 samples_list = {obs_samples_all, obs_samples_wuhan};
-%name_list = {'all', 'wuhan'};
+city_name_list = {'all', 'wuhan'};
 
-truth_list = {obs_truth_wuhan};
-samples_list = {obs_samples_wuhan};
-name_list = {'wuhan'};
+%truth_list = {obs_truth_wuhan};
+%samples_list = {obs_samples_wuhan};
+%city_name_list = {'wuhan'};
 
-for i=1:length(name_list)
+for i=1:length(city_name_list)
     truth = truth_list{i};
     samples = samples_list{i};
-    name = name_list{i};
+    city_name = city_name_list{i};
     figure;
     plot(truth, 'kx', 'markersize', 10)
     hold on
@@ -51,14 +34,13 @@ for i=1:length(name_list)
     ylim([-10 max_count+10])
     
     [mse, mae, nll] =  evaluate_preds(truth, samples);
-    title(sprintf('delay=%d, loc=%s, mse=%5.3f, mae=%5.3f, nll=%5.3f',...
-        add_delay, name, mse, mae, nll))
-    fname = sprintf('%s/predictions_%s_%d', fig_folder, name, add_delay);
+    title(sprintf('%s, loc=%s, mse=%5.3f, mae=%5.3f, nll=%5.3f',...
+        model.name, city_name, mse, mae, nll))
+    fname = sprintf('%s/predictions-%s-%s', fig_folder, city_name, model.name);
     print(fname, '-dpng');
     
 end
 
-end
 
 end
 
