@@ -8,94 +8,73 @@ fig_folder = '~/covid19/Figures';
 
 [num_times, num_loc] =size(incidence);
 obs_truth=incidence'; % obs(l,t)
+wuhan = 170;
 
-%set observed error variance
-OEV=zeros(num_loc,num_times);
-for l=1:num_loc
-    for t=1:num_times
-        OEV(l,t)=max(4,obs_truth(l,t)^2/4);
-    end
-end
+obs_truth_wuhan = obs_truth(wuhan,:);
+obs_truth_all = sum(obs_truth); % sum over all locations
+max_count = max(obs_truth_all(:)); % max over time to set scale
+
 
 rng(42);
-num_ens = 300;
-sample_from_prior = true;
-rnd_init = true;
+num_ens = 100;
 
-Td=9;%average reporting delay
-a=1.85;%shape parameter of gamma distribution
-b=Td/a;%scale parameter of gamma distribution
-gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generate gamma random numbers
-
-wuhan = 170;
-global all_loc
-all_loc = num_loc+1; % special index
-
-params = set_params();
-obs_truth_sumloc = sum(obs_truth);
-global max_count
-max_count = max(obs_truth_sumloc(:));
-
-
-if sample_from_prior
-    add_delay = false;
-    [obs_samples, state_samples] = sample_data(params, M, pop, num_ens, add_delay);
-else
-    z0_ens = initialize_state(pop, num_ens, M, rnd_init);
-    param0_ens = params * ones(1,num_ens);
-    inflation_factor = 1.1;
-    legacy = false;
-    [zpost, ppost, obs_samples] = ensembleKF1(z0_ens, param0_ens, ...
-        M, pop, obs_truth, OEV, inflation_factor, gam_rnds, legacy, true);
-end
+delays = [false, true];
+for j=1:length(delays)
+    add_delay = delays(j);
     
 
-figure;
-plot_true_counts(obs_truth, all_loc);
-title('all locations')
-hold on
-plot_pred_counts(obs_samples, all_loc);
-fname = sprintf('%s/samples_all', fig_folder); print(fname, '-dpng');
+param_ndx = 1;
+params = set_params(param_ndx);
+[obs_samples, state_samples] = sample_data(params, M, pop, num_ens, add_delay);
+    
+obs_samples_all =  squeeze(sum(obs_samples,1));
+obs_samples_wuhan = squeeze(obs_samples(wuhan,:,:));
 
+truth_list = {obs_truth_all, obs_truth_wuhan};
+samples_list = {obs_samples_all, obs_samples_wuhan};
+%name_list = {'all', 'wuhan'};
 
-figure;
-plot_true_counts(obs_truth, wuhan);
-title('wuhan')
-hold on
-plot_pred_counts(obs_samples, wuhan);
-fname = sprintf('%s/samples_wuhan', fig_folder); print(fname, '-dpng');
+truth_list = {obs_truth_wuhan};
+samples_list = {obs_samples_wuhan};
+name_list = {'wuhan'};
 
-keyboard
+for i=1:length(name_list)
+    truth = truth_list{i};
+    samples = samples_list{i};
+    name = name_list{i};
+    figure;
+    plot(truth, 'kx', 'markersize', 10)
+    hold on
+    boxplot(samples)
+    ylabel('reported cases')
+    xlim([0 num_times+1]);
+    ylim([-10 max_count+10])
+    
+    [mse, mae, nll] =  evaluate_preds(truth, samples);
+    title(sprintf('delay=%d, loc=%s, mse=%5.3f, mae=%5.3f, nll=%5.3f',...
+        add_delay, name, mse, mae, nll))
+    fname = sprintf('%s/predictions_%s_%d', fig_folder, name, add_delay);
+    print(fname, '-dpng');
+    
+end
 
 end
 
-
-function plot_pred_counts(obs_samples, loc)
-global all_loc max_count
-if loc == all_loc
-    samples = squeeze(sum(obs_samples,1));
-else
-    samples = squeeze(obs_samples(loc,:,:));
-end
-[num_ens num_times] = size(samples);
-boxplot(samples);
-xlim([0 num_times+1]);
-ylim([-10 max_count+10])
 end
 
-
-function plot_true_counts(obs_counts, loc)
-global all_loc max_count
-if loc == all_loc
-    counts = sum(obs_counts,1);
-else
-    counts = obs_counts(loc, :);
+function [mse, mae, nll] =  evaluate_preds(truth, samples)
+ntimes = length(truth);
+nll = 0;
+mse = 0;
+mae = 0;
+for t=1:ntimes
+    dist = fitdist(samples(:,t), 'kernel');
+    nll = nll + -1*log(pdf(dist, truth(t)));
+    mae = mae + abs(median(dist) - truth(t));
+    mse = mse + (mean(dist) - truth(t))^2;
 end
-num_times = length(counts);
-plot(counts, 'kx', 'markersize', 10);
-xlim([0 num_times+1]);
-ylim([-10 max_count+10])
-ylabel('reported cases')
+mse = mse/ntimes;
+mae = mae/ntimes;
 end
 
 
