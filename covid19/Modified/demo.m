@@ -39,8 +39,14 @@ for i = 1:ntrials
     model.loss_init = mc_objective(model, data,  num_ens);
     [model, loss] = optimize_model(model, data, num_ens, max_iter);
     model.loss = mc_objective(model, data,  num_ens);
-    %plot_samples(model, obs_truth, num_ens, fig_folder);
+    %plot_samples(model, data, num_ens, fig_folder);
     models{i} = model;
 end
 
 
+model = models{3}; % seed 3
+model.name = 'params=NM,seed=3,iter=50'
+rng(42);
+num_ens = 100;
+loss = mc_objective(model, data,  num_ens)
+plot_samples(model, data, num_ens, fig_folder)
