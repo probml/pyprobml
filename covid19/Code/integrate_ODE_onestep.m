@@ -1,8 +1,8 @@
-function [states_new] = integrate_ODE_onestep(states, params, pop, Mt, legacy)
+function [states_new] = integrate_ODE_onestep(states, params, pop, Mt, debug)
 % Integrates the ODE eqns 1-4 for one time step using RK4 method
 
-if nargin < 5, legacy = false; end
-
+if nargin < 5, debug = false; end
+legacy = false;
 [S, E, IR, IU, O] = unpack_states(states); % nloc * nens
 % S = suspectible (original name Ts)
 % E = exposed (original name Te)
@@ -10,8 +10,8 @@ if nargin < 5, legacy = false; end
 % IU = infected unreported (original name Tia)
 
 % first step of RK4
-stats = compute_stats(S, E, IR, IU, Mt, pop, params, 1, legacy);
-stats = sample_stats(stats);
+rates = compute_stats(S, E, IR, IU, Mt, pop, params, 1, legacy);
+stats = sample_stats(rates);
 [S1delta, E1delta, IR1delta, IU1delta, O1delta] = compute_deltas(stats);
 
 S1=S+S1delta/2;
@@ -19,10 +19,16 @@ E1=E+E1delta/2;
 IR1=IR+IR1delta/2;
 IU1=IU+IU1delta/2;
 
+if debug
+fprintf('step 1!\n')
+rates(1:3,1)'
+S1delta(1:3,1)'
+S1(1:3,1)'
+end
 
 %second step
-stats = compute_stats(S1, E1, IR1, IU1, Mt, pop, params, 2, legacy);
-stats = sample_stats(stats);
+rates = compute_stats(S1, E1, IR1, IU1, Mt, pop, params, 2, legacy);
+stats = sample_stats(rates);
 [S2delta, E2delta, IR2delta, IU2delta, O2delta] = compute_deltas(stats);
 
 
@@ -31,6 +37,12 @@ E2=E+E2delta/2;
 IR2=IR+IR2delta/2;
 IU2=IU+IU2delta/2;
 
+if debug
+fprintf('step 2!\n')
+rates(1:3,1)'
+S2delta(1:3,1)'
+S2(1:3,1)'
+end
 
 %third step
 
@@ -43,12 +55,27 @@ E3=E+E3delta;
 IR3=IR+IR3delta;
 IU3=IU+IU3delta;
 
+if 0 %debug
+fprintf('step 3!\n')
+S3delta(1:3,1)'
+S3(1:3,1)'
+end
 
 %fourth step
 stats = compute_stats(S3, E3, IR3, IU3, Mt, pop, params, 4, legacy);
 stats = sample_stats(stats); 
 [S4delta, E4delta, IR4delta, IU4delta, O4delta] = compute_deltas(stats); 
 
+S4=S+S4delta;
+E4=E+E4delta;
+IR4=IR+IR4delta;
+IU4=IU+IU4delta;
+
+if 0 % debug
+fprintf('step 4!\n')
+S4delta(1:3,1)'
+S4(1:3,1)'
+end
 
 %%%%% Compute final states
 S_new=S+round(S1delta/6+S2delta/3+S3delta/3+S4delta/6);

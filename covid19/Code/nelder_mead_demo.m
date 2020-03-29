@@ -13,8 +13,10 @@ model.name = 'params=paper';
 rng(42);
 num_ens = 100;
 model.loss = mc_objective(model, data,  num_ens);
-%plot_samples(model, data, num_ens, fig_folder)
+obs_samples = sample_data(model, data, num_ens);
+plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
 model_paper = model;
+
 
 %{
 model.params = set_params(2);
@@ -26,7 +28,7 @@ loss = mc_objective(model, obs_truth,  num_ens)
 plot_samples(model, obs_truth, num_ens, fig_folder)
 %}
 
-seeds = 1:20;
+seeds = 1:3;
 ntrials = length(seeds);
 models = cell(1, ntrials);
 for i = 1:ntrials
@@ -37,7 +39,7 @@ for i = 1:ntrials
     model.params = initialize_params();
     model.name = sprintf('params=NM,seed=%d,iter=%d', seed, max_iter);
     model.loss_init = mc_objective(model, data,  num_ens);
-    [model, loss] = optimize_model(model, data, num_ens, max_iter);
+    [model, loss] = fit_model_nelder_mead(model, data, num_ens, max_iter);
     model.loss = mc_objective(model, data,  num_ens);
     %plot_samples(model, data, num_ens, fig_folder);
     models{i} = model;
@@ -50,3 +52,5 @@ rng(42);
 num_ens = 100;
 loss = mc_objective(model, data,  num_ens)
 plot_samples(model, data, num_ens, fig_folder)
+
+

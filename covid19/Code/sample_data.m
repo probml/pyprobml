@@ -1,4 +1,6 @@
-function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(model, data, num_ens)
+function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(model, data, num_ens, method)
+
+if nargin < 3, method = 1; end
 
 params = model.params;
 add_delay = model.add_delay;
@@ -7,6 +9,7 @@ pop_locs = data.pop;
 
 rnd_init = true;
 legacy = false; %true;
+use_inflation = false;
 
 [num_loc, num_locs2, num_times] = size(mobility_locs_times);
 z_locs_ens_0 = initialize_state(pop_locs, num_ens, mobility_locs_times, rnd_init);
@@ -35,12 +38,19 @@ z_locs_ens_t = z_locs_ens_0;
 
 for t=1:num_times
      %fprintf('timestep %d\n', t)  
-     z_locs_ens_t = inflate(z_locs_ens_t, inflation_factor);
-     z_locs_ens_t = checkbound_states(z_locs_ens_t, pop_locs_ens_t);
+     if use_inflation
+        z_locs_ens_t = inflate(z_locs_ens_t, inflation_factor);
+        z_locs_ens_t = checkbound_states(z_locs_ens_t, pop_locs_ens_t);
+     end
 
      % integrate forward
      Mt = mobility_locs_times(:,:,t);
-    [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt, legacy);
+     debug = false; % (t==1);
+     if method==1
+        [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt, debug);
+     else
+       [z_locs_ens_t] = sample_from_dynamics(z_locs_ens_t, pop_locs_ens_t, model, data, t, debug);
+     end
     z_locs_ens_times(:,:,t)=z_locs_ens_t;
         
     % compute new predicted population
