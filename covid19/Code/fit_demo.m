@@ -64,7 +64,6 @@ for i = 1:ntrials
         model, input_data_train, output_data_train, num_ens, model.max_iter);
     
     model.loss_train = loss;
-    model.loss_train2 = mc_objective(model, input_data_train, output_data_train, num_ens);
     model.loss_test = mc_objective(model, input_data_test, output_data_test, num_ens);
     
     models{i} = model;

@@ -2,10 +2,12 @@ function [z_locs_ens_times, p_ens_times, obs_pred_locs_ens_times_delayed, ...
     obs_pred_locs_ens_times_instant] = ...
     ensembleKF1(z_locs_ens_0, p_ens_0, ...
     mobility_locs_times, pop_locs, obs_truth_locs_times, obs_var_locs_times, ...
-    inflation, gam_rnds, add_noise, nsteps)
+    inflation, gam_rnds, add_noise, nsteps, update_given_nbrs)
 
 if nargin < 9, add_noise = true; end
 if nargin < 10, nsteps = 4; end
+if nargin < 11, update_given_nbrs = true; end
+const_params = false;
 
 [num_var, num_ens] = size(z_locs_ens_0);
 [num_loc, num_times] = size(obs_truth_locs_times);
@@ -26,7 +28,7 @@ z_locs_ens_times = zeros(num_var, num_ens,num_times);
 p_ens_times = zeros(num_params, num_ens,num_times);
 z_locs_ens_t = z_locs_ens_0;
 p_ens_t = p_ens_0;
-const_params = false;
+
 for t=1:num_times
      fprintf('timestep %d\n', t)  
     %inflation
@@ -56,8 +58,12 @@ for t=1:num_times
     obs_pred_locs_ens_t=obs_pred_locs_ens_times_delayed(:,:,t); % (l,e)
     %absorb observation at each location sequentially
     for l=1:num_loc
-        neighbors=union(find(G(:,l)>0),find(G(l,:)>0));
-        nbrs=[neighbors;l];%add location l      
+        if update_given_nbrs
+            neighbors=union(find(G(:,l)>0),find(G(l,:)>0));
+            nbrs=[neighbors;l];%add location l 
+        else
+            nbrs = [l]; % just update yourself
+        end
         obs = obs_truth_locs_times(l,t);
         [dz, dp] = compute_update_given_lt(z_locs_ens_t, p_ens_t, ...
             obs_pred_locs_ens_t(l,:), ...

@@ -1,9 +1,16 @@
-function [theta, para_post, z_post] = IFKF(M, pop_static, obs_truth, ...
-    num_ens, num_iter, add_noise, nsteps)
+function [model, loss] = fit_model_ifkf(...
+     model, input_data, obs_truth, num_ens, max_iter)
 
-if nargin < 6, add_noise = true; end
-if nargin < 7, nsteps = 4; end
+% Iterative filtering combined with (ensemble adjusted) kalman filtering
+% This is a substantial rewrite of the original "inference.m" function
+% from the Shaman Science codebase.
 
+add_noise = model.add_noise;
+nsteps = model.num_integration_steps;
+update_given_nbrs = model.update_given_nbrs;
+
+M = input_data.M;
+pop_static = input_data.pop;
 [num_loc, num_times] = size(obs_truth);
 [param0_ens, paramax,paramin]=initialize_params(num_ens);
 num_para = size(param0_ens,1); % beta,mu,theta,Z,alpha,D
@@ -11,9 +18,9 @@ num_states = num_loc*5; % for each locn, S, E, IR, IU, O
 %num_var = num_states + num_para;
 pop0_ens = pop_static*ones(1,num_ens);
 
-theta=zeros(num_para, num_iter+1);
-para_post=zeros(num_para,num_ens,num_times,num_iter);
-z_post=zeros(num_states,num_ens,num_times,num_iter);
+theta=zeros(num_para, max_iter+1);
+para_post=zeros(num_para,num_ens,num_times,max_iter);
+z_post=zeros(num_states,num_ens,num_times,max_iter);
 
 var_shrinkage_factor = 0.9; 
 SIG=(paramax-paramin).^2/4; %initial covariance of parameters
@@ -33,7 +40,8 @@ b=Td/a;%scale parameter of gamma distribution
 gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generate gamma random numbers
 legacy = 0;
 
-for n=1:num_iter
+
+for n=1:max_iter
     fprintf('iteration %d\n', n)
     sig=var_shrinkage_factor^(n-1);
     Sigma=diag(sig^2*SIG);
@@ -54,11 +62,14 @@ for n=1:num_iter
     z0_ens = checkbound_states(z0_ens, pop0_ens);
     [z_post_iter, p_post_iter] = ensembleKF1(z0_ens, param0_ens, ...
         M, pop_static, obs_truth, OEV, inflation_factor, gam_rnds, ...
-        add_noise, nsteps);
+        add_noise, nsteps, update_given_nbrs);
     z_post(:,:,:,n) = z_post_iter;
     para_post(:,:,:,n) = p_post_iter;
     temp=squeeze(mean(p_post_iter,2));%average over ensemble members
     theta(:,n+1)=mean(temp,2);%average over time
 end
+
+model.params = theta(:,end);
+loss = mc_objective(model, input_data, obs_truth, num_ens);
 
 end
