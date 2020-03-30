@@ -1,12 +1,13 @@
-function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(model, data, num_ens)
+function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(...
+    model, input_data, num_ens)
 
 
 params = model.params;
 add_delay = model.add_delay;
-mobility_locs_times = data.M;
-pop_locs = data.pop;
+mobility_locs_times = input_data.M;
+pop_locs = input_data.pop;
 
-rnd_init = false;
+rnd_init = model.add_noise;
 legacy = false; %true;
 use_inflation = false;
 
@@ -46,7 +47,7 @@ for t=1:num_times
      Mt = mobility_locs_times(:,:,t);
      % [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt);
     [z_locs_ens_t] = sample_from_dynamics(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt,...
-        model.add_noise, model.nsteps);
+        model.add_noise, model.num_integration_steps);
     z_locs_ens_times(:,:,t)=z_locs_ens_t;
         
     % compute new predicted population

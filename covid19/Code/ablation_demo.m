@@ -14,38 +14,46 @@ results_folder  = '~/covid19/Results';
 model = [];
 model.params = set_params(1);
 model.add_delay = true;
-model.nsteps = 4;
+model.num_integration_steps = 4;
 model.add_noise = true;
 rng(42);
 num_ens = 100;
+tic
 obs_samples = sample_data(model, data, num_ens);
+toc
 model.name = sprintf('paper-noise=1=steps=4');
-plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
+plot_samples(obs_samples, data.obs_truth)
+suptitle(model.name)
 
 
 rng(42);
 model.add_noise = false;
-model.nsteps = 4;
+model.num_integration_steps = 4;
+tic
 obs_samples = sample_data(model, data, num_ens);
+toc
 model.name = sprintf('paper-noise=0=steps=4');
-plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
+plot_samples(obs_samples, data.obs_truth)
+suptitle(model.name)
 
 rng(42);
 model.add_noise = false;
-model.nsteps = 1;
+model.num_integration_steps = 1;
+tic
 obs_samples = sample_data(model, data, num_ens);
+toc
 model.name = sprintf('paper-noise=0=steps=1');
-plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
+plot_samples(obs_samples, data.obs_truth)
+suptitle(model.name)
 
-
-
+%{
 num_ens = 100;
 num_iter = 5; 
 seed = 42;
 add_noise = false;
 nsteps = 1;
 make_plot(data, num_ens, num_iter, seed, add_noise, nsteps);
-
+%}
 
 end
 
@@ -63,6 +71,7 @@ model.nsteps = nsteps;
 rng(seed)
 obs_samples = sample_data(model, data, num_ens);
 rng(seed)
-plot_samples(obs_samples, data.obs_truth, name, fig_folder);
+plot_samples(obs_samples, data.obs_truth);
+suptitle(name)
 end
 
