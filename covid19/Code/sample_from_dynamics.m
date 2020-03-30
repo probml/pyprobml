@@ -1,72 +1,80 @@
-function [states_new, prob] = sample_from_dynamics(states_t, pop_t, model, data, t, debug)
+function [states_new, rates_step, deltas_step] = sample_from_dynamics(states_old,  params, pop, Mt)
 % Input:
-% states(l,s), l=1:nloc, s=1:nsamples
+% states(l*5,s), l=1:nloc, s=1:nsamples
 % pop(l,s)
 % model.params, model.add_delay, model.nsteps
 % data.pop, data.M (ignores data.obs_truth)
 % Output:
-% states_new(l,s)
+% states_new(l*5,s)
 % prob(l,s)
 
-params0 = model.params;
-add_delay = model.add_delay;
-Mt = data.M(:,:,t);
 
-[num_loc, num_ens] = size(states_t);
-params = params0 * ones(1,num_ens);
+num_loc = size(Mt, 1);
+num_ens = size(states_old, 2);
+num_comp = 5;
 
-[Sold, Eold, IRold, IUold, ~] = unpack_states(states_t); 
-S = Sold; E = Eold; IR = IRold; IU = IUold;
 
-delta_coefs = [1/2, 1/2, 1, 1];
-for step=1:model.nsteps
-    rates = compute_poisson_rates(S, E, IR, IU, Mt, pop_t, params);
-    if model.add_noise
+[Sold, Eold, IRold, IUold, Oold] = unpack_states(states_old);
+components_old = pack_components(Sold, Eold, IRold, IUold, Oold);
+components_old(:,:,5) = 0; % old observations are not carried over time
+components_delta  = zeros(num_loc, num_ens, num_comp);
+components_intermediate = components_old;
+
+delta_weights = [2,2,1,1];
+rk_weights = [6,3,3,6]; % runge kutte integration weights
+nsteps = 4;
+rates_step = cell(1, nsteps);
+deltas_step = cell(1, nsteps);
+add_noise = true;
+
+
+
+for step=1:nsteps
+    rates = compute_poisson_rates(components_intermediate, Mt, pop, params);
+    rates_step{step} = rates;
+    if add_noise
         noise = sample_poisson_noise(rates);
         increment = noise;
     else
         increment = rates;
     end
-    [Sdelta{step}, Edelta{step}, IRdelta{step}, IUdelta{step}, Odelta{step}] = ...
-        compute_deltas(increment);
-    S = Sold + delta_coefs(step)*Sdelta{step};
-    E = Eold + delta_coefs(step)*Edelta{step};
-    IR = IRold + delta_coefs(step)*IRdelta{step};
-    IU = IUold + delta_coefs(step)*IUdelta{step};
-    
-    if debug && (step <= 2)
-    fprintf('step %d\n', step);
-        rates(1:3,1)'
-    Sdelta{step}(1:3,1)'
-    S(1:3,1)'
-    end
+    deltas = compute_component_deltas(increment);
+    deltas_step{step} = deltas;
+    components_intermediate = components_old + deltas / delta_weights(step);
+    components_delta = components_delta + deltas / rk_weights(step);
 end
-
-if model.nsteps==1
-    Snew = Sold + round(Sdelta{1});
-    Enew = Eold + round(Edelta{1});
-    IRnew = IRold + round(IRdelta{1});
-    IUnew = IUold + round(IUdelta{1});
-    Onew = round(Odelta{1});
-else
-    Snew=Sold + round(Sdelta{1}/6+Sdelta{2}/3+Sdelta{3}/3+Sdelta{4}/6);
-    Enew=Eold + round(Edelta{1}/6+Edelta{2}/3+Edelta{3}/3+Edelta{4}/6);
-    IRnew=IRold + round(IRdelta{1}/6+IRdelta{2}/3+IRdelta{3}/3+IRdelta{4}/6);
-    IUnew=IUold + round(IUdelta{1}/6+IUdelta{2}/3+IUdelta{3}/3+IUdelta{4}/6);
-    Onew = round(Odelta{1}/6+Odelta{2}/3+Odelta{3}/3+Odelta{4}/6);
-end
-states_new = pack_states(Snew, Enew, IRnew, IUnew, Onew);
+components_new = components_old + round(components_delta);
+[S,E,IR,IU,O]  = unpack_components(components_new);
+states_new = pack_states(S,E,IR,IU,O);
 prob = 1;
 
+    
 end
 
-function rates = compute_poisson_rates(S, E, IR, IU, Mt, pop, params)
+function components = pack_components(S, E, IR, IU, O)
+num_comp = 5;
+[num_loc, num_ens] = size(S);
+components = zeros(num_loc, num_ens, num_comp);
+components(:,:,1) = S;
+components(:,:,2) = E;
+components(:,:,3) = IR;
+components(:,:,4) = IU;
+components(:,:,5) = O;
+end
 
+function [S, E, IR, IU, O] = unpack_components(components)
+S = components(:,:,1);
+E = components(:,:,2);
+IR = components(:,:,3);
+IU = components(:,:,4);
+O = components(:,:,5);
+end
+
+function rates = compute_poisson_rates(components, Mt, pop, params)
+[S, E, IR, IU, ~] = unpack_components(components);
 [num_loc, num_ens] = size(S);
 [beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
-
 popp = pop - IR;
-
 U3 =(ones(num_loc,1)*theta).*(Mt*(S./popp)); %ESenter
 U4 =(ones(num_loc,1)*theta).*(S./popp).*(sum(Mt)'*ones(1,num_ens)); %ESleft
 U4 = min(U4, S);
@@ -84,16 +92,16 @@ U6=(ones(num_loc,1)*(1-alpha)).*E./(ones(num_loc,1)*Z);
 U9=IR./(ones(num_loc,1)*D);
 U10=IU./(ones(num_loc,1)*D);
 
-rates = pack_stats(U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10);;
+rates = pack_stats(U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10);
 rates = max(rates, 0);
 end
 
 
-function samples = sample_poisson_noise(rates)
-[nloc, nens, nstat] = size(rates);
+function samples = sample_poisson_noise(rates_per_stat)
+[nloc, nens, nstat] = size(rates_per_stat);
 samples = zeros(nloc, nens, nstat);
 for i=1:nstat
-    samples(:,:,i) = poissrnd(rates(:,:,i));
+    samples(:,:,i) = poissrnd(rates_per_stat(:,:,i));
 end
 %{
 sz = size(stats);
@@ -103,15 +111,15 @@ samples = reshape(samples, sz);
 %}
 end
 
-function [Sdelta, Edelta, IRdelta, IUdelta, Odelta] = compute_deltas(stats)
+function deltas = compute_component_deltas(stats)
 % each delta is nloc*nens
 [U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10] = unpack_stats(stats);
-%[U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12] = unpack_stats_ordered(stats);
 Sdelta = -U1-U2+U3-U4;
 Edelta = U1+U2-U5-U6+U7-U8;
 IRdelta = U5-U9;
 IUdelta = U6-U10+U11-U12;
 Odelta = U5;
+deltas = pack_components(Sdelta, Edelta, IRdelta, IUdelta, Odelta);
 end
     
 
@@ -149,4 +157,46 @@ function [U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10] = unpack_stats(stat
     U6 = stats(:,:,10);
     U9 = stats(:,:,11);
     U10 = stats(:,:,12);
+end
+
+function stats = compute_stats(S, E, IR, IU, Mt, pop, params, step, legacy)
+
+[num_loc, num_ens] = size(S);
+[beta, mu, theta, Z, alpha, D] = unpack_params(params); % each param is 1xnum_ens
+
+if legacy
+    if (step==1)
+        % Incorreclty uses Ia=IU in denominator
+        popp = pop - IU;
+    else
+        % correctl uses Tis=IR in denominator
+        popp = pop - IR;
+    end
+else
+    popp = pop - IR;
+end
+% pop is a nloc x 1 vector
+% IR/IU is a nloc x nens matrix
+% Matlab will broadcast pop along columns of IU/IR
+
+U3 =(ones(num_loc,1)*theta).*(Mt*(S./popp)); %ESenter
+U4 =(ones(num_loc,1)*theta).*(S./popp).*(sum(Mt)'*ones(1,num_ens)); %ESleft
+U4 = min(U4, S);
+U7=(ones(num_loc,1)*theta).*(Mt*(E./popp)); %EEenter
+U8=(ones(num_loc,1)*theta).*(E./popp).*(sum(Mt)'*ones(1,num_ens)); %EEleft
+U8 = min(U8, E);
+U11=(ones(num_loc,1)*theta).*(Mt*(IU./popp)); % EIaenter
+U12 = (ones(num_loc,1)*theta).*(IU./popp).*(sum(Mt)'*ones(1,num_ens)); % EIaleft 
+U12 = min(U12, IU);
+
+U1=(ones(num_loc,1)*beta).*S.*IR./pop;
+U2=(ones(num_loc,1)*mu).*(ones(num_loc,1)*beta).*S.*IU./pop;
+U5=(ones(num_loc,1)*alpha).*E./(ones(num_loc,1)*Z);
+U6=(ones(num_loc,1)*(1-alpha)).*E./(ones(num_loc,1)*Z);
+U9=IR./(ones(num_loc,1)*D);
+U10=IU./(ones(num_loc,1)*D);
+
+stats = pack_stats(U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10);
+%stats = pack_stats_ordered(U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12);
+stats = max(stats, 0);
 end

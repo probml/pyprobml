@@ -1,7 +1,7 @@
-function [states_new] = integrate_ODE_onestep(states, params, pop, Mt, debug)
+function [states_new, rates, Sdelta, Edelta, IRdelta, IUdelta, Odelta] = integrate_ODE_onestep(states, params, pop, Mt)
 % Integrates the ODE eqns 1-4 for one time step using RK4 method
 
-if nargin < 5, debug = false; end
+debug = false;
 legacy = false;
 [S, E, IR, IU, O] = unpack_states(states); % nloc * nens
 % S = suspectible (original name Ts)
@@ -9,82 +9,60 @@ legacy = false;
 % IR = infected reported (original name TIs)
 % IU = infected unreported (original name Tia)
 
+rates = cell(1,4);
+Sdelta = cell(1,4);
 % first step of RK4
-rates = compute_stats(S, E, IR, IU, Mt, pop, params, 1, legacy);
-stats = sample_stats(rates);
-[S1delta, E1delta, IR1delta, IU1delta, O1delta] = compute_deltas(stats);
+rates{1} = compute_stats(S, E, IR, IU, Mt, pop, params, 1, legacy);
+stats = sample_stats(rates{1});
+[Sdelta{1}, Edelta{1}, IRdelta{1}, IUdelta{1}, Odelta{1}] = compute_deltas(stats);
 
-S1=S+S1delta/2;
-E1=E+E1delta/2;
-IR1=IR+IR1delta/2;
-IU1=IU+IU1delta/2;
+S1=S+Sdelta{1}/2;
+E1=E+Edelta{1}/2;
+IR1=IR+IRdelta{1}/2;
+IU1=IU+IUdelta{1}/2;
 
-if debug
-fprintf('step 1!\n')
-rates(1:3,1)'
-S1delta(1:3,1)'
-S1(1:3,1)'
-end
 
 %second step
-rates = compute_stats(S1, E1, IR1, IU1, Mt, pop, params, 2, legacy);
-stats = sample_stats(rates);
-[S2delta, E2delta, IR2delta, IU2delta, O2delta] = compute_deltas(stats);
+rates{2} = compute_stats(S1, E1, IR1, IU1, Mt, pop, params, 2, legacy);
+stats = sample_stats(rates{2});
+[Sdelta{2}, Edelta{2}, IRdelta{2}, IUdelta{2}, Odelta{2}] = compute_deltas(stats);
 
 
-S2=S+S2delta/2;
-E2=E+E2delta/2;
-IR2=IR+IR2delta/2;
-IU2=IU+IU2delta/2;
+S2=S+Sdelta{2}/2;
+E2=E+Edelta{2}/2;
+IR2=IR+IRdelta{2}/2;
+IU2=IU+IUdelta{2}/2;
 
-if debug
-fprintf('step 2!\n')
-rates(1:3,1)'
-S2delta(1:3,1)'
-S2(1:3,1)'
-end
 
 %third step
 
-stats = compute_stats(S2, E2, IR2, IU2, Mt, pop, params, 3, legacy);
-stats = sample_stats(stats); 
-[S3delta, E3delta, IR3delta, IU3delta, O3delta] = compute_deltas(stats); 
+rates{3} = compute_stats(S2, E2, IR2, IU2, Mt, pop, params, 3, legacy);
+stats = sample_stats(rates{3}); 
+[Sdelta{3}, Edelta{3}, IRdelta{3}, IUdelta{3}, Odelta{3}] = compute_deltas(stats); 
 
-S3=S+S3delta;
-E3=E+E3delta;
-IR3=IR+IR3delta;
-IU3=IU+IU3delta;
+S3=S+Sdelta{3};
+E3=E+Edelta{3};
+IR3=IR+IRdelta{3};
+IU3=IU+IUdelta{3};
 
-if 0 %debug
-fprintf('step 3!\n')
-S3delta(1:3,1)'
-S3(1:3,1)'
-end
 
 %fourth step
-stats = compute_stats(S3, E3, IR3, IU3, Mt, pop, params, 4, legacy);
-stats = sample_stats(stats); 
-[S4delta, E4delta, IR4delta, IU4delta, O4delta] = compute_deltas(stats); 
+rates{4} = compute_stats(S3, E3, IR3, IU3, Mt, pop, params, 4, legacy);
+stats = sample_stats(rates{4}); 
+[Sdelta{4}, Edelta{4}, IRdelta{4}, IUdelta{4}, Odelta{4}] = compute_deltas(stats); 
 
-S4=S+S4delta;
-E4=E+E4delta;
-IR4=IR+IR4delta;
-IU4=IU+IU4delta;
-
-if 0 % debug
-fprintf('step 4!\n')
-S4delta(1:3,1)'
-S4(1:3,1)'
-end
+S4=S+Sdelta{4};
+E4=E+Edelta{4};
+IR4=IR+IRdelta{4};
+IU4=IU+IUdelta{4};
 
 %%%%% Compute final states
-S_new=S+round(S1delta/6+S2delta/3+S3delta/3+S4delta/6);
-E_new=E+round(E1delta/6+E2delta/3+E3delta/3+E4delta/6);
-IR_new=IR+round(IR1delta/6+IR2delta/3+IR3delta/3+IR4delta/6);
-IU_new=IU+round(IU1delta/6+IU2delta/3+IU3delta/3+IU4delta/6);
-Incidence_new=round(O1delta/6+O2delta/3+O3delta/3+O4delta/6);
-obs_new=Incidence_new;
-states_new = pack_states(S_new, E_new, IR_new, IU_new, obs_new);
+S_new=S+round(Sdelta{1}/6+Sdelta{2}/3+Sdelta{3}/3+Sdelta{4}/6);
+E_new=E+round(Edelta{1}/6+Edelta{2}/3+Edelta{3}/3+Edelta{4}/6);
+IR_new=IR+round(IRdelta{1}/6+IRdelta{2}/3+IRdelta{3}/3+IRdelta{4}/6);
+IU_new=IU+round(IUdelta{1}/6+IUdelta{2}/3+IUdelta{3}/3+IUdelta{4}/6);
+O_new=round(Odelta{1}/6+Odelta{2}/3+Odelta{3}/3+Odelta{4}/6);
+states_new = pack_states(S_new, E_new, IR_new, IU_new, O_new);
 
 end
 

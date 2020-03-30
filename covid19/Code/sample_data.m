@@ -45,12 +45,14 @@ for t=1:num_times
 
      % integrate forward
      Mt = mobility_locs_times(:,:,t);
-     debug = false; % (t==1);
-     if method==1
-        [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt, debug);
-     else
-       [z_locs_ens_t] = sample_from_dynamics(z_locs_ens_t, pop_locs_ens_t, model, data, t, debug);
-     end
+     rng(42)
+     z = z_locs_ens_t;
+     [z_locs_ens_t1, rates1, Sdelta, Edelta, IRdelta, IUdelta, Odelta] = integrate_ODE_onestep(z, params_ens_0, pop_locs_ens_t, Mt);
+     rng(42)
+     [z_locs_ens_t2, rates2, deltas] = sample_from_dynamics(z, params_ens_0, pop_locs_ens_t, Mt);
+     
+     assert(approxeq(z_locs_ens_t1,   z_locs_ens_t2))
+     
     z_locs_ens_times(:,:,t)=z_locs_ens_t;
         
     % compute new predicted population

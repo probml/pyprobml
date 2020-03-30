@@ -13,14 +13,14 @@ model.name = 'params=paper';
 model.nsteps = 4;
 model.add_noise = true;
 rng(42);
-num_ens = 100;
+num_ens = 10;
 %model.loss = mc_objective(model, data,  num_ens);
 obs_samples = sample_data(model, data, num_ens, 1);
 %plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
 
-
+%{
 rng(42);
 obs_samples2 = sample_data(model, data, num_ens, 2);
 %plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
-
 assert(approxeq(obs_samples, obs_samples2))
+%}
