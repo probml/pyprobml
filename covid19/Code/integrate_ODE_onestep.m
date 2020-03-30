@@ -1,4 +1,4 @@
-function [states_new, rates, Sdelta, Edelta, IRdelta, IUdelta, Odelta] = integrate_ODE_onestep(states, params, pop, Mt)
+function [states_new, rates] = integrate_ODE_onestep(states, params, pop, Mt)
 % Integrates the ODE eqns 1-4 for one time step using RK4 method
 
 debug = false;

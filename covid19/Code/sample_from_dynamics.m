@@ -1,4 +1,5 @@
-function [states_new, rates_step, deltas_step] = sample_from_dynamics(states_old,  params, pop, Mt)
+function [states_new] = sample_from_dynamics(states_old,  params, pop, Mt, add_noise, nsteps)
+%function [states_new] = sample_from_dynamics(states_old,  model, pop, Mt)
 % Input:
 % states(l*5,s), l=1:nloc, s=1:nsamples
 % pop(l,s)
@@ -13,7 +14,7 @@ num_loc = size(Mt, 1);
 num_ens = size(states_old, 2);
 num_comp = 5;
 
-
+%params = model.params * ones(1,num_ens);
 [Sold, Eold, IRold, IUold, Oold] = unpack_states(states_old);
 components_old = pack_components(Sold, Eold, IRold, IUold, Oold);
 components_old(:,:,5) = 0; % old observations are not carried over time
@@ -22,32 +23,34 @@ components_intermediate = components_old;
 
 delta_weights = [2,2,1,1];
 rk_weights = [6,3,3,6]; % runge kutte integration weights
-nsteps = 4;
-rates_step = cell(1, nsteps);
-deltas_step = cell(1, nsteps);
-add_noise = true;
+%nsteps = model.nsteps;
+%add_noise = model.add_noise;
 
-
-
-for step=1:nsteps
+if nsteps==1
     rates = compute_poisson_rates(components_intermediate, Mt, pop, params);
-    rates_step{step} = rates;
     if add_noise
-        noise = sample_poisson_noise(rates);
-        increment = noise;
+        increment = sample_poisson_noise(rates);
     else
-        increment = rates;
+        increment = round(rates);
     end
-    deltas = compute_component_deltas(increment);
-    deltas_step{step} = deltas;
-    components_intermediate = components_old + deltas / delta_weights(step);
-    components_delta = components_delta + deltas / rk_weights(step);
+    components_deltas = compute_component_deltas(increment);
+else
+    for step=1:nsteps
+        rates = compute_poisson_rates(components_intermediate, Mt, pop, params);
+        if add_noise
+            increment = sample_poisson_noise(rates);
+        else
+            increment = round(rates);
+        end
+        deltas = compute_component_deltas(increment);
+        components_intermediate = components_old + deltas / delta_weights(step);
+        components_delta = components_delta + deltas / rk_weights(step);
+    end
 end
 components_new = components_old + round(components_delta);
 [S,E,IR,IU,O]  = unpack_components(components_new);
 states_new = pack_states(S,E,IR,IU,O);
 prob = 1;
-
     
 end
 

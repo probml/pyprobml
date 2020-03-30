@@ -2,9 +2,10 @@ function [z_locs_ens_times, p_ens_times, obs_pred_locs_ens_times_delayed, ...
     obs_pred_locs_ens_times_instant] = ...
     ensembleKF1(z_locs_ens_0, p_ens_0, ...
     mobility_locs_times, pop_locs, obs_truth_locs_times, obs_var_locs_times, ...
-    inflation, gam_rnds, legacy, const_params)
+    inflation, gam_rnds, add_noise, nsteps)
 
-if nargin < 10, const_params = false; end
+if nargin < 9, add_noise = true; end
+if nargin < 10, nsteps = 4; end
 
 [num_var, num_ens] = size(z_locs_ens_0);
 [num_loc, num_times] = size(obs_truth_locs_times);
@@ -25,6 +26,7 @@ z_locs_ens_times = zeros(num_var, num_ens,num_times);
 p_ens_times = zeros(num_params, num_ens,num_times);
 z_locs_ens_t = z_locs_ens_0;
 p_ens_t = p_ens_0;
+const_params = false;
 for t=1:num_times
      fprintf('timestep %d\n', t)  
     %inflation
@@ -35,7 +37,9 @@ for t=1:num_times
     
     %integrate state forward one step
     Mt = mobility_locs_times(:,:,t);
-    [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, p_ens_t, pop_locs_ens_t, Mt, legacy);
+    %[z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, p_ens_t, pop_locs_ens_t, Mt, legacy);
+    z_locs_ens_t = sample_from_dynamics(z_locs_ens_t, p_ens_t, pop_locs_ens_t, Mt,...
+        add_noise, nsteps);
     
     % compute new predicted population
     [beta, mu, theta, Z, alpha, D] = unpack_params(p_ens_t); % each param is 1xnum_ens

@@ -1,6 +1,5 @@
-function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(model, data, num_ens, method)
+function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(model, data, num_ens)
 
-if nargin < 3, method = 1; end
 
 params = model.params;
 add_delay = model.add_delay;
@@ -45,14 +44,9 @@ for t=1:num_times
 
      % integrate forward
      Mt = mobility_locs_times(:,:,t);
-     rng(42)
-     z = z_locs_ens_t;
-     [z_locs_ens_t1, rates1, Sdelta, Edelta, IRdelta, IUdelta, Odelta] = integrate_ODE_onestep(z, params_ens_0, pop_locs_ens_t, Mt);
-     rng(42)
-     [z_locs_ens_t2, rates2, deltas] = sample_from_dynamics(z, params_ens_0, pop_locs_ens_t, Mt);
-     
-     assert(approxeq(z_locs_ens_t1,   z_locs_ens_t2))
-     
+     % [z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt);
+    [z_locs_ens_t] = sample_from_dynamics(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt,...
+        model.add_noise, model.nsteps);
     z_locs_ens_times(:,:,t)=z_locs_ens_t;
         
     % compute new predicted population
