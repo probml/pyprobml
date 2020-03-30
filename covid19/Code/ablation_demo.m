@@ -10,35 +10,37 @@ global fig_folder results_folder
 fig_folder = '~/covid19/Figures';
 results_folder  = '~/covid19/Results';
 
+
 model = [];
 model.params = set_params(1);
 model.add_delay = true;
-model.name = 'params=paper,noise=1';
 model.nsteps = 4;
 model.add_noise = true;
 rng(42);
-num_ens = 50;
-%model.loss = mc_objective(model, data,  num_ens);
+num_ens = 100;
 obs_samples = sample_data(model, data, num_ens);
+model.name = sprintf('paper-noise=1=steps=4');
 plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
 
-%{
+
 rng(42);
 model.add_noise = false;
-model.name = 'params=paper,noise=0';
+model.nsteps = 4;
 obs_samples = sample_data(model, data, num_ens);
+model.name = sprintf('paper-noise=0=steps=4');
 plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
-%}
 
-num_ens = 300;
-num_iter = 3; 
-seed = 42;
-add_noise = false;
-nsteps = 4;
-make_plot(data, num_ens, num_iter, seed, add_noise, nsteps);
+rng(42);
+model.add_noise = false;
+model.nsteps = 1;
+obs_samples = sample_data(model, data, num_ens);
+model.name = sprintf('paper-noise=0=steps=1');
+plot_samples(obs_samples, data.obs_truth, model.name, fig_folder)
 
-num_ens = 300;
-num_iter = 3; 
+
+
+num_ens = 100;
+num_iter = 5; 
 seed = 42;
 add_noise = false;
 nsteps = 1;
@@ -49,7 +51,6 @@ end
 
 function make_plot(data, num_ens, num_iter, seed, add_noise, nsteps)
 global fig_folder results_folder
-
 name = sprintf('ens%d-iter%d-seed%d-noise%d-steps%d', ...
     num_ens, num_iter, seed, add_noise, nsteps);
 fname = sprintf('%s/params-%s.mat', results_folder, name);
@@ -59,10 +60,9 @@ model.add_delay = true;
 model.params = tmp.theta(:,end);
 model.add_noise = add_noise;
 model.nsteps = nsteps;
-model.name = name;
 rng(seed)
 obs_samples = sample_data(model, data, num_ens);
 rng(seed)
-plot_samples(obs_samples, data.obs_truth, model.name, fig_folder);
+plot_samples(obs_samples, data.obs_truth, name, fig_folder);
 end
 

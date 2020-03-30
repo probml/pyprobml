@@ -33,7 +33,7 @@ if nsteps==1
     else
         increment = round(rates);
     end
-    components_deltas = compute_component_deltas(increment);
+    components_delta = compute_component_deltas(increment);
 else
     for step=1:nsteps
         rates = compute_poisson_rates(components_intermediate, Mt, pop, params);

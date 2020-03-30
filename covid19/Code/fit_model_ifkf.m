@@ -5,8 +5,8 @@ load('../Data/incidence.mat') %load observation
 [num_times, num_loc] =size(incidence);
 obs_truth=incidence'; % obs(l,t)
 
-num_ens = 300;
-num_iter = 3; %~1 minute per iteration
+num_ens = 100;
+num_iter = 5; %~1 minute per iteration
 seed = 42;
 add_noise = false;
 nsteps = 1;

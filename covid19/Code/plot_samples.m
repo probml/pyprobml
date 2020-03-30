@@ -1,16 +1,19 @@
 
 function plot_samples(obs_samples, obs_truth, model_name,  fig_folder)
 
-[num_loc, num_times] = size(obs_truth);
+loss = mae_objective(obs_truth,  obs_samples);
+sprintf('plot samples %s mae %5.3\n', model_name, loss);
+
+[num_loc, num_ens, num_times] = size(obs_samples);
 wuhan = 170;
 obs_truth_wuhan = obs_truth(wuhan,:);
-obs_truth_all = sum(obs_truth); % sum over all locations
+obs_truth_all = sum(obs_truth,1); % sum over all locations
 max_count = max(obs_truth_all(:)); % max over time to set scale
     
 obs_samples_all =  squeeze(sum(obs_samples,1));
 obs_samples_wuhan = squeeze(obs_samples(wuhan,:,:));
 
-if 0 
+if 1
     truth_list = {obs_truth_all, obs_truth_wuhan};
     samples_list = {obs_samples_all, obs_samples_wuhan};
     city_name_list = {'all', 'wuhan'};
@@ -33,9 +36,10 @@ for i=1:length(city_name_list)
     ylim([-10 max_count+10])
     
     [mse, mae, nll] =  evaluate_preds(truth, samples);
-    title(sprintf('%s, loc=%s, mse=%5.3f, mae=%5.3f, nll=%5.3f',...
-        model_name, city_name, mse, mae, nll))
-    fname = sprintf('%s/predictions-%s-%s', fig_folder, city_name, model_name);
+    title(sprintf('loc=%s, mse=%5.3f, mae=%5.3f, nll=%5.3f',...
+        city_name, mse, mae, nll))
+    suptitle(sprintf('%s mae=%5.3f', model_name, loss));
+    fname = sprintf('%s/predictions-%s-%s', fig_folder, model_name, city_name);
     print(fname, '-dpng');
     
 end

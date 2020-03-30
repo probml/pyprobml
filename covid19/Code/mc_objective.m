@@ -7,9 +7,7 @@ if penalty > 0
     loss = penalty;
 else
     [obs_pred_samples] = sample_data(model, data, num_ens); %X(l,e,t)
-    obs_pred_median = squeeze(median(obs_pred_samples, 2)); %X(l,t)
-    err = abs(data.obs_truth - obs_pred_median);
-    loss = mean(err(:));
+    loss = mae_objective(data.obs_truth,  obs_pred_samples);
 end
 
 

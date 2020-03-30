@@ -6,7 +6,7 @@ add_delay = model.add_delay;
 mobility_locs_times = data.M;
 pop_locs = data.pop;
 
-rnd_init = true;
+rnd_init = false;
 legacy = false; %true;
 use_inflation = false;
 
