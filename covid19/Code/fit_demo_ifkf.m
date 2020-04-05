@@ -40,7 +40,7 @@ model.loss_test = mc_objective(model, input_data_test, output_data_test, num_ens
 
 rng(42);
 num_ens = 100;
-samples = sample_data(model, input_data_test, num_ens);
+samples = sample_data(model, input_data_test);
 plot_samples(samples, output_data_test)
 %loss_test = mc_objective(model, data_test,  num_ens);
 suptitle(sprintf('%s mae-train=%5.3f mae-test=%5.3f', ...

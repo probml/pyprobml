@@ -1,17 +1,20 @@
-function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(...
-    model, input_data, num_ens)
+function [obs_pred_locs_ens_times, z_locs_ens_times] = sample_data(model, input_data, num_times)
+
 
 
 params = model.params;
 add_delay = model.add_delay;
 mobility_locs_times = input_data.M;
 pop_locs = input_data.pop;
+num_ens = model.num_ens;
 
 rnd_init = model.add_noise;
 legacy = false; %true;
 use_inflation = false;
 
-[num_loc, num_locs2, num_times] = size(mobility_locs_times);
+if nargin < 3, num_times = size(mobility_locs_times,3); end
+[num_loc] = size(mobility_locs_times,1);
+
 z_locs_ens_0 = initialize_state(pop_locs, num_ens, mobility_locs_times, rnd_init);
 [beta, mu, theta, Z, alpha, D] = unpack_params(params); 
 params_ens_0 = params * ones(1,num_ens);
@@ -49,13 +52,7 @@ for t=1:num_times
     [z_locs_ens_t] = sample_from_dynamics(z_locs_ens_t, params_ens_0, pop_locs_ens_t, Mt,...
         model.add_noise, model.num_integration_steps);
     z_locs_ens_times(:,:,t)=z_locs_ens_t;
-        
-    % compute new predicted population
-    pop_new = pop_locs_ens_t + sum(Mt,2)*theta - sum(Mt,1)'*theta;  % eqn 5
-    minfrac=0.6;
-    ndx = find(pop_new < minfrac*pop_locs_ens_0);
-    pop_new(ndx)=pop_locs_ens_0(ndx)*minfrac;
-    pop_locs_ens_t = pop_new;
+    pop_locs_ens_t = update_pop(pop_locs_ens_t, Mt, theta);
     
     % generate observaions
      pred_cnt = Hz * z_locs_ens_t; % predicted counts
