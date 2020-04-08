@@ -1,6 +1,6 @@
 function fit_demo()
 
-load('../Data/M.mat') %M(l,l,t)
+load('../Data/Mobility.mat') %M(l,l,t)
 load('../Data/pop.mat') % pop(l)
 load('../Data/incidence.mat') % O(t,l)
 obs_truth=incidence'; % obs(l,t)

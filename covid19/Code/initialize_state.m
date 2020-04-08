@@ -1,7 +1,9 @@
-function [x]=initialize_state(pop, num_ens, M, rnd_init)
+function [x]=initialize_state(pop, num_ens, M, rnd_init, init_max)
 % x is (375*5, num_ens)
 
 if nargin <4, rnd_init = false; end
+%if nargin < 5, init_max = 2000; end
+init_max=2000;
 num_loc=size(pop,1);
 
 
@@ -26,8 +28,8 @@ end
 
 %seeding in Wuhan (city 170)
 seedid=170;
-xmin((seedid-1)*5+2)=0;xmax((seedid-1)*5+2)=2000; %E
-xmin((seedid-1)*5+4)=0;xmax((seedid-1)*5+4)=2000; %IU
+xmin((seedid-1)*5+2)=0;xmax((seedid-1)*5+2)=init_max; %E
+xmin((seedid-1)*5+4)=0;xmax((seedid-1)*5+4)=init_max; %IU
  %Latin Hypercubic Sampling
 x=lhsu(xmin, xmax, num_ens, rnd_init);
 x=x';

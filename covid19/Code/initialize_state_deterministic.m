@@ -1,4 +1,4 @@
-function [z0]=initialize_state_deterministic(pop0, M, rounding)
+function [z0]=initialize_state_deterministic(pop0, M)
 
 num_loc = 375;
 S0 = pop0;
@@ -20,8 +20,6 @@ for i=1:num_loc
     end
 end
 z0 = pack_states(S0,E0,IR0,IU0,O0);
-if rounding
-    z0 = round(z0);
-end
+z0 = round(z0);
 
 end

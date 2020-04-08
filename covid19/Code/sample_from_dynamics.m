@@ -1,4 +1,4 @@
-function [states_new, components_delta] = sample_from_dynamics(...
+function [states_new, states_delta] = sample_from_dynamics(...
     states_old,  params, pop, Mt, add_noise, nsteps)
 %function [states_new] = sample_from_dynamics(states_old,  model, pop, Mt)
 % Input:
@@ -8,7 +8,6 @@ function [states_new, components_delta] = sample_from_dynamics(...
 % data.pop, data.M (ignores data.obs_truth)
 % Output:
 % states_new(l*5,s)
-% prob(l,s)
 
 
 num_loc = size(Mt, 1);
@@ -32,7 +31,7 @@ if nsteps==1
     if add_noise
         increment = sample_poisson_noise(rates);
     else
-        increment = round(rates);
+        increment = rates;
     end
     components_delta = compute_component_deltas(increment);
 else
@@ -48,12 +47,14 @@ else
         components_delta = components_delta + deltas / rk_weights(step);
     end
 end
-components_delta = round(components_delta);
+
 components_new = components_old + components_delta;
 [S,E,IR,IU,O]  = unpack_components(components_new);
 states_new = pack_states(S,E,IR,IU,O);
-prob = 1;
-    
+
+[SD,ED,IRD,IUD,OD]  = unpack_components(components_delta);
+states_delta = pack_states(SD,ED,IRD,IUD,OD);
+
 end
 
 function components = pack_components(S, E, IR, IU, O)
@@ -96,6 +97,7 @@ U5=(ones(num_loc,1)*alpha).*E./(ones(num_loc,1)*Z);
 U6=(ones(num_loc,1)*(1-alpha)).*E./(ones(num_loc,1)*Z);
 U9=IR./(ones(num_loc,1)*D);
 U10=IU./(ones(num_loc,1)*D);
+
 
 rates = pack_stats(U3, U4, U7, U8, U11, U12, U1, U2, U5, U6, U9, U10);
 rates = max(rates, 0);

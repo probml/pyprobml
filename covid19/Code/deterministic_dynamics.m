@@ -1,5 +1,5 @@
 function [states_new, states_delta] = deterministic_dynamics(...
-    states_old,  params, pop, Mt, rounding)
+    states_old,  params, pop, Mt)
 %function [states_new] = sample_from_dynamics(states_old,  model, pop, Mt)
 % Input:
 % states(l*5,s), l=1:nloc, s=1:nsamples
@@ -24,9 +24,6 @@ components_intermediate = components_old;
 
 rates = compute_poisson_rates(components_intermediate, Mt, pop, params);
 components_delta = compute_component_deltas(rates);
-if rounding
-    components_delta = round(components_delta);
-end
 components_new = components_old + components_delta;
 
 
