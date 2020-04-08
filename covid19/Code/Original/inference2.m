@@ -41,16 +41,17 @@ SIG=(paramax-paramin).^2/4;%initial covariance of parameters
 lambda=1.1;%inflation parameter to aviod divergence within each iteration
 %start iteration for Iter round
 for n=1:Iter
+    fprintf('starting IF iteration %d\n', n);
     sig(n)=alp^(n-1);
     %generate new ensemble members using multivariate normal distribution
     Sigma=diag(sig(n)^2*SIG);
     if (n==1)
         %first guess of state space
-        [x,~,~]=initialize(pop0,num_ens);
+        [x,~,~]=initialize2(pop0,num_ens,M);
         para=x(end-5:end,:);
         theta(:,1)=mean(para,2);%mean parameter
     else
-        [x,~,~]=initialize(pop0,num_ens);
+        [x,~,~]=initialize2(pop0,num_ens,M);
         para=mvnrnd(theta(:,n)',Sigma,num_ens)';%generate parameters
         x(end-5:end,:)=para;
     end
