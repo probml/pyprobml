@@ -11,7 +11,7 @@ b=Td/a;%scale parameter of gamma distribution
 %gam_rnds=ceil(gamrnd(a,b,1e4,1));%pre-generage gamma random numbers
 
 if nargin < 5
-    rnd_delay = false;
+    rnd_delay = true;
 else
     % deterministically recyrcles delats 0:10
     ndx = 0:10;

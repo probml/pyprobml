@@ -2,8 +2,7 @@ function [x]=initialize_state(pop, num_ens, M, rnd_init, init_max)
 % x is (375*5, num_ens)
 
 if nargin <4, rnd_init = false; end
-%if nargin < 5, init_max = 2000; end
-init_max=2000;
+if nargin < 5, init_max = 2000; end
 num_loc=size(pop,1);
 
 

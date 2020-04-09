@@ -1,7 +1,9 @@
-function [theta, para_post, z_post] = inference_refactored(M, pop_static, obs_truth, ...
-    num_ens, num_iter, legacy)
+function [theta, para_post, z_post] = inference_refactored(...
+    M, pop_static, obs_truth, num_ens, num_iter, legacy, rnd_init)
 
-if nargin < 6, legacy = false; end
+ add_noise = true;
+ nsteps = 4;
+ rounding = true;
 
 [num_loc, num_times] = size(obs_truth);
 [param0_ens, paramax,paramin]=initialize_params(num_ens);
@@ -37,11 +39,11 @@ for n=1:num_iter
     Sigma=diag(sig^2*SIG);
     if (n==1)
         %first guess of state space
-        [param0_ens, ~, ~] = initialize_params(num_ens);
-        z0_ens = initialize_state(pop_static, num_ens, M);
+        [param0_ens, ~, ~] = initialize_params(num_ens, rnd_init);
+        z0_ens = initialize_state(pop_static, num_ens, M, rnd_init);
         theta(:,1)=mean(param0_ens,2);%mean parameter
     else
-        z0_ens = initialize_state(pop_static, num_ens, M);
+        z0_ens = initialize_state(pop_static, num_ens, M, rnd_init);
         param0_ens=mvnrnd(theta(:,n)',Sigma,num_ens)';%generate parameters
     end
     if legacy
@@ -51,7 +53,7 @@ for n=1:num_iter
     end
     z0_ens = checkbound_states(z0_ens, pop0_ens);
     [z_post_iter, p_post_iter] = ensembleKF1(z0_ens, param0_ens, ...
-        M, pop_static, obs_truth, OEV, inflation_factor, gam_rnds, legacy);
+        M, pop_static, obs_truth, OEV, inflation_factor, gam_rnds, add_noise, nsteps, legacy, rounding);
     z_post(:,:,:,n) = z_post_iter;
     para_post(:,:,:,n) = p_post_iter;
     temp=squeeze(mean(p_post_iter,2));%average over ensemble members

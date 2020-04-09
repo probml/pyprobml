@@ -4,7 +4,7 @@ function s=lhsu(xmin,xmax,nsample, random)
 % xmax(i)
 % s(nsamples, nvar)
 
-if nargin < 4, random = false; end
+if nargin < 4, random = true; end
 
 if random
     % original code

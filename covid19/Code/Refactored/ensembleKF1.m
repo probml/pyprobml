@@ -2,12 +2,20 @@ function [z_locs_ens_times, p_ens_times, obs_pred_locs_ens_times_delayed, ...
     obs_pred_locs_ens_times_instant] = ...
     ensembleKF1(z_locs_ens_0, p_ens_0, ...
     mobility_locs_times, pop_locs, obs_truth_locs_times, obs_var_locs_times, ...
-    inflation, gam_rnds, add_noise, nsteps, update_given_nbrs)
+    inflation, gam_rnds, add_noise, nsteps, legacy, rnd_init)
 
+
+
+
+ 
+    
 if nargin < 9, add_noise = true; end
 if nargin < 10, nsteps = 4; end
-if nargin < 11, update_given_nbrs = true; end
+if nargin < 11, legacy = false; end
+update_given_nbrs = true;
+rnd_delay = true;
 const_params = false;
+rounding = true;
 
 [num_var, num_ens] = size(z_locs_ens_0);
 [num_loc, num_times] = size(obs_truth_locs_times);
@@ -30,7 +38,7 @@ z_locs_ens_t = z_locs_ens_0;
 p_ens_t = p_ens_0;
 
 for t=1:num_times
-     fprintf('timestep %d\n', t)  
+     fprintf('EAKF timestep %d\n', t)  
     %inflation
     z_locs_ens_t = inflate(z_locs_ens_t, inflation);
     z_locs_ens_t = checkbound_states(z_locs_ens_t, pop_locs_ens_t);
@@ -41,7 +49,7 @@ for t=1:num_times
     Mt = mobility_locs_times(:,:,t);
     %[z_locs_ens_t] = integrate_ODE_onestep(z_locs_ens_t, p_ens_t, pop_locs_ens_t, Mt, legacy);
     z_locs_ens_t = sample_from_dynamics(z_locs_ens_t, p_ens_t, pop_locs_ens_t, Mt,...
-        add_noise, nsteps);
+        add_noise, nsteps, legacy, rounding);
     
     % compute new predicted population
     [beta, mu, theta, Z, alpha, D] = unpack_params(p_ens_t); % each param is 1xnum_ens
@@ -54,7 +62,7 @@ for t=1:num_times
     pred_cnt = Hz * z_locs_ens_t; % predicted counts
     obs_pred_locs_ens_times_instant(:,:,t) = pred_cnt;
     obs_pred_locs_ens_times_delayed = add_delayed_obs(...
-        obs_pred_locs_ens_times_delayed, t, pred_cnt, gam_rnds);
+        obs_pred_locs_ens_times_delayed, t, pred_cnt, gam_rnds, rnd_delay);
     obs_pred_locs_ens_t=obs_pred_locs_ens_times_delayed(:,:,t); % (l,e)
     %absorb observation at each location sequentially
     for l=1:num_loc
