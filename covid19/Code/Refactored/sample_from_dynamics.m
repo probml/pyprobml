@@ -30,7 +30,7 @@ rk_weights = [6,3,3,6]; % runge kutte integration weights
 %add_noise = model.add_noise;
 
 if nsteps==1
-    rates = compute_poisson_rates(components_intermediate, Mt, pop, params, step, legacy);
+    rates = compute_poisson_rates(components_intermediate, Mt, pop, params, 1, legacy);
     if add_noise
         increment = sample_poisson_noise(rates);
     else
@@ -42,22 +42,22 @@ if nsteps==1
     end
 else
     deltas_step = cell(1, nsteps);
-    for step=1:nsteps
-        rates = compute_poisson_rates(components_intermediate, Mt, pop, params, step, legacy);
+    for stepnum=1:nsteps
+        rates = compute_poisson_rates(components_intermediate, Mt, pop, params, stepnum, legacy);
         if add_noise
             increment = sample_poisson_noise(rates);
         else
             increment = round(rates);
         end
         deltas = compute_component_deltas(increment);
-        components_intermediate = components_old + deltas / delta_weights(step);
-        deltas_step{step} = deltas;
+        components_intermediate = components_old + deltas / delta_weights(stepnum);
+        deltas_step{stepnum} = deltas;
     end
 end
 
 if nsteps>1
-    for step=1:nsteps
-       components_delta = components_delta + deltas_step{step} / rk_weights(step);
+    for stepnum=1:nsteps
+       components_delta = components_delta + deltas_step{stepnum} / rk_weights(stepnum);
     end
     if rounding
         components_delta = round(components_delta);
