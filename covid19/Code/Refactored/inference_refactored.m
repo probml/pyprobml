@@ -1,6 +1,6 @@
 function [theta, para_post, z_post] = inference_refactored(...
     M, pop_static, obs_truth, num_ens, num_iter, legacy, rnd_init)
-
+ 
  add_noise = true;
  nsteps = 4;
  rounding = true;

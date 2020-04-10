@@ -1,31 +1,34 @@
-load('../../Data/Mobility.mat') %load mobility
-load('../../Data/pop.mat') %load population
-load('../../Data/incidence.mat') %load observation
 
-[num_times, num_loc] =size(incidence);
-obs_truth=incidence'; % obs(l,t)
+function run_inference()
 
-legacy =  true;
-num_ens = 100;
-num_iter = 5; %~1 minute per iteration
-seeds = 1:5;
+load('../../Data/Mobility.mat')
+load('../../Data/pop.mat')
+load('../../Data/incidence.mat')
+num_iter = 2;
+num_ens = 10;
+seeds = 1:2;
 nseeds = length(seeds);
-rnd_init = false;
-
 param_dist = zeros(6, nseeds);
-tic
+rnd_init = true;
+legacy = true;
+obs_truth=incidence';
 for seedi = 1:nseeds
     seed = seeds(seedi);
-    fprintf('\n\nrunning seed %d\n', seed)
-    % para_post: (num_para,num_ens,num_times,Iter);
-    % theta: (num_para,Iter+1)
-    % params are stored in this order: beta, mu, theta, Z, alpha, D
-    [theta] = inference_refactored(M, pop, obs_truth, num_ens, num_iter, legacy, rnd_init);
-    disp(theta) % final iteration of method
-    param_dist(:,seedi) = theta(:,end);
-end
-toc 
 
+    fprintf('\n\nrunning seed %d\n', seed)
+    %[~,theta] = inference2(M, pop, incidence, num_iter, num_ens);
+    [theta] = inference_refactored(M, pop, obs_truth, num_ens, num_iter, legacy, rnd_init);
+    %disp(theta) % final iteration of method
+    param_dist(:,seedi) = theta(:,end);
+    fname = sprintf('param-dist-seeds-1to%d-samples%d-iter%d', seedi, num_ens, num_iter);
+    save(fname, 'param_dist')
+
+    make_plot(param_dist(:, 1:seedi), fname);
+end
+
+end
+
+function make_plot(param_dist, fname)
 names = {'beta', 'mu', 'theta', 'Z', 'alpha', 'D'};
 figure; 
 for i=1:6
@@ -33,8 +36,11 @@ for i=1:6
     dist = param_dist(i,:);
     boxplot(dist);
     q = quantile(dist, [0.025 0.5 0.975]);
+    disp(median(dist))
     title(sprintf('%s %5.3f (%4.2f-%4.2f)', names{i}, q(2), q(1), q(3)));
 end
-suptitle(sprintf('Refactored MLEs: legacy %d, rndinit %d, %d seeds, %d samples, %d iter',  legacy, rnd_init, nseeds, num_ens, num_iter));
-fname = sprintf('param_boxplot_refactored_%dlegacy, %drndinit_%dseeds_%dsamples_%diter', legacy, rnd_init, nseeds, num_ens, num_iter);
+suptitle(sprintf('Sampling distribution for MLEs (refactored code)\n%s', fname))
+fname = sprintf('%s_boxplot', fname);
 print(gcf, fname, '-dpng');
+end
+
