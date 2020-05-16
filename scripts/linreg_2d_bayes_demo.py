@@ -5,10 +5,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
+figdir = "../figures"
+def save_fig(fname):
+    if figdir: plt.savefig(os.path.join(figdir, fname))
+    
 from scipy.stats import uniform, norm, multivariate_normal
 
 np.random.seed(0)
@@ -31,7 +33,10 @@ likelihoodSD = noiseSD # Assume the likelihood precision, beta, is known.
 likelihoodPrecision = 1.0/(likelihoodSD**2)
 
 #Because of how axises are set up, x and y values should be in the same range as the coefficients.
+
 x = 2*uniform().rvs(NPoints) - 1
+
+
 y = a0 + a1*x + norm(0, noiseSD).rvs(NPoints) 
 
 def MeanCovPost(x, y):
