@@ -1,12 +1,8 @@
 # Supplement for Chapter "[Introduction](https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/intro/intro.html)"
 
-# Introduction
+# Python software ecosystem
 
-In this notebook, we introduce some of the software we will use in the book.
-
-# Software ecosystem
-
-## Python
+## General coding
 
 In this book, we will use Python 3.
 For a good introduction, see e.g., the free books [Whirlwind tour of Python](https://github.com/jakevdp/WhirlwindTourOfPython)  by Jake Vanderplas or [Dive into Python 3](https://www.diveinto.org/python3/table-of-contents.html) by Mark Pilgrim.
