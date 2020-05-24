@@ -1,8 +1,10 @@
 # Supplement for Chapter "[Introduction](https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/intro/intro.html)"
 
-## Introduction
+# Introduction
 
 In this notebook, we introduce some of the software we will use in the book.
+
+# Software ecosystem
 
 ## Python
 
@@ -12,10 +14,13 @@ For a good introduction, see e.g., the free books [Whirlwind tour of Python](htt
 Each chapter is associated with one or more
  <a href="https://jupyter.org/">Jupyter notebooks</a>,
 which mix code and results.
-We use the [Google colab version of notebooks](https://colab.research.google.com/), which run in the cloud,
+We use the [Google colab version of notebooks](https://colab.research.google.com/), which run on the Google Compute Platform (GCP),
 so you don't have to install code locally.
+To avoid installing packages every time you open a colab,
+you can follow [these steps](https://stackoverflow.com/questions/55253498/how-do-i-install-a-library-permanently-in-colab).
 
-When developing larger software projects, it is often better to use an 
+
+When developing larger software projects locally, it is often better to use an 
  IDE (interactive development environment),
  which keeps the code separate from the results.
 I like to use 
@@ -24,6 +29,40 @@ although many people use
 <a href="https://github.com/jupyterlab/jupyterlab">JupyterLab</a>
 for a browser-based solution.
 
+## Software for data science and ML
+
+We will leverage many standard libraries from Python's "data science stack", listed in the table below.
+For a good introduction to these, see e.g., the free book [Python Datascience Handbook](https://github.com/jakevdp/PythonDataScienceHandbook) by Jake Vanderplas,
+or the class [Computational Statistics in Python](http://people.duke.edu/~ccc14/sta-663-2019/)  by Cliburn Chen at Duke University. For an excellent book on [scikit-learn](https://scikit-learn.org/stable/), see [Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow v2](https://github.com/ageron/handson-ml2) by Aurelion Geron.
+
+<table align="left">
+<tr>
+<th style="text-align:left">Name</th>
+<th  style="text-align:left">Functionality</th>
+<tr>
+    <td  style="text-align:left"> <a href="http://www.numpy.org">Numpy</a>
+<td  style="text-align:left"> Vector and matrix computations
+ <tr>
+         <td> <a href="http://github.com/google/jax">JAX</a>
+            <td>Accelerated version of Numpy with autograd support
+<tr>
+    <td style="text-align:left"> <a href="http://www.scipy.org">Scipy</a>
+<td style="text-align:left"> Various scientific / math / stats / optimization functions    
+<tr>
+    <td style="text-align:left"> <a href="http://matplotlib.org">Matplotlib</a>
+<td style="text-align:left"> Plotting
+<tr>
+    <td style="text-align:left"> <a href="https://seaborn.pydata.org/">Seaborn</a>
+        <td style="text-align:left"> Extension of Matplotlib
+<tr>
+<td style="text-align:left"> <a href="http://pandas.pydata.org">Pandas</a>
+<td style="text-align:left"> Manipulating tabular data and time series
+<tr>
+    <td style="text-align:left"> <a href="http://scikit-learn.org">Scikit-learn</a>
+    <td style="text-align:left"> Implements many "Classical" ML methods </td>
+</tr>
+</table>
+         
 ## Software for deep learning <a class="anchor" id="DL"></a>
 
 
@@ -43,9 +82,9 @@ There are several libraries that can execute such computation graphs on hardware
         <td> <a href="http://www.tensorflow.org">Tensorflow 2.0</a></td>
      <td><a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/tf.ipynb">TF notebook</a>
                <tr>
-        <td> <a href="http://github.com/google/jax">JAX</a>
-            <td>
-              <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb">JAX notebook</a>
+        <td> <a href="https://github.com/google/flax">FLAX</a>
+            <td> DL library on top of JAX (see
+              <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb">JAX notebook</a>)
     <tr>
         <td> <a href="http://pytorch.org">Pytorch</a>
        <td>
@@ -55,3 +94,65 @@ There are several libraries that can execute such computation graphs on hardware
               <td>
                 <a href="http://www.d2l.ai/">  Dive into deep learning book</a>       
 </table>
+        
+## Software for probabilistic modeling <a class="anchor" id="PPL"></a>
+
+In this book, we will be focusing on probabilistic models, both supervised (conditional) models of the form `$p(y|x)$`, as well as unsupervised models of the form $p(z,x)$, where $x$ are the features, $y$ are the labels (if present), and $z$ are the latent variables. For simple special cases, such as GMMs and PCA, we can use sklearn. However, to create more complex models, we need more flexible libraries. We list some examples below.
+
+The Stan library specifiis the model using a domain specific language (DSL); most other libraries specify the model via a (Python) API. The term  "probabilistic programming language" (PPL) is used to describe systems that allow the creation of "randomly shaped" models, whos structure is determined e.g., by stochastic control flow. 
+
+<table align="left">
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left" width="400">Functionality</th>
+  <tr>
+     <td style="text-align:left"> <a href="https://www.tensorflow.org/probability">TF Probability</a> (TFP)
+         <td style="text-align:left"> PPL built on top of TF2.
+    <tr>
+      <td style="text-align:left"> <a href="http://edwardlib.org/">Edward</a> 
+         <td style="text-align:left"> PPL built on top of TF2.
+          <tr>
+ <td style="text-align:left"> <a href="https://github.com/google/edward2">Edward 2</a> 
+         <td style="text-align:left"> PPL built on top of TF2 or Numpy
+    <tr>
+    <td style="text-align:left"> <a href="https://github.com/pyro-ppl/pyro">Pyro</a>
+<td  style="text-align:left"> PPL built on top of PyTorch.
+<tr>
+    <td style="text-align:left"> <a href="https://github.com/pyro-ppl/numpyro">NumPyro</a>
+<td style="text-align:left"> Similar to Pyro, but built on top of JAX instead of PyTorch.
+<tr>
+     <td style="text-align:left"> <a href="https://pystan.readthedocs.io/en/latest/">PyStan</a>
+    <td style="text-align:left"> Python interface to <a href="https://mc-stan.org">Stan</a>, which uses the BUGS DSL for PGMs. Custom C++ autodiff library.
+              <tr>
+     <td style="text-align:left"> <a href="https://docs.pymc.io/">PyMc</a>
+         <td style="text-align:left"> Similar to PyStan, but uses Theano (v3) or TF (v3) for autograd.
+ <tr>            
+     <td style="text-align:left"> <a href="http://pgmpy.org/">PgmPy</a>
+         <td style="text-align:left"> Python API for (non-Bayesian) discrete PGMs.  No support for autodiff or GPUs.
+     <tr>            
+     <td style="text-align:left"> <a href="https://turing.ml/dev/">Turing.jl</a>
+         <td style="text-align:left"> Turing library, similar to NumPyro
+</table>
+
+ # Exploratory data analysis <a class="anchor" id="EDA"></a>
+ 
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/data.ipynb) 
+ 
+ # Supervised learning
+ 
+ ## Logistic regression <a class="anchor" id="logreg"></a>
+ 
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/logreg.ipynb) 
+ 
+ ## Linear regression <a class="anchor" id="linreg"></a>
+ 
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/linreg.ipynb) 
+ 
+ ## Deep neural networks <a class="anchor" id="DNN"></a>
+ 
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb) 
+ 
+ # Unsupervised learning <a class="anchor" id="unsuper"></a>
+ 
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/unsuper.ipynb) 
+ 
