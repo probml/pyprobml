@@ -22,8 +22,9 @@ When developing larger software projects locally, it is often better to use an
 I like to use 
 <a href="https://www.spyder-ide.org">Spyder</a>,
 although many people use
-<a href="https://github.com/jupyterlab/jupyterlab">JupyterLab</a>
-for a browser-based solution.
+<a href="https://www.jetbrains.com/pycharm/">PyCharm</a>.
+For a browser-based IDE, you can use
+<a href="https://github.com/jupyterlab/jupyterlab">JupyterLab</a>.
 
 ## Software for data science and ML
 
@@ -41,6 +42,8 @@ or the class [Computational Statistics in Python](http://people.duke.edu/~ccc14/
  <tr>
          <td> <a href="http://github.com/google/jax">JAX</a>
             <td>Accelerated version of Numpy with autograd support
+             (see
+              <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb">JAX notebook</a>)
 <tr>
     <td style="text-align:left"> <a href="http://www.scipy.org">Scipy</a>
 <td style="text-align:left"> Various scientific / math / stats / optimization functions    
@@ -64,10 +67,7 @@ or the class [Computational Statistics in Python](http://people.duke.edu/~ccc14/
 
 Deep learning is about composing differentiable functions into more complex functions, represented as a computation graph, and then using automatic differentiation ("autograd") to compute gradients, which we can pass to an optimizer, to fit the function to data. This is sometimes called "differentiable programming".
 
-There are several libraries that can execute such computation graphs on hardware accelerators, such as GPUs. (Some libraries also support distributed computation, but we will not need use this feature in this book.) We list a few popular libraries below. The most popular (at the time of writing) are Tensorflow and Pytorch. The newest is JAX. This is fairly different in "flavor" since it is purely functional; it is also the most similar to regular numpy, making it excellent for research and teaching.
-
-
-
+There are several libraries that can execute such computation graphs on hardware accelerators, such as GPUs. (Some libraries also support distributed computation, but we will not need use this feature in this book.) We list a few popular libraries below.  In this book, we focus on [Flax](https://github.com/google/flax), a library built on top of [JAX](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb), although we also use Tensorflow for some examples. (Note that JAX is a purely functional library, which differs from Tensorflow and  Pytorch; Flax provides some "magic" on top that makes it behave as it was stateful, which  makes it easier to implement complex DNNs. It is also possible to use raw JAX, which is just like using numpy, but faster, and with autograd.)  
      
      
  <table align="left">
@@ -79,8 +79,7 @@ There are several libraries that can execute such computation graphs on hardware
      <td><a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/tf.ipynb">TF notebook</a>
                <tr>
         <td> <a href="https://github.com/google/flax">FLAX</a>
-            <td> DL library on top of JAX (see
-              <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb">JAX notebook</a>)
+            <td> <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/flax.ipynb"> Flax notebook</a>
     <tr>
         <td> <a href="http://pytorch.org">Pytorch</a>
        <td>
@@ -94,8 +93,8 @@ There are several libraries that can execute such computation graphs on hardware
 ## Software for probabilistic modeling <a class="anchor" id="PPL"></a>
 
 In this book, we will be focusing on probabilistic models, both supervised (conditional) models of the form `$p(y|x)$`, as well as unsupervised models of the form $p(z,x)$, where $x$ are the features, $y$ are the labels (if present), and $z$ are the latent variables. For simple special cases, such as GMMs and PCA, we can use sklearn. However, to create more complex models, we need more flexible libraries. We list some examples below.
+The term  "probabilistic programming language" (PPL) is used to describe systems that allow the creation of "randomly shaped" models, whos structure is determined e.g., by stochastic control flow.  The Stan library specifiis the model using a domain specific language (DSL); most other libraries specify the model via an API. In this book, we focus on PyMc3 and numpyro.
 
-The Stan library specifiis the model using a domain specific language (DSL); most other libraries specify the model via a (Python) API. The term  "probabilistic programming language" (PPL) is used to describe systems that allow the creation of "randomly shaped" models, whos structure is determined e.g., by stochastic control flow. 
 
 <table align="left">
 <tr>
@@ -121,15 +120,21 @@ The Stan library specifiis the model using a domain specific language (DSL); mos
     <td style="text-align:left"> Python interface to <a href="https://mc-stan.org">Stan</a>, which uses the BUGS DSL for PGMs. Custom C++ autodiff library.
               <tr>
      <td style="text-align:left"> <a href="https://docs.pymc.io/">PyMc</a>
-         <td style="text-align:left"> Similar to PyStan, but uses Theano (v3) or TF (v3) for autograd.
- <tr>            
-     <td style="text-align:left"> <a href="http://pgmpy.org/">PgmPy</a>
-         <td style="text-align:left"> Python API for (non-Bayesian) discrete PGMs.  No support for autodiff or GPUs.
-     <tr>            
-     <td style="text-align:left"> <a href="https://turing.ml/dev/">Turing.jl</a>
-         <td style="text-align:left"> Turing library, similar to NumPyro
-</table>
+         <td style="text-align:left"> Similar to PyStan, but uses Theano (v3) or TF (v4) for autograd.
+ </table>
 
+
+There are also libraries for inference in probabilistic models which do not need autograd, such as probabilistic graphical models with discrete latent variables. We give some examples below.
+
+<table align="left">
+ <tr>
+     <td style="text-align:left"> <a href="http://pgmpy.org/">PgmPy</a>
+         <td style="text-align:left">  Discrete PGMs. 
+<tr>            
+     <td style="text-align:left"> <a href="https://pomegranate.readthedocs.io/en/latest/index.html">Pomegranite</a>
+        <td style="text-align:left"> Discrete PGMs. GPU support.
+</table>
+          
  # Exploratory data analysis <a class="anchor" id="EDA"></a>
  
  See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/data.ipynb) 
