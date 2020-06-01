@@ -1,7 +1,7 @@
 ## List of chapters
 
 
-[intro-code]: https://github.com/probml/pyprobml/blob/master/chapters/intro/README.md
+[intro-code]: https://github.com/probml/pyprobml/blob/master/notebooks/intro/README.md
 [intro-html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/intro/index.html
 
 [linalg-code]: https://github.com/probml/pyprobml/blob/master/chapters/linalg/README.md
@@ -119,13 +119,13 @@
 https://stackoverflow.com/questions/24580042/github-markdown-are-macros-and-variables-possible
 -->
 
-<!--
-[code]: https://github.com/probml/pyprobml/blob/master/chapters
+
+[code]: https://github.com/probml/pyprobml/blob/master/notebooks
 [html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters
 
 [intro-code]: [code]/intro/README.md
 [intro-html]: [html]/intro/index.html
--->
+
 
 <!--
 * [Ch. 1: Introduction](https://github.com/probml/pyprobml/blob/master/chapters/intro/README.md)
