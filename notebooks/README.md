@@ -81,10 +81,18 @@
 [npbayes-html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/npbayes/index.html
 
 
+[code]: https://github.com/probml/pyprobml/blob/master/notebooks
+[html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters
+
+[intro-code2]: [code]/intro/README.md
+[intro-html2]: [html]/intro/index.html
+
+
 |Chapter|Code|Text|
 |-------|----|----|
 |<b>Part I: Foundations</b>|||
 |Ch. 1: Introduction|[link][intro-code]|[link][intro-html]|
+|Ch. 1B: Introduction|[link][intro-code2]|[link][intro-html2]|
 |Ch. 2: Linear algebra|[link][linalg-code]|[link][linalg-html]|
 |Ch. 3: Math|[link][math-code]|[link][math-html]|
 |Ch. 4: Probability|[link][prob-code]|[link][prob-html]|
@@ -119,12 +127,6 @@
 https://stackoverflow.com/questions/24580042/github-markdown-are-macros-and-variables-possible
 -->
 
-
-[code]: https://github.com/probml/pyprobml/blob/master/notebooks
-[html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters
-
-[intro-code]: [code]/intro/README.md
-[intro-html]: [html]/intro/index.html
 
 
 <!--
