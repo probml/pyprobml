@@ -84,7 +84,7 @@
 [code]: https://github.com/probml/pyprobml/blob/master/notebooks
 [html]: https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters
 
-[intro-code2]: [code]/intro/README.md
+[intro-code2]: [code/intro/README.md]
 [intro-html2]: [html]/intro/index.html
 
 
