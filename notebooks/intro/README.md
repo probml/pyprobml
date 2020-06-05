@@ -32,38 +32,17 @@ We will leverage many standard libraries from Python's "data science stack", lis
 For a good introduction to these, see e.g., the free book [Python Datascience Handbook](https://github.com/jakevdp/PythonDataScienceHandbook) by Jake Vanderplas,
 or the class [Computational Statistics in Python](http://people.duke.edu/~ccc14/sta-663-2019/)  by Cliburn Chen at Duke University. For an excellent book on [scikit-learn](https://scikit-learn.org/stable/), see [Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow v2](https://github.com/ageron/handson-ml2) by Aurelion Geron.
 
-<table align="left">
-<tr>
-<th style="text-align:left">Name</th>
-<th  style="text-align:left">Functionality</th>
-<tr>
-    <td  style="text-align:left"> <a href="http://www.numpy.org">Numpy</a>
-<td  style="text-align:left"> Vector and matrix computations
- <tr>
-         <td> <a href="http://github.com/google/jax">JAX</a>
-            <td>Accelerated version of Numpy with autograd support
-             (see
-              <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb">JAX notebook</a>)
-<tr>
-    <td style="text-align:left"> <a href="http://www.scipy.org">Scipy</a>
-<td style="text-align:left"> Various scientific / math / stats / optimization functions    
-<tr>
-    <td style="text-align:left"> <a href="http://matplotlib.org">Matplotlib</a>
-<td style="text-align:left"> Plotting
-<tr>
-    <td style="text-align:left"> <a href="https://seaborn.pydata.org/">Seaborn</a>
-        <td style="text-align:left"> Extension of Matplotlib
-<tr>
-<td style="text-align:left"> <a href="http://pandas.pydata.org">Pandas</a>
-<td style="text-align:left"> Manipulating tabular data and time series
- <tr>
-<td style="text-align:left"> <a href="http://xarray.pydata.org/en/stable/index.html">Xarray</a>
-<td style="text-align:left"> Named multidimensional arrays (extends Pandas)
-<tr>
-    <td style="text-align:left"> <a href="http://scikit-learn.org">Scikit-learn</a>
-    <td style="text-align:left"> Implements many "Classical" ML methods </td>
-</tr>
-</table>
+
+
+| Name | Functionality |
+| ---- | ---- | 
+| [Numpy](http://www.numpy.org) |  Vector and matrix computations |
+| [Jax](http://github.com/google/jax) |  Accelerated version of Numpy with autograd support (see [JAX notebook](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb)) |
+| [Scipy](http://www.scipy.org) | Various scientific / math / stats / optimization functions   |
+| [Matplotlib](http://matplotlib.org), [Seaborn](https://seaborn.pydata.org/) | Plotting |
+| [Pandas](http://pandas.pydata.org), [Xarray](http://xarray.pydata.org/en/stable/index.html) | Dataframes and named arrays |
+| [Scikit-learn](http://scikit-learn.org) | Many ML methods (excluding deep learning) |
+
          
 ## Software for deep learning <a class="anchor" id="DL"></a>
 
