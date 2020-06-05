@@ -56,6 +56,9 @@ or the class [Computational Statistics in Python](http://people.duke.edu/~ccc14/
 <tr>
 <td style="text-align:left"> <a href="http://pandas.pydata.org">Pandas</a>
 <td style="text-align:left"> Manipulating tabular data and time series
+ <tr>
+<td style="text-align:left"> <a href="http://xarray.pydata.org/en/stable/index.html">Xarray</a>
+<td style="text-align:left"> Named multidimensional arrays (extends Pandas)
 <tr>
     <td style="text-align:left"> <a href="http://scikit-learn.org">Scikit-learn</a>
     <td style="text-align:left"> Implements many "Classical" ML methods </td>
