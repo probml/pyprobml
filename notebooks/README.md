@@ -131,7 +131,7 @@
 |Ch. 27: Models for sequences|[link][seq-code]|[link][seq-html]|
 |Ch. 28: Models for graphs|[link][graph-code]|[link][graph-html]|
 |Ch. 29: Other forms of generative model|[link][gan-code]|[link][gan-html]|
-|Ch. 30: Non-parametric Bayesian  models|[link][npbayes-code]|[link][npbayes-html]|
+|Ch. 30: Stochastic processes|[link][npbayes-code]|[link][npbayes-html]|
 |Ch. 31: Causal  models|[link][causal-code]|[link][causal-html]|
 
 <!--
