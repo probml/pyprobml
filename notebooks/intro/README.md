@@ -1,4 +1,4 @@
-# Supplement for Chapter "[Introduction](https://htmlpreview.github.io/?https://github.com/probml/pyprobml/blob/master/chapters/intro/intro.html)"
+# Ch 1: Introduction
 
 # What is machine learning?
 
@@ -23,19 +23,13 @@ use decision theory to choose the best action, trading off the expected risk
 of different outcomes.
 
 All of this is explained in detail in the book.
-In this notebook, we just include some pointers to some introductory online material.
-
-
-## Python ML software ecosystem
-
-In this book, most of the code is written in Python, which is the most
+In this notebook, we just include some pointers to some of the online code.
+Most of the code is written in Python, which is the most
 popular language for ML and datascience.
 See [this link](https://github.com/probml/pyprobml/blob/master/notebooks/intro/software.md)
 for an introduction to the rich Python ML software ecosystem.
-
-## Exploratory data analysis <a class="anchor" id="EDA"></a>
- 
- See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/data.ipynb) 
+See also [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/data.ipynb) for
+an introduction to exploratory data analysis in Python.
  
  # Supervised learning
  
