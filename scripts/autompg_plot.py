@@ -67,13 +67,13 @@ df['Origin'] = df['Origin'].astype('category')
 df0 = df.copy()
 
 # Let us check the datatypes
-print(df.dtypes)
+# print(df.dtypes)
 
 # Let us check the categories
-df['Origin'].cat.categories
+# df['Origin'].cat.categories
 
 # Let us inspect the data
-df.tail()
+# df.tail()
 
 # https://www.kaggle.com/devanshbesain/exploration-and-analysis-auto-mpg
 

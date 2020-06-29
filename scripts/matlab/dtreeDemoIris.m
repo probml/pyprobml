@@ -1,7 +1,7 @@
 % Demonstrate classification/decision tree on 2d 3class iris data
 % From http://www.mathworks.com/products/statistics/demos.html?file=/products/demos/shipping/stats/classdemo.html
 
-#requireStatsToolbox
+%requireStatsToolbox
 
 
 % "Resubstitution error" is the training set error

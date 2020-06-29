@@ -207,6 +207,7 @@ errs = (y_pred != y_test)
 nerrs = np.sum(errs)
 #print("Made {} errors out of {}, on instances {}".format(nerrs, len(y_pred), np.where(errs)))
 # With ndims=2: Made 10 errors out of 50, on instances
+
 #  (array([ 4, 15, 21, 32, 35, 36, 40, 41, 42, 48]),)
 
 
