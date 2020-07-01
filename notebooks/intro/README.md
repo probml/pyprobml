@@ -32,7 +32,8 @@ See also [this colab](https://colab.research.google.com/github/probml/pyprobml/b
 an introduction to exploratory data analysis in Python.
  
  # Supervised learning: foundations
- ## Optimization, Overfitting, and cross validation
+ 
+ ## Optimization, overfitting, and cross validation
  WIP
  
  # Supervised learning: models
@@ -50,12 +51,21 @@ an introduction to exploratory data analysis in Python.
  See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn1/dnn.ipynb) 
  
  ## Bagging, boosting, trees and forests
+ 
  See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/bagging_boosting_trees_and_forests.ipynb) 
  
  ## K nearest neighbor (KNN) classification
+ 
  WIP
  
  # Supervised learning: Regularization
+ 
+ ## Bayesian machine learning
+ 
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/svi_linear_regression_1d_tfp.ipynb)
+ 
+ ## Other regularization techniques
+ 
  WIP
  
  # Unsupervised learning <a class="anchor" id="unsuper"></a>
@@ -63,7 +73,9 @@ an introduction to exploratory data analysis in Python.
  See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/unsuper.ipynb) 
  
  # Reinforcement learning
+ 
  WIP
  
  # Figures 
-  See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/figures/chapter1_figures.ipynb) 
+ 
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/figures/chapter1_figures.ipynb) 
