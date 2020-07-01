@@ -31,7 +31,11 @@ for an introduction to the rich Python ML software ecosystem.
 See also [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/data.ipynb) for
 an introduction to exploratory data analysis in Python.
  
- # Supervised learning
+ # Supervised learning: foundations
+ ## Optimization, Overfitting, and cross validation
+ WIP
+ 
+ # Supervised learning: models
  
  ## Logistic regression <a class="anchor" id="logreg"></a>
  
@@ -43,9 +47,23 @@ an introduction to exploratory data analysis in Python.
  
  ## Deep neural networks <a class="anchor" id="DNN"></a>
  
- See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/dnn.ipynb) 
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn1/dnn.ipynb) 
+ 
+ ## Bagging, boosting, trees and forests
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/bagging_boosting_trees_and_forests.ipynb) 
+ 
+ ## K nearest neighbor (KNN) classification
+ WIP
+ 
+ # Supervised learning: Regularization
+ WIP
  
  # Unsupervised learning <a class="anchor" id="unsuper"></a>
  
  See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/unsuper.ipynb) 
  
+ # Reinforcement learning
+ WIP
+ 
+ # Figures 
+  See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/figures/chapter1_figures.ipynb) 
