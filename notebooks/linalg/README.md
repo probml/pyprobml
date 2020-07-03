@@ -1,2 +1,1 @@
-## Supplement for "Linear algebra" chapter
-
+# Chapter 3: Linear algebra
