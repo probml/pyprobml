@@ -34,7 +34,8 @@ an introduction to exploratory data analysis in Python.
  ## Supervised learning: foundations
  
  ### Optimization, overfitting, and cross validation
- WIP
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/optimization_overfitting_and_cross_validation.ipynb) 
+ 
  
  ## Supervised learning: models
  
