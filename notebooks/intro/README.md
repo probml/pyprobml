@@ -75,7 +75,7 @@ an introduction to exploratory data analysis in Python.
 
  ## Reinforcement learning
 
- WIP
+ See [this colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/reinforcement_learning.ipynb)
 
  ## Figures
 
