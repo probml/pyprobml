@@ -7,29 +7,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 figdir = os.path.join(os.environ["PYPROBML"], "figures")
+
+
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 
 np.random.seed(0)
 N = 21
 x = np.linspace(0.0, 20, N)
-X0 = x.reshape(N,1)
-X = np.c_[np.ones((N,1)), X0]
+X0 = x.reshape(N, 1)
+X = np.c_[np.ones((N, 1)), X0]
 w = np.array([-1.5, 1/9.])
-y =  w[0]*x + w[1]*np.square(x)
+y = w[0]*x + w[1]*np.square(x)
 y = y + np.random.normal(0, 1, N) * 2
-        
+
 w = np.linalg.lstsq(X, y,  rcond=None)[0]
-print(w)
+# print(w)
 y_estim = np.dot(X, w)
 
-plt.plot(X[:,1], y, 'o')
-plt.plot(X[:,1], y_estim, '-')
+plt.plot(X[:, 1], y, 'o')
+plt.plot(X[:, 1], y_estim, '-')
 save_fig('linregResidualsNoBars.pdf')
 plt.show()
 
-for x0, y0, y_hat in zip(X[:,1], y, y_estim):
-  plt.plot([x0, x0],[y0, y_hat],'k-')
-plt.plot(X[:,1], y, 'o')
-plt.plot(X[:,1], y_estim, '-')
+for x0, y0, y_hat in zip(X[:, 1], y, y_estim):
+    plt.plot([x0, x0], [y0, y_hat], 'k-')
+plt.plot(X[:, 1], y, 'o')
+plt.plot(X[:, 1], y_estim, '-')
 save_fig('linregResidualsBars.pdf')
 plt.show()
