@@ -2,7 +2,9 @@
 # using JAX, Torch and TF
 
 import numpy as np
-from scipy.misc import logsumexp
+#from scipy.misc import logsumexp
+from scipy.special import logsumexp
+
 np.set_printoptions(precision=3)
 
 USE_JAX = True
@@ -257,7 +259,8 @@ if USE_TF:
     print("grad {}".format(grad_tf))
     
 
-if USE_TF:
+if FALSE:
+    # This no longer runs
     print("Starting TF demo: keras version")
     model = tf.keras.models.Sequential([
             tf.keras.layers.Dense(1, input_shape=(D,), activation=None, use_bias=False)
