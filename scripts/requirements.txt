@@ -28,7 +28,7 @@ bitarray==1.2.1
 bkcharts==0.2
 black==19.10b0
 blackcellmagic==0.0.2
-bleach==3.1.0
+bleach==3.1.4
 bokeh==1.4.0
 bokeh-catplot==0.1.7
 boto==2.49.0
