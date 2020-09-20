@@ -3,7 +3,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
+#figdir = os.path.join(os.environ["PYPROBML"], "figures")
+figdir = '../figures'
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
@@ -12,7 +13,7 @@ from scipy.stats import pareto
 params = [(0.1, 1), (0.1, 2),  (0.2, 1), (0.2, 2)]
 styles = ['b-', 'r:', 'k-.', 'g--']
 labels = ['m={:.2f}, k={:.2f}'.format(m, k) for m, k in params]
-x = np.linspace(0, 1, 100)
+x = np.linspace(0, 1, 1000)
   
 for i, param in enumerate(params):
   m, k = param
