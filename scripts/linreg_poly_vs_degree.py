@@ -68,7 +68,7 @@ save_fig('polyfitVsDegree.pdf')
 plt.show()
 
 # Plot fitted functions
-chosen_degs = [1, 2, 14, 20]
+chosen_degs = [1, 2, 3, 14, 20]
 for deg in chosen_degs:
     fig, ax = plt.subplots()
     ax.scatter(xtrain, ytrain)
@@ -79,8 +79,6 @@ for deg in chosen_degs:
     plt.show()
     
 # Plot residuals
-#https://blog.minitab.com/blog/adventures-in-statistics-2/why-you-need-to-check-your-residual-plots-for-regression-analysis
-chosen_degs = [1, 2, 14, 20]
 for deg in chosen_degs:
     fig, ax = plt.subplots()
     ypred =  ytrain_pred_stored[deg-1]
@@ -94,8 +92,6 @@ for deg in chosen_degs:
 
 
 # Plot fit vs actual
-# https://blog.minitab.com/blog/adventures-in-statistics-2/regression-analysis-how-do-i-interpret-r-squared-and-assess-the-goodness-of-fit  
-chosen_degs = [1, 2, 14, 20]
 for deg in chosen_degs:
     for train in [True, False]:
         if train:

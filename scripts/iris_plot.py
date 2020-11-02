@@ -39,8 +39,11 @@ df['label'] = pd.Series(iris.target_names[y], dtype='category')
 # Make a dataframe with nicer labels for printing
 #iris_df = sns.load_dataset("iris")
 iris_df = df.copy()
+# pick ugly colors to match iris_dtree.py
+palette = {'setosa': 'red', 'versicolor': 'yellow', 'virginica': 'blue' }
 iris_df.columns = iris['feature_names'] + ['label'] 
-g = sns.pairplot(iris_df, vars = iris_df.columns[0:3] , hue="label")
-save_fig("iris-scatterplot.pdf")
+g = sns.pairplot(iris_df, vars = iris_df.columns[0:3] ,
+                 hue="label", palette=palette)
+save_fig("iris-scatterplot-ryb.pdf")
 plt.show()
 

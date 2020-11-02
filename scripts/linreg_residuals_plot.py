@@ -6,7 +6,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
+figdir = '../figures'
 
 
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
@@ -34,5 +34,6 @@ for x0, y0, y_hat in zip(X[:, 1], y, y_estim):
     plt.plot([x0, x0], [y0, y_hat], 'k-')
 plt.plot(X[:, 1], y, 'o')
 plt.plot(X[:, 1], y_estim, '-')
+plt.plot(X[:, 1], y_estim, 'x', color='r', markersize=12)
 save_fig('linregResidualsBars.pdf')
 plt.show()
