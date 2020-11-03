@@ -51,7 +51,7 @@ def plot_tree(clf, filename, xnames, ynames):
         if node.get_name() not in ('node', 'edge'):
             values = clf.tree_.value[int(node.get_name())][0]
             #color only nodes where only one class is present
-            if True: #max(values) == sum(values):    
+            if max(values) == sum(values):    
                 node.set_fillcolor(colors[np.argmax(values)])
             #mixed nodes get the default color
             else:

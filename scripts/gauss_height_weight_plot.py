@@ -1,9 +1,17 @@
 
+# Gaussian in 2d fit to height/weight data
+# Author: Duane Rich
+# Based on matlab code by Kevin Murphy
+# https://github.com/probml/pmtk3/blob/master/demos/gaussHeightWeight.m
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-datadir = os.path.join(os.environ["PYPROBML"], "data", "heightWeight")
+#figdir = os.path.join(os.environ["PYPROBML"], "figures")
+#datadir = os.path.join(os.environ["PYPROBML"], "data", "heightWeight")
+figdir = '../figures'
+datadir = '../data/heightWeight'
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 from matplotlib.patches import Ellipse
@@ -27,6 +35,7 @@ ax = fig.add_subplot(111)
 ax.plot(x_male, y_male, 'bx')
 ax.plot(x_female, y_female, 'ro')
 save_fig('heightWeightScatter.pdf')
+plt.show()
 
 def draw_ell(cov, xy, color):
     u, v = np.linalg.eigh(cov)
