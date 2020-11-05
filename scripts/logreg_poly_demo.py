@@ -32,12 +32,14 @@ def plot_data(ax, X, y, is_train=True):
         color = colors[int(cls)-1]
         marker = markers[int(cls)-1]
         ax.scatter(x0, x1, marker=marker, color=color)
+    ax.set_ylim(-2.75,2.75)        
 
 def plot_predictions(ax, xx, yy, transformer, model):
     grid = np.c_[xx.ravel(), yy.ravel()]
     grid2 = transformer.transform(grid)[:, 1:]
     Z = model.predict(grid2).reshape(xx.shape)
-    ax.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm)
+    ax.pcolormesh(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.1)
+    #plt.axis('off')
     
 def make_data(ntrain, ntest):
     n = ntrain + ntest     
@@ -58,16 +60,20 @@ def make_data(ntrain, ntest):
 ntrain = 50; ntest = 1000;
 Xtrain, ytrain, Xtest, ytest, xx, yy  = make_data(ntrain, ntest)
 
+'''
 degree_list = [1,2,4,6,8,10]
 plot_list = degree_list
 err_train_list = []
 err_test_list = []
+w_list = []
 for i, degree in enumerate(degree_list):
     transformer = PolynomialFeatures(degree)
     name = 'Degree{}'.format(degree)
     XXtrain = transformer.fit_transform(Xtrain)[:, 1:]  # skip the first column of 1s
     model = LogisticRegression(C=1e4)
     model = model.fit(XXtrain, ytrain)
+    w = model.coef_[0]
+    w_list.append(w)
     ytrain_pred = model.predict(XXtrain)
     nerrors_train = np.sum(ytrain_pred != ytrain)
     err_train_list.append(nerrors_train / ntrain)                      
@@ -95,3 +101,53 @@ plt.xlabel('polynomial degree')
 plt.ylabel('error rate')
 save_fig('logreg_poly_vs_degree.png')
         
+for i in range(2):
+    print(w_list[i])
+
+'''
+
+### Try different strngth regularizers
+degree = 4
+# C =1/lambda, so large C is large variance is small regularization
+C_list = np.logspace(0, 5, 7)
+#C_list = [1, 10, 100, 200, 500, 1000]
+plot_list = C_list
+err_train_list = []
+err_test_list = []
+w_list = []
+for i, C in enumerate(C_list):
+    transformer = PolynomialFeatures(degree)
+    name = 'Reg{:d}-Degree{}'.format(int(C), degree)
+    XXtrain = transformer.fit_transform(Xtrain)[:, 1:]  # skip the first column of 1s
+    model = LogisticRegression(C=C)
+    model = model.fit(XXtrain, ytrain)
+    w = model.coef_[0]
+    w_list.append(w)
+    ytrain_pred = model.predict(XXtrain)
+    nerrors_train = np.sum(ytrain_pred != ytrain)
+    err_train_list.append(nerrors_train / ntrain)                      
+    XXtest = transformer.fit_transform(Xtest)[:, 1:]  # skip the first column of 1s
+    ytest_pred = model.predict(XXtest)
+    nerrors_test = np.sum(ytest_pred != ytest)
+    err_test_list.append(nerrors_test / ntest)
+    
+    if C in plot_list:
+        fig, ax = plt.subplots()
+        plot_predictions(ax, xx, yy, transformer, model)
+        plot_data(ax, Xtrain, ytrain, is_train=True)
+        #plot_data(ax, Xtest, ytest, is_train=False)
+        ax.set_title(name)
+        fname = 'logreg_poly_surface-{}.png'.format(name)
+        save_fig(fname)
+        plt.draw()
+    
+
+plt.figure()
+plt.plot(C_list, err_train_list, 'x-', label='train')
+plt.plot(C_list, err_test_list, 'o-', label='test')
+plt.legend()
+plt.xscale('log')
+plt.xlabel('Inverse regularization')
+plt.ylabel('error rate')
+save_fig('logreg_poly_vs_reg-Degree{}.pdf'.format(degree))
+
