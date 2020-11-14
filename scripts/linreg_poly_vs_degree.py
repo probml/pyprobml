@@ -83,9 +83,12 @@ for deg in chosen_degs:
     fig, ax = plt.subplots()
     ypred =  ytrain_pred_stored[deg-1]
     residuals = ytrain - ypred
-    ax.plot(ypred, residuals, 'o')
-    ax.set_xlabel('predicted y')
+    #ax.plot(ypred, residuals, 'o')
+    #ax.set_xlabel('predicted y')
+    ax.plot(xtrain, residuals, 'o')
+    ax.set_xlabel('x')
     ax.set_ylabel('residual')
+    ax.set_ylim(-6,6)
     plt.title('degree {}. Predictions on the training set'.format(deg))
     save_fig('polyfitDegree{}Residuals.pdf'.format(deg))
     plt.show()
