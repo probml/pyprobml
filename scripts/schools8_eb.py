@@ -15,5 +15,6 @@ sigma2 = np.mean(np.square(sigma))
 tau2 = np.maximum(0, s2-sigma2); # approx
 
 lam = sigma2/(sigma2 + tau2); 
+print(lam)
 muShrunk = mu + (1-lam)*(y-mu);
 print(muShrunk) 
