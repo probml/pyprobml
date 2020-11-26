@@ -1,3 +1,5 @@
+*Note: the list below is based on an out-of-date table of contents, and is just a place holder. It will be updated Spring 2021.*
+
 ## List of chapters
 
 [intro-code]: https://github.com/probml/pyprobml/blob/master/notebooks/intro/README.md
