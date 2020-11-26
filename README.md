@@ -19,11 +19,8 @@ Most of these are bundled with [anaconda](https://www.anaconda.com/distribution/
 
 ## Table of contents
 
-The book should become available (both in print, and online for free) in Fall 2021.
-A snapshot (as of 6/14/20) of the book's table of contents is shown 
-[here](https://github.com/probml/pyprobml/blob/master/toc-200614.png).
-Individual chapters will be made available
-[here](https://github.com/probml/pyprobml/tree/master/chapters). 
+Work in proress...
+
 
  
 
