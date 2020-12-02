@@ -1,5 +1,8 @@
 # pyprobml
-Python 3 code for the second edition of my book [Machine learning: a probabilistic perspective](http://people.cs.ubc.ca/~murphyk/MLbook/). This is work in progress, so expect rough edges.
+Python 3 code for the second edition of my book [Machine learning: a probabilistic perspective](http://people.cs.ubc.ca/~murphyk/MLbook/). 
+The new book will be split into 2 volumes, "Probabilistic ML: An Introduction" and "Probabilistic ML: Advanced Topics". 
+Volume 1 will be released in Spring 2021, volume 2 in Summer 2021.
+This is work in progress, so expect rough edges.
 
 ## Notebooks
 
@@ -19,7 +22,13 @@ Most of these are bundled with [anaconda](https://www.anaconda.com/distribution/
 
 ## Table of contents
 
-Work in proress...
+Preliminary version, 2020-12-01.
+
+### Volume 1
+<img src="https://github.com/probml/pyprobml/blob/master/book/pml1-toc-201201.png">
+
+### Volume 2
+<img src="https://github.com/probml/pyprobml/blob/master/book/pml2-toc-201201.png">
 
 
  
