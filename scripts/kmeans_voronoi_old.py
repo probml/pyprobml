@@ -42,7 +42,7 @@ def plot_clusters(X, y=None):
     plt.xlabel("$x_1$", fontsize=14)
     plt.ylabel("$x_2$", fontsize=14, rotation=0)
     
-plt.figure()
+plt.figure(figsize=(8, 4))
 plot_clusters(X)
 plt.savefig("../figures/kmeans_voronoi_data.pdf",  dpi=300)
 plt.show()
@@ -61,7 +61,8 @@ def plot_centroids(centroids, weights=None, circle_color='w', cross_color='k'):
                 marker='x', s=50, linewidths=50,
                 color=cross_color, zorder=11, alpha=1)
 
-def plot_decision_boundaries(clusterer, X, resolution=1000, show_centroids=True):
+def plot_decision_boundaries(clusterer, X, resolution=1000, show_centroids=True,
+                             show_xlabels=True, show_ylabels=True):
     mins = X.min(axis=0) - 0.1
     maxs = X.max(axis=0) + 0.1
     xx, yy = np.meshgrid(np.linspace(mins[0], maxs[0], resolution),
@@ -76,12 +77,21 @@ def plot_decision_boundaries(clusterer, X, resolution=1000, show_centroids=True)
     plot_data(X)
     if show_centroids:
         plot_centroids(clusterer.cluster_centers_)
+
+    if show_xlabels:
+        plt.xlabel("$x_1$", fontsize=14)
+    else:
+        plt.tick_params(labelbottom=False)
+    if show_ylabels:
+        plt.ylabel("$x_2$", fontsize=14, rotation=0)
+    else:
+        plt.tick_params(labelleft=False)
         
 K = 4
 kmeans = KMeans(n_clusters=K, random_state=42)
 y_pred = kmeans.fit_predict(X)
 
-plt.figure()
+plt.figure(figsize=(8, 4))
 plot_decision_boundaries(kmeans, X)
 plt.savefig("../figures/kmeans_voronoi_output.pdf",  dpi=300)
 plt.show()
@@ -109,41 +119,58 @@ kmeans_iter2.fit(X)
 kmeans_iter3.fit(X)
 
 
-plt.figure()
+plt.figure(figsize=(16, 8))
 nr = 2; nc = 2;
 
 plt.subplot(nr, nc, 1)
 plot_data(X)
 plot_centroids(kmeans_iter1.cluster_centers_, circle_color='r', cross_color='w')
+plt.ylabel("$x_2$", fontsize=14, rotation=0)
+plt.tick_params(labelbottom=False)
 plt.title('update centroids')
 
 plt.subplot(nr, nc, 2)
-plot_decision_boundaries(kmeans_iter1, X)
+plot_decision_boundaries(kmeans_iter1, X, show_xlabels=False, show_ylabels=False)
 plt.title('assign data points to clusters')
 
 plt.subplot(nr, nc, 3)
-plot_decision_boundaries(kmeans_iter1, X, show_centroids=False)
+plot_decision_boundaries(kmeans_iter1, X, show_centroids=False, show_xlabels=False)
 plot_centroids(kmeans_iter2.cluster_centers_)
 
 plt.subplot(nr, nc, 4)
-plot_decision_boundaries(kmeans_iter2, X)
+plot_decision_boundaries(kmeans_iter2, X, show_xlabels=False, show_ylabels=False)
 
 plt.tight_layout()
 plt.savefig("../figures/kmeans_voronoi_iter.pdf",  dpi=300)
 plt.show()
 
 
-### K means variability    
-seeds = [2, 3]
-for seed in seeds:
-    model = KMeans(n_clusters=K, init="random", n_init=1,
-                  algorithm="full", random_state=seed)  
-    model.fit(X)
-    plt.figure()
-    plot_decision_boundaries(model, X)
-    loss = model.inertia_
+### K means variability
+
+def plot_clusterer_comparison(clusterer1, clusterer2, X):
+    clusterer1.fit(X)
+    clusterer2.fit(X)
+
+    plt.figure(figsize=(10, 3.2))
+
+    plt.subplot(121)
+    plot_decision_boundaries(clusterer1, X)
+    loss = clusterer1.inertia_
     plt.title('distortion = {:0.2f}'.format(loss, fontsize=14))
-    plt.tight_layout()
-    plt.savefig(f"../figures/kmeans_voronoi_init_{seed}.pdf", dpi=300)
-    plt.show()
+
+    plt.subplot(122)
+    plot_decision_boundaries(clusterer2, X, show_ylabels=False)
+    loss = clusterer2.inertia_
+    plt.title('distortion = {:0.2f}'.format(loss, fontsize=14))
+    
+kmeans_rnd_init1 = KMeans(n_clusters=K, init="random", n_init=1,
+                         algorithm="full", random_state=2)
+kmeans_rnd_init2 = KMeans(n_clusters=K, init="random", n_init=1,
+                         algorithm="full", random_state=3)
+
+plot_clusterer_comparison(kmeans_rnd_init1, kmeans_rnd_init2, X)
+
+plt.tight_layout()
+plt.savefig("../figures/kmeans_voronoi_init.pdf", dpi=300)
+plt.show()
 

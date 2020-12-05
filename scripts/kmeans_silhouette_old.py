@@ -1,6 +1,6 @@
 
 # K-means clustering in 2d
-# Code is based on  chapter 9 of 
+# Code is from chapter 9 of 
 # https://github.com/ageron/handson-ml2
 
 import numpy as np
@@ -49,14 +49,14 @@ if 1:
     geron_data= False
 
 
-Ks = range(2,9)
+
 kmeans_per_k = [KMeans(n_clusters=k, random_state=42).fit(X)
-                for k in Ks]
-inertias = [model.inertia_ for model in kmeans_per_k]
+                for k in range(1, 10)]
+inertias = [model.inertia_ for model in kmeans_per_k[1:]]
 
 
-plt.figure()
-plt.plot(Ks, inertias, "bo-")
+plt.figure(figsize=(8, 3))
+plt.plot(range(2, 10), inertias, "bo-")
 plt.xlabel("$k$", fontsize=14)
 plt.ylabel("Distortion", fontsize=14)
 if geron_data:
@@ -75,10 +75,10 @@ plt.show()
 
 
 silhouette_scores = [silhouette_score(X, model.labels_)
-                     for model in kmeans_per_k]
+                     for model in kmeans_per_k[1:]]
 
-plt.figure()
-plt.plot(Ks, silhouette_scores, "bo-")
+plt.figure(figsize=(8, 3))
+plt.plot(range(2, 10), silhouette_scores, "bo-")
 plt.xlabel("$k$", fontsize=14)
 plt.ylabel("Silhouette score", fontsize=14)
 #plt.axis([1.8, 8.5, 0.55, 0.7])
@@ -93,40 +93,60 @@ plt.show()
 
 from sklearn.metrics import silhouette_samples
 from matplotlib.ticker import FixedLocator, FixedFormatter
- 
-def plot_silhouette(model, X):
-    mu = model.cluster_centers_
-    K, D= mu.shape
-    y_pred = model.labels_
+
+plt.figure(figsize=(11, 9))
+
+for k in (3, 4, 5, 6):
+    plt.subplot(2, 2, k - 2)
+    
+    y_pred = kmeans_per_k[k - 1].labels_
     silhouette_coefficients = silhouette_samples(X, y_pred)
-    silhouette_scores = silhouette_score(X, model.labels_)
-    cmap = cm.get_cmap("Pastel2")
-    colors = [cmap(i) for i in range(K)]
+
     padding = len(X) // 30
     pos = padding
-    for i in range(K):
+    ticks = []
+    cmap = cm.get_cmap("Pastel2")
+    colors = [cmap(i) for i in range(k)]
+    for i in range(k):
         coeffs = silhouette_coefficients[y_pred == i]
         coeffs.sort()
-        color = mpl.cm.Spectral(i / K)
+
+        color = mpl.cm.Spectral(i / k)
         #color = colors[i]
         plt.fill_betweenx(np.arange(pos, pos + len(coeffs)), 0, coeffs,
                          facecolor=color, edgecolor=color, alpha=0.7)
+        
+        #cmap = "Pastel2"
+        #plt.fill_betweenx(np.arange(pos, pos + len(coeffs)), 0, coeffs,
+        #                  cmap=cmap, alpha=0.7)
+        ticks.append(pos + len(coeffs) // 2)
         pos += len(coeffs) + padding
-    score = silhouette_scores
-    plt.axvline(x=score, color="red", linestyle="--")
-    plt.title("$k={}, score={:0.2f}$".format(K, score), fontsize=16)
 
-for model in kmeans_per_k:
-    K, D = model.cluster_centers_.shape
-    plt.figure()
-    plot_silhouette(model, X)
-    fname = f'../figures/kmeans_silhouette_diagram{K}.pdf'
-    plt.tight_layout()
-    plt.savefig(fname, dpi=300)
+    plt.gca().yaxis.set_major_locator(FixedLocator(ticks))
+    plt.gca().yaxis.set_major_formatter(FixedFormatter(range(k)))
+    if k in (3, 5):
+        plt.ylabel("Cluster")
+    
+    if k in (5, 6):
+        plt.gca().set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
+        plt.xlabel("Silhouette Coefficient")
+    else:
+        plt.tick_params(labelbottom=False)
+
+    score = silhouette_scores[k - 2]
+    plt.axvline(x=score, color="red", linestyle="--")
+    plt.title("$k={}, score={:0.2f}$".format(k, score), fontsize=16)
+
+plt.tight_layout()
+plt.savefig("../figures/kmeans_silhouette_diagram.pdf", dpi=300)
+plt.show()
+
 
 
 ##########
 
+def plot_data(X):
+    plt.plot(X[:, 0], X[:, 1], 'k.', markersize=2)
 
 def plot_centroids(centroids, weights=None, circle_color='w', cross_color='k'):
     if weights is not None:
@@ -138,31 +158,42 @@ def plot_centroids(centroids, weights=None, circle_color='w', cross_color='k'):
                 marker='x', s=50, linewidths=50,
                 color=cross_color, zorder=11, alpha=1)
 
-def plot_decision_boundaries(model, X, resolution=1000):
-    mu = model.cluster_centers_
-    K, D= mu.shape
+def plot_decision_boundaries(clusterer, X, K, resolution=1000):
     mins = X.min(axis=0) - 0.1
     maxs = X.max(axis=0) + 0.1
     xx, yy = np.meshgrid(np.linspace(mins[0], maxs[0], resolution),
                          np.linspace(mins[1], maxs[1], resolution))
-    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = clusterer.predict(np.c_[xx.ravel(), yy.ravel()])
     Z = Z.reshape(xx.shape)
+    print(np.unique(Z))
 
     #cmap = [mpl.cm.Spectral( (i / K)) for i in range(K)]
     cmap ="Pastel2"
     #cmap = mpl.cm.Spectral(K) 
     plt.contourf(Z, extent=(mins[0], maxs[0], mins[1], maxs[1]),cmap=cmap)
+    
+    ##cmap = cm.get_cmap("Pastel2")
+    #colors = [cmap(i) for i in range(K)]
+    #print(colors)
+    #plt.contourf(Z, extent=(mins[0], maxs[0], mins[1], maxs[1]),colors=colors)
+    
     plt.contour(Z, extent=(mins[0], maxs[0], mins[1], maxs[1]),
                 linewidths=1, colors='k')
-    plt.plot(X[:, 0], X[:, 1], 'k.', markersize=2)
-    plot_centroids(model.cluster_centers_)
+    plot_data(X)
+    plot_centroids(clusterer.cluster_centers_)
+    #K, D = clusterer.cluster_centers_.shape
     plt.title(f'K={K}')
 
-for model in kmeans_per_k:
-    K, D = model.cluster_centers_.shape
-    plt.figure()
-    plot_decision_boundaries(model, X)
-    fname = f'../figures/kmeans_silhouette_dboundaries{K}.pdf'
-    plt.tight_layout()
-    plt.savefig(fname, dpi=300)
+        
+plt.figure(figsize=(11, 9))
+for k in (3, 4, 5, 6):
+    plt.subplot(2, 2, k - 2)
+    plot_decision_boundaries(kmeans_per_k[k-1], X, k)
+plt.tight_layout()
+plt.savefig("../figures/kmeans_silhouette_voronoi.pdf", dpi=300)
+plt.show()
 
+X_new = np.array([[0, 2], [3, 2], [-3, 3], [-3, 2.5]])
+clusterer = kmeans_per_k[3-1]
+Z = clusterer.predict(X_new)
+print(Z)
