@@ -18,9 +18,19 @@ df_iris = pd.DataFrame(data=iris.data,
                              'petal_length', 'petal_width'])
 df_iris['species'] = pd.Series(iris.target_names[y], dtype='category')
 
+#df_iris = df_iris[df_iris['species'] != 'virginica']
 
 
-corr = df_iris[df_iris['species'] != 'virginica'].corr() 
+corr = df_iris.corr() 
 mask = np.tri(*corr.shape).T 
-sns.heatmap(corr.abs(), mask=mask, annot=True, cmap='viridis')
+plt.figure()
+#sns.heatmap(corr.abs(), mask=mask, annot=True, cmap='viridis')
+sns.heatmap(corr, mask=mask, annot=True, cmap='viridis')
 plt.savefig('../figures/iris_corr_mat.pdf', dpi=300, bbox_inches='tight');
+plt.show()
+
+cov = df_iris.cov() 
+plt.figure()
+sns.heatmap(cov, annot=True, cmap='viridis')
+plt.savefig('../figures/iris_cov_mat.pdf', dpi=300, bbox_inches='tight');
+plt.show()

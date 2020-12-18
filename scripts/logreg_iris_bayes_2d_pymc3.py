@@ -27,6 +27,17 @@ df_iris['species'] = pd.Series(iris.target_names[y], dtype='category')
 
 
 df = df_iris.query("species == ('setosa', 'versicolor')") 
+
+# We reduce the sample size from 50 to 25 per class,
+# or to 5 + 45 in the unbalanced setting.
+# The latter will increase posterior uncertainty
+unbalanced = False # True
+if unbalanced:
+    df = df[45:95]
+else:
+    df = df[25:75]
+assert(len(df)==50)
+
 y_1 = pd.Categorical(df['species']).codes 
 x_n = ['sepal_length', 'sepal_width'] 
 x_1 = df[x_n].values
@@ -45,10 +56,12 @@ with pm.Model() as model_1:
     trace_1 = pm.sample(2000)
     
 varnames = ['α', 'β'] 
-az.plot_forest(trace_1, var_names=varnames);
+#az.plot_forest(trace_1, var_names=varnames);
 
 idx = np.argsort(x_1[:,0]) 
 bd = trace_1['bd'].mean(0)[idx] 
+
+plt.figure()
 plt.scatter(x_1[:,0], x_1[:,1], c=[f'C{x}' for x in y_1]) 
 plt.plot(x_1[:,0][idx], bd, color='k'); 
 
@@ -58,4 +71,8 @@ plt.xlabel(x_n[0])
 plt.ylabel(x_n[1])
 
 plt.tight_layout()
-plt.savefig('../figures/logreg_iris_bayes_2d.pdf', dpi=300)      
+if unbalanced:
+    plt.savefig('../figures/logreg_iris_bayes_2d_unbalanced.pdf', dpi=300)      
+else:
+    plt.savefig('../figures/logreg_iris_bayes_2d.pdf', dpi=300)    
+        

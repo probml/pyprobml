@@ -21,34 +21,30 @@ iris = load_iris()
 X = iris.data 
 y = iris.target
 
-
 # Convert to pandas dataframe 
-df = pd.DataFrame(data=X, columns=['sl', 'sw', 'pl', 'pw'])
-# create column for labels
+df = pd.DataFrame(data=X, columns=iris.feature_names)
 df['label'] = pd.Series(iris.target_names[y], dtype='category')
 
+# we pick a color map to match that used by decision tree graphviz 
+#cmap = ListedColormap(['#fafab0','#a0faa0', '#9898ff']) # orange, green, blue/purple
+#cmap = ListedColormap(['orange', 'green', 'purple']) 
+palette = {'setosa': 'orange', 'versicolor': 'green', 'virginica': 'purple'}
 
-# 2d scatterplot
-#https://seaborn.pydata.org/generated/seaborn.pairplot.html
+g = sns.pairplot(df, vars = df.columns[0:4], hue="label", palette=palette)
+#g = sns.pairplot(df, vars = df.columns[0:4], hue="label")
+plt.savefig("../figures/iris_scatterplot_purple.pdf")
+plt.show()
 
-# Make a dataframe with nicer labels for printing
-#iris_df = sns.load_dataset("iris")
+
+# Change colum names
 iris_df = df.copy()
-iris_df.columns = iris['feature_names'] + ['label'] 
-
+iris_df.columns =  ['sl', 'sw', 'pl', 'pw'] + ['label'] 
 
 g = sns.pairplot(iris_df, vars = iris_df.columns[0:4], hue="label")
 plt.tight_layout()
 plt.savefig("../figures/iris_pairplot.pdf")
 plt.show()
 
-if 0:
-    # pick ugly colors to match iris_dtree.py
-    palette = {'setosa': 'red', 'versicolor': 'yellow', 'virginica': 'blue' }
-    g = sns.pairplot(iris_df, vars = iris_df.columns[0:4] ,
-                     hue="label", palette=palette)
-    plt.savefig("../figures/iris_pairplot-ryb.pdf")
-    plt.show()
 
-sns.stripplot(x="label", y="sl", data=df, jitter=True)
+sns.stripplot(x="label", y="sl", data=iris_df, jitter=True)
 plt.savefig('../figures/iris_sepal_length_strip_plot.pdf', dpi=300);

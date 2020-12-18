@@ -2,10 +2,6 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
 
 
 zeroOne = np.vectorize(lambda x: 1 * (x <= 0))
@@ -22,5 +18,5 @@ for i, fun in enumerate(funs):
 
 plt.axis([-2.1, 2.1, -0.1, 3.1])
 plt.legend()
-save_fig('hingeLoss.pdf')
-plt.show()
+plt.savefig('../figures/hingeLoss.pdf')
+86plt.show()
