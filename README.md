@@ -1,4 +1,5 @@
 # pyprobml
+
 Python 3 code for my new book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/).
 This is work in progress, so expect rough edges.
 
@@ -9,7 +10,7 @@ When you open a notebook, there will be a button at the top that says 'Open in c
 
 ###  Book 1 (PML: An Introduction)
 
-See [this link](https://github.com/probml/pyprobml/blob/master/chapters_book1) for a list of notebooks.
+See [this link](https://github.com/probml/pyprobml/blob/master/book1) for a list of notebooks.
 
 ### Book 2 (PML: Advanced topics)
 
