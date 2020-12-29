@@ -1,13 +1,15 @@
-# Convolutional neural networks (CNNs) for image classification
+# Convolutional neural networks (CNNs) 
+
+## Iage classification
 
 |Title|Software|Link|
 |-----------|----|----|
-|(Fashion) MNIST image classification|TF2|[foo](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/fashion_cnn_tf.ipynb) 
+|(Fashion) MNIST image classification|TF2|[cnn_mnist_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/cnn/cnn_mnist_tf.ipynb) 
 |Dogs vs cats image classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/images/classification)
 |Transfer learning of a mobilenet model (trained on Imagenet) from keras to dogs vs cats classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning)
 |Transfer learning of a mobilenet model (trained on Imagenet) from TF-hub to flower classification|TF2|[T2 tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning_with_hub)
 
-# Convolutional neural networks (CNNs) for other vision tasks
+## Other vision tasks
 
 |Title|Software|Link|
 |-----------|----|----|
