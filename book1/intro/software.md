@@ -43,7 +43,7 @@ v2](https://github.com/ageron/handson-ml2) by Aurelion Geron.
 | Name | Functionality |
 | ---- | ---- | 
 | [Numpy](http://www.numpy.org) |  Vector and matrix computations |
-| [Jax](http://github.com/google/jax) |  Accelerated version of Numpy with autograd support (seebelow)  |
+| [Jax](http://github.com/google/jax) |  Accelerated version of Numpy with autograd support (see below)  |
 | [Scipy](http://www.scipy.org) | Various scientific / math / stats / optimization functions   |
 | [Matplotlib](http://matplotlib.org), [Seaborn](https://seaborn.pydata.org/) | Plotting |
 | [Pandas](http://pandas.pydata.org), [Xarray](http://xarray.pydata.org/en/stable/index.html) | Dataframes and named arrays |
@@ -128,28 +128,13 @@ book, we focus on PyMc3 and numpyro.
 
 |Name|Description|
 |----|----|
-|[Tensorflow probability](https://www.tensorflow.org/probability) 
-|PPL built on top of TF2.
-|
-|[Edward 1](http://edwardlib.org)
-|PPL built on top of TF2 or Numpy.
-|
-|[Edward 2](https://github.com/google/edward2)
-|Low-level PPL built on top of TF2.
-|
-|[Pyro](https://github.com/pyro-ppl/pyro)
-|PPL built on top of PyTorch.
-|
-|[NumPyro](https://github.com/pyro-ppl/numpyro)
-|Similar to Pyro, but built on top of JAX instead of PyTorch.
-|
-|[PyStan](https://pystan.readthedocs.io/en/latest)
-|Python interface to [Stan](https://mc-stan.org), which uses the BUGS
-DSL for PGMs. Custom C++ autodiff library.
-|
-|[PyMc3](https://docs.pymc.io)
-|Similar to PyStan, but uses Theano for autodiff. (Future versions will use JAX.)
-|
+|[Tensorflow probability](https://www.tensorflow.org/probability)|PPL built on top of TF2.|
+|[Edward 1](http://edwardlib.org)|PPL built on top of TF2 or Numpy.|
+|[Edward 2](https://github.com/google/edward2)|Low-level PPL built on top of TF2.|
+|[Pyro](https://github.com/pyro-ppl/pyro)|PPL built on top of PyTorch.|
+|[NumPyro](https://github.com/pyro-ppl/numpyro)|Similar to Pyro, but built on top of JAX instead of PyTorch.|
+|[PyStan](https://pystan.readthedocs.io/en/latest)|Python interface to [Stan](https://mc-stan.org), which uses the BUGS DSL for PGMs. Custom C++ autodiff library.|
+|[PyMc3](https://docs.pymc.io)|Similar to PyStan, but uses Theano for autodiff. (Future versions will use JAX.)|
 
 
 There are also libraries for inference in probabilistic models
@@ -158,12 +143,8 @@ We give some examples below.
 
 |Name|Description|
 |----|----|
-|[PgmPy](http://pgmpy.org/)
-|Discrete PGMs.
-|
-|[Pomegranite](https://pomegranate.readthedocs.io/en/latest/index.html)
-|Discrete PGMs. GPU support.
-|
+|[PgmPy](http://pgmpy.org/)|Discrete PGMs.|
+|[Pomegranate](https://pomegranate.readthedocs.io/en/latest/index.html)|Discrete PGMs. GPU support.|
 
 
           
