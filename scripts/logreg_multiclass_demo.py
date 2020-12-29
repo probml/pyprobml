@@ -9,8 +9,6 @@ from scipy.stats import multivariate_normal as mvn
 from sklearn.linear_model import LogisticRegression
 import matplotlib.colors as mcol
 
-figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 def create_data(N):
     np.random.seed(234)
@@ -77,10 +75,8 @@ for i in range(len(models)):
     #plt.scatter(X[:,0], X[:,1], y)
     plt.title(names[i])
 
-    fname = 'logregMulti{}Boundary{}.png'.format()
-                (file_names[i], file_type))
-    savefig('logregMulti%sBoundary%s' %
-                (file_names[i], file_type))
+    fname = '../logregMulti{}Boundary.png'.format(file_names[i])
+    plt.savefig(fname)
     plt.draw()
 
 plt.show()
