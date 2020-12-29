@@ -1,16 +1,16 @@
 # Neural network models for sequences
 
-## Recurrent neural networks (TF2)
+## Recurrent neural networks
 
- (* denotes official TF tutorials, which are not part of the pyprobml repo.)
+|Title|Software|Link|
+|-----------|----|----|
+|IMDB movie  review sentiment classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_classification_rnn)
+|Character level generation for Shakespeare|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_generation)
+|Time series forecasting|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/structured_data/time_series)
+|Image captioning|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/image_captioning)
+|Neural machine translation using RNN with attention|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/nmt_with_attention)
 
-* [IMDB movie  review sentiment classification *](https://www.tensorflow.org/tutorials/text/text_classification_rnn)
-* [Character level generation for Shakespeare *](https://www.tensorflow.org/tutorials/text/text_generation)
-* [Time series forecasting *](https://www.tensorflow.org/tutorials/structured_data/time_series)
-* [Image captioning *](https://www.tensorflow.org/tutorials/text/image_captioning)
-* [Neural machine translation using RNN with attention *](https://www.tensorflow.org/tutorials/text/nmt_with_attention)
-
-## Transformers (TF2)
+## Transformers 
 
 |Title|Software|Link|
 |-----------|----|----|

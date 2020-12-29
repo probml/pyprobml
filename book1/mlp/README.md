@@ -5,44 +5,21 @@ Deep learning is about composing differentiable functions into more complex func
 
 There are several libraries that can execute such computation graphs on hardware accelerators, such as GPUs. (Some libraries also support distributed computation, but we will not need use this feature in this book.) We list a few popular libraries below.
 
+|Name|More info|
+|----|----|
+|[Tensorflow2](http://www.tensorflow.org)|[tf_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/tf_intro.ipynb)
+|[JAX](http://github.com/google/jax)|[jax_intro.ipynb])https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb)
+|[PyTorch](http://pytorch.org)|[PyTorch website](https://pytorch.org/tutorials)
+|[MXNet](https://mxnet.apache.org)|[Dive into deep learning book](http://www.d2l.ai)
 
-
-<table align="left">
-    <tr>
-        <th style="text-align:left">Name</th>
-        <th style="text-align:left" width="400">Functionality</th>
-      <th style="text-align:left">More info</th>
-    <tr> 
-        <td style="text-align:left"> <a href="http://www.tensorflow.org">Tensorflow 2</a></td>
-            <td style="text-align:left"> Accelerated numpy-like library with autograd support. Keras API.</td>
-     <td style="text-align:left"><a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/tf.ipynb">TF notebook</a>
-               <tr>
-        <td style="text-align:left"> <a href="http://github.com/google/jax">JAX</a></td>
-        <td style="text-align:left">Accelerated numpy, functional code transformations (autograd, JIT, VMAP, etc)</td>
-            <td style="text-align:left">
-              <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb">JAX notebook</a>
-    <tr>
-        <td style="text-align:left"> <a href="http://pytorch.org">Pytorch</a></td>
-         <td style="text-align:left"> Similar to TF 2</td>
-       <td style="text-align:left">
-       <a href="https://pytorch.org/tutorials/">Official PyTorch tutorials</a>
-              <tr>
-        <td style="text-align:left"> <a href="https://mxnet.apache.org/">MXNet</a>
-            <td  style="text-align:left"> Similar to TF 2. Gluon  API.
-              <td style="text-align:left">
-                <a href="http://www.d2l.ai/">  Dive into deep learning book</a>       
-</table>
 
 # Multilayer perceptrons (MLPs)
 
-In this section, we give some examples of MLPs using TF2.
-(* denotes official TF tutorials, which are not part of the pyprobml repo.)
-
-* [Auto-MPG regression *](https://www.tensorflow.org/tutorials/keras/regression)
-* [Tabular medical data classification *](https://www.tensorflow.org/tutorials/structured_data/feature_columns)
-*  [FashionMNIST image classification](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/fashion_mlp_tf.ipynb) 
-* [FashionMNIST image classification *](https://www.tensorflow.org/tutorials/keras/classification)
-* [IMDB movie review sentiment classification](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dnn/imdb_mlp_tf.ipynb) 
-* [IMDB movie review sentiment classification using pre-trained word embeddings from TF-hub *](https://www.tensorflow.org/tutorials/keras/text_classification_with_hub)
-* [IMDB movie review sentiment classification using keras pre-processed data *](https://www.tensorflow.org/tutorials/keras/text_classification)
+|Title|Software|Link|
+|-----------|----|----|
+|Auto-MPG regression|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/keras/regression)
+|Tabular medical data classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/structured_data/feature_columns)
+|FashionMNIST image classification|TF2|[mlp_mnist_tf.ipynb](mlp_mnist_tf.ipynb)
+|IMDB movie review sentiment classification using pre-trained word embeddings from TF-hub|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/keras/text_classification_with_hub)
+|IMDB movie review sentiment classification using keras pre-processed data|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/keras/text_classification)
 
