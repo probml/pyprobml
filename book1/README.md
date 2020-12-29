@@ -34,7 +34,7 @@
 [freq-html]: https://github.com/probml/pyprobml/tree/master/book1/freq_stats
 
 
-|Chapter|Name|Link|
+|Chapter|Name|Notebooks|
 |-|----|----|
 |1|Introduction|[link][intro-html]
 |<b>Part I:Foundations</b>|||
@@ -45,30 +45,25 @@
 |6|Information theory|[link][info-html]
 |7|Bayesian statistics|[link][bayes-stats-html]
 |8|Bayesian decision theory|[link][dtheory-html]
-
 |<b>Part II: Linear Models</b>|||
 |9|Linear discriminant analysis|[link][lda-html]
 |10|Logistic regression|[link][logreg-html]
 |11|Linear regression|[link][linreg-html]
 |12|Generalized linear models|[link][glm-html]
-
 |<b>Part III: Deep neural networks</b>|||
 |13|Neural networks for unstructured data|[link][mlp-html]
 |14|Neural networks for images|[link][cnn-html]
 |15|Neural networks for sequences|[link][rnn-html]
-
 |<b>Part IV: Nonparametric models</b>|||
 |16|Exemplar-based models|[link][exemplars-html]
 |17|Kernel methods|[link][kernels-html]
 |18|Trees, forests, bagging and boosting|[link][trees-html]
-
 |<b>Part V: Beyond supervised learning</b>|||
 |19|Learning with fewer labeled examples|[link][fewer-html]
 |20|Dimensionality reduction|[link][dimred-html]
 |21|Clustering|[link][clustering-html]
 |22|Recommender systems|[link][recsys-html]
 |23|Graph embeddings|[link][gnn-html]
-
 |<b>Part VI: Mathematical background</b>|||
 |A|Some useful mathematics|[link][math-html]
 |B|Linear algebra|[link][linalg-html]
@@ -77,7 +72,6 @@
 
 <!--
 * [Ch. 1: Introduction](https://github.com/probml/pyprobml/blob/master/book1/intro/README.md)
-* [Ch. 5: Optimization](https://github.com/probml/pyprobml/blob/master/book1/optimization/README.md)
 -->
 
 
