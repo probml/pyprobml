@@ -65,11 +65,10 @@ DL therefore requires several different libraries,
 to perform tasks such as
 
 - specify the model
-- compute gradients
+- compute gradients using automatic differentiation
 - train the model (pass data to the gradient function,
-and gradients to the optimizer function),
+and gradients to the optimizer function)
 - serve the model (pass input to a trained model, and pass output
-(predictions)
 to some service)
  
 The training and serving often uses 
@@ -95,25 +94,32 @@ However, we also welcome contributions in PyTorch.
 
 [JAX](http://github.com/google/jax) is basically a fast version of
 numpy, combined with autograd. (The speed comes from various program
-transformations, such as a Just In Time compiler, combined with
-hardware accelerators, such as GPUs and TPUs.)
+transformations, such as a Just In Time compiler which converts the code to XLA,
+which runs on various  hardware accelerators, such as GPUs and TPUs.)
 JAX is a purely functional library, which differs from Tensorflow and
-Pytorch, which are stateful.
-The  [Flax](https://github.com/google/flax) library
-some "magic" on top that makes it behave as it was
-stateful, which  makes it easier to define complex DNNs.
-Another similar library for defining  stateful models
-is [Haiku](https://github.com/deepmind/dm-haiku).
-Both of these "compile down" to pure functions,
-so they can be combined with other libraries from the JAX ecosystem.
+Pytorch, which are stateful. The main advantages of functional programming
+are that  we can safely transform the code, and/or run it in parallel, without worrying about
+global state changing behind the scenes. The main disadvantage is that code (especially DNNs) can be harder to write.
+To simplify the task, various DNN libraries have been designed, such as Flax (see below).
+
+|Name|Description|
+|----|----|
+|[Flax](https://github.com/google/flax)|DNN library|
+|[Haiku](https://github.com/deepmind/dm-haiku)|DNN library|
+|[Trax](https://github.com/google/trax)|DNN library|
+|[Objax](https://github.com/google/objax)|DNN framework, similar to PyTorch, not compatible with other JAX libraries|
+|[NumPyro](https://github.com/pyro-ppl/numpyro)|Library for (deep) probabilistic modeling|
+|[Optax](https://github.com/deepmind/optax)|Library for defining gradient-based optimizers|
+|[RLax](https://github.com/deepmind/rlax)|Library for reinforcement learning|
+|[Chex](https://github.com/deepmind/chex)|Library for debugging and developing reliable JAX code|
 
         
 ## Software for probabilistic modeling <a class="anchor" id="PPL"></a>
 
 In this book, we focus on probabilistic models, both
-supervised (conditional) models of the form `$p(y|x)$`, as well as
-unsupervised models of the form $p(z,x)$, where $x$ are the features,
-$y$ are the labels (if present), and $z$ are the latent variables. For
+supervised (conditional) models of the form $$p(y|x)$$, as well as
+unsupervised models of the form $$p(z,x)$$, where $$x$$ are the features,
+$$y$$ are the labels (if present), and $$z$$ are the latent variables. For
 simple special cases, such as GMMs and PCA, we can use
 sklearn. However, to create more complex models, we need more flexible
 libraries. We list some examples below.
