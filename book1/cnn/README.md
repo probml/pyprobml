@@ -13,6 +13,8 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Image segmentation using Oxford-IIT pets dataset|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/images/segmentation)
+|Image segmentation using Oxford-IIT pets dataset|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/segmentation)
 |Object detection using TF-hub|TF2|[TF hub tutorials](https://github.com/tensorflow/hub/blob/master/examples/colab/object_detection.ipynb)
-|More advanced object detection|TF2|[TF object detection API](https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb)
+|More advanced object detection|TF2|[TF object detection API](https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb)|
+|Deep dream|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/generative/deepdream)|
+|Neural style transfer|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/generative/style_transfer)| 
