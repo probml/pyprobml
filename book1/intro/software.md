@@ -3,7 +3,8 @@
 ## General coding
 
 In this book, we will use Python 3.
-For a good introduction, see e.g., the free books [Whirlwind tour of Python](https://github.com/jakevdp/WhirlwindTourOfPython)  by Jake Vanderplas or [Dive into Python 3](https://www.diveinto.org/python3/table-of-contents.html) by Mark Pilgrim.
+For a good introduction, see e.g., the free books [Whirlwind tour of Python](https://github.com/jakevdp/WhirlwindTourOfPython)  by Jake Vanderplas
+or [Dive into Python 3](https://www.diveinto.org/python3/table-of-contents.html) by Mark Pilgrim.
 
 Each chapter is associated with one or more
  <a href="https://jupyter.org/">Jupyter notebooks</a>,
@@ -28,28 +29,25 @@ For a browser-based IDE, you can use
 
 We will leverage many standard libraries from Python's "data science
 stack", listed in the table below. 
-For a good introduction to these, see e.g., the free book [Python
-Datascience
-Handbook](https://github.com/jakevdp/PythonDataScienceHandbook) by
+For a good introduction to these, see e.g., the free book
+[Python Datascience Handbook](https://github.com/jakevdp/PythonDataScienceHandbook) by
 Jake Vanderplas, 
-or the class [Computational Statistics in Python](http://people.duke.edu/~ccc14/sta-663-2019/)  by Cliburn Chen
-at Duke University. For an excellent book on
+or the class [Computational Statistics in Python](http://people.duke.edu/~ccc14/sta-663-2019/)  by Cliburn Chen at Duke University. For an excellent book on
 [scikit-learn](https://scikit-learn.org/stable/), see
-[Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow
-v2](https://github.com/ageron/handson-ml2) by Aurelion Geron. 
+[Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow v2](https://github.com/ageron/handson-ml2) by Aurelion Geron. 
 
 
 
 | Name | Functionality |
 | ---- | ---- | 
 | [Numpy](http://www.numpy.org) |  Vector and matrix computations |
-| [Jax](http://github.com/google/jax) |  Accelerated version of Numpy with autograd support (see below)  |
 | [Scipy](http://www.scipy.org) | Various scientific / math / stats / optimization functions   |
 | [Matplotlib](http://matplotlib.org), [Seaborn](https://seaborn.pydata.org/) | Plotting |
 | [Pandas](http://pandas.pydata.org), [Xarray](http://xarray.pydata.org/en/stable/index.html) | Dataframes and named arrays |
 | [Scikit-learn](http://scikit-learn.org) | Many ML methods (excluding deep learning) |
+| [Jax](http://github.com/google/jax) |  Accelerated version of Numpy with autograd support |
 
-         
+
 ## Software for deep learning <a class="anchor" id="DL"></a>
 
 
