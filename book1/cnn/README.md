@@ -1,6 +1,6 @@
 # Convolutional neural networks (CNNs) 
 
-## Iage classification
+## Image classification
 
 |Title|Software|Link|
 |-----------|----|----|
