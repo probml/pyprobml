@@ -14,7 +14,8 @@ See [this link](https://github.com/probml/pyprobml/blob/master/book1) for a list
 
 ### Book 2 (PML: Advanced topics)
 
-None yet.
+See [this link](https://github.com/probml/pyprobml/blob/master/book2) for a list of notebooks.
+
 
 ## Scripts to make figures
 
