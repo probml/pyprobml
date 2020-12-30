@@ -48,3 +48,4 @@ plt.show()
 
 sns.stripplot(x="label", y="sl", data=iris_df, jitter=True)
 plt.savefig('../figures/iris_sepal_length_strip_plot.pdf', dpi=300);
+plt.show()

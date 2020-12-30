@@ -19,10 +19,6 @@ pd.set_option('display.width', 150)  # wide windows
 figdir = "../figures"
 
 
-def save_fig(fname):
-    if figdir:
-        plt.savefig(os.path.join(figdir, fname))
-
 
 #from sklearn.datasets import fetch_openml
 #auto = fetch_openml('autoMpg', cache=True)
