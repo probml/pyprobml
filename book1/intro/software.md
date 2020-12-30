@@ -104,9 +104,10 @@ To simplify the task, various DNN libraries have been designed, such as Flax (se
 
 |Name|Description|
 |----|----|
-|[Flax](https://github.com/google/flax)|DNN library|
-|[Haiku](https://github.com/deepmind/dm-haiku)|DNN library|
-|[Trax](https://github.com/google/trax)|DNN library|
+|[Stax](https://github.com/google/jax/blob/master/jax/experimental/stax.py)|Barebones DNN DSL|
+|[Flax](https://github.com/google/flax)|DNN library for creating and training models|
+|[Haiku](https://github.com/deepmind/dm-haiku)|DNN library for creating models|
+|[Trax](https://github.com/google/trax)|DNN library, focus on sequence models|
 |[Objax](https://github.com/google/objax)|DNN framework, similar to PyTorch, not compatible with other JAX libraries|
 |[NumPyro](https://github.com/pyro-ppl/numpyro)|Library for (deep) probabilistic modeling|
 |[Optax](https://github.com/deepmind/optax)|Library for defining gradient-based optimizers|
