@@ -4,7 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pyprobml_utils import save_fig
+#from pyprobml_utils import save_fig
 
 # Ensure stochastic reproducibility.
 np.random.seed(11)
@@ -83,13 +83,13 @@ def plot_ml(data):
                               edgecolor='black', linewidth=3)
                 )
         plt.scatter(plot_data[:,0], plot_data[:,1], marker='+', color='red', zorder=10, linewidth=3)
-        figure.suptitle('MLE predictive, n={}'.format(n), fontsize=12, y=1.03)
+        plt.title('MLE predictive, n={}'.format(n), fontsize=12, y=1.03)
         plt.axis('square')
         plt.ylim(0, 1)
         plt.xlim(0, 1)
         
-        filename = 'healthyLevelsMLPred{}.pdf'.format(n)
-        save_fig(filename)
+        filename = '../figures/healthyLevelsMLPred{}.pdf'.format(n)
+        plt.savefig(filename)
         plt.show(block=False)
 
 def plot_posterior_samples(data, hypotheses, prior):
@@ -103,9 +103,9 @@ def plot_posterior_samples(data, hypotheses, prior):
         prior_type = 'uninfPrior'
         title = r'samples from $p(h|D_{{1:{}}})$, {}'.format(top_n[i], prior_type)
         plot_sampled_hypotheses(hypotheses, plot_post, plot_data, title)
-        filename = 'healthyLevelsSamples{}{}.pdf'.format(top_n[i], prior_type)
-        figure.suptitle(title, fontsize=12, y=1.03)
-        save_fig(filename)
+        filename = '../figures/healthyLevelsSamples{}{}.pdf'.format(top_n[i], prior_type)
+        plt.title(title, fontsize=12, y=1.03)
+        plt.savefig(filename)
         plt.show(block=False)
 
 # Returns greyscale colours that reflect the supplied relative probabilities,
@@ -178,13 +178,13 @@ def plot_contour(data, is_last_plot):
     plt.contour(xx, yy, pp)
     plt.scatter(data[:,0], data[:,1], marker='+', color='red', zorder=10, linewidth=3)
     
-    figure.suptitle('Bayes predictive, n={}, uninfPrior'.format(n), fontsize=12, y=1.03)
+    plt.title('Bayes predictive, n={}, uninfPrior'.format(n), fontsize=12, y=1.03)
     plt.axis('square')
     plt.ylim(0, 1)
     plt.xlim(0, 1)
 
-    filename = 'healthyLevelsBayesPred{}UninfPrior.pdf'.format(n)
-    save_fig(filename)
+    filename = '../figures/healthyLevelsBayesPred{}UninfPrior.pdf'.format(n)
+    plt.savefig(filename)
     plt.show(block=is_last_plot)
     
 def neighbour(data, points):
