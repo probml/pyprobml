@@ -1,7 +1,12 @@
 <h2>Bayesian statistics</h2>
-<ul>
-<li> <a href="bayes.ipynb">Intro to Bayesian stats</a>
-<li> <a href="schools8_pymc3.ipynb">Hierarchical Bayes: 8 schools example (pymc3 version)</a>
-<li> <a href="linreg_hbayes_1d_pymc3.ipynb">Hierarchical Bayes: linear regression (pymc3 version)</a>
-<li> <a href="funnel.ipynb">Hierarchical Bayes: Funnel of hell (pymc3 version)</a>/
-<ul>
+
+[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter13_figures.ipynb)
+
+
+|Title|Software|Link|
+|-----------|----|----|
+|Intro| Python| [link](bayes.ipynb)
+|Hierarchical Bayes: 8 schools example| PyMC3 |[link](schools8_pymc3.ipynb)
+|Hierarchical Bayes: linear regression| PyMC3 |[link](linreg_hbayes_1d_pymc3.ipynb)
+|Hierarchical Bayes: Funnel of hell | PyMC3| [link](funnel.ipynb)
+
