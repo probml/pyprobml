@@ -1,13 +1,11 @@
 
-[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter13_figures.ipynb)
-
-
-
 # Multilayer perceptrons (MLPs)
+
+[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter13_figures.ipynb)
 
 |Title|Software|Link|
 |-----------|----|----|
-|Auto-MPG regression|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/keras/regression)
+|Auto-MPG regression| TF2| [TF2 tutorials](https://www.tensorflow.org/tutorials/keras/regression)
 |Tabular medical data classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/structured_data/feature_columns)
 |(Fashion) MNIST image classification|TF2|[mlp_mnist_tf.ipynb](mlp_mnist_tf.ipynb)
 |IMDB movie review sentiment classification |TF2|[mlp_imdb_tf.ipynb](mlp_imdb_tf.ipynb)
