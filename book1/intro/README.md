@@ -1,6 +1,9 @@
 # Introduction
 
 
+[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter1_figures.ipynb)
+
+
 |Link|Software|Notes|
 |-|----|----|
 |[software.md](software.md)| Various Python libraries| Overview of Python ML/DL software ecosystem|
@@ -14,5 +17,4 @@
 |[pytorch_intro.ipynb](pytorch_intro.ipynb)| PyTorch| Brief intro to PyTorch |
 |[numpyro_intro.ipynb](numpyro_intro.ipynb)| NumPyro, JAX| Brief intro to NumPyro |
 |[pymc3_intro.ipynb](pymc3_intro.ipynb)| PyMc3| Brief intro to PyMc3 |
-|[intro_figures.ipynb](intro_figures.ipynb)| Various Python libraries | Colab that loads the scripts to create most of the figures for this chapter|
-|[intro_figures_matlab.ipynb](intro_figures_matlab.ipynb)| Octave | Colab that loads the matlab scripts to create some of the figures for this chapter|
+
