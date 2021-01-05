@@ -1,13 +1,16 @@
 # Convolutional neural networks (CNNs) 
 
+
+[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter14_figures.ipynb)
+
 ## Image classification
 
 |Title|Software|Link|
 |-----------|----|----|
-|(Fashion) MNIST image classification|TF2|[cnn_mnist_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/cnn/cnn_mnist_tf.ipynb) 
-|Dogs vs cats image classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/images/classification)
-|Transfer learning of a mobilenet model (trained on Imagenet) from keras to dogs vs cats classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning)
-|Transfer learning of a mobilenet model (trained on Imagenet) from TF-hub to flower classification|TF2|[T2 tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning_with_hub)
+|(Fashion) MNIST image classification|TF2|[notebook](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/cnn/cnn_mnist_tf.ipynb) 
+|Dogs vs cats image classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/classification)
+|Transfer learning of a mobilenet model (trained on Imagenet) from keras to dogs vs cats classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning)
+|Transfer learning of a mobilenet model (trained on Imagenet) from TF-hub to flower classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning_with_hub)
 
 ## Other vision tasks
 
