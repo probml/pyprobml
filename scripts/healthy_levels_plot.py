@@ -83,7 +83,7 @@ def plot_ml(data):
                               edgecolor='black', linewidth=3)
                 )
         plt.scatter(plot_data[:,0], plot_data[:,1], marker='+', color='red', zorder=10, linewidth=3)
-        figure.suptitle('ML predictive, n={}'.format(n), fontsize=12, y=1.03)
+        figure.suptitle('MLE predictive, n={}'.format(n), fontsize=12, y=1.03)
         plt.axis('square')
         plt.ylim(0, 1)
         plt.xlim(0, 1)
