@@ -1,3 +1,7 @@
+# Chapter figures
+
+[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter13_figures.ipynb)
+
 # Software for deep learning <a class="anchor" id="DL"></a>
 
 
