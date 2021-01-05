@@ -1,20 +1,6 @@
-# Chapter figures
 
 [Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter13_figures.ipynb)
 
-# Software for deep learning <a class="anchor" id="DL"></a>
-
-
-Deep learning is about composing differentiable functions into more complex functions, represented as a computation graph, and then using automatic differentiation ("autograd") to compute gradients, which we can pass to an optimizer, to fit the function to data. This is sometimes called "differentiable programming".
-
-There are several libraries that can execute such computation graphs on hardware accelerators, such as GPUs. (Some libraries also support distributed computation, but we will not need use this feature in this book.) We list a few popular libraries below.
-
-|Name|More info|
-|----|----|
-|[Tensorflow2](http://www.tensorflow.org)|[tf_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/tf_intro.ipynb)
-|[JAX](http://github.com/google/jax)|[jax_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/intro/jax.ipynb)
-|[PyTorch](http://pytorch.org)|[PyTorch website](https://pytorch.org/tutorials)
-|[MXNet](https://mxnet.apache.org)|[Dive into deep learning book](http://www.d2l.ai)
 
 
 # Multilayer perceptrons (MLPs)
