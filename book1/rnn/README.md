@@ -1,5 +1,8 @@
 # Neural network models for sequences
 
+[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter15_figures.ipynb)
+
+
 ## Recurrent neural networks
 
 |Title|Software|Link|
