@@ -1,7 +1,7 @@
 # Linear algebra
 
 
-[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/appendixB_figures.ipynb)
+[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/AppendixB_figures.ipynb)
 
 |Title|Software|Link|
 |-----------|----|----|
