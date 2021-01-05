@@ -1,6 +1,6 @@
 <h2>Bayesian statistics</h2>
 
-[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter13_figures.ipynb)
+[Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter7_figures.ipynb)
 
 
 |Title|Software|Link|
