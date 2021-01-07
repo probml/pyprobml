@@ -1,6 +1,8 @@
 # Visualize fitting a mixture of Gaussians to the old faithful dataset
 # reproduce Bishop fig 9.8
 
+#  Author: Gerardo Durán Martín
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
@@ -143,7 +145,9 @@ def main():
         colors = cmap if ix > 0 else "Dark2"
         plot_mixtures(X, mu, pi, Sigma, r, cmap=colors, ax=axi)
         axi.set_title("Iteration {ix}".format(ix=ix))
+        
     plt.tight_layout()
+    plt.savefig('../figures/gmm_faithful.pdf', dpi=300)
     plt.show()
 
 

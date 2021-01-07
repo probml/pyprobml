@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import scipy.stats as stats
-from pyprobml_utils import save_fig
+#from pyprobml_utils import save_fig
 
 ## Helper functions
 
@@ -158,7 +158,10 @@ class Graphing:
         # Ensure the 100 label is shown.
         plt.ylim(-1, 100)
         plt.imshow(image, aspect='auto', interpolation='none', origin='lower')
-        save_fig(filename)
+        
+        plt.tight_layout()
+        #save_fig(filename)
+        plt.savefig('../figures/{}'.format(filename))
         
         # Don't block, continue to show the next figure.
         plt.show(block=False)
@@ -184,6 +187,7 @@ class Graphing:
         plt.title('lik', y=y_title_align)
         plt.barh([i for i in range(len(hypotheses))],
                  [lik for lik in likelihood[::-1]], color='blue')
+        #plt.xticks( [] )
         plt.tick_params(
             axis='y',
             which='both',
@@ -198,6 +202,7 @@ class Graphing:
         plt.title('post', y=y_title_align)
         plt.barh([i for i in range(len(hypotheses))],
                  [post for post in posterior[::-1]], color='blue')
+        #plt.xticks([])
         plt.tick_params(
             axis='y',
             which='both',
@@ -205,7 +210,10 @@ class Graphing:
             right=False,
             labelleft=False)
         
-        save_fig(filename)
+            
+        plt.tight_layout()
+        #save_fig(filename)
+        plt.savefig('../figures/{}'.format(filename))
         
         # Don't block, continue to show the next figure.
         plt.show(block=False)
@@ -296,7 +304,9 @@ class Graphing:
         # Hide the axes of the plot in the top-right slot.
         axes[0, 1].axis('off')
         
-        save_fig(filename)
+        
+        plt.tight_layout()
+        plt.savefig('../figures/{}'.format(filename))
         plt.show()
     
 # The hypothesis space: a vector of hypotheses.

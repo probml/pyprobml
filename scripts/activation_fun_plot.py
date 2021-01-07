@@ -3,8 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -53,7 +52,7 @@ plt.grid(True)
 plt.legend(loc="lower right", fontsize=14)
 plt.title("Activation functions", fontsize=14)
 plt.axis([-5, 5, -1.2, 1.2])
-save_fig('activationFuns.pdf')
+plt.savefig('../figures/activationFuns.pdf')
 plt.show()
 
 #plt.figure(figsize=(11,4))
@@ -66,7 +65,7 @@ plt.grid(True)
 plt.legend(loc="upper left", fontsize=14)
 plt.title("Activation functions", fontsize=14)
 plt.axis([-2, 2, -1.2, 2])
-save_fig('activationFuns2.pdf')
+plt.savefig('../figures/activationFuns2.pdf')
 plt.show()
 
 # From https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb
@@ -83,5 +82,5 @@ plt.annotate('Linear', xytext=(2, 0.2), xy=(0, 0.5), arrowprops=props, fontsize=
 plt.grid(True)
 plt.title("Sigmoid activation function", fontsize=14)
 plt.axis([-5, 5, -0.2, 1.2])
-save_fig("sigmoid_saturation_plot")
+plt.savefig("../figures/sigmoid_saturation_plot")
 plt.show()
