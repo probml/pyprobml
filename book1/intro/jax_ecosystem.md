@@ -22,6 +22,7 @@ To simplify the task, various DNN libraries have been designed, as we list below
 |[Trax](https://github.com/google/trax)|Library for specifying and training DNNs, with a focus on sequence models|
 |[Objax](https://github.com/google/objax)|PyTorch-like library for JAX (stateful/ object-oriented, not compatible with other JAX libraries)|
 |[Elegy](https://github.com/poets-ai/elegy)|Keras-like library for Jax|
+|[FlaxVision](https://github.com/rolandgvc/flaxvision)|Flax version of [torchvision](https://github.com/pytorch/vision)|
 
 ## RL libraries
 
