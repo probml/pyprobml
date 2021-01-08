@@ -30,13 +30,20 @@ To simplify the task, various DNN libraries have been designed, as we list below
 |[RLax](https://github.com/deepmind/rlax)|Library from Deepmind|
 |[Coax](https://github.com/microsoft/coax)|Lightweight library from Microsoft for solving Open-AI gym environments|
 
+## Probabilistic programming languages
+
+
+|Name|Description|
+|----|----|
+|[NumPyro](https://github.com/pyro-ppl/numpyro)|Library for PPL|
+|[Oryx](https://github.com/tensorflow/probability/tree/master/spinoffs/oryx)|Lightweight library for PPL|
+
 ## Other libraries
 
 There are also many other JAX libraries for tasks that are not about defining DNN models. We list some of them below.
 
 |Name|Description|
 |----|----|
-|[NumPyro](https://github.com/pyro-ppl/numpyro)|Library for (deep) probabilistic modeling|
 |[Optax](https://github.com/deepmind/optax)|Library for defining gradient-based optimizers|
 |[Chex](https://github.com/deepmind/chex)|Library for debugging and developing reliable JAX code|
 
