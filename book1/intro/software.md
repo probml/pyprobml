@@ -86,31 +86,8 @@ implement the above functionality, some of as
 
 In this book, we mostly use Tensorflow 2 and JAX.
 However, we also welcome contributions in PyTorch.
-
-
-## The JAX ecosystem  <a class="anchor" id="JAX"></a>
-
-[JAX](http://github.com/google/jax) is basically a fast version of
-numpy, combined with autograd. (The speed comes from various program
-transformations, such as a Just In Time compiler which converts the code to XLA,
-which runs on various  hardware accelerators, such as GPUs and TPUs.)
-JAX is a purely functional library, which differs from Tensorflow and
-Pytorch, which are stateful. The main advantages of functional programming
-are that  we can safely transform the code, and/or run it in parallel, without worrying about
-global state changing behind the scenes. The main disadvantage is that code (especially DNNs) can be harder to write.
-To simplify the task, various DNN libraries have been designed, such as Flax (see below).
-
-|Name|Description|
-|----|----|
-|[Stax](https://github.com/google/jax/blob/master/jax/experimental/stax.py)|Barebones DNN DSL|
-|[Flax](https://github.com/google/flax)|DNN library for creating and training models|
-|[Haiku](https://github.com/deepmind/dm-haiku)|DNN library for creating models|
-|[Trax](https://github.com/google/trax)|DNN library, focus on sequence models|
-|[Objax](https://github.com/google/objax)|DNN framework, similar to PyTorch, not compatible with other JAX libraries|
-|[NumPyro](https://github.com/pyro-ppl/numpyro)|Library for (deep) probabilistic modeling|
-|[Optax](https://github.com/deepmind/optax)|Library for defining gradient-based optimizers|
-|[RLax](https://github.com/deepmind/rlax)|Library for reinforcement learning|
-|[Chex](https://github.com/deepmind/chex)|Library for debugging and developing reliable JAX code|
+(More details on the JAX ecosystem can be found
+[here](https://github.com/probml/pyprobml/blob/master/book1/intro/jax_ecosystem.md).)
 
         
 ## Software for probabilistic modeling <a class="anchor" id="PPL"></a>
