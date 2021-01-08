@@ -6,7 +6,8 @@
 |Title|Software|Link|
 |-----------|----|----|
 |Intro| Python| [link](bayes.ipynb)
-|Hierarchical Bayes: 8 schools example| PyMC3 |[link](schools8_pymc3.ipynb)
+|Hierarchical Bayes: binomial (rat/covid) example| PyMC3 |[link](hbayes_binom_rats_pymc3.ipynb)
+|Hierarchical Bayes: Gaussian (8 schools) example| PyMC3 |[link](schools8_pymc3.ipynb)
 |Hierarchical Bayes: linear regression| PyMC3 |[link](linreg_hbayes_1d_pymc3.ipynb)
 |Hierarchical Bayes: Funnel of hell | PyMC3| [link](funnel.ipynb)
 
