@@ -1,9 +1,12 @@
-# JAX ecosystem
+# JAX libraries related to ML
 
 [JAX](http://github.com/google/jax) is basically a fast version of
 numpy, combined with autograd. (The speed comes from various program
 transformations, such as a Just In Time compiler which converts the code to XLA,
 which runs on various  hardware accelerators, such as GPUs and TPUs.)
+Since it is quite low level (like numpy), many libraries are being developed
+that build on top of it, to provide more specialized functionality.
+We summarize a few of the ML-related libraries below.
 
 ## DNN libraries
 
@@ -23,6 +26,7 @@ To simplify the task, various DNN libraries have been designed, as we list below
 |[Objax](https://github.com/google/objax)|PyTorch-like library for JAX (stateful/ object-oriented, not compatible with other JAX libraries)|
 |[Elegy](https://github.com/poets-ai/elegy)|Keras-like library for Jax|
 |[FlaxVision](https://github.com/rolandgvc/flaxvision)|Flax version of [torchvision](https://github.com/pytorch/vision)|
+|[Neural tangents](https://github.com/google/neural-tangents)|Library to compute a kernel from a DNN|
 
 ## RL libraries
 
