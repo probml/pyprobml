@@ -12,6 +12,8 @@ def fit_model(model, train_iter, test_iter,  rng,
         preprocess_train_batch = None, preprocess_test_batch = None,
         print_every = 1, eval_every = 1):
   batch = next(train_iter)
+  if preprocess_train_batch is not None:
+      batch = preprocess_train_batch(batch, rng)
   X = batch['X']
   params = model.init(rng, X)['params']
   optimizer = make_optimizer.create(params)  
