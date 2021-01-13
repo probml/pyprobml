@@ -5,7 +5,7 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Intro to Flax| Jax| [notebook](flax_intro.ipynb)|
+|Intro to Flax| Jax, Flax| [notebook](flax_intro.ipynb)|
 |Intro to Tensorflow| TF2| [notebook](tf_intro.ipynb)|
 |Intro to Tensorflow datasets| TFDS| [notebook](tfds_intro.ipynb)|
 |Intro to PyTorch| PyTorch| [notebook](pytorch_intro.ipynb)|
