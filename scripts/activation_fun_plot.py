@@ -4,6 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+def savefig(fname):
+    #plt.savefig(os.path.join('../figures', fname))
+    plt.savefig(os.path.join(fname))
 
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -30,6 +33,8 @@ def elu2(z, lam=0.5):
 def swish(z):
     return z * sigmoid(z)
 
+print('hello world')
+
 from scipy.special import erfc
 
 # alpha and scale to self normalize with mean 0 and standard deviation 1
@@ -52,7 +57,7 @@ plt.grid(True)
 plt.legend(loc="lower right", fontsize=14)
 plt.title("Activation functions", fontsize=14)
 plt.axis([-5, 5, -1.2, 1.2])
-plt.savefig('../figures/activationFuns.pdf')
+savefig('activationFuns.pdf')
 plt.show()
 
 #plt.figure(figsize=(11,4))
@@ -65,7 +70,7 @@ plt.grid(True)
 plt.legend(loc="upper left", fontsize=14)
 plt.title("Activation functions", fontsize=14)
 plt.axis([-2, 2, -1.2, 2])
-plt.savefig('../figures/activationFuns2.pdf')
+savefig('activationFuns2.pdf')
 plt.show()
 
 # From https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb
@@ -82,5 +87,5 @@ plt.annotate('Linear', xytext=(2, 0.2), xy=(0, 0.5), arrowprops=props, fontsize=
 plt.grid(True)
 plt.title("Sigmoid activation function", fontsize=14)
 plt.axis([-5, 5, -0.2, 1.2])
-plt.savefig("../figures/sigmoid_saturation_plot")
+savefig("sigmoid_saturation_plot")
 plt.show()
