@@ -33,7 +33,7 @@ def elu2(z, lam=0.5):
 def swish(z):
     return z * sigmoid(z)
 
-print('hello world')
+print('goodbye 2020')
 
 from scipy.special import erfc
 
