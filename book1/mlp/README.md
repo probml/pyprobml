@@ -7,7 +7,6 @@
 |-----------|----|----|
 |Intro to Flax| Jax, Flax| [notebook](flax_intro.ipynb)|
 |Intro to Tensorflow| TF2| [notebook](tf_intro.ipynb)|
-|Intro to Tensorflow datasets| TFDS| [notebook](tfds_intro.ipynb)|
 |Intro to PyTorch| PyTorch| [notebook](pytorch_intro.ipynb)|
 |Auto-MPG regression| TF2| [Keras tutorial](https://www.tensorflow.org/tutorials/keras/regression)
 |Tabular medical data classification|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/structured_data/feature_columns)
