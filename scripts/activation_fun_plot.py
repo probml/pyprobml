@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 import os
 
 def savefig(fname):
-    #plt.savefig(os.path.join('../figures', fname))
-    plt.savefig(os.path.join(fname))
+  #figdir = "../figures"
+  figdir = os.path.join(os.environ["PYPROBML"], "figures")
+  plt.savefig(os.path.join(figdir, fname))
+    
 
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -33,7 +35,7 @@ def elu2(z, lam=0.5):
 def swish(z):
     return z * sigmoid(z)
 
-print('good riddance 2020')
+print('plot some activation functions')
 
 from scipy.special import erfc
 
