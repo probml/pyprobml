@@ -9,7 +9,6 @@ def git_ssh(git_command, email="murphyk@gmail.com", username="probml",
     git_command=git_command.replace(r"https://github.com/","git@github.com:")
     print('executing command via ssh:', git_command)
     # copy keys from drive to local .ssh folder
-    print(verbose)
     if verbose:
         print('Copying keys from gdrive to local VM')
     os.system('rm -rf ~/.ssh')
@@ -29,9 +28,3 @@ def git_ssh(git_command, email="murphyk@gmail.com", username="probml",
     os.system('rm -r ~/.ssh/')
     os.system('git config --global user.email ""')
     os.system('git config --global user.name ""')
-
-def main():
-    git_ssh('this-will-fail')
-
-if __name__ == "__main__":
-    main()

@@ -111,6 +111,10 @@ def make_iterator_from_batch(batch):
   while True:
     yield batch
 
+def l2_normsq(x):
+  leaves, _ = tree_util.tree_flatten(x)
+  return sum([np.sum(leaf ** 2) for leaf in leaves])
+
 def test():
   # We just check we can run the functions and that they return "something"
   print('testing fit-flax')
@@ -143,8 +147,11 @@ def test():
       num_steps, make_optimizer, train_batch, eval_batch,
       print_every=1)
   diff = tree_util.tree_multimap(lambda x,y: x-y, params_init, params_new)
-  diff_max = tree_util.tree_map(lambda x: jnp.max(x), diff)
-  assert jnp.abs(diff_max['Dense_0']['kernel']) > 0 # has changed 
+  print(diff)
+  norm = ls_normsq(diff)
+  print('norm of all params', norm)
+  #diff_max = tree_util.tree_map(lambda x: jnp.max(x), diff)
+  #assert jnp.abs(diff_max['Dense_0']['kernel']) > 0 # has changed 
 
   print('test passed')
   
