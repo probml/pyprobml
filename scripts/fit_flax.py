@@ -1,9 +1,10 @@
-# Fitting functions for flax models
+# Fitting code for flax classifiers
 
 
 import numpy as np
 import jax
 import jax.numpy as jnp
+from jax import tree_util
 import pandas as pd
 
 
@@ -47,41 +48,38 @@ def fit_model(model, train_iter, test_iter,  rng,
   params = optimizer.target
   return params, history
 
+def softmax_cross_entropy(logprobs, labels):
+  # class label is last dimension (-1)
+  onehots = jax.nn.one_hot(labels, logprobs.shape[-1])
+  losses = -jnp.sum(onehots * logprobs, axis=-1)
+  return jnp.mean(losses)
 
-
-def onehot(labels, num_classes):
-  y = (labels[..., None] == jnp.arange(num_classes)[None])
-  return y.astype(jnp.float32)
-
-def cross_entropy_loss_onehot(logits, onehots):
-  return -jnp.mean(jnp.sum(onehots * logits, axis=-1))
-
-def compute_metrics(logits, onehots):
-  loss = cross_entropy_loss_onehot(logits, onehots)
-  accuracy = jnp.mean(jnp.argmax(logits, -1) == jnp.argmax(onehots, -1))
+def compute_metrics(logprobs, labels):
+  loss = softmax_cross_entropy(logprobs, labels)
+  accuracy = jnp.mean(jnp.argmax(logprobs, -1) == labels)
   metrics = {
       'loss': loss,
       'accuracy': accuracy,
   }
   return metrics
 
+
 def eval_batch(model, params, batch):
-  logits = model.apply({'params': params}, batch['X'])
-  onehots = onehot(batch['y'], model.nclasses)
-  return compute_metrics(logits, onehots)
+  logprobs = model.apply({'params': params}, batch['X'])
+  return compute_metrics(logprobs, batch['y'])
 
 eval_batch = jax.jit(eval_batch, static_argnums=0)
 
 def train_batch(model, optimizer, batch):
-  onehots = onehot(batch['y'], model.nclasses)
+  labels = batch['y']
   def loss_fn(params):
-    logits = model.apply({'params': params}, batch['X'])
-    loss = cross_entropy_loss_onehot(logits, onehots)
-    return loss, logits
+    logprobs = model.apply({'params': params}, batch['X'])
+    loss = softmax_cross_entropy(logprobs, labels)
+    return loss, logprobs
   grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
-  (_, logits), grad = grad_fn(optimizer.target)
+  (_, logprobs), grad = grad_fn(optimizer.target)
   optimizer = optimizer.apply_gradient(grad)
-  metrics = compute_metrics(logits, onehots)
+  metrics = compute_metrics(logprobs, labels)
   return optimizer, metrics
 
 train_batch = jax.jit(train_batch, static_argnums=0)
@@ -109,9 +107,13 @@ class ModelTest(nn.Module):
     x = nn.log_softmax(x)
     return x
 
+def make_iterator_from_batch(batch):
+  while True:
+    yield batch
 
-def fit_model_test():
+def test():
   # We just check we can run the functions and that they return "something"
+  print('testing fit-flax')
   N = 3; D = 5; C = 10;
   model = ModelTest(nhidden = 0, nclasses = C)
   rng = jax.random.PRNGKey(0)
@@ -119,19 +121,31 @@ def fit_model_test():
   y = np.random.choice(C, size=N, p=(1/C)*np.ones(C));
   batch = {'X': X, 'y': y}
   params = model.init(rng, X)['params']
+
+  logprobs = model.apply({'params': params}, batch['X'])
+  assert logprobs.shape==(N,C)
+  labels = batch['y']
+  loss = softmax_cross_entropy(logprobs, labels)
+  assert loss.shape==()
+
   metrics = eval_batch(model, params, batch)
+  assert np.allclose(loss, metrics['loss'])
+
   make_optimizer = optim.Momentum(learning_rate=0.1, beta=0.9)
   optimizer = make_optimizer.create(params)
   optimizer, metrics = train_batch(model, optimizer, batch)
-  #print(optimizer)
   num_steps = 2
-  def make_iter():
-    while True:
-      yield batch
-  train_iter = make_iter(); test_iter = make_iter();
-  params, history =  fit_model(model, train_iter, test_iter,  rng,
+  train_iter = make_iterator_from_batch(batch);
+  test_iter = make_iterator_from_batch(batch);
+  params_init = params
+
+  params_new, history =  fit_model(model, train_iter, test_iter,  rng,
       num_steps, make_optimizer, train_batch, eval_batch,
       print_every=1)
+  diff = tree_util.tree_multimap(lambda x,y: x-y, params_init, params_new)
+  diff_max = tree_util.tree_map(lambda x: jnp.max(x), diff)
+  assert jnp.abs(diff_max['Dense_0']['kernel']) > 0 # has changed 
+
   print('test passed')
   
   
