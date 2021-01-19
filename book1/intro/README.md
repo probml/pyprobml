@@ -17,8 +17,8 @@
 |List of Python tutorials | Various | [markdown](python.md)|
 |Brief intro to colab| Colab | [notebook][colab_intro]  |
 |Brief intro to data analysis  |Matplotlib, Pandas, Xarray | [notebook][pandas_intro] |
-|Brief intro to sklearn | Sklearn | [notebook][sklearn_into] |
-|Brief intro to JAX| Colab | [notebook][jax_intro] |
+|Brief intro to sklearn | Sklearn | [notebook][sklearn_intro] |
+|Brief intro to JAX| Jax | [notebook][jax_intro] |
 |Brief survey of common datasets| Sklearn, TFDS| [notebook][datasets] |
 
 
