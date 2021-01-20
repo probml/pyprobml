@@ -12,6 +12,6 @@
 |-----------|----|----|
 |PCA| Sklearn| [notebook][pca]|
 |Autoencoder for (Fashion) MNIST| TF2| [notebook][ae]|
-|Autoencoder for (Fashion) MNIST (GDL version)| TF2| [notebook][ae]|
+|Autoencoder for (Fashion) MNIST (GDL version)| TF2| [notebook][ae2]|
 |VAE for CelebA| TF2| [notebook][vae]|
 |VAE for MNIST| TF2| [notebook][vae2]|
