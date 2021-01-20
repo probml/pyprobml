@@ -7,7 +7,7 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Decision trees applied to Iris dataset| sklearn| [notebook][trees]
+|Decision trees applied to Iris dataset| sklearn| [notebook][dtree]
 |Feature importance| sklearn, [xgboost](https://xgboost.readthedocs.io/en/latest/python/python_intro.html), [lime](https://github.com/marcotcr/lime), [shap](https://shap.readthedocs.io/en/latest/) | [notebook][importance]
 
 

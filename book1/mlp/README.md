@@ -14,11 +14,11 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Intro to Flax| Jax, Flax| [notebook][flax_intro]
-|Intro to Tensorflow| TF2| [notebook][tf_intro]
+|Intro to Flax| Jax, Flax| [notebook][flax]
+|Intro to Tensorflow| TF2| [notebook][tf]
 |(Fashion) MNIST image classification|TF2|[notebook][mnist]
 |IMDB movie review sentiment classification |TF2|[notebook][imdb]
-|Hierarchical Bayes for BNNs| PyMC3 | [notebook]
+|Hierarchical Bayes for BNNs| PyMC3 | [notebook][bnn]
 
 <!--
 |Intro to PyTorch| PyTorch| [notebook][pytorch_intro]
