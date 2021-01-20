@@ -3,16 +3,19 @@
 
 [Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter14_figures.ipynb)
 
-## Image classification
+[mnist]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/cnn/cnn_mnist_tf.ipynb)
+
+
 
 |Title|Software|Link|
 |-----------|----|----|
-|(Fashion) MNIST image classification|TF2|[notebook](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/cnn/cnn_mnist_tf.ipynb) 
+|(Fashion) MNIST image classification|TF2|[notebook][mnist]
+
+<!--
 |Dogs vs cats image classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/classification)
 |Transfer learning of a mobilenet model (trained on Imagenet) from keras to dogs vs cats classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning)
 |Transfer learning of a mobilenet model (trained on Imagenet) from TF-hub to flower classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning_with_hub)
 
-## Other vision tasks
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -21,3 +24,4 @@
 |More advanced object detection|TF2|[TF object detection API](https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb)|
 |Deep dream|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/generative/deepdream)|
 |Neural style transfer|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/generative/style_transfer)| 
+-->
