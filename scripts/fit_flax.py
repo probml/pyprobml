@@ -1,52 +1,32 @@
-# Fitting code for flax classifiers
+# Generic fitting function for flax classifiers.
+# murphyk@gmail.com, 1/19/21
+
+# We assume the model has an apply method
+# that returns the *log probabities* of each class as an N*C array,
+# where N is the size of the batch.
+
+# We assume the dataset iterators return a stream of minibatches
+# of dicts, with fields
+# X: (N,D) containing features
+# y: (N,) containing integer label
 
 
 import numpy as np
 import jax
 import jax.numpy as jnp
-from jax import tree_util
+from jax import tree_util, jit
 import pandas as pd
+from functools import partial
+
+import flax
+from flax.core import freeze, unfreeze
+from flax import linen as nn
+from flax import optim
+
+from jax.config import config
+config.enable_omnistaging() # Linen requires enabling omnistaging
 
 
-def fit_model(model, train_iter, test_iter,  rng,
-        num_steps, make_optimizer, train_batch, eval_batch,
-        preprocess_train_batch = None, preprocess_test_batch = None,
-        print_every = 1, eval_every = 1):
-  batch = next(train_iter)
-  if preprocess_train_batch is not None:
-      batch = preprocess_train_batch(batch, rng)
-  X = batch['X']
-  params = model.init(rng, X)['params']
-  optimizer = make_optimizer.create(params)  
-  history = pd.DataFrame({'train_loss': [], 'train_accuracy': [],
-                   'test_loss': [], 'test_accuracy': [], 'step': []})
-  
-  for step in range(num_steps):
-    batch = next(train_iter)
-    if preprocess_train_batch is not None:
-      batch = preprocess_train_batch(batch, rng)
-    optimizer, train_metrics = train_batch(model, optimizer, batch)
-    if (print_every > 0) & (step % print_every == 0):
-       print('train step: {:d}, loss: {:0.4f}, accuracy: {:0.2f}'.format(
-              step, train_metrics['loss'], 
-                 train_metrics['accuracy']))
-       
-    if (eval_every > 0) & (step % eval_every == 0):
-      batch = next(test_iter)
-      if preprocess_test_batch is not None:
-        batch = preprocess_test_batch(batch, rng)
-      test_metrics = eval_batch(model, optimizer.target, batch)
-      history = history.append(
-                {'train_loss': train_metrics['loss'],
-                'train_accuracy': train_metrics['accuracy'],
-                'test_loss': test_metrics['loss'],
-                'test_accuracy': test_metrics['accuracy'],
-                'step': step},
-                ignore_index=True
-                )
-      
-  params = optimizer.target
-  return params, history
 
 def softmax_cross_entropy(logprobs, labels):
   # class label is last dimension (-1)
@@ -64,13 +44,13 @@ def compute_metrics(logprobs, labels):
   return metrics
 
 
-def eval_batch(model, params, batch):
+@partial(jit, static_argnums=(0,))
+def eval_classifier(model, params, batch):
   logprobs = model.apply({'params': params}, batch['X'])
   return compute_metrics(logprobs, batch['y'])
 
-eval_batch = jax.jit(eval_batch, static_argnums=0)
-
-def train_batch(model, optimizer, batch):
+@partial(jit, static_argnums=(0,))
+def update_classifier(model, optimizer, batch):
   labels = batch['y']
   def loss_fn(params):
     logprobs = model.apply({'params': params}, batch['X'])
@@ -82,18 +62,61 @@ def train_batch(model, optimizer, batch):
   metrics = compute_metrics(logprobs, labels)
   return optimizer, metrics
 
-train_batch = jax.jit(train_batch, static_argnums=0)
 
+def fit_model(
+      model, rng, num_steps, train_iter,
+      test_iter = None,
+      train_fn = update_classifier,
+      test_fn = eval_classifier,
+      make_optimizer = None,
+      preprocess_train_batch = None, preprocess_test_batch = None,
+      print_every = 1, test_every = None):
+
+  batch = next(train_iter)
+  if preprocess_train_batch is not None:
+      batch = preprocess_train_batch(batch, rng)
+  X = batch['X']
+  params = model.init(rng, X)['params']
+
+  if make_optimizer is None:
+    make_optimizer = optim.Momentum(learning_rate=0.1, beta=0.9)
+  optimizer = make_optimizer.create(params) 
+
+  history = pd.DataFrame({'train_loss': [], 'train_accuracy': [],
+                   'test_loss': [], 'test_accuracy': [], 'step': []})
+  if test_iter is None:
+    test_every = 0
+  if test_every is None:
+    test_every = print_every
+
+  for step in range(num_steps):
+    batch = next(train_iter)
+    if preprocess_train_batch is not None:
+      batch = preprocess_train_batch(batch, rng)
+    optimizer, train_metrics = train_fn(model, optimizer, batch)
+    if (print_every > 0) & (step % print_every == 0):
+       print('train step: {:d}, loss: {:0.4f}, accuracy: {:0.2f}'.format(
+              step, train_metrics['loss'], 
+                 train_metrics['accuracy']))
+       
+    if (test_every > 0) & (step % test_every == 0):
+      batch = next(test_iter)
+      if preprocess_test_batch is not None:
+        batch = preprocess_test_batch(batch, rng)
+      test_metrics = test_fn(model, optimizer.target, batch)
+      history = history.append(
+                {'train_loss': train_metrics['loss'],
+                'train_accuracy': train_metrics['accuracy'],
+                'test_loss': test_metrics['loss'],
+                'test_accuracy': test_metrics['accuracy'],
+                'step': step},
+                ignore_index=True
+                )
+      
+  params = optimizer.target
+  return params, history
 
 ############ Testing
-
-import flax
-from flax.core import freeze, unfreeze
-from flax import linen as nn
-from flax import optim
-
-from jax.config import config
-config.enable_omnistaging() # Linen requires enabling omnistaging
 
 class ModelTest(nn.Module):
   nhidden: int
@@ -111,7 +134,7 @@ def make_iterator_from_batch(batch):
   while True:
     yield batch
 
-def l2_normsq(x):
+def l2norm_sq(x):
   leaves, _ = tree_util.tree_flatten(x)
   return sum([np.sum(leaf ** 2) for leaf in leaves])
 
@@ -126,36 +149,40 @@ def test():
   batch = {'X': X, 'y': y}
   params = model.init(rng, X)['params']
 
+  # test apply
   logprobs = model.apply({'params': params}, batch['X'])
   assert logprobs.shape==(N,C)
+
+  # test loss
   labels = batch['y']
   loss = softmax_cross_entropy(logprobs, labels)
   assert loss.shape==()
 
-  metrics = eval_batch(model, params, batch)
+  # test test_fn
+  metrics = eval_classifier(model, params, batch)
   assert np.allclose(loss, metrics['loss'])
 
+  # test train_fn
   make_optimizer = optim.Momentum(learning_rate=0.1, beta=0.9)
   optimizer = make_optimizer.create(params)
-  optimizer, metrics = train_batch(model, optimizer, batch)
+  optimizer, metrics = update_classifier(model, optimizer, batch)
+
+  # test fit_model
   num_steps = 2
   train_iter = make_iterator_from_batch(batch);
   test_iter = make_iterator_from_batch(batch);
   params_init = params
+  params_new, history =  fit_model(
+    model, rng, num_steps, train_iter, test_iter)
 
-  params_new, history =  fit_model(model, train_iter, test_iter,  rng,
-      num_steps, make_optimizer, train_batch, eval_batch,
-      print_every=1)
   diff = tree_util.tree_multimap(lambda x,y: x-y, params_init, params_new)
   print(diff)
-  norm = ls_normsq(diff)
-  print('norm of all params', norm)
-  #diff_max = tree_util.tree_map(lambda x: jnp.max(x), diff)
-  #assert jnp.abs(diff_max['Dense_0']['kernel']) > 0 # has changed 
+  norm = l2norm_sq(diff)
+  assert norm > 0 # check that parameters have changed :)
 
   print('test passed')
   
-  
+
 def main():
     fit_model_test()
 
