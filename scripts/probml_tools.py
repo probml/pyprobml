@@ -7,7 +7,7 @@ def test():
     print('welcome to python probabilistic ML library')
 
 
-def savefig(fname):
+def savefig(fname, *args, **kwargs):
     '''Save current plot window to the figures directory.'''
     if "PYPROBML" in os.environ:
         root = os.environ["PYPROBML"]
@@ -19,7 +19,8 @@ def savefig(fname):
         os.mkdir(figdir)
     fname_full = os.path.join(figdir, fname)
     print('saving image to {}'.format(fname_full))
-    plt.savefig(fname_full)
+    plt.tight_layout()
+    plt.savefig(fname_full, *args, **kwargs)
     
 
 

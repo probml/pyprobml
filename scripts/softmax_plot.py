@@ -31,5 +31,5 @@ for i in range(len(T)):
 
 
 fname = 'softmax_temp.pdf'
-pml.savefig(fname)
+pml.savefig(fname, dpi=300)
 plt.show()
