@@ -1,5 +1,5 @@
 # Generic fitting function for flax classifiers.
-# murphyk@gmail.com, 1/19/21
+# murphyk@gmail.com
 
 # We assume the model has an apply method
 # that returns the *log probabities* of each class as an N*C array,
@@ -15,7 +15,6 @@ import numpy as np
 import jax
 import jax.numpy as jnp
 from jax import tree_util, jit
-import pandas as pd
 from functools import partial
 
 import flax
@@ -63,6 +62,13 @@ def update_classifier(model, optimizer, batch):
   return optimizer, metrics
 
 
+def append_history(history, train_metrics, test_metrics):
+    history['train_loss'].append(train_metrics['loss'])
+    history['train_accuracy'].append(train_metrics['accuracy'])
+    history['test_loss'].append(test_metrics['loss'])
+    history['test_accuracy'].append(test_metrics['accuracy'])
+    return history
+          
 def fit_model(
       model, rng, num_steps, train_iter,
       test_iter = None,
@@ -82,8 +88,8 @@ def fit_model(
     make_optimizer = optim.Momentum(learning_rate=0.1, beta=0.9)
   optimizer = make_optimizer.create(params) 
 
-  history = pd.DataFrame({'train_loss': [], 'train_accuracy': [],
-                   'test_loss': [], 'test_accuracy': [], 'step': []})
+  history = {'train_loss': [], 'train_accuracy': [],
+             'test_loss': [], 'test_accuracy': []}
   if test_iter is None:
     test_every = 0
   if test_every is None:
@@ -104,14 +110,7 @@ def fit_model(
       if preprocess_test_batch is not None:
         batch = preprocess_test_batch(batch, rng)
       test_metrics = test_fn(model, optimizer.target, batch)
-      history = history.append(
-                {'train_loss': train_metrics['loss'],
-                'train_accuracy': train_metrics['accuracy'],
-                'test_loss': test_metrics['loss'],
-                'test_accuracy': test_metrics['accuracy'],
-                'step': step},
-                ignore_index=True
-                )
+      history  = append_history(history, train_metrics, test_metrics)
       
   params = optimizer.target
   return params, history
@@ -180,11 +179,12 @@ def test():
   norm = l2norm_sq(diff)
   assert norm > 0 # check that parameters have changed :)
 
+  print(history)
   print('test passed')
   
 
 def main():
-    fit_model_test()
+    test()
 
 if __name__ == "__main__":
     main()
