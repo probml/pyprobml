@@ -1,4 +1,3 @@
-
 # Plot the softmax function.
 
 
@@ -7,12 +6,11 @@ import matplotlib.pyplot as plt
 import os
 # from scipy.misc import logsumexp ##Outdated import doesn't work with newer scipy
 from scipy.special import logsumexp
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
 
 
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
-
+import probml_tools as pml
+    
+    
 def softmax(a):
     e = np.exp((1.0 * np.array(a)))
     return e / np.sum(e)
@@ -33,6 +31,5 @@ for i in range(len(T)):
 
 
 fname = 'softmax_temp.pdf'
-print(fname)
-save_fig(fname)
+pml.savefig(fname, dpi=300)
 plt.show()
