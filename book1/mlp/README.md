@@ -3,7 +3,7 @@
 
 [Notebook to generate the figures](https://github.com/probml/pyprobml/blob/master/notebooks/figures/chapter13_figures.ipynb)
 
-[flax]: https://colab.research.google.com/giathub/probml/pyprobml/blob/master/book1/mlp/flax_intro.ipynb
+[flax]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/mlp/flax_intro.ipynb
 [tf]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/mlp/tf_intro.ipynb
 [pytorch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/mlp/pytorch_intro.ipynb
 [mnist]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/mlp/mlp_mnist_tf.ipynb
