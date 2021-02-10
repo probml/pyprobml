@@ -9,16 +9,18 @@
 [sklearn_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/sklearn_intro.ipynb
 [jax_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/jax_intro.ipynb
 [datasets]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/datasets.ipynb
+[caliban]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/caliban.ipynb
 
 
 |Title|Software|Link|
 |-----------|----|----|
 |Overview of Python ML/DL software ecosystem| Various | [markdown](software.md)|
 |List of Python tutorials | Various | [markdown](python.md)|
-|Brief intro to colab| Colab | [notebook][colab_intro]  |
-|Brief intro to data analysis  |Matplotlib, Pandas, Xarray | [notebook][pandas_intro] |
-|Brief intro to sklearn | Sklearn | [notebook][sklearn_intro] |
-|Brief intro to JAX| Jax | [notebook][jax_intro] |
-|Brief survey of common datasets| Sklearn, TFDS| [notebook][datasets] |
+|Intro to colab| Colab | [notebook][colab_intro]  |
+|Intro to Pandas|  |Pandas, Xarray | [notebook][pandas_intro] |
+|Intro to sklearn | Sklearn | [notebook][sklearn_intro] |
+|Intro to JAX| Jax | [notebook][jax_intro] |
+|Intro to Caliban (Google Cloud)| Jax | [notebook][caliban] |
+|Survey of common datasets| Sklearn, TFDS| [notebook][datasets] |
 
 
