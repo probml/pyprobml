@@ -33,13 +33,12 @@ def pprint(str):
 
 
 def tf_test():
-    pprint("tf version ", tf.__version__)  
+    pprint("tf version {}".format(tf.__version__))  
     pprint("TF backend")
-    try:
-        pprint([d for d in tf.config.list_physical_devices()])
-    except Exception as ex:
-        # in <tf2.1, it was called tf.experimental.config.list_physical_devices
-        pprint(ex)
+    devices = tf.config.list_physical_devices()
+    for d in devices:
+        pprint(d)
+  
     
         
 def jax_test(ndims):
