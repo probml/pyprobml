@@ -50,7 +50,7 @@ def jax_test(ndims):
     pprint(f"ndims = {ndims}")
     A = jax.random.normal(key, shape=(ndims, ndims))
     s, d = jnp.linalg.slogdet(A)
-    print(s, d)
+    pprint('logdet = {}, sign = {}'.format(d, s))
 
 class MLP(nn.Module):
     features: Sequence[int]
@@ -76,7 +76,7 @@ def flax_test(ndims):
 
 def main(_):
     os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true' 
-    jax_test(FLAGS.ndims)
+    jax_test(FLAGS.ndims) 
     tf_test()
     flax_test(FLAGS.ndims)
 
