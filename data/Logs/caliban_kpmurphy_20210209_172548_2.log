@@ -1,0 +1,1080 @@
+[
+  {
+    "insertId": "1nntk2eb25",
+    "labels": {
+      "ml.googleapis.com/endpoint": ""
+    },
+    "logName": "projects/probml/logs/ml.googleapis.com%2Fcaliban_kpmurphy_20210209_172548_2",
+    "receiveTimestamp": "2021-02-10T01:37:43.086205199Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "service"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "textPayload": "Job completed successfully.",
+    "timestamp": "2021-02-10T01:37:42.016997487Z"
+  },
+  {
+    "insertId": "sl3titg23clsu8",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": ")\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347602560Z"
+  },
+  {
+    "insertId": "sl3titg23clsu7",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "    features = [100, 100]\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347599864Z"
+  },
+  {
+    "insertId": "sl3titg23clsu6",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "    # attributes\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347597044Z"
+  },
+  {
+    "insertId": "sl3titg23clsu5",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "*** MLP(\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347594404Z"
+  },
+  {
+    "insertId": "sl3titg23clsu4",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "*** flax version 0.3.0\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347591706Z"
+  },
+  {
+    "insertId": "sl3titg23clsu3",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "[PhysicalDevice(name='/physical_device:CPU:0', device_type='CPU')]\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347588885Z"
+  },
+  {
+    "insertId": "sl3titg23clsu2",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "TF backend\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347586078Z"
+  },
+  {
+    "insertId": "sl3titg23clsu1",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "tf version 2.4.1\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347583332Z"
+  },
+  {
+    "insertId": "sl3titg23clsu0",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "1.0 180.60815\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347580594Z"
+  },
+  {
+    "insertId": "sl3titg23clstz",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "*** ndims = 100\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347577816Z"
+  },
+  {
+    "insertId": "sl3titg23clsty",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "*** [GpuDevice(id=0), GpuDevice(id=1)]\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347574907Z"
+  },
+  {
+    "insertId": "sl3titg23clstx",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "*** jax backend gpu\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347571813Z"
+  },
+  {
+    "insertId": "sl3titg23clstw",
+    "jsonPayload": {
+      "levelname": "INFO",
+      "message": "*** jax version 0.2.9\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:35:06.347552327Z"
+  },
+  {
+    "insertId": "sl3titg23clstv",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "Skipping registering GPU devices...\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.346921871Z"
+  },
+  {
+    "insertId": "sl3titg23clstu",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.346859: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1757] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.346918076Z"
+  },
+  {
+    "insertId": "sl3titg23clstt",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.346837: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcudnn.so.8'; dlerror: libcudnn.so.8: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.346910294Z"
+  },
+  {
+    "insertId": "sl3titg23clsts",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.346676: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcusparse.so.11'; dlerror: libcusparse.so.11: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.346778733Z"
+  },
+  {
+    "insertId": "sl3titg23clstr",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.346528: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.10\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.346619901Z"
+  },
+  {
+    "insertId": "sl3titg23clstq",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.346487: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.346609334Z"
+  },
+  {
+    "insertId": "sl3titg23clstp",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.346030: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.346169281Z"
+  },
+  {
+    "insertId": "sl3titg23clsto",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.343587: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcublasLt.so.11'; dlerror: libcublasLt.so.11: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.343676866Z"
+  },
+  {
+    "insertId": "sl3titg23clstn",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.343422: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcublas.so.11'; dlerror: libcublas.so.11: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.343533737Z"
+  },
+  {
+    "insertId": "sl3titg23clstm",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.343169: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.343300923Z"
+  },
+  {
+    "insertId": "sl3titg23clstl",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "coreClock: 1.53GHz coreCount: 80 deviceMemorySize: 15.78GiB deviceMemoryBandwidth: 836.37GiB/s\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.343003369Z"
+  },
+  {
+    "insertId": "sl3titg23clstk",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "pciBusID: 0000:00:05.0 name: Tesla V100-SXM2-16GB computeCapability: 7.0\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.343000241Z"
+  },
+  {
+    "insertId": "sl3titg23clstj",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.342853: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1720] Found device 1 with properties: \n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.342992541Z"
+  },
+  {
+    "insertId": "sl3titg23clsti",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.342074: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.342202643Z"
+  },
+  {
+    "insertId": "sl3titg23clsth",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "coreClock: 1.53GHz coreCount: 80 deviceMemorySize: 15.78GiB deviceMemoryBandwidth: 836.37GiB/s\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.342026387Z"
+  },
+  {
+    "insertId": "sl3titg23clstg",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "pciBusID: 0000:00:04.0 name: Tesla V100-SXM2-16GB computeCapability: 7.0\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.342023216Z"
+  },
+  {
+    "insertId": "sl3titg23clstf",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.341889: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1720] Found device 0 with properties: \n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.342012342Z"
+  },
+  {
+    "insertId": "sl3titg23clste",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.341216: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.341337176Z"
+  },
+  {
+    "insertId": "sl3titg23clstd",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.340947: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.341130888Z"
+  },
+  {
+    "insertId": "sl3titg23clstc",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:06.340820: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:06.341087489Z"
+  },
+  {
+    "insertId": "sl3titg23clstb",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:02.630430: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:02.630789525Z"
+  },
+  {
+    "insertId": "sl3titg23clsta",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "2021-02-10 01:35:02.630394: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:02.630750560Z"
+  },
+  {
+    "insertId": "sl3titg23clst9",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "INFO:root:python caliban_test.py --ndims 100\n"
+    },
+    "labels": {
+      "compute.googleapis.com/resource_id": "6686358832812034404",
+      "compute.googleapis.com/resource_name": "cmle-training-16839945071304481536",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/probml/logs/master-replica-0",
+    "receiveTimestamp": "2021-02-10T01:35:26.468383099Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "master-replica-0"
+      },
+      "type": "ml_job"
+    },
+    "severity": "ERROR",
+    "timestamp": "2021-02-10T01:35:02.325061570Z"
+  },
+  {
+    "insertId": "1nntk2eb1g",
+    "labels": {
+      "ml.googleapis.com/endpoint": ""
+    },
+    "logName": "projects/probml/logs/ml.googleapis.com%2Fcaliban_kpmurphy_20210209_172548_2",
+    "receiveTimestamp": "2021-02-10T01:31:57.015380545Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "service"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "textPayload": "Waiting for training program to start.",
+    "timestamp": "2021-02-10T01:31:56.531254892Z"
+  },
+  {
+    "insertId": "1nntk2eb1c",
+    "labels": {
+      "ml.googleapis.com/endpoint": ""
+    },
+    "logName": "projects/probml/logs/ml.googleapis.com%2Fcaliban_kpmurphy_20210209_172548_2",
+    "receiveTimestamp": "2021-02-10T01:31:55.013085729Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "service"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "textPayload": "Waiting for job to be provisioned.",
+    "timestamp": "2021-02-10T01:31:54.456090168Z"
+  },
+  {
+    "insertId": "5071w2c1wb",
+    "jsonPayload": {
+      "message": "This job is number 1 in the queue and requires 8.0 N1/E2 CPUs, 2 V100 accelerators, 100Gb standard disks and 0Gb ssd disks. The project is using 8.0 N1/E2 CPUs out of 450.0 N1/E2, 8.0 C2, 8.0 N2, 800.0 preemptible allowed, 2 V100 accelerators out of 0 A100, 0 TPU_V2_POD, 0 TPU_V3_POD, 16 TPU_V2, 16 TPU_V3, 2 V100, 30 K80, 30 P100, 4 P4, 6 T4 allowed, 100Gb standard disks out of 180000 allowed and 0Gb ssd disks out of 75000 allowed across all regions.The project is using 8.0 N1/E2 CPUs out of 450.0 N1/E2, 8.0 C2, 8.0 N2, 800.0 preemptible allowed, 2 V100 accelerators out of 0 A100, 0 TPU_V2_POD, 0 TPU_V3_POD, 16 TPU_V2, 16 TPU_V3, 2 P4, 2 V100, 30 K80, 30 P100, 6 T4 allowed, 100Gb standard disks out of 180000 allowed and 0Gb ssd disks out of 75000 allowed in the region us-central1."
+    },
+    "labels": {
+      "ml.googleapis.com/endpoint": "ml.googleapis.com"
+    },
+    "logName": "projects/probml/logs/ml.googleapis.com%2Fcaliban_kpmurphy_20210209_172548_2",
+    "receiveTimestamp": "2021-02-10T01:25:51.104724028Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "service"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:25:50.917Z"
+  },
+  {
+    "insertId": "-9mnquc1ou",
+    "jsonPayload": {
+      "message": "Job caliban_kpmurphy_20210209_172548_2 is queued."
+    },
+    "labels": {
+      "ml.googleapis.com/endpoint": "ml.googleapis.com",
+      "ml.googleapis.com/job_state": "QUEUED"
+    },
+    "logName": "projects/probml/logs/ml.googleapis.com%2Fcaliban_kpmurphy_20210209_172548_2",
+    "receiveTimestamp": "2021-02-10T01:25:50.406354102Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "service"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:25:49.465Z"
+  },
+  {
+    "insertId": "-9mnquc1ot",
+    "jsonPayload": {
+      "message": "Job creation request has been successfully validated."
+    },
+    "labels": {
+      "ml.googleapis.com/endpoint": "ml.googleapis.com"
+    },
+    "logName": "projects/probml/logs/ml.googleapis.com%2Fcaliban_kpmurphy_20210209_172548_2",
+    "receiveTimestamp": "2021-02-10T01:25:49.415008338Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "service"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:25:49.237Z"
+  },
+  {
+    "insertId": "-9mnquc1os",
+    "jsonPayload": {
+      "message": "Validating job requirements..."
+    },
+    "labels": {
+      "ml.googleapis.com/endpoint": "ml.googleapis.com"
+    },
+    "logName": "projects/probml/logs/ml.googleapis.com%2Fcaliban_kpmurphy_20210209_172548_2",
+    "receiveTimestamp": "2021-02-10T01:25:49.415008338Z",
+    "resource": {
+      "labels": {
+        "job_id": "caliban_kpmurphy_20210209_172548_2",
+        "project_id": "probml",
+        "task_name": "service"
+      },
+      "type": "ml_job"
+    },
+    "severity": "INFO",
+    "timestamp": "2021-02-10T01:25:48.852Z"
+  }
+]
