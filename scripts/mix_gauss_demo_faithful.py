@@ -105,6 +105,7 @@ def apply_em(X, pi, mu, Sigma, threshold=1e-5):
         
         if np.abs(hist_log_likelihood[-1] / hist_log_likelihood[-2] - 1) < threshold:
             break
+        results = {
             "coeffs": hist_coeffs,
             "rvals": hist_responsibilities,
             "logl": hist_log_likelihood
