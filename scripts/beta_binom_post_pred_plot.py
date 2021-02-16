@@ -8,8 +8,7 @@ import os
 figdir = os.path.join(os.environ["PYPROBML"], "figures")
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
-from scipy.misc import comb
-from scipy.special import beta
+from scipy.special import comb, beta
 from scipy.stats import binom
 
 
