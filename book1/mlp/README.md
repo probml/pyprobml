@@ -14,14 +14,14 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Intro to Flax| Jax, Flax| [notebook][flax]
+|Intro to Flax/Jax| Jax, Flax| [notebook][flax]
 |Intro to Tensorflow| TF2| [notebook][tf]
+|Intro to Pytorch| PyTorch| [notebook][pytorch]
 |(Fashion) MNIST image classification|TF2|[notebook][mnist]
 |IMDB movie review sentiment classification |TF2|[notebook][imdb]
 |Hierarchical Bayes for BNNs| PyMC3 | [notebook][bnn]
 
 <!--
-|Intro to PyTorch| PyTorch| [notebook][pytorch_intro]
 |Auto-MPG regression| TF2| [Keras tutorial](https://www.tensorflow.org/tutorials/keras/regression)
 |Tabular medical data classification|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/structured_data/feature_columns)
 |IMDB movie review sentiment classification using pre-trained word embeddings from TF-hub|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/keras/text_classification_with_hub)
