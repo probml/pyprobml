@@ -1,0 +1,54 @@
+
+
+# https://cloud.coiled.io/examples/software/hyperband-optimization"
+
+'''
+{
+  "channels": [
+    "conda-forge",
+    "pytorch",
+    "defaults"
+  ],
+  "dependencies": [
+    "coiled=0.0.36",
+    "dask-ml",
+    "dask>=2.29.0",
+    "matplotlib",
+    "numpy",
+    "pandas>=1.1.0",
+    "python=3.8",
+    "pytorch>1.1.0",
+    "s3fs",
+    "scipy",
+    "skorch"
+  ]
+}
+'''
+
+
+
+
+# https://cloud.coiled.io/examples/software/optuna-xgboost
+'''
+conda 
+{
+  "channels": [
+    "conda-forge"
+  ],
+  "dependencies": [
+    "coiled=0.0.36",
+    "dask",
+    "joblib",
+    "numpy",
+    "optuna",
+    "python=3.8",
+    "scikit-learn",
+    "xgboost"
+  ]
+}
+pip
+[
+  "dask-optuna"
+]
+
+'''
