@@ -1,23 +1,6 @@
 # from 
 # https://examples.dask.org/machine-learning/torch-prediction.html
 
-import urllib.request
-import zipfile
-
-filename, _ = urllib.request.urlretrieve("https://download.pytorch.org/tutorial/hymenoptera_data.zip", "data.zip")
-zipfile.ZipFile(filename).extractall()
-  
-
-import torchvision
-from tutorial_helper import (imshow, train_model, visualize_model,
-                             dataloaders, class_names, finetune_model)
-
-import dask
-
-model = finetune_model()
-
-visualize_model(model)
-
 ####################
 # Setup coiled/ dask
 
@@ -38,6 +21,35 @@ client = dask.distributed.Client(cluster)
 
 
 print(client)
+
+
+####################
+# Download data
+
+import urllib.request
+import zipfile
+
+filename, _ = urllib.request.urlretrieve("https://download.pytorch.org/tutorial/hymenoptera_data.zip", "data.zip")
+zipfile.ZipFile(filename).extractall()
+  
+
+
+############
+# Pytorch model
+
+import torchvision
+from tutorial_helper import (imshow, train_model, visualize_model,
+                             dataloaders, class_names, finetune_model)
+
+import dask
+
+model = finetune_model()
+
+visualize_model(model)
+
+
+#########
+# Remote prediction
 
 
 ###########
@@ -91,7 +103,6 @@ def predict(batch, model):
 
 ############
 # Moving the model around
-
 
 
 

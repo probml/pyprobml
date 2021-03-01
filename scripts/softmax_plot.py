@@ -3,12 +3,12 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
+
 # from scipy.misc import logsumexp ##Outdated import doesn't work with newer scipy
-from scipy.special import logsumexp
+#from scipy.special import logsumexp
 
 
-import probml_tools as pml
+import pyprobml_utils as pml
     
     
 def softmax(a):
@@ -31,5 +31,5 @@ for i in range(len(T)):
 
 
 fname = 'softmax_temp.pdf'
-pml.savefig(fname, dpi=300)
+pml.save_fig(fname, dpi=300)
 plt.show()
