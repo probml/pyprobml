@@ -40,7 +40,7 @@ X_new = np.linspace(0, 80, 200)[:, None]
 with model_space_flu:
     f_pred = gp.conditional('f_pred', X_new)
     pred_samples = pm.sample_posterior_predictive(trace_space_flu,
-                                                  vars=[f_pred],
+                                                  var_names=['f_pred'],
                                                   samples=1000)
     
 _, ax = plt.subplots(figsize=(10, 6))
