@@ -117,6 +117,7 @@ if 0:
     eclf = VotingClassifier(
         estimators=[('orig', tree_clf), ('tweaked', tree_clf_tweaked)],
         voting='hard')
+    eclf.fit(X, y)
     plot_surface(eclf, X, y, xnames, ynames)
     
 from prefit_voting_classifier import PrefitVotingClassifier
