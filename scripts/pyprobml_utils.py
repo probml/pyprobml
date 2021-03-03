@@ -13,8 +13,7 @@ def save_fig(fname, *args, **kwargs):
         root = os.environ["PYPROBML"]
         figdir = os.path.join(root, 'figures')
     else:
-        figdir = '../figures'
-        print('cannot find environment variable PYPROBML, writing to {}'.format(figdir))
+        figdir = '../figures' # default directory one above where code lives
     if not os.path.exists(figdir):
         os.mkdir(figdir)
     fname_full = os.path.join(figdir, fname)

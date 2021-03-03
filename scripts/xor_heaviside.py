@@ -4,9 +4,8 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+import pyprobml_utils as pml
 
 
 def heaviside(z):
@@ -34,7 +33,7 @@ plt.plot([0, 1], [0, 1], "gs", markersize=20)
 plt.plot([0, 1], [1, 0], "r^", markersize=20)
 plt.title("Activation function: heaviside", fontsize=14)
 plt.grid(True)
-save_fig("xor-heaviside.pdf")
+pml.save_fig("xor-heaviside.pdf")
 plt.show()
 
 plt.figure()
@@ -44,6 +43,6 @@ plt.plot([0, 1], [0, 1], "gs", markersize=20)
 plt.plot([0, 1], [1, 0], "r^", markersize=20)
 plt.title("Activation function: sigmoid", fontsize=14)
 plt.grid(True)
-save_fig("xor-sigmoid.pdf")
+pml.save_fig("xor-sigmoid.pdf")
 plt.show()
 
