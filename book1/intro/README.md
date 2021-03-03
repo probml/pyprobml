@@ -21,6 +21,6 @@
 |Intro to sklearn | Sklearn | [notebook][sklearn_intro] |
 |Intro to JAX| Jax | [notebook][jax_intro] |
 |Intro to Caliban (Google Cloud)| Jax | [notebook][caliban] |
-|Survey of common datasets| Sklearn, TFDS| [notebook][datasets] |
+|Intro to some ML datasets| Sklearn, TFDS| [notebook][datasets] |
 
 
