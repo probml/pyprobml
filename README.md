@@ -1,5 +1,7 @@
 # pyprobml
 
+<img src="https://img.shields.io/github/stars/probml/pyprobml?style=social">
+
 Python 3 code for my new book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/).
 This is work in progress, so expect rough edges.
 
