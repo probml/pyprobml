@@ -75,6 +75,7 @@ plt.axvline(nopt)
 plt.axhline(eprofit_opt)
 plt.text(nopt, eprofit_opt, 'n*={:0.1f}'.format(nopt))
 savefig('ab_profit.png')
+plt.show()
 
 plt.figure();
 plt.plot(ns, error_rate)
@@ -84,3 +85,4 @@ plt.axvline(nopt)
 plt.axhline(error_rate_opt)
 plt.text(nopt, error_rate_opt, 'n*={:0.1f}'.format(nopt))
 savefig('ab_error.png')
+plt.show()
