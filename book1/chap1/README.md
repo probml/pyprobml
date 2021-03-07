@@ -12,7 +12,7 @@
 |-----------|----|----|
 |Overview of Python ML/DL software ecosystem| Various | [markdown](software.md)|
 |List of Python tutorials | Various | [markdown](python.md)|
-|Intro to colab| Colab | [notebook][colab_intro]  |
+|Intro to colab| Colab | [notebook][colab_intro]  | 
 |Intro to Pandas|  Pandas, Xarray | [notebook][pandas_intro] |
 |Intro to sklearn | Sklearn | [notebook][sklearn_intro] |
 |Intro to JAX| Jax | [notebook][jax_intro] |
