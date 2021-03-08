@@ -68,9 +68,7 @@
 [ch23-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter23_figures.ipynb
 [ch23-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter23_figures_with_output.ipynb
 [ch23-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap23.md
-[AppA-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/AppendixA_figures.ipynb
-[AppA-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/AppendixA_figures_with_output.ipynb
-[AppA-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/AppA.md
+
 
 
 |Chapter|Name|Colab for figures|Other material|
@@ -103,5 +101,4 @@
 |21|Clustering| [Code only][ch21-figures], [Code+Figures][ch21-figures-output]| [Links][ch21-other]|
 |22|Recommender systems| [Code only][ch22-figures], [Code+Figures][ch22-figures-output]| [Links][ch22-other]|
 |23|Graph embeddings | [Code only][ch23-figures], [Code+Figures][ch23-figures-output]| [Links][ch23-other]|
-|<b>Part VI : Appendix</b>|||
-|A|Notation| [Code only][AppA-figures], [Code+Figures][AppA-figures-output]| [Links][AppA-other]|
+
