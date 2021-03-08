@@ -1,80 +1,104 @@
 # "Probabilistic Machine Learning: An Introduction"
-
-[intro-html]: https://github.com/probml/pyprobml/blob/master/book1/intro
-[prob-inf-html]: https://github.com/probml/pyprobml/tree/master/book1/prob_inference
-[prob-models-html]: https://github.com/probml/pyprobml/tree/master/book1/prob_models
-[param-est-html]: https://github.com/probml/pyprobml/tree/master/book1/param_est
-[opt-html]: https://github.com/probml/pyprobml/tree/master/book1/optimization
-[info-html]: https://github.com/probml/pyprobml/tree/master/book1/info_theory
-[bayes-stats-html]: https://github.com/probml/pyprobml/tree/master/book1/bayes_stats
-[dtheory-html]: https://github.com/probml/pyprobml/tree/master/book1/dtheory
-
-[lda-html]: https://github.com/probml/pyprobml/tree/master/book1/lda
-[logreg-html]: https://github.com/probml/pyprobml/tree/master/book1/logreg
-[linreg-html]: https://github.com/probml/pyprobml/tree/master/book1/linreg
-[glm-html]: https://github.com/probml/pyprobml/tree/master/book1/glm
-
-[mlp-html]: https://github.com/probml/pyprobml/tree/master/book1/mlp
-[cnn-html]: https://github.com/probml/pyprobml/tree/master/book1/cnn
-[rnn-html]: https://github.com/probml/pyprobml/tree/master/book1/rnn
-
-[exemplars-html]: https://github.com/probml/pyprobml/tree/master/book1/exemplars
-[kernels-html]: https://github.com/probml/pyprobml/tree/master/book1/kernels
-[trees-html]: https://github.com/probml/pyprobml/tree/master/book1/trees
-
-[fewer-html]: https://github.com/probml/pyprobml/tree/master/book1/fewer
-[dimred-html]: https://github.com/probml/pyprobml/tree/master/book1/dimred
-[clustering-html]: https://github.com/probml/pyprobml/tree/master/book1/clustering
-[recsys-html]: https://github.com/probml/pyprobml/tree/master/book1/recsys
-[gnn-html]: https://github.com/probml/pyprobml/tree/master/book1/gnn
-
-[math-html]: https://github.com/probml/pyprobml/tree/master/book1/math
-[linalg-html]: https://github.com/probml/pyprobml/tree/master/book1/linalg
-[prob-html]: https://github.com/probml/pyprobml/tree/master/book1/probability
-[freq-html]: https://github.com/probml/pyprobml/tree/master/book1/freq_stats
-
-
-|Chapter|Name|Notebooks|
-|-|----|----|
-|1|Introduction|[link][intro-html]
-|<b>Part I:Foundations</b>|||
-|2|Probabilistic inference|[link][prob-inf-html]
-|3|Probabilistic models|[link][prob-models-html]
-|4|Parameter estimation|[link][param-est-html]
-|5|Optimization|[link][opt-html]
-|6|Information theory|[link][info-html]
-|7|Bayesian statistics|[link][bayes-stats-html]
-|8|Bayesian decision theory|[link][dtheory-html]
-|<b>Part II: Linear Models</b>|||
-|9|Linear discriminant analysis|[link][lda-html]
-|10|Logistic regression|[link][logreg-html]
-|11|Linear regression|[link][linreg-html]
-|12|Generalized linear models|[link][glm-html]
-|<b>Part III: Deep neural networks</b>|||
-|13|Neural networks for unstructured data|[link][mlp-html]
-|14|Neural networks for images|[link][cnn-html]
-|15|Neural networks for sequences|[link][rnn-html]
-|<b>Part IV: Nonparametric models</b>|||
-|16|Exemplar-based models|[link][exemplars-html]
-|17|Kernel methods|[link][kernels-html]
-|18|Trees, forests, bagging and boosting|[link][trees-html]
-|<b>Part V: Beyond supervised learning</b>|||
-|19|Learning with fewer labeled examples|[link][fewer-html]
-|20|Dimensionality reduction|[link][dimred-html]
-|21|Clustering|[link][clustering-html]
-|22|Recommender systems|[link][recsys-html]
-|23|Graph embeddings|[link][gnn-html]
-|<b>Part VI: Mathematical background</b>|||
-|A|Some useful mathematics|[link][math-html]
-|B|Linear algebra|[link][linalg-html]
-|C|Probability|[link][prob-html]
-|D|Frequentist statistics|[link][freq-html]
-
-<!--
-* [Ch. 1: Introduction](https://github.com/probml/pyprobml/blob/master/book1/intro/README.md)
--->
+[ch1-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter1_figures.ipynb
+[ch1-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter1_figures_with_output.ipynb
+[ch1-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap1.md
+[ch2-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter2_figures.ipynb
+[ch2-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter2_figures_with_output.ipynb
+[ch2-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap2.md
+[ch3-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter3_figures.ipynb
+[ch3-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter3_figures_with_output.ipynb
+[ch3-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap3.md
+[ch4-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter4_figures.ipynb
+[ch4-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter4_figures_with_output.ipynb
+[ch4-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap4.md
+[ch5-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter5_figures.ipynb
+[ch5-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter5_figures_with_output.ipynb
+[ch5-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap5.md
+[ch6-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter6_figures.ipynb
+[ch6-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter6_figures_with_output.ipynb
+[ch6-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap6.md
+[ch7-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter7_figures.ipynb
+[ch7-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter7_figures_with_output.ipynb
+[ch7-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap7.md
+[ch8-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter8_figures.ipynb
+[ch8-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter8_figures_with_output.ipynb
+[ch8-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap8.md
+[ch9-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter9_figures.ipynb
+[ch9-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter9_figures_with_output.ipynb
+[ch9-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap9.md
+[ch10-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter10_figures.ipynb
+[ch10-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter10_figures_with_output.ipynb
+[ch10-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap10.md
+[ch11-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter11_figures.ipynb
+[ch11-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter11_figures_with_output.ipynb
+[ch11-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap11.md
+[ch12-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter12_figures.ipynb
+[ch12-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter12_figures_with_output.ipynb
+[ch12-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap12.md
+[ch13-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter13_figures.ipynb
+[ch13-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter13_figures_with_output.ipynb
+[ch13-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap13.md
+[ch14-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter14_figures.ipynb
+[ch14-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter14_figures_with_output.ipynb
+[ch14-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap14.md
+[ch15-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter15_figures.ipynb
+[ch15-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter15_figures_with_output.ipynb
+[ch15-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap15.md
+[ch16-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter16_figures.ipynb
+[ch16-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter16_figures_with_output.ipynb
+[ch16-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap16.md
+[ch17-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter17_figures.ipynb
+[ch17-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter17_figures_with_output.ipynb
+[ch17-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap17.md
+[ch18-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter18_figures.ipynb
+[ch18-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter18_figures_with_output.ipynb
+[ch18-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap18.md
+[ch19-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter19_figures.ipynb
+[ch19-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter19_figures_with_output.ipynb
+[ch19-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap19.md
+[ch20-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter20_figures.ipynb
+[ch20-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter20_figures_with_output.ipynb
+[ch20-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap20.md
+[ch21-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter21_figures.ipynb
+[ch21-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter21_figures_with_output.ipynb
+[ch21-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap21.md
+[ch22-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter22_figures.ipynb
+[ch22-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter22_figures_with_output.ipynb
+[ch22-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap22.md
+[ch23-figures]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter23_figures.ipynb
+[ch23-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter23_figures_with_output.ipynb
+[ch23-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap23.md
 
 
-<!--
-https://stackoverflow.com/questions/24580042/github-markdown-are-macros-and-variables-possible
--->
+
+|Chapter|Name|Colab for figures|Other material|
+|-|----|----|----|
+|1|Introduction| [Code only][ch1-figures], [Code+Figures][ch1-figures-output]| [Links][ch1-other]|
+|<b>Part I : Foundations</b>|||
+|2|Probability: univariate models| [Code only][ch2-figures], [Code+Figures][ch2-figures-output]| [Links][ch2-other]|
+|3|Probability: multivariate models| [Code only][ch3-figures], [Code+Figures][ch3-figures-output]| [Links][ch3-other]|
+|4|Statistics| [Code only][ch4-figures], [Code+Figures][ch4-figures-output]| [Links][ch4-other]|
+|5|Decision theory| [Code only][ch5-figures], [Code+Figures][ch5-figures-output]| [Links][ch5-other]|
+|6|Information theory| [Code only][ch6-figures], [Code+Figures][ch6-figures-output]| [Links][ch6-other]|
+|7|Linear algebra| [Code only][ch7-figures], [Code+Figures][ch7-figures-output]| [Links][ch7-other]|
+|8|Optimization| [Code only][ch8-figures], [Code+Figures][ch8-figures-output]| [Links][ch8-other]|
+|<b>Part II : Linear models</b>|||
+|9|Linear discriminant analysis| [Code only][ch9-figures], [Code+Figures][ch9-figures-output]| [Links][ch9-other]|
+|10|Logistic regression| [Code only][ch10-figures], [Code+Figures][ch10-figures-output]| [Links][ch10-other]|
+|11|Linear regression| [Code only][ch11-figures], [Code+Figures][ch11-figures-output]| [Links][ch11-other]|
+|12|Generalized linear models | [Code only][ch12-figures], [Code+Figures][ch12-figures-output]| [Links][ch12-other]|
+|<b>Part III : Deep neural networks</b>|||
+|13|Neural networks for unstructured data| [Code only][ch13-figures], [Code+Figures][ch13-figures-output]| [Links][ch13-other]|
+|14|Neural networks for images| [Code only][ch14-figures], [Code+Figures][ch14-figures-output]| [Links][ch14-other]|
+|15|Neural networks for sequences| [Code only][ch15-figures], [Code+Figures][ch15-figures-output]| [Links][ch15-other]|
+|<b>Part IV : Nonparametric models</b>|||
+|16|Exemplar-based methods| [Code only][ch16-figures], [Code+Figures][ch16-figures-output]| [Links][ch16-other]|
+|17|Kernel methods| [Code only][ch17-figures], [Code+Figures][ch17-figures-output]| [Links][ch17-other]|
+|18|Trees, forests, bagging and boosting| [Code only][ch18-figures], [Code+Figures][ch18-figures-output]| [Links][ch18-other]|
+|<b>Part V : Beyond supervised learning</b>|||
+|19|Learning with fewer labeled examples| [Code only][ch19-figures], [Code+Figures][ch19-figures-output]| [Links][ch19-other]|
+|20|Dimensionality reduction| [Code only][ch20-figures], [Code+Figures][ch20-figures-output]| [Links][ch20-other]|
+|21|Clustering| [Code only][ch21-figures], [Code+Figures][ch21-figures-output]| [Links][ch21-other]|
+|22|Recommender systems| [Code only][ch22-figures], [Code+Figures][ch22-figures-output]| [Links][ch22-other]|
+|23|Graph embeddings | [Code only][ch23-figures], [Code+Figures][ch23-figures-output]| [Links][ch23-other]|
+
