@@ -88,7 +88,7 @@
 |9|Linear discriminant analysis| [Code only][ch9-figures], [Code+Figures][ch9-figures-output]| [Links][ch9-other]|
 |10|Logistic regression| [Code only][ch10-figures], [Code+Figures][ch10-figures-output]| [Links][ch10-other]|
 |11|Linear regression| [Code only][ch11-figures], [Code+Figures][ch11-figures-output]| [Links][ch11-other]|
-|12|Generalized linear models \advanced| [Code only][ch12-figures], [Code+Figures][ch12-figures-output]| [Links][ch12-other]|
+|12|Generalized linear models | [Code only][ch12-figures], [Code+Figures][ch12-figures-output]| [Links][ch12-other]|
 |<b>Part III : Deep neural networks</b>|||
 |13|Neural networks for unstructured data| [Code only][ch13-figures], [Code+Figures][ch13-figures-output]| [Links][ch13-other]|
 |14|Neural networks for images| [Code only][ch14-figures], [Code+Figures][ch14-figures-output]| [Links][ch14-other]|
@@ -102,6 +102,6 @@
 |20|Dimensionality reduction| [Code only][ch20-figures], [Code+Figures][ch20-figures-output]| [Links][ch20-other]|
 |21|Clustering| [Code only][ch21-figures], [Code+Figures][ch21-figures-output]| [Links][ch21-other]|
 |22|Recommender systems| [Code only][ch22-figures], [Code+Figures][ch22-figures-output]| [Links][ch22-other]|
-|23|Graph embeddings \advanced| [Code only][ch23-figures], [Code+Figures][ch23-figures-output]| [Links][ch23-other]|
+|23|Graph embeddings | [Code only][ch23-figures], [Code+Figures][ch23-figures-output]| [Links][ch23-other]|
 |<b>Part VI : Appendix</b>|||
 |A|Notation| [Code only][AppA-figures], [Code+Figures][AppA-figures-output]| [Links][AppA-other]|
