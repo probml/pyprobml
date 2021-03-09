@@ -69,7 +69,7 @@
 [ch23-figures-output]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/figures/chapter23_figures_with_output.ipynb
 [ch23-other]: https://github.com/probml/pyprobml/blob/master/book1/chapters/chap23.md
 
-
+Please note that Code+Figures links are coming soon.
 
 |Chapter|Name|Colab for figures|Other material|
 |-|----|----|----|
