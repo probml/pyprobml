@@ -73,32 +73,32 @@
 
 |Chapter|Name|Colab for figures|Other material|
 |-|----|----|----|
-|1|Introduction| [Code only][ch1-figures], [Code+Figures][ch1-figures-output]| [Links][ch1-other]|
+|1|Introduction| [Code only][ch1-figures]| [Links][ch1-other]|
 |<b>Part I : Foundations</b>|||
-|2|Probability: univariate models| [Code only][ch2-figures], [Code+Figures][ch2-figures-output]| [Links][ch2-other]|
-|3|Probability: multivariate models| [Code only][ch3-figures], [Code+Figures][ch3-figures-output]| [Links][ch3-other]|
-|4|Statistics| [Code only][ch4-figures], [Code+Figures][ch4-figures-output]| [Links][ch4-other]|
-|5|Decision theory| [Code only][ch5-figures], [Code+Figures][ch5-figures-output]| [Links][ch5-other]|
-|6|Information theory| [Code only][ch6-figures], [Code+Figures][ch6-figures-output]| [Links][ch6-other]|
-|7|Linear algebra| [Code only][ch7-figures], [Code+Figures][ch7-figures-output]| [Links][ch7-other]|
-|8|Optimization| [Code only][ch8-figures], [Code+Figures][ch8-figures-output]| [Links][ch8-other]|
+|2|Probability: univariate models| [Code only][ch2-figures]| [Links][ch2-other]|
+|3|Probability: multivariate models| [Code only][ch3-figures]| [Links][ch3-other]|
+|4|Statistics| [Code only][ch4-figures]| [Links][ch4-other]|
+|5|Decision theory| [Code only][ch5-figures]| [Links][ch5-other]|
+|6|Information theory| [Code only][ch6-figures]| [Links][ch6-other]|
+|7|Linear algebra| [Code only][ch7-figures]| [Links][ch7-other]|
+|8|Optimization| [Code only][ch8-figures]| [Links][ch8-other]|
 |<b>Part II : Linear models</b>|||
-|9|Linear discriminant analysis| [Code only][ch9-figures], [Code+Figures][ch9-figures-output]| [Links][ch9-other]|
-|10|Logistic regression| [Code only][ch10-figures], [Code+Figures][ch10-figures-output]| [Links][ch10-other]|
-|11|Linear regression| [Code only][ch11-figures], [Code+Figures][ch11-figures-output]| [Links][ch11-other]|
-|12|Generalized linear models | [Code only][ch12-figures], [Code+Figures][ch12-figures-output]| [Links][ch12-other]|
+|9|Linear discriminant analysis| [Code only][ch9-figures]| [Links][ch9-other]|
+|10|Logistic regression| [Code only][ch10-figures]| [Links][ch10-other]|
+|11|Linear regression| [Code only][ch11-figures]| [Links][ch11-other]|
+|12|Generalized linear models | [Code only][ch12-figures]| [Links][ch12-other]|
 |<b>Part III : Deep neural networks</b>|||
-|13|Neural networks for unstructured data| [Code only][ch13-figures], [Code+Figures][ch13-figures-output]| [Links][ch13-other]|
-|14|Neural networks for images| [Code only][ch14-figures], [Code+Figures][ch14-figures-output]| [Links][ch14-other]|
-|15|Neural networks for sequences| [Code only][ch15-figures], [Code+Figures][ch15-figures-output]| [Links][ch15-other]|
+|13|Neural networks for unstructured data| [Code only][ch13-figures]| [Links][ch13-other]|
+|14|Neural networks for images| [Code only][ch14-figures]| [Links][ch14-other]|
+|15|Neural networks for sequences| [Code only][ch15-figures]| [Links][ch15-other]|
 |<b>Part IV : Nonparametric models</b>|||
-|16|Exemplar-based methods| [Code only][ch16-figures], [Code+Figures][ch16-figures-output]| [Links][ch16-other]|
-|17|Kernel methods| [Code only][ch17-figures], [Code+Figures][ch17-figures-output]| [Links][ch17-other]|
-|18|Trees, forests, bagging and boosting| [Code only][ch18-figures], [Code+Figures][ch18-figures-output]| [Links][ch18-other]|
+|16|Exemplar-based methods| [Code only][ch16-figures]| [Links][ch16-other]|
+|17|Kernel methods| [Code only][ch17-figures]| [Links][ch17-other]|
+|18|Trees, forests, bagging and boosting| [Code only][ch18-figures]| [Links][ch18-other]|
 |<b>Part V : Beyond supervised learning</b>|||
-|19|Learning with fewer labeled examples| [Code only][ch19-figures], [Code+Figures][ch19-figures-output]| [Links][ch19-other]|
-|20|Dimensionality reduction| [Code only][ch20-figures], [Code+Figures][ch20-figures-output]| [Links][ch20-other]|
-|21|Clustering| [Code only][ch21-figures], [Code+Figures][ch21-figures-output]| [Links][ch21-other]|
-|22|Recommender systems| [Code only][ch22-figures], [Code+Figures][ch22-figures-output]| [Links][ch22-other]|
-|23|Graph embeddings | [Code only][ch23-figures], [Code+Figures][ch23-figures-output]| [Links][ch23-other]|
+|19|Learning with fewer labeled examples| [Code only][ch19-figures]| [Links][ch19-other]|
+|20|Dimensionality reduction| [Code only][ch20-figures]| [Links][ch20-other]|
+|21|Clustering| [Code only][ch21-figures]| [Links][ch21-other]|
+|22|Recommender systems| [Code only][ch22-figures]| [Links][ch22-other]|
+|23|Graph embeddings | [Code only][ch23-figures]| [Links][ch23-other]|
 
