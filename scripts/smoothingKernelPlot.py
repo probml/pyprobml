@@ -22,8 +22,7 @@ def box(u): return (1/2)*(abs(u) <= 1)
 def epa(u): return ((3/4)*(1 - np.power(u, 2))*(abs(u) <= 1))
 
 
-def tri(u): return (70/81) * \
-    np.power((np.power(1-abs(u), 3)), 3) * (abs(u) <= 1)
+def tri(u): return (70/81)*np.power((1- np.power(abs(u), 3)),3)*(abs(u) <= 1)
 
 
 def gauss(u): return (1/np.sqrt(2*np.pi)) * np.exp(-np.power(u, 2)/2)
