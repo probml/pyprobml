@@ -23,7 +23,7 @@ for i in range(16):
     axs[r, c].imshow(X[val[i]].reshape(h, w), cmap='gray')
     axs[r, c].axis('off')
 
-fig.savefig("PcaTrainFaceImages.png")
+fig.savefig("../figures/PcaTrainFaceImages.png")
 
 print('Performing PCA')
 mu = np.mean(X, axis=0)
@@ -47,7 +47,7 @@ for i in range(4):
         axs[r, c].imshow(V[i - 1].reshape(h, w), cmap='gray')
         axs[r, c].axis('off')
         axs[r, c].set_title('principal Basis {}'.format(i - 1))
-fig.savefig("PrincipalComponentFaceImages.png")
+fig.savefig("../figures/PrincipalComponentFaceImages.png")
 
 ndx = 125
 Ks = [5, 10, 20, matrix_rank(X)]
@@ -61,7 +61,7 @@ for k in Ks:
     axs[r, c].axis('off')
     axs[r, c].set_title('{} Components'.format(k))
     count += 1
-fig.savefig("PCAReconstructedFaceImages.png")
+fig.savefig("../figures/PCAReconstructedFaceImages.png")
 
 
 fig, axs = plt.subplots(1, 1)
@@ -81,7 +81,7 @@ for k in Ks:
 axs.plot(Ks, mse, '-o')
 axs.set_ylabel('MSE')
 axs.set_xlabel('K')
-plt.savefig("ReconstructionError.png")
+fig.savefig("../figures/ReconstructionError.png")
 
 fig, axs = plt.subplots(1, 1)
 fig.suptitle("pcaImage Faces (proportion of variance) ", fontsize="x-large")
@@ -89,4 +89,4 @@ fig.suptitle("pcaImage Faces (proportion of variance) ", fontsize="x-large")
 axs.plot(np.cumsum(pca.explained_variance_)/np.sum(pca.explained_variance_), 'o-')
 axs.set_ylabel('proportion of variance')
 axs.set_xlabel('K')
-plt.savefig("PCAvariance.png")
+fig.savefig("../figures/PCAvariance.png")
