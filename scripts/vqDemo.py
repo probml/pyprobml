@@ -36,4 +36,4 @@ for n_cluster in n_clusters:
     plt.title(f'K = {n_cluster}')
     plt.imshow(face_compressed, cmap=plt.cm.gray, vmin=vmin, vmax=vmax)
     plt.savefig(f"../figures/vectorQuantization_{n_cluster}.pdf", dpi=300)
-    
+ 
