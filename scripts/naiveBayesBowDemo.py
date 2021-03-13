@@ -32,22 +32,7 @@ print('misclassification rates  on train = '+str(err_train*100) +
       ' pc, on test = '+str(err_test*100)+' pc\n')
 
 C = np.unique(data['ytrain']).size
-'''
-D = Xtrain.shape[1]
-theta = np.zeros((C, D))
-pseudoCount = 1
-# Calculating Theta
-for i in range(0, 2):
-    ndx = np.argwhere(ytrain == (i+1))
-    Xtr = np.zeros((len(ndx), 600))
-    a = 0
-    for nd in ndx:
-        Xtr[a] = Xtrain[nd, :]
-        a += 1
-    print(Xtr)'''
 
-
-#print(theta[0, :])
 print()
 for i in range(0, C):
     plt.bar(np.arange(0, 600, 1), np.exp(model.feature_log_prob_)[i, :])
