@@ -18,7 +18,7 @@ if True:
     Xtrain = scipy.sparse.csc_matrix.toarray(Xtrain)
     Xtest = data['xtest']
     Xtest = scipy.sparse.csc_matrix.toarray(Xtest)
-  
+
 ytrain = data['ytrain']
 ytest = data['ytest']
 model = GaussianNB()
