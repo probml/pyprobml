@@ -12,12 +12,11 @@ data = None
 Xtrain = None
 Xtest = None
 
-if True:
-    data = read_mat('data\XwindowsDocData.mat')
-    Xtrain = data['xtrain']
-    Xtrain = scipy.sparse.csc_matrix.toarray(Xtrain)
-    Xtest = data['xtest']
-    Xtest = scipy.sparse.csc_matrix.toarray(Xtest)
+data = read_mat('../data/XwindowsDocData.mat')
+Xtrain = data['xtrain']
+Xtrain = scipy.sparse.csc_matrix.toarray(Xtrain)
+Xtest = data['xtest']
+Xtest = scipy.sparse.csc_matrix.toarray(Xtest)
 
 ytrain = data['ytrain']
 ytest = data['ytest']
@@ -35,5 +34,5 @@ for i in range(0, C):
     plt.bar(np.arange(0, 600, 1), model.theta_[i, :])
     plt.title('p(xj=1|y='+str(i)+')')
     fileName = 'naiveBayesBow'+str(i+1)+'ClassCond'
-    plt.savefig(r'figures/'+fileName)
+    plt.savefig(r'../figures/'+fileName)
     plt.show()
