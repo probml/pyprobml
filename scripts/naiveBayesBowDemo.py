@@ -6,7 +6,10 @@ from sklearn.metrics import zero_one_loss
 from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
 from sklearn.feature_selection import mutual_info_classif
+import os
 
+if os.path.isdir('scripts'):
+    os.chdir('scripts')
 
 data = None
 Xtrain = None
