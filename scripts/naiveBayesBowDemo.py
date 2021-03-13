@@ -4,6 +4,7 @@ import random
 import numpy as np
 from sklearn.metrics import zero_one_loss
 from sklearn.naive_bayes import GaussianNB
+import matplotlib.pyplot as plt
 
 data = None
 Xtrain = None
@@ -35,4 +36,9 @@ print('misclassification rates  on train = '+str(err_train*100) +
       ' pc, on test = '+str(err_test*100)+' pc\n')
 
 
-C = np.unique(data['ytrain'])
+C = np.unique(data['ytrain']).size
+for i in range (0, C):
+    plt.bar(np.arange(0, 600, 1), model.theta_[i, :])
+    plt.title('p(xj=1|y='+str(i)+')')
+    #plt.savefig(r'..\figures\naiveBayesBow'+str(i)+'ClassCond')
+    plt.show()
