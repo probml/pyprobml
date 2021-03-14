@@ -46,4 +46,4 @@ for i in priorVar:
              label = "post",linestyle='dashdot')
     plt.title(f"prior variance of {i}")
     plt.legend(loc="upper left")
-    plt.savefig(f"../figures/gaussInferParamsMean1dvectorQuantization_{i}.pdf", dpi=300)
+    plt.savefig(f"../figures/gaussInferParamsMean1d_{i}.pdf", dpi=300)

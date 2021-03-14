@@ -19,4 +19,4 @@ for i, fun in enumerate(funs):
 plt.axis([-2.1, 2.1, -0.1, 3.1])
 plt.legend()
 plt.savefig('../figures/hingeLoss.pdf')
-86plt.show()
+plt.show()
