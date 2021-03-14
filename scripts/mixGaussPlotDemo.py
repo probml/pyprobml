@@ -13,7 +13,7 @@ Sigma1 = np.array([[0.011, -0.01], [-0.01, 0.018]])
 Sigma2 = np.array([[0.018, 0.01],  [0.01, 0.011]])
 Sigma3 = Sigma1
 Sigma = np.array([Sigma1, Sigma2, Sigma3])
-mixmat = np.array([[0.5], [0.3], [0.2]]);
+mixmat = np.array([[0.5], [0.3], [0.2]])
 
 def sigmaEllipse2D(mu, Sigma, level=3, npoints=128):
     '''
@@ -91,6 +91,7 @@ def plot_gaussian_mixture(Mu, Sigma, weights=None, x = None, y = None):
     ax.set_xlabel('X axis')
     ax.set_ylabel('Y axis')
     ax.set_zlabel('Z axis')
+    ax.view_init(None, 50+180)
     plt.show()
 
 weights = [0.5, 0.3, 0.2]
