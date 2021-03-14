@@ -43,6 +43,11 @@ The output should look like this:
 ![](https://github.com/probml/pyprobml/blob/master/images/github-vscode-browser.png)
 
 
+<h2><a id="endorsements"></a>Acknowledgements</h2>
+
+I would like to thank the following people for contributing to the code (alphabetical order):
+ Andrew Carr, Aurelien Geron, Gerardo Durán Martín, Osvaldo Martin, Ashish Papanai, Duane Rich, Mahmoud Soliman, Theodore Vasiloudis, Oscar Wahltinez.
+
 
 
 
