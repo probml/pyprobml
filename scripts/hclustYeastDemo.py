@@ -1,4 +1,4 @@
-from pymatreader import read_mat
+import scipy.io
 import os
 from scipy.spatial.distance import pdist
 from sklearn import cluster
@@ -11,7 +11,7 @@ import seaborn
 
 if os.path.isdir('scripts'):
     os.chdir('scripts')
-data = read_mat('../data/yeastData310.mat')
+data = scipy.io.loadmat('../data/yeastData310.mat')
 
 X = data['X']
 
@@ -23,14 +23,13 @@ clusters = clusterTree.labels_
 
 clusterYeastHier16, axes = plt.subplots(4, 4)
 clusterYeastHier16 = clusterYeastHier16.suptitle('Hierarchical Clustering of Profiles ', y = 1 ,fontsize = 20)
+times = data['times'].reshape(7, )
 for c in range(0, 16):
     occurences = np.argwhere(clusters == (c))
-    
     row = c//4
     col = c%4
     for occ in occurences:
-        axes[row][col].plot(data['times'], X[occ, :].reshape(7,))
-    #clusterYeastHier16 = plt.tight_layout()
+        axes[row][col].plot(times, X[occ, :].reshape(7,))
     
 plt.tight_layout(rect=[0, 0, 1, 0.90])
 plt.savefig('../figures/clusterYeastHier16')
