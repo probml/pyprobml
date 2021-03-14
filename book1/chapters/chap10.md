@@ -1,6 +1,8 @@
 # Chapter 10: Logistic regression   (Supplementary material)
 
-[logreg]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/logreg.ipynb
+[logreg_sklearn]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/logreg.ipynb
+[logreg_jax]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/logreg.ipynb
+[logreg_pytorch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/logreg.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
