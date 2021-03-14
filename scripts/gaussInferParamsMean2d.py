@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 from scipy.stats import multivariate_normal
 from numpy.linalg import inv
 
+
 np.random.seed(10)
 
 
@@ -63,12 +64,7 @@ muN = np.dot(Sn, (np.dot(n, np.dot(Sinv, xbar)) + np.dot(S0inv, mu0)))
 post['mu'] = muN
 post['Sigma'] = Sn
 
-npoints = 100j
-out = np.mgrid[xyrange[0, 0]:xyrange[0, 1]:npoints, xyrange[1, 0]:xyrange[1, 1]:npoints]
-X1, X2 = out[0], out[1]
-nr = X1.shape[0]
-nc = X2.shape[0]
-points = np.vstack([np.ravel(X1), np.ravel(X2)]).T
+
 p = multivariate_normal.pdf(points, mean=post['mu'], cov=post['Sigma']).reshape(nr, nc)
 ax3.contour(X1, X2, p)
 ax3.set_ylim([-1, 1])
