@@ -33,9 +33,10 @@ for c in range(0, 16):
     #clusterYeastHier16 = plt.tight_layout()
     
 plt.tight_layout(rect=[0, 0, 1, 0.90])
+plt.savefig('../figures/clusterYeastHier16')
 plt.show()
 
 clusterYeastRowPerm = seaborn.clustermap(X[:, 1:])
-plt.tight_layout(rect=[0, 0, 1, 0.90])
 plt.title('hierarchical clustering')
+plt.savefig('../figures/clusterYeastRowPerm')
 plt.show()
