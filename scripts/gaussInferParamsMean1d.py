@@ -34,7 +34,7 @@ for i in priorVar:
     
     x = np.arange(-5,5.25, 0.25)
 
-    fig = plt.figure(figsize = (6, 6))
+    fig = plt.figure(figsize = (4, 4))
     plt.ylim(0,0.6)
     plt.xlim(-5,5)
     plt.xticks([-5,0,5])
@@ -45,5 +45,5 @@ for i in priorVar:
     plt.plot(x, multivariate_normal.pdf(x, mean = post_mu, cov = post_Sigma), color = "black", 
              label = "post",linestyle='dashdot')
     plt.title(f"prior variance of {i}")
-    plt.legend()
+    plt.legend(loc="upper left")
     plt.savefig(f"../figures/gaussInferParamsMean1dvectorQuantization_{i}.pdf", dpi=300)
