@@ -4,4 +4,6 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Basics| sklearn, JAX| [notebook][logreg]
+|Logreg using sklearn| sklearn| [notebook][logreg_sklearn]
+|Logreg from scratch using JAX| JAX| [notebook][logreg_jax]
+|Logreg from scratch using PyTorch| PyTorch| [notebook][logreg_pytorch]
