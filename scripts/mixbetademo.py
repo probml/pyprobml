@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import betaln, betainc
 from scipy.special import logsumexp
 from matplotlib import pyplot as plt
-
+from scipy.stats import beta
 
 def normalizeLogspace(x):
     L = logsumexp(x, 0)
@@ -12,24 +12,14 @@ def normalizeLogspace(x):
 
 def evalpdf(thetas, postZ, alphaPost):
     p = np.zeros_like(thetas)
-    # print(p.shape)
     M = np.size(postZ)
     for k in range(M):
         a = alphaPost[k, 0]
         b = alphaPost[k, 1]
-        p += postZ[k] * np.exp(betaLogprob(a, b, thetas))
+        # p += postZ[k] * np.exp(beta.logpdf(thetas, a, b)) # this also works
+        p += postZ[k] * beta.pdf(thetas, a, b)
 
     return p
-
-
-def betaLogprob(a, b, X):
-    logkerna = (a - 1) * np.log(X)
-    logkerna[a == 1 and X == 0] = 0
-    logkernb = (b - 1) * np.log(1 - X)
-    logkernb[b == 1 and X == 1] = 0
-    logp = logkerna + logkernb - betaln(a, b)
-
-    return logp
 
 
 dataSS = np.array([20, 10])
