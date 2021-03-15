@@ -20,7 +20,6 @@ clusterTree = AgglomerativeClustering(n_clusters=16, linkage="average")
 clusterTree.fit(X)
 clusters = clusterTree.labels_
 
-
 clusterYeastHier16, axes = plt.subplots(4, 4)
 clusterYeastHier16 = clusterYeastHier16.suptitle('Hierarchical Clustering of Profiles ', y = 1 ,fontsize = 20)
 times = data['times'].reshape(7, )
@@ -38,4 +37,21 @@ plt.show()
 clusterYeastRowPerm = seaborn.clustermap(X[:, 1:])
 plt.title('hierarchical clustering')
 plt.savefig('../figures/clusterYeastRowPerm')
+plt.show()
+
+
+scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'average'))
+plt.title('average link')
+plt.savefig('../figures/clusterYeastAvgLink')
+plt.show()
+
+
+scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'complete'))
+plt.title('complete link')
+plt.savefig('../figures/clusterYeastCompleteLink')
+plt.show()
+
+scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'single'))
+plt.title('single link')
+plt.savefig('../figures/clusterYeastSingleLink')
 plt.show()
