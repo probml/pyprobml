@@ -13,3 +13,4 @@ Title|Software|Link|
 |Optimization using Flax| Flax| [notebook][opt_flax]
 |Automatic differentiation with tensorflow| TF2| [notebook][ad_tf]
 |Automatic differentiation with JAX| JAX| [notebook][ad_jax]
+|Automatic differentiation with PyTorch| PyTorch| [notebook][ad_pytorch]
