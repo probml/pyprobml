@@ -12,14 +12,14 @@ np.random.seed(10)
 
 def convergenceTest(fval, previous_fval, threshold=1e-4, warn=False):
     eps = 2e-10
-    converged = 0;
-    delta_fval = np.abs(fval - previous_fval);
-    avg_fval = (np.abs(fval) + abs(previous_fval) + eps) / 2.0;
+    converged = 0
+    delta_fval = np.abs(fval - previous_fval)
+    avg_fval = (np.abs(fval) + abs(previous_fval) + eps) / 2.0
     if (delta_fval / avg_fval) < threshold:
         converged = 1
 
     if warn and (fval - previous_fval) < -2 * eps:
-        print('convergenceTest:fvalDecrease', 'objective decreased!');
+        print('convergenceTest:fvalDecrease', 'objective decreased!')
     return converged
 
 
@@ -74,18 +74,18 @@ negmseNew = - np.inf
 iterator = 0
 
 while not converged:
-    negmseOld = negmseNew;
+    negmseOld = negmseNew
 
     Z = np.linalg.lstsq(np.dot(W.T, W), np.dot(W.T, X))
     Xrecon = np.dot(W, Z[0])
 
-    Wortho = orth(W);
+    Wortho = orth(W)
     fig, axs = plt.subplots(1, 1, figsize=(8, 8))
     confidence_ellipse(X[0, :], X[1, :], axs, edgecolor='red')
     axs.plot(X[0, :], X[1, :], 'g*')
     axs.scatter(Xrecon[0, :], Xrecon[1, :], edgecolors='k', marker='o', facecolor="none", s=80)
 
-    axs.plot(np.linspace(-3, 3, 20), float(Wortho[1]) / Wortho[0] * np.linspace(-3, 3, 20), 'c', linewidth=2);
+    axs.plot(np.linspace(-3, 3, 20), float(Wortho[1]) / Wortho[0] * np.linspace(-3, 3, 20), 'c', linewidth=2)
     for i in range(len(X[0])):
         X_p = [X[0, i], Xrecon[0, i]]
         Y_p = [X[1, i], Xrecon[1, i]]
