@@ -42,16 +42,19 @@ plt.show()
 
 scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'average'))
 plt.title('average link')
+plt.tick_params(labelbottom=False)
 plt.savefig('../figures/clusterYeastAvgLink')
 plt.show()
 
 
 scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'complete'))
 plt.title('complete link')
+plt.tick_params(labelbottom=False)
 plt.savefig('../figures/clusterYeastCompleteLink')
 plt.show()
 
 scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'single'))
 plt.title('single link')
+plt.tick_params(labelbottom=False)
 plt.savefig('../figures/clusterYeastSingleLink')
 plt.show()
