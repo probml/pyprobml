@@ -1,4 +1,4 @@
-from pymatreader import read_mat
+import scipy.io as sio
 import scipy
 import random
 import numpy as np
@@ -15,7 +15,7 @@ data = None
 Xtrain = None
 Xtest = None
 
-data = read_mat('../data/XwindowsDocData.mat')
+data = sio.loadmat('../data/XwindowsDocData.mat')
 Xtrain = data['xtrain']
 Xtrain = scipy.sparse.csc_matrix.toarray(Xtrain)
 Xtest = data['xtest']
