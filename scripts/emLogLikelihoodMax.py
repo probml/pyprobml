@@ -31,9 +31,9 @@ plt.vlines(1.129, -50, 23.376, linestyles='dotted')
 plt.xticks([], [])
 plt.yticks([], [])
 
-plt.text(-0.75, -55, '\u03B8'+'\u2096', fontsize=14)
-plt.text(-0.165, -55, '\u03B8'+'\u209C'+'\u208A'+'\u2081', fontsize=14)
-plt.text(1.029, -55, '\u03B8'+'\u209C'+'\u208A'+'\u2082', fontsize=14)
+plt.text(-0.75, -58, '\u03B8'+'\u2096', fontsize=16)
+plt.text(-0.165, -58, '\u03B8'+'\u209C'+'\u208A'+'\u2081', fontsize=16)
+plt.text(1.029, -58, '\u03B8'+'\u209C'+'\u208A'+'\u2082', fontsize=16)
 
 
 
