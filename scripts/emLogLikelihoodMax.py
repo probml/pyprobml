@@ -1,6 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
+import os
+
+
+if os.path.isdir('scripts'):
+    os.chdir('scripts')
 
 
 def f1(x): return np.log(multivariate_normal.pdf(x, 0, 0.25**2))+1
@@ -19,5 +24,8 @@ p3 = plt.plot(domain, f3(domain), '-.r')
 plt.axis([-3, 5, -50, 50])
 plt.legend(['Q('+'\u03B8'+','+'\u03B8'+'\u209C'+')', 'Q('+'\u03B8' +
             ','+'\u03B8'+'\u209C'+'+'+'\u2081'+')', 'I('+'\u03B8'+')'])
-
+plt.vlines(-0.65, -50, -0.60, linestyles='dotted')
+plt.vlines(0.065, -50, 8.766, linestyles='dotted')
+plt.vlines(1.129, -50, 23.376, linestyles='dotted')
+plt.savefig('../figures/emLogLikelihoodMax.png')
 plt.show()
