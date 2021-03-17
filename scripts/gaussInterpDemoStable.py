@@ -19,8 +19,6 @@ def demo(priorVar):
     xobs = np.random.randn(Nobs, 1)
     obsNoiseVar = 1
     y = xobs + np.sqrt(obsNoiseVar)*np.random.randn(Nobs, 1)
-    # checkArr = np.tile([-1, 2, -1], (n-1, 1))
-    # print(len(np.array([0, 1, 2])))
     L = (0.5*scipy.sparse.diags([-1, 2, -1], [0, 1, 2], (n-1, n+1))).toarray()
     Lambda = 1 / priorVar
     L = L * Lambda
@@ -55,12 +53,10 @@ def demo(priorVar):
     row2 = np.concatenate(
         (B21, (np.dot(np.dot(B21, np.linalg.inv(B11)),  B12) + np.linalg.inv(C))), axis=1)
     final = np.concatenate((row1, row2), axis=0)
-    # (np.dot(np.dot(B21, np.linalg.inv(B11)),  B12) + np.linalg.inv(C))
     GammaInv = final
     Gamma = np.linalg.inv(GammaInv)
     postDist_Sigma = Gamma
     x = np.concatenate((np.zeros((D-Nobs, 1)), y))
-    # print(Gamma.shape)
     postDist_mu = np.dot(Gamma, x)
     Str = ('obsVar='+str(round(obsNoiseVar, 1))+', priorVar='+str(round(priorVar, 2)))
     makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, Str)
@@ -79,7 +75,6 @@ def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
     part2 = np.flip(mu-2* np.sqrt(S2),0)
     f = np.concatenate((part1, part2)).reshape(302, 1)
     check = np.concatenate((np.transpose(xs), np.flip(np.transpose(xs))))
-    print(f.shape)
     plt.fill(check, f)
     xs = xs.reshape(151, 1)
     plt.plot(xs[obsNdx].reshape(10, 1), y, 'bx')
@@ -94,6 +89,7 @@ def main():
     if os.path.isdir('scripts'):
         os.chdir('scripts')
     demo(0.1)
+    demo(0.01)
 
 
 if __name__ == '__main__':
