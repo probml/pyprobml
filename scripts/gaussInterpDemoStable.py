@@ -52,23 +52,35 @@ def demo(priorVar):
 
     C = obsNoiseVar * np.eye(Nobs, Nobs)
     row1 = np.concatenate((B11, B12), axis=1)
-    row2 = np.concatenate((B21, (np.dot(np.dot(B21, np.linalg.inv(B11)),  B12) + np.linalg.inv(C))), axis=1)
+    row2 = np.concatenate(
+        (B21, (np.dot(np.dot(B21, np.linalg.inv(B11)),  B12) + np.linalg.inv(C))), axis=1)
     final = np.concatenate((row1, row2), axis=0)
     # (np.dot(np.dot(B21, np.linalg.inv(B11)),  B12) + np.linalg.inv(C))
     GammaInv = final
     Gamma = np.linalg.inv(GammaInv)
     postDist_Sigma = Gamma
-    x  = np.concatenate((np.zeros((D-Nobs,1)), y))
-    #print(Gamma.shape)
+    x = np.concatenate((np.zeros((D-Nobs, 1)), y))
+    # print(Gamma.shape)
     postDist_mu = np.dot(Gamma, x)
-
+    Str = ('obsVar='+str(round(obsNoiseVar, 1))+', priorVar='+str(round(priorVar, 2)))
+    makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, Str)
+    fname = ('gaussInterpNoisyDemoStable_obsVar' + str(round(100*obsNoiseVar))+'_priorVar'+str(round(100*priorVar)))
+    plt.savefig(r'../figures/'+fname)
+    plt.show()
+    
+    
 
 
 def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
     D = len(hidNdx) + len(obsNdx)
     mu = postDist_mu.reshape(151, )
     S2 = np.diag(postDist_Sigma)
-    # plt.fill(np.array(np.transpose(xs), np.flip(np.transpose(xs)))
+    part1 = (mu + 2 * np.sqrt(S2))
+    part2 = np.flip(mu-2* np.sqrt(S2),0)
+    f = np.concatenate((part1, part2)).reshape(302, 1)
+    check = np.concatenate((np.transpose(xs), np.flip(np.transpose(xs))))
+    print(f.shape)
+    plt.fill(check, f)
     xs = xs.reshape(151, 1)
     plt.plot(xs[obsNdx].reshape(10, 1), y, 'bx')
     plt.plot(xs, mu, 'r-')
