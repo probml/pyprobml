@@ -27,5 +27,15 @@ plt.legend(['Q('+'\u03B8'+','+'\u03B8'+'\u209C'+')', 'Q('+'\u03B8' +
 plt.vlines(-0.65, -50, -0.60, linestyles='dotted')
 plt.vlines(0.065, -50, 8.766, linestyles='dotted')
 plt.vlines(1.129, -50, 23.376, linestyles='dotted')
+
+plt.xticks([], [])
+plt.yticks([], [])
+
+plt.text(-0.75, -55, '\u03B8'+'\u2096', fontsize=14)
+plt.text(-0.165, -55, '\u03B8'+'\u209C'+'\u208A'+'\u2081', fontsize=14)
+plt.text(1.029, -55, '\u03B8'+'\u209C'+'\u208A'+'\u2082', fontsize=14)
+
+
+
 plt.savefig('../figures/emLogLikelihoodMax.png')
 plt.show()
