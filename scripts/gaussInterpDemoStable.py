@@ -47,6 +47,21 @@ def demo(priorVar):
     makePlots(postDist_mu, postDist_Sigma, xs, xobs, xobs, hidNdx, obsNdx, Str)
     fname = 'gaussInterpNoisyDemoStable_obsVar' + \
         str(round(100*0))+'_priorVar'+str(round(100*priorVar))
+    plt.savefig(r'../figures/'+fname)
+    plt.show()
+
+    C = obsNoiseVar * np.eye(Nobs, Nobs)
+    row1 = np.concatenate((B11, B12), axis=1)
+    row2 = np.concatenate((B21, (np.dot(np.dot(B21, np.linalg.inv(B11)),  B12) + np.linalg.inv(C))), axis=1)
+    final = np.concatenate((row1, row2), axis=0)
+    # (np.dot(np.dot(B21, np.linalg.inv(B11)),  B12) + np.linalg.inv(C))
+    GammaInv = final
+    Gamma = np.linalg.inv(GammaInv)
+    postDist_Sigma = Gamma
+    x  = np.concatenate((np.zeros((D-Nobs,1)), y))
+    #print(Gamma.shape)
+    postDist_mu = np.dot(Gamma, x)
+
 
 
 def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
@@ -58,13 +73,9 @@ def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
     plt.plot(xs[obsNdx].reshape(10, 1), y, 'bx')
     plt.plot(xs, mu, 'r-')
     plt.title(str)
-    print(np.transpose(xs).shape)
     for i in range(1, 3):
         fs = np.random.multivariate_normal(mu, postDist_Sigma)
         plt.plot(xs, fs, 'k-')
-
-    plt.savefig(r'../figures/fname')
-    plt.show()
 
 
 def main():
