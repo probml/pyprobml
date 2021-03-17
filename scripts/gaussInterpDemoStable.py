@@ -2,8 +2,9 @@ import numpy as np
 import scipy.sparse
 import matplotlib.pyplot as plt
 import os
+from matplotlib import colors as mcolors
 
-
+colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
 def demo(priorVar):
     np.random.seed(1)
     n = 150
@@ -58,13 +59,13 @@ def demo(priorVar):
     postDist_Sigma = Gamma
     x = np.concatenate((np.zeros((D-Nobs, 1)), y))
     postDist_mu = np.dot(Gamma, x)
-    Str = ('obsVar='+str(round(obsNoiseVar, 1))+', priorVar='+str(round(priorVar, 2)))
+    Str = ('obsVar='+str(round(obsNoiseVar, 1)) +
+           ', priorVar='+str(round(priorVar, 2)))
     makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, Str)
-    fname = ('gaussInterpNoisyDemoStable_obsVar' + str(round(100*obsNoiseVar))+'_priorVar'+str(round(100*priorVar)))
+    fname = ('gaussInterpNoisyDemoStable_obsVar' +
+             str(round(100*obsNoiseVar))+'_priorVar'+str(round(100*priorVar)))
     plt.savefig(r'../figures/'+fname)
     plt.show()
-    
-    
 
 
 def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
@@ -72,10 +73,10 @@ def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
     mu = postDist_mu.reshape(151, )
     S2 = np.diag(postDist_Sigma)
     part1 = (mu + 2 * np.sqrt(S2))
-    part2 = np.flip(mu-2* np.sqrt(S2),0)
+    part2 = np.flip(mu-2 * np.sqrt(S2), 0)
     f = np.concatenate((part1, part2)).reshape(302, 1)
     check = np.concatenate((np.transpose(xs), np.flip(np.transpose(xs))))
-    plt.fill(check, f)
+    plt.fill(check, f, colors['lightgray'])
     xs = xs.reshape(151, 1)
     plt.plot(xs[obsNdx].reshape(10, 1), y, 'bx')
     plt.plot(xs, mu, 'r-')
