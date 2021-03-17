@@ -5,6 +5,8 @@ import os
 from matplotlib import colors as mcolors
 
 colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
+
+
 def demo(priorVar):
     np.random.seed(1)
     n = 150
@@ -19,8 +21,8 @@ def demo(priorVar):
 
     xobs = np.random.randn(Nobs, 1)
     obsNoiseVar = 1
-    y = xobs + np.sqrt(obsNoiseVar)*np.random.randn(Nobs, 1)
-    L = (0.5*scipy.sparse.diags([-1, 2, -1], [0, 1, 2], (n-1, n+1))).toarray()
+    y = xobs + np.sqrt(obsNoiseVar) * np.random.randn(Nobs, 1)
+    L = (0.5 * scipy.sparse.diags([-1, 2, -1], [0, 1, 2], (n - 1, n + 1))).toarray()
     Lambda = 1 / priorVar
     L = L * Lambda
     L1 = L[:, hidNdx]
@@ -34,37 +36,37 @@ def demo(priorVar):
 
     mu = np.zeros((D, 1))
     mu[hidNdx] = -np.dot(np.dot(np.linalg.inv(B11), B12), xobs)
-    mu[obsNdx.reshape(10,)] = xobs.reshape(10, 1)
-    Sigma = 1e-5*np.eye(D, D)
+    mu[obsNdx.reshape(10, )] = xobs.reshape(10, 1)
+    Sigma = 1e-5 * np.eye(D, D)
     inverseB11 = np.linalg.inv(B11)
     for i in range(0, 141):
         for j in range(0, 141):
             Sigma[i, j] = inverseB11[i, j]
     postDist_mu = mu
     postDist_Sigma = Sigma
-    Str = 'obsVar=0, priorVar='+str(round(priorVar, 3))
+    Str = 'obsVar=0, priorVar=' + str(round(priorVar, 3))
     makePlots(postDist_mu, postDist_Sigma, xs, xobs, xobs, hidNdx, obsNdx, Str)
     fname = 'gaussInterpNoisyDemoStable_obsVar' + \
-        str(round(100*0))+'_priorVar'+str(round(100*priorVar))
-    plt.savefig(r'../figures/'+fname)
+            str(round(100 * 0)) + '_priorVar' + str(round(100 * priorVar))
+    plt.savefig(r'../figures/' + fname)
     plt.show()
 
     C = obsNoiseVar * np.eye(Nobs, Nobs)
     row1 = np.concatenate((B11, B12), axis=1)
     row2 = np.concatenate(
-        (B21, (np.dot(np.dot(B21, np.linalg.inv(B11)),  B12) + np.linalg.inv(C))), axis=1)
+        (B21, (np.dot(np.dot(B21, np.linalg.inv(B11)), B12) + np.linalg.inv(C))), axis=1)
     final = np.concatenate((row1, row2), axis=0)
     GammaInv = final
     Gamma = np.linalg.inv(GammaInv)
     postDist_Sigma = Gamma
-    x = np.concatenate((np.zeros((D-Nobs, 1)), y))
+    x = np.concatenate((np.zeros((D - Nobs, 1)), y))
     postDist_mu = np.dot(Gamma, x)
-    Str = ('obsVar='+str(round(obsNoiseVar, 1)) +
-           ', priorVar='+str(round(priorVar, 2)))
+    Str = ('obsVar=' + str(round(obsNoiseVar, 1)) +
+           ', priorVar=' + str(round(priorVar, 2)))
     makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, Str)
     fname = ('gaussInterpNoisyDemoStable_obsVar' +
-             str(round(100*obsNoiseVar))+'_priorVar'+str(round(100*priorVar)))
-    plt.savefig(r'../figures/'+fname)
+             str(round(100 * obsNoiseVar)) + '_priorVar' + str(round(100 * priorVar)))
+    plt.savefig(r'../figures/' + fname)
     plt.show()
 
 
@@ -73,7 +75,7 @@ def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
     mu = postDist_mu.reshape(151, )
     S2 = np.diag(postDist_Sigma)
     part1 = (mu + 2 * np.sqrt(S2))
-    part2 = np.flip(mu-2 * np.sqrt(S2), 0)
+    part2 = np.flip(mu - 2 * np.sqrt(S2), 0)
     f = np.concatenate((part1, part2)).reshape(302, 1)
     check = np.concatenate((np.transpose(xs), np.flip(np.transpose(xs))))
     plt.fill(check, f, colors['lightgray'])
