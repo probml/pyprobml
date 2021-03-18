@@ -41,29 +41,13 @@ for i in range(n1):
 
 f = f1 + f2
 
+plots = [klf, kll, klr]
 
-# (a)
+fig, ax = plt.subplots(1,3,figsize=(8,8))
+for axi, plot_ in zip(ax.flat,plots):
+    axi.axis('off')
+    axi.contour(x1, x2, f, colors='b', zorder=1)
+    axi.contour(x1,x2,plot_, colors='r',zorder=10)
 
-plt.figure()
-plt.axis('off')
-plt.contour(x1, x2, f, colors='b', zorder=1)
-plt.contour(x1,x2,klf, colors='r',zorder=10)
+fig.savefig('../figures/klfwdzrevmixgauss.pdf', dpi=300)
 plt.show()
-plt.savefig(f"../figures/klfwdzrevmixgauss_1.pdf", dpi=300)
-
-# (b)
-plt.figure()
-plt.axis('off')
-plt.contour(x1, x2, f, colors='b', zorder=1)
-plt.contour(x1,x2,kll, colors='r')
-plt.show()
-plt.savefig(f"../figures/klfwdzrevmixgauss_2.pdf", dpi=300)
-
-
-# (c)
-plt.figure()
-plt.axis('off')
-plt.contour(x1, x2, f, colors='b')
-plt.contour(x1,x2,klr, colors='r')
-plt.show()
-plt.savefig(f"../figures/klfwdzrevmixgauss_3.pdf", dpi=300)
