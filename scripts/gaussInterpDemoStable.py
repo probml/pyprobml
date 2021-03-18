@@ -14,19 +14,19 @@ def demo(priorVar):
     Nobs = m
     D = n + 1
     Nhid = D - Nobs
-    xs = np.linspace(0, 1, D).reshape(1, 151)
-    perm = np.random.permutation(D).reshape(151, 1)
-    obsNdx = perm[: 10]
-    hidNdx = np.setdiff1d(np.arange(0, 151, 1), obsNdx)
-
+    xs = np.linspace(0, 1, D).reshape(1, n+1)
+    perm = np.random.permutation(D).reshape(n+1, 1)
+    obsNdx = perm[: m]
+    hidNdx = np.setdiff1d(np.arange(0, n+1, 1), obsNdx)
     xobs = np.random.randn(Nobs, 1)
     obsNoiseVar = 1
     y = xobs + np.sqrt(obsNoiseVar) * np.random.randn(Nobs, 1)
-    L = (0.5 * scipy.sparse.diags([-1, 2, -1], [0, 1, 2], (n - 1, n + 1))).toarray()
+    L = (0.5 * scipy.sparse.diags([-1, 2, -1],
+                                  [0, 1, 2], (n - 1, n + 1))).toarray()
     Lambda = 1 / priorVar
     L = L * Lambda
     L1 = L[:, hidNdx]
-    L2 = L[:, obsNdx].reshape(149, 10)
+    L2 = L[:, obsNdx].reshape(n-1, m)
 
     B11 = np.dot(np.transpose(L1), L1)
     B12 = np.dot(np.transpose(L1), L2)
@@ -36,12 +36,11 @@ def demo(priorVar):
 
     mu = np.zeros((D, 1))
     mu[hidNdx] = -np.dot(np.dot(np.linalg.inv(B11), B12), xobs)
-    mu[obsNdx.reshape(10, )] = xobs.reshape(10, 1)
+    mu[obsNdx.reshape(m, )] = xobs.reshape(m, 1)
     Sigma = 1e-5 * np.eye(D, D)
     inverseB11 = np.linalg.inv(B11)
-    for i in range(0, 141):
-        for j in range(0, 141):
-            Sigma[i, j] = inverseB11[i, j]
+    x = 141
+    Sigma[0: x, 0:x] = inverseB11[0: x, 0:x]
     postDist_mu = mu
     postDist_Sigma = Sigma
     Str = 'obsVar=0, priorVar=' + str(round(priorVar, 3))
@@ -71,15 +70,16 @@ def demo(priorVar):
 
 
 def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
+    n = 150
     D = len(hidNdx) + len(obsNdx)
-    mu = postDist_mu.reshape(151, )
+    mu = postDist_mu.reshape(n+1, )
     S2 = np.diag(postDist_Sigma)
     part1 = (mu + 2 * np.sqrt(S2))
     part2 = np.flip(mu - 2 * np.sqrt(S2), 0)
     f = np.concatenate((part1, part2)).reshape(302, 1)
     check = np.concatenate((np.transpose(xs), np.flip(np.transpose(xs))))
     plt.fill(check, f, colors['lightgray'])
-    xs = xs.reshape(151, 1)
+    xs = xs.reshape(n+1, 1)
     plt.plot(xs[obsNdx].reshape(10, 1), y, 'bx')
     plt.plot(xs, mu, 'r-')
     plt.title(str)
