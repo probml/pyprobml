@@ -121,7 +121,7 @@ while not converged:
     axs2.scatter(comp_mean[0], comp_mean[1], marker='x', c='r', s=200)
     axs2.set_title('M step {}'.format(iterator))
 
-    fig.savefig('pcaEmStepByStep_Estep{}.png'.format(iterator))
-    fig2.savefig('pcaEmStepByStep_Mstep{}.png'.format(iterator))
+    fig.savefig('../figures/pcaEmStepByStepEstep{}.pdf'.format(iterator))
+    fig2.savefig('../figures/pcaEmStepByStepMstep{}.pdf'.format(iterator))
 
     iterator = iterator + 1

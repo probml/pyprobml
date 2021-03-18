@@ -39,21 +39,22 @@ plt.title('hierarchical clustering')
 plt.savefig('../figures/clusterYeastRowPerm')
 plt.show()
 
-
-scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'average'))
+Z = scipy.cluster.hierarchy.linkage(corrDist, 'average')
+scipy.cluster.hierarchy.dendrogram(Z, truncate_mode='lastp')
 plt.title('average link')
 plt.tick_params(labelbottom=False)
 plt.savefig('../figures/clusterYeastAvgLink')
 plt.show()
 
-
-scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'complete'))
+Z = scipy.cluster.hierarchy.linkage(corrDist, 'complete')
+scipy.cluster.hierarchy.dendrogram(Z, truncate_mode='lastp')
 plt.title('complete link')
 plt.tick_params(labelbottom=False)
 plt.savefig('../figures/clusterYeastCompleteLink')
 plt.show()
 
-scipy.cluster.hierarchy.dendrogram(scipy.cluster.hierarchy.linkage(corrDist, 'single'))
+Z = scipy.cluster.hierarchy.linkage(corrDist, 'single')
+scipy.cluster.hierarchy.dendrogram(Z, truncate_mode='lastp')
 plt.title('single link')
 plt.tick_params(labelbottom=False)
 plt.savefig('../figures/clusterYeastSingleLink')
