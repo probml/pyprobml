@@ -75,18 +75,17 @@ test_features = K_test_n @ evecs[:,0:max_ev]
 # plot it
 ###############################################################################
 
-fig, ax = plt.subplots(max_ev,figsize=(6,40))
-plot = 0
-for n in range(max_ev):
-    imag = np.reshape(test_features[:,n], [y_test_num, x_test_num])
-    ax[plot].set_xticks(np.arange(-1,2,1))
-    ax[plot].set_yticks(np.arange(-0.5,2,0.5))
-    ax[plot].contour(x_range, y_range, imag, 9, colors= 'b')
-    ax[plot].plot(patterns[:,0], patterns[:,1], 'r.')
-    ax[plot].text(-0.5,1.60,f'Eigenvalue={evals[n]:.3f}')
-    plot +=1
+fig, ax = plt.subplots(2,4,figsize=(20,10))
+for i, axi in enumerate(ax.flat):
+    imag = np.reshape(test_features[:,i], [y_test_num, x_test_num])
+    axi.set_xticks(np.arange(-1,2,1))
+    axi.set_yticks(np.arange(-0.5,2,0.5))
+    axi.contour(x_range, y_range, imag, 9, colors= 'b')
+    axi.plot(patterns[:,0], patterns[:,1], 'r.')
+    axi.text(-0.5,1.60,f'Eigenvalue={evals[i]:.3f}')
 fig.savefig('../figures/kpcaScholkopf.pdf', dpi=300)
-plt.tight_layout()   
 plt.show()
+      
+
 
     
