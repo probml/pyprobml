@@ -95,7 +95,7 @@ def makePlots(postDist_mu, postDist_Sigma, xs, xobs, y, hidNdx, obsNdx, str):
     plt.plot(xs[obsNdx].reshape(10, 1), y, 'bx')
     plt.plot(xs, mu, 'r-')
     plt.title(str)
-    for i in range(1, 3):
+    for i in range(0, 3):
         fs = np.random.multivariate_normal(mu, postDist_Sigma)
         plt.plot(xs, fs, 'k-')
 
