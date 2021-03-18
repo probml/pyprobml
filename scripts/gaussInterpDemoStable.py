@@ -31,6 +31,14 @@ def demo(priorVar):
     B11 = np.dot(np.transpose(L1), L1)
     B12 = np.dot(np.transpose(L1), L2)
     B21 = np.transpose(B12)
+    noiseFreeObs(B11, B12, xobs, hidNdx, obsNdx, priorVar, xs)
+    noisyObs(B11, B12, B21, obsNoiseVar, Nobs,
+             xobs, hidNdx, obsNdx, priorVar, xs, y)
+
+
+def noiseFreeObs(B11, B12, xobs, hidNdx, obsNdx, priorVar, xs):
+    D = 151
+    m = 10
     postDist_mu = -np.dot(np.dot(np.linalg.inv(B11), B12), xobs)
     postDist_Sigma = np.linalg.inv(B11)
 
@@ -50,6 +58,10 @@ def demo(priorVar):
     plt.savefig(r'../figures/' + fname)
     plt.show()
 
+
+def noisyObs(B11, B12, B21, obsNoiseVar, Nobs, xobs, hidNdx, obsNdx, priorVar, xs, y):
+    D = 151
+    m = 10
     C = obsNoiseVar * np.eye(Nobs, Nobs)
     row1 = np.concatenate((B11, B12), axis=1)
     row2 = np.concatenate(
