@@ -1,7 +1,47 @@
 import numpy as np
 import numpy.matlib
+import matplotlib.pyplot as plt
+
 
 np.random.seed(1)
+
+p_default = ['cgatacggggtcgaa', 'caatccgagatcgca', 'caatccgtgttggga', 'caatcggcatgcggg', 'cgagccgcgtacgaa',
+             'catacggagcacgaa', 'taatccgggcatgta', 'cgagccgagtacaga', 'ccatccgcgtaagca', 'ggatacgagatgaca']
+np_type = np.float64
+
+def conservationWeights(S, ssCorr=True):
+    K = 4
+    W = 0
+    if (S.dtype == np_type):
+        ssCorr = False
+        W = np.divide(S, np.max(np.sum(S)))
+    else:
+        S = np.char.upper(S)
+        ns, np = (S).shape
+        U = np.unique(S)
+        m = (U).size
+        W = np.zeros((m, np))
+        for j in range(0, m):
+            W[j, :] = np.sum(S == U[j])
+            W = W/ns
+
+    F = W
+    F[F == 0] = 1
+    Sb = np.log2(K)
+    Sf = -np.sum(np.multiply(np.log2(F), F), 1)
+    E = 0
+    if ssCorr:
+        E = (K-1)/(2*np.log(2)*ns)
+    else:
+        E = 0
+    R = Sb - Sf - E
+    W = R*W
+    return W
+
+
+def seqlogoPmtk(p=p_default, ssCorr=True):
+    W = np.max(conservationWeights(p, ssCorr), 0)
+    #print(not(p.dtype == np.float64))
 
 
 def dirichlet_sample(a, n=1):
@@ -78,5 +118,5 @@ for c in range(0, 4):
 thetaHat = counts/Nseq
 tmp = thetaHat
 tmp[tmp == 0] = 1
-matrixEntropy = -np.sum(np.multiply(tmp, np.log2(tmp)), axis = 1)
-print(matrixEntropy)
+matrixEntropy = -np.sum(np.multiply(tmp, np.log2(tmp)), axis=1)
+seqlogoPmtk(thetaHat)
