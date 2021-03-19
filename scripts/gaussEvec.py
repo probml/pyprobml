@@ -55,8 +55,8 @@ def main():
               transform=rot + base)
     plt.xticks([])
     plt.yticks([])
-    plt.xlabel("x1", fontsize=14)
-    plt.ylabel("x2", fontsize=14)
+    plt.xlabel("$x_1$", fontsize=14)
+    plt.ylabel("$x_2$", fontsize=14)
     plt.savefig("gaussEvec.pdf", dpi=300)
     plt.show()
 
