@@ -35,7 +35,5 @@ plt.text(3.1, -1.8, 'θ', fontsize=15)     # θ
 plt.text(2.5, -0.2, 'A', fontsize=15)     # A
 plt.text(2.5, 1.1, 'B', fontsize=15)      # B
 
+plt.savefig('../figures/twoPowerCurves.pdf', dpi=300)
 plt.show()
-
-import pyprobml_utils as pml
-pml.save_fig('twoPowerCurves.pdf')
