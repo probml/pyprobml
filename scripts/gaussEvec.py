@@ -50,12 +50,13 @@ def main():
     plt.yticks([])
     plt.xlabel("$x_1$", fontsize=14)
     plt.ylabel("$x_2$", fontsize=14)
-    plt.savefig("gaussEvec.pdf", dpi=300)
     xmin, xmax = plt.xlim()
     ymin, ymax = plt.ylim()
     scale_factor = 2
     plt.xlim(xmin * scale_factor, xmax * scale_factor)
     plt.ylim(ymin * scale_factor, ymax * scale_factor)
+    plt.savefig("gaussEvec.pdf", dpi=300)
+
     plt.show()
 
 if __name__ == "__main__":
