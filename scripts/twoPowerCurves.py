@@ -30,7 +30,7 @@ plt.arrow(-1*pi,-1.5,2*pi,0,color='black',width = 0.03)  #x-axis
 plt.text(-0.3, 2.2, '1 - β', fontsize=15) # 1 - β
 plt.text(-0.3, 0.5, '1', fontsize=15)     # 1
 plt.text(-0.3, -1.3, 'α', fontsize=15)    # α
-plt.text(-0.34, -1.8, 'θo', fontsize=12)  # θo
+plt.text(-0.34, -1.8, '$θ_0$', fontsize=12)  # θo
 plt.text(3.1, -1.8, 'θ', fontsize=15)     # θ
 plt.text(2.5, -0.2, 'A', fontsize=15)     # A
 plt.text(2.5, 1.1, 'B', fontsize=15)      # B
