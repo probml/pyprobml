@@ -30,13 +30,13 @@ def main():
               transform=rot + base)
     plt.arrow(0, -0.5, 0, 1, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05, color='blue',
               transform=rot + base)
-    plt.arrow(-1.2, 0.05, 0, 0.5, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05,
+    plt.arrow(-1.2, 0, 0, 0.5, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05,
               color='black', transform=rot + base)
-    plt.arrow(0.05, -0.5, 1.2, 0, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05,
+    plt.arrow(0, -0.5, 1.2, 0, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05,
               color='black', transform=rot + base)
-    plt.arrow(-1.2, 0.55, 0, -0.5, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05,
+    plt.arrow(-1.2, 0.5, 0, -0.5, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05,
               color='black', transform=rot + base)
-    plt.arrow(1.25, -0.5, -1.2, 0, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05,
+    plt.arrow(1.2, -0.5, -1.2, 0, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05,
               color='black', transform=rot + base)
     plt.arrow(1, 0.3, 0, 0.3, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05, color='black',
               transform=rot + base)
