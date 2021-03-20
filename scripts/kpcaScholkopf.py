@@ -4,6 +4,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.linalg as la
+from scipy.spatial.distance import pdist, cdist, squareform
 
 rbf_var = 0.1
 xnum = 4
@@ -25,7 +26,7 @@ for i in range(num_clusters):
     patterns[(i)*cluster_size:(i+1)*cluster_size,0] = cluster_pos[i,0]+0.1*np.random.randn(cluster_size)
     patterns[(i)*cluster_size:(i+1)*cluster_size,1] = cluster_pos[i,1]+0.1*np.random.randn(cluster_size)
 
-test_num = x_test_num*y_test_num;
+test_num = x_test_num*y_test_num
 x_range_gap = (2*rnge /(x_test_num - 1))
 x_range = np.arange(-rnge,rnge+x_range_gap,x_range_gap)
 y_offset = 0.5
@@ -40,17 +41,13 @@ cov_size = train_num  # use all patterns to compute the covariance matrix
 # carry out Kernel PCA
 #############################################################################
 K = np.zeros((cov_size,cov_size))
-for i in range(cov_size):
-  for j in range(cov_size):
-    K[i,j] = np.exp(-np.linalg.norm(patterns[i,:]-patterns[j,:])**2/rbf_var)
-    K[j,i] = K[i,j]
- 
+
+K = np.exp(-squareform(pdist(patterns)**2)/rbf_var)
+K = K.T
 
 unit = np.ones((cov_size, cov_size))/cov_size
-
 # centering in feature space!
-
-K_n = K - unit*K - K*unit + unit*K*unit
+K_n = K - unit @ K - K @ unit + unit @ K @ unit
 
 [evals, evecs] = la.eig(K_n)
 evals = np.real((evals))
@@ -59,17 +56,12 @@ evals = -np.sort(-evals)
 for i in range(cov_size):
   evecs[:,i] = evecs[:,i]/(np.sqrt(evals[i]))
 
-
-
-
 unit_test = np.ones((test_num,cov_size))/cov_size
 K_test = np.zeros((test_num,cov_size))
-for i in range(test_num):
-  for j in range(cov_size):
-    K_test[i,j] = np.exp(-np.linalg.norm(test_patterns[i,:]-patterns[j,:])**2/rbf_var)
+K_test = np.exp(-cdist(test_patterns, patterns)**2/rbf_var)
   
-K_test_n = K_test - unit_test @ K - K_test @ unit + unit_test @ K @ unit  # @ is new matrix_multiply                                                                            
-test_features = np.zeros((test_num, max_ev))                              # symbol (2015) 
+K_test_n = K_test - unit_test @ K - K_test @ unit + unit_test @ K @ unit
+test_features = np.zeros((test_num, max_ev))                                                             
 test_features = K_test_n @ evecs[:,0:max_ev]
 
 # plot it
