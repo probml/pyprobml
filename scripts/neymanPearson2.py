@@ -49,8 +49,8 @@ plt.arrow(0,0.07,1.2,-0.05,color='black',head_width=0.02,head_length=0.2) #β
 plt.arrow(4,0.07,-1.2,-0.05,color='black',head_width=0.02,head_length=0.2)#α
 
 #label
-plt.text(-0.4, 0.07, 'β', fontsize=15)      #β
-plt.text(4, 0.07, 'α', fontsize=15)         #α
+plt.text(-0.4, 0.07, r'$\beta$', fontsize=15)      #β
+plt.text(4, 0.07, r'$\alpha$', fontsize=15)         #α
 plt.text(-0.2, 0.28, '$H_0$', fontsize=15)  #H0
 plt.text(3.8,0.28, '$H_1$', fontsize=15)    #H1
 
