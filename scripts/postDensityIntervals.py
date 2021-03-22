@@ -2,6 +2,8 @@ import numpy as np
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import matplotlib.axes as ax
+
 
 def logdet(Sigma):
     return np.log2(Sigma)
@@ -31,7 +33,7 @@ def postDensityIntervals():
                  arrowprops=dict(facecolor='black'))
     plt.annotate('\u03B1'+'/2', xytext=(9.5, 0.11), xy=(8.3, 0.015),
                  arrowprops=dict(facecolor='black'))
-
+    plt.ylim(0, 0.5)
     plt.savefig('../figures/centralInterval')
     plt.show()
 
@@ -42,10 +44,14 @@ def postDensityIntervals():
     plt.fill_between(np.arange(7.37782, 10.001, 0.001), f(
         np.arange(7.37782, 10.001, 0.001)), color='white')
     plt.plot(domain, [0.15 for i in range(0, 14001)], 'b-')
-    plt.fill_between(np.arange(1.3544, 4.5837, 0.001), f(np.arange(1.3544, 4.5837, 0.001)), color='white')
+    plt.fill_between(np.arange(1.3544, 4.5837, 0.001), f(
+        np.arange(1.3544, 4.5837, 0.001)), color='white')
     plt.yticks([0.15], ["pMIN"])
+    plt.ylim(0, 0.5)
     plt.savefig('../figures/HPD')
+
     plt.show()
+
 
 def main():
     postDensityIntervals()
