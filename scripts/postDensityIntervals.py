@@ -2,8 +2,6 @@ import numpy as np
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-import matplotlib.axes as ax
-
 
 def logdet(Sigma):
     return np.log2(Sigma)
@@ -51,7 +49,6 @@ def postDensityIntervals():
     plt.savefig('../figures/HPD')
 
     plt.show()
-
 
 def main():
     postDensityIntervals()
