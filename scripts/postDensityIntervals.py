@@ -27,9 +27,9 @@ def postDensityIntervals():
                      f(np.arange(-4, -1.999, 0.001)), color='white')
     plt.fill_between(np.arange(8, 10.001, 0.001), f(
         np.arange(8, 10.001, 0.001)), color='white')
-    plt.annotate('\u03B1'+'/2', xytext=(-3.5, 0.11), xy=(-2.3, 0.015),
+    plt.annotate(r'$\alpha /2$', xytext=(-3.5, 0.11), xy=(-2.3, 0.015),
                  arrowprops=dict(facecolor='black'))
-    plt.annotate('\u03B1'+'/2', xytext=(9.5, 0.11), xy=(8.3, 0.015),
+    plt.annotate(r'$\alpha /2$', xytext=(9.5, 0.11), xy=(8.3, 0.015),
                  arrowprops=dict(facecolor='black'))
 
     plt.savefig('../figures/centralInterval')
