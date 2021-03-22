@@ -15,7 +15,7 @@ for n in [5,20]:
   mu0 = 0
   pi=np.pi
 
-  #fuctions
+  #functions
   r1 = (1/n) * np.ones(M)
   r2 = (pi/(2*n)) * np.ones(M)
   r3 = (mus-mu0)**2
@@ -28,7 +28,7 @@ for n in [5,20]:
   style=[['b','solid'],['r','dotted'],['k','dashdot'],['lime','dashed'],['cyan','solid']]
          
   r = [r1, r2, r3, r4, r5]
-  for i in range(5):
+  for i in range(len(r)):
     plt.plot(mus,r[i],style[i][0],lineStyle=style[i][1],label=legendStr[i])
   plt.legend(loc='upper left',prop={'size': 7})
 
