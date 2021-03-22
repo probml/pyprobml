@@ -1,12 +1,12 @@
 # Convert Neyman-Pearson testing paradigm(Fig 5.15 (a)) to python/JAX
 # Author: Garvit9000c
 
-import jax.scipy.stats.multivariate_normal as gaussprob
-import jax.numpy as jnp
+from scipy.stats import multivariate_normal as gaussprob
+import numpy as np
 import matplotlib.pyplot as plt
 
 #constants
-pi=jnp.pi
+pi=np.pi
 sigma=1.5
 xmin = -4
 xmax = 8
@@ -15,7 +15,7 @@ ymax = 0.3
 res = 0.01
 
 #Domain
-x=jnp.arange(xmin,xmax,res)
+x=np.arange(xmin,xmax,res)
 
 #functions
 y1=gaussprob.pdf(x, 0, sigma**2)
@@ -35,12 +35,12 @@ plt.xticks([2.3],['$X^*$'],size=18)
 plt.yticks([])
 
 #Shading α Region
-x1=jnp.arange(2.3,xmax,res)
+x1=np.arange(2.3,xmax,res)
 y_1=gaussprob.pdf(x1, 0, sigma**2)
 plt.fill_between(x1,y_1, 0, alpha=0.50)
 
 #Shading β Region
-x2=jnp.arange(xmin,2.3,res)
+x2=np.arange(xmin,2.3,res)
 y_2=gaussprob.pdf(x2, 4, sigma**2)
 plt.fill_between(x2,y_2, 0, alpha=0.50)
 
@@ -50,9 +50,9 @@ plt.arrow(4,0.07,-1.2,-0.05,color='black',head_width=0.02,head_length=0.2)#α
 
 #label
 plt.text(-0.4, 0.07, r'$\beta$', fontsize=15)      #β
-plt.text(4, 0.07, r'$\alpha$', fontsize=15)         #α
-plt.text(-0.2, 0.28, '$H_0$', fontsize=15)  #H0
-plt.text(3.8,0.28, '$H_1$', fontsize=15)    #H1
+plt.text(4, 0.07, r'$\alpha$', fontsize=15)        #α
+plt.text(-0.2, 0.28, '$H_0$', fontsize=15)         #H0
+plt.text(3.8,0.28, '$H_1$', fontsize=15)           #H1
 
 plt.savefig('../figures/neymanPearson2.pdf', dpi=300)
 plt.show()
