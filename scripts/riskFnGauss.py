@@ -42,6 +42,6 @@ for n in [5,20]:
   plt.xlabel(r'$\theta_*$')
   plt.ylabel(r'$R(\theta_*,\delta)$')
 
-
-  plt.savefig('../figures/neymanPearson2'+'('+str(n)+').png', dpi=300)
+  D={5:'a',20:'b'}
+  plt.savefig('../figures/riskFnGauss('+D[n]+').pdf', dpi=300)
   plt.show()
