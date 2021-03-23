@@ -42,6 +42,9 @@ The output should look like this:
 
 ![](https://github.com/probml/pyprobml/blob/master/images/github-vscode-browser.png)
 
+## How to contribute
+
+See [this guide](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) for how to contribute code.
 
 <h2><a id="acknowledgements"></a>Acknowledgements</h2>
 
