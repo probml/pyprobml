@@ -19,9 +19,9 @@
 |Intro to Flax/Jax| Jax, Flax| [notebook][flax]
 |Tensorflow tutorials| TF2| [Link](https://www.tensorflow.org/tutorials)
 |60 minute intro to Pytorch| PyTorch| [Link](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html)
-|Logistic regression (very shallow MLP!)|PyTorch|[notebook][logreg_pytorch]
+|Logistic regression |PyTorch|[notebook][logreg_pytorch]
 |CIFAR image classification|PyTorch|[notebook][mlp_cifar_pytorch]
-|(Fashion) MNIST image classification|TF2|[notebook][mnist_tf]
+|MNIST image classification|TF2|[notebook][mnist_tf]
 |IMDB movie review sentiment classification |TF2|[notebook][imdb_tf]
 |Hierarchical Bayes for BNNs| PyMC3 | [notebook][bnn]
 
