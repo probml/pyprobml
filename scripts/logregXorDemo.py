@@ -108,19 +108,26 @@ w1, w2 = clf.coef_.T
 c = -b / w2
 m = -w1 / w2
 
-# Plot the data and the classification with the decision boundary.
-xmin, xmax = -1, 8
-ymin, ymax = -1, 8
-xd = np.array([xmin, xmax])
+x_min, x_max = X[:, 0].min() - .5, X[:, 0].max() + .5
+y_min, y_max = X[:, 1].min() - .5, X[:, 1].max() + .5
+xd = np.array([x_min, x_max])
 yd = m * xd + c
 ax1.plot(xd, yd, 'k', lw=1, ls='--')
-ax1.fill_between(xd, yd, ymin, color='tab:blue', alpha=0.2)
-ax1.fill_between(xd, yd, ymax, color='tab:orange', alpha=0.2)
+h = .02  # step size in the mesh
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+X_plot_raw = np.c_[xx.ravel(), yy.ravel()]
 
-ax1.scatter(*X[y == 0].T, s=8, alpha=0.5)
-ax1.scatter(*X[y == 1].T, s=8, alpha=0.5)
-ax1.set_xlim(xmin, xmax)
-ax1.set_ylim(ymin, ymax)
+Z = clf.predict(X_plot_raw)
+
+# Put the result into a color plot
+Z = Z.reshape(xx.shape)
+
+ax1.pcolormesh(xx, yy, Z, cmap='Set3')
+
+# Plot also the training points
+ax1.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k')
+ax1.set_xlim(xx.min(), xx.max())
+ax1.set_ylim(yy.min(), yy.max())
 ax1.set_ylabel(r'$x_2$')
 ax1.set_xlabel(r'$x_1$')
 ax1.set_title('Simple Logistic regression')
