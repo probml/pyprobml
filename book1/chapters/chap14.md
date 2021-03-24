@@ -9,6 +9,9 @@
 |CIFAR image classification|PyTorch|[notebook][cnn_cifar_pytorch]
 |(Fashion) MNIST image classification|TF2|[notebook][cnn_mnist_tf]
 |Dogs vs cats image classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/classification)
+
+
+<!--
 |Transfer learning of a mobilenet model (trained on Imagenet) from keras to dogs vs cats classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning)
 |Transfer learning of a mobilenet model (trained on Imagenet) from TF-hub to flower classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning_with_hub)
 |Image segmentation using Oxford-IIT pets dataset|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/segmentation)
@@ -16,4 +19,5 @@
 |More advanced object detection|TF2|[TF object detection tutorial](https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb)|
 |Deep dream|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/generative/deepdream)|
 |Neural style transfer|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/generative/style_transfer)| 
+-->
 
