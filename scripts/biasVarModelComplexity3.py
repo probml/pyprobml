@@ -69,7 +69,7 @@ for lam in range(len(lambdas)):
         W = ridge(X, y, lambdas[lam])
         yhat[:, j] = np.ravel(np.dot(basisExpansion(domain, s, centers)[0], W))
 
-    ax[lam, 0].plot(domain[..., np.newaxis].repeat(20, axis=1), yhat[:, :showNsets])
+    ax[lam, 0].plot(domain[..., np.newaxis].repeat(20, axis=1), yhat[:, :showNsets], color='#ff7f00')
     ax[lam, 0].set_xlim([-0.1, 1.1])
     ax[lam, 0].set_ylim([-1.5, 1.5])
     ax[lam, 0].set_title('ln($\lambda$) = {}'.format(np.log(lambdas[lam])))
