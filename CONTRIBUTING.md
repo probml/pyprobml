@@ -1,7 +1,7 @@
 # How to Contribute
 Kevin Murphy and Mahmoud Soliman. 
 
-**Last updated: 2021-03-23.**
+**Last updated: 2021-03-25.**
 
 
 We'd love to accept your patches and contributions to this project.
@@ -48,6 +48,7 @@ pml.save_fig("../figures/test_figure.pdf")
 plt.show()
 ```
 - When labeling plots, please make sure you use [latex notation for math/ Greek symbols](https://matplotlib.org/stable/tutorials/text/mathtext.html), where possible.
+- Please don't hardcode colors of your figure, If you need to manually choose colors, use the [new default](https://matplotlib.org/stable/users/dflt_style_changes.html#colormap) colormap of matplotlib. This color map is designed to be open and inclusive. 
 - Please use github public [gists](https://gist.github.com/) to share the figures that your code generates, so we can quickly “eyeball” them. Include these gists in your PR.
 - Your implementation should match what is described in the book, but does not need to be identical to the original Matlab code (i.e., feel free to refactor things if it will improve your code).
 - Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules).
