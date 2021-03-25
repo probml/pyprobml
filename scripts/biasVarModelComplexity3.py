@@ -69,13 +69,13 @@ for lam in range(len(lambdas)):
         W = ridge(X, y, lambdas[lam])
         yhat[:, j] = np.ravel(np.dot(basisExpansion(domain, s, centers)[0], W))
 
-    ax[lam, 0].plot(domain[..., np.newaxis].repeat(20, axis=1), yhat[:, :showNsets], '-r')
+    ax[lam, 0].plot(domain[..., np.newaxis].repeat(20, axis=1), yhat[:, :showNsets],color='tab:red')
     ax[lam, 0].set_xlim([-0.1, 1.1])
     ax[lam, 0].set_ylim([-1.5, 1.5])
     ax[lam, 0].set_title('ln($\lambda$) = {}'.format(np.log(lambdas[lam])))
 
-    ax[lam, 1].plot(domain, fun(domain), '-g', lineWidth=2.5)
-    ax[lam, 1].plot(domain, np.mean(yhat, axis=1), 'r:', lineWidth=2.5)
+    ax[lam, 1].plot(domain, fun(domain), color='tab:green', lineWidth=2.5)
+    ax[lam, 1].plot(domain, np.mean(yhat, axis=1), color='tab:red', linestyle=':', lineWidth=2.5)
     ax[lam, 1].set_title('ln($\lambda$) = {}'.format(np.log(lambdas[lam])))
 
 fig.savefig('../figures/biasVarModelComplexityV3.png')
