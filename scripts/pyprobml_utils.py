@@ -25,8 +25,7 @@ def save_fig(fname, *args, **kwargs):
 
 
 
-def git_ssh(git_command, email="murphyk@gmail.com", username="probml",
-            verbose=False):
+def git_ssh(git_command, email, username, verbose=False):
     '''Execute a git command via ssh from colab.
     Details in https://github.com/probml/pyprobml/blob/master/book1/intro/colab_intro.ipynb
     Authors: Mahmoud Soliman <mjs@aucegypt.edu> and Kevin Murphy <murphyk@gmail.com>
