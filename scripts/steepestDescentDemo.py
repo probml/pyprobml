@@ -77,7 +77,7 @@ def main():
     x = np.meshgrid(x1, x2)
     z = aokiFn(np.array(x))
     plt.contour(x1, x2, z, 50)
-    plt.plot(1, 1, 'ro', MarkerSize=10)
+    plt.plot(1, 1, 'go', MarkerSize=10)
     r = gradient_descent(np.array((0.0, 0.0)), aoki, aoki_gd, hessian = aoki_hess, adaptative = True)
     plt.scatter(r[0][:10], r[1][:10])
     plt.plot(r[0][:10], r[1][:10])
