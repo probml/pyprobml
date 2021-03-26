@@ -6,7 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.kernel_approximation import RBFSampler
 
-
+ 
 def sigmoid(a):
     return np.tanh(a * 0.5) * 0.5 + 0.5
 
@@ -26,6 +26,8 @@ def kernel_mat(X, Y):
     d = np.repeat(1 / (0.3 * 0.3), X.shape[-1]) * (x - y) ** 2
     return np.exp(-0.5 * np.sum(d, axis=-1))
 
+
+### This is a python implementation of Relevance Vector Machine Classifier, it's based on github.com/ctgk/PRML/blob/master/prml/kernel/relevance_vector_classifier.py
 
 # Relevance Vector Machine Classifier.
 class RVC:
