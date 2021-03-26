@@ -36,10 +36,10 @@ def linregUpdateSS(ss, xnew, ynew, xAll, yAll):
 
         ndx = np.arange(ss['n'])
 
-        assert (approxeq(ss['xbar'], np.mean(xAll[ndx])))
-        assert (approxeq(ss['ybar'], np.mean(yAll[ndx])))
-        assert (approxeq(ss['Cxy'], np.mean((xAll[ndx] - ss['xbar']) * (yAll[ndx] - ss['ybar']))))
-        assert (approxeq(ss['Cxx'], np.mean((xAll[ndx] - ss['xbar']) ** 2)))
+        assert (np.allclose(ss['xbar'], np.mean(xAll[ndx])))
+        assert (np.allclose(ss['ybar'], np.mean(yAll[ndx])))
+        assert (np.allclose(ss['Cxy'], np.mean((xAll[ndx] - ss['xbar']) * (yAll[ndx] - ss['ybar']))))
+        assert (np.allclose(ss['Cxx'], np.mean((xAll[ndx] - ss['xbar']) ** 2)))
 
     w1 = ss['Cxy'] / ss['Cxx']
     w0 = ss['ybar'] - w1 * ss['xbar']
@@ -47,29 +47,8 @@ def linregUpdateSS(ss, xnew, ynew, xAll, yAll):
 
     ndx = np.arange(ss['n'])
     ww = np.dot(linalg.pinv(addOnes(xAll[ndx])), yAll[ndx])
-    assert (approxeq(ww, w))
+    assert (np.allclose(ww, w))
     return w, ss
-
-
-def approxeq(a, b, tol=1e-2, rel=0):
-    p = True
-    eps = 1e-6
-    a = np.ravel(a)
-    b = np.ravel(b)
-    if len(a) != len(b):
-        p = False
-        return p
-
-    d = np.abs(a - b)
-    if rel:
-
-        p = not np.any((d / (np.abs(a) + eps)) > tol, axis=0)
-
-    else:
-        # print(d)
-        p = not np.any(d > tol, axis=0)
-
-    return p
 
 
 def polyDataMake():
