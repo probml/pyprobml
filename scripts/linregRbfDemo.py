@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF
@@ -45,27 +46,27 @@ def pairwise_kernel(X, Y, sigma):
 fig, ax = plt.subplots(3, 3, figsize=(6, 6))
 plt.tight_layout()
 
-xtest = np.delete(xtest, 10 * xtrain) # xtrain data points are deleted, to avoid overfitted predictions.
+xtest = np.delete(xtest, 10 * xtrain)  # xtrain data points are deleted, to avoid overfitted predictions.
 
 for (i, s) in enumerate(sigmas):
     kernel = RBF(s)
     reg = GaussianProcessRegressor(kernel=kernel, random_state=2, alpha=0.088)  # alpha for numerical stability
     reg.fit(addones(xtrain), ytrain)
-    
+
     ypred = reg.predict(addones(xtest))
     ax[i, 0].plot(xtrain, ytrain, 'b.', markersize=8)
-    ax[i, 0].plot(xtest, ypred, 'k')
+    ax[i, 0].plot(xtest, ypred,'k')
     ax[i, 0].set_ylim([-10, 20])
     ax[i, 0].set_xticks(np.arange(0, 21, 5))
 
     Ktest = pairwise_kernel(xtest, centers, s)
     for j in range(K):
-        ax[i, 1].plot(xtest, Ktest[:, j], 'b')
+        ax[i, 1].plot(xtest, Ktest[:, j],'b')
         ax[i, 1].set_xticks(np.arange(0, 21, 5))
         ax[i, 1].ticklabel_format(style='sci', scilimits=(-2, 2))
 
     Ktrain = pairwise_kernel(xtrain, centers, s)
-    ax[i, 2].imshow(Ktrain, cmap='gray')
+    ax[i, 2].imshow(Ktrain,cmap=plt.get_cmap('viridis'))
     ax[i, 2].set_xticks(np.arange(0, 11, 2))
-    plt.show()
+plt.show()
 plt.savefig("../figures/rbfDemoALL.pdf", dpi=300)
