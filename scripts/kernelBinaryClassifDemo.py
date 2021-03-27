@@ -166,7 +166,8 @@ for (name, clf) in classifiers.items():
         plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X_rbf))))
         plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['black', 'w'])
         plot_scatters(X, y)
-        plt.savefig("/pyprobml/figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        plt.show()
+        plt.savefig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
 
     elif name == 'logregL1':
         clf.fit(X_rbf, y)
@@ -178,7 +179,8 @@ for (name, clf) in classifiers.items():
         conf_scores = np.abs(clf.decision_function(X_rbf))
         SV = X[(conf_scores > conf_scores.mean())]  # samples having a higher confidence scores are taken as support vectors.
         plot_SVs(SV)
-        plt.savefig("/pyprobml/figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        plt.show()
+        plt.savefig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
 
     elif name == 'RVM':
         clf.fit(X, y)
@@ -188,7 +190,8 @@ for (name, clf) in classifiers.items():
         plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['black', 'w'])
         plot_scatters(X, y)
         plot_SVs(clf.relevance_vectors_)
-        plt.savefig("/pyprobml/figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        plt.show()
+        plt.savefig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
 
     elif name == 'SVM':
         clf.fit(X, y)
@@ -199,4 +202,5 @@ for (name, clf) in classifiers.items():
         plt.contour(xx, yy, Z, colors=['w', 'w', 'w', 'black'])
         plot_scatters(X, y)
         plot_SVs(clf.support_vectors_)
-        plt.savefig("/pyprobml/figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        plt.show()
+        plt.savefig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
