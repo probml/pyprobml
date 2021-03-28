@@ -1,10 +1,14 @@
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
+from cycler import cycler
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF
 
 np.random.seed(654321)
+CB_color = ['#377eb8', '#ff7f00']
+
+cb_cycler = (cycler(linestyle=['-', '--', '-.']) * cycler(color=CB_color))
+plt.rc('axes', prop_cycle=cb_cycler)
 
 
 def fun(x, w):
@@ -12,7 +16,7 @@ def fun(x, w):
 
 
 # 'Data as mentioned in the matlab code'
-def polydateMake():
+def polydatemake():
     n = 21
     sigma = 2
     xtrain = np.linspace(0, 20, n)
@@ -25,7 +29,7 @@ def polydateMake():
     return xtrain, ytrain, xtest, ytestNoisefree, ytestNoisy
 
 
-[xtrain, ytrain, xtest, ytestNoisefree, ytestNoisy] = polydateMake()
+[xtrain, ytrain, xtest, ytestNoisefree, ytestNoisy] = polydatemake()
 
 sigmas = [0.5, 10, 50]
 K = 10
@@ -54,19 +58,19 @@ for (i, s) in enumerate(sigmas):
     reg.fit(addones(xtrain), ytrain)
 
     ypred = reg.predict(addones(xtest))
-    ax[i, 0].plot(xtrain, ytrain, 'b.', markersize=8)
-    ax[i, 0].plot(xtest, ypred,'k')
+    ax[i, 0].plot(xtrain, ytrain, '.', markersize=8)
+    ax[i, 0].plot(xtest, ypred)
     ax[i, 0].set_ylim([-10, 20])
     ax[i, 0].set_xticks(np.arange(0, 21, 5))
 
     Ktest = pairwise_kernel(xtest, centers, s)
     for j in range(K):
-        ax[i, 1].plot(xtest, Ktest[:, j],'b')
+        ax[i, 1].plot(xtest, Ktest[:, j],'-')
         ax[i, 1].set_xticks(np.arange(0, 21, 5))
         ax[i, 1].ticklabel_format(style='sci', scilimits=(-2, 2))
 
     Ktrain = pairwise_kernel(xtrain, centers, s)
-    ax[i, 2].imshow(Ktrain,cmap=plt.get_cmap('viridis'))
+    ax[i, 2].imshow(Ktrain, interpolation='nearest', aspect='auto', cmap=plt.get_cmap('viridis'))
     ax[i, 2].set_xticks(np.arange(0, 11, 2))
 plt.show()
 plt.savefig("../figures/rbfDemoALL.pdf", dpi=300)
