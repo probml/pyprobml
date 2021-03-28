@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm, multivariate_normal
 import bayes_logistic
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 #Please make sure bayes_logistic library is installed prior to running this file
 
 def main():
@@ -49,7 +51,7 @@ def main():
 
     Xt = np.transpose(X)
     f=np.dot(W,Xt)
-    log_prior = np.log(multivariate_normal.pdf(W, mean = np.zeros(D), cov=(np.identity(D))*alpha))
+    log_prior = np.log(multivariate_normal.pdf(W, cov=(np.identity(D))*alpha))
 
     log_like = np.dot(np.dot(W, Xt), t) - np.sum(np.log(1+np.exp(f)), 1).reshape((n*n,1))
     log_joint = log_like.reshape((n*n,1)) + log_prior.reshape((n*n,1))
@@ -69,8 +71,11 @@ def main():
         plt.annotate(str(ii+1), xy=(w[0], w[1]), color=col[ii])
 
     j=np.argmax(log_like)
-    wmle = W[j][:]
-    plt.plot([0, wmle[0]], [0, wmle[1]])
+    wmle = W[j, :]
+    slope = wmle[1] / wmle[0]
+    #plt.axline([wmle[0], wmle[1]], slope=slope)
+
+    plt.plot([0, 7.9], [0, 7.9*slope])
     plt.grid()
     plt.savefig("logregLaplaceGirolamiDemo_LogLikelihood.png", dpi = 300)
 
