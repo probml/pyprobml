@@ -16,7 +16,7 @@ def main():
     class1_std = 1
     class2_std = 1.1
     X_1 = np.add(class1_std*np.random.randn(N,2), mu1)
-    X_2 = np.add(2*class2_std*np.random.rand(N,2), mu2)
+    X_2 = np.add(2*class2_std*np.random.randn(N,2), mu2)
     X = np.vstack((X_1,X_2))
     t = np.vstack((np.ones((N,1)),np.zeros((N,1))))
 
