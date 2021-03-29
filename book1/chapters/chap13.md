@@ -9,6 +9,7 @@
 [hetero]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/mlp_1d_regression_hetero_tf.ipynb
 [tensorboard]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/early_stopping_tensorboard_tf.ipynb
 [bnn]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/bnn_hierarchical_pymc3.ipynb
+[dropout]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/dropout_mlp_torch.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -17,6 +18,7 @@
 |60 minute intro to Pytorch| PyTorch| [Link](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html)
 |Logistic regression |PyTorch|[notebook][logreg_pytorch]
 |CIFAR image classification|PyTorch|[notebook][mlp_cifar_pytorch]
+|Dropout for an MLP FashionMNIST classifier|PyTorch|[notebook][dropout]
 |MNIST image classification|TF2|[notebook][mnist_tf]
 |IMDB movie review sentiment classification |TF2|[notebook][imdb_tf]
 |Hierarchical Bayes for BNNs| PyMC3 | [notebook][bnn]
