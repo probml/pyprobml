@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import os
 
 def savefig(fname):
-  #figdir = "../figures"
-  figdir = os.path.join(os.environ["PYPROBML"], "figures")
+  figdir = "../figures"
+  #figdir = os.path.join(os.environ["PYPROBML"], "figures")
   plt.savefig(os.path.join(figdir, fname))
     
 
