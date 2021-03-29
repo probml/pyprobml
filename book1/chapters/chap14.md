@@ -1,7 +1,7 @@
 # Chapter 14: Neural networks for images   (Supplementary material)
 
 [cnn_cifar_pytorch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/cnn_cifar_pytorch.ipynb
-[cnn_mnist_tf]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/cnn_mnist_tf.ipynb
+[cnn_mnist_tf]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/cnn_mnist_tf.ipynb
 
 
 |Title|Software|Link|
