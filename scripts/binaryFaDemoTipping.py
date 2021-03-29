@@ -5,7 +5,6 @@ import jax.numpy as jnp
 from jax import grad, jit, vmap
 from jax import random
 from jax.ops import index, index_add, index_update
-import imagesc as imagesc
 import matplotlib.pyplot as plt
 from sklearn.decomposition import FactorAnalysis
 
@@ -25,21 +24,23 @@ def reconstruct_FA(model, muPost):
 
 
 key = random.PRNGKey(1)
+np.random.seed(10)
 D = 16
 K = 3
-proto= random.normal(key, (16,3))<0.5
+#proto= random.normal(key, (16,3))<0.5
+proto = np.random.rand(D, K) < 0.5
+
 M=50
-s1=jnp.ones((1,M),jnp.int8)
-s2=2*jnp.ones((1,M),jnp.int8)
-s3=3*jnp.ones((1,M),jnp.int8)
-s4=jnp.append(s1,s2)
-source=jnp.append(s4,s3)
-N=M*3
+source = np.ravel([1 * np.ones(M), 2* np.ones(M), 3 * np.ones(M)])
+N=len(source)
 dataClean=jnp.zeros((N,D),jnp.int8)
 for n in range(1,N):
-  src=source[n]
-  dataClean=index_update(dataClean, index[n, :],jnp.transpose(proto[:,src]))
-  #dataClean[n:]=(proto[:src])
+  src=int(source[n])
+ 
+  dataClean=index_update(dataClean, index[n,:],jnp.ravel(proto[:,src-1]))
+  #dataClean[n, :] = np.ravel(proto[:, src])
+  
+    #dataClean[n:]=(proto[:src])
 noiseLevel = 0.05
 flipMask = random.normal(key,(N,D)) < noiseLevel
 dataNoisy = dataClean
