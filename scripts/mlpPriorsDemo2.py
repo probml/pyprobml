@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
 
 np.random.seed(seed=1)
 
@@ -40,10 +41,10 @@ def MLP(nin, nhidden, nout, outfunc, prior):
     net.beta1 = prior.beta1
     net.alpha2 = prior.alpha2
     net.beta2 = prior.beta2
-    net.w1 = 1 / np.sqrt(prior.alpha1) * np.random.randn(nin, nhidden)
-    net.b1 = 1 / np.sqrt(prior.beta1) * np.random.randn(1, nhidden)
-    net.w2 = 1 / np.sqrt(prior.alpha2) * np.random.randn(nhidden, nout)
-    net.b2 = 1 / np.sqrt(prior.beta2) * np.random.randn(1, nout)
+    net.w1  = prior.alpha1 * np.random.randn(nin, nhidden)
+    net.b1 = prior.beta1 * np.random.randn(1, nhidden)
+    net.w2 = prior.alpha2 * np.random.randn(nhidden, nout)
+    net.b2 = prior.beta2 * np.random.randn(1, nout)
     return net
     
     
@@ -85,10 +86,10 @@ params[4, 3] = params0[3] * sf
 ntrials = 4
 
 for t in range(ntrials):
-    alpha1 = 1/params[t, 0]**2
-    alpha2 = 1/params[t, 2]**2
-    beta1 = 1/params[t, 1]**2
-    beta2 = 1/params[t, 3]**2
+    alpha1 = params[t, 0]
+    alpha2 = params[t, 2]
+    beta1 = params[t, 1]
+    beta2 = params[t, 3]
     
     nhidden = 12
     nout = 1
@@ -102,7 +103,10 @@ for t in range(ntrials):
         net = MLP(1, nhidden, 1, 'linear', prior)
         yvals, _, _ = MLP_fwd(net, xvals.T)
         plt.plot(xvals.T, yvals, color='k', lw=2)
-        plt.title(r'$\sigma_1 = {},\; \tau_1 = {},\; \sigma_2 = {},\; \tau_2 = {}$'.format(1/np.sqrt(alpha1),
-                                                                                     1/np.sqrt(beta1),
-                                                                                     1/np.sqrt(alpha2),
-                                                                                    1/np.sqrt(beta2)))
+        plt.ylim([-10, 10])
+        ttl = r'$\alpha_1 = {},\; \beta_1 = {},\; \alpha_2 = {},\; \beta_2 = {}$'.format(
+            alpha1, beta1, alpha2, beta2)
+        plt.title(ttl, fontsize=18)
+    pml.save_fig(f'mlpPriors-{t}.pdf', dpi=300)
+        
+                 
