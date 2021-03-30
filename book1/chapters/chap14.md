@@ -5,6 +5,7 @@
 [conv_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/conv2d_torch.ipynb
 [lenet_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/lenet_torch.ipynb
 [batchnorm_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/batchnorm_torch.ipynb
+[resnet_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/resnet_torch.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -12,6 +13,7 @@
 |CIFAR image classification|PyTorch|[notebook][cnn_cifar_torch]
 |Fashion MNIST image classification using LeNet|PyTorch|[notebook][lenet_torch]
 |Batchnorm applied to LeNet|PyTorch|[notebook][batchnorm_torch]
+|Residual networks|PyTorch|[notebook][resnet_torch]
 |MNIST image classification using a CNN|TF2|[notebook][cnn_mnist_tf]
 
 
