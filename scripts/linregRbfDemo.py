@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from cycler import cycler
-from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import RBF
+from scipy.spatial.distance import cdist
+from sklearn.kernel_ridge import KernelRidge
 
 np.random.seed(654321)
 CB_color = ['#377eb8', '#ff7f00']
@@ -41,36 +41,33 @@ def addones(x):
     return np.insert(x[:, np.newaxis], 0, [[1]], axis=1)
 
 
-def pairwise_kernel(X, Y, sigma):
-    Z = 1 / np.sqrt(2 * np.pi * sigma ** 2)
-    pairwise_diff = np.repeat(X[:, np.newaxis], Y.shape[0], axis=1) - np.repeat(Y[np.newaxis, :], X.shape[0], axis=0)
-    return Z * (np.exp((-0.5 / (sigma ** 2)) * (pairwise_diff ** 2)))
+def rbf_features(X, centers, sigma):
+    dist_mat = cdist(X, centers, 'minkowski', p=2.)
+    return np.exp((-0.5 / (sigma ** 2)) * (dist_mat ** 2))
 
 
-fig, ax = plt.subplots(3, 3, figsize=(6, 6))
+fig, ax = plt.subplots(3, 3)
 plt.tight_layout()
 
-xtest = np.delete(xtest, 10 * xtrain)  # xtrain data points are deleted, to avoid overfitted predictions.
 
 for (i, s) in enumerate(sigmas):
-    kernel = RBF(s)
-    reg = GaussianProcessRegressor(kernel=kernel, random_state=2, alpha=0.088)  # alpha for numerical stability
-    reg.fit(addones(xtrain), ytrain)
+    rbf_train = rbf_features(addones(xtrain), addones(centers), s)
+    rbf_test = rbf_features(addones(xtest), addones(centers), s)
+    reg = KernelRidge(alpha=0.4).fit(rbf_train, ytrain)
+    ypred = reg.predict(rbf_test)
 
-    ypred = reg.predict(addones(xtest))
     ax[i, 0].plot(xtrain, ytrain, '.', markersize=8)
     ax[i, 0].plot(xtest, ypred)
     ax[i, 0].set_ylim([-10, 20])
     ax[i, 0].set_xticks(np.arange(0, 21, 5))
 
-    Ktest = pairwise_kernel(xtest, centers, s)
     for j in range(K):
-        ax[i, 1].plot(xtest, Ktest[:, j],'-')
+        ax[i, 1].plot(xtest, rbf_test[:, j], '-')
         ax[i, 1].set_xticks(np.arange(0, 21, 5))
         ax[i, 1].ticklabel_format(style='sci', scilimits=(-2, 2))
 
-    Ktrain = pairwise_kernel(xtrain, centers, s)
-    ax[i, 2].imshow(Ktrain, interpolation='nearest', aspect='auto', cmap=plt.get_cmap('viridis'))
-    ax[i, 2].set_xticks(np.arange(0, 11, 2))
+    ax[i, 2].imshow(rbf_train, interpolation='nearest', aspect='auto', cmap=plt.get_cmap('viridis'))
+    ax[i,2].set_yticks(np.arange(20,4,-5))
+    ax[i, 2].set_xticks(np.arange(2, 10, 2))
 plt.show()
 plt.savefig("../figures/rbfDemoALL.pdf", dpi=300)
