@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import cholesky
+from scipy.spatial.distance import cdist
 
 
 def gaussSample(mu, sigma, n):
@@ -15,18 +16,7 @@ def mu_fun(x):
 
 def kfn(x, z):
     L = 1
-    return 1 * np.exp(-sq_dist(x.T / L, z.T / L) / 2)
-
-
-def sq_dist(a, b):
-    D, n = a.shape
-    d, m = b.shape
-    assert d == D
-
-    C = np.zeros((n, m))
-    for d in range(D):
-        C = C + (b[np.newaxis, d, :].repeat(n, axis=0) - a[d, :, np.newaxis].repeat(m, axis=1)) ** 2
-    return C
+    return 1*np.exp(-(cdist(x/L, z/L)**2)/2)
 
 
 np.random.seed(10)
