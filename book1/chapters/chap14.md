@@ -1,12 +1,14 @@
 # Chapter 14: Neural networks for images   (Supplementary material)
 
-[cnn_cifar_pytorch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/cnn_cifar_pytorch.ipynb
+[cnn_cifar_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/cnn_cifar_pytorch.ipynb
 [cnn_mnist_tf]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/cnn_mnist_tf.ipynb
+[conv_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/conv2d_torch.ipynb
 
 
 |Title|Software|Link|
 |-----------|----|----|
-|CIFAR image classification|PyTorch|[notebook][cnn_cifar_pytorch]
+|Basics of (2d) convolution|PyTorch|[notebook][conv_torch]
+|CIFAR image classification|PyTorch|[notebook][cnn_cifar_torch]
 |(Fashion) MNIST image classification|TF2|[notebook][cnn_mnist_tf]
 
 
