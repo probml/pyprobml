@@ -3,12 +3,14 @@
 
 [rnn_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/rnn_torch.ipynb
 [gru_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/gru_torch.ipynb
+[lstm_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/lstm_torch.ipynb
 
 
 |Title|Software|Link|
 |-----------|----|----|
 |Basic RNNs|PyTorch|[notebook][rnn_torch] |
 |GRUs|PyTorch|[notebook][gru_torch] |
+|LSTMs|PyTorch|[notebook][lstm_torch] |
 |IMDB movie  review sentiment classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_classification_rnn)
 |Character level generation for Shakespeare|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_generation)
 |Time series forecasting|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/structured_data/time_series)
