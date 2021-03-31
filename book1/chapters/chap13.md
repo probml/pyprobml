@@ -1,15 +1,18 @@
 # Chapter 13: Neural networks for unstructured data   (Supplementary material)
 
-[flax]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/flax_intro.ipynb
-[tf_old]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/tf_intro.ipynb
-[logreg_pytorch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/logreg_pytorch.ipynb
-[mlp_cifar_pytorch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/mlp_cifar_pytorch.ipynb
+[flax]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/flax_intro.ipynb
+
+[tf_old]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/tf_intro.ipynb
 [mnist_tf]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/mlp_mnist_tf.ipynb
 [imdb_tf]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/mlp_imdb_tf.ipynb
 [hetero]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/mlp_1d_regression_hetero_tf.ipynb
-[tensorboard]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/early_stopping_tensorboard_tf.ipynb
-[bnn]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/bnn_hierarchical_pymc3.ipynb
-[dropout]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/dropout_mlp_torch.ipynb
+[tensorboard]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/early_stopping_tensorboard_tf.ipynb
+
+[logreg_pytorch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/logreg_pytorch.ipynb
+[mlp_cifar_pytorch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/mlp_cifar_pytorch.ipynb
+[dropout]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/dropout_mlp_torch.ipynb
+
+[bnn]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/bnn_hierarchical_pymc3.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -27,7 +30,6 @@
 
 |Auto-MPG regression| TF2| [Keras tutorial](https://www.tensorflow.org/tutorials/keras/regression)
 |Tabular medical data classification|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/structured_data/feature_columns)
-
 |IMDB movie review sentiment classification using pre-trained word embeddings from TF-hub|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/keras/text_classification_with_hub)
 |IMDB movie review sentiment classification using keras pre-processed data|TF2|[TF tutorial](https://www.tensorflow.org/tutorials/keras/text_classification)|
 |Heteroskedastic regression in 1d| TFP | [notebook][hetero]

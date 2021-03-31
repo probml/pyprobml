@@ -1,6 +1,6 @@
 # Chapter 19: Learning with fewer labeled examples   (Supplementary material)
 
-[pretrained_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/pre_trained_image_classifier_torch.ipynb
+[pretrained_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/pre_trained_image_classifier_torch.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|

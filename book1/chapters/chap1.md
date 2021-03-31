@@ -1,16 +1,16 @@
 # Chapter 1: Introduction (Supplementary material)
 
 
-[colab_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/colab_intro.ipynb
-[pandas_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/pandas_intro.ipynb
-[sklearn_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/sklearn_intro.ipynb
-[jax_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/jax_intro.ipynb
-[datasets]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/datasets.ipynb
-[caliban]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/caliban.ipynb
+[colab_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/colab_intro.ipynb
+[pandas_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/pandas_intro.ipynb
+[sklearn_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/sklearn_intro.ipynb
+[jax_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/jax_intro.ipynb
+[datasets]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/datasets.ipynb
+[caliban]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/caliban.ipynb
 [text_preproc]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/text_preproc_torch.ipynb
 
-[python_tut_md]: https:github.com/probml/pyprobml/blob/master/book1/supplements/python_tutorials.md
-[software_md]: https://github.com/probml/pyprobml/blob/master/book1/supplements/software.md
+[python_tut_md]: https:github.com/probml/pyprobml/blob/master/notebooks/python_tutorials.md
+[software_md]: https://github.com/probml/pyprobml/blob/master/notebooks/software.md
 
 |Title|Software|Link|
 |-----------|----|----|

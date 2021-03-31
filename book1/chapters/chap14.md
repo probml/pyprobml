@@ -1,11 +1,13 @@
 # Chapter 14: Neural networks for images   (Supplementary material)
 
-[cnn_cifar_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/cnn_cifar_pytorch.ipynb
 [cnn_mnist_tf]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/cnn_mnist_tf.ipynb
+
+[cnn_cifar_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/cnn_cifar_pytorch.ipynb
 [conv_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/conv2d_torch.ipynb
 [lenet_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/lenet_torch.ipynb
 [batchnorm_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/batchnorm_torch.ipynb
 [resnet_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/resnet_torch.ipynb
+[densenet_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/densenet_torch.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -14,6 +16,7 @@
 |Fashion MNIST image classification using LeNet|PyTorch|[notebook][lenet_torch]
 |Batchnorm applied to LeNet|PyTorch|[notebook][batchnorm_torch]
 |Residual networks|PyTorch|[notebook][resnet_torch]
+|Dense nets |PyTorch|[notebook][densenet_torch]
 |MNIST image classification using a CNN|TF2|[notebook][cnn_mnist_tf]
 
 
