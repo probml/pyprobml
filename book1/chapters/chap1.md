@@ -7,7 +7,7 @@
 [jax_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/jax_intro.ipynb
 [datasets]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/datasets.ipynb
 [caliban]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/caliban.ipynb
-
+[text_preproc]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/text_preproc_torch.ipynb
 
 [python_tut_md]: https:github.com/probml/pyprobml/blob/master/book1/supplements/python_tutorials.md
 [software_md]: https://github.com/probml/pyprobml/blob/master/book1/supplements/software.md
@@ -21,6 +21,6 @@
 |Intro to sklearn | Sklearn | [notebook][sklearn_intro] |
 |Intro to JAX| Jax | [notebook][jax_intro] |
 |Intro to Caliban (Google Cloud)| Jax | [notebook][caliban] |
-|Intro to some ML datasets| Sklearn, TFDS| [notebook][datasets] |
+|Text preprocessing| PyTorch | [notebook][text_preproc] |
 
 
