@@ -9,7 +9,6 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 def main():
     np.random.seed(0)
-
     #Creating data
     N = 30
     D = 2
@@ -96,14 +95,56 @@ def main():
     #Visit the website above to access the source code of bayes_logistic library
     #parameter info : bayes_logistic.fit_bayes_logistic(y, X, wprior, H, weights=None, solver='Newton-CG', bounds=None, maxiter=100)
     wfit, hfit = bayes_logistic.fit_bayes_logistic(t.reshape((60)), X, np.zeros(D), ((np.identity(D))*1/alpha), weights=None, solver='Newton-CG', bounds=None, maxiter=100)
+    co = np.linalg.inv(hfit)
     #wfit represents the posterior parameters (MAP estimate)
     #hfit represents the posterior Hessian  (Hessian of negative log posterior evaluated at MAP parameters)
-    log_laplace_posterior = np.log(multivariate_normal.pdf(W, mean = wfit, cov=np.linalg.inv(hfit)))
+    log_laplace_posterior = np.log(multivariate_normal.pdf(W, mean = wfit, cov=co))
     plt.contour(xx, yy, -1*log_laplace_posterior.reshape((n,n)), 30)
     plt.scatter(wb[0], wb[1], c='red' , s = 100)
     plt.title("Laplace Approximation to Posterior")
     plt.grid()
     plt.savefig("logregLaplaceGirolamiDemo_LaplaceApproximationtoPosterior.png", dpi = 300)
+
+
+    #Plotting the predictive distribution for logistic regression
+    plt.figure(5)
+    pred = 1.0/(1+np.exp(np.dot(-Xgrid,wfit)))
+    plt.contour(xx, yy, pred.reshape((n,n)), 30)
+    x_1, y_1 = X[np.where(t == 1)[0]].T
+    x_2, y_2 = X[np.where(t == 0)[0]].T
+    plt.scatter(x_1, y_1, c='red', s=20, marker='o')
+    plt.scatter(x_2, y_2, c = 'blue', s=40, marker = 'o')
+    plt.title("p(y=1|x, wMAP)")
+
+    #Decision boundary for sampled w
+    plt.figure(6)
+    plt.scatter(x_1, y_1, c='red', s=20, marker='o')
+    plt.scatter(x_2, y_2, c='blue', s=20, marker='o')
+    predm = np.zeros((n*n,1))
+    s = 100
+    for i in range(s):
+        wsamp = np.random.multivariate_normal(mean = wfit, cov=co)
+        pred = 1.0/(1+np.exp(np.dot(-Xgrid,wsamp)))
+        predm = np.add(predm, pred.reshape((n*n, 1)))
+        plt.contour(xx, yy, pred.reshape((n,n)), np.array([0.5]))
+    plt.title("decision boundary for sampled w")
+
+    #Monte Carlo Approximation
+    plt.figure(7)
+    predm = predm/s
+    plt.contour(xx, yy, predm.reshape((n,n)), 30)
+    plt.scatter(x_1, y_1, c='red', s=20, marker='o')
+    plt.scatter(x_2, y_2, c='blue', s=20, marker='o')
+    plt.title("MC approx of p(y=1|x)")
+
+    #Using logit-prob
+    plt.figure(8)
+    plt.scatter(x_1, y_1, c='red', s=20, marker='o')
+    plt.scatter(x_2, y_2, c='blue', s=20, marker='o')
+    pr = bayes_logistic.bayes_logistic_prob(Xgrid, wfit, hfit)
+    plt.contour(xx, yy, pr.reshape((n, n)), 30)
+    plt.title("logregLaplaceGirolamiModerated")
+
     plt.show()
 
 if __name__ == "__main__":
