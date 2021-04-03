@@ -8,7 +8,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 #Please make sure bayes_logistic library is installed prior to running this file
 
 def main():
-    np.random.seed(0)
+    np.random.seed(135)
     #Creating data
     N = 30
     D = 2
@@ -94,7 +94,7 @@ def main():
     #https://bayes-logistic.readthedocs.io/en/latest/usage.html
     #Visit the website above to access the source code of bayes_logistic library
     #parameter info : bayes_logistic.fit_bayes_logistic(y, X, wprior, H, weights=None, solver='Newton-CG', bounds=None, maxiter=100)
-    wfit, hfit = bayes_logistic.fit_bayes_logistic(t.reshape((60)), X, np.zeros(D), ((np.identity(D))*1/alpha), weights=None, solver='Newton-CG', bounds=None, maxiter=100)
+    wfit, hfit = bayes_logistic.fit_bayes_logistic(t.reshape((N*D)), X, np.zeros(D), ((np.identity(D))*1/alpha), weights=None, solver='Newton-CG', bounds=None, maxiter=100)
     co = np.linalg.inv(hfit)
     #wfit represents the posterior parameters (MAP estimate)
     #hfit represents the posterior Hessian  (Hessian of negative log posterior evaluated at MAP parameters)
