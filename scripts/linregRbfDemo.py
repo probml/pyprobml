@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cycler import cycler
 from scipy.spatial.distance import cdist
-from sklearn.kernel_ridge import KernelRidge
+import pyprobml_utils as pml
 
-np.random.seed(654321)
+np.random.seed(0)
 CB_color = ['#377eb8', '#ff7f00']
 
 cb_cycler = (cycler(linestyle=['-', '--', '-.']) * cycler(color=CB_color))
@@ -46,15 +46,22 @@ def rbf_features(X, centers, sigma):
     return np.exp((-0.5 / (sigma ** 2)) * (dist_mat ** 2))
 
 
+# using matrix inversion for ridge regression
+def ridgeReg(X, y, lambd):  # returns weight vectors.
+    D = X.shape[1]
+    w = np.linalg.inv(X.T @ X + lambd * np.eye(D, D)) @ X.T @ y
+
+    return w
+
+
 fig, ax = plt.subplots(3, 3)
 plt.tight_layout()
-
 
 for (i, s) in enumerate(sigmas):
     rbf_train = rbf_features(addones(xtrain), addones(centers), s)
     rbf_test = rbf_features(addones(xtest), addones(centers), s)
-    reg = KernelRidge(alpha=0.4).fit(rbf_train, ytrain)
-    ypred = reg.predict(rbf_test)
+    reg_w = ridgeReg(rbf_train, ytrain, 0.3)
+    ypred = rbf_test @ reg_w
 
     ax[i, 0].plot(xtrain, ytrain, '.', markersize=8)
     ax[i, 0].plot(xtest, ypred)
@@ -67,7 +74,7 @@ for (i, s) in enumerate(sigmas):
         ax[i, 1].ticklabel_format(style='sci', scilimits=(-2, 2))
 
     ax[i, 2].imshow(rbf_train, interpolation='nearest', aspect='auto', cmap=plt.get_cmap('viridis'))
-    ax[i,2].set_yticks(np.arange(20,4,-5))
+    ax[i, 2].set_yticks(np.arange(20, 4, -5))
     ax[i, 2].set_xticks(np.arange(2, 10, 2))
+pml.save_fig("/pyprobml/figures/rbfDemoALL.pdf")
 plt.show()
-plt.savefig("../figures/rbfDemoALL.pdf", dpi=300)
