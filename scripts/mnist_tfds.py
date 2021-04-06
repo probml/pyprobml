@@ -1,20 +1,17 @@
 #https://www.tensorflow.org/datasets/datasets#imagenet2012
 
-import numpy as np
+import jax.numpy as np
 import matplotlib.pyplot as plt
 from time import time
 import os
 figdir = "../figures"
 def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
-
 import tensorflow as tf
 from tensorflow import keras
-
 import tensorflow_datasets as tfds
-
-
-np.random.seed(42)
+#create a random seed
+from jax import random
+random.PRNGKey(42)
 
 #tf.enable_eager_execution() # enabled by default for 2.0
 
