@@ -1,7 +1,7 @@
 # Boston housing demo
 
 
-import numpy as np
+import jax.numpy as np
 import matplotlib.pyplot as plt
 import os
 figdir = "../figures"
@@ -52,8 +52,7 @@ plt.show()
 
 # Rescale input data
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.33, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.33, random_state=42)
 
 scaler = sklearn.preprocessing.StandardScaler()
 scaler = scaler.fit(X_train)
