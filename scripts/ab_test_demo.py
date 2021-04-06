@@ -2,7 +2,7 @@
 # https://pubsonline.informs.org/doi/abs/10.1287/mksc.2019.1194
 
 
-import numpy as np
+import jax.numpy as np
 import matplotlib.pyplot as plt
 import os
 
