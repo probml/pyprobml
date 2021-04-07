@@ -81,7 +81,7 @@ def hinton(matrix, max_weight=None, ax=None, pl = None):
     ax.set_aspect('equal', 'box')
 
     for (x, y), w in np.ndenumerate(matrix):
-        color = 'red' if w > 0 else 'green'
+        color = 'lawngreen' if w > 0 else 'royalblue'
         size = np.sqrt(np.abs(w) / max_weight)
         rect = plt.Rectangle([x - size / 2, y - size / 2], size, size,
                              facecolor=color, edgecolor=color)
