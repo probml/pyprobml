@@ -95,6 +95,7 @@ def main():
         plt.scatter(xs[:nsteps], ys[:nsteps])
         plt.plot(xs[:nsteps], ys[:nsteps])
         plt.title(ttl)
+        plt.tight_layout()
         plt.savefig(f'../figures/{fname}.pdf', dpi = 300)
         plt.show()
 

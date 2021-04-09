@@ -12,7 +12,7 @@ from jax import random, vmap, jit, grad, value_and_grad, hessian, jacfwd, jacrev
 # f(x) = 0.5 x'Ax + b'x + c
 
 
-def gradient_descent(x0, f, f_prime, hessian, stepsize = None):
+def gradient_descent(x0, f, f_prime, hessian, stepsize = None, nsteps=50):
     """
                     Steepest-Descent algorithm with option for line search
     """
@@ -21,7 +21,7 @@ def gradient_descent(x0, f, f_prime, hessian, stepsize = None):
     all_y_i = list()
     all_f_i = list()
 
-    for i in range(1, 100):
+    for i in range(1, nsteps):
         all_x_i.append(x_i)
         all_y_i.append(y_i)
         x = np.array([x_i, y_i])
@@ -67,11 +67,13 @@ def make_plot(A, b, c, fname):
     z = np.reshape(z, (N,N))
     plt.contour(x1, x2, z, 50)
     x0 = np.array((0.0, 0.0))
+    #x0 = np.array((-1.0, -1.0))
     xs, ys, fs = gradient_descent(x0, objective, gradient, hessian, stepsize = None)
     nsteps = 20
     plt.scatter(xs[:nsteps], ys[:nsteps])
     plt.plot(xs[:nsteps], ys[:nsteps])
     plt.title('condition number of A={:0.3f}'.format(np.linalg.cond(A)))
+    plt.tight_layout()
     plt.savefig('../figures/{}.pdf'.format(fname), dpi=300)
     plt.show()
 
