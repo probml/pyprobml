@@ -1,7 +1,7 @@
 # How to Contribute
 Kevin Murphy and Mahmoud Soliman. 
 
-**Last updated: 2021-03-25.**
+**Last updated: 2021-04-09.**
 
 
 We'd love to accept your patches and contributions to this project.
@@ -51,7 +51,7 @@ plt.show()
 - Please don't hardcode colors of your figure, use the default values. If you need to manually choose colors, use the [new default](https://matplotlib.org/stable/users/dflt_style_changes.html#colormap) colormap of matplotlib. This color map is designed to be viewable by color-blind people. If colors don't match the original (Matlab) figures, don't worry too much, as long as the logic is the same.
 - Please use github public [gists](https://gist.github.com/) to share the figures that your code generates, so we can quickly “eyeball” them. Include these gists in your PR.
 - Your implementation should match what is described in the book, but does not need to be identical to the original Matlab code (i.e., feel free to refactor things if it will improve your code).
-- Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules).
+- Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules). In particular, follow [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#function-and-variable-names).
 - Avoid hard-coding [“magic numbers”](https://stackoverflow.com/questions/47882/what-is-a-magic-number-and-why-is-it-bad) in the body of your code. 
 For example, instead of writing:
 
@@ -80,6 +80,35 @@ You should write:
 from scipy.spatial.distance import pdist, cdist
 dist_mat = cdist(xdata, xdata, metric='sqeuclidean')
 ```
+
+To access elements of an array in parallel, replace this
+```
+X1 = []
+for n in range(len(row)):
+  i = row[n]
+  j = col[n]
+  X1.append(X[i,j])
+```
+with this
+```
+X1 = X[row, col] # fancy indexing
+```
+
+To access a submatrix in parallel, replace this
+```
+X2 = np.zeros([len(row), len(col)])
+for itarget, isrc in enumerate(row):
+  for jtarget, jsrc in enumerate(col):
+    X2[itarget, jtarget]  = X[isrc, jsrc]
+```
+with this
+```
+ndx = np.ix_(row, col)
+X2 = X[ndx]
+```
+
+More details on Python's indexing can be found in [Jake Vanderplas's book](https://jakevdp.github.io/PythonDataScienceHandbook/02.07-fancy-indexing.html).
+
 
 For more advanced vectorization, consider using [JAX](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/jax_intro.ipynb).
  
