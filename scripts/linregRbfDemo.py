@@ -54,7 +54,7 @@ def ridgeReg(X, y, lambd):  # returns weight vectors.
     return w
 
 
-fig, ax = plt.subplots(3, 3)
+fig, ax = plt.subplots(3, 3, figsize=(10,10))
 plt.tight_layout()
 
 for (i, s) in enumerate(sigmas):
@@ -69,12 +69,12 @@ for (i, s) in enumerate(sigmas):
     ax[i, 0].set_xticks(np.arange(0, 21, 5))
 
     for j in range(K):
-        ax[i, 1].plot(xtest, rbf_test[:, j], '-')
+        ax[i, 1].plot(xtest, rbf_test[:, j], 'b-')
         ax[i, 1].set_xticks(np.arange(0, 21, 5))
         ax[i, 1].ticklabel_format(style='sci', scilimits=(-2, 2))
 
     ax[i, 2].imshow(rbf_train, interpolation='nearest', aspect='auto', cmap=plt.get_cmap('viridis'))
     ax[i, 2].set_yticks(np.arange(20, 4, -5))
     ax[i, 2].set_xticks(np.arange(2, 10, 2))
-pml.save_fig("/pyprobml/figures/rbfDemoALL.pdf")
+pml.save_fig("../figures/rbfDemoALL.pdf", dpi=300)
 plt.show()
