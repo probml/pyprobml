@@ -9,9 +9,9 @@ from jax import grad
 import pyprobml_utils as pml
 from statsmodels.discrete.discrete_model import Probit
 
-CB_color = ['#377eb8', '#ff7f00']
+cb_color = ['#377eb8', '#ff7f00']
 
-cb_cycler = (cycler(linestyle=['-', '--', '-.']) * cycler(color=CB_color))
+cb_cycler = (cycler(linestyle=['-', '--', '-.']) * cycler(color=cb_color))
 plt.rc('axes', prop_cycle=cb_cycler)
 
 np.random.seed(0)
@@ -20,62 +20,65 @@ np.random.seed(0)
 class ProbitReg:
 
     def __init__(self):
-        self.loglikhist = []
+        self.loglikehist = []
         self.max_iter = 100
         self.tolerance = 1e-4
         self.w = []
 
-    def Probitloss(self, X, y, w):  # NLL
+    # Probit-loss = (1-y)*log(1-gauss.cdf(X.w)) - (1-y)*log(gauss.cdf(-(X.w))
+    def probitloss(self, X, y, w):  # NLL
+        return -jnp.sum(y * jnorm.logcdf(jnp.dot(X, w))) - \
+               jnp.sum((1 - y) * jnorm.logcdf(-jnp.dot(X, w)))
 
-        # (1-y)*log(1-cdf(X.w)) = (1-y)*log(cdf(-(X.w))
+    def objfn(self, X, y, w, lam):  # penalized likelihood.
+        return jnp.sum(lam * jnp.square(w[1:])) - self.probitloss(X, y, w)
 
-        return -jnp.sum(y * jnorm.logcdf(jnp.dot(X, w))) - jnp.sum((1 - y) * jnorm.logcdf(-jnp.dot(X, w)))
+    def probreg_fit_em(self, X, y, lam):
 
-    def objfn(self, X, y, w, lambd): # penalized likelihood.
-        return jnp.sum(lambd * jnp.square(w[1:])) - self.Probitloss(X, y, w)
-
-    def probRegFit_EM(self, X, y, lambd):
-
-        self.w = np.linalg.lstsq(X + np.random.rand(X.shape[0], X.shape[1]), y, rcond=None)[0].reshape(-1, 1)
+        self.w = np.linalg.lstsq(
+            X + np.random.rand(X.shape[0], X.shape[1]), y, rcond=None)[0].reshape(-1, 1)
 
         def estep(w):
             u = X @ w
             z = u + norm.pdf(u) / ((y == 1) - norm.cdf(-u))
-            loglik = self.objfn(X, y, w, lambd)
+            loglik = self.objfn(X, y, w, lam)
             return z, loglik
 
-        # mstep function is the ridge regression
+        # M step function is the ridge regression
+        def mstep(X, y, lam):
+            return ridge_reg(X, y, lam)
 
         i = 1
         stop = False
         while not stop:
-            z, loglik = estep(self.w)
-            self.loglikhist.append(loglik)
-            self.w = ridgeReg(X, z, lambd)  # mstep
+            z, loglike = estep(self.w)
+            self.loglikehist.append(loglike)
+            self.w = mstep(X, z, lam)
             if i >= self.max_iter:
                 stop = True
             elif i > 1:
                 # if slope becomes less than tolerance.
-                stop = np.abs((self.loglikhist[i - 1] - self.loglikhist[i - 2]) / (
-                        self.loglikhist[i - 1] + self.loglikhist[i - 2])) <= self.tolerance / 2
+                stop = np.abs((self.loglikehist[i - 1] - self.loglikehist[i - 2]) / (
+                        self.loglikehist[i - 1] + self.loglikehist[i - 2])) <= self.tolerance / 2
 
             i += 1
 
-        self.loglikhist = self.loglikhist[0:i - 1]
+        self.loglikehist = self.loglikehist[0:i - 1]
 
-        return self.w, np.array(self.loglikhist)
+        return self.w, np.array(self.loglikehist)
 
-    def probitRegFit_gradient(self, X, y, lambd):
-        winit = jnp.linalg.lstsq(X + np.random.rand(X.shape[0], X.shape[1]), y, rcond=None)[0].reshape(-1, 1)
+    def probit_reg_fit_gradient(self, X, y, lam):
+        winit = jnp.linalg.lstsq(
+            X + np.random.rand(X.shape[0], X.shape[1]), y, rcond=None)[0].reshape(-1, 1)
 
-        self.loglikhist = []
+        self.loglikehist = []
 
-        self.loglikhist.append((-self.objfn(X,y,winit,lambd)))
+        self.loglikehist.append((-self.objfn(X, y, winit, lam)))
 
         def obj(w):
             w = w.reshape(-1, 1)
-            return self.Probitloss(X, y, w) + jnp.sum(lambd * jnp.square(w[1:]))  # PNLL
-
+            # PNLL
+            return self.probitloss(X, y, w) + jnp.sum(lam * jnp.square(w[1:]))
 
         def grad_obj(w):
             return grad(obj)(w)
@@ -83,55 +86,61 @@ class ProbitReg:
         def callback(w):
             loglik = obj(w)  # LL
 
-            self.loglikhist.append(loglik)
+            self.loglikehist.append(loglik)
 
-        res = minimize(obj, x0=winit, jac=grad_obj, callback=callback,method='BFGS')
-        return res['x'], np.array(self.loglikhist[0:-1])
+        res = minimize(
+            obj,
+            x0=winit,
+            jac=grad_obj,
+            callback=callback,
+            method='BFGS')
+        return res['x'], np.array(self.loglikehist[0:-1])
 
     def predict(self, X, w):
-        p = jnorm.cdf(jnp.dot(X,w))
+        p = jnorm.cdf(jnp.dot(X, w))
         y = np.array((p > 0.5), dtype='int32')
         return y, p
 
 
 # using matrix inversion for ridge regression
-def ridgeReg(X, y, lambd):  # returns weight vectors.
+def ridge_reg(X, y, lambd):  # returns weight vectors.
     D = X.shape[1]
     w = np.linalg.inv(X.T @ X + lambd * np.eye(D, D)) @ X.T @ y
 
     return w
 
 
-def flipBits(y, p):
+def flip_bits(y, p):
     x = np.random.rand(y.shape[0], 1) < p
     y[x < p] = 1 - y[x < p]
     return y
 
 
-N, D = 100, 2
-X = np.random.randn(N, D)
-w = np.random.randn(D, 1)
-y = flipBits((X @ w > 0), 0)
+n, d = 100, 2
+data_x = np.random.randn(n, d)
+w = np.random.randn(d, 1)
+data_y = flip_bits((data_x @ w > 0), 0)
 
-lambd = 1e-1
+lam = 1e-2
 
 # statsmodel.Probit
-res = Probit(exog=X,endog=y).fit_regularized(disp=0)
-smProbit_prob = res.predict(exog=X)
+sm_probit_reg = Probit(exog=data_x, endog=data_y).fit(disp=0, method='bfgs')
+sm_probit_prob = sm_probit_reg.predict(exog=data_x)
 
 # Our Implementation:
-proreg = ProbitReg()
+probit_reg = ProbitReg()
 
 # EM:
-em_w, objTraceEM = proreg.probRegFit_EM(X, y, lambd)
-em_yhat, em_prob = proreg.predict(X, em_w)
+em_w, obj_trace_em = probit_reg.probreg_fit_em(data_x, data_y, lam)
+em_ypred, em_prob = probit_reg.predict(data_x, em_w)
 
 # gradient:
-gradient_w, objTraceGradient = proreg.probitRegFit_gradient(X, y, lambd)
-gradient_yhat, gradient_prob = proreg.predict(X, gradient_w)
+gradient_w, obj_trace_gradient = probit_reg.probit_reg_fit_gradient(
+    data_x, data_y, lam)
+gradient_ypred, gradient_prob = probit_reg.predict(data_x, gradient_w)
 
 plt.figure()
-plt.plot(smProbit_prob,em_prob,'o')
+plt.plot(sm_probit_prob, em_prob, 'o')
 plt.xlabel('statsmodel.probit')
 plt.ylabel('em')
 
@@ -139,14 +148,14 @@ plt.figure()
 plt.plot(gradient_prob, em_prob, 'o')
 plt.xlabel('bfgs')
 plt.ylabel('em')
-plt.title('probit regression with L2 regularizer of {0:.3f}'.format(lambd))
+plt.title('probit regression with L2 regularizer of {0:.3f}'.format(lam))
 plt.show()
 
 plt.figure()
-plt.plot(-objTraceEM.flatten(), '-o', linewidth=2)
-plt.plot(objTraceGradient.flatten(), ':s', linewidth=1)
-plt.legend(['em','bfgs'])
-plt.title('probit regression with L2 regularizer of {0:.3f}'.format(lambd))
+plt.plot(-obj_trace_em.flatten(), '-o', linewidth=2)
+plt.plot(obj_trace_gradient.flatten(), ':s', linewidth=1)
+plt.legend(['em', 'bfgs'])
+plt.title('probit regression with L2 regularizer of {0:.3f}'.format(lam))
 plt.ylabel('logpost')
 plt.xlabel('iter')
 pml.save_fig('../figures/probitRegDemoNLL.pdf')
