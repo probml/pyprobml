@@ -2,7 +2,7 @@
 
 [pretrained_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/pre_trained_image_classifier_torch.ipynb
 [image_aug_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/image_augmentation_torch.ipynb
-[finetune_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/finetune_cnn_torch.ipynb
+[finetune_cnn_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/finetune_cnn_torch.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
