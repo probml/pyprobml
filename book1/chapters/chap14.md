@@ -8,6 +8,7 @@
 [batchnorm_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/batchnorm_torch.ipynb
 [resnet_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/resnet_torch.ipynb
 [densenet_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/densenet_torch.ipynb
+[multi_gpu_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/multi_gpu_training_torch.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -17,6 +18,7 @@
 |Batchnorm applied to LeNet|PyTorch|[notebook][batchnorm_torch]
 |Residual networks|PyTorch|[notebook][resnet_torch]
 |Dense nets |PyTorch|[notebook][densenet_torch]
+|Multi-GPU training| PyTorch| [notebook][multi_gpu_torch]
 |MNIST image classification using a CNN|TF2|[notebook][cnn_mnist_tf]
 
 
