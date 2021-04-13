@@ -6,7 +6,8 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Using a CNN thta is pretrained on Imagenet| PyTorch| [notebook][pretrained_torch]
+|Image augmentation| PyTorch| [notebook][image_aug_torch]
+|Using a CNN that is pretrained on Imagenet| PyTorch| [notebook][pretrained_torch]
 |Fine-tuning a pre-trained CNN to make a hotdog detector| PyTorch| [notebook][finetune_cnn_torch]
 
 
