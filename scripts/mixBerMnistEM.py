@@ -4,9 +4,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from scipy.stats import bernoulli as bern
+import warnings
+from progress.bar import IncrementalBar
 
 
-def bernoulli(data, means, K):
+warnings.filterwarnings("ignore")
+
+
+def bernoulli_mixture_pmf(data, means, K):
     '''To compute the probability of x for each bernouli distribution
     data = N X D matrix
     means = K X D matrix
@@ -23,48 +28,48 @@ def bernoulli(data, means, K):
     return prob
 
 
-def respBernoulli(data, weights, means, K):
+def compute_responsibilities(data, weights, means, K):
     '''To compute responsibilities, or posterior probability p(z/x)
     data = N X D matrix
     weights = K dimensional vector
     means = K X D matrix
-    prob or resp (result) = N X K matrix
+    prob or responsibilities (result) = N X K matrix
     '''
     # step 1
     # calculate the p(x/means)
-    prob = bernoulli(data, means, K)
+    prob = bernoulli_mixture_pmf(data, means, K)
 
     # step 2
-    # calculate the numerator of the resp.s
+    # calculate the numerator of the responsibilities.s
     prob = prob * weights
-
     # step 3
-    # calcualte the denominator of the resp.s
+    # calcualte the denominator of the responsibilities.s
     row_sums = prob.sum(axis=1)[:, np.newaxis]
 
     # step 4
-    # calculate the resp.s
+    # calculate the responsibilities.s
     try:
         prob = prob / row_sums
+        prob = np.nan_to_num(prob)
         return prob
     except ZeroDivisionError:
         print("Division by zero occured in reponsibility calculations!")
 
 
-def bernoulliMStep(data, resp, K):
+def m_step(data, responsibilities, K):
     '''Re-estimate the parameters using the current responsibilities
     data = N X D matrix
-    resp = N X K matrix
+    responsibilities = N X K matrix
     return revised weights (K vector) and means (K X D matrix)
     '''
     N = len(data)
     D = len(data[0])
 
-    Nk = np.sum(resp, axis=0)
+    Nk = np.sum(responsibilities, axis=0)
     mus = np.empty((K, D))
 
     for k in range(K):
-        mus[k] = np.sum(resp[:, k][:, np.newaxis] * data, axis=0)  # sum is over N data points
+        mus[k] = np.sum(responsibilities[:, k][:, np.newaxis] * data, axis=0)  # sum is over N data points
         try:
             mus[k] = mus[k] / Nk[k]
         except ZeroDivisionError:
@@ -74,21 +79,22 @@ def bernoulliMStep(data, resp, K):
     return (Nk / N, mus)
 
 
-def llBernoulli(data, weights, means, K):
+def expected_log_likelihood(data, weights, means, K):
     '''To compute expectation of the loglikelihood of Mixture of Beroullie distributions
     Since computing E(LL) requires computing responsibilities, this function does a double-duty
     to return responsibilities too
     '''
     N = len(data)
-    resp = respBernoulli(data, weights, means, K)
+    responsibilities = compute_responsibilities(data, weights, means, K)
     ll = 0
     sumK = np.zeros(N)
     for k in range(K):
-        b = lambda row : np.log(bern.pmf(row, means[k]).clip(min=1e-50))
+        b = lambda row : np.log(bern.pmf(row, np.absolute(means[k])))
         temp1 = np.apply_along_axis(b, 1, data)
-        sumK += resp[:, k] * (np.log(weights[k]) + np.sum(temp1, axis=1))
+        sumK += responsibilities[:, k] * (np.log(np.absolute(weights[k])) + np.sum(temp1, axis=1))
+        sumK = np.nan_to_num(sumK)
     ll += np.sum(sumK)
-    return (ll, resp)
+    return (ll, responsibilities)
 
 
 def mixOfBernoulliEM(data, K, maxiters=1000, relgap=1e-4, verbose=False):
@@ -99,45 +105,41 @@ def mixOfBernoulliEM(data, K, maxiters=1000, relgap=1e-4, verbose=False):
 
     # initalize
     #initializing weigths randomly
-    init_weights = np.random.uniform(1, 20, K)
+    init_weights = np.random.uniform(100, 200, K)
     tot = np.sum(init_weights)
     init_weights = init_weights / tot
     init_means = np.full((K, D), 1.0 / K)
     weights = init_weights[:]
     means = init_means[:]
-    ll, resp = llBernoulli(data, weights, means, K)
+    ll, responsibilities = expected_log_likelihood(data, weights, means, K)
     ll_old = ll
+    bar = IncrementalBar('Processing', max=maxiters)
+    for i in progressbar.progressbar(range(maxiters)):
+        bar.next()
 
-    for i in range(maxiters):
-        if verbose and (i % 5 == 0):
-            print("iteration {}:".format(i))
-            print("   {}:".format(weights))
-            print("   {:.6}".format(ll))
-
-        # E Step: calculate resps
+        # E Step: calculate responsibilities
         # Skip, rolled into log likelihood calc
         # For 0th step, done as part of initialization
 
         # M Step
-        weights, means = bernoulliMStep(data, resp, K)
+        weights, means = m_step(data, responsibilities, K)
 
         # convergence check
-        ll, resp = llBernoulli(data, weights, means, K)
+        ll, responsibilities = expected_log_likelihood(data, weights, means, K)
         if np.abs(ll - ll_old) < relgap:
             print("Relative gap:{:.8} at iternations {}".format(ll - ll_old, i))
             break
         else:
             ll_old = ll
-
+    bar.finish()
     return (weights, means)
-def mnist_data():
+
+def mnist_data(n):
     #Downloading data from tensorflow datasets
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-    x = (x_train / 128).astype('int') #Coverting to binary
-    x = np.array(x)
-    np.random.seed(0)
-    x_train = x[np.random.randint(x.shape[0], size=1000)]
-    x_train = x_train.reshape((1000, 784))
+    x = (x_train>0).astype('int') #Coverting to binary
+    x_train = x[np.random.randint(x.shape[0], size=n)]
+    x_train = x_train.reshape((n, 784))
     return x_train
 def plot_data(wts, mns):
     fig, ax = plt.subplots(4, 5)
@@ -154,9 +156,9 @@ def plot_data(wts, mns):
 
 def main():
     np.random.seed(0)
-    data = mnist_data() #Importing the MNIST dataset
+    data = mnist_data(n=2000) #Importing the MNIST dataset
     K = 20
     wts, mns = mixOfBernoulliEM(data, K, maxiters=10, relgap=1e-15, verbose=True)
     plot_data(wts, mns)
 if __name__ == "__main__":
-    main()
+    main() 
