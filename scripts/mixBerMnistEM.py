@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from scipy.stats import bernoulli as bern
 import warnings
-from progress.bar import IncrementalBar
 
 
 warnings.filterwarnings("ignore")
@@ -113,9 +112,10 @@ def mixOfBernoulliEM(data, K, maxiters=1000, relgap=1e-4, verbose=False):
     means = init_means[:]
     ll, responsibilities = expected_log_likelihood(data, weights, means, K)
     ll_old = ll
-    bar = IncrementalBar('Processing', max=maxiters)
-    for i in progressbar.progressbar(range(maxiters)):
-        bar.next()
+    for i in range(maxiters):
+        print("iteration {}:".format(i))
+        print("   {}:".format(weights))
+        print("   {:.6}".format(ll))
 
         # E Step: calculate responsibilities
         # Skip, rolled into log likelihood calc
@@ -131,7 +131,6 @@ def mixOfBernoulliEM(data, K, maxiters=1000, relgap=1e-4, verbose=False):
             break
         else:
             ll_old = ll
-    bar.finish()
     return (weights, means)
 
 def mnist_data(n):
