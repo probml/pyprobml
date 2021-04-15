@@ -140,6 +140,7 @@ def mnist_data(n):
     x_train = x[np.random.randint(x.shape[0], size=n)]
     x_train = x_train.reshape((n, 784))
     return x_train
+
 def plot_data(wts, mns):
     fig, ax = plt.subplots(4, 5)
     k = 0
@@ -155,9 +156,10 @@ def plot_data(wts, mns):
 
 def main():
     np.random.seed(0)
-    data = mnist_data(n=2000) #Importing the MNIST dataset
+    data = mnist_data(n=1000)# subsamplethe MNIST dataset
     K = 20
-    wts, mns = mixOfBernoulliEM(data, K, maxiters=10, relgap=1e-15, verbose=True)
+    wts, mns = mixOfBernoulliEM(data, K, maxiters=5, relgap=1e-15, verbose=True)
     plot_data(wts, mns)
+    
 if __name__ == "__main__":
     main() 

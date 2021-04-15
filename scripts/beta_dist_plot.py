@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = '../figures'
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
 
 from scipy.stats import beta
 
@@ -17,5 +15,5 @@ for a, b, p in zip(aa, bb, props):
 plt.legend(loc='upper left')
 plt.ylabel('pdf')
 plt.title('Beta distributions')
-save_fig('betadist.pdf')
+plt.savefig('../figures/betadist.pdf', dpi=300)
 plt.show()
