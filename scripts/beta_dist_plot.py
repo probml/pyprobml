@@ -13,7 +13,9 @@ bb = [0.1, 1., 2, 3., 4.]
 props = ['b-', 'r:', 'k-.', 'g--', 'c-']
 for a, b, p in zip(aa, bb, props):
     y = beta.pdf(x, a, b)
-    plt.plot(y, p, lw=3, label='a=%.1f,b=%.1f' % (a, b))
+    plt.plot(x, y, p, lw=3, label='a=%.1f,b=%.1f' % (a, b))
 plt.legend(loc='upper left')
+plt.ylabel('pdf')
+plt.title('Beta distributions')
 save_fig('betadist.pdf')
 plt.show()
