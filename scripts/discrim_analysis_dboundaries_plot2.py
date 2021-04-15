@@ -113,12 +113,14 @@ for u, sigma in models:
     
     plt.figure()
     plot_points(x)
+    plt.axis('square')
     save_fig('gda_2d_data.pdf')
     plt.show()
         
     plt.figure()
     plot_points(x)
     plot_contours(xx, yy, x_range, y_range, u, sigma)
+    plt.axis('square')
     save_fig('gda_2d_contours.pdf')
     plt.show()
     
@@ -136,6 +138,7 @@ for u, sigma in models:
         plot_points(x)
         plot_contours(xx, yy, x_range, y_range, u, sigma)
         plt.title(model_names[k])
+        plt.axis('square')
         save_fig('gda_2d_{}.pdf'.format(model_names[k]))
         plt.show()
 
