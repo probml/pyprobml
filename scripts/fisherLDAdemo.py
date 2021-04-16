@@ -13,6 +13,7 @@ import numpy as np
 # Dataset according to matlab code:
 
 n = 100 
+np.random.seed(0)
 a = np.random.multivariate_normal((1, 3), [[4.0, 0.01], [0.01, 0.1]], n)
 b = np.random.multivariate_normal((3, 1), [[4.0, 0.01], [0.01, 0.1]], n)
 
@@ -35,7 +36,7 @@ It is done in 2 ways:
 
 a) Using sklearn.discriminant 
 
-b) According to the book
+b) According to the book (manual calculation))
 
 # a)
 """
@@ -198,8 +199,8 @@ w = flda_manual(a, b)
 Xproj_fish_sk = Xproj_fish_sk_cal(w_sk)
 Xproj_fish_man, Xproj_fish_male, Xproj_fish_female = Xproj_fish_man_cal(X, w)
 Xproj_fish_man = Xproj_fish_man.reshape(-1, 1)
-verify_sk = np.allclose(Xproj_fish_sk, Xproj_fish_man)
-print(verify_sk)
+assert np.allclose(Xproj_fish_sk, Xproj_fish_man)
+
 
 plot_proj('flda', Xproj_fish_man) # Or plot_proj('flda', X_tran) as both the methods give similar results
 
@@ -211,8 +212,7 @@ vectors = pca_manual(X, Y)
 Xproj_pca_sk = Xproj_pca_sk_cal(X_fit)
 Xproj_pca_man, Xproj_pca_male, Xproj_pca_female = Xproj_pca_man_cal(X, vectors)
 Xproj_pca_man = Xproj_pca_man.reshape(-1, 1)
-verify_pca = np.allclose(Xproj_pca_sk, Xproj_pca_man)
-print(verify_pca)
+assert np.allclose(Xproj_pca_sk, Xproj_pca_man)
 
 plot_proj('pca', Xproj_pca_man) # Or plot_proj('pca', X_tran) as both the methods give similar results
 
