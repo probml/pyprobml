@@ -87,7 +87,7 @@ lambdas = lambdas
 train_mse, test_mse = [], []
 
 for lam in lambdas:
-    reg = linear_model.Ridge(alpha=lam).fit(poly_train, ytrain)
+    reg = linear_model.Ridge(alpha=lam, fit_intercept=False).fit(poly_train, ytrain)
     ypred_train = reg.predict(poly_train)
     ypred_test = reg.predict(poly_test)
     train_mse.append(((ypred_train - ytrain) ** 2).mean())
@@ -101,7 +101,6 @@ plt.xlabel("log lambda")
 plt.ylabel("mean sqaured error")
 pml.save_fig("../figures/polyfitRidgeModelSelUcurve.pdf")
 
-
 # -------------------------------------------
 # cv vs lambda
 cv_means = []
@@ -111,7 +110,7 @@ scorer = make_scorer(mean_squared_error, greater_is_better=False)
 for lam in lambdas:
     cross_validations = -np.array(
         cross_val_score(
-            linear_model.Ridge(alpha=lam),
+            linear_model.Ridge(alpha=lam, fit_intercept=False),
             poly_train,
             ytrain,
             cv=n_folds,
