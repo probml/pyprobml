@@ -114,5 +114,6 @@ For more advanced vectorization, consider using [JAX](https://colab.research.goo
  
 - Do not use JAX if you don’t need to, i.e., default to standard numpy and scipy, unless you need autograd or vmap or some other JAX features.
  
+- Please make sure your code is reproducible by controlling randomness, eg use `np.random.state(0)` and `torch.manual_seed(0)`. (For JAX, use PRNG state.)
  
 
