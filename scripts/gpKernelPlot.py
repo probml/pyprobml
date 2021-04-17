@@ -42,7 +42,7 @@ def gpKernelPlot(seed):
     f1 = lambda t: 1
     f3 = lambda t: 1 + t
     f5 = lambda t: 1 + t * (1 + t/3)
-    m = lambda t, f: f(t) * exp(-1 * t)
+    m = lambda t, f: f(t) * np.exp(-1 * t)
 
     matern_kernel_1 = lambda x, y: m(sqrt(1) * abs(x - y), f1)
     matern_kernel_3 = lambda x, y: m(sqrt(3) * abs(x - y), f3)
@@ -92,7 +92,8 @@ def gpKernelPlot(seed):
     longse_plus_se = lambda x, y: longse_kernel(x, y) + se_kernel(x, y);
     shortse_plus_medse = lambda x, y: shortse_kernel(x, y) + medse_kernel(x, y);
 
-    kernel_names = {'lin_kernel': lin_kernel, 'quad_kernel': quad_kernel, 'poly_lin_kernel': poly_lin_kernel,
+    kernel_names = {'matern_kernel_1': matern_kernel_1, 'matern_kernel_3': matern_kernel_3, 'matern_kernel_5': matern_kernel_5, 
+                    'lin_kernel': lin_kernel, 'quad_kernel': quad_kernel, 'poly_lin_kernel': poly_lin_kernel,
                     'longse_kernel': longse_kernel, 'medse_kernel': medse_kernel, 'shortse_kernel': shortse_kernel,
                     'per_kernel': per_kernel, 'cos_kernel': cos_kernel}
 
@@ -110,5 +111,6 @@ def gpKernelPlot(seed):
         plt.plot(x_range_1d, samples)
         plt.title(k)
         plt.show()
+        
 
 gpKernelPlot(2)
