@@ -70,7 +70,7 @@ for i, inter in enumerate(ints):
     ax[i].set_title(names[i])
 
     # The plot of the pdf of the distribution
-    ax[i].plot(xs, beta.pdf(xs, a, b),
+    ax[i].plot(xs, ps,
                '-', lw=2, label='beta pdf', color="black")
 
     # Plotting the intervals
