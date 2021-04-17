@@ -3,7 +3,6 @@
 
 Original file is located at
     https://colab.research.google.com/drive/1hUa4YVvGeebUKZj_n63kAPB8IskaqX_e
-
 """
 
 import seaborn as sns
@@ -41,16 +40,16 @@ def HDIofICDF(dist_name, credMass=0.95, **args):
 a, b = 3, 9
 alpha = 0.05
 
-l = beta.ppf(alpha / 2, a, b)
-u = beta.ppf(1 - alpha / 2, a, b)
-CI = [l, u]
+l = beta.ppf(alpha/2, a, b)
+u = beta.ppf(1-alpha/2, a, b)
+CI = [l,u]
 
-HPD = HDIofICDF(beta, credMass=0.95, a=a, b=b)
+HPD =HDIofICDF(beta, credMass=0.95, a=a, b=b)
 
-xs = np.linspace(beta.ppf(0.001, a, b),
-                 beta.ppf(0.999, a, b), 40)
+xs = np.linspace(0.001, 0.999, 40);
+ps = beta.pdf(xs, a, b)
 
-names = ['CI', 'HPD']
+names = ['CI','HPD'];
 linestyles = ['-', '-']
 ints = [CI, HPD]
 
@@ -64,8 +63,8 @@ for i, inter in enumerate(ints):
     y2 = beta.pdf(u, a, b)
 
     # The range of the plot
-    plt.xlim(0, 1)
-    plt.ylim(0, 3.5)
+    ax[i].set_xlim(0,1)
+    ax[i].set_ylim(0,3.5)
 
     # The title of each plot
     ax[i].set_title(names[i])
@@ -78,3 +77,5 @@ for i, inter in enumerate(ints):
     ax[i].plot((l, l), (0, y1), color="blue")
     ax[i].plot((l, u), (y1, y2), color="blue")
     ax[i].plot((u, u), (y2, 0), color="blue")
+
+plt.show()
