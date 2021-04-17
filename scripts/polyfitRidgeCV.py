@@ -82,8 +82,11 @@ ytest = ytest - ytest.mean()
 
 # -------------------------------------------
 # error vs lambda
-lambdas = np.logspace(-10, 2.5, 15)
-lambdas = lambdas
+#lambdas = np.logspace(-10, 2.5, 15)
+
+# match lireng_poly_ridge
+
+lambdas = np.logspace(-10, 1.3, 10)
 train_mse, test_mse = [], []
 
 for lam in lambdas:
@@ -98,13 +101,14 @@ plt.semilogx(lambdas, train_mse, "-s")
 plt.semilogx(lambdas, test_mse, "-x")
 plt.legend(["train_mse", "test_mse"])
 plt.xlabel("log lambda")
-plt.ylabel("mean sqaured error")
-pml.save_fig("../figures/polyfitRidgeModelSelUcurve.pdf")
+plt.ylabel("mean squared error")
+pml.save_fig("../figures/polyfitRidgeUcurve.pdf")
 
 # -------------------------------------------
 # cv vs lambda
 cv_means = []
 cv_stand_errors = []
+n= len(xtrain)
 n_folds = 5
 scorer = make_scorer(mean_squared_error, greater_is_better=False)
 for lam in lambdas:
@@ -129,6 +133,10 @@ plt.axvline(
     lambdas[np.argmin(cv_means)], ls="--"
 )  # lambda corresponding to minimum cv_mean.
 plt.xscale("log")
+plt.xlabel("log lambda")
+plt.ylabel("mean squared error")
+pml.save_fig("../figures/polyfitRidgeCV.pdf")
+
 
 plt.figure()
 cvErr = np.log(cv_means) / np.max(np.log(cv_means))
@@ -137,5 +145,4 @@ plt.errorbar(lambdas, cvErr, yerr=cv_se / 2, fmt="-x")
 plt.xlabel("log lambda")
 plt.xscale("log")
 plt.legend(["CV estimate of MSE"])
-pml.save_fig("../figures/polyfitRidgeModelSelCV.pdf")
 plt.show()
