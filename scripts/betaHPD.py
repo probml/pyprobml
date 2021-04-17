@@ -46,10 +46,10 @@ CI = [l,u]
 
 HPD =HDIofICDF(beta, credMass=0.95, a=a, b=b)
 
-xs = np.linspace(0.001, 0.999, 40);
+xs = np.linspace(0.001, 0.999, 40)
 ps = beta.pdf(xs, a, b)
 
-names = ['CI','HPD'];
+names = ['CI','HPD']
 linestyles = ['-', '-']
 ints = [CI, HPD]
 
