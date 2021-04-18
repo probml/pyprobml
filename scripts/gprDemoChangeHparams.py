@@ -36,8 +36,7 @@ def generate_plots(sigma_f, l, sigma_y):
     mean, variance = model.predict(xstar)
     model.plot()
     plt.title("Hyperparameters (l, sigma_f, sigma_y) are {}, {}, {}".format(l, sigma_f, sigma_y))
-    pml.save_fig('Plot' + '-' + str(i) + '.png')
-    plt.savefig('Plot' + '-' + str(i) + '.png')
+    pml.save_fig(f'gprDemoChangeHparams{i}.pdf')
     plt.show()
 
 for i in range(len(l)):

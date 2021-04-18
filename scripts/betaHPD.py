@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""BetaHDR.ipynb
-
-Original file is located at
-    https://colab.research.google.com/drive/1hUa4YVvGeebUKZj_n63kAPB8IskaqX_e
-"""
+# based on  https://github.com/probml/pmtk3/blob/master/demos/betaHPD.m
 
 import seaborn as sns
 import numpy as np
