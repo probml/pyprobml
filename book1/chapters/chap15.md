@@ -10,14 +10,14 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Basic RNNs|PyTorch|[notebook][rnn_torch] |
+|RNN for character level generation|PyTorch|[notebook][rnn_torch] |
 |GRUs|PyTorch|[notebook][gru_torch] |
 |LSTMs|PyTorch|[notebook][lstm_torch] |
-|RNN for IMDB movie review sentiment classification| PyTorch | [notebook][rnn_sentiment_torch]
+|RNN for sentiment classification| PyTorch | [notebook][rnn_sentiment_torch]
 |Neural machine translation using RNN|PyTorch|[notebook][nmt_torch] |
 |Neural machine translation using transformers|PyTorch|[notebook][transformers_torch] |
-|RNN for IMDB movie  review sentiment classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_classification_rnn)
-|RNN for character level generation for Shakespeare|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_generation)
+|RNN for sentiment classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_classification_rnn)
+|RNN for character level generation|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_generation)
 |RNN for time series forecasting|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/structured_data/time_series)
 |RNN for image captioning|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/image_captioning)
 |Neural machine translation using RNN with attention|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/nmt_with_attention)
