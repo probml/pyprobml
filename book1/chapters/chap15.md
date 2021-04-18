@@ -7,6 +7,7 @@
 [nmt_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/nmt_torch.ipynb
 [transformers_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/transformers_torch.ipynb
 [rnn_sentiment_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/rnn_sentiment_torch.ipynb
+[cnn1d_sentiment_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/cnn1d_sentiment_torch.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -14,6 +15,7 @@
 |GRUs|PyTorch|[notebook][gru_torch] |
 |LSTMs|PyTorch|[notebook][lstm_torch] |
 |RNN for sentiment classification| PyTorch | [notebook][rnn_sentiment_torch]
+|1d CNN for sentiment classification| PyTorch | [notebook][cnn1d_sentiment_torch]
 |Neural machine translation using RNN|PyTorch|[notebook][nmt_torch] |
 |Neural machine translation using transformers|PyTorch|[notebook][transformers_torch] |
 |RNN for sentiment classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_classification_rnn)
