@@ -5,13 +5,17 @@ import pyprobml_utils as pml
 import numpy as np
 import matplotlib.pyplot as plt 
 import GPy
-from numpy.linalg import cholesky, det, inv
+from numpy.linalg import cholesky, det, inv, lstsq
 from scipy.linalg import solve_triangular
+import scipy.spatial.distance as spdist
+from scipy import linalg
+from scipy.optimize import minimize
 
 # Dataset according to matlab code
 n = 7
 np.random.seed(20) 
 xs = 15*(np.random.uniform(low=0, high=1, size=n) - 0.5).reshape((-1, 1))
+sigma_y = 0.1
 def K(p, q):
   p = p.transpose()
   p = p.transpose()
@@ -19,12 +23,15 @@ def K(p, q):
   q = np.tile(q, len(p))
   r = 0.5*np.square(p-q)
   return np.exp(r)
-
-w = K(xs, xs) + 0.01*np.eye(n)
+w = K(xs, xs) + (sigma_y**2)*np.eye(n)
 w = w.conjugate()
-fs = np.linalg.cholesky(w).dot(np.random.randn(n, 1)).reshape((-1, 1))  
+fs = np.linalg.cholesky(w).dot(np.random.randn(n, 1)).reshape((-1, 1))
+
+#xs = np.array([-1.3089, 6.7612, 1.0553, -1.1734, -2.9339, 7.2530, -6.5843]).reshape(-1, 1)
+#fs = np.array([1.6218, 1.8558, 0.4102, 1.2526, -0.0133, 1.6380, 0.2189]).reshape(-1, 1)
+
 n=41
-x = np.linspace(0.1, 80, n)
+x = np.linspace(0.1, 150, n)
 y = np.linspace(0.03, 3, n)
 X, Y = np.meshgrid(x, y)
 
@@ -32,38 +39,35 @@ def kernel(X1, X2, l, sigma_f):
     sqdist = np.sum(X1**2, 1).reshape(-1, 1) + np.sum(X2**2, 1) - 2 * np.dot(X1, X2.T)
     return sigma_f**2 * np.exp(-0.5 / l**2 * sqdist)
 
-def mll(theta):
-  
-        K = kernel(X_train, X_train, l=theta[0], sigma_f=theta[1]) + noise**2 * np.eye(len(X_train))
+def nll_stable(params):
+        theta = params[0]
+        noise = params[1]
+        K = kernel(X_train, X_train, l=theta, sigma_f=1) + noise**2 * np.eye(len(X_train))
         L = cholesky(K)
-        
-        S1 = solve_triangular(L, Y_train, lower=True)
-        S2 = solve_triangular(L.T, S1, lower=False)
-        
-        return np.sum(np.log(np.diagonal(L))) + 0.5 * Y_train.T.dot(S2) + 0.5 * len(X_train) * np.log(2*np.pi)
+        return np.sum(np.log(np.diagonal(L))) + 0.5 * Y_train.T.dot(lstsq(L.T, lstsq(L, Y_train)[0])[0]) + 0.5 * len(X_train) * np.log(2*np.pi)
 
 X = X.flatten().reshape((-1, 1))
 Y = Y.flatten().reshape((-1, 1))
 Z = np.empty((n*n, 1))
 X_train = xs
 Y_train = fs
+params = np.empty((2, ))
 for i in range(n*n):
-  theta = np.empty((2, ))
-  theta[0] = X[i]
-  noise = Y[i]
-  theta[1] = 1
-  Z[i] = mll(theta)
+  params[0] = X[i]
+  params[1] = Y[i]
+  Z[i] = nll_stable(params)
+
+resu = minimize(nll_stable, x0=[1, 0.1], method='L-BFGS-B')
+
+l_opt = resu.x[0]
+sigma_y_opt = resu.x[1]
+
 Z = Z.reshape((n, n))
 X = X.reshape((n, n))
 Y = Y.reshape((n, n))
 level = -1*np.array([15, 11.5, 9.8,  9.3,  8.9, 8.5, 8.3])
 
-#Plot of Log-marginal liklihood 
-minima = -Z.min()
-result = np.where(-Z == minima)
-x = X[1, result[1]]
-y = Y[result[0], 1]
-plt.plot(x, y, 'o')
+plt.plot(l_opt, sigma_y_opt, 'o')
 plt.xscale("log")
 plt.yscale("log")
 plt.xlabel("Length-scale")
