@@ -14,4 +14,4 @@
 |Autoencoder for (Fashion) MNIST (GDL version)| TF2| [notebook][ae2]|
 |VAE for CelebA| TF2| [notebook][vae]|
 |VAE for MNIST| TF2| [notebook][vae2]|
-|Word analogies with skipgram| [notebook][word_analogies]
+|Word analogies with skipgram|PyTorch| [notebook][word_analogies]
