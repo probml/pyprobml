@@ -39,7 +39,7 @@ def kernel(X1, X2, l, sigma_f):
     sqdist = np.sum(X1**2, 1).reshape(-1, 1) + np.sum(X2**2, 1) - 2 * np.dot(X1, X2.T)
     return sigma_f**2 * np.exp(-0.5 / l**2 * sqdist)
 
-def nll_stable(params):
+def mll(params):
         theta = params[0]
         noise = params[1]
         K = kernel(X_train, X_train, l=theta, sigma_f=1) + noise**2 * np.eye(len(X_train))
@@ -55,9 +55,9 @@ params = np.empty((2, ))
 for i in range(n*n):
   params[0] = X[i]
   params[1] = Y[i]
-  Z[i] = nll_stable(params)
+  Z[i] = mll(params)
 
-resu = minimize(nll_stable, x0=[1, 0.1], method='L-BFGS-B')
+resu = minimize(mll, x0=[1, 0.1], method='L-BFGS-B')
 
 l_opt = resu.x[0]
 sigma_y_opt = resu.x[1]
