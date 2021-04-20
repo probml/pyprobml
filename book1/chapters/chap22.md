@@ -7,4 +7,5 @@
 |Title|Software|Link|
 |-----------|----|----|
 Matrix factorization | Numpy | [notebook][mf_rec]
-Matrix factorization | [Surprise library](http://surpriselib.com/)| [notebook][mf_surprise_rec]
+Matrix factorization | [Simple Python RecommendatIon System Engine](http://surpriselib.com/)| [notebook][mf_surprise_rec]
+
