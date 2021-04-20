@@ -4,19 +4,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.special import logsumexp
 '''
-t = Wx + µ + E
+z = Wx + µ + E
 the equation above represents the latent variable model which 
-relates a d-dimensional data vector t to a corresponding q-dimensional 
+relates a d-dimensional data vector z to a corresponding q-dimensional 
 latent variables x 
 with q < d, for isotropic noise E ∼ N (0, σ2I)
-t : latent
+z : latent
 x : data
 W : latent_to_observation matrix
 µ : centres_of_clusters
 E : var_of_latent
-Initially using Kmeans algorithm parameters are initialized before 
-applying the expectation maximization 
-algorithm for an estimate of the parameter values
+This code is an implementation of generative model of mixture of PPCA
+Given the number of clusters, data_dim(D) and latent_dim(L)
+we generate the data for every cluster n,  
+we sample zn from a Gaussian prior and pass it through the
+Wk matrix and add noise, where Wk maps from the L-dimensional subspace to the D-dimensional
+visible space. Using the expectation maximization algorithm we estimate the parameters 
+and then we plot the PC vectors
 '''
 
 
@@ -74,39 +78,39 @@ def mixture_ppca_parameter_initialization(data, n_clusters, latent_dim,
     return pi, mu, covars, W, sigma2, clusters
 
 
-def mixture_ppca_expectation_maximization(data, pi, mu, W, simga2, niter):
+def mixture_ppca_expectation_maximization(data, pi, mu, W, sigma2, niter):
     '''
        we can find the p(latent|data) with the assumption that data is gaussian
-       t : latent
+       z : latent
        x : data
        W : latent_to_observation matrix
        µ/mu : centres_of_clusters
        d : data_dimension
        q : latent_dimention
-       σ2/ simga2 : variance of latent
+       σ2/ sigma2 : variance of latent
        π/pi : cluster proportion
-       p(t|x) = (2πσ2)^−d/2 * exp(−1/(2σ2) * ||t − Wx − µ||)
-       p(t) = ∫p(t|x)p(x)dx
-       Solving for p(t) and then using the result we can find the p(x|t)
+       p(z|x) = (2πσ2)^−d/2 * exp(−1/(2σ2) * ||z − Wx − µ||)
+       p(z) = ∫p(z|x)p(x)dx
+       Solving for p(z) and then using the result we can find the p(x|z)
        through which we can find
        the log likelihood function which is
        log_likelihood = −N/2 * (d ln(2π) + ln |Σ| + tr(Σ−1S))
        We can develop an iterative EM algorithm for
        optimisation of all of the model parameters µ,W and σ2
-       If Rn,i = p(tn, i) is the posterior responsibility of
-       mixture i for generating data point tn,given by
-       Rn,i = (p(tn|i) * πi) / p(tn)
+       If Rn,i = p(zn, i) is the posterior responsibility of
+       mixture i for generating data point zn,given by
+       Rn,i = (p(zn|i) * πi) / p(zn)
        Using EM, the parameter estimates are as follows:
-       µi = Σ (Rn,i * tn) / Σ Rn,i
-       Si = 1/(πi*N) * ΣRn,i*(tn − µi)*(tn − µi)'
+       µi = Σ (Rn,i * zn) / Σ Rn,i
+       Si = 1/(πi*N) * ΣRn,i*(zn − µi)*(zn − µi)'
        Using Si we can estimate W and σ2
        For more information on EM algorithm for mixture of PPCA
        visit Mixtures of Probabilistic Principal Component Analysers
        by Michael E. Tipping and Christopher M. Bishop:
-       page 5-7 of http://www.miketipping.com/papers/met-mppca.pdf
+       page 5-10 of http://www.miketipping.com/papers/met-mppca.pdf
     '''
     n_datapts, data_dim = data.shape
-    n_clusters = len(simga2)
+    n_clusters = len(sigma2)
     _, latent_dim = W[0].shape
     M = np.zeros((n_clusters, latent_dim, latent_dim))
     Minv = np.zeros((n_clusters, latent_dim, latent_dim))
@@ -125,14 +129,14 @@ def mixture_ppca_expectation_maximization(data, pi, mu, W, simga2, niter):
             '''
              M = σ2I + WT.W
             '''
-            M[c, :, :] = simga2[c] * np.eye(latent_dim) + np.dot(W[c, :, :].T, W[c, :, :])
+            M[c, :, :] = sigma2[c] * np.eye(latent_dim) + np.dot(W[c, :, :].T, W[c, :, :])
 
             Minv[c, :, :] = np.linalg.inv(M[c, :, :])
 
             # Cinv
             Cinv[c, :, :] = (np.eye(data_dim)
                              - np.dot(np.dot(W[c, :, :], Minv[c, :, :]), W[c, :, :].T)
-                             ) / simga2[c]
+                             ) / sigma2[c]
 
             # R_ni
             deviation_from_center = data - mu[c, :]
@@ -143,18 +147,22 @@ def mixture_ppca_expectation_maximization(data, pi, mu, W, simga2, niter):
                                                              Minv[c, :, :]), W[c, :, :].T)
                         )
                     )
-                          - 0.5 * data_dim * np.log(simga2[c])
+                          - 0.5 * data_dim * np.log(sigma2[c])
                           - 0.5 * (deviation_from_center * np.dot(deviation_from_center,
                                                                   Cinv[c, :, :].T)).sum(1)
                           )
 
         myMax = logR.max(axis=1).reshape((n_datapts, 1))
+        '''
+        Using the log-sum-trick,  visit Section 2.5.4 in "Probabilistic Machine Learning: An Introduction" by Kevin P. Murphy for more information
+        logsumexp(logR - myMax, axis=1) can be replaced by logsumexp(logR, axis=1)
+        '''
         log_likelihood[i] = (
-                (myMax.ravel() + logsumexp(logR - myMax, axis=1)).sum(axis=0)
+                (myMax.ravel() + logsumexp(logR, axis=1)).sum(axis=0)
                 - n_datapts * data_dim * np.log(2 * math.pi) / 2.
         )
 
-        logR = logR - myMax - np.reshape(logsumexp(logR - myMax, axis=1),
+        logR = logR - myMax - np.reshape(logsumexp(logR, axis=1),
                                          (n_datapts, 1))
 
         myMax = logR.max(axis=0)
@@ -166,7 +174,7 @@ def mixture_ppca_expectation_maximization(data, pi, mu, W, simga2, niter):
             mu[c, :] = (R[:, c].reshape((n_datapts, 1)) * data).sum(axis=0) / R[:, c].sum()
             deviation_from_center = data - mu[c, :].reshape((1, data_dim))
             '''
-            Si = 1/(πi*N) * ΣRn,i*(tn − µi)*(tn − µi)'
+            Si = 1/(πi*N) * ΣRn,i*(zn − µi)*(zn − µi)'
             Si is used to estimate 
             '''
             Si = ((1 / (pi[c] * n_datapts))
@@ -174,10 +182,10 @@ def mixture_ppca_expectation_maximization(data, pi, mu, W, simga2, niter):
                            np.dot(deviation_from_center, W[c, :, :]))
                   )
 
-            Wnew = np.dot(Si, np.linalg.inv(simga2[c] * np.eye(latent_dim)
+            Wnew = np.dot(Si, np.linalg.inv(sigma2[c] * np.eye(latent_dim)
                                             + np.dot(np.dot(Minv[c, :, :], W[c, :, :].T), Si)))
 
-            simga2[c] = (1 / data_dim) * (
+            sigma2[c] = (1 / data_dim) * (
                     (R[:, c].reshape(n_datapts, 1) * np.power(deviation_from_center, 2)).sum()
                     /
                     (n_datapts * pi[c])
@@ -187,7 +195,7 @@ def mixture_ppca_expectation_maximization(data, pi, mu, W, simga2, niter):
 
             W[c, :, :] = Wnew
 
-    return pi, mu, W, simga2, log_likelihood
+    return pi, mu, W, sigma2, log_likelihood
 
 
 def generate_data():
