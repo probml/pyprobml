@@ -65,7 +65,7 @@ if USE_TF:
         print(tf.test.gpu_device_name())
     else:
         print("TF cannot find GPU")
-    tf.enable_eager_execution()
+    tf.compat.v1.enable_eager_execution()
 
 ### Dataset
 import sklearn.datasets
