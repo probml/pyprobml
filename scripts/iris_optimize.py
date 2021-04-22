@@ -6,7 +6,7 @@ import sklearn
 import scipy
 import matplotlib.pyplot as plt
 
-from scipy.misc import logsumexp
+from scipy.special import logsumexp
 
 import os
 figdir = "../figures" # set this to '' if you don't want to save figures
