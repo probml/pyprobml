@@ -171,7 +171,7 @@ class ArmijoModel(nn.Module):
             if compute_grad:
                 loss.backward()
 
-            return loss.float()
+            return float(loss)
 
         minibatch_loss = self.opt.step(closure)
         
