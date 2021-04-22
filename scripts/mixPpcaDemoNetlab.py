@@ -39,7 +39,6 @@ def mixture_ppca_parameter_initialization(data, n_clusters, latent_dim,
     µ/mu : centres_of_clusters
     pi : proportion of data in each cluster
     sigma2 : variance of latent
-    covars : The covariance matrices are calculated as the sample
 	covariance of the points associated with (i.e. closest to) the
 	corresponding centres
     """
@@ -63,10 +62,7 @@ def mixture_ppca_parameter_initialization(data, n_clusters, latent_dim,
         # compute new centers
         for c in range(n_clusters):
             mu[c, :] = data[clusters == c, :].mean(0)
-    covars = np.zeros(n_clusters)
-    for i in range(n_clusters):
-        covars[i] = (np.var(data[clusters == i, 0]) +
-                     np.var(data[clusters == i, 1])) / 2
+
     # parameter initialization
     pi = np.zeros(n_clusters)  # Sum should be equal to 1
     W = np.zeros((n_clusters, data_dim, latent_dim))
@@ -75,7 +71,7 @@ def mixture_ppca_parameter_initialization(data, n_clusters, latent_dim,
         W[c, :, :] = np.random.randn(data_dim, latent_dim)
         pi[c] = (clusters == c).sum() / n_datapts
         sigma2[c] = (distmin[clusters == c]).mean() / data_dim
-    return pi, mu, covars, W, sigma2, clusters
+    return pi, mu, W, sigma2, clusters
 
 
 def mixture_ppca_expectation_maximization(data, pi, mu, W, sigma2, niter):
@@ -152,21 +148,22 @@ def mixture_ppca_expectation_maximization(data, pi, mu, W, sigma2, niter):
                                                                   Cinv[c, :, :].T)).sum(1)
                           )
 
-        myMax = logR.max(axis=1).reshape((n_datapts, 1))
         '''
         Using the log-sum-trick,  visit Section 2.5.4 in "Probabilistic Machine Learning: An Introduction" by Kevin P. Murphy for more information
         logsumexp(logR - myMax, axis=1) can be replaced by logsumexp(logR, axis=1)
+        myMax + logsumexp((logR - myMax), axis=0) can be replaced by logsumexp(logR, axis=0)
+        myMax in the above equations refer to
+        myMax = logR.max(axis=0) & myMax = logR.max(axis=1).reshape((n_datapts, 1))
         '''
         log_likelihood[i] = (
-                (myMax.ravel() + logsumexp(logR, axis=1)).sum(axis=0)
+                (logsumexp(logR, axis=1)).sum(axis=0)
                 - n_datapts * data_dim * np.log(2 * math.pi) / 2.
         )
 
-        logR = logR - myMax - np.reshape(logsumexp(logR, axis=1),
+        logR = logR - np.reshape(logsumexp(logR, axis=1),
                                          (n_datapts, 1))
 
-        myMax = logR.max(axis=0)
-        logpi = myMax + logsumexp((logR - myMax), axis=0) - np.log(n_datapts)
+        logpi = logsumexp(logR, axis=0) - np.log(n_datapts)
         logpi = logpi.T
         pi = np.exp(logpi)
         R = np.exp(logR)
@@ -212,26 +209,26 @@ def mixppcademo(data, n_clusters):
     '''
     W : latent to observation matrix
     mu : centres_of_clusters
-    covars : variance of the data for each cluster
     pi : proportions of data in each of the cluster
     sigma2 : variance of latent
     L : log likelihood after each iteration
     '''
     plt.plot(data[:, 0], data[:, 1], 'o', c='blue', mfc='none')
-    pi, mu, covars, W, sigma2, clusters = mixture_ppca_parameter_initialization(
+    pi, mu, W, sigma2, clusters = mixture_ppca_parameter_initialization(
         data, n_clusters, latent_dim=1, n_iterations=10)
     pi, mu, W, sigma2, L = mixture_ppca_expectation_maximization(data, pi, mu,
                                                                  W, sigma2, 10)
+
     for i in range(n_clusters):
         v = W[i, :, :]
-        start = mu[i].reshape((2, 1)) - (v * np.sqrt(sigma2[i]))
-        endpt = mu[i].reshape((2, 1)) + (v * np.sqrt(sigma2[i]))
+        start = mu[i].reshape((2, 1)) - (v * 2 * np.sqrt(sigma2[i]))
+        endpt = mu[i].reshape((2, 1)) + (v * 2 * np.sqrt(sigma2[i]))
         linex = [start[0], endpt[0]]
         liney = [start[1], endpt[1]]
         plt.plot(linex, liney, linewidth=3, c='black')
         theta = np.arange(0, 2 * math.pi, 0.02)
-        x = np.sqrt(sigma2[i]) * np.cos(theta)
-        y = np.sqrt(covars[i]) * np.sin(theta)
+        x = 2 * np.sqrt(sigma2[i]) * np.cos(theta)
+        y = 1.5 * np.sqrt(sigma2[i])  * np.sin(theta)
         rot_matrix = np.vstack((np.hstack((v[0], -v[1])), np.hstack((v[1], v[0]))))
         ellipse = np.dot(rot_matrix, np.vstack((x, y)))
         ellipse = np.transpose(ellipse)
