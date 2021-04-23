@@ -257,11 +257,12 @@ for expt in expts:
     print('starting {}'.format(name))
     for epoch in range(max_epochs):
         loss_sum = 0.0
+        step_size = 0
         for step, (x_batch, y_batch) in enumerate(data_loader):
-            if armijo:
+            if armijo: 
                 y_batch = y_batch.unsqueeze(1)  
                 y_batch = y_batch.float()  
-                loss = opt_model.step((x_batch, y_batch))
+                loss, step_size = opt_model.step((x_batch, y_batch))
                 loss_sum += loss
             else:
                 optimizer.zero_grad()
@@ -283,10 +284,7 @@ for expt in expts:
     train_delta, test_delta = evaluate(w_mle_sklearn, w_torch, name)
     plt.plot(loss_history)
     plt.title('{}, train {:0.3f}, test {:0.3f}'.format(name, train_delta, test_delta))
-    plt.show()
-    
-    
-
+    plt.show()  
 
 
 # Bare bones SGD
