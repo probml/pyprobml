@@ -3,6 +3,7 @@
 
 [pymc3]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/pymc3_intro.ipynb
 [numpyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/numpyro_intro.ipynb
+[pyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/pyro_intro.ipynb
 [bayes_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/bayes_intro.ipynb
 [rats]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/hbayes_binom_rats_pymc3.ipynb
 [schools]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/schools_pymc3.ipynb
@@ -11,9 +12,10 @@
 
 |Title|Software|Link|
 |-----------|----|----|
-|Brief intro to PyMc3 |PyMc3| [notebook][pymc3] |
-|Brief intro to NumPyro | NumPyro | [notebook][numpyro]| 
-|Brief intro to Bayesian stats| PyMc3| [notebook][bayes_intro]|
+|Intro to PyMc3 |PyMc3| [notebook][pymc3] |
+|Intro to Pyro | Pyro, Pytorch | [notebook][numpyro]| 
+|Intro to NumPyro | NumPyro, Jax | [notebook][numpyro]| 
+|Intro to Bayesian stats| PyMc3| [notebook][bayes_intro]|
 |Hierarchical Bayes: binomial (rat/covid) example| PyMC3 |[notebook][rats]|
 |Hierarchical Bayes: Gaussian (8 schools) example| PyMC3 |[notebook][schools]|
 |Hierarchical Bayes: linear regression| PyMC3 |[notebook][linreg]|
