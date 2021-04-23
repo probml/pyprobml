@@ -10,6 +10,9 @@
 [densenet_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/densenet_torch.ipynb
 [multi_gpu_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/multi_gpu_training_torch.ipynb
 [image_aug_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/image_augmentation_torch.ipynb
+[imagenet_flax]: https://colab.research.google.com/github/google/flax/blob/master/examples/imagenet/imagenet.ipynb
+
+
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -21,6 +24,7 @@
 |Dense nets |PyTorch|[notebook][densenet_torch]
 |Multi-GPU training| PyTorch| [notebook][multi_gpu_torch]
 |Image augmentation| PyTorch| [notebook][image_aug_torch]
+|Imagenet classifier]| Jax/Flax | [notebook][imagenet_flax]
 |MNIST image classification using a CNN|TF2|[notebook][cnn_mnist_tf]
 |Dogs vs cats image classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/classification)
 |Transfer learning for dogs vs cats classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning)
