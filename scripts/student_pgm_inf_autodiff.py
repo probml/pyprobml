@@ -15,8 +15,7 @@ S   G
 All nodes are binary except G (grade), which has 3 levels.
 """
     
-import numpy as onp # original numpy
-import jax.numpy as np
+import numpy as np 
 
 
 import bayesnet_inf_autodiff as bn
