@@ -77,7 +77,7 @@ class SGD_Armijo(torch.optim.Optimizer):
         self.state['step_size'] = step_size
         self.state['step'] = self.state['step'] + 1
 
-        return loss
+        return float(loss)
 
     def _try_update(self, step_size, x_current, gradient):
         for i, group in enumerate(self.param_groups):
@@ -171,9 +171,10 @@ class ArmijoModel(nn.Module):
             if compute_grad:
                 loss.backward()
 
-            return loss
+            return float(loss)
 
         minibatch_loss = self.opt.step(closure)
-        return float(minibatch_loss), self.opt.state['step_size']
+        
+        return float(minibatch_loss) , self.opt.state['step_size']
 
 
