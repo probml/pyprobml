@@ -1,4 +1,5 @@
 import pyprobml_utils as pml
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_spd_matrix
@@ -54,7 +55,7 @@ def gauss_impute(mu, sigma, x):
              x_imputed[i, h] = mu_hgv[rr]
      return x_imputed
 
-def impute_em(X, max_iter = 100, eps = 1e-04):
+def impute_em(X, max_iter = 50, eps = 1e-04):
 
     nr, nc = X.shape
     C = np.isnan(X) == False                    # Identifying nan locations
@@ -63,43 +64,56 @@ def impute_em(X, max_iter = 100, eps = 1e-04):
     M = one_to_nc * (C == False) - 1            # Missing locations (-1 at locations where Nan is present in X)
     O = one_to_nc * C - 1                       # Observed locations (-1 at locations where Nan is not present in X)
 
-    # Generate Mu_0 and Sigma_0
-    Mu = np.nanmean(X, axis = 0)
+    # Generate initial Mu and Sigma
+    Mu = np.nanmean(X, axis = 0).reshape(-1, 1)
+    Mu_new = Mu.copy()
     observed_rows = np.where(np.isnan(sum(X.T)) == False)[0]
     S = np.cov(X[observed_rows, ].T)
     if np.isnan(S).any():
         S = np.diag(np.nanvar(X, axis = 0))
-    
+    S_new = S.copy()
+    EXsum = np.zeros((nc, 1))
+    EXXsum = np.zeros((nc, nc))
     # Start updating
-    Mu_tilde, S_tilde = {}, {}
     X_tilde = X.copy()
     no_conv = True
     iteration = 0
+    
     while no_conv and iteration < max_iter:
+        #E-step:
+        EX = np.zeros((nc, 1))
+        EXX = np.zeros((nc, nc))
+        Mu = Mu_new
+        S = S_new
         for i in range(nr):
-            S_tilde[i] = np.zeros(nc ** 2).reshape(nc, nc)
             if set(O[i, ]) != set(one_to_nc - 1): # Missing component exists
                
                 m_indx = M[i, ] != -1
                 o_indx = O[i, ] != -1 
-                M_i = M[i, ][m_indx] # Missing entries
-                O_i = O[i, ][o_indx] # Observed entries
+                M_i = M[i, ][m_indx] # Missing entries (u)
+                O_i = O[i, ][o_indx] # Observed entries (o)
+                
+                Mui = Mu[np.ix_(M_i)]  + (S[np.ix_(M_i, O_i)] @ np.linalg.pinv(S[np.ix_(O_i, O_i)] + e) @ (X_tilde[i, np.ix_(O_i)].T - Mu[np.ix_(O_i)]))  # Expected stats for mean
+                Vi = S[np.ix_(M_i, M_i)] - S[np.ix_(M_i, O_i)] @ np.linalg.inv(S[np.ix_(O_i, O_i)] + e) @ S[np.ix_(M_i, O_i)].T  # Expected stats for sigma
+                Mui = Mui.reshape(-1, 1)
+          
+                EX[np.ix_(O_i)] = X_tilde[i, np.ix_(O_i)].T
+                EX[np.ix_(M_i)] = Mui
+                
+                EXX[np.ix_(M_i, M_i)] = EX[np.ix_(M_i)] * EX[np.ix_(M_i)].T + Vi
+                EXX[np.ix_(O_i, O_i)] = EX[np.ix_(O_i)] * EX[np.ix_(O_i)].T
+                EXX[np.ix_(O_i, M_i)] = EX[np.ix_(O_i)] * EX[np.ix_(M_i)].T
+                EXX[np.ix_(M_i, O_i)] = EX[np.ix_(M_i)] * EX[np.ix_(O_i)].T
 
-                S_MM = S[np.ix_(M_i, M_i)]
-                S_MO = S[np.ix_(M_i, O_i)]
-                S_OM = S_MO.T
-                S_OO = S[np.ix_(O_i, O_i)] + e # Ensuring invertibility
+                EXsum = EXsum + EX
+                EXXsum = EXXsum + EXX
+              
+        #M-step:
+        Mu_new = EXsum/nr
+        S_new = EXXsum/nr - Mu_new*Mu_new.T
 
-                Mu_tilde[i] = Mu[np.ix_(M_i)] + S_MO @ np.linalg.inv(S_OO) @ (X_tilde[i, O_i] - Mu[np.ix_(O_i)]) # Expected stats for mean
-                X_tilde[i, M_i] = Mu_tilde[i]  # Storing mean in the missing entries
-                S_MM_O = S_MM - S_MO @ np.linalg.inv(S_OO) @ S_OM  
-                S_tilde[i][np.ix_(M_i, M_i)] = S_MM_O  
-        
-        Mu_new = np.mean(X_tilde, axis = 0)  # Updating mu 
-        S_new = np.cov(X_tilde.T, bias = 1) + reduce(np.add, S_tilde.values()) / nr  # Updating sigma 
-        no_conv = np.linalg.norm(Mu - Mu_new) >= eps or np.linalg.norm(S - S_new, ord = 2) >= eps # Convergence condition
-        Mu = Mu_new
-        S = S_new
+        #Convergence condition:
+        no_conv = np.linalg.norm(Mu - Mu_new) >= eps or np.linalg.norm(S - S_new, ord = 2) >= eps 
         iteration += 1
     
     result = {'mu': Mu, 'Sigma': S}
@@ -117,6 +131,7 @@ missing = np.random.rand(n_data, data_dim) < threshold_missing
 x_miss = np.copy(x_full)
 x_miss[missing] = np.nan
 x_impute_oracle = gauss_impute(mu, sigma, x_miss)
+
 result = impute_em(x_miss)
 m = result.get('mu')
 sig = result.get('Sigma')
@@ -174,6 +189,7 @@ fig.subplots_adjust(top=0.85)
 pml.save_fig('Imputation with true params.png')
 plt.savefig('Imputation with true params.png')
 plt.show()
+
 """##EM params"""
 
 r_squared = [] 
@@ -197,7 +213,7 @@ for i in range(r):
     
     axes[i, 0].plot(xtest, line, color='black')
     axes[i, 0].scatter(x_full[miss, cnt], x_impute_em[miss, cnt], marker="*")
-    axes[i, 0].set_title("R^2 = %5.3f" %(r_squared[cnt])) #See this ok ....
+    axes[i, 0].set_title("R^2 = %5.3f" %(r_squared[cnt])) 
     axes[i, 0].set_xlabel("Truth")
     axes[i, 0].set_ylabel("Imputed")
     plt.tight_layout()
