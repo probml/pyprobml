@@ -5,6 +5,7 @@
 [gru_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/gru_torch.ipynb
 [lstm_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/lstm_torch.ipynb
 [nmt_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/nmt_torch.ipynb
+[attention_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/attention_torch.ipynb
 [transformers_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/transformers_torch.ipynb
 [rnn_sentiment_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/rnn_sentiment_torch.ipynb
 [cnn1d_sentiment_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/cnn1d_sentiment_torch.ipynb
@@ -19,6 +20,7 @@
 |RNN for sentiment classification| PyTorch | [notebook][rnn_sentiment_torch]
 |1d CNN for sentiment classification| PyTorch | [notebook][cnn1d_sentiment_torch]
 |Neural machine translation using RNN|PyTorch|[notebook][nmt_torch] |
+|Attention|PyTorch|[notebook][attention_torch] |
 |Neural machine translation using transformers|PyTorch|[notebook][transformers_torch] |
 |Entailment classification using MLP with attention| PyTorch| [notebook][entailment_attention_mlp_torch] |
 |BERT| PyTorch| [notebook][bert_torch] |
