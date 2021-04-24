@@ -1,53 +1,15 @@
 import numpy as np
 from numpy.linalg import svd, eig
 from scipy.linalg import orth
-from matplotlib.patches import Ellipse
-import matplotlib.transforms as transforms
 from matplotlib import pyplot as plt
+
+import pyprobml_utils as pml
+#from confidence_ellipse import confidence_ellipse
+
 
 np.warnings.filterwarnings('ignore')
 
 np.random.seed(10)
-
-
-def convergenceTest(fval, previous_fval, threshold=1e-4, warn=False):
-    eps = 2e-10
-    converged = 0
-    delta_fval = np.abs(fval - previous_fval)
-    avg_fval = (np.abs(fval) + abs(previous_fval) + eps) / 2.0
-    if (delta_fval / avg_fval) < threshold:
-        converged = 1
-
-    if warn and (fval - previous_fval) < -2 * eps:
-        print('convergenceTest:fvalDecrease', 'objective decreased!')
-    return converged
-
-
-def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
-    if x.size != y.size:
-        raise ValueError("x and y must be the same size")
-
-    cov = np.cov(x, y)
-    pearson = cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])
-
-    ell_radius_x = np.sqrt(1 + pearson)
-    ell_radius_y = np.sqrt(1 - pearson)
-    ellipse = Ellipse((0, 0), width=ell_radius_x * 2, height=ell_radius_y * 2,
-                      facecolor=facecolor, **kwargs)
-
-    scale_x = np.sqrt(cov[0, 0]) * n_std
-    mean_x = np.mean(x)
-
-    scale_y = np.sqrt(cov[1, 1]) * n_std
-    mean_y = np.mean(y)
-
-    transf = transforms.Affine2D() \
-        .rotate_deg(45) \
-        .scale(scale_x, scale_y) \
-        .translate(mean_x, mean_y)
-
-    ellipse.set_transform(transf + ax.transData)
-    return ax.add_patch(ellipse)
 
 
 n = 25
@@ -81,7 +43,7 @@ while not converged:
 
     Wortho = orth(W)
     fig, axs = plt.subplots(1, 1, figsize=(8, 8))
-    confidence_ellipse(X[0, :], X[1, :], axs, edgecolor='red')
+    pml.confidence_ellipse(X[0, :], X[1, :], axs, edgecolor='red')
     axs.plot(X[0, :], X[1, :], 'g*')
     axs.scatter(Xrecon[0, :], Xrecon[1, :], edgecolors='k', marker='o', facecolor="none", s=80)
 
@@ -97,7 +59,7 @@ while not converged:
     W = np.dot(X, Z[0].T) / np.dot(Z[0], Z[0].T)
     negmseNew = -np.mean((np.ravel(Xrecon) - np.ravel(X) ** 2))
 
-    converged = convergenceTest(negmseOld, negmseNew, 1e-2)
+    converged = pml.convergence_test(negmseOld, negmseNew, 1e-2)
 
     Wortho = orth(W)
     Z = np.dot(X.T, Wortho)
@@ -108,7 +70,7 @@ while not converged:
     West = np.dot(W, evecs)
     Z = np.dot(X.T, West)
     Xrecon = np.dot(Z, West.T)
-    confidence_ellipse(X[0, :], X[1, :], axs2, edgecolor='red')
+    pml.confidence_ellipse(X[0, :], X[1, :], axs2, edgecolor='red')
 
     axs2.plot(X[0, :], X[1, :], 'g*')
     axs2.scatter(Xrecon[:, 0], Xrecon[:, 1], edgecolors='k', marker='o', facecolor="none", s=80)

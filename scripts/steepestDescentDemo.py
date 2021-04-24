@@ -4,16 +4,16 @@ import matplotlib.pyplot as plt
 from scipy.optimize import minimize, line_search
 
 
-def aokiFn(x):
+def aoki_vectorized(x):
     """
-        F(x,y) = 0.5 x (x^2 - y)^2 + 0.5 x (x-1)^2
+        F(x,y) = 0.5 (x^2 - y)^2 + 0.5 (x-1)^2
     """
     f = 0.5 * np.square(np.square(x[:][0]) - x[:][1]) + 0.5 * np.square(x[:][0] - 1)
     return f
 
 def aoki(x):
     """
-            F(x,y) = 0.5 x (x^2 - y)^2 + 0.5 x (x-1)^2
+            F(x,y) = 0.5 (x^2 - y)^2 + 0.5 (x-1)^2
     """
     f = 0.5 * np.square(np.square(x[0]) - x[1]) + 0.5 * np.square(x[0] - 1)
     return f
@@ -39,7 +39,8 @@ def aoki_hess(x):
     H[1][0] = g_xy
     H[1][1] = g_yy
     return H
-def gradient_descent(x0, f, f_prime, hessian=None, adaptative=False):
+
+def gradient_descent(x0, f, f_prime, hessian, stepsize = None):
     """
                     Steepest-Descent algorithm with option for line search
     """
@@ -53,7 +54,7 @@ def gradient_descent(x0, f, f_prime, hessian=None, adaptative=False):
         all_y_i.append(y_i)
         all_f_i.append(f([x_i, y_i]))
         dx_i, dy_i = f_prime(np.asarray([x_i, y_i]))
-        if adaptative:
+        if stepsize is None:
             # Compute a step size using a line_search to satisfy the Wolf
             # conditions
             step = line_search(f, f_prime,
@@ -63,7 +64,7 @@ def gradient_descent(x0, f, f_prime, hessian=None, adaptative=False):
             if step is None:
                 step = 0
         else:
-            step = 1
+            step = stepsize
         x_i += - step*dx_i
         y_i += - step*dy_i
         if np.abs(all_f_i[-1]) < 1e-16:
@@ -75,15 +76,28 @@ def main():
     x1 = np.arange(0, 2, 0.1)
     x2 = np.arange(-0.5, 3, 0.1)
     x = np.meshgrid(x1, x2)
-    z = aokiFn(np.array(x))
-    plt.contour(x1, x2, z, 50)
-    plt.plot(1, 1, 'go', MarkerSize=10)
-    r = gradient_descent(np.array((0.0, 0.0)), aoki, aoki_gd, hessian = aoki_hess, adaptative = True)
-    plt.scatter(r[0][:10], r[1][:10])
-    plt.plot(r[0][:10], r[1][:10])
-    plt.title('exact line search')
-    plt.savefig("steepestDescentDemo.png", dpi = 300)
-    plt.show()
+    z = aoki_vectorized(np.array(x))
+    
+    step_sizes = [None, 0.1, 0.6]
+    for i, step in enumerate(step_sizes):
+        plt.contour(x1, x2, z, 50)
+        plt.plot(1, 1, 'go', markersize=10)
+        x0 = np.array((0.0, 0.0))
+        if step == None:
+            xs, ys, fs = gradient_descent(x0, aoki, aoki_gd, hessian = aoki_hess, stepsize = None)
+            ttl = 'exact line search'
+            fname = 'steepestDescentDemo_linesearch'
+        else:
+            xs, ys, fx = gradient_descent(x0, aoki, aoki_gd, hessian = aoki_hess, stepsize = step)
+            ttl = 'step size {:0.3f}'.format(step)
+            fname = 'steepestDescentDemo_step{:d}'.format(int(step*10))
+        nsteps = 20
+        plt.scatter(xs[:nsteps], ys[:nsteps])
+        plt.plot(xs[:nsteps], ys[:nsteps])
+        plt.title(ttl)
+        plt.tight_layout()
+        plt.savefig(f'../figures/{fname}.pdf', dpi = 300)
+        plt.show()
 
 if __name__ == "__main__":
     main()

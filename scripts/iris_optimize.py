@@ -6,7 +6,6 @@ import sklearn
 import scipy
 import matplotlib.pyplot as plt
 
-#from scipy.misc import logsumexp
 from scipy.special import logsumexp
 
 import os
