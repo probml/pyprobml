@@ -16,18 +16,19 @@ def save_fig(fname):
 
 # We make some wrappers around random number generation
 # so it works even if we switch from numpy to JAX
-import numpy as onp # original numpy
+
+import numpy as  np # original numpy
 
 def set_seed(seed):
-    onp.random.seed(seed)
+     return np.random.seed(seed)
     
 def randn(*args):
-    return onp.random.randn(*args)
+    return  np.random.randn(*args)
         
 def randperm(args):
-    return onp.random.permutation(args)
+    return  np.random.permutation(args)
 
-USE_JAX = False
+USE_JAX = True
 USE_TORCH = True
 USE_TF = False
 
@@ -42,7 +43,7 @@ if USE_TORCH:
         print("Torch cannot find GPU")
     
     def set_seed(seed):
-        onp.random.seed(seed)
+        np.random.seed(seed)
         torch.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
             
@@ -52,7 +53,7 @@ if USE_TORCH:
    
 if USE_JAX:        
     import jax
-    import jax.numpy as np
+    import jax.numpy as  jnp
     from jax.scipy.special import logsumexp
     from jax import grad, hessian, jacfwd, jacrev, jit, vmap
     from jax.experimental import optimizers
@@ -83,7 +84,7 @@ from sklearn.model_selection import train_test_split
 if True:
     iris = sklearn.datasets.load_iris()
     X = iris["data"][:,:] 
-    y = (iris["target"] == 2).astype(onp.int)  # 1 if Iris-Virginica, else 0
+    y = (iris["target"] == 2).astype(np.int)  # 1 if Iris-Virginica, else 0
 else:
     X, y = sklearn.datasets.make_classification(
             n_samples=1000, n_features=10, n_informative=5, random_state=42)
@@ -101,7 +102,7 @@ N_test = X_test.shape[0]
 def sigmoid(x): return 0.5 * (np.tanh(x / 2.) + 1)
 
 def predict_logit(weights, inputs):
-    return np.dot(inputs, weights) # Already vectorized, no bias term
+    return  jnp.dot(inputs, weights) # Already vectorized, no bias term
 
 def predict_prob(weights, inputs):
     return sigmoid(predict_logit(weights, inputs))
@@ -113,8 +114,8 @@ def NLL(weights, batch):
     # p1 = 1/(1+exp(-logit)), p0 = 1/(1+exp(+logit))
     logits = predict_logit(weights, inputs).reshape((-1,1))
     N = logits.shape[0]
-    logits_plus = np.hstack([np.zeros((N,1)), logits]) # e^0=1
-    logits_minus = np.hstack([np.zeros((N,1)), -logits])
+    logits_plus =  jnp.hstack([np.zeros((N,1)), logits]) # e^0=1
+    logits_minus =  jnp.hstack([np.zeros((N,1)), -logits])
     logp1 = -logsumexp(logits_minus, axis=1)
     logp0 = -logsumexp(logits_plus, axis=1)
     logprobs = logp1 * targets + logp0 * (1-targets)
@@ -124,7 +125,7 @@ def NLL_grad(weights, batch):
     X, y = batch
     N = X.shape[0]
     mu = predict_prob(weights, X)
-    g = np.sum(np.dot(np.diag(mu - y), X), axis=0)/N
+    g =  jnp.sum(np.dot(np.diag(mu - y), X), axis=0)/N
     return g
 
 ###########
@@ -133,13 +134,13 @@ def NLL_grad(weights, batch):
 def evaluate_preds(w_opt, w_est, X):
     p_opt = predict_prob(w_opt, X)
     p_est = predict_prob(w_est, X)
-    delta = np.max(np.abs(p_opt - p_est))
+    delta =  jnp.max(np.abs(p_opt - p_est))
     print("predictions max delta: {}".format(delta))
     return delta
 
 def evaluate(w_opt, w_est, name):
     print("evaluating {}".format(name))
-    delta = np.max(np.abs(w_opt - w_est))
+    delta =  jnp.max(np.abs(w_opt - w_est))
     print("parameters max delta: {}".format(delta))
     train_delta = evaluate_preds(w_opt, w_est, X_train)
     test_delta = evaluate_preds(w_opt, w_est, X_test)
@@ -156,7 +157,7 @@ from sklearn.linear_model import LogisticRegression
 # We don't fit the bias term to simplify the comparison below.
 log_reg = LogisticRegression(solver="lbfgs", C=1e5, fit_intercept=False)
 log_reg.fit(X_train, y_train)
-w_mle_sklearn = np.ravel(log_reg.coef_)
+w_mle_sklearn =  jnp.ravel(log_reg.coef_)
 
 #### Use scipy-BFGS
 
@@ -255,13 +256,17 @@ for expt in expts:
     print('starting {}'.format(name))
     for epoch in range(max_epochs):
         loss_sum = 0.0
+        step_size = 0
         for step, (x_batch, y_batch) in enumerate(data_loader):
-            if armijo:     
-                loss = opt_model.step((x_batch, y_batch))
+            if armijo: 
+                y_batch = y_batch.unsqueeze(1)  
+                y_batch = y_batch.float()  
+                loss, step_size = opt_model.step((x_batch, y_batch))
                 loss_sum += loss
             else:
                 optimizer.zero_grad()
                 y_pred = model(x_batch)
+                y_batch = y_batch.reshape((-1, 1))
                 loss = criterion(y_pred, y_batch)
                 loss.backward()
                 optimizer.step()
@@ -278,10 +283,7 @@ for expt in expts:
     train_delta, test_delta = evaluate(w_mle_sklearn, w_torch, name)
     plt.plot(loss_history)
     plt.title('{}, train {:0.3f}, test {:0.3f}'.format(name, train_delta, test_delta))
-    plt.show()
-    
-    
-
+    plt.show()  
 
 
 # Bare bones SGD
@@ -300,10 +302,8 @@ def sgd_v1(params, loss_fn, batcher, max_epochs, lr):
             batch_grad = grad(loss_fn)(params, batch)
             params = params - lr*batch_grad
         epoch_time = time.time() - start_time
-        train_loss = onp.float(loss_fn(params, (batcher.X, batcher.y)))
+        train_loss =  np.float(loss_fn(params, (batcher.X, batcher.y)))
         loss_history.append(train_loss)
         if epoch % print_every == 0:
             print('Epoch {}, train NLL {}'.format(epoch, train_loss))
     return params, loss_history
-    
-
