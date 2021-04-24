@@ -98,6 +98,6 @@ for evidence in evlist:
     for query in hid_nodes:
         prob_ad = infer_autodiff(evidence, query)
         prob_pgm = infer_pgmpy(evidence, query)
-        assert onp.allclose(prob_ad, prob_pgm)
+        assert np.allclose(prob_ad, prob_pgm)
 
     
