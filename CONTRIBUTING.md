@@ -23,6 +23,7 @@ Please follow the guidelines below when submitting code to [pyprobml](https://gi
 - Please add [issue keyword](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) on PRs. In particular, make sure you mention the issue it fixes. When the code is ready, request a review from both [@murphyk](https://github.com/murphyk) and [@mjsML](https://github.com/mjsML).
 - Make sure your pull request has only one commit (We will squash the commits anyway, however github still emails all people following the repo for every single commit!).
 - In general, your commit should be a single file. If you want to check in multiple files, discuss this in the thread for the github issue you are dealing with.
+- If your pull request refers to an open issue, please be sure to mention it (e.g., 'Closes #foo') in your PR.
  
 ### Coding guidelines
 Make sure your code works properly in Google's Colab. (It is not sufficient for it to work on your local machine). 
