@@ -20,4 +20,6 @@
 |Hierarchical Bayes: Gaussian (8 schools) example| PyMC3 |[notebook][schools]|
 |Hierarchical Bayes: linear regression| PyMC3 |[notebook][linreg]|
 |Hierarchical Bayes: Funnel of hell | PyMC3| [notebook][funnel]|
+|Tutorial on rejection and importance sampling (by Nicholas Vadivelu)| Numpy | [Blog](https://nicholasvadivelu.com/2021/03/09/rejection-importance-sampling/)
+|Course on Bayesian Data Analysis (Aki Vehtari)| PyStan | [Website](https://avehtari.github.io/BDA_course_Aalto/)
 
