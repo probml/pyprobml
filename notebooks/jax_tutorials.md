@@ -25,6 +25,7 @@ The JAX interface is almost identical to NumPy (by design), but with some small 
 - [JAX at Deepmind, NeurIPS 2020](https://www.youtube.com/watch?v=iDxJxIyzSiM)
 - [Intro to JAX (25 min), Jake VanderPlas, SciPy2020](https://www.youtube.com/watch?v=z-WSrQDXkuM&t=6s)
 - [Deepdive on JAX, Roy Frostig, Stanford MLSyst, Nov 2020](https://www.youtube.com/watch?v=mbUwCPiqZBM)
+- [Intro to JAX (1h), Nicholas Vadivelu, Waterloo datascience course, Nov 2020](https://www.youtube.com/watch?v=QkmKfzxbCLQ&t=2583s)
 
 ## JAX libraries related to ML
 
