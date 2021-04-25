@@ -80,7 +80,7 @@ implement the above functionality, some of as
 |Name|More info|
 |----|----|
 |[Tensorflow2](http://www.tensorflow.org)|[tf_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/tf_intro.ipynb)|
-|[JAX](http://github.com/google/jax)|[jax_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/jax_intro.ipynb)|
+|[JAX](http://github.com/google/jax)|[JAX tutorials](https://github.com/probml/pyprobml/blob/master/notebooks/jax_tutorials.md)|
 |[PyTorch](http://pytorch.org)|[PyTorch website](https://pytorch.org/tutorials)|
 |[MXNet](https://mxnet.apache.org)|[Dive into deep learning book](http://www.d2l.ai)|
 
