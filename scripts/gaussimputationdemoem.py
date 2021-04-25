@@ -72,8 +72,7 @@ def impute_em(X, max_iter = 50, eps = 1e-04):
     if np.isnan(S).any():
         S = np.diag(np.nanvar(X, axis = 0))
     S_new = S.copy()
-    EXsum = np.zeros((nc, 1))
-    EXXsum = np.zeros((nc, nc))
+ 
     # Start updating
     X_tilde = X.copy()
     no_conv = True
@@ -83,6 +82,8 @@ def impute_em(X, max_iter = 50, eps = 1e-04):
         #E-step:
         EX = np.zeros((nc, 1))
         EXX = np.zeros((nc, nc))
+        EXsum = np.zeros((nc, 1))
+        EXXsum = np.zeros((nc, nc))
         Mu = Mu_new
         S = S_new
         for i in range(nr):
@@ -120,7 +121,7 @@ def impute_em(X, max_iter = 50, eps = 1e-04):
     
     return result
 
-np.random.seed(2) 
+np.random.seed(4) 
 data_dim = 4
 n_data = 100
 threshold_missing = 0.5
