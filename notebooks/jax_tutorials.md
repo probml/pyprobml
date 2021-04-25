@@ -17,6 +17,7 @@ The JAX interface is almost identical to NumPy (by design), but with some small 
 - [Implement JAX in JAX](https://jax.readthedocs.io/en/latest/autodidax.html)
 - [CMA-ES in JAX](https://roberttlange.github.io/posts/2021/02/cma-es-jax/) blog post for fitting DNNs using blackbox optimization.
 - [JAX on TPU pods](http://matpalm.com/blog/ymxb_pod_slice/)
+- [Kevin Murphy's intro to JAX colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/jax_intro.ipynb)
 
 ## Videos / talks
 
