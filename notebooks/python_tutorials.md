@@ -12,3 +12,21 @@ Below we list some excellent tutorials on Python, with a bias towards ones that 
 |[Duke's BIOS821 course](http://people.duke.edu/~ccc14/bios-821-2017/index.html)| Intro to data analysis with Python |
 |[Duke's STA663 course](http://people.duke.edu/~ccc14/sta-663-2019/)| Intro to statistical computing with Python |
 
+## Software development tools
+
+In datascience / ML, it is common to use  
+ <a href="https://jupyter.org/">Jupyter notebooks</a>,
+which mix code and results.
+We use the [Google colab version of notebooks](https://colab.research.google.com/), which run on the Google Compute Platform (GCP),
+so you don't have to install code locally.
+See [this colab tutorial](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/colab_intro.ipynb).
+
+When developing larger software projects locally, it is often better to use an 
+ IDE (interactive development environment),
+ which keeps the code separate from the results.
+I like to use 
+<a href="https://www.spyder-ide.org">Spyder</a>,
+although many people use
+<a href="https://www.jetbrains.com/pycharm/">PyCharm</a>.
+For a browser-based IDE, you can use
+<a href="https://github.com/jupyterlab/jupyterlab">JupyterLab</a>.
