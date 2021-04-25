@@ -11,6 +11,7 @@
 
 [python_tut_md]: https://github.com/probml/pyprobml/blob/master/notebooks/python_tutorials.md
 [software_md]: https://github.com/probml/pyprobml/blob/master/notebooks/software.md
+[jax_md]: https://github.com/probml/pyprobml/blob/master/notebooks/jax_tutorials.md
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -20,6 +21,7 @@
 |Intro to Pandas|  Pandas, Xarray | [notebook][pandas_intro] |
 |Intro to sklearn | Sklearn | [notebook][sklearn_intro] |
 |Intro to JAX| Jax | [notebook][jax_intro] |
+|Other JAX tutorials| Jax | [markdown][jax_md] |
 |Text preprocessing| PyTorch | [notebook][text_preproc] |
 
 
