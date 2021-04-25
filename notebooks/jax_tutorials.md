@@ -5,7 +5,7 @@
 The JAX interface is almost identical to NumPy (by design), but with some small differences, and lots of additional features.
  More details can be found in the other tutorials listed below.
 
-## Tutorials
+## Tutorials (blog posts / notebooks)
 
 - [JAX homepage](https://github.com/google/jax)
 - [JAX 101 (Deepmind tutorial)](https://jax.readthedocs.io/en/latest/jax-101/index.html)
@@ -14,10 +14,16 @@ The JAX interface is almost identical to NumPy (by design), but with some small 
 - [flax tutorial](https://flax.readthedocs.io/en/latest/notebooks/jax_for_the_impatient.html).
 - [From PyTorch to JAX: towards neural net frameworks that purify stateful code](https://sjmielke.com/jax-purify.htm)
 - [Getting started with JAX: MLPs, CNNs & RNNs](https://roberttlange.github.io/posts/2020/03/blog-post-10/)
+- [Implement JAX in JAX](https://jax.readthedocs.io/en/latest/autodidax.html)
 - [CMA-ES in JAX](https://roberttlange.github.io/posts/2021/02/cma-es-jax/) blog post for fitting DNNs using blackbox optimization.
 - [JAX on TPU pods](http://matpalm.com/blog/ymxb_pod_slice/)
 
+## Videos / talks
 
+- [Matt Johnson's ACM talk, Nov 2020](https://www.youtube.com/watch?v=BzuEGdGHKjc)
+- [JAX at Deepmind, NeurIPS 2020](https://www.youtube.com/watch?v=iDxJxIyzSiM)
+- [Intro to JAX (25 min), Jake VanderPlas, SciPy2020](https://www.youtube.com/watch?v=z-WSrQDXkuM&t=6s)
+- [Deepdive on JAX, Roy Frostig, Stanford MLSyst, Nov 2020](https://www.youtube.com/watch?v=mbUwCPiqZBM)
 
 ## JAX libraries related to ML
 
