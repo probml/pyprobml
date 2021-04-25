@@ -9,7 +9,7 @@
 [caliban]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/caliban.ipynb
 [text_preproc]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/text_preproc_torch.ipynb
 
-[python_tut_md]: https:github.com/probml/pyprobml/blob/master/notebooks/python_tutorials.md
+[python_tut_md]: https://github.com/probml/pyprobml/blob/master/notebooks/python_tutorials.md
 [software_md]: https://github.com/probml/pyprobml/blob/master/notebooks/software.md
 
 |Title|Software|Link|
@@ -20,7 +20,6 @@
 |Intro to Pandas|  Pandas, Xarray | [notebook][pandas_intro] |
 |Intro to sklearn | Sklearn | [notebook][sklearn_intro] |
 |Intro to JAX| Jax | [notebook][jax_intro] |
-|Intro to Caliban (Google Cloud)| Jax | [notebook][caliban] |
 |Text preprocessing| PyTorch | [notebook][text_preproc] |
 
 
