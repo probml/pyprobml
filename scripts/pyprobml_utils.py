@@ -21,7 +21,8 @@ def save_fig(fname, *args, **kwargs):
     plt.tight_layout()
     plt.savefig(fname_full, *args, **kwargs)
     
-
+def savefig(fname, *args, **kwargs):
+    save_fig(fname, *args, **kwargs)
 
 
 def git_ssh(git_command, email, username, verbose=False):
