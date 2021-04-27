@@ -19,6 +19,7 @@ The JAX interface is almost identical to NumPy (by design), but with some small 
 - [JAX on TPU pods](http://matpalm.com/blog/ymxb_pod_slice/)
 - [Kevin Murphy's intro to JAX colab](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/jax_intro.ipynb)
 
+
 ## Videos / talks
 
 - [Matt Johnson's ACM talk, Nov 2020](https://www.youtube.com/watch?v=BzuEGdGHKjc)
@@ -80,3 +81,5 @@ There are also many other JAX libraries for tasks that are not about defining DN
 |[Optax](https://github.com/deepmind/optax)|Library for defining gradient-based optimizers|
 |[Chex](https://github.com/deepmind/chex)|Library for debugging and developing reliable JAX code|
 |[Distrax](https://github.com/deepmind/distrax)| Library for probability distributions and bijectors|
+|[Common loop utilities](https://github.com/google/CommonLoopUtils) |Library for writing "beautiful training loops in JAX"
+
