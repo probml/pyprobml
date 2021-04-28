@@ -4,7 +4,6 @@ import pyprobml_utils as pml
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
-from scipy.io import savemat
 
 class BinaryFA:
  
@@ -61,8 +60,6 @@ class BinaryFA:
       self.W[:,i] = what[:self.latent]
       self.b[i] = what[self.latent]
  
-  from scipy.io import savemat
-  from scipy.stats import multivariate_normal
   def compute_latent_posterior_statistics(self, y, output=[0,0,0,0], max_iter=3):
     W, b = np.copy(self.W), np.copy(self.b)
     y = y.reshape((-1,1))
