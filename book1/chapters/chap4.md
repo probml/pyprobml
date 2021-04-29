@@ -6,7 +6,7 @@
 [pyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/pyro_intro.ipynb
 [bayes_intro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/bayes_intro.ipynb
 [rats]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/hbayes_binom_rats_pymc3.ipynb
-[schools]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/schools_pymc3.ipynb
+[schools]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/schools8_pymc3.ipynb
 [linreg]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/linreg_hbayes_1d_pymc3.ipynb
 [funnel]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/funnel.ipynb
 
