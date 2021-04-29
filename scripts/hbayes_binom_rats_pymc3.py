@@ -53,7 +53,7 @@ with pm.Model() as model:
 
     p = pm.Binomial('y', p=theta, observed=y, n=n)
     #trace = pm.sample(1000, tune=2000, target_accept=0.95)
-    trace = pm.sample(1000, tune=500)
+    trace = pm.sample(1000, tune=500, cores=1)
     
     
 #az.plot_trace(trace)
