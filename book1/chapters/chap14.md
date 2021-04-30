@@ -12,19 +12,19 @@
 [image_aug_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/image_augmentation_torch.ipynb
 [imagenet_flax]: https://colab.research.google.com/github/google/flax/blob/master/examples/imagenet/imagenet.ipynb
 
-
+Some of the PyTorch colabs are based on the [Dive Into Deep Learning (D2L) book](http://d2l.ai/chapter_natural-language-processing-pretraining/index.html).
 
 |Title|Software|Link|
 |-----------|----|----|
-|Basics of (2d) convolution|PyTorch|[notebook][conv_torch]
+|Basics of (2d) convolution (D2L 6.2)|PyTorch|[notebook][conv_torch]
 |CIFAR image classification|PyTorch|[notebook][cnn_cifar_torch]
-|Fashion MNIST image classification using LeNet|PyTorch|[notebook][lenet_torch]
-|Batchnorm applied to LeNet|PyTorch|[notebook][batchnorm_torch]
-|Residual networks|PyTorch|[notebook][resnet_torch]
-|Dense nets |PyTorch|[notebook][densenet_torch]
-|Multi-GPU training| PyTorch| [notebook][multi_gpu_torch]
-|Image augmentation| PyTorch| [notebook][image_aug_torch]
-|Imagenet classifier]| Jax/Flax | [notebook][imagenet_flax]
+|LeNet (D2L 6.5)|PyTorch|[notebook][lenet_torch]
+|Batchnorm (D2L 7.5)|PyTorch|[notebook][batchnorm_torch]
+|Residual networks (D2L 7.6)|PyTorch|[notebook][resnet_torch]
+|Dense nets (D2L 7.7)|PyTorch|[notebook][densenet_torch]
+|Multi-GPU training (D2L 12.5)| PyTorch| [notebook][multi_gpu_torch]
+|Image augmentation (D2L 13.1)| PyTorch| [notebook][image_aug_torch]
+|Imagenet classifier| Jax/Flax | [notebook][imagenet_flax]
 |MNIST image classification using a CNN|TF2|[notebook][cnn_mnist_tf]
 |Dogs vs cats image classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/classification)
 |Transfer learning for dogs vs cats classification|TF2|[TF tutorials](https://www.tensorflow.org/tutorials/images/transfer_learning)
