@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import pyprobml_utils as pml
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
@@ -123,6 +122,20 @@ class BinaryFA:
       sigma_post[:,:,n] = np.squeeze(np.asarray(sigma_p))
     return mu_post, sigma_post, loglik
 
+def sigmoid_times_gauss(X, wMAP, C):
+  mu = X @ wMAP;
+  n = X.shape[1]
+  if n < 1000:
+    sigma2 = np.diag(X @ C @ X.T)
+  else:
+    sigma2 = zeros((1,n))
+    for i in range(n):
+      sigma2[i] = X[i,:] @ C @ X[i,:]
+
+  kappa = 1 / np.sqrt(1 + np.pi * sigma2 /8);
+  p = sigmoid(kappa * mu.reshape(kappa.shape))
+  return p
+ 
 np.random.seed(1)
 
 max_iter, conv_tol = 50, 1e-4
@@ -153,9 +166,9 @@ binaryFA.variational_em(noisy_data)
 mu_post, sigma_post, loglik  = binaryFA.infer_latent(noisy_data)
 
 symbols = ['ro', 'gs', 'k*']
-plt.plot(mu_post[0,:m], mu_post[1,0:m], 'ro')
-plt.plot(mu_post[0,m:2*m], mu_post[1,m:2*m], 'gs')
-plt.plot(mu_post[0,2*m:], mu_post[1,2*m:], 'k*')
+plt.plot(mu_post[0,:m], mu_post[1,0:m], symbols[0])
+plt.plot(mu_post[0,m:2*m], mu_post[1,m:2*m], symbols[1])
+plt.plot(mu_post[0,2*m:], mu_post[1,2*m:], symbols[2])
 plt.title('Latent Embedding')
 plt.show()
  
