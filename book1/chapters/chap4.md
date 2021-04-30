@@ -13,13 +13,19 @@
 |Title|Software|Link|
 |-----------|----|----|
 |Intro to PyMc3 |PyMc3| [notebook][pymc3] |
+|Intro to Bayesian stats| PyMc3| [notebook][bayes_intro]|
+
+
+Volume 2 stuff
+
+
+|Title|Software|Link|
+|-----------|----|----|
 |Intro to Pyro | Pyro, Pytorch | [notebook][numpyro]| 
 |Intro to NumPyro | NumPyro, Jax | [notebook][numpyro]| 
-|Intro to Bayesian stats| PyMc3| [notebook][bayes_intro]|
 |Hierarchical Bayes: binomial (rat/covid) example| PyMC3 |[notebook][rats]|
 |Hierarchical Bayes: Gaussian (8 schools) example| PyMC3 |[notebook][schools]|
 |Hierarchical Bayes: linear regression| PyMC3 |[notebook][linreg]|
 |Hierarchical Bayes: Funnel of hell | PyMC3| [notebook][funnel]|
 |Tutorial on rejection and importance sampling (by Nicholas Vadivelu)| Numpy | [Blog](https://nicholasvadivelu.com/2021/03/09/rejection-importance-sampling/)
 |Course on Bayesian Data Analysis (Aki Vehtari)| PyStan | [Website](https://avehtari.github.io/BDA_course_Aalto/)
-
