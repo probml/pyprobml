@@ -18,14 +18,14 @@
 |RNN for character level generation (D2L 8.5)|PyTorch|[notebook][rnn_torch] |
 |GRUs (D2L 9.1)|PyTorch|[notebook][gru_torch] |
 |LSTMs (D2L 9.2)|PyTorch|[notebook][lstm_torch] |
+|NMT using RNN (D2L 9.7)|PyTorch|[notebook][nmt_torch] |
+|Attention (D2L 10.3)|PyTorch|[notebook][attention_torch] |
+|NMT with RNN and attention (D2L 10.4)|PyTorch|[notebook][nmt_attention_torch] |
+|NMT using transformers (D2L 10.7)|PyTorch|[notebook][transformers_torch] |
+|BERT (D2L 14.8)| PyTorch| [notebook][bert_torch] |
+|Entailment classification using MLP with attention (D2L 15.5)| PyTorch| [notebook][entailment_attention_mlp_torch] |
 |RNN for sentiment classification (D2L 15.2)| PyTorch | [notebook][rnn_sentiment_torch]
 |1d CNN for sentiment classification (D2L 15.3)| PyTorch | [notebook][cnn1d_sentiment_torch]
-|NMT using RNN (D2L 9.7)|PyTorch|[notebook][nmt_torch] |
-|Attention (D2L 10.7)|PyTorch|[notebook][attention_torch] |
-|NMT with RNN and attention (D2L 10.7)|PyTorch|[notebook][nmt_attention_torch] |
-|Neural machine translation using transformers|PyTorch|[notebook][transformers_torch] |
-|Entailment classification using MLP with attention| PyTorch| [notebook][entailment_attention_mlp_torch] |
-|BERT| PyTorch| [notebook][bert_torch] |
 |RNN for sentiment classification|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_classification_rnn)
 |RNN for character level generation|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/text/text_generation)
 |RNN for time series forecasting|TF2|[TF2 tutorials](https://www.tensorflow.org/tutorials/structured_data/time_series)
