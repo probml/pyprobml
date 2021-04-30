@@ -128,7 +128,7 @@ def sigmoid_times_gauss(X, wMAP, C):
   if n < 1000:
     sigma2 = np.diag(X @ C @ X.T)
   else:
-    sigma2 = zeros((1,n))
+    sigma2 = np.zeros((1,n))
     for i in range(n):
       sigma2[i] = X[i,:] @ C @ X[i,:]
 
