@@ -9,6 +9,7 @@
 [schools]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/schools8_pymc3.ipynb
 [linreg]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/linreg_hbayes_1d_pymc3.ipynb
 [funnel]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/funnel.ipynb
+[approx_inf_numpyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/gaussian_param_inf_1d_numpyro.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|
@@ -23,6 +24,7 @@ Volume 2 stuff
 |-----------|----|----|
 |Intro to Pyro | Pyro, Pytorch | [notebook][numpyro]| 
 |Intro to NumPyro | NumPyro, Jax | [notebook][numpyro]| 
+|Approx. inf. for 1d Gaussian | NumPyro | [notebook][approx_inf_numpyro]|
 |Hierarchical Bayes: binomial (rat/covid) example| PyMC3 |[notebook][rats]|
 |Hierarchical Bayes: Gaussian (8 schools) example| PyMC3 |[notebook][schools]|
 |Hierarchical Bayes: linear regression| PyMC3 |[notebook][linreg]|
