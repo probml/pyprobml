@@ -13,6 +13,8 @@
 [entailment_attention_mlp_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/entailment_attention_mlp_torch.ipynb
 [bert_torch]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/bert_torch.ipynb
 
+Some of the PyTorch colabs are based on the [Dive Into Deep Learning (D2L) book](http://d2l.ai/chapter_natural-language-processing-pretraining/index.html).
+
 |Title|Software|Link|
 |-----------|----|----|
 |RNN for character level generation (D2L 8.5)|PyTorch|[notebook][rnn_torch] |
