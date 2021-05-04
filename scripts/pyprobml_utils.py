@@ -1,12 +1,66 @@
 
 import os
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Ellipse
+import matplotlib.transforms as transforms
 
+#import cv2
+#from google.colab.patches import cv2_imshow
 
 def test():
     print('welcome to python probabilistic ML library')
 
 
+def show_image(img_path,size=None,ratio=None):
+     img = reshape_image(img_path, size, ratio)
+     cv2_imshow(img)
+     
+
+def reshape_image(img_path,size=None,ratio=None):
+     if not size:
+         size=[0,480]
+     img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
+     img=image_resize(img,height=size[1], inter = cv2.INTER_AREA)
+     if ratio:
+         img=cv2.resize(img,size,fx=ratio[0],fy=ratio[1])
+     return img
+        
+        
+     
+def image_resize(image, width = None, height = None, inter=None):
+     # From https://stackoverflow.com/questions/44650888/resize-an-image-without-distortion-opencv
+     # initialize the dimensions of the image to be resized and
+     # grab the image size
+     dim = None
+     (h, w) = image.shape[:2]
+
+     # if both the width and height are None, then return the
+     # original image
+     if width is None and height is None:
+         return image
+
+     # check to see if the width is None
+     if width is None:
+         # calculate the ratio of the height and construct the
+         # dimensions
+         r = height / float(h)
+         dim = (int(w * r), height)
+
+     # otherwise, the height is None
+     else:
+         # calculate the ratio of the width and construct the
+         # dimensions
+         r = width / float(w)
+         dim = (width, int(h * r))
+
+     # resize the image
+     resized = cv2.resize(image, dim, interpolation = inter)
+
+     # return the resized image
+     return resized
+    
+    
 def save_fig(fname, *args, **kwargs):
     '''Save current plot window to the figures directory.'''
     if "PYPROBML" in os.environ:
@@ -20,6 +74,7 @@ def save_fig(fname, *args, **kwargs):
     print('saving image to {}'.format(fname_full))
     plt.tight_layout()
     plt.savefig(fname_full, *args, **kwargs)
+    
     
 def savefig(fname, *args, **kwargs):
     save_fig(fname, *args, **kwargs)
@@ -53,12 +108,6 @@ def git_ssh(git_command, email, username, verbose=False):
     os.system('git config --global user.email ""')
     os.system('git config --global user.name ""')
     
-
-
-
-import numpy as np
-from matplotlib.patches import Ellipse
-import matplotlib.transforms as transforms
 
 # Source:
 # https://matplotlib.org/devdocs/gallery/statistics/confidence_ellipse.html

@@ -1,0 +1,15 @@
+digraph {
+	U [label=U shape=ellipse]
+	Y [label=Y shape=ellipse]
+	B [label=B shape=ellipse]
+	C [label=C shape=ellipse]
+	X [label=X shape=ellipse]
+	A [label=A shape=ellipse]
+	X -> Y
+	C -> Y
+	C -> B
+	U -> X
+	U -> B
+	A -> U
+	A -> C
+}
