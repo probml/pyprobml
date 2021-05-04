@@ -5,40 +5,16 @@ import numpy as np
 from matplotlib.patches import Ellipse
 import matplotlib.transforms as transforms
 
-#import cv2
-#from google.colab.patches import cv2_imshow
 
 def test():
     print('welcome to python probabilistic ML library')
 
-
-def show_image(img_path,size=None,ratio=None):
-     img = reshape_image(img_path, size, ratio)
-     cv2_imshow(img)
-     
-
-def reshape_image(img_path,size=None,ratio=None):
-     if not size:
-         size=[0,480]
-     img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
-     img=image_resize(img,height=size[1], inter = cv2.INTER_AREA)
-     if ratio:
-         img=cv2.resize(img,size,fx=ratio[0],fy=ratio[1])
-     return img
-        
-        
-     
-def image_resize(image, width = None, height = None, inter=None):
+def compute_image_resize(image, width = None, height = None):
      # From https://stackoverflow.com/questions/44650888/resize-an-image-without-distortion-opencv
      # initialize the dimensions of the image to be resized and
      # grab the image size
      dim = None
      (h, w) = image.shape[:2]
-
-     # if both the width and height are None, then return the
-     # original image
-     if width is None and height is None:
-         return image
 
      # check to see if the width is None
      if width is None:
@@ -54,11 +30,7 @@ def image_resize(image, width = None, height = None, inter=None):
          r = width / float(w)
          dim = (width, int(h * r))
 
-     # resize the image
-     resized = cv2.resize(image, dim, interpolation = inter)
-
-     # return the resized image
-     return resized
+     return dim
     
     
 def save_fig(fname, *args, **kwargs):
