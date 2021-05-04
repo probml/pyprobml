@@ -1,7 +1,5 @@
 import pyprobml_utils as pml
-
 #!pip install GPy
-
 import numpy as np
 import matplotlib.pyplot as plt 
 import GPy
@@ -31,20 +29,25 @@ fs = np.linalg.cholesky(w).dot(np.random.randn(n, 1)).reshape((-1, 1))
 #fs = np.array([1.6218, 1.8558, 0.4102, 1.2526, -0.0133, 1.6380, 0.2189]).reshape(-1, 1)
 
 n=41
-x = np.linspace(0.1, 150, n)
+x = np.linspace(0.1, 800, n)
 y = np.linspace(0.03, 3, n)
 X, Y = np.meshgrid(x, y)
 
+xstar = np.linspace(-7.5, 7.5, 201)
+xstar = xstar.reshape((-1, 1))
+
 def kernel(X1, X2, l, sigma_f):
     sqdist = np.sum(X1**2, 1).reshape(-1, 1) + np.sum(X2**2, 1) - 2 * np.dot(X1, X2.T)
-    return sigma_f**2 * np.exp(-0.5 / l**2 * sqdist)
+    return sigma_f**2 * np.exp((-0.5 / l**2) * sqdist)
 
-def mll(params):
+def nll_stable(params):
         theta = params[0]
         noise = params[1]
         K = kernel(X_train, X_train, l=theta, sigma_f=1) + noise**2 * np.eye(len(X_train))
         L = cholesky(K)
         return np.sum(np.log(np.diagonal(L))) + 0.5 * Y_train.T.dot(lstsq(L.T, lstsq(L, Y_train)[0])[0]) + 0.5 * len(X_train) * np.log(2*np.pi)
+
+"""From scratch"""
 
 X = X.flatten().reshape((-1, 1))
 Y = Y.flatten().reshape((-1, 1))
@@ -55,18 +58,17 @@ params = np.empty((2, ))
 for i in range(n*n):
   params[0] = X[i]
   params[1] = Y[i]
-  Z[i] = mll(params)
+  Z[i] = nll_stable(params)
 
-resu = minimize(mll, x0=[1, 0.1], method='L-BFGS-B')
-
+resu = minimize(nll_stable, x0=[1, 0.1], method='L-BFGS-B')  
 l_opt = resu.x[0]
 sigma_y_opt = resu.x[1]
 
 Z = Z.reshape((n, n))
+print(Z)
 X = X.reshape((n, n))
 Y = Y.reshape((n, n))
 level = -1*np.array([15, 11.5, 9.8,  9.3,  8.9, 8.5, 8.3])
-
 plt.plot(l_opt, sigma_y_opt, 'o')
 plt.xscale("log")
 plt.yscale("log")
@@ -79,11 +81,48 @@ pml.save_fig('Contour.png')
 plt.savefig('Contour.png')
 plt.show()
 
+"""Using Gpy"""
+
+x = np.linspace(0.1, 80, n)
+y = np.linspace(0.03, 3, n)
+X, Y = np.meshgrid(x, y)
+
+X = X.flatten().reshape((-1, 1))
+Y = Y.flatten().reshape((-1, 1))
+Z2 = np.empty((n*n, 1))
+X_train = xs
+Y_train = fs
+sigma_f = 1
+params = np.empty((2, ))
+num_restarts = 1
+for i in range(n*n):
+  params[0] = X[i]
+  params[1] = Y[i]
+  kernel = GPy.kern.RBF(1, sigma_f, params[0]) #+
+  model = GPy.models.GPRegression(xs , fs, kernel) 
+  model.Gaussian_noise.variance = params[1]**2
+  model.Gaussian_noise.variance.fix()
+  loglik = model.log_likelihood() 
+  Z2[i] = loglik
+
+Z2 = Z2.reshape((n, n))
+print(Z2)
+X = X.reshape((n, n))
+Y = Y.reshape((n, n))
+level = -1*np.array([15, 11.5, 9.8,  9.3,  8.9, 8.5, 8.3])
+plt.xscale("log")
+plt.yscale("log")
+plt.xlabel("Length-scale")
+plt.ylabel("Noise-level")
+plt.contour(X, Y, -Z2) #, levels = level)
+plt.title("Log-marginal likelihood")
+pml.save_fig('Contour.png')
+plt.savefig('Contour.png')
+plt.show()
+
 l = np.array([1.0, 10])
 sigma_f = np.array([1, 1])
 sigma_y = np.array([0.2, 0.8])
-xstar = np.linspace(-7.5, 7.5, 201)
-xstar = xstar.reshape((-1, 1))
 
 def generate_plots(sigma_f, l, sigma_y):
     kernel = GPy.kern.RBF(1, sigma_f, l) 
