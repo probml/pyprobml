@@ -56,14 +56,15 @@ for n in nodes:
         edges.append(edge)
 model = BayesianModel(edges)
 
-cpd_d = TabularCPD(variable='D', variable_card=2, values=[paramsD])
 
-cpd_i = TabularCPD(variable='I', variable_card=2, values=[paramsI])
+cpd_d = TabularCPD(variable='D', variable_card=2, values=np.reshape(paramsD, (2, 1)))
+
+cpd_i = TabularCPD(variable='I', variable_card=2, values=np.reshape(paramsI, (2, 1)))
 
 cpd_g = TabularCPD(variable='G', variable_card=3, 
                    values=np.reshape(paramsG, (3, 2*2)),# flat 2d matrix
                    evidence=['I', 'D'],
-                   evidence_card=[2, 2])
+                   evidence_card=[2,2])
 
 cpd_l = TabularCPD(variable='L', variable_card=2, 
                    values=paramsL,
@@ -81,7 +82,7 @@ model.check_model()
 inf_engine_ve = VariableElimination(model) # compute elim order only once
 
 def infer_pgmpy(evidence, query):
-    factor = inf_engine_ve.query([query], evidence=evidence) [query]
+    factor = inf_engine_ve.query([query], evidence=evidence,joint=False) [query]    
     marginal = factor.values # convert from DiscreteFactor to np array
     return marginal
 
@@ -96,7 +97,7 @@ for evidence in evlist:
     vis_nodes = set(evidence.keys())
     hid_nodes = all_nodes.difference(vis_nodes)
     for query in hid_nodes:
-        prob_ad = infer_autodiff(evidence, query)
+        prob_ad = infer_autodiff(evidence, query)        
         prob_pgm = infer_pgmpy(evidence, query)
         assert np.allclose(prob_ad, prob_pgm)
 
