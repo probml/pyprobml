@@ -31,7 +31,6 @@ Volume 2 stuff
 |Approx. inf. for 1d Gaussian (rethinking 4.3) | NumPyro | [notebook][gauss_param_inf_numpyro]|
 |Bayesian polynomial regression (rethinking 4.4) | NumPyro | [notebook][linreg_height_weight_numpyro]|
 |Splines for 1d regression (rethinking 4.5) | NumPyro | [notebook][splines_numpyro]|
-
 |Hierarchical Bayes: binomial (rat/covid) example| PyMC3 |[notebook][rats]|
 |Hierarchical Bayes: Gaussian (8 schools) example| PyMC3 |[notebook][schools]|
 |Hierarchical Bayes: linear regression| PyMC3 |[notebook][linreg]|
