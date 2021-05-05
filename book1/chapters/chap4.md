@@ -12,7 +12,7 @@
 [pyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/pyro_intro.ipynb
 
 [gauss_param_inf_numpyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/gaussian_param_inf_1d_numpyro.ipynb
-[height_weight_numpyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/linreg_height_weight_numpyro.ipynb
+[linreg_height_weight_numpyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/linreg_height_weight_numpyro.ipynb
 [splines_numpyro]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/splines_numpyro.ipynb
 
 |Title|Software|Link|
