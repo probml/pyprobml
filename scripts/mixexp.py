@@ -37,20 +37,14 @@ def is_pos_def(x):
 K = 3 #nmix
 D = np.size(X, axis=1)
 N = np.size(X, axis=0)
-np.random.seed(1)
-Wy = 0.1*np.random.randn(D, K)  
-bias = 0.3*np.random.randn(D, K) 
-mixweights = np.random.rand(1, K)
-normmw =  np.linalg.norm(mixweights)
-mixweights = mixweights/normmw
-sigma2 = 0.1*np.random.randn(1, K)
 norm = 50
-max_iter = 22 
+max_iter = 39 
 iteration = 0
-while iteration < max_iter:
+r = np.zeros((N, K))
+while iteration < max_iter: 
 
       #E-step :
-      np.random.seed(18) 
+      np.random.seed(iteration)
       Wy = 0.1*np.random.randn(D, K) 
       bias = 0.3*np.random.randn(D, K) 
       mixweights = np.random.rand(1, K)
@@ -78,6 +72,7 @@ while iteration < max_iter:
       r = post
       mixweights = np.sum(r, axis=0)/N
       mixweights = mixweights.reshape(1, -1)
+
       for k in range(K):
         reg = LinearRegression()
         model = reg.fit(X, y, r[:, k])
@@ -91,25 +86,27 @@ while iteration < max_iter:
 N = np.size(X, axis=0)
 D = np.size(X, axis=1)
 K = 3
-weights = np.repeat(mixweights, N, axis=1)
+weights = np.repeat(mixweights, N, axis=0)
 muk = np.zeros((N, K))
 vk = np.zeros((N, K))
-mu = np.zeros((N, ))
+mu = np.zeros((N, ))  
 v = np.zeros((N, 1))
+b = 0.3*np.random.randn(D, K) 
 for k in range(K):
     w = X*Wy[:, k] + bias[:, k]
     w = w.reshape(-1, )
     muk[:, k] = w
-    q = np.multiply(weights[:, k], muk[:, k])
+    q = np.multiply(weights[:, k], muk[:, k]) 
     mu = mu + q
     vk[:, k] = sigma2[:, k]
-    v = v + np.multiply(weights[:, k], (vk[:, k] + np.square(muk[:, k])))
-v = v - np.square(mu)
+    v = v + np.multiply(weights[:, k], (vk[:, k] + np.square(muk[:, k]))).reshape(-1, 1)
+
+v = v - np.square(mu).reshape(-1, 1)
 
 plt.scatter(xtest, y, edgecolors='blue', color="none")
-plt.plot(xtest, muk[:, 2])
-plt.plot(xtest, muk[:, 1])
 plt.plot(xtest, muk[:, 0])
+plt.plot(xtest, muk[:, 1])
+plt.plot(xtest, muk[:, 2])
 plt.title('Expert-predictions')
 plt.savefig('Expert_predictions.png')
 pml.save_fig('Expert_predictions.png')
@@ -129,9 +126,9 @@ yhat = np.empty((N, 1))
 for i in range(N):
   yhat[i, 0] = muk[i, map[i, 0]]
 
-plt.scatter(xtest, y)
-plt.scatter(yhat, xtest)
-plt.scatter(mu, xtest)
+plt.scatter(xtest, yhat, marker=6, color='black') 
+plt.scatter(xtest, mu, marker='X', color='red') 
+plt.scatter(xtest, y, edgecolors='blue', color="none")
 plt.title('prediction')
 plt.legend(['mode', 'mean'])
 pml.save_fig('Predictions.png')
