@@ -128,5 +128,5 @@ x_test = np.c_[np.ones((x_test.shape[0],1)), x_test]
 params = get_params(opt_state)
 plt.scatter(X[:,1], y, c='k', s=13, label=labels["training"])
 plt.plot(x_test[:,1], predict(params, x_test), 'g-',linewidth=3, label=labels["test"])
-plt.legend()
+plt.gca().legend(loc="upper right")
 plt.show()
