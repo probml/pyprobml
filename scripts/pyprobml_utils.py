@@ -12,6 +12,8 @@ def test():
 
     
     
+    # https://stackoverflow.com/questions/10685495/reducing-the-size-of-pdf-figure-file-in-matplotlib
+    
 def save_fig(fname, *args, **kwargs):
     '''Save current plot window to the figures directory.'''
     if "PYPROBML" in os.environ:
@@ -23,14 +25,12 @@ def save_fig(fname, *args, **kwargs):
         os.mkdir(figdir)
     fname_full = os.path.join(figdir, fname)
     print('saving image to {}'.format(fname_full))
-    plt.tight_layout()
-    plt.savefig(fname_full, *args, **kwargs)
+    #plt.tight_layout()
+    plt.savefig(fname_full,  dpi=300)
     
     
 def savefig(fname, *args, **kwargs):
     save_fig(fname, *args, **kwargs)
-
-
 
     
 
