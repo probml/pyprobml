@@ -19,78 +19,78 @@ from jax.flatten_util import ravel_pytree
 from graphviz import Digraph
 
 def generate_data(num_instances, num_vars):
-    X = 10 * np.random.rand(num_instances, num_vars) - 5
-    var = 0.1
-        n_points = 20
-            example_points = 10 * np.random.rand(n_points, num_vars)-5
-            targets = 10* np.random.rand(n_points,1)-5
-            y = np.zeros((num_instances,1))
-            for i in range(num_instances):
-                dists = np.sum(np.abs(np.tile(X[i,:],(n_points,1)) - example_points), axis=1)
-                lik = (1/np.sqrt(2* np.pi)) * np.exp(-dists/(2*var))
-                lik = lik / np.sum(lik)
-                y[i,0] = lik.T @ targets + np.random.randn()/15
-                    return X, y
+  X = 10 * np.random.rand(num_instances, num_vars) - 5
+  var = 0.1
+  n_points = 20
+  example_points = 10 * np.random.rand(n_points, num_vars)-5
+  targets = 10* np.random.rand(n_points,1)-5
+  y = np.zeros((num_instances,1))
+  for i in range(num_instances):
+      dists = np.sum(np.abs(np.tile(X[i,:],(n_points,1)) - example_points), axis=1)
+      lik = (1/np.sqrt(2* np.pi)) * np.exp(-dists/(2*var))
+      lik = lik / np.sum(lik)
+      y[i,0] = lik.T @ targets + np.random.randn()/15
+  return X, y
 
 @jit
 def loss(params, batch):
-    inputs, targets = batch
-        preds = predict(params, inputs)
-        return jnp.sum((preds - targets)**2) / 2.0
+  inputs, targets = batch
+  preds = predict(params, inputs)
+  return jnp.sum((preds - targets)**2) / 2.0
 
 def data_stream():
-    rng = npr.RandomState(0)
-    while True:
+  rng = npr.RandomState(0)
+  while True:
     perm = rng.permutation(num_instances)
     for i in range(num_batches):
-        batch_idx = perm[i * batch_size:(i + 1) * batch_size]
-        yield X[batch_idx], y[batch_idx]
+      batch_idx = perm[i * batch_size:(i + 1) * batch_size]
+      yield X[batch_idx], y[batch_idx]
 batches = data_stream()
 
 def pgd(alpha, lambd):
-    step_size = alpha
-        
-        def init(w0):
-            return w0
-                
-                def soft_thresholding(z, threshold):
-                    return jnp.sign(z) * jnp.maximum(jnp.absolute(z) -  threshold , 0.0)
-                        
-                        def update(i, g, w):
-                            g_flat, unflatten = ravel_pytree(g)
-                            w_flat = ravel_pytree_jit(w)
-                            updated_params = soft_thresholding(w_flat - step_size * g_flat, step_size * lambd)
-                            return unflatten(updated_params)
-                                
-                                def get_params(w):
-                                    return w
-                                        
-                                        def  set_step_size(lr):
-                                            step_size = lr
-                                                
-                                                return init, update, get_params, soft_thresholding, set_step_size
+  step_size = alpha
+  
+  def init(w0):
+    return w0
+
+  def soft_thresholding(z, threshold):
+    return jnp.sign(z) * jnp.maximum(jnp.absolute(z) -  threshold , 0.0)
+ 
+  def update(i, g, w):
+    g_flat, unflatten = ravel_pytree(g)
+    w_flat = ravel_pytree_jit(w)
+    updated_params = soft_thresholding(w_flat - step_size * g_flat, step_size * lambd)
+    return unflatten(updated_params)
+  
+  def get_params(w):
+    return w
+
+  def  set_step_size(lr):
+    step_size = lr
+
+  return init, update, get_params, soft_thresholding, set_step_size
 
 ravel_pytree_jit = jit(lambda tree: ravel_pytree(tree)[0])
 
 @jit
 def line_search(w, g, batch, beta):
-    lr_i = 1
-        g_flat, unflatten_g = ravel_pytree(g)
-        w_flat = ravel_pytree_jit(w)
-        z_flat = soft_thresholding(w_flat - lr_i*g_flat, lr_i* lambd)
-        z = unflatten_g(z_flat)
-        for i in range(20):
-            is_converged = loss(z, batch) > loss(w, batch) + g_flat@(z_flat - w_flat) + np.sum((z_flat - w_flat)**2)/(2*lr_i)
-            lr_i = jnp.where(is_converged,lr_i, beta*lr_i)
-                return lr_i
+  lr_i = 1
+  g_flat, unflatten_g = ravel_pytree(g)
+  w_flat = ravel_pytree_jit(w)
+  z_flat = soft_thresholding(w_flat - lr_i*g_flat, lr_i* lambd)
+  z = unflatten_g(z_flat)
+  for i in range(20):
+    is_converged = loss(z, batch) > loss(w, batch) + g_flat@(z_flat - w_flat) + np.sum((z_flat - w_flat)**2)/(2*lr_i)
+    lr_i = jnp.where(is_converged,lr_i, beta*lr_i)
+  return lr_i
 
 @jit
 def update(i, opt_state, batch):
-    params = get_params(opt_state)
-    g = grad(loss)(params, batch)
-    lr_i = line_search(params, g, batch, 0.5)
-    set_step_size(lr_i)
-    return opt_update(i,g, opt_state)
+  params = get_params(opt_state)
+  g = grad(loss)(params, batch)
+  lr_i = line_search(params, g, batch, 0.5)
+  set_step_size(lr_i)
+  return opt_update(i,g, opt_state)
 
 num_epochs = 60000
 num_instances, num_vars  = 200, 2
@@ -101,11 +101,11 @@ x, y = generate_data(num_instances, 1)
 X = np.c_[np.ones_like(x), x]
 
 init_random_params, predict = stax.serial(
-                                          Dense(5), Softplus,
-                                          Dense(5), Softplus,
-                                          Dense(5), Softplus,
-                                          Dense(5), Softplus,
-                                          Dense(1))
+    Dense(5), Softplus,
+    Dense(5), Softplus,
+    Dense(5), Softplus,
+    Dense(5), Softplus,
+    Dense(1))
 
 rng = random.PRNGKey(0)
 lambd, step_size = 0.5, 1e-4
@@ -115,9 +115,9 @@ opt_state = opt_init(init_params)
 itercount = itertools.count()
 
 for epoch in range(num_epochs):
-    start_time = time.time()
-    opt_state = update(next(itercount), opt_state, next(batches))
-    epoch_time = time.time() - start_time
+  start_time = time.time()
+  opt_state = update(next(itercount), opt_state, next(batches))
+  epoch_time = time.time() - start_time
 
 labels = {"training" : "Data", "test" : "Deep Neural Net" }
 x_test = np.arange(minim, maxim, 1e-5)
@@ -137,15 +137,15 @@ dot = Digraph(name='Neural Network',format='png',graph_attr={'ordering':'out'}, 
 dot.node('00','<x<SUB>0</SUB>>')
 dot.node('01','<x<SUB>1</SUB>>')
 for i in range(len(w)):
-    for j in range(w[i].shape[1]):
-        subscript = '{}{}'.format(i+1, j)
-        dot.node(subscript, '<h<SUB>{}</SUB>>'.format(subscript))
-        for k in range(w[i].shape[0]):
-            origin = '{}{}'.format(i,k)
-            if np.abs(w[i][k,j])>1e-4:
-                dot.edge(origin, subscript)
-                    else:
-                        dot.edge(origin, subscript,style='invis')
-
+  for j in range(w[i].shape[1]):
+    subscript = '{}{}'.format(i+1, j)
+    dot.node(subscript, '<h<SUB>{}</SUB>>'.format(subscript))
+    for k in range(w[i].shape[0]):
+      origin = '{}{}'.format(i,k)
+      if np.abs(w[i][k,j])>1e-4:
+        dot.edge(origin, subscript)
+      else:
+        dot.edge(origin, subscript,style='invis')
+  
 dot.edge('42','50', style='invis')
 dot.view()
