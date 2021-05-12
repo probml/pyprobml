@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
+from jax import vmap
 
 class BinaryFA:
  
@@ -123,19 +122,21 @@ class BinaryFA:
     return mu_post, sigma_post, loglik
 
 def sigmoid_times_gauss(X, wMAP, C):
+  vv = lambda x, y: jnp.vdot(x, y)  
+  mv = vmap(vv, (None, 0), 0)
+  mm = vmap(mv, (0, None), 0) 
+  vm = vmap(vv, (0, 0), 0)
+  
   mu = X @ wMAP;
   n = X.shape[1]
   if n < 1000:
     sigma2 = np.diag(X @ C @ X.T)
   else:
-    sigma2 = np.zeros((1,n))
-    for i in range(n):
-      sigma2[i] = X[i,:] @ C @ X[i,:]
-
+    sigma2 = vm(X , mm(C,X))
   kappa = 1 / np.sqrt(1 + np.pi * sigma2 /8);
   p = sigmoid(kappa * mu.reshape(kappa.shape))
   return p
- 
+
 np.random.seed(1)
 
 max_iter, conv_tol = 50, 1e-4
