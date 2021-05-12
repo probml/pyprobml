@@ -1,35 +1,30 @@
-import time
 import itertools
 import numpy as np
 import matplotlib.pyplot as plt
 import numpy.random as npr
-from numpy.random import multivariate_normal as mvn
 
 import jax.numpy as jnp
 from jax import jit, grad, random
-from jax.experimental import optimizers
-from jax.experimental.optimizers import optimizer
 from jax.experimental import stax
-from jax.experimental.stax import Dense, Softplus, LeakyRelu
-from jax import tree_util
-from jax.tree_util import (tree_map, tree_flatten, tree_unflatten,
-                           register_pytree_node)
+from jax.experimental.stax import Dense, Softplus
+from jax.tree_util import (tree_flatten, tree_unflatten)
 from jax.flatten_util import ravel_pytree
 
 from graphviz import Digraph
 
-def generate_data(num_instances, num_vars):
-  X = 10 * np.random.rand(num_instances, num_vars) - 5
+def generate_data(num_instances, num_vars, key):
+  subkeys = random.split(key, 4)
+  X = 10 *  random.uniform(subkeys[0], shape=(num_instances, num_vars)) - 5
   var = 0.1
   n_points = 20
-  example_points = 10 * np.random.rand(n_points, num_vars)-5
-  targets = 10* np.random.rand(n_points,1)-5
+  example_points = 10 * random.uniform(subkeys[1], shape=(n_points, num_vars))-5
+  targets = 10* random.uniform(subkeys[2], shape=(n_points, 1)) -5
   y = np.zeros((num_instances,1))
   for i in range(num_instances):
       dists = np.sum(np.abs(np.tile(X[i,:],(n_points,1)) - example_points), axis=1)
       lik = (1/np.sqrt(2* np.pi)) * np.exp(-dists/(2*var))
       lik = lik / np.sum(lik)
-      y[i,0] = lik.T @ targets + np.random.randn()/15
+      y[i,0] = lik.T @ targets + random.normal(subkeys[3])/15
   return X, y
 
 @jit
@@ -38,14 +33,14 @@ def loss(params, batch):
   preds = predict(params, inputs)
   return jnp.sum((preds - targets)**2) / 2.0
 
-def data_stream():
+def data_stream(num_instances, batch_size):
   rng = npr.RandomState(0)
+  num_batches = num_instances // batch_size
   while True:
     perm = rng.permutation(num_instances)
     for i in range(num_batches):
       batch_idx = perm[i * batch_size:(i + 1) * batch_size]
       yield X[batch_idx], y[batch_idx]
-batches = data_stream()
 
 def pgd(alpha, lambd):
   step_size = alpha
@@ -92,13 +87,15 @@ def update(i, opt_state, batch):
   set_step_size(lr_i)
   return opt_update(i,g, opt_state)
 
+key = random.PRNGKey(3)
 num_epochs = 60000
 num_instances, num_vars  = 200, 2
-batch_size, num_batches = num_instances, 1
+batch_size = num_instances
 minim, maxim = -5, 5
 
-x, y = generate_data(num_instances, 1)
+x, y = generate_data(num_instances, 1, key)
 X = np.c_[np.ones_like(x), x]
+batches = data_stream(num_instances, batch_size)
 
 init_random_params, predict = stax.serial(
     Dense(5), Softplus,
@@ -107,17 +104,14 @@ init_random_params, predict = stax.serial(
     Dense(5), Softplus,
     Dense(1))
 
-rng = random.PRNGKey(0)
-lambd, step_size = 0.5, 1e-4
+lambd, step_size = 0.6, 1e-4
 opt_init, opt_update, get_params, soft_thresholding, set_step_size =  pgd(step_size,lambd)
-_, init_params = init_random_params(rng, (-1, num_vars))
+_, init_params = init_random_params(key, (-1, num_vars))
 opt_state = opt_init(init_params)
 itercount = itertools.count()
 
 for epoch in range(num_epochs):
-  start_time = time.time()
   opt_state = update(next(itercount), opt_state, next(batches))
-  epoch_time = time.time() - start_time
 
 labels = {"training" : "Data", "test" : "Deep Neural Net" }
 x_test = np.arange(minim, maxim, 1e-5)
