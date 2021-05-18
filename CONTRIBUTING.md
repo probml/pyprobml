@@ -35,7 +35,16 @@ import pyprobml_utils as pml
 import numpy as np
 import matplotlib.pyplot as plt
 ```
-You can then import any other libraries that your code needs. Note that you should just check in your file, not the notebook itself (that is just for testing, and optionally for development).
+You can then import any other libraries that your code needs.
+For example, if using Numpyro, you can use this:
+```
+!pip install -q numpyro@git+https://github.com/pyro-ppl/numpyro
+```
+If using Pyro, you can use this:
+```
+!pip3 install pyro-ppl
+```
+Note that you should just check in your file, not the notebook itself (that is just for testing, and optionally for development).
 - Make sure your code reproduces the figure(s) in the book as closely as is “reasonable”. Note that in some cases things will not match exactly, e.g., because of different random number seeds. Do not worry about that, as long as your code is correct. Similarly, do not stress over small visual differences (e.g., colors or fonts), although the figure should be readable. 
 - Following the example below when  creating each figure (using the same figure file names as in the original Matlab code, if relevant).  
 
