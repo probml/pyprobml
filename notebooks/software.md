@@ -87,7 +87,9 @@ implement the above functionality, some of as
 In this book, we mostly use Tensorflow 2 and JAX.
 However, we also welcome contributions in PyTorch.
 (More details on the JAX ecosystem can be found
-[here](https://github.com/probml/pyprobml/blob/master/book1/intro/jax_ecosystem.md).)
+[here](https://github.com/probml/pyprobml/blob/master/notebooks/jax_tutorials.md)
+
+
 
         
 ## Software for probabilistic modeling <a class="anchor" id="PPL"></a>
