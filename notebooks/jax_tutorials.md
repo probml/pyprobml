@@ -84,5 +84,6 @@ There are also many other JAX libraries for tasks that are not about defining DN
 |[Distrax](https://github.com/deepmind/distrax)| Library for probability distributions and bijectors|
 |[Common loop utilities](https://github.com/google/CommonLoopUtils) |Library for writing "beautiful training loops in JAX"|
 |[BlackJax](https://github.com/blackjax-devs/blackjax)| Library for HMC|
+|[Newt](https://github.com/AaltoML/Newt/)| Variational inference for (Markov) GPs|
 
 
