@@ -71,7 +71,7 @@ To simplify the task, various DNN libraries have been designed, as we list below
 |----|----|
 |[NumPyro](https://github.com/pyro-ppl/numpyro)|Library for PPL|
 |[Oryx](https://github.com/tensorflow/probability/tree/master/spinoffs/oryx)|Lightweight library for PPL|
-|[BlackJax](https://github.com/blackjax-devs/blackjax)| Library for HMC|
+|[MCX](https://github.com/rlouf/mcx)| Library for PPL |
 
 ### Other libraries
 
@@ -82,5 +82,7 @@ There are also many other JAX libraries for tasks that are not about defining DN
 |[Optax](https://github.com/deepmind/optax)|Library for defining gradient-based optimizers|
 |[Chex](https://github.com/deepmind/chex)|Library for debugging and developing reliable JAX code|
 |[Distrax](https://github.com/deepmind/distrax)| Library for probability distributions and bijectors|
-|[Common loop utilities](https://github.com/google/CommonLoopUtils) |Library for writing "beautiful training loops in JAX"
+|[Common loop utilities](https://github.com/google/CommonLoopUtils) |Library for writing "beautiful training loops in JAX"|
+|[BlackJax](https://github.com/blackjax-devs/blackjax)| Library for HMC|
+
 
