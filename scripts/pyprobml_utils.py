@@ -2,17 +2,12 @@
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import Ellipse
-import matplotlib.transforms as transforms
-
 
 def test():
     print('welcome to python probabilistic ML library')
 
 
-    
-    
-    # https://stackoverflow.com/questions/10685495/reducing-the-size-of-pdf-figure-file-in-matplotlib
+# https://stackoverflow.com/questions/10685495/reducing-the-size-of-pdf-figure-file-in-matplotlib
     
 def save_fig(fname, *args, **kwargs):
     '''Save current plot window to the figures directory.'''
@@ -32,27 +27,22 @@ def save_fig(fname, *args, **kwargs):
 def savefig(fname, *args, **kwargs):
     save_fig(fname, *args, **kwargs)
 
-    
-
-# Source:
+from matplotlib.patches import Ellipse, transforms
 # https://matplotlib.org/devdocs/gallery/statistics/confidence_ellipse.html
-def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
-    if x.size != y.size:
-        raise ValueError("x and y must be the same size")
-
-    cov = np.cov(x, y)
+def plot_ellipse(Sigma, mu, ax, n_std=3.0, facecolor='none', edgecolor='k',  **kwargs):
+    cov = Sigma
     pearson = cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])
 
     ell_radius_x = np.sqrt(1 + pearson)
     ell_radius_y = np.sqrt(1 - pearson)
     ellipse = Ellipse((0, 0), width=ell_radius_x * 2, height=ell_radius_y * 2,
-                      facecolor=facecolor, **kwargs)
+                      facecolor=facecolor, edgecolor=edgecolor, **kwargs)
 
     scale_x = np.sqrt(cov[0, 0]) * n_std
-    mean_x = np.mean(x)
+    mean_x = mu[0]
 
     scale_y = np.sqrt(cov[1, 1]) * n_std
-    mean_y = np.mean(y)
+    mean_y = mu[1]
 
     transf = transforms.Affine2D() \
         .rotate_deg(45) \
@@ -60,7 +50,16 @@ def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
         .translate(mean_x, mean_y)
 
     ellipse.set_transform(transf + ax.transData)
+
+    ax.plot(mean_x, mean_y, '.')
     return ax.add_patch(ellipse)
+
+def plot_ellipse_test():
+    fig, ax = plt.subplots()
+    Sigma = np.array([[5,1],[1,5]])
+    plot_ellipse(Sigma, np.zeros(2), ax, n_std=1)
+    plt.axis('equal')
+    plt.show()
 
 
 def convergence_test(fval, previous_fval, threshold=1e-4, warn=False):

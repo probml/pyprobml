@@ -142,4 +142,5 @@ for i in range(len(w)):
         dot.edge(origin, subscript,style='invis')
   
 dot.edge('42','50', style='invis')
-dot.view()
+#dot.view()
+dot.render('sparse-nnet', view=False)
