@@ -10,8 +10,8 @@ The JAX interface is almost identical to NumPy (by design), but with some small 
 - [JAX homepage](https://github.com/google/jax)
 - [JAX 101 (Deepmind tutorial)](https://jax.readthedocs.io/en/latest/jax-101/index.html)
 - [Thinking in JAX (Google tutorial)](https://colab.research.google.com/github/google/jax/blob/master/docs/notebooks/thinking_in_jax.ipynb)
-- [Awesome JAX: extensive list of tutorials and code](https://github.com/n2cholas/awesome-jax)
 - [List of common 'gotchas'](https://github.com/google/jax#current-gotchas)
+- [Awesome JAX: extensive list of tutorials and code](https://github.com/n2cholas/awesome-jax)
 - [flax tutorial](https://flax.readthedocs.io/en/latest/notebooks/jax_for_the_impatient.html).
 - [From PyTorch to JAX: towards neural net frameworks that purify stateful code](https://sjmielke.com/jax-purify.htm)
 - [Getting started with JAX: MLPs, CNNs & RNNs](https://roberttlange.github.io/posts/2020/03/blog-post-10/)
