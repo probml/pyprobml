@@ -12,6 +12,13 @@ def get_state_names(model, name):
   state_names = cpd.state_names        
   return state_names
 
+def get_all_state_names(model):
+  state_names = dict()
+  for cpd in model.get_cpds():
+    for k, v in cpd.state_names.items():
+      state_names[k] = v
+  return state_names
+
 def get_lengths(state_names, name):
   row = []
   for k, v in state_names.items():
@@ -19,11 +26,6 @@ def get_lengths(state_names, name):
       col = len(v)
     else:
       row.append(len(v))
-  return row, col
-
-def get_length(state_names, name):
-  row = len(state_names[name])
-  col = row
   return row, col
 
 def get_values(model, name):
@@ -39,18 +41,21 @@ def get_row_string(input):
   string = "<TR>" + str(input) + "</TR>"
   return string
 
-def get_list(states, name):
+def get_all_perms(states, name):
+  all_list = []         
   for k, v in states.items():
-      if (k==name):
-        continue
-      else:
-        n = len(v)
-        break
-  num_string = ""
-  for x in range(n):
-    num_string = num_string + str(x)
-  lis = ["".join(x) for x in itertools.product(num_string, repeat=n)]
-  return lis
+    if (k==name):
+      continue
+    else:
+      all_list.append(states[k])
+  res = list(itertools.product(*all_list))
+  resu = []
+  for j in res:
+    j = str(j)
+    j = j.replace(',', '')
+    j = j.replace("'", '')
+    resu.append(j)    
+  return resu
 
 def visualize_model(model):
   h = Digraph('model_')
@@ -63,7 +68,8 @@ def visualize_model(model):
     the_string = ""
 
     if len(states) == 1:
-      rows, cols = get_length(states, name)
+      rows = len(states[name]) 
+      cols = rows
       row_string = ""
       for row in range(rows):
         col_string = ""
@@ -77,7 +83,7 @@ def visualize_model(model):
         row_string = row_string + get_row_string(col_string)
 
     else:
-      lis = get_list(states, name)
+      res = get_all_perms(states, name)
       r, c = get_lengths(states, name)
       rows = np.prod(r) + 1
       cols = c + 1
@@ -98,7 +104,7 @@ def visualize_model(model):
         else:
           for col in range(cols):
             if (col==0):
-              col_string = col_string + get_column_string(lis[row-1])
+              col_string = col_string + get_column_string(res[row-1])  
             else:
               col_string = col_string + get_column_string(values[row-1][col-1])
           
@@ -121,7 +127,7 @@ def get_marginals(model, evidence={}, inference_engine=None):
     inference_engine = pgmpy.inference.VariableElimination(model) # more efficient to precompute this
   nodes = model.nodes()
   num_nodes = len(nodes)
-  state_names = get_state_names(model)
+  state_names = get_all_state_names(model)
   marginals = dict()
   for n in nodes:
     if n in evidence: # observed nodes
