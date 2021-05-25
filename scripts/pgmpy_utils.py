@@ -78,11 +78,13 @@ def visualize_model(model):
             inp = states[name]
             col_string = col_string + get_column_string(inp[col])
           else:
-            col_string = col_string + get_column_string(values[col])
+            two_dec = format(values[col], ".2f")
+            col_string = col_string + get_column_string(two_dec)
 
         row_string = row_string + get_row_string(col_string)
 
     else:
+      #lis = get_list(states, name)
       res = get_all_perms(states, name)
       r, c = get_lengths(states, name)
       rows = np.prod(r) + 1
@@ -106,7 +108,8 @@ def visualize_model(model):
             if (col==0):
               col_string = col_string + get_column_string(res[row-1])  
             else:
-              col_string = col_string + get_column_string(values[row-1][col-1])
+              two_dec = format(values[row-1][col-1], ".2f")
+              col_string = col_string + get_column_string(two_dec)
           
           row_string = row_string + get_row_string(col_string)
 
