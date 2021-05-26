@@ -73,6 +73,7 @@ To simplify the task, various DNN libraries have been designed, as we list below
 |[NumPyro](https://github.com/pyro-ppl/numpyro)|Library for PPL|
 |[Oryx](https://github.com/tensorflow/probability/tree/master/spinoffs/oryx)|Lightweight library for PPL|
 |[MCX](https://github.com/rlouf/mcx)| Library for PPL |
+|[JXF](https://github.com/lindermanlab/jxf) | Exponential families in JAX|
 
 ### Other libraries
 
