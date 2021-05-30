@@ -1,5 +1,4 @@
 #!pip install pgmpy
-
 # utility functions for pgmpy library
 import pgmpy
 import numpy as np
@@ -28,19 +27,6 @@ def get_lengths(state_names, name):
       row.append(len(v))
   return row, col
 
-def get_values(model, name):
-  cpd = model.get_cpds(name)
-  values = cpd.values  
-  return values
-
-def get_column_string(input):
-  string = "<TD>" + str(input) + "</TD>"
-  return string
-
-def get_row_string(input):
-  string = "<TR>" + str(input) + "</TR>"
-  return string
-
 def get_all_perms(states, name):
   all_list = []         
   for k, v in states.items():
@@ -52,8 +38,11 @@ def get_all_perms(states, name):
   resu = []
   for j in res:
     j = str(j)
+    j = j.replace('(', '')
     j = j.replace(',', '')
+    j = j.replace(')', '')
     j = j.replace("'", '')
+    j = j.replace(' ', ', ')
     resu.append(j)    
   return resu
 
@@ -63,7 +52,8 @@ def visualize_model(model):
   for cpd in model.get_cpds():
     name = cpd.variable
     states = get_state_names(model, name)
-    values = get_values(model, name)
+    cpd = model.get_cpds(name)
+    values = cpd.values
     values = values.T
     the_string = ""
 
@@ -76,12 +66,12 @@ def visualize_model(model):
         for col in range(cols):
           if (row==0):
             inp = states[name]
-            col_string = col_string + get_column_string(inp[col])
+            col_string = col_string + "<TD>" + str(inp[col]) + "</TD>" 
           else:
             two_dec = format(values[col], ".2f")
-            col_string = col_string + get_column_string(two_dec)
+            col_string = col_string + "<TD>" + str(two_dec) + "</TD>" 
 
-        row_string = row_string + get_row_string(col_string)
+        row_string = row_string + "<TR>" + str(col_string) + "</TR>" 
 
     else:
       #lis = get_list(states, name)
@@ -96,22 +86,22 @@ def visualize_model(model):
         if (row==0):
           for col in range(cols):
             if (col==0):
-              col_string = col_string + get_column_string(" ")
+              col_string = col_string + "<TD>" + " " + "</TD>" 
             else:
               inp = states[name]
-              col_string = col_string + get_column_string(inp[col-1])
+              col_string = col_string + "<TD>" + str(inp[col-1]) + "</TD>" 
           
-          row_string = row_string + get_row_string(col_string)
+          row_string = row_string + "<TR>" + str(col_string) + "</TR>" 
 
         else:
           for col in range(cols):
             if (col==0):
-              col_string = col_string + get_column_string(res[row-1])  
+              col_string = col_string + "<TD>" + str(res[row-1]) + "</TD>"   
             else:
               two_dec = format(values[row-1][col-1], ".2f")
-              col_string = col_string + get_column_string(two_dec)
+              col_string = col_string + "<TD>" + str(two_dec) + "</TD>" 
           
-          row_string = row_string + get_row_string(col_string)
+          row_string = row_string + "<TR>" + str(col_string) + "</TR>" 
 
     h.node(name, label = '''<<TABLE> 
     <TR PORT="header">
@@ -147,24 +137,24 @@ def get_marginals(model, evidence={}, inference_engine=None):
       marginals[n] = probs
   return marginals
 
-def visualize_marginals(marginals, model):
+def visualize_marginal(marginals, evidence, model):
     h = Digraph('pgm')
     for node_name, probs in marginals.items():
         states = get_state_names(model, node_name)
-        rows = len(probs)
+        rows = 2 #len(probs)
         cols = len(states[node_name])
         row_string = ""
         for row in range(rows):
           col_string = ""
           for col in range(cols):
-            if (col==0):
+            if (row==0):
               inp = states[node_name]
-              col_string = col_string + get_column_string(inp[row])
+              col_string = col_string + "<TD>" + str(inp[col]) + "</TD>" 
             else:
-              inp = round(probs[row], 2)
-              col_string = col_string + get_column_string(inp)
+              inp = round(probs[col], 2)
+              col_string = col_string + "<TD>" + str(inp) + "</TD>" 
 
-          row_string = row_string + get_row_string(col_string)
+          row_string = row_string + "<TR>" + str(col_string) + "</TR>" 
 
         if node_name in evidence.keys():
           h.node(node_name, label = '''<<TABLE> 
