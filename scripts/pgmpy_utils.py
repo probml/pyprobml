@@ -1,5 +1,9 @@
-#!pip install pgmpy
 # utility functions for pgmpy library
+# authors: murphyk@, Drishttii@
+
+#!pip install pgmpy
+#!pip install graphviz
+
 import pgmpy
 import numpy as np
 import itertools
@@ -137,7 +141,7 @@ def get_marginals(model, evidence={}, inference_engine=None):
       marginals[n] = probs
   return marginals
 
-def visualize_marginal(marginals, evidence, model):
+def visualize_marginals(model, evidence, marginals):
     h = Digraph('pgm')
     for node_name, probs in marginals.items():
         states = get_state_names(model, node_name)
