@@ -73,3 +73,21 @@ def convergence_test(fval, previous_fval, threshold=1e-4, warn=False):
     if warn and (fval - previous_fval) < -2 * eps:
         print('convergenceTest:fvalDecrease', 'objective decreased!')
     return converged
+
+def hinton_diagram(matrix, max_weight=None, ax=None):
+    """Draw Hinton diagram for visualizing a weight matrix."""
+    if not max_weight:
+        max_weight = 2 ** np.ceil(np.log(np.abs(matrix).max()) / np.log(2))
+
+    ax.patch.set_facecolor('white')
+    ax.set_aspect('equal', 'box')
+
+    for (x, y), w in np.ndenumerate(matrix):
+        color = 'lawngreen' if w > 0 else 'royalblue'
+        size = np.sqrt(np.abs(w) / max_weight)
+        rect = plt.Rectangle([x - size / 2, y - size / 2], size, size,
+                             facecolor=color, edgecolor=color)
+        ax.add_patch(rect)
+    ax.grid(linestyle='--')
+    ax.autoscale_view()
+    ax.invert_yaxis()
