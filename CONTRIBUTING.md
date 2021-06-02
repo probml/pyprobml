@@ -1,7 +1,7 @@
 # How to Contribute
 Kevin Murphy and Mahmoud Soliman. 
 
-**Last updated: 2021-04-09.**
+**Last updated: 2021-06-01.**
 
 
 We'd love to accept your patches and contributions to this project.
@@ -27,18 +27,37 @@ Please follow the guidelines below when submitting code to [pyprobml](https://gi
  
 ### Coding guidelines
 Make sure your code works properly in Google's Colab. (It is not sufficient for it to work on your local machine). 
-The first cell should contain the following boilerplate code:
+The first cell should contain the following boilerplate code, that emulates running locally:
 ```python
-!git clone https://github.com/probml/pyprobml /pyprobml &> /dev/null
-%cd -q /pyprobml/scripts
+#!git clone https://github.com/probml/pyprobml /pyprobml &> /dev/null
+#%cd -q /pyprobml/scripts
+!mkdir figures
+!mkdir scripts
+%cd /content/scripts
+!wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/pyprobml_utils.py
 import pyprobml_utils as pml
+```
+You can then import any other libraries that your code needs, eg
+```
 import numpy as np
+np.set_printoptions(precision=3)
 import matplotlib.pyplot as plt
+import math
+import pandas as pd
+import sklearn 
+import scipy
+
+import jax
+import jax.numpy as jnp
+from jax import random
 ```
-You can then import any other libraries that your code needs.
-For example, if using Numpyro, you can use this:
+If using Numpyro, you can use this:
 ```
+import os
+os.environ["XLA_FLAGS"] = "--xla_force_host_platform_device_count=4" # use 2 for regular colab
 !pip install -q numpyro@git+https://github.com/pyro-ppl/numpyro
+import numpyro
+import numpyro.distributions as dist
 ```
 If using Pyro, you can use this:
 ```
@@ -54,7 +73,7 @@ xs = np.arange(0, 10)
 ys = np.power(xs, 2)
 ax.plot(xs, ys)
 plt.title("test")
-pml.save_fig("../figures/test_figure.pdf")
+pml.save_fig("test_figure.pdf")
 plt.show()
 ```
 - When labeling plots, please make sure you use [latex notation for math/ Greek symbols](https://matplotlib.org/stable/tutorials/text/mathtext.html), where possible.
