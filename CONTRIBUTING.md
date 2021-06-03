@@ -63,6 +63,16 @@ If using Pyro, you can use this:
 ```
 !pip3 install pyro-ppl
 ```
+If you want to cut and paste external files (which are not in public repos)
+and run them from colab, you can use this idiom:
+```
+file = 'kalman_tracking_demo.py' # change this filename as needed
+!touch $file # create empty file
+from google.colab import files
+files.view(file) # open editor
+# cut and paste code from ... into editor
+%run $file  # test the file in colab
+```
 Note that you should just check in your file, not the notebook itself (that is just for testing, and optionally for development).
 - Make sure your code reproduces the figure(s) in the book as closely as is “reasonable”. Note that in some cases things will not match exactly, e.g., because of different random number seeds. Do not worry about that, as long as your code is correct. Similarly, do not stress over small visual differences (e.g., colors or fonts), although the figure should be readable. 
 - Following the example below when  creating each figure (using the same figure file names as in the original Matlab code, if relevant).  
