@@ -1,7 +1,7 @@
 # How to Contribute
 Kevin Murphy and Mahmoud Soliman. 
 
-**Last updated: 2021-06-01.**
+**Last updated: 2021-06-03.**
 
 
 We'd love to accept your patches and contributions to this project.
@@ -38,7 +38,7 @@ The first cell should contain the following boilerplate code, that emulates runn
 import pyprobml_utils as pml
 ```
 You can then import any other libraries that your code needs, eg
-```
+```python
 import numpy as np
 np.set_printoptions(precision=3)
 import matplotlib.pyplot as plt
@@ -52,7 +52,7 @@ import jax.numpy as jnp
 from jax import random
 ```
 If using Numpyro, you can use this:
-```
+```python
 import os
 os.environ["XLA_FLAGS"] = "--xla_force_host_platform_device_count=4" # use 2 for regular colab
 !pip install -q numpyro@git+https://github.com/pyro-ppl/numpyro
@@ -60,12 +60,12 @@ import numpyro
 import numpyro.distributions as dist
 ```
 If using Pyro, you can use this:
-```
+```python
 !pip3 install pyro-ppl
 ```
 If you want to cut and paste external files (which are not in public repos)
 and run them from colab, you can use this idiom:
-```
+```python
 file = 'kalman_tracking_demo.py' # change this filename as needed
 !touch $file # create empty file
 from google.colab import files
@@ -121,7 +121,7 @@ dist_mat = cdist(xdata, xdata, metric='sqeuclidean')
 ```
 
 To access elements of an array in parallel, replace this
-```
+```python
 X1 = []
 for n in range(len(row)):
   i = row[n]
@@ -129,19 +129,19 @@ for n in range(len(row)):
   X1.append(X[i,j])
 ```
 with this
-```
+```python
 X1 = X[row, col] # fancy indexing
 ```
 
 To access a submatrix in parallel, replace this
-```
+```python
 X2 = np.zeros([len(row), len(col)])
 for itarget, isrc in enumerate(row):
   for jtarget, jsrc in enumerate(col):
     X2[itarget, jtarget]  = X[isrc, jsrc]
 ```
 with this
-```
+```python
 ndx = np.ix_(row, col)
 X2 = X[ndx]
 ```
