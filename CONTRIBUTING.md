@@ -54,7 +54,7 @@ from jax import random
 If using Numpyro, you can use this:
 ```python
 import os
-os.environ["XLA_FLAGS"] = "--xla_force_host_platform_device_count=4" # use 2 for regular colab
+os.environ["XLA_FLAGS"] = "--xla_force_host_platform_device_count=4" # use 2 for regular colab, 4 for high memory (colab pro)
 !pip install -q numpyro@git+https://github.com/pyro-ppl/numpyro
 import numpyro
 import numpyro.distributions as dist
@@ -75,16 +75,13 @@ files.view(file) # open editor
 ```
 Note that you should just check in your file, not the notebook itself (that is just for testing, and optionally for development).
 - Make sure your code reproduces the figure(s) in the book as closely as is “reasonable”. Note that in some cases things will not match exactly, e.g., because of different random number seeds. Do not worry about that, as long as your code is correct. Similarly, do not stress over small visual differences (e.g., colors or fonts), although the figure should be readable. 
-- Following the example below when  creating each figure (using the same figure file names as in the original Matlab code, if relevant).  
+- Follow the example below when  creating each figure (using the same figure file names as in the original Matlab code, if relevant).  
 
 ```python
 fig, ax = plt.subplots()
-xs = np.arange(0, 10)
-ys = np.power(xs, 2)
-ax.plot(xs, ys)
-plt.title("test")
-pml.save_fig("test_figure.pdf")
-plt.show()
+...
+pml.savefig("test_figure.pdf") # will store in ../figures directory
+plt.show() # this is necessary to force output  buffer to be flushed
 ```
 - When labeling plots, please make sure you use [latex notation for math/ Greek symbols](https://matplotlib.org/stable/tutorials/text/mathtext.html), where possible.
 - Please don't hardcode colors of your figure, use the default values. If you need to manually choose colors, use the [new default](https://matplotlib.org/stable/users/dflt_style_changes.html#colormap) colormap of matplotlib. This color map is designed to be viewable by color-blind people. If colors don't match the original (Matlab) figures, don't worry too much, as long as the logic is the same.
