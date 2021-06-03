@@ -25,16 +25,7 @@ def plot_tracking_values(observed, filtered, cov_hist, signal_label, ax):
     ax.plot(*filtered[:, :2].T, label=signal_label, c="tab:red", marker="x", linewidth=2)
     for t in range(0, timesteps, 1):
         covn = cov_hist[t][:2, :2]
-        # Eigenvalues correspond to entries in the diagonal
-        # of a diagonal matrix
-        σx, σy = jnp.sqrt(jnp.diag(covn[:2, :2]))
-        # width and heighta are twice the distance from the mean to the 1.96σx (95% confidence)
-        # perpendicular distance
-        zscore = 1.96
-        width = 2 * zscore * σx
-        height = 2 * zscore * σy
-        ellipse = Ellipse(filtered[t, :2], width, height, fill=False, linewidth=0.8)
-        ax.add_patch(ellipse)
+        pml.plot_ellipse(covn, filtered[t, :2], ax, n_std=2.0, plot_center=False)
     ax.axis("equal")
     ax.legend()
 
