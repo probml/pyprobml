@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def test():
     print('welcome to python probabilistic ML library')
 
@@ -29,7 +30,7 @@ def savefig(fname, *args, **kwargs):
 
 from matplotlib.patches import Ellipse, transforms
 # https://matplotlib.org/devdocs/gallery/statistics/confidence_ellipse.html
-def plot_ellipse(Sigma, mu, ax, n_std=3.0, facecolor='none', edgecolor='k',  **kwargs):
+def plot_ellipse(Sigma, mu, ax, n_std=3.0, facecolor='none', edgecolor='k', plot_center='true', **kwargs):
     cov = Sigma
     pearson = cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])
 
@@ -44,14 +45,15 @@ def plot_ellipse(Sigma, mu, ax, n_std=3.0, facecolor='none', edgecolor='k',  **k
     scale_y = np.sqrt(cov[1, 1]) * n_std
     mean_y = mu[1]
 
-    transf = transforms.Affine2D() \
-        .rotate_deg(45) \
-        .scale(scale_x, scale_y) \
-        .translate(mean_x, mean_y)
+    transf = (transforms.Affine2D()
+                        .rotate_deg(45)
+                        .scale(scale_x, scale_y)
+                        .translate(mean_x, mean_y))
 
     ellipse.set_transform(transf + ax.transData)
 
-    ax.plot(mean_x, mean_y, '.')
+    if plot_center:
+        ax.plot(mean_x, mean_y, '.')
     return ax.add_patch(ellipse)
 
 def plot_ellipse_test():
