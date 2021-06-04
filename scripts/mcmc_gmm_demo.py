@@ -114,6 +114,7 @@ def sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax):
 
     fig, axs = plt.subplots()
     axs.scatter(np.arange(n_iterations), x_hist, s=20, facecolors="none", edgecolors=colors)
+    pml.savefig("gibbs_scatter.pdf")
     pml.savefig("gibbs_scatter.png")
 
     fig = plt.figure()
@@ -121,10 +122,12 @@ def sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax):
     plot_gmm_3d_trace(x_hist, π, μ, σ, "Gibbs sampling", xmin, xmax, axs)
     style3d(axs, 1.5, 1, 0.8)
     plt.subplots_adjust(left=0.001, bottom=0.208)
+    pml.savefig("gibbs_trace.pdf")
     pml.savefig("gibbs_trace.png")
 
     fig, axs = plt.subplots()
     sm.graphics.tsa.plot_acf(x_hist, lags=45, alpha=None, title="Gibbs", ax=axs)
+    pml.savefig("gibbs_autocorrelation.pdf")
     pml.savefig("gibbs_autocorrelation.png")
 
 
@@ -136,11 +139,11 @@ def sample_plot_mh(x0, τ, π, μ, σ, n_iterations, xmin, xmax):
     plot_gmm_3d_trace(x_hist, π, μ, σ, f"MH with $N(0,{τ}^2)$ proposal", xmin, xmax, axs)
     style3d(axs, 1.5, 1, 0.8)
     plt.subplots_adjust(left=0.001, bottom=0.208)
-    pml.savefig(f"mh_trace_{τ}tau.png")
+    pml.savefig(f"mh_trace_{τ}tau.pdf")
 
     fig, axs = plt.subplots()
     sm.graphics.tsa.plot_acf(x_hist, lags=45, alpha=None, title=f"MH with $N(0,{τ}^2)$ proposal", ax=axs)
-    pml.savefig(f"mh_autocorrelation_{τ}tau.png")
+    pml.savefig(f"mh_autocorrelation_{τ}tau.pdf")
 
 
 if __name__ == "__main__":
