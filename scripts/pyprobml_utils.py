@@ -22,7 +22,7 @@ def save_fig(fname, *args, **kwargs):
     fname_full = os.path.join(figdir, fname)
     print('saving image to {}'.format(fname_full))
     #plt.tight_layout()
-    plt.savefig(fname_full,  dpi=300)
+    plt.savefig(fname_full,  dpi=300, *args, **kwargs)
     
     
 def savefig(fname, *args, **kwargs):
