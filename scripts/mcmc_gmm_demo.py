@@ -2,7 +2,7 @@
 # using a 1d Gaussian proposal with different sigma.
 # Author: Gerardo Duran-Martin (@gerdm)
 
-# !pip install matplotlib == 3.4.2
+# !pip install matplotlib==3.4.2
 
 import numpy as np
 import matplotlib.pyplot as plt
