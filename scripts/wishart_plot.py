@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
-import scipy.special as sc
+import scipy
+#import scipy.special as sc
 from scipy import stats
 from sklearn.neighbors import KernelDensity
 import math
@@ -20,7 +21,7 @@ Xs3 = np.linspace(0.1, 10, 100)
 Xsa = {0:Xs1, 1:Xs2} 
 Xsb = {0:Xs2, 1:Xs3}
 
-def wishartSample(dof, sigma, nsamples):
+def wishart_sample(dof, sigma, nsamples):
   d = np.size(sigma, 0)
   C = np.linalg.cholesky(Sigma)
   S = np.zeros((d, d, nsamples))
@@ -30,9 +31,10 @@ def wishartSample(dof, sigma, nsamples):
       S[:, :, i] = np.matmul(Z.T, Z)
   return S
 
-def gaussLogProb(a, b, X):
-  sc.gammaln(X)
-  logZ = sc.gammaln(a) - np.multiply(a, np.log(b))     
+def gamma_log_prob(a, b, X):
+    # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gamma.html
+    # a=shape, b=rate=1/scale
+  logZ = scipy.special.gammaln(a) - np.multiply(a, np.log(b))
   logp = np.multiply((a-1), np.log(X)) - np.multiply(b, X) - logZ
   return logp
 
@@ -52,7 +54,7 @@ def get_cov_ellipse(cov, centre, nstd):
 np.random.seed(4) 
 M = dof*Sigma
 R = np.corrcoef(M)
-S = wishartSample(dof, Sigma, nsamples)
+S = wishart_sample(dof, Sigma, nsamples)
 
 # Plots of some samples from Wishart distribution:
 fig, ax = plt.subplots(nr, nc, figsize=(10,10))
@@ -78,8 +80,7 @@ ymax = 10
 custom_xlim = (xmin, xmax)
 custom_ylim = (ymin, ymax)
 plt.setp(ax, xlim=custom_xlim, ylim=custom_ylim)
-pml.savefig('Wishart_samples.pdf')
-plt.savefig('Wishart_samples.pdf')
+pml.savefig('wishart_samples.pdf')
 plt.show()
 
 marg1a = dof / 2
@@ -88,25 +89,25 @@ marg2a = dof / 2
 marg2b = 1/(2*Sigma[1, 1])
 
 #Plots of marginals 
-logp = gaussLogProb(marg1a, marg1b, Xs1)
+logp = gamma_log_prob(marg1a, marg1b, Xs1)
 expo = np.exp(logp)
+plt.figure()
 plt.plot(Xs1, expo)
 plt.title("Marginal sigma1_squared ")
-pml.savefig('Sigma1.pdf')
-plt.savefig('Sigma1.pdf')
+pml.savefig('wishart_sigma1.pdf')
 plt.show()
 
-logp = gaussLogProb(marg2a, marg2b, Xs2)
+logp = gamma_log_prob(marg2a, marg2b, Xs2)
 expo = np.exp(logp)
+plt.figure()
 plt.plot(Xs2, expo)
 plt.title("Marginal sigma2_squared ")
-pml.savefig('Sigma2.pdf')
-plt.savefig('Sigma2.pdf')
+pml.savefig('wishart_sigma2.pdf')
 plt.show()
 
 # Plot of correlation coefficient
 n = 1000
-Rs = wishartSample(dof, Sigma, nsamples)
+Rs = wishart_sample(dof, Sigma, nsamples)
 for s in range(nsamples):
         Rs[:, :, s] = np.corrcoef(Rs[:, :, s])    #cov2cor(Rs(:, :, s));
 data = np.squeeze(Rs[0, 1, :])
@@ -114,8 +115,8 @@ kde = KernelDensity(bandwidth=1.0, kernel='gaussian')
 kde.fit(data.reshape(-1, 1)) 
 x = np.linspace(data.min()-2, data.max()+2, 100)
 logprob = kde.score_samples(x[:, None])
+plt.figure()
 plt.title('Rho')
 plt.plot(x, np.exp(logprob))
-pml.savefig('Rho.pdf')
-plt.savefig('Rho.pdf')
+pml.savefig('wishart_rho.pdf')
 plt.show()
