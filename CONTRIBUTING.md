@@ -74,8 +74,9 @@ files.view(file) # open editor
 %run $file  # test the file in colab
 ```
 Note that you should just check in your file, not the notebook itself (that is just for testing, and optionally for development).
+- Following the pep-8 guidlines, please name your python files using lowercase, with optional underscores separating words, as in foo_bar.py (even if this is different from the orignal matlab filename.) 
 - Make sure your code reproduces the figure(s) in the book as closely as is “reasonable”. Note that in some cases things will not match exactly, e.g., because of different random number seeds. Do not worry about that, as long as your code is correct. Similarly, do not stress over small visual differences (e.g., colors or fonts), although the figure should be readable. 
-- Follow the example below when  creating each figure (using the same figure file names as in the original Matlab code, if relevant).  
+- Follow the example below when  creating each figure (using the same figure file names as in the original Matlab code, if relevant).  For image filenames, use lowercase, but replace underscores with hyphens, as in foo-bar.pdf. 
 
 ```python
 fig, ax = plt.subplots()
