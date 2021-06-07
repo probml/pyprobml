@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def test():
     print('welcome to python probabilistic ML library')
 
@@ -21,7 +22,7 @@ def save_fig(fname, *args, **kwargs):
     fname_full = os.path.join(figdir, fname)
     print('saving image to {}'.format(fname_full))
     #plt.tight_layout()
-    plt.savefig(fname_full,  dpi=300)
+    plt.savefig(fname_full,  dpi=300, *args, **kwargs)
     
     
 def savefig(fname, *args, **kwargs):
@@ -29,7 +30,7 @@ def savefig(fname, *args, **kwargs):
 
 from matplotlib.patches import Ellipse, transforms
 # https://matplotlib.org/devdocs/gallery/statistics/confidence_ellipse.html
-def plot_ellipse(Sigma, mu, ax, n_std=3.0, facecolor='none', edgecolor='k',  **kwargs):
+def plot_ellipse(Sigma, mu, ax, n_std=3.0, facecolor='none', edgecolor='k', plot_center='true', **kwargs):
     cov = Sigma
     pearson = cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])
 
@@ -44,14 +45,15 @@ def plot_ellipse(Sigma, mu, ax, n_std=3.0, facecolor='none', edgecolor='k',  **k
     scale_y = np.sqrt(cov[1, 1]) * n_std
     mean_y = mu[1]
 
-    transf = transforms.Affine2D() \
-        .rotate_deg(45) \
-        .scale(scale_x, scale_y) \
-        .translate(mean_x, mean_y)
+    transf = (transforms.Affine2D()
+                        .rotate_deg(45)
+                        .scale(scale_x, scale_y)
+                        .translate(mean_x, mean_y))
 
     ellipse.set_transform(transf + ax.transData)
 
-    ax.plot(mean_x, mean_y, '.')
+    if plot_center:
+        ax.plot(mean_x, mean_y, '.')
     return ax.add_patch(ellipse)
 
 def plot_ellipse_test():
@@ -73,3 +75,21 @@ def convergence_test(fval, previous_fval, threshold=1e-4, warn=False):
     if warn and (fval - previous_fval) < -2 * eps:
         print('convergenceTest:fvalDecrease', 'objective decreased!')
     return converged
+
+def hinton_diagram(matrix, max_weight=None, ax=None):
+    """Draw Hinton diagram for visualizing a weight matrix."""
+    if not max_weight:
+        max_weight = 2 ** np.ceil(np.log(np.abs(matrix).max()) / np.log(2))
+
+    ax.patch.set_facecolor('white')
+    ax.set_aspect('equal', 'box')
+
+    for (x, y), w in np.ndenumerate(matrix):
+        color = 'lawngreen' if w > 0 else 'royalblue'
+        size = np.sqrt(np.abs(w) / max_weight)
+        rect = plt.Rectangle([x - size / 2, y - size / 2], size, size,
+                             facecolor=color, edgecolor=color)
+        ax.add_patch(rect)
+    ax.grid(linestyle='--')
+    ax.autoscale_view()
+    ax.invert_yaxis()

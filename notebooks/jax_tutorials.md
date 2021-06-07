@@ -88,3 +88,5 @@ There are also many other JAX libraries for tasks that are not about defining DN
 |[BlackJax](https://github.com/blackjax-devs/blackjax)| Library for HMC|
 |[Newt](https://github.com/AaltoML/Newt/)| Variational inference for (Markov) GPs|
 |[KF](https://github.com/EEA-sensors/parallel-non-linear-gaussian-smoothers)| (Extended, Parallelized) Kalman filtering/ smoothing |
+|[Easy Neural ODEs](https://github.com/jacobjinkelly/easy-neural-ode)| Neural ODEs for classification, Latent ODEs for time series and FFJORD for density estimation models with a bunch of higher order adaptive-stepping numercial solvers(e.g. Heun-Euler, Fehlberg,Cash-Karp,Tanyam and Adams adaptive order)|
+
