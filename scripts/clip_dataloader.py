@@ -10,6 +10,7 @@ from zipfile import ZipFile
 import random
 import numpy as np
 import os
+import wget
 
 torch.manual_seed(0)
 random.seed(0)
@@ -34,13 +35,28 @@ class _Clip_ds(Dataset):
     ])
 
 
-def get_imagenette_clip_loaders(dir_name = '', train_shuffle=False):
+def get_imagenette_clip_loaders(dir_name='', train_shuffle=False):
+
     fname_train = os.path.join(dir_name, 'imagenette_clip_data.pt.zip')
+
+    if not os.path.exists(fname_train):
+        print("train_data zip-file not available in this dir, downloading from source...")
+        url = 'https://github.com/probml/probml-data/blob/main/data/imagenette_clip_data.pt.zip?raw=true'
+        wget.download(url, fname_train)
+        print("train_data zip-file downloaded successfully")
+
     zip_train = ZipFile(fname_train, 'r')
+
     fname_test = os.path.join(dir_name, 'imagenette_test_clip_data.pt.zip')
-    zip_test= ZipFile(fname_test, 'r')
-    #zip_train = ZipFile('../data/imagenette_clip_data.pt.zip', 'r')
-    #zip_test = ZipFile('../data/imagenette_test_clip_data.pt.zip', 'r')
+
+    if not os.path.exists(fname_test):
+        print("test_data zip-file not available in this dir, downloading from source...")
+        url = 'https://github.com/probml/probml-data/blob/main/data/imagenette_test_clip_data.pt.zip?raw=true'
+        wget.download(url, fname_test)
+        print("test_data zip-file downloaded successfully")
+
+    zip_test = ZipFile(fname_test, 'r')
+
     zip_train.extractall()
     zip_test.extractall()
     train_data = torch.load('imagenette_clip_data.pt')
@@ -62,11 +78,15 @@ def get_imagenette_clip_loaders(dir_name = '', train_shuffle=False):
 
     return train_loader, test_loader
 
+
 def get_test_data(dir_name=''):
-    #from clip_dataloaders import get_imagenette_clip_loaders
-    train_loader, test_loader = get_imagenette_clip_loaders(dir_name = dir_name, train_shuffle=False)
+
+    _, test_loader = get_imagenette_clip_loaders(dir_name=dir_name, train_shuffle=False)
     test_features, test_labels = [], []
     for features, labels in test_loader:
         test_features.append(features)
         test_labels.append(labels)
+
+    test_features, test_labels = torch.cat(test_features), torch.cat(test_labels)
+
     return test_features, test_labels
