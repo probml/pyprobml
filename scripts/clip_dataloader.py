@@ -1,6 +1,8 @@
 """
-This file has functions which return data loaders for CLIP extracted features for
-different datasets.
+This file  makes a pytorch dataloader for a version of ImageNette which has been processed by the CLIP model.
+The CLIP features are 512 dimensional. The code to create this dataset can be found at
+https://github.com/probml/pyprobml/tree/master/notebooks/clip_data_extractor.ipynb.
+
 Author: Srikar-Reddy-Jilugu(@always-newbie161)
 """
 import torch
@@ -38,23 +40,19 @@ class _Clip_ds(Dataset):
 def get_imagenette_clip_loaders(dir_name='', train_shuffle=False):
 
     fname_train = os.path.join(dir_name, 'imagenette_clip_data.pt.zip')
-
     if not os.path.exists(fname_train):
         print("train_data zip-file not available in this dir, downloading from source...")
         url = 'https://github.com/probml/probml-data/blob/main/data/imagenette_clip_data.pt.zip?raw=true'
         wget.download(url, fname_train)
         print("train_data zip-file downloaded successfully")
-
     zip_train = ZipFile(fname_train, 'r')
 
     fname_test = os.path.join(dir_name, 'imagenette_test_clip_data.pt.zip')
-
     if not os.path.exists(fname_test):
         print("test_data zip-file not available in this dir, downloading from source...")
         url = 'https://github.com/probml/probml-data/blob/main/data/imagenette_test_clip_data.pt.zip?raw=true'
         wget.download(url, fname_test)
         print("test_data zip-file downloaded successfully")
-
     zip_test = ZipFile(fname_test, 'r')
 
     zip_train.extractall()
@@ -78,15 +76,3 @@ def get_imagenette_clip_loaders(dir_name='', train_shuffle=False):
 
     return train_loader, test_loader
 
-
-def get_test_data(dir_name=''):
-
-    _, test_loader = get_imagenette_clip_loaders(dir_name=dir_name, train_shuffle=False)
-    test_features, test_labels = [], []
-    for features, labels in test_loader:
-        test_features.append(features)
-        test_labels.append(labels)
-
-    test_features, test_labels = torch.cat(test_features), torch.cat(test_labels)
-
-    return test_features, test_labels
