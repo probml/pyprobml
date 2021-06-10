@@ -74,6 +74,10 @@ To simplify the task, various DNN libraries have been designed, as we list below
 |[Oryx](https://github.com/tensorflow/probability/tree/master/spinoffs/oryx)|Lightweight library for PPL|
 |[MCX](https://github.com/rlouf/mcx)| Library for PPL |
 |[JXF](https://github.com/lindermanlab/jxf) | Exponential families in JAX|
+|[Distrax](https://github.com/deepmind/distrax)| Library for probability distributions and bijectors|
+|[TFP/JAX distributions](https://www.tensorflow.org/probability/api_docs/python/tfp/substrates/jax/distributions)| Jax port of tfp.distributions|
+|[BlackJax](https://github.com/blackjax-devs/blackjax)| Library for HMC|
+|[Newt](https://github.com/AaltoML/Newt/)| Variational inference for (Markov) GPs|
 
 ### Other libraries
 
@@ -83,10 +87,7 @@ There are also many other JAX libraries for tasks that are not about defining DN
 |----|----|
 |[Optax](https://github.com/deepmind/optax)|Library for defining gradient-based optimizers|
 |[Chex](https://github.com/deepmind/chex)|Library for debugging and developing reliable JAX code|
-|[Distrax](https://github.com/deepmind/distrax)| Library for probability distributions and bijectors|
 |[Common loop utilities](https://github.com/google/CommonLoopUtils) |Library for writing "beautiful training loops in JAX"|
-|[BlackJax](https://github.com/blackjax-devs/blackjax)| Library for HMC|
-|[Newt](https://github.com/AaltoML/Newt/)| Variational inference for (Markov) GPs|
 |[KF](https://github.com/EEA-sensors/parallel-non-linear-gaussian-smoothers)| (Extended, Parallelized) Kalman filtering/ smoothing |
 |[Easy Neural ODEs](https://github.com/jacobjinkelly/easy-neural-ode)| Neural ODEs for classification, Latent ODEs for time series and FFJORD for density estimation models with a bunch of higher order adaptive-stepping numercial solvers(e.g. Heun-Euler, Fehlberg,Cash-Karp,Tanyam and Adams adaptive order)|
 |[GTP-J](https://arankomatsuzaki.wordpress.com/2021/06/04/gpt-j/)| Open source version of GPT-3 using JAX and TPU v3-256.|
