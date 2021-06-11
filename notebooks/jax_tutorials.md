@@ -58,6 +58,7 @@ To simplify the task, various DNN libraries have been designed, as we list below
 |[Elegy](https://github.com/poets-ai/elegy)|Keras-like library for Jax|
 |[FlaxVision](https://github.com/rolandgvc/flaxvision)|Flax version of [torchvision](https://github.com/pytorch/vision)|
 |[Neural tangents](https://github.com/google/neural-tangents)|Library to compute a kernel from a DNN|
+|[Efficient nets](https://github.com/rwightman/efficientnet-jax)|Efficient CNN classifiers in Flax |
 
 
 ### RL libraries
