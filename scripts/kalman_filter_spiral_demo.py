@@ -24,12 +24,19 @@ if __name__ == "__main__":
 
     mean_0 = jnp.array([1, 1, 1, 0])
     Sigma_0 = jnp.eye(4)
+
     A = jnp.array([
         [0.1, 1.1, dx, 0],
-        [-1.1, 1, 0, dx],
+        [-1, 1, 0, dx],
         [0, 0, 0.1, 0],
         [0, 0, 0, 0.1]
     ])
+
+    AA = jnp.array([[0.1, 1.1], [-1.0, 1.0]]);
+    u, v = jnp.linalg.eig(AA);
+    lam1 = 1 / 20 * (11 + complex(0, np.sqrt(359)))
+    assert np.isclose(lam1, u[0])
+
     C = jnp.array([
         [1, 0, 0, 0],
         [0, 1, 0, 0]

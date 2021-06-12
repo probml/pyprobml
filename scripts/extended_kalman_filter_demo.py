@@ -1,6 +1,6 @@
 # Example of an Extended Kalman Filter using
 # a figure-8 nonlinear dynamical system.
-# For futher reference and examples see:
+# For further reference and examples see:
 #   * Section on EKFs in PML vol2 book
 #   * https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/11-Extended-Kalman-Filters.ipynb
 #   * Nonlinear Dynamics and Chaos - Steven Strogatz
@@ -10,6 +10,7 @@ import dynamical_systems_lib as ds
 import matplotlib.pyplot as plt 
 import pyprobml_utils as pml
 import jax.numpy as jnp
+import numpy as np
 from jax import random
 
 plt.rcParams["axes.spines.right"] = False
@@ -26,7 +27,7 @@ def fx(x):
 dt = 0.01
 T = 7.5
 nsamples = 70
-nsteps = 1000
+#nsteps = 1000
 x0 = jnp.array([0.5, -0.75])
 
 # State noise
@@ -40,7 +41,7 @@ sample_state, sample_obs, jump = ekf.simulate(x0, key, T, nsamples)
 mu_hist, V_hist = ekf.estimate(sample_state, sample_obs, jump, dt)
 
 vmin, vmax, step = -1.5, 1.5 + 0.5, 0.5
-X = jnp.mgrid[-1:1.5:step, vmin:vmax:step][::-1]
+X = np.mgrid[-1:1.5:step, vmin:vmax:step][::-1]
 X_dot = jnp.apply_along_axis(fz, 0, X)
 
 fig, ax = plt.subplots()
