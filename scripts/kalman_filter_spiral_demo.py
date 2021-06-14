@@ -4,6 +4,7 @@
 # Author: Gerardo Duran-Martin (@gerdm)
 
 import jax.numpy as jnp
+import numpy as np
 import linear_dynamical_systems_lib as lds
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

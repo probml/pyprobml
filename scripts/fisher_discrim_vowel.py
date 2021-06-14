@@ -61,7 +61,7 @@ muC2d_pca = pca.fit_transform(muC)
 symbols = '+ovd*.xs^d><ph'
 plot_projection_data(X_pca, y, muC2d_pca, nclasses, figure_num=0)
 plt.title('PCA projection of vowel data to 2d')
-pml.savefig('fisherDiscrimVowelPCA.pdf')
+pml.savefig('fisher_vowel_pca.pdf')
 
 # ------------------------
 # FLDA projection
@@ -72,6 +72,6 @@ X_lda = X @ W
 muC2d_lda = muC @ W
 plot_projection_data(X_lda, y, muC2d_lda, nclasses, figure_num=1)
 plt.title('FLDA projection of vowel data to 2d')
-pml.savefig('fisherDiscrimVowelLDA.pdf')
+pml.savefig('fisher_vowel_flda.pdf')
 
 plt.show()
