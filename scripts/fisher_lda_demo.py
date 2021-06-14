@@ -135,11 +135,11 @@ def Xproj_pca_man_cal(X, vectors):
 """Plot functions:"""
 
 def plot_data(a, b):
+    plt.figure()
     plt.plot(a[:,0], a[:,1], 'b.', b[:,0], b[:,1], 'r+')
-    plt.plot(mu_a, mu_b, 'black')
+    #plt.plot(mu_a, mu_b, 'black')
     plt.legend(['Male', 'Female', 'Means'])
-    pml.save_fig("data.pdf")
-    plt.savefig('data.png')
+    pml.savefig("fisher_lda_data.pdf")
     plt.show()
 
 def plot_all_vectors(a, b, vectors, w):
@@ -155,27 +155,80 @@ def plot_all_vectors(a, b, vectors, w):
 
     x = np.linspace(xmin+1, xmax+1, 100)
     z = np.linspace(xmin+1, xmax+1, 100)
-    
+
+    plt.figure()
     plt.xlim(xmin, xmax)
     plt.ylim(ymin, ymax)
     plt.plot(a[:,0], a[:,1], 'b.', b[:,0], b[:,1], 'r+')
     plt.plot(x, slope*x + c)
     plt.plot(z, slope_pca*z + c_pca)
-    plt.plot(mu_a, mu_b, 'black')
-    plt.legend(['Male', 'Female', 'FischerLDA vector', 'PCA vector', 'Means'])
-    pml.save_fig("FischerLDA_and_PCA_vectors.pdf")
-    plt.savefig('FischerLDA_and_PCA_vectors.png') # Figure 9.4
+    #plt.plot(mu_a, mu_b, 'black')
+    plt.legend(['Male', 'Female', 'FisherLDA vector', 'PCA vector'])
+    #plt.legend(['Male', 'Female', 'FisherLDA vector', 'PCA vector', 'Means'])
+    pml.savefig("fisher_lda_lines.pdf")
+    plt.show()
+
+def plot_flda_vectors(a, b, vectors, w):
+    mu_a, mu_b = a.mean(axis=0).reshape(-1,1), b.mean(axis=0).reshape(-1,1)
+    mid_point = (mu_a + mu_b)/2
+
+    vector = vectors[:, 0]
+    slope_pca = vector[1]/vector[0]
+    c_pca = mid_point[1] - slope_pca*mid_point[0]
+
+    slope = w[1]/w[0]
+    c = mid_point[1] - slope*mid_point[0]
+
+    x = np.linspace(xmin+1, xmax+1, 100)
+    z = np.linspace(xmin+1, xmax+1, 100)
+
+    plt.figure()
+    plt.xlim(xmin, xmax)
+    plt.ylim(ymin, ymax)
+    plt.plot(a[:,0], a[:,1], 'b.', b[:,0], b[:,1], 'r+')
+    plt.plot(x, slope*x + c)
+    #plt.plot(z, slope_pca*z + c_pca)
+    #plt.plot(mu_a, mu_b, 'black')
+    plt.legend(['Male', 'Female', 'FisherLDA vector'])
+    #plt.legend(['Male', 'Female', 'FisherLDA vector', 'PCA vector', 'Means'])
+    pml.savefig("fisher_lda_lines_flda.pdf")
+    plt.show()
+
+def plot_pca_vectors(a, b, vectors, w):
+    mu_a, mu_b = a.mean(axis=0).reshape(-1,1), b.mean(axis=0).reshape(-1,1)
+    mid_point = (mu_a + mu_b)/2
+
+    vector = vectors[:, 0]
+    slope_pca = vector[1]/vector[0]
+    c_pca = mid_point[1] - slope_pca*mid_point[0]
+
+    slope = w[1]/w[0]
+    c = mid_point[1] - slope*mid_point[0]
+
+    x = np.linspace(xmin+1, xmax+1, 100)
+    z = np.linspace(xmin+1, xmax+1, 100)
+
+    plt.figure()
+    plt.xlim(xmin, xmax)
+    plt.ylim(ymin, ymax)
+    plt.plot(a[:,0], a[:,1], 'b.', b[:,0], b[:,1], 'r+')
+    #plt.plot(x, slope*x + c)
+    plt.plot(z, slope_pca*z + c_pca)
+    #plt.plot(mu_a, mu_b, 'black')
+    plt.legend(['Male', 'Female', 'PCA vector'])
+    #plt.legend(['Male', 'Female', 'FisherLDA vector', 'PCA vector', 'Means'])
+    pml.savefig("fisher_lda_lines_pca.pdf")
     plt.show()
 
 def plot_proj(name, argument):
+    plt.figure()
     if name == 'pca':
         Xproj_pca_male = argument[:nMale]
         Xproj_pca_female = argument[nMale:nFemale]
         plt.hist(Xproj_pca_male, color='red', ec='black')
         plt.hist(Xproj_pca_female, color='blue', ec='black')
         plt.title('Projection of points onto PCA vector')
-        pml.save_fig("Projection_of_points_on_pca2_vec.pdf")
-        plt.savefig('Projection_of_points_on_pca2_vec.png') # Figure 9.5(b)
+        pml.savefig("fisher_lda_pca.pdf")
         plt.show()
     else :
         Xproj_fish_male = argument[:nMale]
@@ -183,8 +236,7 @@ def plot_proj(name, argument):
         plt.hist(Xproj_fish_male, color='red', ec='black')
         plt.hist(Xproj_fish_female, color='blue', ec='black')
         plt.title('Projection of points onto Fisher vector')
-        pml.save_fig("Projection_of_points_on_fisher2_vec.pdf")
-        plt.savefig('Projection_of_points_on_fisher2_vec.png') # Figure 9.5(a)
+        pml.savefig("fisher_lda_flda.pdf")
         plt.show()
 
 """Data"""
@@ -219,3 +271,6 @@ plot_proj('pca', Xproj_pca_man) # Or plot_proj('pca', X_tran) as both the method
 """Plot of vectors"""
 
 plot_all_vectors(a, b, vectors, w)
+plot_pca_vectors(a, b, vectors, w)
+plot_flda_vectors(a, b, vectors, w)
+
