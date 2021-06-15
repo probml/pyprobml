@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import pyprobml_utils as pml
 import logomaker
+import matplotlib.pyplot as plt
 
 li = ['atagccggtacggca', 'ttagctgcaaccgca', 'tcagccactagagca', 'ataaccgcgaccgca', 'ttagccgctaaggta', 'taagcctcgtacgta', 'ttagccgttacggcc', 'atatccggtacagta', 'atagcaggtaccgaa', 'acatccgtgacggaa']
 
@@ -33,5 +34,5 @@ logos.ax.set_xticks(np.arange(1, 16))
 logos.ax.set_yticks(np.arange(3))
 logos.ax.set_ylabel('Bits')
 logos.ax.set_xlabel('Sequence Position')
-pml.savefig('Position_weight_matrix.pdf')
+pml.savefig('seqlogo.pdf')
 plt.show()
