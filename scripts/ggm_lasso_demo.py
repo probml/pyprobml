@@ -47,8 +47,8 @@ theta_estimates.append(np.linalg.inv(S))
 
 # Four different graphical-lasso solutions for the flow-cytometry data.
 tmp = {name: name for name in protein_names}
-fig, axarr = plt.subplots(2, 2, figsize=(6, 6), dpi=150)
-plt.subplots_adjust(wspace=0.1, hspace=0.1)
+#fig, axarr = plt.subplots(2, 2, figsize=(6, 6), dpi=150)
+#plt.subplots_adjust(wspace=0.1, hspace=0.1)
 
 angles = np.linspace(0, 1, p + 1)[:-1] * 2 * np.pi + np.pi/2
 for plot_idx in range(4):
@@ -59,7 +59,8 @@ for plot_idx in range(4):
         node_pos[node] = np.array([np.cos(angles[i]), np.sin(angles[i])])
     for i in range(cons.shape[0]):
         G.add_edge(protein_names[cons[i, 0]], protein_names[cons[i, 1]])
-    ax = axarr[plot_idx//2, plot_idx % 2]
+    #ax = axarr[plot_idx//2, plot_idx % 2]
+    fig, ax = plt.subplots()
     nx.draw(G, node_pos, node_size=3, with_labels=False, ax=ax,
             edge_color='#174A7E', width=0.6, node_color='#174A7E')
     description = nx.draw_networkx_labels(G, node_pos, labels=tmp, ax=ax)
@@ -69,5 +70,6 @@ for plot_idx in range(4):
     ax.set_xlim(-1.2, 1.2)
     ax.set_ylim(-1.2, 1.2)
     ax.text(0, 1.18, f'λ = {lambdas[plot_idx]}', fontsize=8)
-pml.savefig('gaussian_graphical_model.pdf')
+    plt.tight_layout()
+    pml.savefig(f'ggm_lasso{plot_idx}.pdf')
 plt.show()

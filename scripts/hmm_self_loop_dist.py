@@ -35,3 +35,4 @@ def plot_nbinom_dist(ns, Ls, p):
 plot_nbinom_dist(ns, Ls, p)
 plt.legend(['n=1', 'n=2', 'n=5'])
 pml.savefig('hmm_self_loop.pdf')
+plt.show()

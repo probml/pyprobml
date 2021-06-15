@@ -9,7 +9,7 @@ import numpy as np
 from pagerank_power_method_sparse import pagerank_power_method_sparse
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
-from scipy.io import loadmat
+
 
 '''
 Computes the stationary distribution of G given the probability p  
@@ -49,34 +49,5 @@ labels = [f'$X_{i}$' for i in range(1, n+1)]
 x = range(n)
 plt.bar(x, pi_matinv)
 plt.xticks(x, labels)
-pml.savefig('small-web-pagerank.pdf')
-plt.show()
-
-path = '../data/Harvard500.mat'
-mat = loadmat(path)
-mdata= mat['Problem']
-mdtype = mdata.dtype
-ndata = {n: mdata[n][0, 0] for n in mdtype.names}
-columns = [n for n, v in ndata.items()]
-G_harvard = ndata['A']
-
-plt.figure(figsize=(6, 6))
-plt.spy(G_harvard, c='blue', marker='.', markersize=1)
-plt.xticks([])
-plt.yticks([])
-pml.savefig('harvard500-spy')
-plt.show()
-
-pi_matinv_harvard = matrix_inversion_method(G_harvard, p)
-pi_sparse_harvard = pagerank_power_method_sparse(G_harvard, p)[0]
-
-try:
-    assert np.allclose(pi_matinv_harvard, pi_sparse_harvard, atol=1e-2)
-except AssertionError:
-    print('pi_matinv != pi_spare')
-
-ax = plt.gca()
-plt.bar(np.arange(0, pi_sparse_harvard.shape[0]), pi_sparse_harvard, width=1.0, color='darkblue')
-ax.set_ylim([0, 0.02])
-pml.savefig('harvard500-pagerank')
+pml.savefig('pagerank-small.pdf')
 plt.show()

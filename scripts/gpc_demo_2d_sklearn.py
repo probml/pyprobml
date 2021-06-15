@@ -3,6 +3,8 @@
 # Based on
 # https://github.com/probml/pmtk3/blob/master/demos/gpcDemo2d.m
 
+# See also gpc_demo_2d_pytorch for a Gpytorch version of this demo.
+
 import pyprobml_utils as pml
 import numpy as np
 import matplotlib.pyplot as plt

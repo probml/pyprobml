@@ -35,7 +35,7 @@ class DagPlotter:
     self.plot_edges()
 
   def create_node(self, i):
-    color = 'blue' if i==0 else 'green'
+    color = 'green' #'blue' if i==0 else 'green'
     self.dot.node(str(i+1), f'<X<SUB>{i+1}</SUB>>', fillcolor=color, style='filled', font_color='white')
 
   def plot_nodes(self):
@@ -50,5 +50,5 @@ class DagPlotter:
 # Link structure of small web
 G = np.array([[0, 0, 0, 1, 0, 1],[1, 0, 0, 0, 0, 0],[0, 1, 0, 0, 0, 0], [0, 1, 1, 0, 0, 0],[0, 0, 1, 0, 0, 0], [1, 0, 1, 0, 0, 0]])
 graph = DagPlotter(G) # plots directed acyclic graph
-graph.dot.render('../figures/small-web-moler')
+graph.dot.render('../figures/pagerank-small-web')
 display(graph.dot)
