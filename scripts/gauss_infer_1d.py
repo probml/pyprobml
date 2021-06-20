@@ -4,7 +4,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
-
+import pyprobml_utils as pml
 
 priorVar = [1, 5]
 Sigma = 1 # Assumed to be known
@@ -46,4 +46,4 @@ for i in priorVar:
              label = "post",linestyle='dashdot')
     plt.title(f"prior variance of {i}")
     plt.legend(loc="upper left")
-    plt.savefig(f"../figures/gaussInferParamsMean1d_{i}.pdf", dpi=300)
+    pml.savefig(f"gauss_infer_1d_{i}.pdf")

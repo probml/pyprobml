@@ -5,6 +5,7 @@ import pandas as pd
 from scipy.special import logsumexp
 from sklearn.linear_model import LinearRegression
 from scipy.stats import multivariate_normal
+import pyprobml_utils as pml
 
 n = 200
 np.random.seed(1)
@@ -22,7 +23,7 @@ ytest = (y)
 plt.figure()
 plt.scatter(x, y, edgecolors='blue', color="none")
 plt.title('Inverse problem')
-plt.savefig('Inverse_problem')
+pml.savefig('mixexp_inverse.pdf')
 plt.show()
 
 def normalizelogspace(x):
@@ -109,14 +110,14 @@ plt.plot(xtest, muk[:, 0])
 plt.plot(xtest, muk[:, 1])
 plt.plot(xtest, muk[:, 2])
 plt.title('Expert-predictions')
-pml.save_fig('mixexp_expert_predictions.pdf')
+pml.savefig('mixexp_expert_predictions.pdf')
 plt.show()
 
 plt.figure()
 for i in range(K):
   plt.scatter(y, post[:, i])
 plt.title('Gating functions')
-pml.save_fig('mixexp_gating_functions.pdf')
+pml.savefig('mixexp_gating_functions.pdf')
 plt.show()
 
 map = np.empty((K, 1))
@@ -132,5 +133,5 @@ plt.scatter(xtest, mu, marker='X', color='red')
 plt.scatter(xtest, y, edgecolors='blue', color="none")
 plt.title('prediction')
 plt.legend(['mode', 'mean'])
-pml.save_fig('mixexp_predictions.pdf')
+pml.savefig('mixexp_predictions.pdf')
 plt.show()

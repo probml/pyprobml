@@ -80,12 +80,14 @@ def plot(f):
   
     fig, ax = plt.subplots(figsize=(5, 6))
     c = plt.pcolor(X1, X2, G, cmap='RdBu', vmin=G_min, vmax=G_max)
-    ax.set_title('Finland')
     fig.colorbar(c, ax=ax)
 
 plot(f_mean)
-pml.savefig('Posterior_mean.pdf')
+plt.title('Mean')
+pml.savefig('gp_spatial_mean.pdf')
 plt.show()
+
 plot(f_var)
-pml.savefig('Posterior_variance.pdf')
+plt.title('Variance')
+pml.savefig('gp_spatial_variance.pdf')
 plt.show()
