@@ -3,7 +3,8 @@ Author : Ang Ming Liang
 '''
 
 import numpy as np
-from tqdm import tqdm_notebook
+#from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 def slice_sample(init, dist, iters, sigma, burnin, step_out=True, rng=None):
     """
@@ -18,7 +19,7 @@ def slice_sample(init, dist, iters, sigma, burnin, step_out=True, rng=None):
     # initialize
     xx = init.copy()
 
-    for i in tqdm_notebook(range(iters)):
+    for i in tqdm(range(iters)):
         perm = list(range(D))
         rng.shuffle(perm)
         last_llh = dist(xx)

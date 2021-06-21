@@ -205,6 +205,7 @@ fig.tight_layout()
 pml.savefig('prostate-subsets-coef.pdf')
 plt.show()
 
+plt.figure()
 plt.boxplot(residuals)
 plt.xticks(np.arange(n_models) + 1, xlabels[1:])
 pml.savefig('prostate-subsets-CV.pdf')
