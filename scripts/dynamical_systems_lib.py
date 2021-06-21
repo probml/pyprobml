@@ -8,7 +8,108 @@ from jax.ops import index_update
 
 class ExtendedKalmanFilter:
     """
-    Implementation of the Extended Kalman Filter for a nonlinear-continous
+    Implementation of the Extended Kalman Filter for a nonlinear
+    dynamical system with discrete observations
+    """
+    def __init__(self, fz, fx, Q, R):
+        self.fz = fz
+        self.fx = fx
+        self.Dfz = jax.jacfwd(fz)
+        self.Dfx = jax.jacfwd(fx)
+        self.Q = Q
+        self.R = R
+        self.state_size, _ = Q.shape
+        self.obs_size, _ = R.shape
+    
+    def sample(self, key, x0, nsteps):
+        """
+        Sample discrete elements of a nonlinear system
+
+        Parameters
+        ----------
+        key: jax.random.PRNGKey
+        x0: array(state_size)
+            Initial state of simulation
+        nsteps: int
+            Total number of steps to sample from the system
+
+        Returns
+        -------
+        * array(nsamples, state_size)
+            State-space values
+        * array(nsamples, obs_size)
+            Observed-space values
+        """
+        key, key_system_noise, key_obs_noise = random.split(key, 3)
+
+        state_hist = jnp.zeros((nsteps, self.state_size))
+        obs_hist = jnp.zeros((nsteps, self.obs_size))
+
+        state_t = x0.copy()
+        obs_t = self.fx(state_t)
+
+        state_noise = random.multivariate_normal(key_system_noise, jnp.zeros((self.state_size,)), self.Q, (nsteps,))
+        obs_noise = random.multivariate_normal(key_obs_noise, jnp.zeros((self.obs_size,)), self.R, (nsteps,))
+        state_hist = index_update(state_hist, 0, state_t)
+        obs_hist = index_update(obs_hist, 0, obs_t)
+
+        for t in range(1, nsteps):
+            state_t = self.fz(state_t) + state_noise[t]
+            obs_t = self.fx(state_t) + obs_noise[t]
+
+            state_hist = index_update(state_hist, t, state_t)
+            obs_hist = index_update(obs_hist, t, obs_t)
+        
+        return state_hist, obs_hist
+
+
+    def filter(self, sample_state, sample_obs):
+        """
+        Run the Extended Kalman Filter algorithm over a set of samples
+        obtained using the `simulate` method
+
+        Parameters
+        ----------
+        sample_state: array(nsamples, state_size)
+        sample_obs: array(nsamples, obs_size)
+        jump_size: int
+        dt: float
+
+        Returns
+        -------
+        * array(nsamples, state_size)
+            History of filtered mean terms
+        * array(nsamples, state_size, state_size)
+            History of filtered covariance terms
+        """
+        I = jnp.eye(self.state_size)
+        nsamples = len(sample_state)
+        Vt = self.Q.copy()
+
+        mu_t = sample_state[0]
+
+        mu_hist = jnp.zeros((nsamples, self.state_size))
+        V_hist = jnp.zeros((nsamples, self.state_size, self.state_size))
+
+        mu_hist = index_update(mu_hist, 0, mu_t)
+        V_hist = index_update(V_hist, 0, Vt)
+
+        for t in range(1, nsamples):
+            Gt = self.Dfz(mu_t)
+            mu_t_cond = self.fz(mu_t)
+            Vt_cond = Gt @ Vt @ Gt + self.Q
+            Ht = self.Dfx(self.fx(mu_t_cond))
+
+            Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R)
+            mu_t = mu_t_cond + Kt @ (sample_obs[t] - self.fx(mu_t_cond))
+            Vt = (I - Kt @ Ht) @ Vt_cond
+
+            mu_hist = index_update(mu_hist, t, mu_t)
+            V_hist = index_update(V_hist, t, Vt)
+        
+        return mu_hist, V_hist
+
+
     dynamical system with discrete observations
     """
     def __init__(self, fz, fx, Q, R):
