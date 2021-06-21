@@ -1,10 +1,9 @@
 # This script produces an illustration of Kalman filtering and smoothing
-# Author: Gerardo Duran-Martin (@gerdm)
+# Author: Gerardo Durán-Martín (@gerdm)
 
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from jax import random
-from matplotlib.patches import Ellipse
 import linear_dynamical_systems_lib as lds
 import pyprobml_utils as pml
 
@@ -47,32 +46,32 @@ def sample_filter_smooth(lds_model, key):
         Simulation of Latent states
     * (x_hist) array(timesteps, observation_size):
         Simulation of observed states
-    * (μ_hist) array(timesteps, state_size):
-        Filtered means μt
-    * (Σ_hist) array(timesteps, state_size, state_size)
-        Filtered covariances Σt
-    * (μ_cond_hist) array(timesteps, state_size)
-        Filtered conditional means μt|t-1
-    * (Σ_cond_hist) array(timesteps, state_size, state_size)
-        Filtered conditional covariances Σt|t-1
-    * (μ_hist_smooth) array(timesteps, state_size):
-        Smoothed means μt
-    * (Σ_hist_smooth) array(timesteps, state_size, state_size)
-        Smoothed covariances Σt
+    * (mu_hist) array(timesteps, state_size):
+        Filtered means mut
+    * (Sigma_hist) array(timesteps, state_size, state_size)
+        Filtered covariances Sigmat
+    * (mu_cond_hist) array(timesteps, state_size)
+        Filtered conditional means mut|t-1
+    * (Sigma_cond_hist) array(timesteps, state_size, state_size)
+        Filtered conditional covariances Sigmat|t-1
+    * (mu_hist_smooth) array(timesteps, state_size):
+        Smoothed means mut
+    * (Sigma_hist_smooth) array(timesteps, state_size, state_size)
+        Smoothed covariances Sigmat
     """
     z_hist, x_hist = lds_model.sample(key)
-    μ_hist, Σ_hist, μ_cond_hist, Σ_cond_hist = lds_model.kalman_filter(x_hist)
-    μ_hist_smooth, Σ_hist_smooth = lds_model.kalman_smoother(μ_hist, Σ_hist, μ_cond_hist, Σ_cond_hist)
+    mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = lds_model.filter(x_hist)
+    mu_hist_smooth, Sigma_hist_smooth = lds_model.smooth(mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist)
 
     return {
         "z_hist": z_hist,
         "x_hist": x_hist,
-        "μ_hist": μ_hist,
-        "Σ_hist": Σ_hist,
-        "μ_cond_hist": μ_cond_hist,
-        "Σ_cond_hist": Σ_cond_hist,
-        "μ_hist_smooth": μ_hist_smooth,
-        "Σ_hist_smooth": Σ_hist_smooth
+        "mu_hist": mu_hist,
+        "Sigma_hist": Sigma_hist,
+        "mu_cond_hist": mu_cond_hist,
+        "Sigma_cond_hist": Sigma_cond_hist,
+        "mu_hist_smooth": mu_hist_smooth,
+        "Sigma_hist_smooth": Sigma_hist_smooth
     }
 
 
@@ -101,14 +100,14 @@ if __name__ == "__main__":
     Q = jnp.eye(state_size) * 0.001
     R = jnp.eye(observation_size) * 1.0
     # Prior parameter distribution
-    μ0 = jnp.array([8, 10, 1, 0])
-    Σ0 = jnp.eye(state_size) * 1.0
+    mu0 = jnp.array([8, 10, 1, 0])
+    Sigma0 = jnp.eye(state_size) * 1.0
 
-    lds_instance = lds.LinearDynamicalSystem(A, C, Q, R, μ0, Σ0, timesteps)
+    lds_instance = lds.KalmanFilter(A, C, Q, R, mu0, Sigma0, timesteps)
     result = sample_filter_smooth(lds_instance, key)
 
-    l2_filter = jnp.linalg.norm(result["z_hist"][:, :2] - result["μ_hist"][:, :2], 2)
-    l2_smooth = jnp.linalg.norm(result["z_hist"][:, :2] - result["μ_hist_smooth"][:, :2], 2)
+    l2_filter = jnp.linalg.norm(result["z_hist"][:, :2] - result["mu_hist"][:, :2], 2)
+    l2_smooth = jnp.linalg.norm(result["z_hist"][:, :2] - result["mu_hist_smooth"][:, :2], 2)
 
     print(f"L2-filter: {l2_filter:0.4f}")
     print(f"L2-smooth: {l2_smooth:0.4f}")
@@ -119,18 +118,15 @@ if __name__ == "__main__":
     axs.plot(result["z_hist"][:, 0], result["z_hist"][:, 1], linewidth=2, label="truth", marker="s", markersize=8)
     axs.legend()
     axs.axis("equal")
-    pml.savefig("kalman_tracking_truth.pdf")
-    plt.tight_layout()
+    pml.savefig("kalman_tracking_truth.png")
     plt.show()
 
     fig, axs = plt.subplots()
-    plot_tracking_values(result["x_hist"], result["μ_hist"], result["Σ_hist"], "filtered", axs)
-    pml.savefig("kalman_tracking_filtered.pdf")
-    plt.tight_layout()
+    plot_tracking_values(result["x_hist"], result["mu_hist"], result["Sigma_hist"], "filtered", axs)
+    pml.savefig("kalman_tracking_filtered.png")
     plt.show()
 
     fig, axs = plt.subplots()
-    plot_tracking_values(result["x_hist"], result["μ_hist_smooth"], result["Σ_hist_smooth"], "smoothed", axs)
-    pml.savefig("kalman_tracking_smoothed.pdf")
-    plt.tight_layout()
+    plot_tracking_values(result["x_hist"], result["mu_hist_smooth"], result["Sigma_hist_smooth"], "smoothed", axs)
+    pml.savefig("kalman_tracking_smoothed.png")
     plt.show()
