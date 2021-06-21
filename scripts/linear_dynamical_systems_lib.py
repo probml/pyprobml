@@ -1,13 +1,14 @@
 # Jax implementation of a Linear Dynamical System
-# Author:  Gerardo Duran-Martin (@gerdm)
+# Author:  Gerardo Durán-Martín (@gerdm)
 
 import jax
 import jax.numpy as jnp
+from math import ceil
 from jax import random
 from jax.ops import index_update
 from jax.numpy.linalg import inv
 
-class LinearDynamicalSystem:
+class KalmanFilter:
     """
     Implementation of the Kalman Filtering and Smoothing
     procedure of a Linear Dynamical System with known parameters.
@@ -207,7 +208,7 @@ class LinearDynamicalSystem:
         
         return mu_hist_smooth, Sigma_hist_smooth
 
-    def kalman_filter(self, x_hist):
+    def filter(self, x_hist):
         """
         Compute the online version of the Kalman-Filter, i.e,
         the one-step-ahead prediction for the hidden state or the
@@ -243,7 +244,7 @@ class LinearDynamicalSystem:
         return mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist 
 
 
-    def kalman_smoother(self, mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist):
+    def smooth(self, mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist):
         """
         Compute the offline version of the Kalman-Filter, i.e,
         the kalman smoother for the state space.
