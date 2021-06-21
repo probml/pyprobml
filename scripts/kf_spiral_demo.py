@@ -1,10 +1,9 @@
 # This demo exemplifies the use of the Kalman Filter
 # algorithm when the linear dynamical system induced by the
 # matrix A has imaginary eigenvalues
-# Author: Gerardo Duran-Martin (@gerdm)
+# Author: Gerardo Durán-Martín (@gerdm)
 
 import jax.numpy as jnp
-import numpy as np
 import linear_dynamical_systems_lib as lds
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
@@ -25,19 +24,12 @@ if __name__ == "__main__":
 
     mean_0 = jnp.array([1, 1, 1, 0])
     Sigma_0 = jnp.eye(4)
-
     A = jnp.array([
         [0.1, 1.1, dx, 0],
-        [-1, 1, 0, dx],
+        [-1.1, 1, 0, dx],
         [0, 0, 0.1, 0],
         [0, 0, 0, 0.1]
     ])
-
-    AA = jnp.array([[0.1, 1.1], [-1.0, 1.0]]);
-    u, v = jnp.linalg.eig(AA);
-    lam1 = 1 / 20 * (11 + complex(0, np.sqrt(359)))
-    assert np.isclose(lam1, u[0])
-
     C = jnp.array([
         [1, 0, 0, 0],
         [0, 1, 0, 0]
@@ -45,12 +37,12 @@ if __name__ == "__main__":
     Q = jnp.eye(4) * 0.001
     R = jnp.eye(2) * 4
 
-    lds_instance = lds.LinearDynamicalSystem(A, C, Q, R, mean_0, Sigma_0, timesteps)
+    lds_instance = lds.KalmanFilter(A, C, Q, R, mean_0, Sigma_0, timesteps)
     state_hist, obs_hist = lds_instance.sample(key)
 
-    res = lds_instance.kalman_filter(obs_hist)
+    res = lds_instance.filter(obs_hist)
     mean_hist, Sigma_hist, mean_cond_hist, Sigma_cond_hist = res
-    mean_hist_smooth, Sigma_hist_smooth = lds_instance.kalman_smoother(mean_hist, Sigma_hist, mean_cond_hist,
+    mean_hist_smooth, Sigma_hist_smooth = lds_instance.smooth(mean_hist, Sigma_hist, mean_cond_hist,
                                                                     Sigma_cond_hist)
 
     fig, ax = plt.subplots()
