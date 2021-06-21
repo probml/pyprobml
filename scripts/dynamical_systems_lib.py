@@ -1,10 +1,12 @@
-# Library of continous-time nonlinear dynamical systems
+# Library of nonlinear dynamical systems
 # Author: Gerardo Durán-Martín (@gerdm)
 
 import jax
 import jax.numpy as jnp
 from jax import random
 from jax.ops import index_update
+from math import ceil
+
 
 class ExtendedKalmanFilter:
     """
@@ -110,6 +112,9 @@ class ExtendedKalmanFilter:
         return mu_hist, V_hist
 
 
+class ContinuousExtendedKalmanFilter:
+    """
+    Implementation of the Extended Kalman Filter for a nonlinear-continuos
     dynamical system with discrete observations
     """
     def __init__(self, fz, fx, Q, R):
@@ -156,20 +161,21 @@ class ExtendedKalmanFilter:
             simulation = index_update(simulation, t, xt)
         return simulation
     
-    def simulate(self, x0, key, T, n_samples, dt=0.01, noisy=False):
+    def sample(self, key, x0, T, nsamples, dt=0.01, noisy=False):
         """
         Run the Extended Kalman Filter algorithm. First, we integrate
-        up to time T, then we obtain n_samples equally-spaced points. Finally,
+        up to time T, then we obtain nsamples equally-spaced points. Finally,
         we transform the latent space to obtain the observations
 
         Parameters
         ----------
+        key: jax.random.PRNGKey
+            Initial seed
         x0: array(state_size)
             Initial state of simulation
-        key: jax.random.PRNGKey
         T: float
             Final time of integration
-        n_samples: int
+        nsamples: int
             Number of observations to take from the total integration
         dt: float
             integration step size
@@ -178,16 +184,19 @@ class ExtendedKalmanFilter:
 
         Returns
         -------
-        * array(n_samples, state_size)
+        * array(nsamples, state_size)
             State-space values
-        * array(n_samples, obs_size)
+        * array(nsamples, obs_size)
             Observed-space values
         * int
             Number of observations skipped between one
             datapoint and the next
         """
-        nsteps = int(T // dt)
-        jump_size = nsteps // n_samples
+        nsteps = ceil(T / dt)
+        jump_size = ceil(nsteps / nsamples)
+        correction = nsamples - ceil(nsteps / jump_size)
+        nsteps += correction * jump_size
+
         key_state, key_obs = random.split(key)
         state_noise = random.multivariate_normal(key_state, jnp.zeros(self.state_size), self.Q, (nsteps,))
         obs_noise = random.multivariate_normal(key_obs, jnp.zeros(self.obs_size), self.R, (nsteps,)) 
@@ -211,30 +220,30 @@ class ExtendedKalmanFilter:
 
         Parameters
         ----------
-        sample_state: array(n_samples, state_size)
-        sample_obs: array(n_samples, obs_size)
+        sample_state: array(nsamples, state_size)
+        sample_obs: array(nsamples, obs_size)
         jump_size: int
         dt: float
 
         Returns
         -------
-        * array(n_samples, state_size)
+        * array(nsamples, state_size)
             History of filtered mean terms
-        * array(n_samples, state_size, state_size)
+        * array(nsamples, state_size, state_size)
             History of filtered covariance terms
         """
         I = jnp.eye(self.state_size)
-        n_samples = len(sample_state)
+        nsamples = len(sample_state)
         Vt = self.R.copy()
         mu_t = sample_state[0]
 
-        mu_hist = jnp.zeros((n_samples, self.state_size))
-        V_hist = jnp.zeros((n_samples, self.state_size, self.state_size))
+        mu_hist = jnp.zeros((nsamples, self.state_size))
+        V_hist = jnp.zeros((nsamples, self.state_size, self.state_size))
 
         mu_hist = index_update(mu_hist, 0, mu_t)
         V_hist = index_update(V_hist, 0, Vt)
 
-        for t in range(1, n_samples):
+        for t in range(1, nsamples):
             for _ in range(jump_size):
                 k1 = self.fz(mu_t)
                 k2 = self.fz(mu_t + dt * k1)
@@ -250,7 +259,7 @@ class ExtendedKalmanFilter:
             Ht = self.Dfx(mu_t_cond)
 
             Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R)
-            mu_t = mu_t_cond + Kt @ (sample_obs[t] - mu_t_cond)
+            mu_t = mu_t_cond + Kt @ (sample_obs[t] - self.fx(mu_t_cond))
             Vt = (I - Kt @ Ht) @ Vt_cond
 
             mu_hist = index_update(mu_hist, t, mu_t)
