@@ -65,17 +65,15 @@ class ExtendedKalmanFilter:
         return state_hist, obs_hist
 
 
-    def filter(self, sample_state, sample_obs):
+    def filter(self, init_state, sample_obs):
         """
-        Run the Extended Kalman Filter algorithm over a set of samples
-        obtained using the `simulate` method
+        Run the Extended Kalman Filter algorithm over a set of observed samples.
 
         Parameters
         ----------
-        sample_state: array(nsamples, state_size)
+        init_state: array(state_size)
         sample_obs: array(nsamples, obs_size)
-        jump_size: int
-        dt: float
+
 
         Returns
         -------
@@ -85,10 +83,11 @@ class ExtendedKalmanFilter:
             History of filtered covariance terms
         """
         I = jnp.eye(self.state_size)
-        nsamples = len(sample_state)
+        nsamples = len(sample_obs)
         Vt = self.Q.copy()
 
-        mu_t = sample_state[0]
+        #mu_t = hidden_states[0]
+        mu_t = init_state
 
         mu_hist = jnp.zeros((nsamples, self.state_size))
         V_hist = jnp.zeros((nsamples, self.state_size, self.state_size))
@@ -114,8 +113,8 @@ class ExtendedKalmanFilter:
 
 class ContinuousExtendedKalmanFilter:
     """
-    Implementation of the Extended Kalman Filter for a nonlinear-continuos
-    dynamical system with discrete observations
+    Extended Kalman Filter for a nonlinear continuous time
+    dynamical system with observations in discrete time.
     """
     def __init__(self, fz, fx, Q, R):
         self.fz = fz
@@ -215,8 +214,7 @@ class ContinuousExtendedKalmanFilter:
     
     def estimate(self, sample_state, sample_obs, jump_size, dt):
         """
-        Run the Extended Kalman Filter algorithm over a set of samples
-        obtained using the `simulate` method
+        Run the Extended Kalman Filter algorithm over a set of observed samples.
 
         Parameters
         ----------
@@ -270,7 +268,7 @@ class ContinuousExtendedKalmanFilter:
 
 class UnscentedKalmanFilter:
     """
-    Implementation of the Unscented Kalman Filter for discrete systems
+    Implementation of the Unscented Kalman Filter for discrete time systems
     """
     def __init__(self, fz, fx, Q, R, alpha, beta, kappa):
         self.fz = fz
@@ -344,10 +342,9 @@ class UnscentedKalmanFilter:
         
         return state_hist, obs_hist
 
-    def filter(self, sample_obs):
+    def filter(self, init_state, sample_obs):
         """
-        Run the Unscented Kalman Filter algorithm over a set of samples
-        obtained using the `sample` method
+        Run the Unscented Kalman Filter algorithm over a set of observed samples.
 
         Parameters
         ----------
@@ -367,7 +364,8 @@ class UnscentedKalmanFilter:
                             else self.lmbda / (self.d + self.lmbda) + (1 - self.alpha ** 2 + self.beta)
                             for i in range(2 * self.d + 1)])
         nsteps, _ = sample_obs.shape
-        mu_t = sample_obs[0]
+        #mu_t = sample_obs[0]
+        mu_t = init_state
         Sigma_t = self.Q
 
         mu_hist = jnp.zeros((nsteps, self.d))
@@ -380,7 +378,10 @@ class UnscentedKalmanFilter:
             # TO-DO: use jax.scipy.linalg.sqrtm when it gets added to lib
             comp1 = mu_t[:, None] + self.gamma * self.sqrtm(Sigma_t)
             comp2 = mu_t[:, None] - self.gamma * self.sqrtm(Sigma_t)
-            sigma_points = jnp.c_[mu_t, comp1, comp2]
+            #print('kpm')
+            #print([mu_t.shape, comp1.shape, comp2.shape])
+            #sigma_points = jnp.c_[mu_t, comp1, comp2]
+            sigma_points = jnp.concatenate((mu_t[:, None], comp1, comp2), axis=1)
 
             z_bar = self.fz(sigma_points)
             mu_bar = z_bar @ wm_vec
@@ -389,7 +390,8 @@ class UnscentedKalmanFilter:
 
             comp1 = mu_bar[:, None] + self.gamma * self.sqrtm(self.Q)
             comp2 = mu_bar[:, None] - self.gamma * self.sqrtm(self.Q)
-            sigma_points = jnp.c_[mu_bar, comp1, comp2]
+            #sigma_points = jnp.c_[mu_bar, comp1, comp2]
+            sigma_points = jnp.concatenate((mu_bar[:, None], comp1, comp2), axis=1)
 
             x_bar = self.fx(z_bar)
             x_hat = x_bar @ wm_vec
