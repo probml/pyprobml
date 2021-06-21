@@ -1,6 +1,6 @@
 # Example of an Extended Kalman Filter using
 # a figure-8 nonlinear dynamical system.
-# For further reference and examples see:
+# For futher reference and examples see:
 #   * Section on EKFs in PML vol2 book
 #   * https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/11-Extended-Kalman-Filters.ipynb
 #   * Nonlinear Dynamics and Chaos - Steven Strogatz
@@ -27,7 +27,6 @@ def fx(x):
 dt = 0.01
 T = 7.5
 nsamples = 70
-#nsteps = 1000
 x0 = jnp.array([0.5, -0.75])
 
 # State noise
@@ -36,8 +35,8 @@ Qt = jnp.eye(2) * 0.001
 Rt = jnp.eye(2) * 0.01
 
 key = random.PRNGKey(314)
-ekf = ds.ExtendedKalmanFilter(fz, fx, Qt, Rt)
-sample_state, sample_obs, jump = ekf.simulate(x0, key, T, nsamples)
+ekf = ds.ContinuousExtendedKalmanFilter(fz, fx, Qt, Rt)
+sample_state, sample_obs, jump = ekf.sample(key, x0, T, nsamples)
 mu_hist, V_hist = ekf.estimate(sample_state, sample_obs, jump, dt)
 
 vmin, vmax, step = -1.5, 1.5 + 0.5, 0.5
