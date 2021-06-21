@@ -1,7 +1,7 @@
 # Parallel Kalman Filter demo: this script simulates
 # 4 missiles as described in the section "state-space models".
 # Each of the missiles is then filtered and smoothed in parallel
-# Author: Gerardo Duran-Martin (@gerdm)
+# Author: Gerardo Durán-Martín (@gerdm)
 
 import jax.numpy as jnp
 import linear_dynamical_systems_lib as lds
@@ -43,8 +43,8 @@ def sample_filter_smooth(key, lds_model, n_samples, noisy_init):
         Smoothed covariances Sigmat
     """
     z_hist, x_hist = lds_model.sample(key, n_samples, noisy_init)
-    mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = lds_model.kalman_filter(x_hist)
-    mu_hist_smooth, Sigma_hist_smooth = lds_model.kalman_smoother(mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist)
+    mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = lds_model.filter(x_hist)
+    mu_hist_smooth, Sigma_hist_smooth = lds_model.smooth(mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist)
 
     return {
         "z_hist": z_hist,
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     n_steps = 15
 
     key = random.PRNGKey(3141)
-    lds_instance = lds.LinearDynamicalSystem(A, C, Q, R, mu0, Sigma0, n_steps)
+    lds_instance = lds.KalmanFilter(A, C, Q, R, mu0, Sigma0, n_steps)
     result = sample_filter_smooth(key, lds_instance, n_samples, True)
 
     fig, ax = plt.subplots()
