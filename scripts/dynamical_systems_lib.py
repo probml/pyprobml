@@ -156,3 +156,144 @@ class ExtendedKalmanFilter:
             V_hist = index_update(V_hist, t, Vt)
         
         return mu_hist, V_hist
+
+
+class UnscentedKalmanFilter:
+    """
+    Implementation of the Unscented Kalman Filter for discrete systems
+    """
+    def __init__(self, fz, fx, Q, R, alpha, beta, kappa):
+        self.fz = fz
+        self.fx = fx
+        self.Q = Q
+        self.R = R
+        self.d, _ = Q.shape
+        self.alpha = alpha
+        self.beta = beta
+        self.kappa = kappa
+        self.lmbda = alpha ** 2 * (self.d + kappa) - self.d
+        self.gamma = jnp.sqrt(self.d + self.lmbda)
+    
+    @staticmethod
+    def sqrtm(M):
+        """
+        Compute the matrix square-root of a hermitian
+        matrix M. i,e, R such that RR = M
+        
+        Parameters
+        ----------
+        M: array(m, m)
+            Hermitian matrix
+        
+        Returns
+        -------
+        array(m, m): square-root matrix
+        """
+        evals, evecs = jnp.linalg.eigh(M)
+        R = evecs @ jnp.sqrt(jnp.diag(evals)) @ jnp.linalg.inv(evecs)
+        return R
+    
+    def sample(self, key, x0, nsteps):
+        """
+        Sample discrete elements of a nonlinear system
+
+        Parameters
+        ----------
+        key: jax.random.PRNGKey
+        x0: array(state_size)
+            Initial state of simulation
+        nsteps: int
+            Total number of steps to sample from the system
+
+        Returns
+        -------
+        * array(nsamples, state_size)
+            State-space values
+        * array(nsamples, obs_size)
+            Observed-space values
+        """
+        key, key_system_noise, key_obs_noise = random.split(key, 3)
+
+        state_hist = jnp.zeros((nsteps, self.d))
+        obs_hist = jnp.zeros((nsteps, self.d))
+
+        state_t = x0.copy()
+        obs_t = self.fx(state_t)
+
+        state_noise = random.multivariate_normal(key_system_noise, jnp.zeros((self.d,)), self.Q, (nsteps,))
+        obs_noise = random.multivariate_normal(key_obs_noise, jnp.zeros((self.d,)), self.R, (nsteps,))
+        state_hist = index_update(state_hist, 0, state_t)
+        obs_hist = index_update(obs_hist, 0, obs_t)
+
+        for t in range(1, nsteps):
+            state_t = self.fz(state_t) + state_noise[t]
+            obs_t = self.fx(state_t) + obs_noise[t]
+
+            state_hist = index_update(state_hist, t, state_t)
+            obs_hist = index_update(obs_hist, t, obs_t)
+        
+        return state_hist, obs_hist
+
+    def filter(self, sample_obs):
+        """
+        Run the Unscented Kalman Filter algorithm over a set of samples
+        obtained using the `sample` method
+
+        Parameters
+        ----------
+        sample_obs: array(nsamples, obs_size)
+
+        Returns
+        -------
+        * array(nsamples, state_size)
+            History of filtered mean terms
+        * array(nsamples, state_size, state_size)
+            History of filtered covariance terms
+        """
+        wm_vec = jnp.array([1 / (2 * (self.d + self.lmbda)) if i > 0
+                            else self.lmbda / (self.d + self.lmbda)
+                            for i in range(2 * self.d + 1)])
+        wc_vec = jnp.array([1 / (2 * (self.d + self.lmbda)) if i > 0
+                            else self.lmbda / (self.d + self.lmbda) + (1 - self.alpha ** 2 + self.beta)
+                            for i in range(2 * self.d + 1)])
+        nsteps, _ = sample_obs.shape
+        mu_t = sample_obs[0]
+        Sigma_t = self.Q
+
+        mu_hist = jnp.zeros((nsteps, self.d))
+        Sigma_hist = jnp.zeros((nsteps, self.d, self.d))
+
+        mu_hist = index_update(mu_hist, 0, mu_t)
+        Sigma_hist = index_update(Sigma_hist, 0, Sigma_t)
+
+        for t in range(1, nsteps):
+            # TO-DO: use jax.scipy.linalg.sqrtm when it gets added to lib
+            comp1 = mu_t[:, None] + self.gamma * self.sqrtm(Sigma_t)
+            comp2 = mu_t[:, None] - self.gamma * self.sqrtm(Sigma_t)
+            sigma_points = jnp.c_[mu_t, comp1, comp2]
+
+            z_bar = self.fz(sigma_points)
+            mu_bar = z_bar @ wm_vec
+            Sigma_bar = (z_bar - mu_bar[:, None])
+            Sigma_bar = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar, Sigma_bar) + self.Q
+
+            comp1 = mu_bar[:, None] + self.gamma * self.sqrtm(self.Q)
+            comp2 = mu_bar[:, None] - self.gamma * self.sqrtm(self.Q)
+            sigma_points = jnp.c_[mu_bar, comp1, comp2]
+
+            x_bar = self.fx(z_bar)
+            x_hat = x_bar @ wm_vec
+            St = (x_bar - x_hat[:, None])
+            St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R
+
+            Sigma_bar_y = (z_bar - mu_bar[:, None])
+            Sigma_bar_y = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar_y, Sigma_bar_y)
+            Kt = Sigma_bar_y @ jnp.linalg.inv(St)
+
+            mu_t = mu_bar + Kt @ (sample_obs[t] - x_hat)
+            Sigma_t = Sigma_bar - Kt @ St @ Kt.T
+            
+            mu_hist = index_update(mu_hist, t, mu_t)
+            Sigma_hist = index_update(Sigma_hist, t, Sigma_t)
+
+        return mu_hist, Sigma_hist
