@@ -13,19 +13,21 @@ import matplotlib.pyplot as plt
 from numpy.random import seed, choice
 import pyprobml_utils as pml
 
+# state transition matrix
 A = np.array([
     [0.95, 0.05],
     [0.10, 0.90]
 ])
 
-px = np.array([
+# observation matrix
+B = np.array([
     [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], # fair die
     [1/10, 1/10, 1/10, 1/10, 1/10, 5/10] # loaded die
 ])
 
 n_samples = 300
-π = np.array([1, 1]) / 2
-casino = hmm.HMMDiscrete(A, px, π)
+init_state_dist = np.array([1, 1]) / 2
+casino = hmm.HMMDiscrete(A, B, init_state_dist)
 z_hist, x_hist = casino.sample(n_samples, 314)
 
 z_hist_str = "".join((z_hist + 1).astype(str))[:60]
@@ -98,10 +100,11 @@ def plot_inference(inference_values, z_hist, ax, state=1, map_estimate=False):
     ax.set_xlabel("Observation number")
 
 # Do inference
-res = casino.filter_smooth(x_hist)
+filtering, c_elements = casino.forwards(x_hist)
+loglik = np.sum(np.log(c_elements))
+print(loglik)
+smoothing = casino.forwards_backwards(x_hist)
 z_map = casino.map_state(x_hist)
-filtering = res["filtering"]
-smoothing = res["smoothing"]
 
 # Plot results
 

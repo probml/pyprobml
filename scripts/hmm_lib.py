@@ -26,27 +26,7 @@ class HMMDiscrete:
         self.π = π
         self.state_size, self.observation_size = px.shape
 
-
-
-        
     def sample(self, n_samples, random_state=None):
-        """
-        Sample n_samples states of the discrete-variables HMM
-        
-        Parameters
-        ----------
-        n_samples: int
-            Number of iterations in the process
-        random_state: int or None
-            random state of the system
-        
-        Returns
-        -------
-        * array(n_samples)
-            History of latent states
-        * array(n_samples)
-            History of observed states
-        """
         seed(random_state)
         latent_states = np.arange(self.state_size)
         obs_states = np.arange(self.observation_size)
@@ -66,20 +46,7 @@ class HMMDiscrete:
             x_hist[t] = xt
         return z_hist, x_hist
 
-    def _forward_step(self, x_hist):
-        """
-        Compute the "filtering" step of the HMM
-        
-        Parameters
-        ----------
-        x_hist: array(n_samples)
-            History of observed states
-            
-        Returns
-        -------
-        * array(n_samples, state_size)
-            Posterior over hidden states given the data seen
-        """
+    def forwards(self, x_hist):
         n_samples = len(x_hist)
         α_hist = np.zeros((n_samples, self.state_size))
         c_elements = np.zeros(n_samples)
@@ -98,31 +65,13 @@ class HMMDiscrete:
 
             α_hist[n] = αn
             c_elements[n] = cn
-        
+
+        loglik = np.sum(np.log(c_elements))
         return α_hist, c_elements
     
-    def _forward_backwards_step(self, x_hist):
-        """
-        Compute the intermediate smoothing step of the HMM.
-        First compute the "filtering" terms and then the "forward" elements
-        required to compute the smoothing elements
-        
-        Parameters
-        ----------
-        x_hist: array(n_samples)
-            History of observed states
-            
-        Returns
-        -------
-        * array(n_samples, state_size)
-            Posterior over hidden states given the data seen
-        * array(n_samples, state_size)
-            Intermediate elements to compute the smoothing term
-        * array(n_samples)
-            Coefficients 
-        """
+    def forwards_backwards(self, x_hist):
         n_samples = len(x_hist)
-        α_hist, c_elements = self._forward_step(x_hist)
+        α_hist, c_elements = self.forwards(x_hist)
         β_next = np.ones(self.state_size)
 
         β_hist = np.zeros((n_samples, self.state_size))
@@ -131,34 +80,10 @@ class HMMDiscrete:
         for n in range(2, n_samples + 1):
             β_next = (β_next * self.px[:, x_hist[-n+1]] * self.A).sum(axis=-1) / c_elements[-n+1]
             β_hist[-n] = β_next
-        
-        return α_hist, β_hist, c_elements
-    
-    def filter_smooth(self, x_hist):
-        """
-        Compute the "filtering" and "smoothing" steps of the HMM
-        
-        Parameters
-        ----------
-        x_hist: array(n_samples)
-            History of observed states
-            
-        Returns
-        -------
-        Dictionary:
-        * filtering: array(n_samples, state_size)
-            Posterior over hidden states given the data seen
-        * smoothing: array(n_samples, state_size)
-            Posterior over hidden states conditional on all the data
-        """ 
-        α_hist, β_hist, _ = self._forward_backwards_step(x_hist)
+
         γ_hist = α_hist * β_hist
-        
-        return {
-            "filtering": α_hist,
-            "smoothing": γ_hist
-        }
-    
+        return γ_hist
+
     def map_state(self, x_hist):
         """
         Compute the most probable sequence of states
