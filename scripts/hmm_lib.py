@@ -26,66 +26,8 @@ class HMMDiscrete:
         self.π = π
         self.state_size, self.observation_size = px.shape
 
-    @staticmethod
-    def find_dishonest_intervals(z_hist):
-        """
-        Find the span of timesteps that the
-        simulated systems turns to be in state 1
-        
-        Parameters
-        ----------
-        z_hist: array(n_samples)
-            Result of running the system with two
-            latent states
-        
-        Returns
-        -------
-        list of tuples with span of values
-        """
-        spans = []
-        x_init = 0
-        t = x_init
-        for t, _ in enumerate(z_hist[:-1]):
-            if z_hist[t+1] == 0 and z_hist[t] == 1:
-                x_end = t
-                spans.append((x_init, x_end))
-            elif z_hist[t+1] == 1 and z_hist[t] == 0:
-                x_init = t+1
-        return spans
-    
-    def plot_inference(self, inference_values, z_hist, ax, state=1, map_estimate=False):
-        """
-        Plot the estimated smoothing/filtering/map of a sequence of hidden states.
-        "Vertical gray bars denote times when the hidden
-        state corresponded to state 1. Blue lines represent the
-        posterior probability of being in that state given diﬀerent subsets
-        of observed data." See Markov and Hidden Markov models section for more info
-        
-        Parameters
-        ----------
-        inference_values: array(n_samples, state_size)
-            Result of runnig smoothing method
-        z_hist: array(n_samples)
-            Latent simulation
-        ax: matplotlib.axes
-        state: int
-            Decide which state to highlight
-        map_estimate: bool
-            Whether to plot steps (simple plot if False)
-        """
-        n_samples = len(inference_values)
-        xspan = np.arange(1, n_samples + 1)
-        spans = self.find_dishonest_intervals(z_hist)
-        if map_estimate:
-            ax.step(xspan, inference_values, where="post")
-        else:
-            ax.plot(xspan, inference_values[:, state])
 
-        for span in spans:
-            ax.axvspan(*span, alpha=0.5, facecolor="tab:gray", edgecolor="none")
-        ax.set_xlim(1, n_samples)
-        ax.set_ylim(0, 1)
-        ax.set_xlabel("Roll number")
+
         
     def sample(self, n_samples, random_state=None):
         """
