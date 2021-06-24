@@ -398,8 +398,9 @@ class UnscentedKalmanFilter:
             St = (x_bar - x_hat[:, None])
             St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R
 
-            Sigma_bar_y = (z_bar - mu_bar[:, None])
-            Sigma_bar_y = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar_y, Sigma_bar_y)
+            mu_hat_component = (z_bar - mu_bar[:, None])
+            x_hat_component = (x_bar - x_hat[:, None])
+            Sigma_bar_y = jnp.einsum("i,ji,ki->jk", wc_vec, mu_hat_component, x_hat_component)
             Kt = Sigma_bar_y @ jnp.linalg.inv(St)
 
             mu_t = mu_bar + Kt @ (sample_obs[t] - x_hat)
