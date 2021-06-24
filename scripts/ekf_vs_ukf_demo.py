@@ -75,3 +75,4 @@ plot_inference(sample_obs, mean_hist, Sigma_hist)
 plt.title('UKF')
 pml.savefig("nlds2d_ukf.pdf")
 
+plt.show()
