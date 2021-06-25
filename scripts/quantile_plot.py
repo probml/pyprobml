@@ -1,5 +1,3 @@
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
@@ -12,12 +10,12 @@ f = norm.cdf(x)
 plt.figure()
 plt.plot(x, f)
 plt.title('CDF')
-pml.save_fig('gaussianCDF.pdf')
+pml.savefig('gaussianCDF.pdf')
 plt.show()
 
 plt.figure()
 plt.plot(x, y)
-pml.save_fig('gaussianPDF.pdf')
+pml.savefig('gaussianPDF.pdf')
 plt.show()
 
 plt.figure()
@@ -39,5 +37,5 @@ plt.annotate(r'$1-\alpha/2$', xy=(x_sep_right, norm.pdf(x_sep_right)),
             xytext=(2.5, 0.1),
             arrowprops=dict(facecolor='k'))
 plt.ylim([0, 0.5])
-pml.save_fig('gaussianQuantile.pdf')
+pml.savefig('gaussianQuantile.pdf')
 plt.show()
