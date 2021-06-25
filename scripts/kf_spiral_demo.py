@@ -4,7 +4,7 @@
 # Author: Gerardo Durán-Martín (@gerdm)
 
 import jax.numpy as jnp
-import linear_dynamical_systems_lib as lds
+import lds_lib as lds
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 from jax import random
