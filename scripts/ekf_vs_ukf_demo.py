@@ -1,7 +1,7 @@
 # Compare extended Kalman filter with unscented kalman filter on a nonlinear 2d tracking problem
 # Author: Gerardo Durán-Martín (@gerdm)
 
-import dynamical_systems_lib as ds
+import nlds_lib as ds
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 import jax.numpy as jnp
