@@ -10,12 +10,9 @@ import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import arviz as az
-
+import pyprobml_utils as pml
 import os
-figdir = "../figures"
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
-    
+
 N = 10 # nun samples per group
 M = 8 # num groups
 idx = np.repeat(range(M-1), N) # N samples for groups 0-6
@@ -42,12 +39,9 @@ for i in range(M):
     j += N
     k += N
 plt.tight_layout()
-save_fig('linreg_hbayes_1d_data.pdf')
-
-
+pml.savefig('linreg_hbayes_1d_data.pdf')
 
 x_centered = x_m - x_m.mean()
-
 
 with pm.Model() as unpooled_model:
     α_tmp = pm.Normal('α_tmp', mu=0, sd=10, shape=M)
@@ -88,8 +82,8 @@ def plot_regression_line(trace):
       
 
 
-plot_regression_line(trace_up)    
-save_fig('linreg_hbayes_1d_unpooled_mean.pdf')
+plot_regression_line(trace_up) 
+pml.savefig('linreg_hbayes_1d_unpooled_mean.pdf')   
 
 def plot_post_pred_samples(trace, nsamples=20):
     _, ax = plt.subplots(2, 4, figsize=(10, 5), sharex=True, sharey=True,
@@ -120,9 +114,8 @@ def plot_post_pred_samples(trace, nsamples=20):
         j += N
         k += N
     
-plot_post_pred_samples(trace_up)    
-save_fig('linreg_hbayes_1d_unpooled_samples.pdf')
-    
+plot_post_pred_samples(trace_up)  
+pml.savefig('linreg_hbayes_1d_unpooled_samples.pdf')      
     
 with pm.Model() as hierarchical_model:
     # hyper-priors
@@ -149,10 +142,8 @@ with pm.Model() as hierarchical_model:
 
 az.summary(trace_hm)
 
+plot_regression_line(trace_hm) 
+pml.savefig('linreg_hbayes_1d_pooled_mean.pdf')   
 
-
-plot_regression_line(trace_hm)    
-save_fig('linreg_hbayes_1d_pooled_mean.pdf')
-
-plot_post_pred_samples(trace_hm)    
-save_fig('linreg_hbayes_1d_pooled_samples.pdf')
+plot_post_pred_samples(trace_hm) 
+pml.savefig('linreg_hbayes_1d_pooled_samples.pdf')
