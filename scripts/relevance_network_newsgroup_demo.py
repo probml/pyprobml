@@ -20,7 +20,7 @@ from itertools import combinations
 from tqdm import tqdm
 from joblib import Parallel, delayed
 from sklearn.metrics import mutual_info_score
-python 
+
 newsgroups_train = fetch_20newsgroups(subset='train')
 
 list_of_words = ['baseball', 'bible', 'case','course','evidence','children','mission','launch','files',

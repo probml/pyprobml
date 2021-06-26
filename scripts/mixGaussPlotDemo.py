@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 from scipy import linalg
 from scipy.stats import multivariate_normal
+import pyprobml_utils as pml
 
 mu_1 = np.array([[0.22], [0.45]])
 mu_2 = np.array([[0.5], [0.5]])
@@ -63,6 +64,9 @@ def plot_sigma_vector(Mu, Sigma):
     plt.figure(figsize=(12, 7))
     for i in range(n):
         plot_sigma_levels(Mu[i], Sigma[i])
+    plt.tight_layout()
+    pml.savefig('mixgaussSurface.pdf')
+    plt.show()
 
 plot_sigma_vector(Mu, Sigma)
 
@@ -92,6 +96,8 @@ def plot_gaussian_mixture(Mu, Sigma, weights=None, x = None, y = None):
     ax.set_xlabel('X axis')
     ax.set_ylabel('Y axis')
     ax.set_zlabel('Z axis')
+    plt.tight_layout()
+    pml.savefig('mixgaussSurface.pdf')
     plt.show()
 
 weights = [0.5, 0.3, 0.2]

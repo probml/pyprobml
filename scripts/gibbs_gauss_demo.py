@@ -5,6 +5,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal, norm
+import pyprobml_utils as pml
 
 μ = np.zeros(2)
 Σ = np.array([[1, 0.99], [0.99, 1]])
@@ -43,5 +44,6 @@ plt.annotate("", xy=(-2.5, 1.5), xytext=(2.5, 1.5), arrowprops=dict(arrowstyle='
 plt.annotate("", xy=(0.5, -2), xytext=(1, -2), arrowprops=dict(arrowstyle='<->'))
 # Scaled down and shifted marginal gaussian
 plt.plot(x0_range, norm(μ0_cond, np.sqrt(Σ0_cond)).pdf(x0_range)* 0.3 - 3, c="tab:green")
-plt.savefig('../figures/gmm_singularity.pdf', dpi=300)
+plt.tight_layout()
+pml.savefig('gmm_singularity.pdf')
 plt.show()

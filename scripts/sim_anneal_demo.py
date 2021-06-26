@@ -2,8 +2,6 @@
 # https://www.teachme.codes/numpy-docs/Meshgrid-SimulationExample/code/
 # https://scicomp.stackexchange.com/questions/33325/can-i-solve-a-model-in-gekko-with-black-box-simulated-annealing-or-ga-solvers
 
-# See also
-# https://krischer.github.io/seismo_live_build/html/Seismic%20Inverse%20Problems/Probabilistic%20Inversion/pi_simann_wrapper.html
 
 import numpy as np
 import matplotlib.pyplot as plt
