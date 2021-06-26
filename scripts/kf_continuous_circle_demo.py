@@ -6,7 +6,7 @@
 #   * Nonlinear Dynamics and Chaos - Steven Strogatz
 # Author: Gerardo Durán-Martín (@gerdm)
 
-import linear_dynamical_systems_lib as lds
+import lds_lib as lds
 import matplotlib.pyplot as plt 
 import pyprobml_utils as pml
 import jax.numpy as jnp

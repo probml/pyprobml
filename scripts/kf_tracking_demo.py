@@ -4,7 +4,7 @@
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from jax import random
-import linear_dynamical_systems_lib as lds
+import lds_lib as lds
 import pyprobml_utils as pml
 
 def plot_tracking_values(observed, filtered, cov_hist, signal_label, ax):
