@@ -63,17 +63,25 @@ If using Pyro, you can use this:
 ```python
 !pip3 install pyro-ppl
 ```
-If you want to cut and paste external files (which are not in public repos)
-and run them from colab, you can use this idiom:
+If you want to create local files within colab,
+ you can use this idiom:
 ```python
 file = 'kalman_tracking_demo.py' # change this filename as needed
 !touch $file # create empty file
 from google.colab import files
 files.view(file) # open editor
-# cut and paste code from ... into editor
-%run $file  # test the file in colab
 ```
-Note that you should just check in your file, not the notebook itself (that is just for testing, and optionally for development).
+Once it works, import it, or run it directly like so:
+```python
+%run $file  
+```
+To make sure colab notices any changes to the file, add this magic:
+```
+%load_ext autoreload
+%autoreload 2
+```
+When it all works, it is generally best to 
+just check in your file(s), not the notebook itself, unless the notebook has lots of explanatory text and figures, or needs a GPU or needs to install packages.
 - Following the pep-8 guidlines, please name your python files using lowercase, with optional underscores separating words, as in foo_bar.py (even if this is different from the orignal matlab filename.) 
 - Make sure your code reproduces the figure(s) in the book as closely as is “reasonable”. Note that in some cases things will not match exactly, e.g., because of different random number seeds. Do not worry about that, as long as your code is correct. Similarly, do not stress over small visual differences (e.g., colors or fonts), although the figure should be readable. 
 - Follow the example below when  creating each figure (using the same figure file names as in the original Matlab code, if relevant).  For image filenames, use lowercase, but replace underscores with hyphens, as in foo-bar.pdf. 
