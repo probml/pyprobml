@@ -45,12 +45,14 @@ def compute_average_images(feature_idx, image_dim, data_loader, device=None, enc
     return avg_img_with_feat, avg_img_without_feat
 
 
+
 # https://github.com/rasbt/stat453-deep-learning-ss21/blob/main/L17/helper_plotting.py#L172
 def plot_modified_images(original, diff,
                          diff_coefficients=(0., 0.5, 1., 1.5, 2., 2.5, 3.),
                          decoding_fn=None,
                          device=None,
-                         figsize=(8, 2.5)):
+                         normalize=True,
+                         figsize=(10, 4)):
     fig, axes = plt.subplots(nrows=2, ncols=len(diff_coefficients),
                              sharex=True, sharey=True, figsize=figsize)
 
@@ -59,17 +61,18 @@ def plot_modified_images(original, diff,
         less = original - alpha * diff
 
         if decoding_fn is not None:
-            ######################################
             ### Latent -> Original space
             with torch.no_grad():
-
                 if device is not None:
                     more = more.to(device).unsqueeze(0)
                     less = less.to(device).unsqueeze(0)
 
                 more = decoding_fn(more).to('cpu').squeeze(0)
                 less = decoding_fn(less).to('cpu').squeeze(0)
-            ######################################
+
+        if normalize:   # map from -1..1 to 0..1
+          more = more / 2 + 0.5
+          less = less / 2 + 0.5
 
         smore = f'+{alpha}'
         sless = f'-{alpha}'
@@ -82,3 +85,4 @@ def plot_modified_images(original, diff,
 
         axes[1][i].axison = False
         axes[0][i].axison = False
+
