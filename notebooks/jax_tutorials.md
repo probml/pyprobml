@@ -13,7 +13,7 @@ The JAX interface is almost identical to NumPy (by design), but with some small 
 - [List of common 'gotchas'](https://github.com/google/jax#current-gotchas)
 - [Awesome JAX: extensive list of tutorials and code](https://github.com/n2cholas/awesome-jax)
 - [flax tutorial](https://flax.readthedocs.io/en/latest/notebooks/jax_for_the_impatient.html).
-- [From PyTorch to JAX: towards neural net frameworks that purify stateful code](https://sjmielke.com/jax-purify.htm)
+- [From PyTorch to JAX: towards neural net frameworks that purify stateful code](https://sjmielke.com/jax-purify.htm). Explains concepts behind flax and haiku.
 - [Getting started with JAX: MLPs, CNNs & RNNs](https://roberttlange.github.io/posts/2020/03/blog-post-10/)
 - [Implement JAX in JAX](https://jax.readthedocs.io/en/latest/autodidax.html)
 - [CMA-ES in JAX](https://roberttlange.github.io/posts/2021/02/cma-es-jax/) blog post for fitting DNNs using blackbox optimization.
