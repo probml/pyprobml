@@ -154,7 +154,8 @@ mask, noisy_data, missing_data, = np.random.rand(n,d) < 0.05, np.copy(clean_data
  
 noisy_data[mask] = 1 - noisy_data[mask]
 missing_data[mask] = np.nan
- 
+
+plt.figure()
 ax = plt.gca()
 plt.imshow(noisy_data, aspect='auto', interpolation='none',
            origin='lower', cmap="gray")
@@ -167,6 +168,7 @@ binaryFA.variational_em(noisy_data)
 mu_post, sigma_post, loglik  = binaryFA.infer_latent(noisy_data)
 
 symbols = ['ro', 'gs', 'k*']
+plt.figure()
 plt.plot(mu_post[0,:m], mu_post[1,0:m], symbols[0])
 plt.plot(mu_post[0,m:2*m], mu_post[1,m:2*m], symbols[1])
 plt.plot(mu_post[0,2*m:], mu_post[1,2*m:], symbols[2])
@@ -174,11 +176,13 @@ plt.title('Latent Embedding')
 plt.show()
  
 prob_on = binaryFA.predict_missing(noisy_data)
+plt.figure()
 plt.imshow(prob_on, aspect='auto', interpolation='none',
            origin='lower', cmap="gray")
 plt.title('Posterior Predictive')
 plt.show()
 
+plt.figure()
 plt.imshow(prob_on>0.5, aspect='auto', interpolation='none',
            origin='lower', cmap="gray")
 plt.title('Reconstruction')

@@ -7,7 +7,9 @@ Based on: https://github.com/probml/pmtk3/blob/master/demos/isingImageDenoiseDem
 import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt
-from tqdm.notebook import tqdm
+#from tqdm.notebook import tqdm
+from tqdm import tqdm
+
 from scipy.stats import norm 
 import pyprobml_utils as pml
 
@@ -15,7 +17,7 @@ np.random.seed(1)
 
 sigma =2
 
-img = pd.read_csv("letterA.csv").to_numpy()
+img = pd.read_csv("../data/letterA.csv").to_numpy()
 mean = np.mean(img)
 base = np.ones(img.shape)
 img2 = base*(img > mean) - base*(img<mean)
@@ -94,18 +96,22 @@ def meanfield(img, J, niter=10, rate=1):
 seed = 10
 rng = np.random.default_rng(seed)
 iters = [0, 1, 5, 15]
-fig, axs = plt.subplots(1,4, figsize=(20, 80))
+fig, axs = plt.subplots(1,4)
 for i, x in enumerate(iters):
   axs[i].imshow(meanfield(y, 1, niter=x), cmap="Greys")
-  axs[i].set_title(f"sample {x}, mean field")
+  axs[i].set_title(f"sample {x}")
+plt.suptitle('Mean field')
+plt.tight_layout()
 pml.savefig('meanFieldDenoising.pdf')
 plt.show()
 
 # Gibbs Sampling figure
-fig, axs = plt.subplots(1,4, figsize=(20, 80))
+fig, axs = plt.subplots(1,4)
 for i, x in enumerate(iters):
-  axs[i].set_title(f"sample {x}, gibbs sampling")
+  axs[i].set_title(f"sample {x}")
   axs[i].imshow(gibbs(rng, y, 1, niter=x), cmap="Greys")
+plt.suptitle('Gibbs sampling')
+plt.tight_layout()
 pml.savefig('gibbsDenoising.pdf')
 plt.show()
 
