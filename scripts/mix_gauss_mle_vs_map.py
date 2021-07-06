@@ -84,5 +84,5 @@ if __name__ == "__main__":
     ax.set_xlabel("dimensionality")
     ax.set_ylabel("fraction of times EM for GMM fails")
     ax.legend()
-    pml.savefig("gmm_ml_vs_map.pdf")
+    pml.savefig("gmm_mle_vs_map.pdf")
     plt.show()
