@@ -1,6 +1,6 @@
 # Example of a Gaussian Process Regression with multiple local minima
 # in the marginal log-likelihood as a function of the hyperparameters
-# Based on 
+# Based on: https://github.com/probml/pmtk3/blob/master/demos/gprDemoMarglik.m
 # Authors: Drishti Patel & Gerardo Durán-Martín
 
 import numpy as np
@@ -9,8 +9,10 @@ import pyprobml_utils as pml
 from numpy.linalg import inv, slogdet
 from scipy.optimize import minimize
 
+
 def k(u, v, sigma_f, l=1):
     return sigma_f ** 2 * np.exp(-(u - v) ** 2 / (2 * l ** 2))
+
 
 def gp_predictive_post(xstar, x, y, k, sigma_y, *args, **kwargs):
     """
@@ -50,7 +52,29 @@ def gp_predictive_post(xstar, x, y, k, sigma_y, *args, **kwargs):
     return ystar, Sigma_post
 
 
-def log_likelihood(x, y, k, sigma_f, l, sigma_y):
+def log_likelihood(x, y, sigma_f, l, sigma_y):
+    """
+    Compute marginal log-likelihood of a regression GP
+    with rbf kernel
+
+    Parameters
+    ----------
+    x: array(n, 1)
+        Training independent variables
+    y: array(n, 1)
+        Training dependent variables
+    sigma_f: float
+        Vertical-scale parameter
+    l: float
+        Horizontal-scale parameter
+    sigma_y: float
+        data noise
+    
+    Returns
+    -------
+    * float:
+        Marginal log-likelihood as the specified hyperparameters
+    """
     n, _ = x.shape
     x = x / np.exp(l)
     Kxx = k(x, x.T, sigma_f) + np.exp(2 * sigma_y) * np.eye(n)
@@ -71,7 +95,7 @@ def plot_gp_pred(x, y, xstar, k, sigma_f, l, sigma_y, ax):
 
 def plot_marginal_likelihood_surface(x, y, sigma_f, l_space, sigma_y_space, ax, levels=None):
     P = np.stack(np.meshgrid(l_space, sigma_y_space), axis=0)
-    Z = np.apply_along_axis(lambda p: log_likelihood(x, y, k, sigma_f, *p), 0, P)
+    Z = np.apply_along_axis(lambda p: log_likelihood(x, y, sigma_f, *p), 0, P)
     ax.contour(*np.exp(P), Z, levels=levels)
     ax.set_xlabel("characteristic length scale")
     ax.set_ylabel("noise standard deviation")
@@ -104,8 +128,8 @@ if __name__ == "__main__":
     ngrid = 41
     w01 = np.array([np.log(1), np.log(0.1)])
     w02 = np.array([np.log(10), np.log(0.8)])
-    s0 = minimize(lambda p: -log_likelihood(x, y, k, sigma_f, *p), w01)
-    s1 = minimize(lambda p: -log_likelihood(x, y, k, sigma_f, *p), w02)
+    s0 = minimize(lambda p: -log_likelihood(x, y, sigma_f, *p), w01)
+    s1 = minimize(lambda p: -log_likelihood(x, y, sigma_f, *p), w02)
     levels = -np.array([8.3, 8.5, 8.9, 9.3, 9.8, 11.5, 15])[::-1]
     l_space = np.linspace(np.log(0.5), np.log(80), ngrid)
     sigma_y_space = np.linspace(np.log(0.03), np.log(3), ngrid)
