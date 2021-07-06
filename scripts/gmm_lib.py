@@ -26,6 +26,10 @@ def plot_mixtures(X, mu, pi, Sigma, r, step=0.01, cmap="viridis", ax=None):
     ax.scatter(*X.T, alpha=0.7, c=r, cmap=cmap, s=10)
     ax.set_xlim(x0, x1)
     ax.set_ylim(y0, y1)
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 def compute_responsibilities(k, pi, mu, sigma):
     Ns = [multivariate_normal(mean=mu_i, cov=Sigma_i) for mu_i, Sigma_i in zip(mu, sigma)]
     def respons(x):
