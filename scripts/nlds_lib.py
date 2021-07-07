@@ -273,15 +273,12 @@ class ContinuousExtendedKalmanFilter:
         return mu_hist, V_hist
 
 
-class UnscentedKalmanFilter:
+class UnscentedKalmanFilter(NLDS):
     """
     Implementation of the Unscented Kalman Filter for discrete time systems
     """
     def __init__(self, fz, fx, Q, R, alpha, beta, kappa):
-        self.fz = fz
-        self.fx = fx
-        self.Q = Q
-        self.R = R
+        super().__init__(fz, fx, Q, R)
         self.d, _ = Q.shape
         self.alpha = alpha
         self.beta = beta
@@ -308,47 +305,6 @@ class UnscentedKalmanFilter:
         R = evecs @ jnp.sqrt(jnp.diag(evals)) @ jnp.linalg.inv(evecs)
         return R
     
-    def sample(self, key, x0, nsteps):
-        """
-        Sample discrete elements of a nonlinear system
-
-        Parameters
-        ----------
-        key: jax.random.PRNGKey
-        x0: array(state_size)
-            Initial state of simulation
-        nsteps: int
-            Total number of steps to sample from the system
-
-        Returns
-        -------
-        * array(nsamples, state_size)
-            State-space values
-        * array(nsamples, obs_size)
-            Observed-space values
-        """
-        key, key_system_noise, key_obs_noise = random.split(key, 3)
-
-        state_hist = jnp.zeros((nsteps, self.d))
-        obs_hist = jnp.zeros((nsteps, self.d))
-
-        state_t = x0.copy()
-        obs_t = self.fx(state_t)
-
-        state_noise = random.multivariate_normal(key_system_noise, jnp.zeros((self.d,)), self.Q, (nsteps,))
-        obs_noise = random.multivariate_normal(key_obs_noise, jnp.zeros((self.d,)), self.R, (nsteps,))
-        state_hist = index_update(state_hist, 0, state_t)
-        obs_hist = index_update(obs_hist, 0, obs_t)
-
-        for t in range(1, nsteps):
-            state_t = self.fz(state_t) + state_noise[t]
-            obs_t = self.fx(state_t) + obs_noise[t]
-
-            state_hist = index_update(state_hist, t, state_t)
-            obs_hist = index_update(obs_hist, t, obs_t)
-        
-        return state_hist, obs_hist
-
     def filter(self, init_state, sample_obs):
         """
         Run the Unscented Kalman Filter algorithm over a set of observed samples.
@@ -385,8 +341,6 @@ class UnscentedKalmanFilter:
             # TO-DO: use jax.scipy.linalg.sqrtm when it gets added to lib
             comp1 = mu_t[:, None] + self.gamma * self.sqrtm(Sigma_t)
             comp2 = mu_t[:, None] - self.gamma * self.sqrtm(Sigma_t)
-            #print('kpm')
-            #print([mu_t.shape, comp1.shape, comp2.shape])
             #sigma_points = jnp.c_[mu_t, comp1, comp2]
             sigma_points = jnp.concatenate((mu_t[:, None], comp1, comp2), axis=1)
 
