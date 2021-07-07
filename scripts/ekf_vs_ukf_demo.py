@@ -32,7 +32,7 @@ Rt = jnp.eye(2) * 0.05
 alpha, beta, kappa = 1, 0, 2
 
 key = random.PRNGKey(314)
-model = ds.ExtendedKalmanFilter(lambda x: fz(x, dt), fx, Qt, Rt)
+model = ds.NLDS(lambda x: fz(x, dt), fx, Qt, Rt)
 sample_state, sample_obs = model.sample(key, x0, nsteps)
 
 
