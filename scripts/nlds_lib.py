@@ -74,6 +74,9 @@ class ExtendedKalmanFilter(NLDS):
     
     @classmethod
     def from_base(cls, model):
+        """
+        Initialise class from an instance of the NLDS parent class
+        """
         return cls(model.fz, model.fx, model.Q, model.R)
 
     def filter(self, init_state, sample_obs):
@@ -292,6 +295,9 @@ class UnscentedKalmanFilter(NLDS):
 
     @classmethod
     def from_base(cls, model, alpha, beta, kappa):
+        """
+        Initialise class from an instance of the NLDS parent class
+        """
         return cls(model.fz, model.fx, model.Q, model.R, alpha, beta, kappa)
     
     @staticmethod
