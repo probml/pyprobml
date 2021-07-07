@@ -8,6 +8,59 @@ from jax.ops import index_update
 from math import ceil
 
 
+class NLDS:
+    """
+    Base class for the Nonliear dynamical systems' module
+    """
+    def __init__(self, fz, fx, Qt, Rt):
+        self.fz = fz
+        self.fx = fx
+        self.Qt = Qt
+        self.Rt = Rt
+        self.state_size, _ = Qt.shape
+        self.obs_size, _ = Rt.shape
+    
+    def sample(self, key, x0, nsteps):
+        """
+        Sample discrete elements of a nonlinear system
+
+        Parameters
+        ----------
+        key: jax.random.PRNGKey
+        x0: array(state_size)
+            Initial state of simulation
+        nsteps: int
+            Total number of steps to sample from the system
+
+        Returns
+        -------
+        * array(nsamples, state_size)
+            State-space values
+        * array(nsamples, obs_size)
+            Observed-space values
+        """
+        key, key_system_noise, key_obs_noise = random.split(key, 3)
+
+        state_hist = jnp.zeros((nsteps, self.state_size))
+        obs_hist = jnp.zeros((nsteps, self.obs_size))
+
+        state_t = x0.copy()
+        obs_t = self.fx(state_t)
+
+        state_noise = random.multivariate_normal(key_system_noise, jnp.zeros((self.state_size,)), self.Q, (nsteps,))
+        obs_noise = random.multivariate_normal(key_obs_noise, jnp.zeros((self.obs_size,)), self.R, (nsteps,))
+        state_hist = index_update(state_hist, 0, state_t)
+        obs_hist = index_update(obs_hist, 0, obs_t)
+
+        for t in range(1, nsteps):
+            state_t = self.fz(state_t) + state_noise[t]
+            obs_t = self.fx(state_t) + obs_noise[t]
+
+            state_hist = index_update(state_hist, t, state_t)
+            obs_hist = index_update(obs_hist, t, obs_t)
+        
+        return state_hist, obs_hist
+
 class ExtendedKalmanFilter:
     """
     Implementation of the Extended Kalman Filter for a nonlinear
