@@ -12,14 +12,14 @@ class NLDS:
     """
     Base class for the Nonliear dynamical systems' module
     """
-    def __init__(self, fz, fx, Qt, Rt):
+    def __init__(self, fz, fx, Q, R):
         self.fz = fz
         self.fx = fx
-        self.Qt = Qt
-        self.Rt = Rt
-        self.state_size, _ = Qt.shape
-        self.obs_size, _ = Rt.shape
-    
+        self.Q = Q
+        self.R = R
+        self.state_size, _ = Q.shape
+        self.obs_size, _ = R.shape
+
     def sample(self, key, x0, nsteps):
         """
         Sample discrete elements of a nonlinear system
