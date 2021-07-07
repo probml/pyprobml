@@ -13,42 +13,15 @@ import matplotlib.pyplot as plt
 from numpy.random import seed, choice
 import pyprobml_utils as pml
 
-# state transition matrix
-A = np.array([
-    [0.95, 0.05],
-    [0.10, 0.90]
-])
-
-# observation matrix
-B = np.array([
-    [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], # fair die
-    [1/10, 1/10, 1/10, 1/10, 1/10, 5/10] # loaded die
-])
-
-n_samples = 300
-init_state_dist = np.array([1, 1]) / 2
-casino = hmm.HMMDiscrete(A, B, init_state_dist)
-z_hist, x_hist = casino.sample(n_samples, 314)
-
-z_hist_str = "".join((z_hist + 1).astype(str))[:60]
-x_hist_str = "".join((x_hist + 1).astype(str))[:60]
-
-print("Printing sample observed/latent...")
-print(f"x: {x_hist_str}")
-print(f"z: {z_hist_str}")
-
-
 def find_dishonest_intervals(z_hist):
     """
     Find the span of timesteps that the
     simulated systems turns to be in state 1
-
     Parameters
     ----------
     z_hist: array(n_samples)
         Result of running the system with two
         latent states
-
     Returns
     -------
     list of tuples with span of values
@@ -71,7 +44,6 @@ def plot_inference(inference_values, z_hist, ax, state=1, map_estimate=False):
     state corresponded to state 1. Blue lines represent the
     posterior probability of being in that state given diﬀerent subsets
     of observed data." See Markov and Hidden Markov models section for more info
-
     Parameters
     ----------
     inference_values: array(n_samples, state_size)
@@ -99,11 +71,34 @@ def plot_inference(inference_values, z_hist, ax, state=1, map_estimate=False):
     ax.set_ylim(-0.1, 1.1)
     ax.set_xlabel("Observation number")
 
+# state transition matrix
+A = np.array([
+    [0.95, 0.05],
+    [0.10, 0.90]
+])
+
+# observation matrix
+B = np.array([
+    [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], # fair die
+    [1/10, 1/10, 1/10, 1/10, 1/10, 5/10] # loaded die
+])
+
+n_samples = 300
+init_state_dist = np.array([1, 1]) / 2
+casino = hmm.HMMDiscrete(A, B, init_state_dist)
+z_hist, x_hist = casino.sample(n_samples, 314)
+
+z_hist_str = "".join((z_hist + 1).astype(str))[:60]
+x_hist_str = "".join((x_hist + 1).astype(str))[:60]
+
+print("Printing sample observed/latent...")
+print(f"x: {x_hist_str}")
+print(f"z: {z_hist_str}")
+
 # Do inference
-filtering, c_elements = casino.forwards(x_hist)
-loglik = np.sum(np.log(c_elements))
+filtering, loglik = casino.forwards(x_hist)
 print(loglik)
-smoothing = casino.forwards_backwards(x_hist)
+smoothing = casino.forwards_backwards(x_hist, filtering)
 z_map = casino.map_state(x_hist)
 
 # Plot results
@@ -125,5 +120,4 @@ plot_inference(z_map, z_hist, ax, map_estimate=True)
 ax.set_ylabel("MAP state")
 ax.set_title("Viterbi")
 pml.savefig("hmm_casino_map.pdf")
-
 plt.show()
