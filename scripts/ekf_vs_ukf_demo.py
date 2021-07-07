@@ -10,30 +10,9 @@ from jax import random
 plt.rcParams["axes.spines.right"] = False
 plt.rcParams["axes.spines.top"] = False
 
+
 def check_symmetric(a, rtol=1.1):
     return jnp.allclose(a, a.T, rtol=rtol)
-
-
-def fz(x, dt):
-    return x + dt * jnp.array([jnp.sin(x[1]), jnp.cos(x[0])])
-def fx(x): return x
-
-
-dt = 0.4
-nsteps = 100
-
-# Initial state vector
-x0 = jnp.array([1.5, 0.0])
-
-# State noise
-Qt = jnp.eye(2) * 0.001
-# Observed noise
-Rt = jnp.eye(2) * 0.05
-alpha, beta, kappa = 1, 0, 2
-
-key = random.PRNGKey(314)
-model = ds.ExtendedKalmanFilter(lambda x: fz(x, dt), fx, Qt, Rt)
-sample_state, sample_obs = model.sample(key, x0, nsteps)
 
 
 def plot_data(sample_state, sample_obs):
@@ -58,21 +37,38 @@ def plot_inference(sample_obs, mean_hist, Sigma_hist):
         pml.plot_ellipse(Vt, mut, ax, plot_center=False, alpha=0.9, zorder=3)
     plt.axis("equal")
 
+if __name__ == "__main__":
+    def fz(x, dt): return x + dt * jnp.array([jnp.sin(x[1]), jnp.cos(x[0])])
+    def fx(x): return x
 
-plot_data(sample_state, sample_obs)
-pml.savefig("nlds2d_data.pdf")
+    dt = 0.4
+    nsteps = 100
+    # Initial state vector
+    x0 = jnp.array([1.5, 0.0])
+    # State noise
+    Qt = jnp.eye(2) * 0.001
+    # Observed noise
+    Rt = jnp.eye(2) * 0.05
+    alpha, beta, kappa = 1, 0, 2
 
-ekf = ds.ExtendedKalmanFilter(lambda x: fz(x, dt), fx, Qt, Rt)
-mean_hist, Sigma_hist = ekf.filter(x0, sample_obs)
-plot_inference(sample_obs, mean_hist, Sigma_hist)
-plt.title('EKF')
-pml.savefig("nlds2d_ekf.pdf")
+    key = random.PRNGKey(314)
+    model = ds.NLDS(lambda x: fz(x, dt), fx, Qt, Rt)
+    sample_state, sample_obs = model.sample(key, x0, nsteps)
+    ekf = ds.ExtendedKalmanFilter.from_base(model)
+    ukf = ds.UnscentedKalmanFilter.from_base(model, alpha, beta, kappa)
 
-alpha, beta, kappa = 1, 0, 2
-ukf = ds.UnscentedKalmanFilter(lambda x: fz(x, dt), fx, Qt, Rt, alpha, beta, kappa)
-mean_hist, Sigma_hist = ukf.filter(x0, sample_obs)
-plot_inference(sample_obs, mean_hist, Sigma_hist)
-plt.title('UKF')
-pml.savefig("nlds2d_ukf.pdf")
+    ekf_mean_hist, ekf_Sigma_hist = ekf.filter(x0, sample_obs)
+    ukf_mean_hist, ukf_Sigma_hist = ukf.filter(x0, sample_obs)
 
-plt.show()
+    plot_data(sample_state, sample_obs)
+    pml.savefig("nlds2d_data.pdf")
+
+    plot_inference(sample_obs, ekf_mean_hist, ekf_Sigma_hist)
+    plt.title("EKF")
+    pml.savefig("nlds2d_ekf.pdf")
+
+    plot_inference(sample_obs, ukf_mean_hist, ukf_Sigma_hist)
+    plt.title("UKF")
+    pml.savefig("nlds2d_ukf.pdf")
+
+    plt.show()
