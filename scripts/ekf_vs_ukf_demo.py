@@ -62,14 +62,14 @@ def plot_inference(sample_obs, mean_hist, Sigma_hist):
 plot_data(sample_state, sample_obs)
 pml.savefig("nlds2d_data.pdf")
 
-ekf = ds.ExtendedKalmanFilter(lambda x: fz(x, dt), fx, Qt, Rt)
+ekf = ds.ExtendedKalmanFilter.from_base(model)
 mean_hist, Sigma_hist = ekf.filter(x0, sample_obs)
 plot_inference(sample_obs, mean_hist, Sigma_hist)
 plt.title('EKF')
 pml.savefig("nlds2d_ekf.pdf")
 
 alpha, beta, kappa = 1, 0, 2
-ukf = ds.UnscentedKalmanFilter(lambda x: fz(x, dt), fx, Qt, Rt, alpha, beta, kappa)
+ukf = ds.UnscentedKalmanFilter.from_base(model, alpha, beta, kappa)
 mean_hist, Sigma_hist = ukf.filter(x0, sample_obs)
 plot_inference(sample_obs, mean_hist, Sigma_hist)
 plt.title('UKF')

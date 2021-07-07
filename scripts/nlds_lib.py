@@ -71,6 +71,10 @@ class ExtendedKalmanFilter(NLDS):
         super().__init__(fz, fx, Q, R)
         self.Dfz = jax.jacfwd(fz)
         self.Dfx = jax.jacfwd(fx)
+    
+    @classmethod
+    def from_base(cls, model):
+        return cls(model.fz, model.fx, model.Q, model.R)
 
     def filter(self, init_state, sample_obs):
         """
@@ -285,6 +289,10 @@ class UnscentedKalmanFilter(NLDS):
         self.kappa = kappa
         self.lmbda = alpha ** 2 * (self.d + kappa) - self.d
         self.gamma = jnp.sqrt(self.d + self.lmbda)
+
+    @classmethod
+    def from_base(cls, model, alpha, beta, kappa):
+        return cls(model.fz, model.fx, model.Q, model.R, alpha, beta, kappa)
     
     @staticmethod
     def sqrtm(M):
