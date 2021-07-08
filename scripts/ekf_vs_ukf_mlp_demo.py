@@ -30,7 +30,7 @@ def mlp(W, x, n_hidden):
     Parameters
     ----------
     W: array(2 * n_hidden + n_hidden + 1)
-        Unraveled weights of the MLP
+        Unravelled weights of the MLP
     x: array(1,)
         Singleton element to evaluate the MLP
     n_hidden: int
