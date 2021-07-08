@@ -1,6 +1,13 @@
 # Example of an training of a multilayered perceptron (MLP)
 # using the Extended Kalman Filter (EKF) and the
-# Unscented Kalman Filter
+# Unscented Kalman Filter (UKF)
+# For more information, see
+#   * Neural Network Training Using Unscented and Extended Kalman Filter
+#       https://juniperpublishers.com/raej/RAEJ.MS.ID.555568.php
+#   * UKF-based training algorithm for feed-forward neural networks with
+#     application to XOR classification problem
+#       https://ieeexplore.ieee.org/document/6234549
+
 # Author: Gerardo Durán-Martín (@gerdm)
 
 import jax
@@ -13,6 +20,34 @@ import pyprobml_utils as pml
 from functools import partial
 from numpy.random import shuffle, seed
 from jax.random import PRNGKey, split, normal, multivariate_normal
+
+
+def mlp(W, x, n_hidden):
+    """
+    Multilayer Perceptron (MLP) with a single hidden unit and
+    tanh activation function. The input-unit and the
+    output-unit are both assumed to be unidimensional
+
+    Parameters
+    ----------
+    W: array(2 * n_hidden + n_hidden + 1)
+        Unraveled weights of the MLP
+    x: array(1,)
+        Singleton element to evaluate the MLP
+    n_hidden: int
+        Number of hidden units
+
+    Returns
+    -------
+    * array(1,)
+        Evaluation of MLP at the specified point
+    """
+    W1 = W[:n_hidden].reshape(n_hidden, 1)
+    W2 = W[n_hidden: 2 * n_hidden].reshape(1, n_hidden)
+    b1 = W[2 * n_hidden: 2 * n_hidden + n_hidden]
+    b2 = W[-1]
+    
+    return W2 @ nn.tanh(W1 @ x + b1) + b2
 
 
 def sample_observations(key, f, n_obs, xmin, xmax, x_noise=0.1, y_noise=3.0, shuffle_seed=None):
@@ -37,15 +72,6 @@ def plot_mlp_prediction(key, xobs, yobs, xtest, fw, w, Sw, ax, n_samples=100):
     ax.plot(xtest, sample_yhat.mean(axis=0))
     ax.scatter(xobs, yobs, s=14, c="none", edgecolor="black", label="observations", alpha=0.5)
     ax.set_xlim(xobs.min(), xobs.max())
-
-
-def mlp(W, x, n_hidden):
-    W1 = W[:n_hidden].reshape(n_hidden, 1)
-    W2 = W[n_hidden: 2 * n_hidden].reshape(1, n_hidden)
-    b1 = W[2 * n_hidden: 2 * n_hidden + n_hidden]
-    b2 = W[-1]
-    
-    return W2 @ nn.tanh(W1 @ x + b1) + b2
 
 
 if __name__ == "__main__":
