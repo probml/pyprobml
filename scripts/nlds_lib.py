@@ -100,7 +100,6 @@ class ExtendedKalmanFilter(NLDS):
         nsamples = len(sample_obs)
         Vt = self.Q.copy()
 
-        #mu_t = hidden_states[0]
         mu_t = init_state
 
         mu_hist = jnp.zeros((nsamples, self.state_size))
@@ -109,14 +108,15 @@ class ExtendedKalmanFilter(NLDS):
         mu_hist = index_update(mu_hist, 0, mu_t)
         V_hist = index_update(V_hist, 0, Vt)
 
-        for t in range(1, nsamples):
+        for t in range(nsamples):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
             Vt_cond = Gt @ Vt @ Gt + self.Q
             Ht = self.Dfx(mu_t_cond)
 
+            xt_hat = self.fx(mu_t_cond, *observations[t])
             Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R)
-            mu_t = mu_t_cond + Kt @ (sample_obs[t] - self.fx(mu_t_cond))
+            mu_t = mu_t_cond + Kt @ (sample_obs[t] - xt_hat)
             Vt = (I - Kt @ Ht) @ Vt_cond
 
             mu_hist = index_update(mu_hist, t, mu_t)
@@ -340,8 +340,7 @@ class UnscentedKalmanFilter(NLDS):
         wc_vec = jnp.array([1 / (2 * (self.d + self.lmbda)) if i > 0
                             else self.lmbda / (self.d + self.lmbda) + (1 - self.alpha ** 2 + self.beta)
                             for i in range(2 * self.d + 1)])
-        nsteps, _ = sample_obs.shape
-        #mu_t = sample_obs[0]
+        nsteps, *_ = sample_obs.shape
         mu_t = init_state
         Sigma_t = self.Q
 
@@ -351,7 +350,7 @@ class UnscentedKalmanFilter(NLDS):
         mu_hist = index_update(mu_hist, 0, mu_t)
         Sigma_hist = index_update(Sigma_hist, 0, Sigma_t)
 
-        for t in range(1, nsteps):
+        for t in range(nsteps):
             # TO-DO: use jax.scipy.linalg.sqrtm when it gets added to lib
             comp1 = mu_t[:, None] + self.gamma * self.sqrtm(Sigma_t)
             comp2 = mu_t[:, None] - self.gamma * self.sqrtm(Sigma_t)
@@ -363,18 +362,19 @@ class UnscentedKalmanFilter(NLDS):
             Sigma_bar = (z_bar - mu_bar[:, None])
             Sigma_bar = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar, Sigma_bar) + self.Q
 
-            comp1 = mu_bar[:, None] + self.gamma * self.sqrtm(self.Q)
-            comp2 = mu_bar[:, None] - self.gamma * self.sqrtm(self.Q)
+            Sigma_bar_half = self.sqrtm(Sigma_bar)
+            comp1 = mu_bar[:, None] + self.gamma * Sigma_bar_half
+            comp2 = mu_bar[:, None] - self.gamma * Sigma_bar_half
             #sigma_points = jnp.c_[mu_bar, comp1, comp2]
             sigma_points = jnp.concatenate((mu_bar[:, None], comp1, comp2), axis=1)
 
             x_bar = self.fx(z_bar)
             x_hat = x_bar @ wm_vec
-            St = (x_bar - x_hat[:, None])
+            St = x_bar - x_hat[:, None]
             St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R
 
-            mu_hat_component = (z_bar - mu_bar[:, None])
-            x_hat_component = (x_bar - x_hat[:, None])
+            mu_hat_component = z_bar - mu_bar[:, None]
+            x_hat_component = x_bar - x_hat[:, None]
             Sigma_bar_y = jnp.einsum("i,ji,ki->jk", wc_vec, mu_hat_component, x_hat_component)
             Kt = Sigma_bar_y @ jnp.linalg.inv(St)
 
