@@ -79,7 +79,7 @@ class ExtendedKalmanFilter(NLDS):
         """
         return cls(model.fz, model.fx, model.Q, model.R)
 
-    def filter(self, init_state, sample_obs):
+    def filter(self, init_state, sample_obs, observations=None):
         """
         Run the Extended Kalman Filter algorithm over a set of observed samples.
 
@@ -99,6 +99,10 @@ class ExtendedKalmanFilter(NLDS):
         I = jnp.eye(self.state_size)
         nsamples = len(sample_obs)
         Vt = self.Q.copy()
+        if observations is None:
+            observations = [()] * nsamples
+        else:
+            observations = [(obs,) for obs in observations]
 
         mu_t = init_state
 
@@ -112,7 +116,7 @@ class ExtendedKalmanFilter(NLDS):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
             Vt_cond = Gt @ Vt @ Gt + self.Q
-            Ht = self.Dfx(mu_t_cond)
+            Ht = self.Dfx(mu_t_cond, *observations[t])
 
             xt_hat = self.fx(mu_t_cond, *observations[t])
             Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R)
@@ -319,7 +323,7 @@ class UnscentedKalmanFilter(NLDS):
         R = evecs @ jnp.sqrt(jnp.diag(evals)) @ jnp.linalg.inv(evecs)
         return R
     
-    def filter(self, init_state, sample_obs):
+    def filter(self, init_state, sample_obs, observations=None):
         """
         Run the Unscented Kalman Filter algorithm over a set of observed samples.
 
@@ -343,6 +347,10 @@ class UnscentedKalmanFilter(NLDS):
         nsteps, *_ = sample_obs.shape
         mu_t = init_state
         Sigma_t = self.Q
+        if observations is None:
+            observations = [()] * nsteps
+        else:
+            observations = [(obs,) for obs in observations]
 
         mu_hist = jnp.zeros((nsteps, self.d))
         Sigma_hist = jnp.zeros((nsteps, self.d, self.d))
@@ -368,7 +376,7 @@ class UnscentedKalmanFilter(NLDS):
             #sigma_points = jnp.c_[mu_bar, comp1, comp2]
             sigma_points = jnp.concatenate((mu_bar[:, None], comp1, comp2), axis=1)
 
-            x_bar = self.fx(z_bar)
+            x_bar = self.fx(sigma_points, *observations[t])
             x_hat = x_bar @ wm_vec
             St = x_bar - x_hat[:, None]
             St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R
