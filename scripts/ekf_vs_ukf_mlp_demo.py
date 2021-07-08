@@ -13,7 +13,6 @@
 import jax
 import numpy as np
 import nlds_lib as ds
-import flax.linen as nn
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
@@ -47,7 +46,7 @@ def mlp(W, x, n_hidden):
     b1 = W[2 * n_hidden: 2 * n_hidden + n_hidden]
     b2 = W[-1]
     
-    return W2 @ nn.tanh(W1 @ x + b1) + b2
+    return W2 @ jnp.tanh(W1 @ x + b1) + b2
 
 
 def sample_observations(key, f, n_obs, xmin, xmax, x_noise=0.1, y_noise=3.0, shuffle_seed=None):
