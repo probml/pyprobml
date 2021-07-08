@@ -74,11 +74,14 @@ W_samples = multivariate_normal(key, W_ekf, SW_ekf, (100,))
 xtest = jnp.linspace(x.min(), x.max(), 200)
 sample_yhat_ekf = fwd_mlp_obs_weights(W_samples, xtest[:, None])
 
+
+fig, ax = plt.subplots()
 for sample in sample_yhat_ekf:
-    plt.plot(xtest, sample, c="tab:gray", alpha=0.07)
-plt.plot(xtest, sample_yhat_ekf.mean(axis=0))
-plt.scatter(x, y, s=14, c="none", edgecolor="black", label="observations", alpha=0.5)
-plt.title("EKF + MLP")
+    ax.plot(xtest, sample, c="tab:gray", alpha=0.07)
+ax.plot(xtest, sample_yhat_ekf.mean(axis=0))
+ax.scatter(x, y, s=14, c="none", edgecolor="black", label="observations", alpha=0.5)
+ax.set_xlim(x.min(), x.max())
+ax.set_title("EKF + MLP")
 
 
 alpha, beta, kappa = 1.0, 2.0, 3.0 - n_params
@@ -89,10 +92,13 @@ W_ukf, SW_ukf = ukf_mu_hist[-1], ukf_Sigma_hist[-1]
 W_samples = multivariate_normal(key, W_ukf, SW_ukf, (100,))
 
 sample_yhat_ukf = fwd_mlp_obs_weights(W_samples, xtest[:, None])
+
+fig, ax = plt.subplots()
 for sample in sample_yhat_ukf:
-    plt.plot(xtest, sample, c="tab:gray", alpha=0.07)
-plt.plot(xtest, sample_yhat_ukf.mean(axis=0))
-plt.scatter(x, y, s=14, c="none", edgecolor="black", label="observations", alpha=0.5)
-plt.title("UKF + MLP")
+    ax.plot(xtest, sample, c="tab:gray", alpha=0.07)
+ax.plot(xtest, sample_yhat_ukf.mean(axis=0))
+ax.scatter(x, y, s=14, c="none", edgecolor="black", label="observations", alpha=0.5)
+ax.set_xlim(x.min(), x.max())
+ax.set_title("UKF + MLP")
 
 plt.show()
