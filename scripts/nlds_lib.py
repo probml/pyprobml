@@ -113,7 +113,7 @@ class ExtendedKalmanFilter(NLDS):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
             Vt_cond = Gt @ Vt @ Gt + self.Q
-            Ht = self.Dfx(self.fx(mu_t_cond))
+            Ht = self.Dfx(mu_t_cond)
 
             Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R)
             mu_t = mu_t_cond + Kt @ (sample_obs[t] - self.fx(mu_t_cond))
