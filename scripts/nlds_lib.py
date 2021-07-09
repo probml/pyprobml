@@ -89,7 +89,7 @@ class ExtendedKalmanFilter(NLDS):
         """
         return cls(model.fz, model.fx, model.Q, model.R)
 
-    def filter(self, init_state, sample_obs, observations=None):
+    def filter(self, init_state, sample_obs, observations=None, Vinit=None):
         """
         Run the Extended Kalman Filter algorithm over a set of observed samples.
 
@@ -108,7 +108,10 @@ class ExtendedKalmanFilter(NLDS):
         """
         I = jnp.eye(self.state_size)
         nsamples = len(sample_obs)
-        Vt = self.Q.copy()
+        if Vinit is None:
+            Vt = self.Q.copy()
+        else:
+            Vt = Vinit
         if observations is None:
             observations = [()] * nsamples
         else:

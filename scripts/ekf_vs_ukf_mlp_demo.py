@@ -67,10 +67,9 @@ def sample_observations(key, f, n_obs, xmin, xmax, x_noise=0.1, y_noise=3.0):
 def plot_mlp_prediction(key, xobs, yobs, xtest, fw, w, Sw, ax, n_samples=100):
     W_samples = multivariate_normal(key, w, Sw, (n_samples,))
     sample_yhat = fw(W_samples, xtest[:, None])
-
-    for sample in sample_yhat:
+    for sample in sample_yhat: # sample curves
         ax.plot(xtest, sample, c="tab:gray", alpha=0.07)
-    ax.plot(xtest, sample_yhat.mean(axis=0))
+    ax.plot(xtest, sample_yhat.mean(axis=0)) # mean of posterior predictive
     ax.scatter(xobs, yobs, s=14, c="none", edgecolor="black", label="observations", alpha=0.5)
     ax.set_xlim(xobs.min(), xobs.max())
 
@@ -83,6 +82,15 @@ def plot_intermediate_steps(ax, fwd_func, intermediate_steps, xtest, mu_hist, Si
         axi.set_title(f"{step=}")
     plt.tight_layout()
 
+def plot_intermediate_steps2(method, fwd_func, intermediate_steps, xtest, mu_hist, Sigma_hist):
+    for step in intermediate_steps:
+        W_step, SW_step = mu_hist[step], Sigma_hist[step]
+        x_step, y_step = x[:step], y[:step]
+        fig, axi = plt.subplots()
+        plot_mlp_prediction(key, x_step, y_step, xtest, fwd_func, W_step, SW_step, axi)
+        axi.set_title(f"{step=}")
+        plt.tight_layout()
+        pml.savefig(f'{method}-mlp-step-{step}.pdf')
 
 if __name__ == "__main__":
     plt.rcParams["axes.spines.right"] = False
@@ -107,45 +115,52 @@ if __name__ == "__main__":
     key = PRNGKey(314)
     key_sample_obs, key_weights = split(key, 2)
     xmin, xmax = -3, 3
-    x, y = sample_observations(key_sample_obs, f, n_obs, xmin, xmax)
+    sigma_y = 3.0
+    x, y = sample_observations(key_sample_obs, f, n_obs, xmin, xmax, x_noise=0, y_noise=sigma_y)
     xtest = jnp.linspace(x.min(), x.max(), n_obs)
 
-    # *** MLP Training with xKF ***
-    sigma = 0.1
-    W0 = normal(key_weights, (n_params,)) * sigma
-    Q = jnp.eye(n_params) * sigma ** 2
-    R = jnp.eye(1) * 0.9
-    alpha, beta, kappa = 1.0, 2.0, 3.0 - n_params
-    step = -1
+    # *** MLP Training with EKF ***
+
+    W0 = normal(key_weights, (n_params,)) * 1 # initial random guess
+    Q = jnp.eye(n_params) * 1e-4; # parameters do not change
+    R = jnp.eye(1) * sigma_y**2; # observation noise is fixed
+    Vinit = jnp.eye(n_params) * 100 # vague prior
 
     ekf = ds.ExtendedKalmanFilter(fz, fwd_mlp, Q, R)
-    ekf_mu_hist, ekf_Sigma_hist = ekf.filter(W0, y[:, None], x[:, None])
-    W_ekf, SW_ekf = ekf_mu_hist[step], ekf_Sigma_hist[step]
+    ekf_mu_hist, ekf_Sigma_hist = ekf.filter(W0, y[:, None], x[:, None], Vinit)
 
-    ukf = ds.UnscentedKalmanFilter(fz, lambda w, x: fwd_mlp_weights(w, x).T, Q, R, alpha, beta, kappa)
-    ukf_mu_hist, ukf_Sigma_hist = ukf.filter(W0, y, x[:, None])
-    W_ukf, SW_ukf = ukf_mu_hist[step], ukf_Sigma_hist[step]
-
-    # *** Plotting results ***
+    # Plot final performance
     fig, ax = plt.subplots()
+    step = -1
+    W_ekf, SW_ekf = ekf_mu_hist[step], ekf_Sigma_hist[step]
     plot_mlp_prediction(key, x, y, xtest, fwd_mlp_obs_weights, W_ekf, SW_ekf, ax)
     ax.set_title("EKF + MLP")
     pml.savefig("ekf-mlp.pdf")
 
-    fig, ax = plt.subplots()
-    plot_mlp_prediction(key, x, y, xtest, fwd_mlp_obs_weights, W_ukf, SW_ukf, ax)
-    ax.set_title("UKF + MLP")
-    pml.savefig("ukf-mlp.pdf")
-
-    intermediate_steps = [10, 50, 100, 200]
-    fig, ax = plt.subplots(2, 2)
-    plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ukf_mu_hist, ukf_Sigma_hist)
-    plt.suptitle("UKF + MLP training")
-    pml.savefig("ukf-mlp-training-steps.pdf")
-
+    # Plot intermediate performance
+    intermediate_steps = [10, 20, 30, 40, 50, 60]
     fig, ax = plt.subplots(2, 2)
     plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ekf_mu_hist, ekf_Sigma_hist)
     plt.suptitle("EKF + MLP training")
     pml.savefig("ekf-mlp-training-steps.pdf")
+    plot_intermediate_steps2('ekf', fwd_mlp_obs_weights, intermediate_steps, xtest, ekf_mu_hist, ekf_Sigma_hist)
+
+    use_ukf = True
+    if use_ukf:
+        alpha, beta, kappa = 1.0, 2.0, 3.0 - n_params
+        ukf = ds.UnscentedKalmanFilter(fz, lambda w, x: fwd_mlp_weights(w, x).T, Q, R, alpha, beta, kappa)
+        ukf_mu_hist, ukf_Sigma_hist = ukf.filter(W0, y, x[:, None])
+        step = -1
+        W_ukf, SW_ukf = ukf_mu_hist[step], ukf_Sigma_hist[step]
+
+        fig, ax = plt.subplots()
+        plot_mlp_prediction(key, x, y, xtest, fwd_mlp_obs_weights, W_ukf, SW_ukf, ax)
+        ax.set_title("UKF + MLP")
+        pml.savefig("ukf-mlp.pdf")
+
+        fig, ax = plt.subplots(2, 2)
+        plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ukf_mu_hist, ukf_Sigma_hist)
+        plt.suptitle("UKF + MLP training")
+        pml.savefig("ukf-mlp-training-steps.pdf")
 
     plt.show()
