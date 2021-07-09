@@ -1,4 +1,14 @@
 # Library of nonlinear dynamical systems
+# Usage: Every discrete xKF class inherits from NLDS.
+# There are two ways to use this library in the discrete case:
+# 1) Explicitly initialize a discrete NLDS object with the desired parameters,
+#    then pass it onto the xKF class of your choice.
+# 2) Initialize the xKF object with the desired NLDS parameters using
+#    the .from_base constructor.
+# Way 1 is preferable whenever you want to use the same NLDS for multiple
+# filtering processes. Way 2 is preferred whenever you want to use a single NLDS
+# for a single filtering process
+
 # Author: Gerardo Durán-Martín (@gerdm)
 
 import jax

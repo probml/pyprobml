@@ -1,6 +1,9 @@
-# Example of an training of a multilayered perceptron (MLP)
-# using the Extended Kalman Filter (EKF) and the
-# Unscented Kalman Filter (UKF)
+# Demo showcasing the training of an MLP with a single hidden layer using 
+# Extended Kalman Filtering (EKF) and Unscented Kalman Filtering (UKF).
+# In this demo, we consider the latent state to be the weights of an MLP.
+#   The observed state at time t is the output of the MLP as influenced by the weights
+#   at time t-1 and the covariate x[t].
+#   The transition function between latent states is the identity function.
 # For more information, see
 #   * Neural Network Training Using Unscented and Extended Kalman Filter
 #       https://juniperpublishers.com/raej/RAEJ.MS.ID.555568.php
@@ -17,8 +20,7 @@ import jax.numpy as jnp
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 from functools import partial
-from numpy.random import shuffle, seed
-from jax.random import PRNGKey, split, normal, multivariate_normal
+from jax.random import PRNGKey, permutation, split, normal, multivariate_normal
 
 
 def mlp(W, x, n_hidden):
@@ -49,16 +51,16 @@ def mlp(W, x, n_hidden):
     return W2 @ jnp.tanh(W1 @ x + b1) + b2
 
 
-def sample_observations(key, f, n_obs, xmin, xmax, x_noise=0.1, y_noise=3.0, shuffle_seed=None):
-    key_x, key_y = split(key, 2)
+def sample_observations(key, f, n_obs, xmin, xmax, x_noise=0.1, y_noise=3.0):
+    key_x, key_y, key_shuffle = split(key, 3)
     x_noise = normal(key_x, (n_obs,)) * x_noise
     y_noise = normal(key_y, (n_obs,)) * y_noise
     x = jnp.linspace(xmin, xmax, n_obs) + x_noise
     y = f(x) + y_noise
     X = np.c_[x, y]
-    seed(shuffle_seed)
-    shuffle(X)
-    x, y = jnp.array(X.T)
+
+    shuffled_ixs = permutation(key_shuffle, jnp.arange(n_obs))
+    x, y = jnp.array(X[shuffled_ixs, :].T)
     return x, y
 
 
@@ -73,6 +75,14 @@ def plot_mlp_prediction(key, xobs, yobs, xtest, fw, w, Sw, ax, n_samples=100):
     ax.set_xlim(xobs.min(), xobs.max())
 
 
+def plot_intermediate_steps(ax, fwd_func, intermediate_steps, xtest, mu_hist, Sigma_hist):
+    for step, axi in zip(intermediate_steps, ax.flatten()):
+        W_step, SW_step = mu_hist[step], Sigma_hist[step]
+        plot_mlp_prediction(key, x, y, xtest, fwd_func, W_step, SW_step, axi)
+        axi.set_title(f"{step=}")
+    plt.tight_layout()
+
+
 if __name__ == "__main__":
     plt.rcParams["axes.spines.right"] = False
     plt.rcParams["axes.spines.top"] = False
@@ -82,7 +92,7 @@ if __name__ == "__main__":
     # *** MLP configuration ***
     n_hidden = 6
     n_in, n_out = 1, 1
-    n_params = n_in * n_hidden + n_hidden * n_out  + n_hidden + n_out
+    n_params = (n_in + 1) * n_hidden + (n_hidden + 1) * n_out
     fwd_mlp = partial(mlp, n_hidden=n_hidden)
     # vectorised for multiple observations
     fwd_mlp_obs = jax.vmap(fwd_mlp, in_axes=[None, 0])
@@ -93,11 +103,10 @@ if __name__ == "__main__":
 
     # *** Generating training and test data ***
     n_obs = 200
-    shuffle_seed = 271
     key = PRNGKey(314)
     key_sample_obs, key_weights = split(key, 2)
     xmin, xmax = -3, 3
-    x, y = sample_observations(key_sample_obs, f, n_obs, xmin, xmax, shuffle_seed=shuffle_seed)
+    x, y = sample_observations(key_sample_obs, f, n_obs, xmin, xmax)
     xtest = jnp.linspace(x.min(), x.max(), n_obs)
 
     # *** MLP Training with xKF ***
@@ -116,15 +125,26 @@ if __name__ == "__main__":
     ukf_mu_hist, ukf_Sigma_hist = ukf.filter(W0, y, x[:, None])
     W_ukf, SW_ukf = ukf_mu_hist[step], ukf_Sigma_hist[step]
 
-
+    # *** Plotting results ***
     fig, ax = plt.subplots()
     plot_mlp_prediction(key, x, y, xtest, fwd_mlp_obs_weights, W_ekf, SW_ekf, ax)
     ax.set_title("EKF + MLP")
-    pml.savefig("ekf_mlp.pdf")
+    pml.savefig("ekf-mlp.pdf")
 
     fig, ax = plt.subplots()
     plot_mlp_prediction(key, x, y, xtest, fwd_mlp_obs_weights, W_ukf, SW_ukf, ax)
     ax.set_title("UKF + MLP")
-    pml.savefig("ukf_mlp.pdf")
+    pml.savefig("ukf-mlp.pdf")
+
+    intermediate_steps = [10, 50, 100, 200]
+    fig, ax = plt.subplots(2, 2)
+    plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ukf_mu_hist, ukf_Sigma_hist)
+    plt.suptitle("UKF + MLP training")
+    pml.savefig("ukf-training-steps.pdf")
+
+    fig, ax = plt.subplots(2, 2)
+    plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ekf_mu_hist, ekf_Sigma_hist)
+    plt.suptitle("EKF + MLP training")
+    pml.savefig("ekf-training-steps.pdf")
 
     plt.show()
