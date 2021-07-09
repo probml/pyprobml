@@ -89,7 +89,7 @@ if __name__ == "__main__":
     # *** MLP configuration ***
     n_hidden = 6
     n_in, n_out = 1, 1
-    n_params = n_in * n_hidden + n_hidden * n_out  + n_hidden + n_out
+    n_params = (n_in + 1) * n_hidden + (n_hidden + 1) * n_out
     fwd_mlp = partial(mlp, n_hidden=n_hidden)
     # vectorised for multiple observations
     fwd_mlp_obs = jax.vmap(fwd_mlp, in_axes=[None, 0])
