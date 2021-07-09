@@ -71,6 +71,15 @@ def plot_mlp_prediction(key, xobs, yobs, xtest, fw, w, Sw, ax, n_samples=100):
     ax.set_xlim(xobs.min(), xobs.max())
 
 
+def plot_intermediate_steps(ax, fwd_func, intermediate_steps, xtest, mu_hist, Sigma_hist):
+    for step, axi in zip(intermediate_steps, ax.flatten()):
+        W_step, SW_step = mu_hist[step], Sigma_hist[step]
+        plot_mlp_prediction(key, x, y, xtest, fwd_func, W_step, SW_step, axi)
+        axi.set_title(f"{step=}")
+    plt.tight_layout()
+
+
+
 if __name__ == "__main__":
     plt.rcParams["axes.spines.right"] = False
     plt.rcParams["axes.spines.top"] = False
@@ -113,15 +122,26 @@ if __name__ == "__main__":
     ukf_mu_hist, ukf_Sigma_hist = ukf.filter(W0, y, x[:, None])
     W_ukf, SW_ukf = ukf_mu_hist[step], ukf_Sigma_hist[step]
 
-
+    # *** Plotting results ***
     fig, ax = plt.subplots()
     plot_mlp_prediction(key, x, y, xtest, fwd_mlp_obs_weights, W_ekf, SW_ekf, ax)
     ax.set_title("EKF + MLP")
-    pml.savefig("ekf_mlp.pdf")
+    pml.savefig("ekf-mlp.pdf")
 
     fig, ax = plt.subplots()
     plot_mlp_prediction(key, x, y, xtest, fwd_mlp_obs_weights, W_ukf, SW_ukf, ax)
     ax.set_title("UKF + MLP")
-    pml.savefig("ukf_mlp.pdf")
+    pml.savefig("ukf-mlp.pdf")
+
+    intermediate_steps = [10, 50, 100, 200]
+    fig, ax = plt.subplots(2, 2)
+    plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ukf_mu_hist, ukf_Sigma_hist)
+    plt.suptitle("UKF + MLP training")
+    pml.savefig("ukf-training-steps.pdf")
+
+    fig, ax = plt.subplots(2, 2)
+    plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ekf_mu_hist, ekf_Sigma_hist)
+    plt.suptitle("EKF + MLP training")
+    pml.savefig("ekf-training-steps.pdf")
 
     plt.show()
