@@ -9,6 +9,27 @@ from scipy.stats import multivariate_normal
 
 
 def sample_hmm(n_samples, initial_probs, mu_collection, cov_collection):
+    """
+    Sample from a 2-dimensional HMM
+
+    Parameters
+    ----------
+    n_samples: int
+        Number of samples to be generated
+    initial_probs: numpy.ndarray(n_states, )
+        Initial probabilities for each state
+    mu_collection: np.array(n_states, dim)
+        Collection of means for each state
+    cov_collection: np.array(n_states, dim, dim)
+        Collection of covariances for each state
+    
+    Returns
+    -------
+    * numpy.ndarray(n_samples, d)
+        Observations
+    * numpy.ndarray(n_samples, )
+        Latent states of the system
+    """
     samples_obs = np.zeros((n_samples, 2))
     samples_state = np.zeros((n_samples,), dtype=int)
     zi = np.random.choice(z, p=initial_probs)
@@ -21,7 +42,6 @@ def sample_hmm(n_samples, initial_probs, mu_collection, cov_collection):
         N = multivariate_normal(mu_collection[zi], cov_collection[zi])
         samples_obs[i] = N.rvs()
         samples_state[i] = zi
-    
     return samples_obs, samples_state
 
 
