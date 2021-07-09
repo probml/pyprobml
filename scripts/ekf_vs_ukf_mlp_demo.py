@@ -1,6 +1,5 @@
-# Example of an training of a multilayered perceptron (MLP)
-# using the Extended Kalman Filter (EKF) and the
-# Unscented Kalman Filter (UKF)
+# Demo showcasing the training of an MLP with a single hidden layer using 
+# Extended Kalman Filtering (EKF) and Unscented Kalman Filtering (UKF)
 # For more information, see
 #   * Neural Network Training Using Unscented and Extended Kalman Filter
 #       https://juniperpublishers.com/raej/RAEJ.MS.ID.555568.php
