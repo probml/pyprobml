@@ -78,7 +78,8 @@ def plot_mlp_prediction(key, xobs, yobs, xtest, fw, w, Sw, ax, n_samples=100):
 def plot_intermediate_steps(ax, fwd_func, intermediate_steps, xtest, mu_hist, Sigma_hist):
     for step, axi in zip(intermediate_steps, ax.flatten()):
         W_step, SW_step = mu_hist[step], Sigma_hist[step]
-        plot_mlp_prediction(key, x, y, xtest, fwd_func, W_step, SW_step, axi)
+        x_step, y_step = x[:step], y[:step]
+        plot_mlp_prediction(key, x_step, y_step, xtest, fwd_func, W_step, SW_step, axi)
         axi.set_title(f"{step=}")
     plt.tight_layout()
 
@@ -140,11 +141,11 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(2, 2)
     plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ukf_mu_hist, ukf_Sigma_hist)
     plt.suptitle("UKF + MLP training")
-    pml.savefig("ukf-training-steps.pdf")
+    pml.savefig("ukf-mlp-training-steps.pdf")
 
     fig, ax = plt.subplots(2, 2)
     plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ekf_mu_hist, ekf_Sigma_hist)
     plt.suptitle("EKF + MLP training")
-    pml.savefig("ekf-training-steps.pdf")
+    pml.savefig("ekf-mlp-training-steps.pdf")
 
     plt.show()
