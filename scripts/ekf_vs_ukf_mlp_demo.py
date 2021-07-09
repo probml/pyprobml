@@ -1,5 +1,9 @@
 # Demo showcasing the training of an MLP with a single hidden layer using 
-# Extended Kalman Filtering (EKF) and Unscented Kalman Filtering (UKF)
+# Extended Kalman Filtering (EKF) and Unscented Kalman Filtering (UKF).
+# In this demo, we consider the latent state to be the weights of an MLP.
+#   The observed state at time t is the output of the MLP as influenced by the weights
+#   at time t-1 and the covariate x[t].
+#   The transition function between latent states is the identity function.
 # For more information, see
 #   * Neural Network Training Using Unscented and Extended Kalman Filter
 #       https://juniperpublishers.com/raej/RAEJ.MS.ID.555568.php
@@ -77,7 +81,6 @@ def plot_intermediate_steps(ax, fwd_func, intermediate_steps, xtest, mu_hist, Si
         plot_mlp_prediction(key, x, y, xtest, fwd_func, W_step, SW_step, axi)
         axi.set_title(f"{step=}")
     plt.tight_layout()
-
 
 
 if __name__ == "__main__":
