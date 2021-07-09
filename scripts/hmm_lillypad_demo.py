@@ -6,6 +6,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
+import pyprobml_utils as pml
 
 
 def sample_hmm(n_samples, initial_probs, mu_collection, cov_collection):
@@ -127,4 +128,5 @@ if __name__ == "__main__":
     ax.step(range(n_samples), samples_state, where="post", c="black", linewidth=1, alpha=0.3)
     ax.scatter(range(n_samples), samples_state, c=color_sample, zorder=3)
 
+    pml.savefig("hmm_lillypad_demo.pdf")
     plt.show()
