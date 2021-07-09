@@ -16,8 +16,7 @@ import jax.numpy as jnp
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 from functools import partial
-from numpy.random import shuffle, seed
-from jax.random import PRNGKey, split, normal, multivariate_normal
+from jax.random import PRNGKey, permutation, split, normal, multivariate_normal
 
 
 def mlp(W, x, n_hidden):
@@ -48,16 +47,16 @@ def mlp(W, x, n_hidden):
     return W2 @ jnp.tanh(W1 @ x + b1) + b2
 
 
-def sample_observations(key, f, n_obs, xmin, xmax, x_noise=0.1, y_noise=3.0, shuffle_seed=None):
-    key_x, key_y = split(key, 2)
+def sample_observations(key, f, n_obs, xmin, xmax, x_noise=0.1, y_noise=3.0):
+    key_x, key_y, key_shuffle = split(key, 3)
     x_noise = normal(key_x, (n_obs,)) * x_noise
     y_noise = normal(key_y, (n_obs,)) * y_noise
     x = jnp.linspace(xmin, xmax, n_obs) + x_noise
     y = f(x) + y_noise
     X = np.c_[x, y]
-    seed(shuffle_seed)
-    shuffle(X)
-    x, y = jnp.array(X.T)
+
+    shuffled_ixs = permutation(key_shuffle, jnp.arange(n_obs))
+    x, y = jnp.array(X[shuffled_ixs, :].T)
     return x, y
 
 
@@ -92,11 +91,10 @@ if __name__ == "__main__":
 
     # *** Generating training and test data ***
     n_obs = 200
-    shuffle_seed = 271
     key = PRNGKey(314)
     key_sample_obs, key_weights = split(key, 2)
     xmin, xmax = -3, 3
-    x, y = sample_observations(key_sample_obs, f, n_obs, xmin, xmax, shuffle_seed=shuffle_seed)
+    x, y = sample_observations(key_sample_obs, f, n_obs, xmin, xmax)
     xtest = jnp.linspace(x.min(), x.max(), n_obs)
 
     # *** MLP Training with xKF ***
