@@ -2,10 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
+import pyprobml_utils as pml
 
 
 X = np.arange(1, 5)
@@ -17,9 +14,12 @@ def MakeG(Probs,SaveN):
     plt.xlim([min(X) - .5, max(X) + .5])
     plt.xticks(X)
     plt.yticks(np.linspace(0, 1, 5))
-    save_fig(SaveN)
+    pml.savefig(SaveN)
 
-MakeG(UniProbs, "unifHist.pdf")
-MakeG([1, 0, 0, 0], "deltaHist.pdf")
+#MakeG(UniProbs, "unifHist.pdf")
+#MakeG([1, 0, 0, 0], "deltaHist.pdf")
+
+MakeG(UniProbs, "uniform_histogram.pdf")
+MakeG([1, 0, 0, 0], "delta_histogram.pdf")
 
 plt.show()

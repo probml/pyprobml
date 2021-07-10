@@ -22,6 +22,25 @@ def save_fig(fname, *args, **kwargs):
     fname_full = os.path.join(figdir, fname)
     print('saving image to {}'.format(fname_full))
     #plt.tight_layout()
+
+    # use TrueType fonts so they are embedded
+    # https://stackoverflow.com/questions/9054884/how-to-embed-fonts-in-pdfs-produced-by-matplotlib
+    # https://jdhao.github.io/2018/01/18/mpl-plotting-notes-201801/
+    plt.rcParams['pdf.fonttype'] = 42
+
+    # Font sizes
+    SIZE_SMALL = 14
+    SIZE_MEDIUM = 18
+    SIZE_LARGE = 24
+    # https://stackoverflow.com/a/39566040
+    plt.rc('font', size=SIZE_SMALL)  # controls default text sizes
+    plt.rc('axes', titlesize=SIZE_SMALL)  # fontsize of the axes title
+    plt.rc('axes', labelsize=SIZE_SMALL)  # fontsize of the x and y labels
+    plt.rc('xtick', labelsize=SIZE_SMALL)  # fontsize of the tick labels
+    plt.rc('ytick', labelsize=SIZE_SMALL)  # fontsize of the tick labels
+    plt.rc('legend', fontsize=SIZE_SMALL)  # legend fontsize
+    plt.rc('figure', titlesize=SIZE_LARGE)  # fontsize of the figure title
+
     plt.savefig(fname_full, *args, **kwargs)
     
     
