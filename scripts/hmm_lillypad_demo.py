@@ -123,10 +123,10 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots()
     _, color_sample = plot_2dhmm(samples_obs, samples_state, colors, ax, xmin, xmax, ymin, ymax)
+    pml.savefig("hmm_lillypad_2d.pdf")
 
     fig, ax = plt.subplots()
     ax.step(range(n_samples), samples_state, where="post", c="black", linewidth=1, alpha=0.3)
     ax.scatter(range(n_samples), samples_state, c=color_sample, zorder=3)
-
-    pml.savefig("hmm_lillypad_demo.pdf")
+    pml.savefig("hmm_lillypad_step.pdf")
     plt.show()
