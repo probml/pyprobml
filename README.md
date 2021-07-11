@@ -12,8 +12,10 @@ The `scripts` directory contains python files to generate individual figures fro
 To manually execute an individual script from the command line,
 follow this example:
 ```
-python3 scripts/softmax_plot.py // writes to /Users/kpmurphy/github/pyprobml/figures/softmax_temp.pdf
+cd pyprobml
+python3 scripts/softmax_plot.py 
 ```
+This will save images files to the `pyprobml/figures` directory.
 
 To browse the code using VScode instead of the gihub file viewer, you can just replace 
 https://github.com/probml/pyprobml/tree/master/scripts
