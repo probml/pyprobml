@@ -4,6 +4,7 @@
 # Author: Gerardo Durán Martín
 
 import numpy as np
+import pyprobml_utils as pml
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 
@@ -25,7 +26,7 @@ def main():
     plt.xlim(0.01, 0.98)
     plt.xticks([])
     plt.yticks([])
-    plt.savefig('../figures/gmm_singularity.pdf', dpi=300)
+    pml.savefig('gmm_singularity.pdf')
     plt.show()
 
 
