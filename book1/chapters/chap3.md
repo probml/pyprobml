@@ -1,7 +1,7 @@
 # Chapter 3: Probability: multivariate models  (Supplementary material)
 
 
-[prob]: https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/prob.ipynb
+[prob]: https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/prob.ipynb
 
 |Title|Software|Link|
 |-----------|----|----|

@@ -42,5 +42,3 @@ def montage(X):
                     
     plt.imshow(flipud(rot90(M)))
     plt.axis('off')
-    
-\  

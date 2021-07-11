@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pyprobml_utils import save_fig
+import pyprobml_utils as pml
 
 xmin = 0.1
 xmax = 12
@@ -35,6 +35,5 @@ plt.xticks([x_k, -b/m], [r'$x_{k}$', r'$x_{k} + d_{k}$'])
 
 
 plt.legend()
-save_fig("newtonsMethodMin1d.pdf")
+pml.savefig("newtonsMethodMin1d.pdf")
 plt.show()
-

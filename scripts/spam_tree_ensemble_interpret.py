@@ -93,7 +93,7 @@ print(f'Logistic Regression Test Error Rate: {lr_error_rate*100:.1f}%')
 p353 says gradient boosted trees (J=5 leaves) has test error is 4.5%.
 """
 
-!pip install catboost
+#!pip install catboost
 
 from catboost import CatBoostClassifier, Pool, cv
 
