@@ -9,6 +9,7 @@ colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
 
 def demo(priorVar):
 
+
     np.random.seed(0)
 
     n = 150
@@ -34,6 +35,7 @@ def demo(priorVar):
     B12 = np.dot(np.transpose(L1), L2)
     B21 = np.transpose(B12)
     noiseFreeObs(B11, B12, xobs, hidNdx, obsNdx, priorVar, xs)
+
 
 
 def noiseFreeObs(B11, B12, xobs, hidNdx, obsNdx, priorVar, xs):
