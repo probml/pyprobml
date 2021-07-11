@@ -69,8 +69,9 @@ plt.show()
 
 # Plot fitted functions
 chosen_degs = [1, 2, 3, 14, 20]
+chosen_degs = [20]
 for deg in chosen_degs:
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(15,15))
     ax.scatter(xtrain, ytrain)
     ax.plot(xtest, ytest_pred_stored[deg-1])
     ax.set_ylim((-10, 15))

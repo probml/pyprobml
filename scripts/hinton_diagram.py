@@ -45,7 +45,7 @@ def hinton(inarray, max_value=None, use_default_ticks=True):
     """
 
     ax = plt.gca()
-    ax.set_axis_bgcolor('gray')
+    ax.set_facecolor('gray')
     # make sure we're working with a numpy array, not a numpy matrix
     inarray = np.asarray(inarray)
     height, width = inarray.shape

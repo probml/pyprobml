@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-
+import pyprobml_utils as pml
 import seaborn as sns;
 sns.set(style="ticks", color_codes=True)
 
@@ -10,8 +10,6 @@ pd.set_option('precision', 2) # 2 decimal places
 pd.set_option('display.max_rows', 20)
 pd.set_option('display.max_columns', 30)
 pd.set_option('display.width', 100) # wide windows
-
-
 
 import sklearn
 from sklearn.datasets import load_iris
@@ -32,7 +30,7 @@ palette = {'setosa': 'orange', 'versicolor': 'green', 'virginica': 'purple'}
 
 g = sns.pairplot(df, vars = df.columns[0:4], hue="label", palette=palette)
 #g = sns.pairplot(df, vars = df.columns[0:4], hue="label")
-plt.savefig("../figures/iris_scatterplot_purple.pdf")
+pml.savefig('iris_scatterplot_purple.pdf')
 plt.show()
 
 
@@ -42,10 +40,10 @@ iris_df.columns =  ['sl', 'sw', 'pl', 'pw'] + ['label']
 
 g = sns.pairplot(iris_df, vars = iris_df.columns[0:4], hue="label")
 plt.tight_layout()
-plt.savefig("../figures/iris_pairplot.pdf")
+pml.savefig('iris_pairplot.pdf')
 plt.show()
 
 
 sns.stripplot(x="label", y="sl", data=iris_df, jitter=True)
-plt.savefig('../figures/iris_sepal_length_strip_plot.pdf', dpi=300);
+pml.savefig('iris_sepal_length_strip_plot.pdf')
 plt.show()

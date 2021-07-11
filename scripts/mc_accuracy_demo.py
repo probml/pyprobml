@@ -21,7 +21,8 @@ for size in [10, 100, 1000]:
     y = norm.pdf(x, loc=1.5, scale=0.5)
 
     plt.figure()
-    plt.hist(samples, normed=True, rwidth=0.8)
+    #plt.hist(samples, normed=True, rwidth=0.8)
+    plt.hist(samples, density=True, rwidth=0.8)
     plt.plot(x, y, 'r')
     plt.xlim(0, 3)
     plt.title('n_samples = %d' % size)

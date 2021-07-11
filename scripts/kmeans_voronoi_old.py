@@ -1,4 +1,3 @@
-
 # K-means clustering in 2d
 # Code is based on chapter 9 of 
 # https://github.com/ageron/handson-ml2
@@ -44,7 +43,7 @@ def plot_clusters(X, y=None):
     
 plt.figure(figsize=(8, 4))
 plot_clusters(X)
-plt.savefig("../figures/kmeans_voronoi_data.pdf",  dpi=300)
+pml.savefig('kmeans_voronoi_data.pdf')
 plt.show()
 
 
@@ -93,7 +92,7 @@ y_pred = kmeans.fit_predict(X)
 
 plt.figure(figsize=(8, 4))
 plot_decision_boundaries(kmeans, X)
-plt.savefig("../figures/kmeans_voronoi_output.pdf",  dpi=300)
+pml.savefig('kmeans_voronoi_output.pdf')
 plt.show()
 
 
@@ -141,7 +140,7 @@ plt.subplot(nr, nc, 4)
 plot_decision_boundaries(kmeans_iter2, X, show_xlabels=False, show_ylabels=False)
 
 plt.tight_layout()
-plt.savefig("../figures/kmeans_voronoi_iter.pdf",  dpi=300)
+pml.savefig('kmeans_voronoi_iter.pdf')
 plt.show()
 
 
@@ -171,6 +170,5 @@ kmeans_rnd_init2 = KMeans(n_clusters=K, init="random", n_init=1,
 plot_clusterer_comparison(kmeans_rnd_init1, kmeans_rnd_init2, X)
 
 plt.tight_layout()
-plt.savefig("../figures/kmeans_voronoi_init.pdf", dpi=300)
+pml.savefig('kmeans_voronoi_init.pdf')
 plt.show()
-

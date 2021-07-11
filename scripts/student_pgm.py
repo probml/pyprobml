@@ -7,8 +7,8 @@ from pgmpy.factors.discrete import TabularCPD
 model = BayesianModel([('D', 'G'), ('I', 'G'), ('G', 'L'), ('I', 'S')])
 
 # Defining individual CPDs.
-cpd_d = TabularCPD(variable='D', variable_card=2, values=[[0.6, 0.4]])
-cpd_i = TabularCPD(variable='I', variable_card=2, values=[[0.7, 0.3]])
+cpd_d = TabularCPD(variable='D', variable_card=2, values=[[0.6], [0.4]])
+cpd_i = TabularCPD(variable='I', variable_card=2, values=[[0.7], [0.3]])
 
 # The representation of CPD in pgmpy is a bit different than the CPD shown in the above picture. In pgmpy the colums
 # are the evidences and rows are the states of the variable. So the grade CPD is represented like this:
@@ -54,34 +54,12 @@ model.check_model()
 from pgmpy.inference import VariableElimination
 infer = VariableElimination(model)
 
-# p(I=1)=0.3
-print(infer.query(['I']) ['I'])
 
+evidence = {'G': 2, 'S': 1} # grade=C, SAT=Good
+postD = infer.query(['D'],  evidence=evidence).values
+postI = infer.query(['I'],  evidence=evidence).values
 
+print('\n')
+print('Pr(Difficulty=Hard|Grade=C,SAT=Good) = {:0.2f}'.format(postD[1]))
+print('Pr(Intelligent=High|Grade=C,SAT=Good) = {:0.2f}'.format(postI[1]))
 
-
-# P(I=1|G=0) = 0.6133
-print(infer.query(['I'], evidence={'G': 0}) ['I'])
-
-# P(I=1|G=0,D=0) = 0.5625
-print(infer.query(['I'], evidence={'G': 0, 'D': 0}) ['I'])
-
-# P(S=1|G=0) = 0.5099
-print(infer.query(['S'], evidence={'G': 0}) ['S'])
-
-# P(S=1|G=0,D=0) = 0.4719
-print(infer.query(['S'], evidence={'G': 0, 'D': 0}) ['S'])
-
-
-
-# P(I=1|L=0) = 0.14
-print(infer.query(['I'], evidence={'L': 0}) ['I'])
-
-# P(I=1|L=0,D=1) = 0.16
-print(infer.query(['I'], evidence={'L': 0, 'D': 1}) ['I'])
-
-# P(I=1|L=0,D=1,S=1) = 0.7597
-print(infer.query(['I'], evidence={'L': 0, 'D': 1, 'S': 1}) ['I'])
-
-# P(I=1|L=0,S=1) = 0.7226
-print(infer.query(['I'], evidence={'L': 0,  'S': 1}) ['I'])

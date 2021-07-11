@@ -50,7 +50,7 @@ with pm.Model() as Centered_eight:
     
 np.random.seed(0)
 with Centered_eight:
-    trace_centered = pm.sample(1000, chains=4)
+    trace_centered = pm.sample(1000, chains=4, cores=1)
     
 print(pm.summary(trace_centered).round(2))
 # Effective sample size is << 4*1000, especially for tau
