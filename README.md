@@ -31,8 +31,7 @@ The `notebooks` directory contains various examples that illustrate concepts and
 In addition, we automatically combine all the figure scripts into a single notebook per chapter.
 These are stored [here](https://github.com/probml/pml-book/tree/main/pml1/figure_notebooks).
 
-When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU. See [this tutorial](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/colab_intro.ipynb) for details on how to use Colab.
-
+When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU. See [this tutorial](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/colab_intro.ipynb) for details on how to use Colab.
 
 
 
