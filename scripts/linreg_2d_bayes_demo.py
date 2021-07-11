@@ -6,12 +6,31 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+import pyprobml_utils as pml
 
-figdir = "../figures"
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
+
     
 from scipy.stats import uniform, norm, multivariate_normal
+
+#import seaborn
+#import seaborn as sns
+#seaborn.set()
+#seaborn.set_style("whitegrid")
+
+# Font sizes
+SIZE_SMALL = 14
+SIZE_MEDIUM = 18
+SIZE_LARGE = 24
+
+# https://stackoverflow.com/a/39566040
+plt.rc('font', size=SIZE_SMALL)          # controls default text sizes
+plt.rc('axes', titlesize=SIZE_SMALL)     # fontsize of the axes title
+plt.rc('axes', labelsize=SIZE_SMALL)     # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SIZE_SMALL)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SIZE_SMALL)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SIZE_SMALL)    # legend fontsize  
+plt.rc('figure', titlesize=SIZE_LARGE)   # fontsize of the figure title
+
 
 np.random.seed(0)
 
@@ -133,5 +152,6 @@ for di in DataIndices:
     adjustgraph(False)
 
 fig.tight_layout()
+pml.save_fig('bayesLinRegPlot2dB.pdf')
+pml.save_fig('bayesLinRegPlot2d_bayes.png')
 plt.show()
-save_fig('bayesLinRegPlot2dB.pdf')
