@@ -1,4 +1,3 @@
-
 # Based on 
 # https://scikit-learn.org/stable/modules/tree.html
 #https://scikit-learn.org/stable/auto_examples/tree/plot_iris_dtc.html
@@ -18,6 +17,7 @@ from sklearn import tree
 import pydotplus
 import collections
 import graphviz 
+import pyprobml_utils as pml
     
 figdir = "../figures"
 
@@ -102,7 +102,7 @@ def plot_surface(clf, X, y, filename, xnames, ynames):
                     edgecolor='black', color=color, s=50, cmap=cmap, 
                     marker = marker)
     plt.legend()
-    plt.savefig(filename)
+    pml.savefig(filename)
     plt.show()
     
 

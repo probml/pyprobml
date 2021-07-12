@@ -85,6 +85,5 @@ plt.plot(x_test, y_pred2, '--', color='green') #Huber
 plt.plot(x_test, ypred_t, color='red')         #student
 plt.plot(x_test, ypred_qr, '--', color='blue') 
 plt.legend(["Least squares", "Huber, \u0394 =1", "Student-t, \u03BD =0.6", "Laplace"])
-pml.save_fig('Robust.png')
-plt.savefig('Robust.png')
+pml.savefig('Robust.pdf')
 plt.show()

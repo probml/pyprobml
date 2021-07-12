@@ -1,16 +1,8 @@
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import pyprobml_utils as pml
 
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
-   
 from scipy.stats import gaussian_kde
 from scipy.stats import norm
 np.random.seed(42)
@@ -35,5 +27,5 @@ for size in [10, 100, 1000]:
     plt.plot(x, y_estimate, 'b--', label='estimated pdf')
     plt.legend()
     plt.title('n_samples = %d' % size)
-    save_fig('mcAccuracyDemoKde%d.pdf' % size)
+    pml.savefig('mcAccuracyDemoKde%d.pdf' % size)
 plt.show()
