@@ -1,3 +1,4 @@
+
 # Figure 11.12 (a)
 # Plot the full L2 regularization path for the prostate data set
 

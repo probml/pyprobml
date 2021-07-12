@@ -1,4 +1,3 @@
-
 # Plot resisudal from 1d linear regression
 # Based on https://github.com/probml/pmtk3/blob/master/demos/linregResiduals.m
 
@@ -6,11 +5,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = '../figures'
-
-
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
+import pyprobml_utils as pml
 
 np.random.seed(0)
 N = 21
@@ -27,7 +22,7 @@ y_estim = np.dot(X, w)
 
 plt.plot(X[:, 1], y, 'o')
 plt.plot(X[:, 1], y_estim, '-')
-save_fig('linregResidualsNoBars.pdf')
+pml.savefig('linregResidualsNoBars.pdf')
 plt.show()
 
 for x0, y0, y_hat in zip(X[:, 1], y, y_estim):
@@ -35,5 +30,5 @@ for x0, y0, y_hat in zip(X[:, 1], y, y_estim):
 plt.plot(X[:, 1], y, 'o')
 plt.plot(X[:, 1], y_estim, '-')
 plt.plot(X[:, 1], y_estim, 'x', color='r', markersize=12)
-save_fig('linregResidualsBars.pdf')
+pml.savefig('linregResidualsBars.pdf')
 plt.show()
