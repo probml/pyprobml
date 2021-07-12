@@ -4,19 +4,15 @@
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-
+import pyprobml_utils as pml
 import os
+
 figdir = "../figures"
-def save_fig(fname):
-    plt.tight_layout()
-    plt.savefig(os.path.join(figdir, fname))
 
 import tensorflow as tf
 from tensorflow import keras
 #import tensorflow_datasets as tfds
-
 import pickle
-
 
 folder = '/home/murphyk/Downloads'
 
@@ -75,9 +71,6 @@ def make_encoder(
   log_var = Dense(z_dim, name='log_var')(x) # no activation
   encoder = Model(encoder_input, (mu, log_var))
   return encoder, shape_before_flattening
-
-
-
 
 def make_decoder(
         shape_before_flattening,
@@ -192,7 +185,6 @@ class ConvVAE(tf.keras.Model):
       return probs
     return logits
   
-  
   @tf.function
   def compute_loss(self, x):
     mean, logvar = self.inference_net(x)
@@ -209,8 +201,6 @@ class ConvVAE(tf.keras.Model):
     logqz_x = log_normal_pdf(z, mean, logvar)
     kl_loss = logpz - logqz_x # MC approximation
     return -tf.reduce_mean(self.recon_loss_scaling * logpx_z + self.kl_loss_scaling * kl_loss) # -ve ELBO
-
-
           
   @tf.function
   def compute_gradients(self, x):
