@@ -35,7 +35,7 @@ def make_vector_field_plots():
     plt.xlabel(r"$\theta_1$")
     plt.ylabel(r"$\theta_2$")
     plt.title("Steepest descent vectors in original parameter space")
-    save_fig("SDOriginalParam.pdf")
+    pml.savefig("SDOriginalParam.pdf")
     plt.show()
 
     phi = theta.copy()
@@ -50,7 +50,7 @@ def make_vector_field_plots():
     plt.xlabel(r"$\phi_1$")
     plt.ylabel(r"$\phi_2$")
     plt.title("Steeped descent vectors in natural parameter space")
-    save_fig("SDNaturalParam.pdf")
+    pml.savefig("SDNaturalParam.pdf")
     plt.show()
 
 def make_convergence_plots():
@@ -82,7 +82,7 @@ def make_convergence_plots():
     plt.ylabel(r"$\theta_2$")
     plt.title("Descent paths for steepest and natural gradient descent")
     plt.legend()
-    save_fig("DescentPathsSteepestNGDescent.pdf")
+    pml.savefig("DescentPathsSteepestNGDescent.pdf")
     plt.show()
 
     plt.loglog(L_trajectory_steepest.flatten(), '+r', label="Steepest descent")
@@ -91,7 +91,7 @@ def make_convergence_plots():
     plt.ylabel("KL divergence")
     plt.title("KL divergence vs. update step for steepest and natural gradient descent")
     plt.legend()
-    save_fig("KLDivergenceSteepestNGDescent.pdf")
+    pml.savefig("KLDivergenceSteepestNGDescent.pdf")
     plt.show()
 
 make_vector_field_plots()
