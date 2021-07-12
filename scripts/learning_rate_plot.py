@@ -1,6 +1,4 @@
 
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -17,7 +15,7 @@ for t in ts:
 plt.figure()
 plt.plot(lr_list)
 plt.title('piecewise constant')
-plt.savefig('../figures/lr_piecewise_constant.pdf', dpi=300)
+pml.savefig('lr_piecewise_constant.pdf')
 plt.show()
 
 
@@ -29,9 +27,8 @@ lr_list = lr0 * np.exp(-lam*ts)
 plt.figure()
 plt.plot(lr_list)
 plt.title('exponential decay')
-plt.savefig('../figures/lr_exp_decay.pdf', dpi=300)
+plt.savefig('lr_exp_decay.pdf')
 plt.show()
-
 
 ts = np.arange(100)
 alpha = 0.5
@@ -42,5 +39,5 @@ lr_list = lr0 * np.power(beta*ts + 1, -alpha)
 plt.figure()
 plt.plot(lr_list)
 plt.title('polynomial decay')
-plt.savefig('../figures/lr_poly_decay.pdf', dpi=300)
+pml.savefig('lr_poly_decay.pdf')
 plt.show()
