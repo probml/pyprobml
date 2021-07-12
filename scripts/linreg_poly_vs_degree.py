@@ -1,7 +1,6 @@
 # Plot polynomial regression on 1d problem
 # Based on https://github.com/probml/pmtk3/blob/master/demos/linregPolyVsDegree.m
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -13,8 +12,8 @@ import sklearn.metrics
 from sklearn.metrics import mean_squared_error as mse
 
 figdir = "../figures"
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
+#def save_fig(fname):
+#   if figdir: plt.savefig(os.path.join(figdir, fname))
     
 def make_1dregression_data(n=21):
     np.random.seed(0)
@@ -64,7 +63,7 @@ ax.plot(degs[mask], mse_train[mask], color='b', marker = 's', label='train')
 ax.legend(loc='upper right', shadow=True)
 plt.xlabel('degree')
 plt.ylabel('mse')
-save_fig('polyfitVsDegree.pdf')
+pml.savefig('polyfitVsDegree.pdf')
 plt.show()
 
 # Plot fitted functions
@@ -76,7 +75,7 @@ for deg in chosen_degs:
     ax.plot(xtest, ytest_pred_stored[deg-1])
     ax.set_ylim((-10, 15))
     plt.title('degree {}'.format(deg))
-    save_fig('polyfitDegree{}.pdf'.format(deg))
+    pml.savefig('polyfitDegree{}.pdf'.format(deg))
     plt.show()
     
 # Plot residuals
@@ -91,9 +90,8 @@ for deg in chosen_degs:
     ax.set_ylabel('residual')
     ax.set_ylim(-6,6)
     plt.title('degree {}. Predictions on the training set'.format(deg))
-    save_fig('polyfitDegree{}Residuals.pdf'.format(deg))
+    pml.savefig('polyfitDegree{}Residuals.pdf'.format(deg))
     plt.show()
-
 
 # Plot fit vs actual
 for deg in chosen_degs:
@@ -113,5 +111,5 @@ for deg in chosen_degs:
         ax.set_ylabel('predicted y')
         r2 = sklearn.metrics.r2_score(ytrue, ypred)
         plt.title('degree {}. R2 on {} = {:0.3f}'.format(deg, dataset, r2))
-        save_fig('polyfitDegree{}FitVsActual{}.pdf'.format(deg, dataset))
+        pml.savefig('polyfitDegree{}FitVsActual{}.pdf'.format(deg, dataset))
         plt.show()

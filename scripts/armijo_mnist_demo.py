@@ -13,6 +13,7 @@ from armijo_sgd import SGD_Armijo, ArmijoModel
 import numpy as np
 np.set_printoptions(precision=3)
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -27,8 +28,6 @@ print('Using PyTorch version:', torch.__version__, ' Device:', device)
 
 figdir = "../figures"
 import os
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
 
 ############
 # Get data
@@ -271,7 +270,7 @@ name = 'MLP-armijo-bs10'
 results = results_dict[name]
 plt.plot(results['step_size_history'])
 plt.ylabel('stepsize')
-save_fig('armijo-mnist-stepsize.png')
+pml.savefig('armijo-mnist-stepsize.pdf')
 plt.show()
 
 plt.figure()
@@ -280,7 +279,7 @@ for name, results in results_dict.items():
     y = results['epoch_loss_history']
     plt.plot(y, label=label)
     plt.legend()
-save_fig('armijo-mnist-epoch-loss.png')
+pml.savefig('armijo-mnist-epoch-loss.pdf')
 plt.show()
 
 # Add smoothed version of batch loss history to results dict    
@@ -303,6 +302,6 @@ for name, results in results_dict.items():
     #plt.figure()
     plt.plot(x[ndx], y[ndx], label=label)
 plt.legend()
-save_fig('armijo-mnist-batch-loss.png')
+pml.savefig('armijo-mnist-batch-loss.pdf')
 plt.show()
-    
+

@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt 
+import pyprobml_utils as pml
 
 err = np.linspace(-3.0, 3.0, 60)
 L1 = abs(err);
@@ -15,6 +16,7 @@ vapnik = np.multiply(ind, 0) + np.multiply((1-ind), (abs(err) - delta))
 # plt.legend(['L2','L1','huber', 'location', 'north'])
 # plt.ylim((-0.5, 5))   
 # plt.title('huberLoss')
+# pml.savefig('Huberloss.pdf')
 # plt.show()
 
 plt.plot(err, L2, 'r-')
@@ -22,4 +24,5 @@ plt.plot(err, vapnik, 'b:')
 plt.plot(err, huber, 'g-.')
 plt.legend(['L2','$ϵ$-insensitive', 'huber', 'location', 'north'])
 plt.ylim((-0.5, 5))   
+pml.savefig('Huber.pdf')
 plt.show()

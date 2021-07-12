@@ -1,12 +1,10 @@
-
 # SVM for binary classification in 2d
 # Code is based on 
 # https://github.com/ageron/handson-ml2/blob/master/05_support_vector_machines.ipynb
 
-
-
 import numpy as np
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
 
 from sklearn.svm import SVC
 from sklearn import datasets
@@ -53,7 +51,7 @@ polynomial_svm_clf.fit(X, y)
 
 plot_predictions(polynomial_svm_clf, [-1.5, 2.5, -1, 1.5])
 plot_dataset(X, y, [-1.5, 2.5, -1, 1.5])
-plt.savefig("../figures/svm_classifier_moons_polynomial_preproc.pdf", dpi=300)
+plt.savefig("svm_classifier_moons_polynomial_preproc.pdf")
 plt.show()
 
 
@@ -88,5 +86,5 @@ for i, svm_clf in enumerate(svm_clfs):
     if i in (1, 3):
         plt.ylabel("")
 
-plt.savefig("../figures/svm_classifier_moons_rbf.pdf", dpi=300)
+pml.savefig("svm_classifier_moons_rbf.pdf")
 plt.show()
