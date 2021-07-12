@@ -4,6 +4,7 @@
 from scipy.stats import multivariate_normal as gaussprob
 import numpy as np
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
 
 #constants
 pi=np.pi
@@ -54,5 +55,5 @@ plt.text(4, 0.07, r'$\alpha$', fontsize=15)        #α
 plt.text(-0.2, 0.28, '$H_0$', fontsize=15)         #H0
 plt.text(3.8,0.28, '$H_1$', fontsize=15)           #H1
 
-plt.savefig('../figures/neymanPearson2.pdf', dpi=300)
+pml.savefig('neymanPearson2.pdf')
 plt.show()

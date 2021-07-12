@@ -3,21 +3,17 @@ import numpy as np
 from numpy.linalg import cholesky
 from scipy.spatial.distance import cdist
 
-
 def gaussSample(mu, sigma, n):
     A = cholesky(sigma)
     Z = np.random.normal(loc=0, scale=1, size=(len(mu), n))
     return np.dot(A, Z).T + mu
 
-
 def mu_fun(x):
     return np.zeros_like(np.ravel(x))
-
 
 def kfn(x, z):
     L = 1
     return 1*np.exp(-(cdist(x/L, z/L)**2)/2)
-
 
 np.random.seed(10)
 L = 1
@@ -35,7 +31,7 @@ for i in range(3):
     fs = gaussSample(mu, sigma, 1)
     ax1.plot(np.ravel(xs), np.ravel(fs), color=color_1, linestyle='-', linewidth=2)
 
-fig.savefig('../figures/gprDemoNoiseFreePrior.png')
+pml.savefig('gprDemoNoiseFreePrior.pdf')
 
 # generate noise-less training data
 Xtrain = np.array([[-4], [-3], [-2], [-1], [1]])
@@ -61,7 +57,7 @@ for i in range(3):
     fs = gaussSample(mu, sigma, 1)
     ax2.plot(np.ravel(xs), np.ravel(fs), color=color_1, linestyle='-', linewidth=2)
     ax2.scatter(Xtrain, ftrain, color=color_1, marker='x', linewidth=12)
-fig.savefig('../figures/gprDemoNoiseFreePost.png')
+pml.savefig('gprDemoNoiseFreePost.pdf')
 
 # Generate sequence of plots using subsets of data
 XtrainAll = np.array([[-4], [-3], [-2], [-1], [4]])
@@ -92,4 +88,4 @@ for n in range(len(XtrainAll)):
         ax[n].scatter(Xtrain, ftrain, color=color_1, marker='x', linewidth=12)
 
     ax[n].set_title('N={}'.format(n + 1))
-fig.savefig('../figures/gprDemoNoiseFreePost_subplots.png')
+pml.savefig('gprDemoNoiseFreePost_subplots.pdf')
