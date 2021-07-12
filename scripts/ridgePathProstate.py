@@ -7,10 +7,13 @@ from sklearn import linear_model
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import pyprobml_utils as pml
 
 # Load prostate cancer data 
 
-data = loadmat('../data/prostate/prostateStnd')
+!wget https://github.com/probml/probml-data/blob/main/data/prostateStnd.mat?raw=true
+!mv prostateStnd.mat\?raw\=true prostateStnd.mat
+data = loadmat('prostateStnd.mat')
 names = list(map(lambda x: x[0], data['names'][0]))
 X, y = data['X'], data['y']
 
@@ -35,4 +38,5 @@ fig, ax = plt.subplots()
 plt.plot(coefs,marker='o')
 plt.axvline(x=np.where(alphas==best_model.alpha_), c="r")
 plt.legend(names)
+pml.savefig('prostate_data.pdf')
 plt.show()
