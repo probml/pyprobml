@@ -17,6 +17,7 @@ np.random.seed(0)
 Y = stats.bernoulli(0.7).rvs(20)
 
 
+
 with pm.Model() as model:
     θ = pm.Beta("θ", 1, 1)
     y_obs = pm.Binomial("y_obs",n=1, p=θ, observed=Y)
@@ -32,7 +33,6 @@ print(dist.shape)
 num_success = dist.sum(1)
 print(num_success.shape)
 
-
 fig, ax = plt.subplots()
 az.plot_dist(pred_dists[0].sum(1), hist_kwargs={"color":"0.5", "bins":range(0, 22)})
 ax.set_title(f"Prior predictive distribution",fontweight='bold')
@@ -46,6 +46,8 @@ ax.set_title(f"Posterior predictive distribution",fontweight='bold')
 ax.set_xlim(-1, 21)
 ax.set_ylim(0, 0.15) 
 ax.set_xlabel("number of success")
+pml.savefig('Posterior_predictive_distribution.pdf')
+
 
 fig, ax = plt.subplots()
 az.plot_dist(θ.distribution.random(size=1000), plot_kwargs={"color":"0.5"},
@@ -54,8 +56,8 @@ ax.set_title("Prior distribution", fontweight='bold')
 ax.set_xlim(0, 1)
 ax.set_ylim(0, 4)
 ax.tick_params(axis='both', pad=7)
-ax.set_xlabel("θ") 
-
+ax.set_xlabel("θ")
+pml.savefig('Prior_distribution.pdf')
 fig, ax = plt.subplots()
 az.plot_dist(idata.posterior["θ"], plot_kwargs={"color":"0.5"},
              fill_kwargs={'alpha':1})
@@ -64,3 +66,4 @@ ax.set_xlim(0, 1)
 ax.set_ylim(0, 4)
 ax.tick_params(axis='both', pad=7)
 ax.set_xlabel("θ")
+pml.savefig('Posterior_distribution.pdf')
