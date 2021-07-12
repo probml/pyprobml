@@ -1,4 +1,3 @@
-
 # K-means clustering in 2d
 # Code is based on chapter 9 of 
 # https://github.com/ageron/handson-ml2
@@ -8,6 +7,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
+import pyprobml_utils as pml
 
 if 0:
     blob_centers = np.array(
@@ -44,7 +44,7 @@ def plot_clusters(X, y=None):
     
 plt.figure()
 plot_clusters(X)
-plt.savefig("../figures/kmeans_voronoi_data.pdf",  dpi=300)
+pml.savefig("kmeans_voronoi_data.pdf")
 plt.show()
 
 
@@ -83,7 +83,7 @@ y_pred = kmeans.fit_predict(X)
 
 plt.figure()
 plot_decision_boundaries(kmeans, X)
-plt.savefig("../figures/kmeans_voronoi_output.pdf",  dpi=300)
+pml.savefig("kmeans_voronoi_output.pdf")
 plt.show()
 
 
@@ -129,7 +129,7 @@ plt.subplot(nr, nc, 4)
 plot_decision_boundaries(kmeans_iter2, X)
 
 plt.tight_layout()
-plt.savefig("../figures/kmeans_voronoi_iter.pdf",  dpi=300)
+pml.savefig("kmeans_voronoi_iter.pdf")
 plt.show()
 
 
@@ -144,6 +144,5 @@ for seed in seeds:
     loss = model.inertia_
     plt.title('distortion = {:0.2f}'.format(loss, fontsize=14))
     plt.tight_layout()
-    plt.savefig(f"../figures/kmeans_voronoi_init_{seed}.pdf", dpi=300)
+    pml.savefig("kmeans_voronoi_init_{seed}.pdf")
     plt.show()
-
