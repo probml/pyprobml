@@ -80,14 +80,16 @@ implement the above functionality, some of as
 |Name|More info|
 |----|----|
 |[Tensorflow2](http://www.tensorflow.org)|[tf_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/tf_intro.ipynb)|
-|[JAX](http://github.com/google/jax)|[jax_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/intro/jax_intro.ipynb)|
+|[JAX](http://github.com/google/jax)|[JAX tutorials](https://github.com/probml/pyprobml/blob/master/notebooks/jax_tutorials.md)|
 |[PyTorch](http://pytorch.org)|[PyTorch website](https://pytorch.org/tutorials)|
 |[MXNet](https://mxnet.apache.org)|[Dive into deep learning book](http://www.d2l.ai)|
 
 In this book, we mostly use Tensorflow 2 and JAX.
 However, we also welcome contributions in PyTorch.
 (More details on the JAX ecosystem can be found
-[here](https://github.com/probml/pyprobml/blob/master/book1/intro/jax_ecosystem.md).)
+[here](https://github.com/probml/pyprobml/blob/master/notebooks/jax_tutorials.md)
+
+
 
         
 ## Software for probabilistic modeling <a class="anchor" id="PPL"></a>

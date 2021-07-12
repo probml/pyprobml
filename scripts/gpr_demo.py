@@ -7,8 +7,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
+
+
 
 from numpy.linalg import inv
 from matplotlib import cm
@@ -65,7 +66,7 @@ samples = np.random.multivariate_normal(mu.ravel(), cov, 3)
 
 # Plot GP mean, confidence interval and samples 
 plot_gp(mu, cov, X, samples=samples)
-save_fig('gp-prior-samples.pdf')
+pml.save_fig('gp-prior-samples.pdf')
 plt.show()
 
 
@@ -102,7 +103,7 @@ mu_s, cov_s = posterior_predictive(X, X_train, Y_train)
 
 samples = np.random.multivariate_normal(mu_s.ravel(), cov_s, 3)
 plot_gp(mu_s, cov_s, X, X_train=X_train, Y_train=Y_train, samples=samples)
-save_fig('gp-post-noise-free-samples.pdf')
+pml.save_fig('gp-post-noise-free-samples.pdf')
 plt.show()
 
 
@@ -114,7 +115,7 @@ Y_train = np.sin(X_train) + noise * np.random.randn(*X_train.shape)
 mu_s, cov_s = posterior_predictive(X, X_train, Y_train, sigma_y=noise)
 samples = np.random.multivariate_normal(mu_s.ravel(), cov_s, 3)
 plot_gp(mu_s, cov_s, X, X_train=X_train, Y_train=Y_train, samples=samples)
-save_fig('gp-post-samples.pdf')
+pml.save_fig('gp-post-samples.pdf')
 plt.show()
 
 
@@ -142,7 +143,7 @@ for i, (l, sigma_f, sigma_y) in enumerate(params):
     plt.subplots_adjust(top=2)
     plt.title(f'l = {l}, sigma_f = {sigma_f}, sigma_y = {sigma_y}')
     plot_gp(mu_s, cov_s, X, X_train=X_train, Y_train=Y_train)
-save_fig('gp-hparams.pdf')
+pml.save_fig('gp-hparams.pdf')
 plt.show()
   
 
@@ -189,7 +190,7 @@ l_opt, sigma_f_opt
 # Compute the prosterior predictive statistics with optimized kernel parameters and plot the results
 mu_s, cov_s = posterior_predictive(X, X_train, Y_train, l=l_opt, sigma_f=sigma_f_opt, sigma_y=noise)
 plot_gp(mu_s, cov_s, X, X_train=X_train, Y_train=Y_train)
-save_fig('gp-fitted.pdf')
+pml.save_fig('gp-fitted.pdf')
 plt.show()
 
 
@@ -210,7 +211,7 @@ plt.figure(figsize=(14,7))
 mu_s, _ = posterior_predictive(X_2D, X_2D_train, Y_2D_train, sigma_y=noise_2D)
 plot_gp_2D(gx, gy, mu_s, X_2D_train, Y_2D_train, 
            f'Before parameter optimization: l={1.00} sigma_f={1.00}', 1)
-save_fig('gp-2d-unfitted.pdf')
+pml.save_fig('gp-2d-unfitted.pdf')
 plt.show()
 
 res = minimize(nll_fn(X_2D_train, Y_2D_train, noise_2D), [1, 1], 
@@ -221,7 +222,7 @@ plt.figure(figsize=(14,7))
 mu_s, _ = posterior_predictive(X_2D, X_2D_train, Y_2D_train, *res.x, sigma_y=noise_2D)
 plot_gp_2D(gx, gy, mu_s, X_2D_train, Y_2D_train,
            f'After parameter optimization: l={res.x[0]:.2f} sigma_f={res.x[1]:.2f}', 2)
-save_fig('gp-2d-fitted.pdf')
+pml.save_fig('gp-2d-fitted.pdf')
 plt.show()
 
 #################

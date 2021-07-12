@@ -24,7 +24,8 @@
 |Dropout for an MLP FashionMNIST classifier|PyTorch|[notebook][dropout]
 |MNIST image classification|TF2|[notebook][mnist_tf]
 |IMDB movie review sentiment classification |TF2|[notebook][imdb_tf]
-|Hierarchical Bayes for BNNs| PyMC3 | [notebook][bnn]
+|Hierarchical Bayes for BNNs| PyMC3 | [notebook][bnn] 
+|NYU course on deep learning (2020) | PyTorch | [Class website](https://atcold.github.io/pytorch-Deep-Learning/)
 
 <!--
 
