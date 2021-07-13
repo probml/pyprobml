@@ -10,9 +10,7 @@ import matplotlib.ticker as ticker
 import pyprobml_utils as pml
 
 # Load prostate cancer data 
-
-!wget https://github.com/probml/probml-data/blob/main/data/prostateStnd.mat?raw=true
-!mv prostateStnd.mat\?raw\=true prostateStnd.mat
+!wget https://github.com/probml/probml-data/blob/main/data/prostateStnd.mat?raw=true -O prostateStnd.mat
 data = loadmat('prostateStnd.mat')
 names = list(map(lambda x: x[0], data['names'][0]))
 X, y = data['X'], data['y']
