@@ -5,8 +5,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
+
+#figdir = os.path.join(os.environ["pyprobml"], "figures") #PYPROBML
+#def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
 np.random.seed(0)
@@ -75,7 +77,7 @@ plt.plot(X, Y, 'y--', lw=2, label='Noise-free objective')
 plt.plot(X, f(X), 'bx', lw=1, alpha=0.1, label='Noisy samples')
 plt.plot(X_init, Y_init, 'kx', mew=3, label='Initial samples')
 plt.legend();
-save_fig('bayes-opt-init.pdf')
+pml.savefig('bayes-opt-init.pdf')
 plt.show()
 
 
@@ -127,7 +129,6 @@ def propose_location(acquisition, X_sample, Y_sample, gpr, bounds, n_restarts=25
         X_sample: Sample locations (n x d).
         Y_sample: Sample values (n x 1).
         gpr: A GaussianProcessRegressor fitted to samples.
-
     Returns:
         Location of the acquisition function maximum.
     '''
@@ -184,13 +185,13 @@ for i in range(n_iter):
     plt.figure()
     plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next, show_legend=i==0)
     plt.title(f'Iteration {i+1}')
-    save_fig('bayes-opt-surrogate-{}.pdf'.format(i+1))
+    pml.savefig('bayes-opt-surrogate-{}.pdf'.format(i+1))
     plt.show()
     
     plt.figure()
     #plt.subplot(n_iter, 2, 2 * i + 2)
     plot_acquisition(X, expected_improvement(X, X_sample, Y_sample, gpr), X_next, show_legend=i==0)
-    save_fig('bayes-opt-acquisition-{}.pdf'.format(i+1))
+    pml.savefig('bayes-opt-acquisition-{}.pdf'.format(i+1))
     plt.show()
     
     # Add sample to previous samples
@@ -200,13 +201,9 @@ for i in range(n_iter):
 #from bayesian_optimization_util import plot_convergence
 
 plot_convergence(X_sample, Y_sample)
-save_fig('bayes-opt-convergence.pdf')
+pml.savefig('bayes-opt-convergence.pdf')
 plt.show()
-    
-
-
-  
-  
+     
 ####################
  # skopt
  # https://scikit-optimize.github.io/
@@ -238,7 +235,7 @@ gpr.fit(r.x_iters, -r.func_vals)
 
 # Plot the fitted model and the noisy samples
 plot_approximation(gpr, X, Y, r.x_iters, -r.func_vals, show_legend=True)
-save_fig('bayes-opt-skopt.pdf')
+pml.savefig('bayes-opt-skopt.pdf')
 plt.show()
 
 plot_convergence(np.array(r.x_iters), -r.func_vals)
@@ -271,10 +268,7 @@ optimizer = BayesianOptimization(f=lambda X: -f(X),
 
 optimizer.run_optimization(max_iter=10)
 optimizer.plot_acquisition()
-save_fig('bayes-opt-gpyopt.pdf')
+pml.savefig('bayes-opt-gpyopt.pdf')
 plt.show()
 
 optimizer.plot_convergence()
-
-####################
-

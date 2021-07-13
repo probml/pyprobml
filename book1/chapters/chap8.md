@@ -14,3 +14,4 @@ Title|Software|Link|
 |Automatic differentiation with tensorflow| TF2| [notebook][ad_tf]
 |Automatic differentiation with JAX| JAX| [notebook][ad_jax]
 |Automatic differentiation with PyTorch| PyTorch| [notebook][ad_pytorch]
+|Comparison of different optimizers| PyTorch | [link](https://github.com/haven-ai/optimization-toolkit)|

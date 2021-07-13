@@ -1,4 +1,3 @@
-
 # Source: chap 2 of 
 # https://github.com/aloctavodia/BAP
 
@@ -38,4 +37,4 @@ ax = axes[0]
 mu = np.mean(data)
 sigma = np.std(data)
 ax.plot(mu, sigma, 'r*', markersize=12)
-plt.savefig('../figures/kde-gauss-2d.pdf', dpi=300)
+pml.savefig('kde-gauss-2d.pdf')

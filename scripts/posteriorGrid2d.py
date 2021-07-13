@@ -7,9 +7,6 @@ from scipy import stats
 
 figdir = "../figures"
 import os
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
-
 
 data = np.array([195, 182])
 
@@ -30,7 +27,7 @@ plt.imshow(likelihood, cmap='Reds', aspect=aspect, extent=extent)
 plt.xlabel(r'$\mu$')
 plt.ylabel(r'$\sigma$')
 plt.title('Likelihood')
-save_fig('posteriorGridLik.pdf')
+pml.savefig('posteriorGridLik.pdf')
 plt.show()
 
 # Prior
@@ -41,7 +38,7 @@ plt.imshow(prior, cmap='Greens', aspect=aspect, extent=extent)
 plt.xlabel(r'$\mu$')
 plt.ylabel(r'$\sigma$')
 plt.title('Prior')
-save_fig('posteriorGridPrior.pdf')
+pml.savefig('posteriorGridPrior.pdf')
 plt.show()
 
 
@@ -54,5 +51,5 @@ plt.imshow(posterior, cmap='Blues', aspect=aspect, extent=extent)
 plt.xlabel(r'$\mu$')
 plt.ylabel(r'$\sigma$')
 plt.title('Posterior')
-save_fig('posteriorGridPost.pdf')
+pml.savefig('posteriorGridPost.pdf')
 plt.show()

@@ -1,3 +1,4 @@
+
 import numpy as np
 import scipy.sparse
 import matplotlib.pyplot as plt
@@ -8,7 +9,7 @@ colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
 
 
 def demo(priorVar):
-    np.random.seed(0)
+    np.random.seed(1)
     n = 150
     m = 10
     Nobs = m
@@ -32,8 +33,8 @@ def demo(priorVar):
     B12 = np.dot(np.transpose(L1), L2)
     B21 = np.transpose(B12)
     noiseFreeObs(B11, B12, xobs, hidNdx, obsNdx, priorVar, xs)
-    #noisyObs(B11, B12, B21, obsNoiseVar, Nobs,
-    #         xobs, hidNdx, obsNdx, priorVar, xs, y)
+    noisyObs(B11, B12, B21, obsNoiseVar, Nobs,
+             xobs, hidNdx, obsNdx, priorVar, xs, y)
 
 
 def noiseFreeObs(B11, B12, xobs, hidNdx, obsNdx, priorVar, xs):

@@ -24,8 +24,7 @@ plt.xlabel('x')
 plt.ylabel('class conditional densities')
 plt.annotate('p(x|y=1)', (0.196, 2), fontsize=14)
 plt.annotate('p(x|y=2)', (0.8, 4), fontsize=14)
-plt.savefig('../figures/genVsDiscrimClassCond')
-
+pml.savefig('genVsDiscrimClassCond.pdf')
 plt.show()
 
 domain = np.arange(0, 1.001, 0.001)
@@ -40,8 +39,7 @@ plt.plot(domain, f2(domain), '-k')
 plt.plot([0.556, 0.556], [0, 1.2], '-g')
 plt.annotate('p(y=1|x)', (0.14, 1.1), fontsize=14)
 plt.annotate('p(y=2|x)', (0.8, 1.1), fontsize=14)
-plt.savefig('../figures/genVsDiscrimPost')
-
+pml.savefig('genVsDiscrimPost.pdf')
 plt.show()
 
 
@@ -60,4 +58,5 @@ plt.xticks([])
 plt.yticks([])
 plt.annotate('NB', (0.5, 1.5), fontsize=20, color='red')
 plt.annotate('LR', (1.8, 3.5), fontsize=20, color='blue')
+pml.savefig('test_error.pdf')
 plt.show()

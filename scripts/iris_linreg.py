@@ -1,17 +1,11 @@
 # Linear regression on iris dataset
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
-
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
 from sklearn import datasets
-
 
 iris = datasets.load_iris()
 xidx = 2
@@ -34,5 +28,5 @@ for yidx in ys:
   plt.ylim(np.min(Y), np.max(Y))
   
   fname = "iris-linreg{}".format(yidx)
-  save_fig(fname)
+  pml.savefig(fname)
   plt.show()
