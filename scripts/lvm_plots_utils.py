@@ -67,7 +67,7 @@ def plot_embeddings_tsne(batch, encoder):
           image_positions = np.r_[image_positions, [position]]
           imagebox = matplotlib.offsetbox.AnnotationBbox(
               matplotlib.offsetbox.OffsetImage(rearrange(X_data[index].cpu(), "c h w -> (c h) w"), cmap="binary"),
-              position, bboxprops={"edgecolor": cmap([y_data[index]]), "lw": 2})
+              position, bboxprops={"edgecolor": tuple(cmap([y_data[index]])[0]), "lw": 2})
           plt.gca().add_artist(imagebox)
   plt.axis("off")
   
