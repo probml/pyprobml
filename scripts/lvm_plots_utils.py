@@ -1,6 +1,8 @@
 import torch
 import numpy as np
 from scipy.stats import norm
+import matplotlib
+from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 from einops import rearrange
@@ -46,6 +48,29 @@ def slerp(val, low, high):
     so = torch.sin(omega)
     return torch.sin((1.0-val)*omega) / so * low + torch.sin(val*omega)/so * high
 
+def plot_embeddings_tsne(batch, encoder):
+  X_data, y_data = batch
+  X_data = X_data.to(device)
+  np.random.seed(42)
+  tsne = TSNE()
+  X_data_2D = tsne.fit_transform(encoder(X_data).cpu().detach().numpy())
+  X_data_2D = (X_data_2D - X_data_2D.min()) / (X_data_2D.max() - X_data_2D.min())
+
+  # adapted from https://scikit-learn.org/stable/auto_examples/manifold/plot_lle_digits.html
+  plt.figure(figsize=(10, 8))
+  cmap = plt.cm.tab10
+  plt.scatter(X_data_2D[:, 0], X_data_2D[:, 1], c=y_data, s=10, cmap=cmap)
+  image_positions = np.array([[1., 1.]])
+  for index, position in enumerate(X_data_2D):
+      dist = np.sum((position - image_positions) ** 2, axis=1)
+      if np.min(dist) > 0.02: # if far enough from other images
+          image_positions = np.r_[image_positions, [position]]
+          imagebox = matplotlib.offsetbox.AnnotationBbox(
+              matplotlib.offsetbox.OffsetImage(rearrange(X_data[index].cpu(), "c h w -> (c h) w"), cmap="binary"),
+              position, bboxprops={"edgecolor": cmap([y_data[index]]), "lw": 2})
+          plt.gca().add_artist(imagebox)
+  plt.axis("off")
+  
 def plot_imrange(arr, figsize=(20,200), fname="interpolation.pdf"):
     plt.figure(figsize=figsize)
     interpolation = torch.unsqueeze(torch.stack(arr),1)
