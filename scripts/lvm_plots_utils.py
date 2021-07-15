@@ -56,11 +56,11 @@ def get_imrange(G:Callable[[torch.tensor], torch.tensor], start:torch.tensor,
         arr2.append(G(new_z))
     return make_imrange(arr2) 
 
-def get_random_samples(decoder: Callable[[torch.tensor], torch.tensor], truncation_threshold=1) -> torch.tensor:
+def get_random_samples(decoder: Callable[[torch.tensor], torch.tensor], truncation_threshold=1, latent_dim=20) -> torch.tensor:
   """
   Decoder must produce a 4d vector to be feed into make_grid
   """
-  values = truncnorm.rvs(-truncation_threshold, truncation_threshold, size=(64, 20))
+  values = truncnorm.rvs(-truncation_threshold, truncation_threshold, size=(64, latent_dim))
   z = torch.from_numpy(values).float()
   z = z.to(device)
   imgs = rearrange(make_grid(decoder(z)), 'c h w -> h w c').cpu().detach().numpy()
