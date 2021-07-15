@@ -83,7 +83,7 @@ def plot_intermediate_steps(ax, fwd_func, intermediate_steps, xtest, mu_hist, Si
         W_step, SW_step = mu_hist[step], Sigma_hist[step]
         x_step, y_step = x[:step], y[:step]
         plot_mlp_prediction(key, x_step, y_step, xtest, fwd_func, W_step, SW_step, axi)
-        axi.set_title(f"{step=}")
+        axi.set_title(f"step={step}")
     plt.tight_layout()
 
 def plot_intermediate_steps_single(method, fwd_func, intermediate_steps, xtest, mu_hist, Sigma_hist):
@@ -95,7 +95,7 @@ def plot_intermediate_steps_single(method, fwd_func, intermediate_steps, xtest, 
         x_step, y_step = x[:step], y[:step]
         _, axi = plt.subplots()
         plot_mlp_prediction(key, x_step, y_step, xtest, fwd_func, W_step, SW_step, axi)
-        axi.set_title(f"{step=}")
+        axi.set_title(f"step={step}")
         plt.tight_layout()
         pml.savefig(f'{method}-mlp-step-{step}.pdf')
 
