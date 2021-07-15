@@ -108,10 +108,7 @@ class ExtendedKalmanFilter(NLDS):
         """
         I = jnp.eye(self.state_size)
         nsamples = len(sample_obs)
-        if Vinit is None:
-            Vt = self.Q.copy()
-        else:
-            Vt = Vinit
+        Vt = self.Q if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsamples
         else:
@@ -336,7 +333,7 @@ class UnscentedKalmanFilter(NLDS):
         R = evecs @ jnp.sqrt(jnp.diag(evals)) @ jnp.linalg.inv(evecs)
         return R
     
-    def filter(self, init_state, sample_obs, observations=None):
+    def filter(self, init_state, sample_obs, observations=None, Vinit=None):
         """
         Run the Unscented Kalman Filter algorithm over a set of observed samples.
 
@@ -359,7 +356,7 @@ class UnscentedKalmanFilter(NLDS):
                             for i in range(2 * self.d + 1)])
         nsteps, *_ = sample_obs.shape
         mu_t = init_state
-        Sigma_t = self.Q
+        Sigma_t = self.Q if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsteps
         else:
