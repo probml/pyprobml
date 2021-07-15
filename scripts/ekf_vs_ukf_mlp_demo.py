@@ -75,6 +75,10 @@ def plot_mlp_prediction(key, xobs, yobs, xtest, fw, w, Sw, ax, n_samples=100):
 
 
 def plot_intermediate_steps(ax, fwd_func, intermediate_steps, xtest, mu_hist, Sigma_hist):
+    """
+    Plot the intermediate steps of the training process, all of them in the same plot
+    but in different subplots.
+    """
     for step, axi in zip(intermediate_steps, ax.flatten()):
         W_step, SW_step = mu_hist[step], Sigma_hist[step]
         x_step, y_step = x[:step], y[:step]
@@ -82,11 +86,14 @@ def plot_intermediate_steps(ax, fwd_func, intermediate_steps, xtest, mu_hist, Si
         axi.set_title(f"{step=}")
     plt.tight_layout()
 
-def plot_intermediate_steps2(method, fwd_func, intermediate_steps, xtest, mu_hist, Sigma_hist):
+def plot_intermediate_steps_single(method, fwd_func, intermediate_steps, xtest, mu_hist, Sigma_hist):
+    """
+    Plot the intermediate steps of the training process, each one in a different plot.
+    """
     for step in intermediate_steps:
         W_step, SW_step = mu_hist[step], Sigma_hist[step]
         x_step, y_step = x[:step], y[:step]
-        fig, axi = plt.subplots()
+        _, axi = plt.subplots()
         plot_mlp_prediction(key, x_step, y_step, xtest, fwd_func, W_step, SW_step, axi)
         axi.set_title(f"{step=}")
         plt.tight_layout()
@@ -143,13 +150,14 @@ if __name__ == "__main__":
     plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ekf_mu_hist, ekf_Sigma_hist)
     plt.suptitle("EKF + MLP training")
     pml.savefig("ekf-mlp-training-steps.pdf")
-    plot_intermediate_steps2('ekf', fwd_mlp_obs_weights, intermediate_steps, xtest, ekf_mu_hist, ekf_Sigma_hist)
+    plot_intermediate_steps_single("ekf", fwd_mlp_obs_weights, intermediate_steps, xtest, ekf_mu_hist, ekf_Sigma_hist)
 
     use_ukf = True
     if use_ukf:
-        alpha, beta, kappa = 1.0, 2.0, 3.0 - n_params
+        Vinit = jnp.eye(n_params) * 5 # vague prior
+        alpha, beta, kappa = 0.01, 2.0, 3.0 - n_params
         ukf = ds.UnscentedKalmanFilter(fz, lambda w, x: fwd_mlp_weights(w, x).T, Q, R, alpha, beta, kappa)
-        ukf_mu_hist, ukf_Sigma_hist = ukf.filter(W0, y, x[:, None])
+        ukf_mu_hist, ukf_Sigma_hist = ukf.filter(W0, y, x[:, None], Vinit)
         step = -1
         W_ukf, SW_ukf = ukf_mu_hist[step], ukf_Sigma_hist[step]
 
@@ -162,5 +170,6 @@ if __name__ == "__main__":
         plot_intermediate_steps(ax, fwd_mlp_obs_weights, intermediate_steps, xtest, ukf_mu_hist, ukf_Sigma_hist)
         plt.suptitle("UKF + MLP training")
         pml.savefig("ukf-mlp-training-steps.pdf")
+        plot_intermediate_steps_single("ukf", fwd_mlp_obs_weights, intermediate_steps, xtest, ukf_mu_hist, ukf_Sigma_hist)
 
     plt.show()
