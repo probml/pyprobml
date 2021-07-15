@@ -1,3 +1,4 @@
+import umap
 from typing import Callable, Tuple
 import torch
 import numpy as np
