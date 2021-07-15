@@ -82,7 +82,7 @@ def get_grid_samples(decoder:Callable[[torch.tensor], torch.tensor], latent_size
 
 def plot_embeddings_tsne(batch: Tuple, encoder:Callable[[torch.tensor], torch.tensor]):
   """
-  Given a batch and an encoder it plots TSNE embedding of the latent space
+  Given a batch and an encoder it plots TSNE embedding of the latent space and the images must have only channel e.g. mnist images
   """
   X_data, y_data = batch
   X_data = X_data.to(device)
@@ -102,6 +102,34 @@ def plot_embeddings_tsne(batch: Tuple, encoder:Callable[[torch.tensor], torch.te
           image_positions = np.r_[image_positions, [position]]
           imagebox = matplotlib.offsetbox.AnnotationBbox(
               matplotlib.offsetbox.OffsetImage(rearrange(X_data[index].cpu(), "c h w -> (c h) w"), cmap="binary"),
+              position, bboxprops={"edgecolor": tuple(cmap([y_data[index]])[0]), "lw": 2})
+          plt.gca().add_artist(imagebox)
+  plt.axis("off")
+  
+  
+def plot_embeddings_umap(batch, encoder):
+  """
+  Given a batch and an encoder it plots UMAP embedding of the latent space
+  to do supervised dimensionality reduction and the images must have 3 channel e.g. celeba images
+  """
+  X_data, y_data = batch
+  X_data = X_data.to(device)
+  np.random.seed(42)
+  tsne = umap.UMAP()
+  X_data_2D = tsne.fit_transform(encoder(X_data).cpu().detach().numpy(), y_data)
+  X_data_2D = (X_data_2D - X_data_2D.min()) / (X_data_2D.max() - X_data_2D.min())
+
+  # adapted from https://scikit-learn.org/stable/auto_examples/manifold/plot_lle_digits.html
+  plt.figure(figsize=(10, 8))
+  cmap = plt.cm.tab10
+  plt.scatter(X_data_2D[:, 0], X_data_2D[:, 1], c=y_data, s=10, cmap=cmap)
+  image_positions = np.array([[1., 1.]])
+  for index, position in enumerate(X_data_2D):
+      dist = np.sum((position - image_positions) ** 2, axis=1)
+      if np.min(dist) > 0.04: # if far enough from other images
+          image_positions = np.r_[image_positions, [position]]
+          imagebox = matplotlib.offsetbox.AnnotationBbox(
+              matplotlib.offsetbox.OffsetImage(rearrange(X_data[index].cpu(), "c h w -> h w c"), cmap="binary"),
               position, bboxprops={"edgecolor": tuple(cmap([y_data[index]])[0]), "lw": 2})
           plt.gca().add_artist(imagebox)
   plt.axis("off")
