@@ -8,6 +8,7 @@ def make_markdown(infile, outfile, num, name, sep=','):
   df = pd.read_csv(infile, sep=sep)
   notebook_url = 'https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks'
   markdown_url = 'https://colab.research.google.com/github/probml/probml-notebooks/blob/master/markdown'
+  d2l_url = 'https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l'
 
   contents = []
   contents.append(f'# Chapter {num} ({name}): Supplementary material')
@@ -24,6 +25,8 @@ def make_markdown(infile, outfile, num, name, sep=','):
       link = f'{notebook_url}/{link}'
     elif entry_type == 'Markdown':
       link = f'{markdown_url}/{link}'
+    elif entry_type == 'd2lbook':
+      link = f'{d2l_url}/{link}'
     line = f'|{title}|{lang}|[{entry_type}]({link})'
     contents.append(line)
 
