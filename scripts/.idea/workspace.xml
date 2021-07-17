@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a9afc637-bd52-4780-b351-a0fd8f2703ac" name="Default Changelist" comment="" />
+    <list default="true" id="a9afc637-bd52-4780-b351-a0fd8f2703ac" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasaurus_dozen.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasaurus_dozen.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,7 +51,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.book_readme_md">
+  <component name="RunManager" selected="Python.datasaurus_dozen">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -74,6 +77,9 @@
       <module name="scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="/opt/anaconda3/envs/spyder-dev/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -92,12 +98,33 @@
       <module name="scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="/opt/anaconda3/envs/spyder-dev/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/book_supplements_md.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="datasaurus_dozen" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="scripts" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="/opt/anaconda3/envs/spyder-dev/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datasaurus_dozen.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -131,24 +158,6 @@
       <module name="scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="/opt/anaconda3/envs/spyder-dev/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/make_supplements_md.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pinwheel_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="scripts" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
@@ -157,7 +166,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pinwheel_data.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/make_supplements_md.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -191,17 +200,17 @@
       <item itemvalue="Python.scripts" />
       <item itemvalue="Python.ekf_vs_ukf_mlp_demo" />
       <item itemvalue="Python.make_supplements_md" />
-      <item itemvalue="Python.pinwheel_data" />
       <item itemvalue="Python.book_supplements_md" />
       <item itemvalue="Python.book_readme_md" />
+      <item itemvalue="Python.datasaurus_dozen" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.datasaurus_dozen" />
         <item itemvalue="Python.book_readme_md" />
         <item itemvalue="Python.book_supplements_md" />
         <item itemvalue="Python.make_supplements_md" />
         <item itemvalue="Python.ekf_vs_ukf_mlp_demo" />
-        <item itemvalue="Python.pinwheel_data" />
       </list>
     </recent_temporary>
   </component>

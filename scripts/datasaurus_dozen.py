@@ -39,3 +39,5 @@ pml.savefig("datasaurus12.pdf")
 # Stats of all 12 datasets
 datasets = df.groupby('dataset')
 print(datasets.agg(['count', 'mean', 'var']))
+
+plt.show()
