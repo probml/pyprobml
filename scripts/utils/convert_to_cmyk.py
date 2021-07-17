@@ -3,18 +3,24 @@ import glob
 import re
 import os
 
-infile = '/Users/kpmurphy/github/bookv2/cmyk_convert.txt'
+infile = '/Users/kpmurphy/github/bookv2/Misc/cmyk_convert2.txt'
 infolder = '/Users/kpmurphy/github/bookv2/figures'
-outfolder = '/Users/kpmurphy/github/bookv2/figuresJPG'
+outfolder = '/Users/kpmurphy/github/bookv2/figuresMagick'
 
 df = pd.read_csv(infile, header=None, names=['Name'])
 for i in range(len(df)):
     entry = df.loc[i]
-    fname = entry['Name']
-
-    # foo -> foo.pdf, but foo.png -> foo.png
+    fname = entry['Name'] # eg foo.png, or foo (assumed to be foo.pdf)
     parts = fname.split('.')
-    if len(parts)==1:
-        fname = f'{fname}.pdf'
-
-    print(fname)
+    stem = parts[0]
+    if len(parts)==1: # no period, assumed to be pdf
+        suffix = 'pdf'
+    else:
+        suffix = parts[1]
+    src_name = f'{stem}.{suffix}'
+    dest_name = f'{stem}.jpg'
+    source = f'{infolder}/{src_name}'
+    dest = f'{outfolder}/{dest_name}'
+    cmd = f'convert {source} -colorspace cmyk {dest}'
+    print(cmd)
+    os.system(cmd)
