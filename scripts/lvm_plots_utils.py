@@ -108,7 +108,7 @@ def plot_scatter_plot(batch, encoder, use_embedder="TSNE", min_distance =0.03):
   X_data_2D = (X_data_2D - X_data_2D.min()) / (X_data_2D.max() - X_data_2D.min())
 
   # adapted from https://scikit-learn.org/stable/auto_examples/manifold/plot_lle_digits.html
-  plt.figure(figsize=(10, 8))
+  fig = plt.figure(figsize=(10, 8))
   cmap = plt.cm.tab10
   plt.scatter(X_data_2D[:, 0], X_data_2D[:, 1], c=y_data, s=10, cmap=cmap)
   image_positions = np.array([[1., 1.]])
@@ -126,6 +126,7 @@ def plot_scatter_plot(batch, encoder, use_embedder="TSNE", min_distance =0.03):
               position, bboxprops={"edgecolor": tuple(cmap([y_data[index]])[0]), "lw": 2})
           plt.gca().add_artist(imagebox)
   plt.axis("off")
+  return fig
 
 def plot_grid_plot(batch, encoder, use_cdf=False, use_embedder="TSNE", model_name="VAE mnist"):
     """
@@ -142,7 +143,7 @@ def plot_grid_plot(batch, encoder, use_cdf=False, use_embedder="TSNE", model_nam
     z_points = get_embedder(encoder, example_images, use_embedder=use_embedder)
     p_points = norm.cdf(z_points)
 
-    plt.figure(figsize=(figsize, figsize))
+    fig = plt.figure(figsize=(figsize, figsize))
     if use_cdf:
         plt.scatter(p_points[:, 0] , p_points[:, 1] , cmap='rainbow' , c= example_labels
                 , alpha=0.5, s=5)
@@ -151,6 +152,7 @@ def plot_grid_plot(batch, encoder, use_cdf=False, use_embedder="TSNE", model_nam
                 , alpha=0.5, s=2)
     plt.colorbar()
     plt.title(f"{model_name} embedding")
+    return fig
 
 def plot_grid_plot_with_sample(batch, encoder, decoder, use_embedder="TSNE", model_name="VAE mnist"):
     """
