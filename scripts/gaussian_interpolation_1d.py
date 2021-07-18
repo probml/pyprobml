@@ -8,7 +8,7 @@ import pyprobml_utils as pml
 from matplotlib import colors as mcolors
 
 
-def demo(priorVar, i):
+def demo(priorVar, plot_num):
     np.random.seed(1)
     colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
     N = 10  # number of interior observed points
@@ -46,7 +46,7 @@ def demo(priorVar, i):
     Sigma[hidNdx[:, None], hidNdx] = inverseB11
 
     plt.figure()
-    plt.plot(obsNdx, xobs, 'bx')
+    plt.plot(obsNdx, xobs, 'bo', markersize=10)
     plt.plot(allNdx, mu, 'r-')
 
     S2 = np.diag(Sigma)
@@ -54,8 +54,12 @@ def demo(priorVar, i):
     lower = (mu - 2 * np.sqrt(S2))
     plt.fill_between(allNdx, lower, upper, alpha=0.2)
 
+    for i in range(0, 3):
+        fs = np.random.multivariate_normal(mu, Sigma)
+        plt.plot(allNdx, fs, 'k-', alpha=0.7)
+
     plt.title(f'prior variance {priorVar:0.2f}')
-    pml.savefig(f'gaussian_interpolation_1d_{i}.pdf')
+    pml.savefig(f'gaussian_interpolation_1d_{plot_num}.pdf')
 
 
 priorVars = [0.01, 0.1]

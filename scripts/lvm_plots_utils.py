@@ -151,7 +151,6 @@ def plot_grid_plot(batch, encoder, use_cdf=False, use_embedder="TSNE", model_nam
                 , alpha=0.5, s=2)
     plt.colorbar()
     plt.title(f"{model_name} embedding")
-    plt.show()
 
 def plot_grid_plot_with_sample(batch, encoder, decoder, use_embedder="TSNE", model_name="VAE mnist"):
     """
@@ -190,15 +189,12 @@ def plot_grid_plot_with_sample(batch, encoder, decoder, use_embedder="TSNE", mod
         y = z_grid[i,1]
         plt.text(x, y, i)
     plt.title(f"{model_name} embedding with samples")
-    plt.show()
 
     fig = plt.figure(figsize=(figsize, grid_depth))
     fig.subplots_adjust(hspace=0.4, wspace=0.4)
-
     for i in range(grid_size*grid_depth):
         ax = fig.add_subplot(grid_depth, grid_size, i+1)
         ax.axis('off')
         #ax.text(0.5, -0.35, str(np.round(z_grid[i],1)), fontsize=8, ha='center', transform=ax.transAxes)
         ax.text(0.5, -0.35, str(i))
         ax.imshow(reconst[i,:],cmap = 'Greys')
-    plt.show()
