@@ -12,8 +12,7 @@ import pyprobml_utils as pml
 
 
 def plot_samples(sample_state, sample_obs, ax=None):
-    if ax is None:
-        fig, ax = plt.subplots()
+    fig, ax = plt.subplots()
     ax.plot(*sample_state.T, label="state space")
     ax.scatter(*sample_obs.T, s=60, c="tab:green", marker="+")
     ax.scatter(*sample_state[0], c="black", zorder=3)
@@ -32,11 +31,11 @@ def plot_inference(sample_obs, mean_hist):
 
 
 if __name__ == "__main__":
+    key = random.PRNGKey(314)
     plt.rcParams["axes.spines.right"] = False
     plt.rcParams["axes.spines.top"] = False
 
     def fz(x, dt): return x + dt * jnp.array([jnp.sin(x[1]), jnp.cos(x[0])])
-    fz_vec = jax.vmap(fz, in_axes=(0, None))
     def fx(x): return x
 
     dt = 0.4
@@ -47,23 +46,20 @@ if __name__ == "__main__":
     Qt = jnp.eye(2) * 0.001
     # Observed noise
     Rt = jnp.eye(2) * 0.05
-    alpha, beta, kappa = 1, 0, 2
 
     key = random.PRNGKey(314)
     model = ds.NLDS(lambda x: fz(x, dt), fx, Qt, Rt)
     sample_state, sample_obs = model.sample(key, x0, nsteps)
 
-    plot_samples(sample_state, sample_obs)
-
+    fz_vec = jax.vmap(fz, in_axes=(0, None))
     particle_filter = ds.BootstrapFiltering(lambda x: fz_vec(x, dt), fx, Qt, Rt)
-    key = random.PRNGKey(314)
     pf_mean = particle_filter.filter(key, x0, sample_obs)
 
 
-    plot_samples(sample_state, sample_obs)
-    pml.savefig("nlds2d_data.pdf")
-
     plot_inference(sample_obs, pf_mean)
     pml.savefig("nlds2d_bootstrap.pdf")
+
+    plot_samples(sample_state, sample_obs)
+    pml.savefig("nlds2d_data.pdf")
 
     plt.show()
