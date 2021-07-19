@@ -23,7 +23,7 @@ with
 https://github1s.com/probml/pyprobml/tree/master/scripts (see [this tweet](https://twitter.com/hediet_dev/status/1359093978570907648?s=21)).
 The output should look like this:
 
-![](https://github.com/probml/probml-notebooks/blob/master/images/github-vscode-browser.png)
+![](https://github.com/probml/probml-notebooks/raw/main/images/github-vscode-browser.png)
 
 ## Jupyter notebooks
 
