@@ -8,9 +8,13 @@ import re
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
+import requests
 
-figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+url  = 'https://raw.githubusercontent.com/probml/probml-data/main/data/timemachine.txt'
+response = requests.get(url)
+data = response.text
 
 data_dir = "../data"
 fname = os.path.join(data_dir, 'timemachine.txt')
@@ -89,7 +93,7 @@ a = -1
 y = kappa*np.power(x, a) * N # predicted frequencey
 plt.loglog(x, y, label='linear prediction')
 plt.legend();
-save_fig('timemachine-zipf-1.pdf')
+pml.savefig('timemachine-zipf-1.pdf')
 plt.show()
 
 plt.figure()
@@ -97,5 +101,5 @@ plt.loglog(wordcounts, label='word counts');
 plt.loglog(bigramcounts, label='bigram counts');
 plt.loglog(triplecounts, label='triple counts');
 plt.legend();
-save_fig('timemachine-zipf-3.pdf')
+pml.savefig('timemachine-zipf-3.pdf')
 plt.show()
