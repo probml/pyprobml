@@ -8,8 +8,8 @@ import nlds_lib as ds
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from jax import random
-from jax.scipy import stats
-from jax.ops import index_update
+import pyprobml_utils as pml
+
 
 def plot_samples(sample_state, sample_obs, ax=None):
     if ax is None:
@@ -22,33 +22,48 @@ def plot_samples(sample_state, sample_obs, ax=None):
     plt.axis("equal")
 
 
+def plot_inference(sample_obs, mean_hist):
+    fig, ax = plt.subplots()
+    ax.scatter(*sample_obs.T, marker="+", color="tab:green", s=60)
+    ax.plot(*mean_hist.T, c="tab:orange", label="filtered")
+    ax.scatter(*mean_hist[0], c="black", zorder=3)
+    plt.legend()
+    plt.axis("equal")
 
-plt.rcParams["axes.spines.right"] = False
-plt.rcParams["axes.spines.top"] = False
 
-def fz(x, dt): return x + dt * jnp.array([jnp.sin(x[1]), jnp.cos(x[0])])
-fz_vec = jax.vmap(fz, in_axes=(0, None))
-def fx(x): return x
+if __name__ == "__main__":
+    plt.rcParams["axes.spines.right"] = False
+    plt.rcParams["axes.spines.top"] = False
 
-dt = 0.4
-nsteps = 100
-# Initial state vector
-x0 = jnp.array([1.5, 0.0])
-# State noise
-Qt = jnp.eye(2) * 0.001
-# Observed noise
-Rt = jnp.eye(2) * 0.05
-alpha, beta, kappa = 1, 0, 2
+    def fz(x, dt): return x + dt * jnp.array([jnp.sin(x[1]), jnp.cos(x[0])])
+    fz_vec = jax.vmap(fz, in_axes=(0, None))
+    def fx(x): return x
 
-key = random.PRNGKey(314)
-model = ds.NLDS(lambda x: fz(x, dt), fx, Qt, Rt)
-sample_state, sample_obs = model.sample(key, x0, nsteps)
+    dt = 0.4
+    nsteps = 100
+    # Initial state vector
+    x0 = jnp.array([1.5, 0.0])
+    # State noise
+    Qt = jnp.eye(2) * 0.001
+    # Observed noise
+    Rt = jnp.eye(2) * 0.05
+    alpha, beta, kappa = 1, 0, 2
 
-plot_samples(sample_state, sample_obs)
+    key = random.PRNGKey(314)
+    model = ds.NLDS(lambda x: fz(x, dt), fx, Qt, Rt)
+    sample_state, sample_obs = model.sample(key, x0, nsteps)
 
-particle_filter = ds.BootstrapFiltering(lambda x: fz_vec(x, dt), fx, Qt, Rt)
-key = random.PRNGKey(314)
-pf_mean = particle_filter.filter(key, x0, sample_obs)
+    plot_samples(sample_state, sample_obs)
 
-plt.plot(*pf_mean.T)
-plt.show()
+    particle_filter = ds.BootstrapFiltering(lambda x: fz_vec(x, dt), fx, Qt, Rt)
+    key = random.PRNGKey(314)
+    pf_mean = particle_filter.filter(key, x0, sample_obs)
+
+
+    plot_samples(sample_state, sample_obs)
+    pml.savefig("nlds2d_data.pdf")
+
+    plot_inference(sample_obs, pf_mean)
+    pml.savefig("nlds2d_bootstrap.pdf")
+
+    plt.show()
