@@ -12,9 +12,11 @@
 # Author: Gerardo Durán-Martín (@gerdm)
 
 import jax
+from jax._src.random import split
 import jax.numpy as jnp
 from jax import random
 from jax.ops import index_update
+from jax.scipy import stats
 from math import ceil
 
 
@@ -403,3 +405,38 @@ class UnscentedKalmanFilter(NLDS):
             Sigma_hist = index_update(Sigma_hist, t, Sigma_t)
 
         return mu_hist, Sigma_hist
+
+class BootstrapFiltering(NLDS):
+    def __init__(self, fz, fx, Q, R):
+        """
+        Implementation of the Bootrstrap Filter for discrete time systems
+        **This implementation considers the case of multivariate normals**
+
+        to-do: extend to general case
+        """
+        super().__init__(fz, fx, Q, R)
+    
+    def filter(self, key, init_state, sample_obs, nsamples=2000):
+        """
+        init_state: array(state_size,)
+            Initial state estimate
+        sample_obs: array(nsamples, obs_size)
+            Samples of the observations
+        """
+        nsteps = sample_obs.shape[0]
+        mu_hist = jnp.zeros((nsteps, 2))
+        keys = split(key, nsteps)
+        for t, key_t in enumerate(keys):
+            if t == 0:
+                zt_rvs = random.multivariate_normal(key_t, init_state, self.Q, (nsamples,))
+            else:
+                zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q)
+                
+            xt_rvs = random.multivariate_normal(key_t, self.fx(zt_rvs), self.R)
+            
+            weights_t = stats.multivariate_normal.pdf(sample_obs[t], xt_rvs, self.Q)
+            weights_t = weights_t / weights_t.sum()
+            
+            mu_t = (zt_rvs * weights_t[:, None]).sum(axis=0)
+            mu_hist = index_update(mu_hist, t, mu_t)
+        return mu_hist
