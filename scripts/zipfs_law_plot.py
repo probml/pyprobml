@@ -11,18 +11,20 @@ import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 import requests
 
+webdata = True
 
-url  = 'https://raw.githubusercontent.com/probml/probml-data/main/data/timemachine.txt'
-response = requests.get(url)
-data = response.text
+if webdata:
+    url  = 'https://raw.githubusercontent.com/probml/probml-data/main/data/timemachine.txt'
+    response = requests.get(url)
+    data = response.text
+    lines = [s+'\n' for s in response.text.split("\n")]
+else:
+    data_dir = "../data"
+    fname = os.path.join(data_dir, 'timemachine.txt')
+    with open(fname, 'r') as f:
+        lines = f.readlines()
 
-data_dir = "../data"
-fname = os.path.join(data_dir, 'timemachine.txt')
-
-with open(fname, 'r') as f:
-    lines = f.readlines()
-    raw_dataset = [re.sub('[^A-Za-z]+', ' ', st).lower().split()
-                   for st in lines]
+raw_dataset = [re.sub('[^A-Za-z]+', ' ', st).lower().split() for st in lines]
 
 # Print first few lines
 for sentence in raw_dataset[:10]:
