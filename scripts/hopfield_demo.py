@@ -7,7 +7,10 @@ import scipy.ndimage
 from dataclasses import dataclass
 import pyprobml_utils as pml
 
-patterns = 2*pd.read_csv("/content/binaryImages.csv").to_numpy()[:, 1:]-1
+url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/binaryImages.csv'
+df = pd.read_csv(url)
+patterns = 2*df.to_numpy()[:, 1:]-1 
+
 
 @dataclass
 class Patterns:
