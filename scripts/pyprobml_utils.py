@@ -29,8 +29,8 @@ def save_fig(fname, *args, **kwargs):
     plt.rcParams['pdf.fonttype'] = 42
 
     # Font sizes
-    SIZE_SMALL = 14
-    SIZE_MEDIUM = 18
+    SIZE_SMALL = 12
+    SIZE_MEDIUM = 14
     SIZE_LARGE = 24
     # https://stackoverflow.com/a/39566040
     plt.rc('font', size=SIZE_SMALL)  # controls default text sizes
@@ -109,6 +109,9 @@ def hinton_diagram(matrix, max_weight=None, ax=None):
         rect = plt.Rectangle([x - size / 2, y - size / 2], size, size,
                              facecolor=color, edgecolor=color)
         ax.add_patch(rect)
-    ax.grid(linestyle='--')
+    nr, nc = matrix.shape
+    ax.set_xticks(np.arange(0, nr))
+    ax.set_yticks(np.arange(0, nc))
+    ax.grid(linestyle='--', linewidth=2)
     ax.autoscale_view()
     ax.invert_yaxis()

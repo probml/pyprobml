@@ -2,8 +2,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.transforms as tr
-import warnings
-warnings.filterwarnings("ignore", category=RuntimeWarning)
+import pyprobml_utils as pml
+
 def range_chebyshev(a, b, steps):
     """
     Create a grid point of N+1 values
@@ -11,6 +11,7 @@ def range_chebyshev(a, b, steps):
     theta_vals = np.arange(steps+1) * np.pi / steps
     x_vals = (a + b) / 2 + (a - b) / 2 * np.cos(theta_vals)
     return x_vals
+
 def plot_ellipses(x0, y0, a, b, r, lim=5, steps=50000, **kwargs):
     """
     Plot an ellipses of the form
@@ -22,6 +23,7 @@ def plot_ellipses(x0, y0, a, b, r, lim=5, steps=50000, **kwargs):
     plt.text(0.02, 0.1, "μ",fontsize=12)
     plt.plot(xrange, yrange_up, **kwargs)
     plt.plot(xrange, yrange_down, **kwargs)
+
 def main():
     base = plt.gca().transData
     rot = tr.Affine2D().rotate_deg(30)
@@ -55,7 +57,7 @@ def main():
     scale_factor = 2
     plt.xlim(xmin * scale_factor, xmax * scale_factor)
     plt.ylim(ymin * scale_factor, ymax * scale_factor)
-    plt.savefig("gaussEvec.pdf", dpi=300)
+    pml.savefig("gaussEvec.pdf", dpi=300)
 
     plt.show()
 
