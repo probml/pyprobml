@@ -13,7 +13,7 @@ import numpy as np
 from hmm_discrete_lib import HMMJax
 from hmm_discrete_lib import hmm_sample_jax, hmm_forwards_backwards_jax
 
-from hmm_lib import HMM, hmm_forwards_backwards
+from hmm_general_lib import HMM, hmm_forwards_backwards
 import distrax
 
 seed = 0
