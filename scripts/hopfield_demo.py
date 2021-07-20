@@ -11,6 +11,7 @@ url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/binaryImag
 df = pd.read_csv(url)
 patterns = 2*df.to_numpy()[:, 1:]-1 
 
+
 @dataclass
 class Patterns:
 

@@ -3,10 +3,10 @@ from scipy.linalg import block_diag
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 import os
-#from pyprobml_utils import save_fig
+import pyprobml_utils as pml
 
-figdir = "../figures";
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+#figdir = "../figures";
+#def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 def gauss_plot2d(mu, sigma, plot_options):
     plt.scatter(mu[0], mu[1],marker="x", c=plot_options['color'])
@@ -41,17 +41,17 @@ def sensor_fusion():
 
     sigmas = [0.01 * np.eye(2), 0.01*np.eye(2)]
     helper(sigmas)
-    save_fig("demoGaussBayes2dEqualSpherical.pdf")
+    pml.savefig("demoGaussBayes2dEqualSpherical.pdf")
     plt.show()
     
     sigmas = [ 0.05*np.eye(2), 0.01*np.eye(2) ]
     helper(sigmas)
-    save_fig("demoGaussBayes2dUnequalSpherical.pdf")
+    pml.savefig("demoGaussBayes2dUnequalSpherical.pdf")
     plt.show()
 
     sigmas = [0.01*np.array([[10, 1], [1, 1]]), 0.01*np.array([[1, 1], [1, 10]])]
     helper(sigmas)
-    save_fig("demoGaussBayes2dUnequal.pdf")
+    pml.savefig("demoGaussBayes2dUnequal.pdf")
     plt.show()
 
 def helper(sigmas):
@@ -69,7 +69,6 @@ def helper(sigmas):
     py = {}
     py['mu'] = np.zeros((4,1))
     py['sigma'] = block_diag(sigmas[0], sigmas[1])
-
 
     post, log_evidence = gauss_soft_condition(prior, py, A, y)
     gauss_plot2d(y1, sigmas[0], {"color":"r"})

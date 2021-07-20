@@ -4,8 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pyprobml_utils import save_fig
-
+import pyprobml_utils as pml
 
 
 #from mpl_toolkits.mplot3d import Axes3D
@@ -31,7 +30,7 @@ SS = SS.reshape(W0.shape)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(W0, W1, SS)
-save_fig('lmsSSE.pdf')
+pml.savefig('lmsSSE.pdf')
 plt.draw()
 
 #Mean SE with gradient and Hessian:
@@ -163,11 +162,11 @@ whist = np.asarray(trace['params'])
 #Parameter trajectory
 if True:
     fig, ax = plt.subplots()
-    ax.set_title('black line = LMS trajectory towards LS soln (red cross)')
+    ax.set_title('LMS trajectory')
     CS = plt.contour(W0, W1, SS)
     plt.plot(wOpt[0], wOpt[1], 'x', color='r', ms=10, mew=5)
     plt.plot(whist[:, 0], whist[:, 1], 'ko-', lw=2)
-    save_fig('lmsTraj.pdf')
+    pml.savefig('lmsTraj.pdf')
     plt.draw()
 
 #Loss values over the parameter path compared to the optimal loss.    
@@ -177,7 +176,7 @@ if True:
     ax.set_title('RSS vs iteration')
     plt.plot(fvalhist,'ko-', lw=2)
     plt.axhline(fopt)
-    save_fig('lmsRssHist.pdf')
+    pml.savefig('lmsRssHist.pdf')
     plt.draw()
 
 #Stepsize graph if desired:
@@ -186,7 +185,7 @@ if True:
     fig, ax = plt.subplots()
     ax.set_title('Stepsize vs iteration')
     plt.plot(stephist,'ko-', lw=2)
-    save_fig('lmsStepSizeHist.pdf')
+    pml.savefig('lmsStepSizeHist.pdf')
     plt.draw()
 
 plt.show()

@@ -14,7 +14,7 @@ import numpy as np
 import scipy.io
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
-from pyprobml_utils import save_fig
+import pyprobml_utils as pml
 import os
 
 
@@ -31,7 +31,7 @@ def draw_ell(ax, cov, xy, color):
     e.set_edgecolor(color)
 
 
-datadir = os.path.join(os.environ["PYPROBML"], "data", "heightWeight")
+datadir = os.path.join("../data", "heightWeight")
 dataAll = scipy.io.loadmat(os.path.join(datadir, "heightWeight.mat"))
 data = dataAll['heightWeightData']
 
@@ -60,21 +60,24 @@ w_zca_mat = np.dot(e_mat, np.dot(np.sqrt(np.linalg.inv(d_mat)), e_mat.T))
 xw_zca_mat = np.dot(w_zca_mat, x_mat.T - mu).T
 
 mat_list = [x_mat, xs_mat, xw_pca_mat, xw_zca_mat]
-ax_titles = ['raw', 'standarized', 'PCA whitened', 'ZCA whitened']
+ax_titles = ['Raw', 'Standardized', 'PCA-whitened', 'ZCA-whitened']
 ax_indices = [(0, 0), (0, 1), (1, 0), (1, 1)]
 
-fig, axes = plt.subplots(2, 2)
+#fig, axes = plt.subplots(2, 2)
 for i in range(4):
     mat = mat_list[i]
-    ax = axes[ax_indices[i][0], ax_indices[i][1]]
+    fig, ax = plt.subplots()
+    #ax = axes[ax_indices[i][0], ax_indices[i][1]]
     if i > 1:
         ax.set_aspect('equal', 'datalim')
     ax.plot(mat[:, 0], mat[:, 1], 'bx')
     for j in range(min(mat.shape[0], 4)):
         ax.text(mat[j, 0], mat[j, 1], str(j + 1), size=18)
     draw_ell(ax, np.cov(mat.T), np.mean(mat, axis=0), 'blue')
-    ax.set_title(ax_titles[i])
+    ttl = ax_titles[i]
+    ax.set_title(ttl, fontsize=12)
+    pml.savefig(f'heightWeightWhiten{ttl}.pdf')
 
-plt.subplots_adjust(hspace=0.3, wspace=0.3)
-save_fig('heightWeightWhitenZCA.pdf')
+#plt.subplots_adjust(hspace=0.3, wspace=0.3)
+#pml.savefig('heightWeightWhitenZCA.pdf')
 plt.show()

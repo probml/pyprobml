@@ -2,7 +2,7 @@
 # we consider a length 3 HMM with K states
 # h1 - h2 - h3
 
-import numpy as onp # original numpy
+import numpy as np # original numpy
 import jax.numpy as jnp
 from jax import grad, jit, vmap
 from jax.ops import index, index_add, index_update
@@ -12,22 +12,22 @@ K = 2
 nnodes = 3
 edges = [ [0,1], [1,2]]
 nedges = len(edges)
-onp.random.seed(0)
+np.random.seed(0)
 nodePots = []
 nodePotsLog = []
 for i in range(nnodes):
-    nodePot = onp.random.rand(K)
+    nodePot = np.random.rand(K)
     nodePots.append(nodePot)
-    nodePotsLog.append(onp.log(nodePot))
+    nodePotsLog.append(np.log(nodePot))
 edgePots = []
 edgePotsLog = []
 for i in range(nedges):
-    edgePot = onp.random.rand(K,K)
+    edgePot = np.random.rand(K,K)
     edgePots.append(edgePot)
-    edgePotsLog.append(onp.log(edgePot))
+    edgePotsLog.append(np.log(edgePot))
     
 def compute_joint(nodePots, edgePots):    
-    joint = onp.ones((K, K, K))
+    joint = np.ones((K, K, K))
     np0 = nodePots[0].reshape((K,1,1))
     joint = joint * np0
     np1 = nodePots[1].reshape((1,K,1))
@@ -58,11 +58,11 @@ assert p == j
 '''
 
 # Compute marginals by brute force
-Z = onp.sum(joint)
+Z = np.sum(joint)
 jointNorm = joint / Z
-marg0 = onp.sum(jointNorm, (1, 2))
-marg1 = onp.sum(jointNorm, (0, 2))
-marg2 = onp.sum(jointNorm, (0, 1))
+marg0 = np.sum(jointNorm, (1, 2))
+marg1 = np.sum(jointNorm, (0, 2))
+marg2 = np.sum(jointNorm, (0, 1))
 
 # Now use autodiff!
 
@@ -72,8 +72,8 @@ def compute_Z(nodePots):
     Z = jnp.einsum(str, *factors)
     return Z
 
-ZZ = onp.float(compute_Z(nodePots))
-assert onp.isclose(Z, ZZ)
+ZZ = np.float(compute_Z(nodePots))
+assert np.isclose(Z, ZZ)
 
 # Computes A(eta), where A=logZ and eta=logPot
 def compute_logZ(nodePotsLog):
@@ -82,21 +82,19 @@ def compute_logZ(nodePotsLog):
         nodePots.append(jnp.exp(nodePotsLog[i]))
     return jnp.log(compute_Z(nodePots))
 
-gg = grad(jnp.log())
+#gg = grad(jnp.log())
 g = grad(compute_logZ)(nodePotsLog)
 margProbs = []
 for i in range(nnodes):
-    margProbs.append(onp.array(g[i]))
+    margProbs.append(np.array(g[i]))
 
-assert onp.allclose(margProbs[0], marg0)
-assert onp.allclose(margProbs[1], marg1)
-assert onp.allclose(margProbs[2], marg2)
+assert np.allclose(margProbs[0], marg0)
+assert np.allclose(margProbs[1], marg1)
+assert np.allclose(margProbs[2], marg2)
 
 # Super short version
 logZ_fun = lambda logpots: jnp.log(jnp.einsum('A,B,C,AB,BC', *[jnp.exp(lp) for lp in logpots]))
 logpots = nodePotsLog + edgePotsLog
 logZ = logZ_fun(logpots)
-assert onp.isclose(logZ, onp.log(Z))
+assert np.isclose(logZ, np.log(Z))
 probs = grad(logZ_fun)(logpots)
-
-

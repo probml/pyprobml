@@ -2,9 +2,8 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt 
 import os
+import pyprobml_utils as pml
 
-figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 data_dir = "../data"
 img = matplotlib.image.imread(os.path.join(data_dir, "clown.png"))
 
@@ -27,7 +26,7 @@ for i in range(R):
     plt.imshow(x_hat, cmap='gray')
     plt.title("rank {}".format(k))
     plt.axis("off")
-    save_fig("svdImageDemoClown{}.pdf".format(k))
+    pml.savefig("svdImageDemoClown{}.pdf".format(k))
     plt.show()
 
 k = 100
@@ -43,7 +42,7 @@ x1d = X.ravel()
 np.random.shuffle(x1d) # inplace
 x2 = x1d.reshape(X.shape)
 U, sigma2, V = np.linalg.svd(x2, full_matrices = False)
-plt.plot(np.log(sigma2[:k]), 'g:', linewidth=4, label="Randomized")
+plt.plot(np.log(sigma2[:k]), 'b', linewidth=4, label="Randomized")
 plt.legend()
-save_fig("svdImageDemoClownSigmaScrambled.pdf")
+pml.savefig("svdImageDemoClownSigmaScrambled.pdf")
 plt.show()

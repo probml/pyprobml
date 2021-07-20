@@ -7,8 +7,6 @@ from pyprobml_utils import save_fig
 from sklearn.cluster import KMeans
 import matplotlib.colors
 
-#import numpy as onp # original numpy
-#import jax.numpy as np
 
 from scipy.stats import multivariate_normal
     

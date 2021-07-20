@@ -1,28 +1,16 @@
 import numpy as np
 from numpy.linalg import svd, eig
 from scipy.linalg import orth
-from matplotlib.patches import Ellipse
-import matplotlib.transforms as transforms
 from matplotlib import pyplot as plt
 
-np.warnings.filterwarnings('ignore')
-
-np.random.seed(10)
-
-
-def convergenceTest(fval, previous_fval, threshold=1e-4, warn=False):
-    eps = 2e-10
-    converged = 0
-    delta_fval = np.abs(fval - previous_fval)
-    avg_fval = (np.abs(fval) + abs(previous_fval) + eps) / 2.0
-    if (delta_fval / avg_fval) < threshold:
-        converged = 1
-
-    if warn and (fval - previous_fval) < -2 * eps:
-        print('convergenceTest:fvalDecrease', 'objective decreased!')
-    return converged
+import pyprobml_utils as pml
+#from confidence_ellipse import confidence_ellipse
+from matplotlib.patches import Ellipse
+import matplotlib.transforms as transforms
 
 
+# Source:
+# https://matplotlib.org/devdocs/gallery/statistics/confidence_ellipse.html
 def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
     if x.size != y.size:
         raise ValueError("x and y must be the same size")
@@ -48,6 +36,11 @@ def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
 
     ellipse.set_transform(transf + ax.transData)
     return ax.add_patch(ellipse)
+
+
+np.warnings.filterwarnings('ignore')
+
+np.random.seed(10)
 
 
 n = 25
@@ -97,7 +90,7 @@ while not converged:
     W = np.dot(X, Z[0].T) / np.dot(Z[0], Z[0].T)
     negmseNew = -np.mean((np.ravel(Xrecon) - np.ravel(X) ** 2))
 
-    converged = convergenceTest(negmseOld, negmseNew, 1e-2)
+    converged = pml.convergence_test(negmseOld, negmseNew, 1e-2)
 
     Wortho = orth(W)
     Z = np.dot(X.T, Wortho)

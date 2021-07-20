@@ -8,7 +8,7 @@ from scipy.stats import norm
 from scipy.stats import invgamma
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
-from pyprobml_utils import save_fig
+import pyprobml_utils as pml
 
 # Parameters for NIX(mu, kappa, nu, Sigma)
 mu_0 = np.array([0, 0])
@@ -56,6 +56,6 @@ for i in range(len(mu_0)):
     plt.xticks([(i/2-1) for i in range(5)])
     plt.yticks([i/2 for i in range(5)])
         
-    save_fig('nixPlotKappa{}.pdf'.format(kappa_0[i]))
+    pml.savefig('nixPlotKappa{}.pdf'.format(kappa_0[i]))
     # Only block on the last plot.
     plt.show(block=(i==len(mu_0)-1))

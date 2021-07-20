@@ -8,17 +8,23 @@ import re
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
+import requests
 
-figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+webdata = True
 
-data_dir = "../data"
-fname = os.path.join(data_dir, 'timemachine.txt')
+if webdata:
+    url  = 'https://raw.githubusercontent.com/probml/probml-data/main/data/timemachine.txt'
+    response = requests.get(url)
+    data = response.text
+    lines = [s+'\n' for s in response.text.split("\n")]
+else:
+    data_dir = "../data"
+    fname = os.path.join(data_dir, 'timemachine.txt')
+    with open(fname, 'r') as f:
+        lines = f.readlines()
 
-with open(fname, 'r') as f:
-    lines = f.readlines()
-    raw_dataset = [re.sub('[^A-Za-z]+', ' ', st).lower().split()
-                   for st in lines]
+raw_dataset = [re.sub('[^A-Za-z]+', ' ', st).lower().split() for st in lines]
 
 # Print first few lines
 for sentence in raw_dataset[:10]:
@@ -89,7 +95,7 @@ a = -1
 y = kappa*np.power(x, a) * N # predicted frequencey
 plt.loglog(x, y, label='linear prediction')
 plt.legend();
-save_fig('timemachine-zipf-1.pdf')
+pml.savefig('timemachine-zipf-1.pdf')
 plt.show()
 
 plt.figure()
@@ -97,5 +103,5 @@ plt.loglog(wordcounts, label='word counts');
 plt.loglog(bigramcounts, label='bigram counts');
 plt.loglog(triplecounts, label='triple counts');
 plt.legend();
-save_fig('timemachine-zipf-3.pdf')
+pml.savefig('timemachine-zipf-3.pdf')
 plt.show()

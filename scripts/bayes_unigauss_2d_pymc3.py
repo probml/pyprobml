@@ -5,14 +5,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
-
 import pymc3 as pm
-
-figdir = "../figures"
+import pyprobml_utils as pml
 import os
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
-
 
 data = np.array([195, 182])
 
@@ -35,7 +30,7 @@ plt.imshow(posterior, cmap='Blues', aspect=aspect, extent=extent)
 plt.xlabel(r'$\mu$')
 plt.ylabel(r'$\sigma$')
 plt.title('Grid approximation')
-save_fig('bayes_unigauss_2d_grid.pdf')
+pml.savefig('bayes_unigauss_2d_grid.pdf')
 plt.show()
 
 
@@ -57,5 +52,5 @@ plt.ylim([extent[2], extent[3]])
 plt.ylabel('$\sigma$')
 plt.xlabel('$\mu$')
 plt.title('MCMC samples')
-save_fig('bayes_unigauss_2d_pymc3_post.pdf')
+pml.savefig('bayes_unigauss_2d_pymc3_post.pdf')
 plt.show()

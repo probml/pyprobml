@@ -13,7 +13,8 @@ from scipy.special import expit as logistic
 import matplotlib.pyplot as plt
 import arviz as az
 from sklearn.datasets import load_iris
-    
+import pyprobml_utils as pml
+
 if 0:
     # SAT data from 
     # https://github.com/probml/pmtk3/blob/master/demos/logregSATdemoBayes.m
@@ -74,11 +75,13 @@ idx = np.argsort(x_c)
 plt.figure()
 # plot logistic curve
 plt.plot(x_c[idx], theta[idx], color='C2', lw=3)
-az.plot_hpd(x_c, trace_0['θ'], color='C2')
+#az.plot_hpd(x_c, trace_0['θ'], color='C2')
+az.plot_hdi(x_c, trace_0['θ'], color='C2')
 
 # plot decision boundary
 plt.vlines(trace_0['bd'].mean(), 0, 1, color='k')
-bd_hpd = az.hpd(trace_0['bd'])
+#bd_hpd = az.hpd(trace_0['bd'])
+bd_hpd = az.hdi(trace_0['bd'])
 plt.fill_betweenx([0, 1], bd_hpd[0], bd_hpd[1], color='k', alpha=0.5)
 
 # plot jittered data
@@ -94,4 +97,4 @@ plt.xticks(locs, np.round(locs + xmean, 1))
 #plt.xticks(x_c[idx], np.round(x_0[idx], 1))
 #plt.savefig('../figures/logreg_bayes_1d_sat.pdf', dpi=300)
 plt.tight_layout()
-plt.savefig('../figures/logreg_iris_bayes_1d.pdf', dpi=300)      
+pml.savefig('logreg_iris_bayes_1d.pdf', dpi=300)

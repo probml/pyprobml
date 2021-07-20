@@ -23,15 +23,13 @@ flags.DEFINE_boolean('verbose', True, 'Whether to print lots of output.')
 import numpy as np
 #from scipy.misc import logsumexp
 from scipy.special import logsumexp
-import numpy as onp # original numpy
+import numpy as  np # original numpy
 
 np.set_printoptions(precision=3)
 
-
-
 import jax
-import jax.numpy as np
-import numpy as onp
+import jax.numpy as jnp
+import numpy as  np
 from jax.scipy.special import logsumexp
 from jax import grad, hessian, jacfwd, jacrev, jit, vmap
 from jax.experimental import optimizers
@@ -53,7 +51,7 @@ else:
     print("Torch cannot find GPU")
 
 def set_torch_seed(seed):
-    onp.random.seed(seed)
+    np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
             
@@ -70,26 +68,27 @@ if tf.test.is_gpu_available():
     print(tf.test.gpu_device_name())
 else:
     print("TF cannot find GPU")
-        
+    
+tf.compat.v1.enable_eager_execution()       
     
 # We make some wrappers around random number generation
 # so it works even if we switch from numpy to JAX
 
 def set_seed(seed):
-    onp.random.seed(seed)
+     return np.random.seed(seed)
     
 def randn(args):
-    return onp.random.randn(*args)
+    return  np.random.randn(*args)
         
 def randperm(args):
-    return onp.random.permutation(args)
+    return  np.random.permutation(args)
 
 def BCE_with_logits(logits, targets):
     '''Binary cross entropy loss'''
     N = logits.shape[0]
     logits = logits.reshape(N,1)
-    logits_plus = np.hstack([np.zeros((N,1)), logits]) # e^0=1
-    logits_minus = np.hstack([np.zeros((N,1)), -logits])
+    logits_plus = jnp.hstack([np.zeros((N,1)), logits]) # e^0=1
+    logits_minus = jnp.hstack([np.zeros((N,1)), -logits])
     logp1 = -logsumexp(logits_minus, axis=1)
     logp0 = -logsumexp(logits_plus, axis=1)
     logprobs = logp1 * targets + logp0 * (1-targets)
@@ -98,7 +97,7 @@ def BCE_with_logits(logits, targets):
 def sigmoid(x): return 0.5 * (np.tanh(x / 2.) + 1)
 
 def predict_logit(weights, inputs):
-    return np.dot(inputs, weights) # Already vectorized
+    return jnp.dot(inputs, weights) # Already vectorized
 
 def predict_prob(weights, inputs):
     return sigmoid(predict_logit(weights, inputs))
@@ -112,7 +111,7 @@ def NLL_grad(weights, batch):
     X, y = batch
     N = X.shape[0]
     mu = predict_prob(weights, X)
-    g = np.sum(np.dot(np.diag(mu - y), X), axis=0)/N
+    g = jnp.sum(np.dot(np.diag(mu - y), X), axis=0)/N
     return g
     
 
@@ -124,7 +123,7 @@ def setup_sklearn():
     
     iris = sklearn.datasets.load_iris()
     X = iris["data"]
-    y = (iris["target"] == 2).astype(onp.int)  # 1 if Iris-Virginica, else 0'
+    y = (iris["target"] == 2).astype(np.int)  # 1 if Iris-Virginica, else 0'
     N, D = X.shape # 150, 4
     
     
@@ -137,7 +136,7 @@ def setup_sklearn():
     # We don't fit the bias term to simplify the comparison below.
     log_reg = LogisticRegression(solver="lbfgs", C=1e5, fit_intercept=False)
     log_reg.fit(X_train, y_train)
-    w_mle_sklearn = np.ravel(log_reg.coef_)
+    w_mle_sklearn = jnp.ravel(log_reg.coef_)
     set_seed(0)
     w = w_mle_sklearn
     return w, X_test, y_test
@@ -261,7 +260,7 @@ def compute_gradients_tf(w, X_test, y_test):
     with tf.GradientTape() as tape:
         logits = tf.linalg.matmul(x_test_tf, w_tf)
         y_pred = tf.math.sigmoid(logits)
-        loss_batch = tf.nn.sigmoid_cross_entropy_with_logits(y_test_tf, logits)
+        loss_batch = tf.nn.sigmoid_cross_entropy_with_logits(labels=y_test_tf, logits=logits)
         loss_tf = tf.reduce_mean(loss_batch, axis=0)
     grad_tf = tape.gradient(loss_tf, [w_tf])
     grad_tf = grad_tf[0][:,0].numpy()
@@ -302,27 +301,25 @@ def main(_):
     if FLAGS.verbose:
         print('We will compute gradients for binary logistic regression')
         
-       
     w, X_test, y_test = setup_sklearn()
     grad_np = compute_gradients_manually(w, X_test, y_test)
     if FLAGS.jax:
         grad_jax = compute_gradients_jax(w, X_test, y_test)
-        assert np.allclose(grad_np, grad_jax)
+        assert jnp.allclose(grad_np, grad_jax)
         grad_stax = compute_gradients_stax(w, X_test, y_test)
-        assert np.allclose(grad_np, grad_stax)
+        assert jnp.allclose(grad_np, grad_stax)
         
     if FLAGS.pytorch:
         grad_torch = compute_gradients_torch(w, X_test, y_test)
-        assert np.allclose(grad_np, grad_torch)
+        assert jnp.allclose(grad_np, grad_torch)
         grad_torch_nn = compute_gradients_torch_nn(w, X_test, y_test)
-        assert np.allclose(grad_np, grad_torch_nn)
+        assert jnp.allclose(grad_np, grad_torch_nn)
         
     if FLAGS.tf:
         grad_tf = compute_gradients_tf(w, X_test, y_test)
-        assert np.allclose(grad_np, grad_tf)
+        assert jnp.allclose(grad_np, grad_tf)
         #grad_tf = compute_gradients_keras(w)
         
         
 if __name__ == '__main__':
   app.run(main)
-  

@@ -43,3 +43,4 @@ plt.text(9, ginv(9) - 1/10, r'$g$');
 ## Save the figure.
 save_fig('bayesChangeOfVar.pdf')
 plt.show()
+
