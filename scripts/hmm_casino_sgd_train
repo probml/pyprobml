@@ -1,0 +1,10 @@
+// HMM
+digraph {
+	s0 [label=<<TABLE><TR><TD BGCOLOR="lightblue" COLSPAN="2">State 1</TD></TR><TR><TD>Obs 1</TD><TD>0.11</TD></TR><TR><TD>Obs 2</TD><TD>0.10</TD></TR><TR><TD>Obs 3</TD><TD>0.09</TD></TR><TR><TD>Obs 4</TD><TD>0.10</TD></TR><TR><TD>Obs 5</TD><TD>0.09</TD></TR><TR><TD>Obs 6</TD><TD>0.51</TD></TR></TABLE>>]
+	s1 [label=<<TABLE><TR><TD BGCOLOR="lightblue" COLSPAN="2">State 2</TD></TR><TR><TD>Obs 1</TD><TD>0.17</TD></TR><TR><TD>Obs 2</TD><TD>0.18</TD></TR><TR><TD>Obs 3</TD><TD>0.17</TD></TR><TR><TD>Obs 4</TD><TD>0.17</TD></TR><TR><TD>Obs 5</TD><TD>0.16</TD></TR><TR><TD>Obs 6</TD><TD>0.16</TD></TR></TABLE>>]
+	s0 -> s0 [label=0.99]
+	s0 -> s1 [label=0.01]
+	s1 -> s0 [label=0.01]
+	s1 -> s1 [label=0.99]
+	rankdir=LR
+}
