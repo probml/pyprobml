@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import cholesky
 from scipy.spatial.distance import cdist
+import pyprobml_utils as pml
 
 def gaussSample(mu, sigma, n):
     A = cholesky(sigma)
@@ -20,8 +21,8 @@ L = 1
 xs = np.arange(-5, 5.2, 0.2)[..., np.newaxis]
 ns = len(xs)
 keps = 1e-8
-color_1 = '#984ea3'
-color_2 = '#e41a1c'
+color_1 = 'b' #'#984ea3'
+color_2 = 'k' # '#e41a1c'
 fig, ax1 = plt.subplots(1, 1, figsize=(9, 6))
 
 # plot sampled functions from the prior
@@ -62,7 +63,7 @@ pml.savefig('gprDemoNoiseFreePost.pdf')
 # Generate sequence of plots using subsets of data
 XtrainAll = np.array([[-4], [-3], [-2], [-1], [4]])
 
-fig, ax = plt.subplots(1, 5, figsize=(20, 4))
+#fig, ax = plt.subplots(1, 5, figsize=(20, 4))
 
 for n in range(len(XtrainAll)):
     Xtrain = XtrainAll[:n + 1]
@@ -78,14 +79,19 @@ for n in range(len(XtrainAll)):
     mu = np.ravel(postMu)
     S2 = np.diag(postCov)
     f = np.concatenate([mu + 2 * np.sqrt(S2), np.flip(mu - 2 * np.sqrt(S2), axis=0)])
-    ax[n].fill(np.concatenate([xs, np.flip(xs, axis=0)]), f, color=color_2, alpha=0.2)
+    fig, ax = plt.subplots()
+    ax.fill(np.concatenate([xs, np.flip(xs, axis=0)]), f, color=color_2, alpha=0.2)
 
     for i in range(3):
         mu = np.ravel(postMu)
         sigma = postCov
         fs = gaussSample(mu, sigma, 1)
-        ax[n].plot(np.ravel(xs), np.ravel(fs), color=color_1, linestyle='-', linewidth=2)
-        ax[n].scatter(Xtrain, ftrain, color=color_1, marker='x', linewidth=12)
+        ax.plot(np.ravel(xs), np.ravel(fs), color=color_1, linestyle='-', linewidth=2)
+        ax.scatter(Xtrain, ftrain, color=color_1, marker='x', linewidth=12)
 
-    ax[n].set_title('N={}'.format(n + 1))
-pml.savefig('gprDemoNoiseFreePost_subplots.pdf')
+    ax.set_title('N={}'.format(n + 1))
+    pml.savefig(f'gprDemoNoiseFreePost_N{n+1}.pdf')
+
+#pml.savefig('gprDemoNoiseFreePost_subplots.pdf')
+
+plt.show()
