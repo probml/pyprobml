@@ -13,14 +13,15 @@ from functools import partial
 '''
 !pip install jax==0.2.11
 !pip install jaxlib==0.1.69
-!pip install ensorflow==2.5.0
+!pip install tensorflow==2.5.0
 !pip install tensorflow-probability==0.13.0
 '''
 import distrax
 import flax
 
 '''
-Hidden Markov Model class used in jax implementations of inference algorithms.
+Hidden Markov Model class in which trans_dist and init_dist are categorical-like
+distribution from distrax, and obs_dist is any instance of distrax.Distribution.
 
 The functions of optimizers expect that the type of its parameters 
 is pytree. So, they cannot work on a vanilla dataclass. To see more:
@@ -68,7 +69,7 @@ def hmm_sample(params, seq_len, rng_key):
 
     Parameters
     ----------
-    params : HMMJax
+    params : HMM
         Hidden Markov Model
 
     seq_len: array(seq_len)
@@ -114,7 +115,7 @@ def hmm_forwards(params, obs_seq, length=None):
 
     Parameters
     ----------
-    params : HMMJax
+    params : HMM
         Hidden Markov Model
 
     obs_seq: array(seq_len)
@@ -167,7 +168,7 @@ def hmm_backwards(params, obs_seq, length=None):
 
     Parameters
     ----------
-    params : HMMJax
+    params : HMM
         Hidden Markov Model
 
     obs_seq: array(seq_len,)
@@ -213,7 +214,7 @@ def hmm_forwards_backwards(params, obs_seq, length=None):
 
     Parameters
     ----------
-    params : HMMNumpy
+    params : HMM
         Hidden Markov Model
 
     obs_seq: array(seq_len)
@@ -264,7 +265,7 @@ def hmm_viterbi(params, obs_seq, length=None):
 
     Parameters
     ----------
-    params : HMMJax
+    params : HMM
         Hidden Markov Model
 
     obs_seq: array(seq_len)
