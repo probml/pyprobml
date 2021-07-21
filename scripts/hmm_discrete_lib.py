@@ -591,7 +591,7 @@ def hmm_viterbi_jax(params, obs_seq, length=None):
 
 def hmm_plot_graphviz(params, file_name, states=[], observations=[]):
     """
-    Plots HMM
+    Visualizes HMM transition matrix and observation matrix using graphhiz.
 
     Parameters
     ----------
@@ -599,7 +599,8 @@ def hmm_plot_graphviz(params, file_name, states=[], observations=[]):
         Hidden Markov Model
 
     file_name : str
-        Name of file
+        Name of file which stores the output.
+        The function creates file_name.pdf and file_name; the latter is a .dot text file.
 
     states: List(num_hidden)
         Names of hidden states
@@ -633,10 +634,4 @@ def hmm_plot_graphviz(params, file_name, states=[], observations=[]):
         for j in range(n_states):
             dot.edge(f's{i}', f's{j}', label=str('%.2f' % trans_mat[i, j]))
     dot.attr(rankdir='LR')
-    dot.render(f'./{file_name}', view=True)
-
-
-    # If you want to plot the hidden markov model on colab, add a cell consisting of
-    #with open(f'{file_name}') as f:
-    #    dot_graph = f.read()
-    #graphviz.Source(dot_graph))
+    dot.render(file_name, view=True)
