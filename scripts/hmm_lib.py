@@ -10,7 +10,12 @@ from jax import jit, lax, vmap
 
 from functools import partial
 
-#!pip install distrax
+'''
+!pip install jax==0.2.11
+!pip install jaxlib==0.1.69
+!pip install ensorflow==2.5.0
+!pip install tensorflow-probability==0.13.0
+'''
 import distrax
 import flax
 
