@@ -607,6 +607,10 @@ def hmm_plot_graphviz(params, file_name, states=[], observations=[]):
 
     observations: List(num_obs)
         Names of observable events
+
+    Returns
+    -------
+    dot object, that can be displayed in colab
     """
 
     try:
@@ -635,3 +639,4 @@ def hmm_plot_graphviz(params, file_name, states=[], observations=[]):
             dot.edge(f's{i}', f's{j}', label=str('%.2f' % trans_mat[i, j]))
     dot.attr(rankdir='LR')
     dot.render(file_name, view=True)
+    return dot
