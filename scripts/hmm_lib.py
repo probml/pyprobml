@@ -292,12 +292,12 @@ def hmm_viterbi(params, obs_seq, length=None):
 
     n_states = obs_dist.batch_shape[0]
 
-    w0 = jnp.log(trans_dist.probs) + jnp.log(init_dist.probs) + jnp.log(obs_dist.prob(obs_seq[0]))
+    w0 = trans_dist.logits + init_dist.logits + obs_dist.log_prob(obs_seq[0])
     w0 = w0.max(axis=1)
 
     def forwards_backwards(w_prev, t):
         wn = jnp.where(t < length,
-                       jnp.log(trans_dist.probs) + jnp.log(obs_dist.prob(obs_seq[t])) + w_prev,
+                       trans_dist.logits + obs_dist.log_prob(obs_seq[t]) + w_prev,
                        -jnp.inf + jnp.zeros_like(w_prev))
         wn = wn.max(axis=1)
         return wn, wn
