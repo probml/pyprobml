@@ -634,3 +634,9 @@ def hmm_plot_graphviz(params, file_name, states=[], observations=[]):
             dot.edge(f's{i}', f's{j}', label=str('%.2f' % trans_mat[i, j]))
     dot.attr(rankdir='LR')
     dot.render(f'./{file_name}', view=True)
+
+
+    # If you want to plot the hidden markov model on colab, add a cell consisting of
+    #with open(f'{file_name}') as f:
+    #    dot_graph = f.read()
+    #graphviz.Source(dot_graph))

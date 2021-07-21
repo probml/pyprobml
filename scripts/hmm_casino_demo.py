@@ -7,11 +7,13 @@
 # Original matlab code: https://github.com/probml/pmtk3/blob/master/demos/casinoDemo.m
 # Author: Gerardo Duran-Martin (@gerdm)
 
-import hmm_lib as hmm
+from hmm_discrete_lib import HMMNumpy, HMMJax
+from hmm_discrete_lib import hmm_sample_numpy, hmm_forwards_backwards_numpy, hmm_viterbi_numpy
+
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.random import seed, choice
 import pyprobml_utils as pml
+from hmm_discrete_lib import hmm_plot_graphviz
 
 def find_dishonest_intervals(z_hist):
     """
@@ -28,7 +30,6 @@ def find_dishonest_intervals(z_hist):
     """
     spans = []
     x_init = 0
-    t = x_init
     for t, _ in enumerate(z_hist[:-1]):
         if z_hist[t + 1] == 0 and z_hist[t] == 1:
             x_end = t
@@ -85,8 +86,8 @@ B = np.array([
 
 n_samples = 300
 init_state_dist = np.array([1, 1]) / 2
-casino = hmm.HMMDiscrete(A, B, init_state_dist)
-z_hist, x_hist = casino.sample(n_samples, 314)
+params = HMMNumpy(A, B, init_state_dist)
+z_hist, x_hist = hmm_sample_numpy(params, n_samples, 314)
 
 z_hist_str = "".join((z_hist + 1).astype(str))[:60]
 x_hist_str = "".join((x_hist + 1).astype(str))[:60]
@@ -96,21 +97,20 @@ print(f"x: {x_hist_str}")
 print(f"z: {z_hist_str}")
 
 # Do inference
-filtering, loglik = casino.forwards(x_hist)
-print(loglik)
-smoothing = casino.forwards_backwards(x_hist, filtering)
-z_map = casino.map_state(x_hist)
+alpha, _, gamma, loglik = hmm_forwards_backwards_numpy(params, x_hist, len(x_hist))
+print(f'Loglikelihood: {loglik}')
+
+z_map = hmm_viterbi_numpy(params, x_hist)
 
 # Plot results
-
 fig, ax = plt.subplots()
-plot_inference(filtering, z_hist, ax)
+plot_inference(alpha, z_hist, ax)
 ax.set_ylabel("p(loaded)")
 ax.set_title("Filtered")
 pml.savefig("hmm_casino_filter.pdf")
 
 fig, ax = plt.subplots()
-plot_inference(smoothing, z_hist, ax)
+plot_inference(gamma, z_hist, ax)
 ax.set_ylabel("p(loaded)")
 ax.set_title("Smoothed")
 pml.savefig("hmm_casino_smooth.pdf")
@@ -121,3 +121,7 @@ ax.set_ylabel("MAP state")
 ax.set_title("Viterbi")
 pml.savefig("hmm_casino_map.pdf")
 plt.show()
+
+file_name = 'hmm_casino_params'
+states, observations = ['Fair Dice', 'Loaded Dice'], [str(i+1) for i in range(B.shape[1])]
+hmm_plot_graphviz(params, file_name, states, observations)
