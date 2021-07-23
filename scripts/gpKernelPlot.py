@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from numpy import transpose
 from numpy.random import default_rng
 from math import exp, sqrt, sin, pi, cos
+import pyprobml_utils as pml
 
 def gpKernelPlot(seed):
     if seed == 1:
@@ -109,7 +110,9 @@ def gpKernelPlot(seed):
         samples = samples + np.tile(np.arange(1, n_samples + 1, 1) * 5 - 10, (n_xstar, 1))
         
         plt.plot(x_range_1d, samples)
-        plt.title(k)
+        plt.title(k, fontsize=12)
+        plt.axis('off')
+        pml.savefig(f'gp_plot_{k}.pdf')
         plt.show()
         
 

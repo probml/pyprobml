@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.linalg
+import pyprobml_utils as pml
 
 n = 61**2
 D = 2
@@ -30,6 +31,10 @@ ax.set_zlabel('output y')
 
 ax.view_init(None, 180+50)
 
+plt.tight_layout()
+pml.savefig('gpDemoArd0.pdf')
+plt.show()
+
 
 np.random.seed(0)
 y = scipy.linalg.cholesky(Q+1e-9*np.identity(n)).T.dot(np.random.randn(n,1))
@@ -41,9 +46,13 @@ ax.plot_surface(x1, x2, b, lw=0.5, cmap='viridis')
 ax.set_xlabel('input x1')
 ax.set_ylabel('input x2')
 ax.set_zlabel('output y')
-
 ax.view_init(None, 180+50)
+plt.tight_layout()
+pml.savefig('gpDemoArd1.pdf')
+plt.show()
 
+
+###
 Q = np.zeros((n, n))
 L = [1, 5]
 for d in range(D):
@@ -63,3 +72,7 @@ ax.set_ylabel('input x2')
 ax.set_zlabel('output y')
 
 ax.view_init(None, 180+50)
+
+plt.tight_layout()
+pml.savefig('gpDemoArd2.pdf')
+plt.show()
