@@ -1,11 +1,10 @@
+# Particle filtering library
+# Author: Gerardo Durán-Martín (@gerdm)
 import jax
 import jax.numpy as jnp
 from jax import random
-from functools import partial
 from jax.scipy.special import logit
 from dataclasses import dataclass
-
-import matplotlib.pyplot as plt
 
 @dataclass
 class RBPFParamsDiscrete:
@@ -92,7 +91,7 @@ def rbpf_step_optimal(key, weight_t, st, mu_t, Sigma_t, xt, params):
     k = jnp.arange(len(params.transition_matrix))
     mu_tk, Sigma_tk, Ltk = kf_update_vmap(mu_t, Sigma_t, k, xt, params)
     
-    proposal = Ltk * transition_matrix[st]
+    proposal = Ltk * params.transition_matrix[st]
     
     weight_tk = weight_t * proposal.sum()
     proposal = proposal / proposal.sum()
@@ -121,7 +120,6 @@ def rbpf(current_config, xt, params, nparticles=100):
     
     indices = jnp.arange(nparticles)
     pi = random.choice(key_reindex, indices, shape=(nparticles,), p=weights_t, replace=True)
-#     pi = random.categorical(key_reindex, logit(weights_t), shape=(nparticles, ))
     st = st[pi]
     mu_t = mu_t[pi, ...]
     Sigma_t = Sigma_t[pi, ...]
@@ -155,80 +153,3 @@ def rbpf_optimal(current_config, xt, params, nparticles=100):
     weights_t = jnp.ones(nparticles) / nparticles
     
     return (key_next, mu_t, Sigma_t, weights_t, st), (mu_t, Sigma_t, weights_t, st, proposal_samp)
-
-
-TT = 0.1
-A = jnp.array([[1, TT, 0, 0],
-               [0, 1, 0, 0],
-               [0, 0, 1, TT],
-               [0, 0, 0, 1]])
-
-
-B1 = jnp.array([0, 0, 0, 0])
-B2 = jnp.array([-1.225, -0.35, 1.225, 0.35])
-B3 = jnp.array([1.225, 0.35,  -1.225,  -0.35])
-B = jnp.stack([B1, B2, B3], axis=0)
-
-Q = 0.2 * jnp.eye(4)
-R = 3 * jnp.diag(jnp.array([2, 1, 2, 1]))
-C = jnp.eye(4)
-
-transition_matrix = jnp.array([
-    [0.9, 0.05, 0.05],
-    [0.05, 0.9, 0.05],
-    [0.05, 0.05, 0.9]
-])
-
-transition_matrix = jnp.array([
-    [0.8, 0.1, 0.1],
-    [0.1, 0.8, 0.1],
-    [0.1, 0.1, 0.8]
-])
-
-params = RBPFParamsDiscrete(A, B, C, Q, R, transition_matrix)
-
-nparticles = 1000
-nsteps = 100
-key = random.PRNGKey(1)
-keys = random.split(key, nsteps)
-
-x0 = (1, random.multivariate_normal(key, jnp.zeros(4), jnp.eye(4)))
-draw_state_fixed = partial(draw_state, params=params)
-
-# Create target dataset
-_, (latent_hist, state_hist, obs_hist) = jax.lax.scan(draw_state_fixed, x0, keys)
-
-# Perform filtering
-key_base = random.PRNGKey(31)
-key_mean_init, key_sample, key_state, key_next = random.split(key_base, 4)
-p_init = jnp.array([0.0, 1.0, 0.0])
-
-# Initial filter configuration
-mu_0 = 0.01 * random.normal(key_mean_init, (nparticles, 4))
-mu_0 = 0.01 * random.normal(key_mean_init, (nparticles, 4))
-Sigma_0 = jnp.zeros((nparticles, 4,4))
-s0 = random.categorical(key_state, logit(p_init), shape=(nparticles,))
-weights_0 = jnp.ones(nparticles) / nparticles
-init_config = (key_next, mu_0, Sigma_0, weights_0, s0)
-
-rbpf_optimal_part = partial(rbpf_optimal, params=params, nparticles=nparticles)
-_, (mu_hist, Sigma_hist, weights_hist, s_hist, Ptk) = jax.lax.scan(rbpf_optimal_part, init_config, obs_hist)
-mu_hist_post_mean = jnp.einsum("ts,tsm->tm", weights_hist, mu_hist)
-
-color_dict = {0: "tab:green", 1: "tab:red", 2: "tab:blue"}
-
-# Plot target dataset
-fig, ax = plt.subplots()
-color_states_org = [color_dict[state] for state in latent_hist]
-ax.scatter(*state_hist[:, [0, 2]].T, c="none", edgecolors=color_states_org, s=10)
-ax.scatter(*obs_hist[:, [0, 2]].T, s=5, c="black", alpha=0.6)
-
-# Plot filtered dataset
-fig, ax = plt.subplots()
-rbpf_mse = ((mu_hist_post_mean - state_hist)[:, [0, 2]] ** 2).mean(axis=0).sum()
-latent_hist_est = Ptk.mean(axis=1).argmax(axis=1)
-color_states_est = [color_dict[state] for state in latent_hist_est]
-ax.scatter(*mu_hist_post_mean[:, [0, 2]].T, c="none", edgecolors=color_states_est, s=10)
-ax.set_title(f"RBPF MSE: {rbpf_mse:.2f}")
-
-plt.show()
