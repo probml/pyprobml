@@ -194,14 +194,43 @@ nsteps = 100
 key = random.PRNGKey(3141)
 keys = random.split(key, nsteps)
 
-
 x0 = (1, random.multivariate_normal(key, jnp.zeros(4), jnp.eye(4)))
 draw_state_fixed = partial(draw_state, params=params)
 
+# Create target dataset
 _, (latent_hist, state_hist, obs_hist) = jax.lax.scan(draw_state_fixed, x0, keys)
 
+# Perform filtering
+key_base = random.PRNGKey(31)
+key_mean_init, key_sample, key_state, key_next = random.split(key_base, 4)
+p_init = jnp.array([0.0, 1.0, 0.0])
+
+# Initial filter configuration
+mu_0 = 0.01 * random.normal(key_mean_init, (nparticles, 4))
+mu_0 = 0.01 * random.normal(key_mean_init, (nparticles, 4))
+Sigma_0 = jnp.zeros((nparticles, 4,4))
+s0 = random.categorical(key_state, logit(p_init), shape=(nparticles,))
+weights_0 = jnp.ones(nparticles) / nparticles
+init_config = (key_next, mu_0, Sigma_0, weights_0, s0)
+
+rbpf_optimal_part = partial(rbpf_optimal, params=params, nparticles=nparticles)
+_, (mu_hist, Sigma_hist, weights_hist, s_hist, Ptk) = jax.lax.scan(rbpf_optimal_part, init_config, obs_hist)
+mu_hist_post_mean = jnp.einsum("ts,tsm->tm", weights_hist, mu_hist)
+
 color_dict = {0: "tab:green", 1: "tab:red", 2: "tab:blue"}
+
+# Plot target dataset
+fig, ax = plt.subplots()
 color_states_org = [color_dict[state] for state in latent_hist]
-plt.scatter(*state_hist[:, [0, 2]].T, c="none", edgecolors=color_states_org, s=10)
-plt.scatter(*obs_hist[:, [0, 2]].T, s=5, c="black", alpha=0.6)
+ax.scatter(*state_hist[:, [0, 2]].T, c="none", edgecolors=color_states_org, s=10)
+ax.scatter(*obs_hist[:, [0, 2]].T, s=5, c="black", alpha=0.6)
+
+# Plot filtered dataset
+fig, ax = plt.subplots()
+rbpf_mse = ((mu_hist_post_mean - state_hist)[:, [0, 2]] ** 2).mean(axis=0).sum()
+latent_hist_est = Ptk.mean(axis=1).argmax(axis=1)
+color_states_est = [color_dict[state] for state in latent_hist_est]
+ax.scatter(*mu_hist_post_mean[:, [0, 2]].T, c="none", edgecolors=color_states_est, s=10)
+ax.set_title(f"RBPF MSE: {rbpf_mse:.2f}")
+
 plt.show()
