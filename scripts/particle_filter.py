@@ -7,7 +7,6 @@ from dataclasses import dataclass
 
 import matplotlib.pyplot as plt
 
-
 @dataclass
 class RBPFParamsDiscrete:
     """
@@ -158,8 +157,7 @@ def rbpf_optimal(current_config, xt, params, nparticles=100):
     return (key_next, mu_t, Sigma_t, weights_t, st), (mu_t, Sigma_t, weights_t, st, proposal_samp)
 
 
-
-TT = 0.5
+TT = 0.1
 A = jnp.array([[1, TT, 0, 0],
                [0, 1, 0, 0],
                [0, 0, 1, TT],
@@ -191,7 +189,7 @@ params = RBPFParamsDiscrete(A, B, C, Q, R, transition_matrix)
 
 nparticles = 1000
 nsteps = 100
-key = random.PRNGKey(3141)
+key = random.PRNGKey(1)
 keys = random.split(key, nsteps)
 
 x0 = (1, random.multivariate_normal(key, jnp.zeros(4), jnp.eye(4)))
