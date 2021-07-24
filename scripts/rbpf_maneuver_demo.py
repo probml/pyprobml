@@ -82,8 +82,6 @@ color_states_est = [color_dict[state] for state in latent_hist_est]
 ax.scatter(*mu_hist_post_mean[:, [0, 2]].T, c="none", edgecolors=color_states_est, s=10)
 ax.set_title(f"RBPF MSE: {rbpf_mse:.2f}")
 
-plt.show()
-
 p_terms = Ptk.mean(axis=1)
 rbpf_error_rate = (latent_hist != p_terms.argmax(axis=1)).mean()
 fig, ax = plt.subplots(figsize=(2.5, 5))
@@ -99,3 +97,5 @@ sns.heatmap(latent_hmap, cmap="viridis", cbar=False, ax=ax[0])
 sns.heatmap(latent_hmap_est, cmap="viridis", cbar=False, ax=ax[1])
 ax[0].set_title("Data")
 ax[1].set_title(f"MAP (error rate: {rbpf_error_rate:0.4f})")
+
+plt.show()
