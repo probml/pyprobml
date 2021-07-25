@@ -1,12 +1,57 @@
 import jax
+import numpy as np
 import jax.numpy as jnp
 import seaborn as sns
 import matplotlib.pyplot as plt
 import particle_filtering_lib as pflib
 from jax import random
+from mpl_toolkits.mplot3d import Axes3D
 from functools import partial
 from sklearn.preprocessing import OneHotEncoder
 from jax.scipy.special import logit
+from numpy import linalg
+
+def kdeg(x, X, h):
+    """
+    KDE under a gaussian kernel
+    
+    Parameters
+    ----------
+    x: array(eval, D)
+    X: array(obs, D)
+    h: float
+    Returns
+    -------
+    array(eval):
+        KDE around the observed values
+    """
+    N, D = X.shape
+    nden, _ = x.shape 
+    
+    Xhat = X.reshape(D, 1, N)
+    xhat = x.reshape(D, nden, 1)
+    u = xhat - Xhat
+    u = linalg.norm(u, ord=2, axis=0) ** 2 / (2 * h ** 2)
+    px = np.exp(-u).sum(axis=1) / (N * h * np.sqrt(2 * np.pi))
+    return px
+
+
+def scale_3d(ax, x_scale, y_scale, z_scale, factor):
+    scale = np.diag([x_scale, y_scale, z_scale, 1.0])
+    scale = scale * (1.0 / scale.max())
+    scale[3,3] = factor
+    def short_proj():
+        return np.dot(Axes3D.get_proj(ax), scale)
+    return short_proj
+
+
+def style3d(ax, x_scale, y_scale, z_scale, factor=0.62):
+    plt.gca().patch.set_facecolor('white')
+    ax.w_xaxis.set_pane_color((0, 0, 0, 0))
+    ax.w_yaxis.set_pane_color((0, 0, 0, 0))
+    ax.w_zaxis.set_pane_color((0, 0, 0, 0))
+    ax.get_proj = scale_3d(ax, x_scale, y_scale, z_scale, factor=factor)
+
 
 TT = 0.1
 A = jnp.array([[1, TT, 0, 0],
@@ -97,5 +142,29 @@ sns.heatmap(latent_hmap, cmap="viridis", cbar=False, ax=ax[0])
 sns.heatmap(latent_hmap_est, cmap="viridis", cbar=False, ax=ax[1])
 ax[0].set_title("Data")
 ax[1].set_title(f"MAP (error rate: {rbpf_error_rate:0.4f})")
+
+
+# Plot 3d trajectory
+skip = 3
+dim = 2
+steps = 2000
+azimuth, elevation = -30, 30
+xmin, xmax = mu_hist[..., dim].min(), mu_hist[..., dim].max()
+xrange = jnp.linspace(xmin, xmax, steps).reshape(-1, 1)
+res = np.apply_along_axis(lambda X: kdeg(xrange, X[..., None], 0.5), 1, mu_hist)
+densities = res[..., dim]
+
+fig = plt.figure()
+axs = plt.axes(projection="3d")
+for t in range(0, nsteps, skip):
+    tloc = t * np.ones(steps)
+    px = densities[t]
+    axs.plot(tloc, xrange, px, c="tab:blue", linewidth=1)
+axs.set_zlim(0, 1)
+style3d(axs, 1.8, 1.2, 0.7, 0.8)
+axs.view_init(elevation, azimuth)
+axs.set_xlabel(r"$t$", fontsize=13)
+axs.set_ylabel(r"$x_{d,t}$", fontsize=13)
+axs.set_zlabel(r"$p(x_{d, t} \vert y_{1:t})$", fontsize=13)
 
 plt.show()
