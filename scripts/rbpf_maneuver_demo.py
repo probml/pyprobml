@@ -1,3 +1,8 @@
+# Rao-Blackwellised particle filtering for jump markov linear systems
+# Based on: https://github.com/probml/pmtk3/blob/master/demos/rbpfManeuverDemo.m
+
+# Author: Gerardo Durán-Martín (@gerdm)
+
 import jax
 import numpy as np
 import jax.numpy as jnp
@@ -10,6 +15,7 @@ from functools import partial
 from sklearn.preprocessing import OneHotEncoder
 from jax.scipy.special import logit
 from numpy import linalg
+
 
 def kdeg(x, X, h):
     """
@@ -111,9 +117,9 @@ rbpf_optimal_part = partial(pflib.rbpf_optimal, params=params, nparticles=nparti
 _, (mu_hist, Sigma_hist, weights_hist, s_hist, Ptk) = jax.lax.scan(rbpf_optimal_part, init_config, obs_hist)
 mu_hist_post_mean = jnp.einsum("ts,tsm->tm", weights_hist, mu_hist)
 
-color_dict = {0: "tab:green", 1: "tab:red", 2: "tab:blue"}
 
 # Plot target dataset
+color_dict = {0: "tab:green", 1: "tab:red", 2: "tab:blue"}
 fig, ax = plt.subplots()
 color_states_org = [color_dict[state] for state in latent_hist]
 ax.scatter(*state_hist[:, [0, 2]].T, c="none", edgecolors=color_states_org, s=10)
@@ -127,12 +133,14 @@ color_states_est = [color_dict[state] for state in latent_hist_est]
 ax.scatter(*mu_hist_post_mean[:, [0, 2]].T, c="none", edgecolors=color_states_est, s=10)
 ax.set_title(f"RBPF MSE: {rbpf_mse:.2f}")
 
+# Plot belief state of discrete system
 p_terms = Ptk.mean(axis=1)
 rbpf_error_rate = (latent_hist != p_terms.argmax(axis=1)).mean()
 fig, ax = plt.subplots(figsize=(2.5, 5))
 sns.heatmap(p_terms, cmap="viridis", cbar=False)
 plt.title(f"RBPF, error rate: {rbpf_error_rate:0.3}")
 
+# Plot ground truth and MAP estimate
 ohe = OneHotEncoder(sparse=False)
 latent_hmap = ohe.fit_transform(latent_hist[:, None])
 latent_hmap_est = ohe.fit_transform(p_terms.argmax(axis=1)[:, None])
@@ -143,8 +151,7 @@ sns.heatmap(latent_hmap_est, cmap="viridis", cbar=False, ax=ax[1])
 ax[0].set_title("Data")
 ax[1].set_title(f"MAP (error rate: {rbpf_error_rate:0.4f})")
 
-
-# Plot 3d trajectory
+# Plot belief state for y-axis
 skip = 3
 dim = 2
 steps = 2000
