@@ -21,7 +21,7 @@ B3 = jnp.array([1.225, 0.35,  -1.225,  -0.35])
 B = jnp.stack([B1, B2, B3], axis=0)
 
 Q = 0.2 * jnp.eye(4)
-R = 3 * jnp.diag(jnp.array([2, 1, 2, 1]))
+R = 10 * jnp.diag(jnp.array([2, 1, 2, 1]))
 C = jnp.eye(4)
 
 transition_matrix = jnp.array([
