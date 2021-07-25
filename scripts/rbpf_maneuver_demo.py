@@ -129,6 +129,7 @@ fig, ax = plt.subplots()
 color_states_org = [color_dict[state] for state in latent_hist]
 ax.scatter(*state_hist[:, [0, 2]].T, c="none", edgecolors=color_states_org, s=10)
 ax.scatter(*obs_hist[:, [0, 2]].T, s=5, c="black", alpha=0.6)
+ax.set_title("Data")
 pml.savefig("rbpf-maneuver-data.pdf")
 
 # Plot filtered dataset
