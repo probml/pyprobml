@@ -1,5 +1,7 @@
 # Particle filtering library
+
 # Author: Gerardo Durán-Martín (@gerdm)
+
 import jax
 import jax.numpy as jnp
 from jax import random
