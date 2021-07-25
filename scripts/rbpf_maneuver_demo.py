@@ -1,7 +1,8 @@
 # Rao-Blackwellised particle filtering for jump markov linear systems
 # Based on: https://github.com/probml/pmtk3/blob/master/demos/rbpfManeuverDemo.m
-
 # Author: Gerardo Durán-Martín (@gerdm)
+
+# !pip install matplotlib==3.4.2
 
 import jax
 import numpy as np
@@ -9,12 +10,16 @@ import jax.numpy as jnp
 import seaborn as sns
 import matplotlib.pyplot as plt
 import particle_filtering_lib as pflib
+import pyprobml_utils as pml
 from jax import random
 from mpl_toolkits.mplot3d import Axes3D
 from functools import partial
 from sklearn.preprocessing import OneHotEncoder
 from jax.scipy.special import logit
 from numpy import linalg
+
+plt.rcParams["axes.spines.right"] = False
+plt.rcParams["axes.spines.top"] = False
 
 
 def kdeg(x, X, h):
@@ -124,6 +129,7 @@ fig, ax = plt.subplots()
 color_states_org = [color_dict[state] for state in latent_hist]
 ax.scatter(*state_hist[:, [0, 2]].T, c="none", edgecolors=color_states_org, s=10)
 ax.scatter(*obs_hist[:, [0, 2]].T, s=5, c="black", alpha=0.6)
+pml.savefig("rbpf-maneuver-data.pdf")
 
 # Plot filtered dataset
 fig, ax = plt.subplots()
@@ -132,6 +138,7 @@ latent_hist_est = Ptk.mean(axis=1).argmax(axis=1)
 color_states_est = [color_dict[state] for state in latent_hist_est]
 ax.scatter(*mu_hist_post_mean[:, [0, 2]].T, c="none", edgecolors=color_states_est, s=10)
 ax.set_title(f"RBPF MSE: {rbpf_mse:.2f}")
+pml.savefig("rbpf-maneuver-trace.pdf")
 
 # Plot belief state of discrete system
 p_terms = Ptk.mean(axis=1)
@@ -139,32 +146,37 @@ rbpf_error_rate = (latent_hist != p_terms.argmax(axis=1)).mean()
 fig, ax = plt.subplots(figsize=(2.5, 5))
 sns.heatmap(p_terms, cmap="viridis", cbar=False)
 plt.title(f"RBPF, error rate: {rbpf_error_rate:0.3}")
+pml.savefig("rbpf-maneuver-discrete-belief.pdf")
 
 # Plot ground truth and MAP estimate
 ohe = OneHotEncoder(sparse=False)
 latent_hmap = ohe.fit_transform(latent_hist[:, None])
 latent_hmap_est = ohe.fit_transform(p_terms.argmax(axis=1)[:, None])
 
-fig, ax = plt.subplots(1, 2, figsize=(4 + 1, 5))
-sns.heatmap(latent_hmap, cmap="viridis", cbar=False, ax=ax[0])
-sns.heatmap(latent_hmap_est, cmap="viridis", cbar=False, ax=ax[1])
-ax[0].set_title("Data")
-ax[1].set_title(f"MAP (error rate: {rbpf_error_rate:0.4f})")
+fig, ax = plt.subplots(figsize=(2.5, 5))
+sns.heatmap(latent_hmap, cmap="viridis", cbar=False, ax=ax)
+ax.set_title("Data")
+pml.savefig("rbpf-maneuver-discrete-ground-truth.pdf")
 
-# Plot belief state for y-axis
+fig, ax = plt.subplots(figsize=(2.5, 5))
+sns.heatmap(latent_hmap, cmap="viridis", cbar=False, ax=ax)
+ax.set_title(f"MAP (error rate: {rbpf_error_rate:0.4f})")
+pml.savefig("rbpf-maneuver-discrete-map.pdf")
+
+# Plot belief for state space
 skip = 3
 dim = 2
-steps = 2000
+npoints = 2000
 azimuth, elevation = -30, 30
 xmin, xmax = mu_hist[..., dim].min(), mu_hist[..., dim].max()
-xrange = jnp.linspace(xmin, xmax, steps).reshape(-1, 1)
+xrange = jnp.linspace(xmin, xmax, npoints).reshape(-1, 1)
 res = np.apply_along_axis(lambda X: kdeg(xrange, X[..., None], 0.5), 1, mu_hist)
 densities = res[..., dim]
 
 fig = plt.figure()
 axs = plt.axes(projection="3d")
 for t in range(0, nsteps, skip):
-    tloc = t * np.ones(steps)
+    tloc = t * np.ones(npoints)
     px = densities[t]
     axs.plot(tloc, xrange, px, c="tab:blue", linewidth=1)
 axs.set_zlim(0, 1)
@@ -173,5 +185,6 @@ axs.view_init(elevation, azimuth)
 axs.set_xlabel(r"$t$", fontsize=13)
 axs.set_ylabel(r"$x_{d,t}$", fontsize=13)
 axs.set_zlabel(r"$p(x_{d, t} \vert y_{1:t})$", fontsize=13)
+pml.savefig("rbpf-maneuver-belief-state.pdf", pad_inches=0, bbox_inches="tight")
 
 plt.show()
