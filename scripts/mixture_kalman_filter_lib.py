@@ -1,4 +1,5 @@
-# Particle filtering library
+# Mixture Kalman Filter library. Also known as the
+# Rao-Blackwell Particle Filter.
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
