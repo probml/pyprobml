@@ -9,7 +9,7 @@ import numpy as np
 import jax.numpy as jnp
 import seaborn as sns
 import matplotlib.pyplot as plt
-import particle_filtering_lib as pflib
+import mixture_kalman_filter_lib as kflib
 import pyprobml_utils as pml
 from jax import random
 from mpl_toolkits.mplot3d import Axes3D
@@ -92,7 +92,7 @@ transition_matrix = jnp.array([
     [0.1, 0.1, 0.8]
 ])
 
-params = pflib.RBPFParamsDiscrete(A, B, C, Q, R, transition_matrix)
+params = kflib.RBPFParamsDiscrete(A, B, C, Q, R, transition_matrix)
 
 nparticles = 1000
 nsteps = 100
@@ -100,7 +100,7 @@ key = random.PRNGKey(1)
 keys = random.split(key, nsteps)
 
 x0 = (1, random.multivariate_normal(key, jnp.zeros(4), jnp.eye(4)))
-draw_state_fixed = partial(pflib.draw_state, params=params)
+draw_state_fixed = partial(kflib.draw_state, params=params)
 
 # Create target dataset
 _, (latent_hist, state_hist, obs_hist) = jax.lax.scan(draw_state_fixed, x0, keys)
@@ -118,7 +118,7 @@ s0 = random.categorical(key_state, logit(p_init), shape=(nparticles,))
 weights_0 = jnp.ones(nparticles) / nparticles
 init_config = (key_next, mu_0, Sigma_0, weights_0, s0)
 
-rbpf_optimal_part = partial(pflib.rbpf_optimal, params=params, nparticles=nparticles)
+rbpf_optimal_part = partial(kflib.rbpf_optimal, params=params, nparticles=nparticles)
 _, (mu_hist, Sigma_hist, weights_hist, s_hist, Ptk) = jax.lax.scan(rbpf_optimal_part, init_config, obs_hist)
 mu_hist_post_mean = jnp.einsum("ts,tsm->tm", weights_hist, mu_hist)
 
