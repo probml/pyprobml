@@ -64,6 +64,24 @@ def style3d(ax, x_scale, y_scale, z_scale, factor=0.62):
     ax.get_proj = scale_3d(ax, x_scale, y_scale, z_scale, factor=factor)
 
 
+def plot_3d_belief_state(mu_hist, dim, ax, skip=3, npoints=2000, azimuth=-30, elevation=30):
+    nsteps = len(mu_hist)
+    xmin, xmax = mu_hist[..., dim].min(), mu_hist[..., dim].max()
+    xrange = jnp.linspace(xmin, xmax, npoints).reshape(-1, 1)
+    res = np.apply_along_axis(lambda X: kdeg(xrange, X[..., None], 0.5), 1, mu_hist)
+    densities = res[..., dim]
+    for t in range(0, nsteps, skip):
+        tloc = t * np.ones(npoints)
+        px = densities[t]
+        ax.plot(tloc, xrange, px, c="tab:blue", linewidth=1)
+    ax.set_zlim(0, 1)
+    style3d(ax, 1.8, 1.2, 0.7, 0.8)
+    ax.view_init(elevation, azimuth)
+    ax.set_xlabel(r"$t$", fontsize=13)
+    ax.set_ylabel(r"$x_{"f"d={dim}"",t}$", fontsize=13)
+    ax.set_zlabel(r"$p(x_{d, t} \vert y_{1:t})$", fontsize=13)
+
+
 TT = 0.1
 A = jnp.array([[1, TT, 0, 0],
                [0, 1, 0, 0],
@@ -165,27 +183,11 @@ ax.set_title(f"MAP (error rate: {rbpf_error_rate:0.4f})")
 pml.savefig("rbpf-maneuver-discrete-map.pdf")
 
 # Plot belief for state space
-skip = 3
-dim = 2
-npoints = 2000
-azimuth, elevation = -30, 30
-xmin, xmax = mu_hist[..., dim].min(), mu_hist[..., dim].max()
-xrange = jnp.linspace(xmin, xmax, npoints).reshape(-1, 1)
-res = np.apply_along_axis(lambda X: kdeg(xrange, X[..., None], 0.5), 1, mu_hist)
-densities = res[..., dim]
-
-fig = plt.figure()
-axs = plt.axes(projection="3d")
-for t in range(0, nsteps, skip):
-    tloc = t * np.ones(npoints)
-    px = densities[t]
-    axs.plot(tloc, xrange, px, c="tab:blue", linewidth=1)
-axs.set_zlim(0, 1)
-style3d(axs, 1.8, 1.2, 0.7, 0.8)
-axs.view_init(elevation, azimuth)
-axs.set_xlabel(r"$t$", fontsize=13)
-axs.set_ylabel(r"$x_{d,t}$", fontsize=13)
-axs.set_zlabel(r"$p(x_{d, t} \vert y_{1:t})$", fontsize=13)
-pml.savefig("rbpf-maneuver-belief-state.pdf", pad_inches=0, bbox_inches="tight")
+dims = [0, 2]
+for dim in dims:
+    fig = plt.figure()
+    ax = plt.axes(projection="3d")
+    plot_3d_belief_state(mu_hist, dim, ax)
+    pml.savefig(f"rbpf-maneuver-belief-stated-dim{dim}.pdf", pad_inches=0, bbox_inches="tight")
 
 plt.show()
