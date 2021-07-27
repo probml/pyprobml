@@ -100,7 +100,7 @@ if __name__ == "__main__":
     Q = jnp.eye(state_size) * 0.001
     R = jnp.eye(observation_size) * 1.0
     # Prior parameter distribution
-    mu0 = jnp.array([8, 10, 1, 0])
+    mu0 = jnp.array([8, 10, 1, 0]).astype(float)
     Sigma0 = jnp.eye(state_size) * 1.0
 
     lds_instance = lds.KalmanFilter(A, C, Q, R, mu0, Sigma0, timesteps)
