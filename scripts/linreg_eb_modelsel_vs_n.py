@@ -61,12 +61,12 @@ if __name__ == "__main__":
             y_est_mean = X_true @ mN
             logLs.append(logL)
 
-            plt.plot(x_true, y_est_mean + 2 * y_est_std, c="tab:blue", linewidth=1, linestyle="dotted")
-            plt.plot(x_true, y_est_mean - 2 * y_est_std, c="tab:blue", linewidth=1, linestyle="dotted")
-            plt.plot(x_true, y_est_mean, c="tab:red", linestyle="-.")
+            plt.plot(x_true, y_est_mean + 2 * y_est_std, c="tab:blue", linewidth=2, linestyle="dotted")
+            plt.plot(x_true, y_est_mean - 2 * y_est_std, c="tab:blue", linewidth=2, linestyle="dotted")
+            plt.plot(x_true, y_est_mean, c="tab:red", linestyle="-.", linewidth=2)
             plt.scatter(x_train, y_train, edgecolor="black", c="none", s=100)
-            plt.plot(x_true, y_true, c="tab:green")
-            plt.title(f"{deg=} | logev={logL:0.2f}")
+            plt.plot(x_true, y_true, c="tab:green", linewidth=2)
+            plt.title(f"{deg}= | logev={logL:0.2f}", fontsize=12)
             pml.savefig(f"linreg-N{N}-d{deg}.pdf")
         
         fig, ax = plt.subplots()
