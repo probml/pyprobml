@@ -102,6 +102,22 @@ class KalmanFilter:
             state_hist = state_hist[0, ...]
             obs_hist = obs_hist[0, ...]
         return state_hist, obs_hist
+    
+    def __kalman_step(self, state, xt):
+        mun, Sigman = state
+        I = jnp.eye(self.state_size)
+        # Sigman|{n-1}
+        Sigman_cond = self.A @ Sigman @ self.A.T + self.Q
+        St = self.C @ Sigman_cond @ self.C.T + self.R
+        Kn = Sigman_cond @ self.C.T @ inv(St)
+
+        # mun|{n-1} and xn|{n-1}
+        mu_update = self.A @ mun
+        x_update = self.C @ mu_update
+
+        mun = mu_update + Kn @ (xt - x_update)
+        Sigman = (I - Kn @ self.C) @ Sigman_cond
+        return (mun, Sigman), (mun, Sigman, mu_update, Sigman_cond)
 
     def __kalman_filter(self, x_hist):
         """
@@ -125,40 +141,7 @@ class KalmanFilter:
             Filtered conditional covariances Sigmat|t-1
         """
         I = jnp.eye(self.state_size)
-        mu_hist = jnp.zeros((self.timesteps, self.state_size))
-        Sigma_hist = jnp.zeros((self.timesteps, self.state_size, self.state_size))
-        Sigma_cond_hist = jnp.zeros((self.timesteps, self.state_size, self.state_size))
-        mu_cond_hist = jnp.zeros((self.timesteps, self.state_size))
-        
-        # Initial configuration
-        K1 = self.Sigma0 @ self.C.T @ inv(self.C @ self.Sigma0 @ self.C.T + self.R)
-        mu1 = self.mu0 + K1 @ (x_hist[0] - self.C @ self.mu0)
-        Sigma1 = (I - K1 @ self.C) @ self.Sigma0
-
-        mu_hist = index_update(mu_hist, 0, mu1)
-        Sigma_hist = index_update(Sigma_hist, 0, Sigma1)
-        mu_cond_hist = index_update(mu_cond_hist, 0, self.mu0)
-        Sigma_cond_hist = index_update(Sigma_hist, 0, self.Sigma0)
-        
-        Sigman = Sigma1
-        for n in range(1, self.timesteps):
-            # Sigman|{n-1}
-            Sigman_cond = self.A @ Sigman @ self.A.T + self.Q
-            St = self.C @ Sigman_cond @ self.C.T + self.R
-            Kn = Sigman_cond @ self.C.T @ inv(St)
-
-            # mun|{n-1} and xn|{n-1}
-            mu_update = self.A @ mu_hist[n-1]
-            x_update = self.C @ mu_update
-
-            mun = mu_update + Kn @ (x_hist[n] - x_update)
-            Sigman = (I - Kn @ self.C) @ Sigman_cond
-
-            mu_hist = index_update(mu_hist, n, mun)
-            Sigma_hist = index_update(Sigma_hist, n, Sigman)
-            mu_cond_hist = index_update(mu_cond_hist, n, mu_update)
-            Sigma_cond_hist = index_update(Sigma_cond_hist, n, Sigman_cond)
-        
+        _, (mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist) = jax.lax.scan(self.__kalman_step, (self.mu0, self.Sigma0), x_hist)
         return mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist
 
     def __kalman_smoother(self, mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist):
