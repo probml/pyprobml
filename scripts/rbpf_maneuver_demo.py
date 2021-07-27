@@ -178,7 +178,7 @@ ax.set_title("Data")
 pml.savefig("rbpf-maneuver-discrete-ground-truth.pdf")
 
 fig, ax = plt.subplots(figsize=(2.5, 5))
-sns.heatmap(latent_hmap, cmap="viridis", cbar=False, ax=ax)
+sns.heatmap(latent_hmap_est, cmap="viridis", cbar=False, ax=ax)
 ax.set_title(f"MAP (error rate: {rbpf_error_rate:0.4f})")
 pml.savefig("rbpf-maneuver-discrete-map.pdf")
 
