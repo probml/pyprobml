@@ -1,3 +1,8 @@
+# Variational Bayes (VB) for univariate gaussian
+# based on: https://github.com/probml/pmtk3/blob/master/demos/unigaussVbDemo.m
+
+# Author: Gerardo Durán-Martín (@gerdm)
+
 import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -6,6 +11,7 @@ from jax.scipy import stats
 from dataclasses import dataclass
 from jax.scipy.special import gammaln
 import pyprobml_utils as pml
+
 
 @dataclass
 class GaussGamma:
@@ -69,6 +75,17 @@ def vb_unigauss_learn(data, params_prior, params_init, eps=1e-6):
     """
     Variational Bayes (VB) procedure for estimating the parameters
     of a univariate gaussian distribution
+
+    Parameters
+    ----------
+    data: jnp.ndarray
+        Data to estimate the parameters of the distribution
+    params_prior: GaussGamma
+        Prior parameters of the distribution
+    params_init: GaussGamma
+        Initial parameters of the VB estimation
+    eps: float
+        Tolerance for the convergence of the VB procedure
     
     Returns
     -------
@@ -117,6 +134,7 @@ def vb_unigauss_learn(data, params_prior, params_init, eps=1e-6):
             lower_bound = lower_bound_new
     
     return est_params, params_hist
+
 
 if __name__ == "__main__":
     plt.rcParams["axes.spines.right"] = False
