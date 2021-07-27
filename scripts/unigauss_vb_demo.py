@@ -29,9 +29,16 @@ def generate_data(key, N):
 
 def gaussian_gamma_pdf(mu, lmbda, params):
     """
-    mu0 = c / beta
-    a = 1 + beta / 2
-    b = d - c ** 2/ (2 * beta)
+    Proabbility density function of a univariate gaussian-gamma distribution
+
+    Parameters
+    ----------
+    mu: float
+        Mean of the distribution
+    lmbda: float
+        Precision of the distribution
+    params: GaussGamma
+        Parameters of the distribution
     """
     N_part = stats.norm.pdf(mu, loc=params.mu, scale=1 / jnp.sqrt(params.beta * lmbda))
     G_part = stats.gamma.pdf(lmbda, params.a, scale=1 / params.b)
@@ -39,6 +46,18 @@ def gaussian_gamma_pdf(mu, lmbda, params):
 
 
 def vb_est_pdf(mu, lmbda, params):
+    """
+    Variational-bayes pdf of a univariate gaussian-gamma distribution
+
+    Parameters
+    ----------
+    mu: float
+        Mean of the distribution
+    lmbda: float
+        Precision of the distribution
+    params: GaussGamma
+        Parameters of the distribution
+    """
     N_part = stats.norm.pdf(mu, params.mu, 1 / jnp.sqrt(params.beta))
     G_part = stats.gamma.pdf(lmbda, params.a, scale=1 / params.b)
     return N_part * G_part
