@@ -1,3 +1,22 @@
+# -*- coding: utf-8 -*-
+"""
+Author: Ang Ming Liang
+
+Please run the following command before running the script
+
+wget -q https://raw.githubusercontent.com/sayantanauddy/vae_lightning/main/data.py
+or curl https://raw.githubusercontent.com/sayantanauddy/vae_lightning/main/data.py > data.py
+
+Then, make sure to get your kaggle.json from kaggle.com then run 
+
+mkdir /root/.kaggle 
+cp kaggle.json /root/.kaggle/kaggle.json
+chmod 600 /root/.kaggle/kaggle.json
+rm kaggle.json
+
+to copy kaggle.json into a folder first 
+"""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
