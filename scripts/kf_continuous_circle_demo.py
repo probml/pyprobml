@@ -4,9 +4,10 @@
 # For futher reference and examples see:
 #   * Section on Kalman Filters in PML vol2 book
 #   * Nonlinear Dynamics and Chaos - Steven Strogatz
+
 # Author: Gerardo Durán-Martín (@gerdm)
 
-import lds_lib as lds
+import lds_cts_time_lib as lds
 import matplotlib.pyplot as plt 
 import pyprobml_utils as pml
 import jax.numpy as jnp
