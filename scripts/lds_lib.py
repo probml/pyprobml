@@ -148,7 +148,6 @@ class KalmanFilter:
         * array(timesteps, state_size, state_size)
             Filtered conditional covariances Sigmat|t-1
         """
-        I = jnp.eye(self.state_size)
         _, (mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist) = jax.lax.scan(self.__kalman_step, (self.mu0, self.Sigma0), x_hist)
         return mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist
 
@@ -184,19 +183,11 @@ class KalmanFilter:
         mut_giv_T = mu_hist[-1, :]
         Sigmat_giv_T = Sigma_hist[-1, :]
 
-        # Update last step
-        mu_hist_smooth = index_update(mu_hist_smooth, -1,  mut_giv_T)
-        Sigma_hist_smooth = index_update(Sigma_hist_smooth, -1,  Sigmat_giv_T)
+        elements = (mu_hist[-2::-1], Sigma_hist[-2::-1, ...], mu_cond_hist[1:][::-1, ...], Sigma_cond_hist[1:][::-1, ...])
+        _, (mu_hist_smooth, Sigma_hist_smooth) = jax.lax.scan(self.__smoother_step, (mut_giv_T, Sigmat_giv_T), elements)
+        mu_hist_smooth = jnp.concatenate([mu_hist_smooth[::-1, ...], mut_giv_T[None, ...]], axis=0)
+        Sigma_hist_smooth = jnp.concatenate([Sigma_hist_smooth[::-1, ...], Sigmat_giv_T[None, ...]], axis=0)
 
-        elements = zip(mu_hist[-2::-1], Sigma_hist[-2::-1, ...], mu_cond_hist[::-1, ...], Sigma_cond_hist[::-1, ...])
-        for t, (mutt, Sigmatt, mut_cond_next, Sigmat_cond_next) in enumerate(elements, 1):
-            Jt  = Sigmatt @ self.A.T @ inv(Sigmat_cond_next)
-            mut_giv_T = mutt + Jt @ (mut_giv_T - mut_cond_next)
-            Sigmat_giv_T = Sigmatt + Jt @ (Sigmat_giv_T - Sigmat_cond_next) @ Jt.T
-            
-            mu_hist_smooth = index_update(mu_hist_smooth, -(t+1),  mut_giv_T)
-            Sigma_hist_smooth = index_update(Sigma_hist_smooth, -(t+1), Sigmat_giv_T)
-        
         return mu_hist_smooth, Sigma_hist_smooth
 
     def filter(self, x_hist):
