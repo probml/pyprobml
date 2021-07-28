@@ -84,7 +84,7 @@ if __name__ == "__main__":
     C = jnp.array([
         [1, 0, 0, 0],
         [0, 1, 0, 0]
-    ])
+    ]).astype(float)
 
     state_size, _ = A.shape
     observation_size, _ = C.shape
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     Q = jnp.eye(state_size) * 0.01
     R = jnp.eye(observation_size) * 1.2
     # Prior parameter distribution
-    mu0 = jnp.array([8, 10, 1, 0])
+    mu0 = jnp.array([8, 10, 1, 0]).astype(float)
     Sigma0 = jnp.eye(state_size) * 0.1
 
     n_samples = 4
