@@ -118,6 +118,14 @@ class KalmanFilter:
         mun = mu_update + Kn @ (xt - x_update)
         Sigman = (I - Kn @ self.C) @ Sigman_cond
         return (mun, Sigman), (mun, Sigman, mu_update, Sigman_cond)
+    
+    def __smoother_step(self, state, elements):
+        mut_giv_T, Sigmat_giv_T = state
+        mutt, Sigmatt, mut_cond_next, Sigmat_cond_next = elements
+        Jt  = Sigmatt @ self.A.T @ inv(Sigmat_cond_next)
+        mut_giv_T = mutt + Jt @ (mut_giv_T - mut_cond_next)
+        Sigmat_giv_T = Sigmatt + Jt @ (Sigmat_giv_T - Sigmat_cond_next) @ Jt.T
+        return (mut_giv_T, Sigmat_giv_T), (mut_giv_T, Sigmat_giv_T)
 
     def __kalman_filter(self, x_hist):
         """
