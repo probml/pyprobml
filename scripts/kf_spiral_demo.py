@@ -22,7 +22,7 @@ if __name__ == "__main__":
     timesteps = 20
     key = random.PRNGKey(27182)
 
-    mean_0 = jnp.array([1, 1, 1, 0])
+    mean_0 = jnp.array([1, 1, 1, 0]).astype(float)
     Sigma_0 = jnp.eye(4)
     A = jnp.array([
         [0.1, 1.1, dx, 0],
