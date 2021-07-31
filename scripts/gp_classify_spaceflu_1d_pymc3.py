@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from scipy.special import expit as logistic
+import pyprobml_utils as pml
 
 import matplotlib.pyplot as plt
 import arviz as az
@@ -22,7 +23,7 @@ space_flu = df_sf.space_flu
 ax = df_sf.plot.scatter('age', 'space_flu', figsize=(8, 5))
 ax.set_yticks([0, 1])
 ax.set_yticklabels(['healthy', 'sick'])
-plt.savefig('../figures/space_flu.pdf', bbox_inches='tight')
+pml.savefig('space_flu.pdf', bbox_inches='tight')
 
 
 with pm.Model() as model_space_flu:
@@ -53,8 +54,8 @@ ax.scatter(age, np.random.normal(space_flu, 0.02),
 
 ax.plot(X_new[:, 0], fp_mean, 'C2', lw=3)
 
-az.plot_hpd(X_new[:, 0], fp, color='C2')
+az.plot_hdi(X_new[:, 0], fp, color='C2')
 ax.set_yticks([0, 1])
 ax.set_yticklabels(['healthy', 'sick'])
 ax.set_xlabel('age')
-plt.savefig('../figures/gp_classify_spaceflu.pdf', dpi=300)
+pml.savefig('gp_classify_spaceflu.pdf', dpi=300)

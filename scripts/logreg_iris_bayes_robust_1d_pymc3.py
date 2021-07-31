@@ -13,7 +13,7 @@ from scipy.special import expit as logistic
 import matplotlib.pyplot as plt
 import arviz as az
 from sklearn.datasets import load_iris
-    
+import pyprobml_utils as pml
 
 iris = load_iris()
 X = iris.data 
@@ -117,20 +117,21 @@ def make_plot(trace):
     theta = trace['θ'].mean(axis=0)
     idx = np.argsort(x_c)
     plt.plot(x_c[idx], theta[idx], color='C2', lw=3)
-    az.plot_hpd(x_c, trace['θ'], color='C2')
+    az.plot_hdi(x_c, trace['θ'], color='C2')
     
     # plot decision boundary
     plt.vlines(trace['bd'].mean(), 0, 1, color='k')
-    bd_hpd = az.hpd(trace['bd'])
+    bd_hpd = az.hdi(trace['bd'])
     plt.fill_betweenx([0, 1], bd_hpd[0], bd_hpd[1], color='k', alpha=0.5)
     
 
 trace =  infer_robust_model()
 make_plot(trace)     
-plt.savefig('../figures/logreg_iris_bayes_robust_1d.pdf', dpi=300)  
+pml.savefig('logreg_iris_bayes_robust_1d.pdf', dpi=300)
 
 trace =  infer_nonrobust_model()
 make_plot(trace)     
-plt.savefig('../figures/logreg_iris_bayes_nonrobust_1d.pdf', dpi=300)  
+pml.savefig('logreg_iris_bayes_nonrobust_1d.pdf', dpi=300)
 
+plt.show()
    
