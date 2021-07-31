@@ -50,7 +50,14 @@ def get_match_list(the_string, the_regex_pattern, guard="#"):
     matches_list = [m for m in matches_list if the_string[m.span()[0] - 1] != guard]
     return matches_list
 
-
+def preprocess_imports(name):
+    if name.find(".")!=-1:
+        name = name.split(".")[0]
+    if name.endswith(" "):
+        name = name[:-1]
+    if name.find(" as ")!=-1:
+        name = name.split(" as ")[0]
+    return name
 def get_imports(
     file_string=None, patterns=[r"^import (.+)$", r"^from ((?!\.+).*?) import (?:.*)$"]
 ):
@@ -65,9 +72,10 @@ def get_imports(
                     if the_string.startswith("from"):
                         i = the_string.find("import")
                         name = the_string[5:i]
-
+                        name = preprocess_imports(name)
                     else:
                         name = the_string.replace("import ", "")
+                        name = preprocess_imports(name)
                     matches.append(name)
     return set(matches)
 
@@ -102,7 +110,8 @@ mapper = pipreqs.__path__[0] + "/mapping"
 mapping = get_packages_from_txt(mapper, ":")
 stdlib_path = pipreqs.__path__[0] + "/stdlib"
 stdlib = get_packages_from_txt(stdlib_path, "")
-mapping2 = get_packages_from_txt("./superimport/mapping2", ":")
+dir_name = os.path.dirname(__file__)
+mapping2 = get_packages_from_txt(f"{dir_name}/superimport/mapping2", ":")
 
 mapping = {**mapping, **mapping2}  # adding two dictionaries
 
@@ -119,10 +128,14 @@ if __name__ != "__main__":
                     import_module(package, True)
                 except Exception as e:
                     if package in mapping:
-                        print(f"Installing {gnippam[package]}")
-                        install_if_missing({gnippam[package]}, True)
+
+                        try:
+                            install_if_missing({mapping[package]}, True)
+                        except:
+                            print("Could not install automatically from map, trying reverse map")
+                            install_if_missing({gnippam[package]}, True)
                     else:
-                        logging.warning("Package was not found in the reverse index.")
+                        logging.warning("Package was not found in the reverse index, trying pypi.")
                         status, name, meta = check_if_package_on_pypi(package)
                         if status:
                             logging.info(
