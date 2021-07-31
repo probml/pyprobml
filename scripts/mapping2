@@ -1,0 +1,7 @@
+tensorflow-probability: tensorflow_probability
+tensorflow-datasets: tensorflow_datasets
+absl-py:absl_py
+pyro-ppl:pyro
+umap-learn:umap_learn
+umap-learn:umap
+dask:dask_ml
