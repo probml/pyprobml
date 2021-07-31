@@ -58,8 +58,7 @@ plt.title('p(x|y=1,0,0)')
 y = ['0' ,'000', '001', '010', '011', '100', '101', '110', '111']
 ax.bar(x = np.arange(8), height=J)
 ax.set_xticklabels(y, rotation = 90) 
-pml.savesfig('error_correcting.pdf')
-plt.savefig('error_correcting.pdf')
+pml.savefig('error_correcting.pdf')
 plt.show()
 
 pgm.visualize_model(model)
