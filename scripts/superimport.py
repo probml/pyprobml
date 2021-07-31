@@ -119,7 +119,7 @@ if __name__ != "__main__":
                     import_module(package, True)
                 except Exception as e:
                     if package in mapping:
-                        print(f"Installing {gnippam[package]})
+                        print(f"Installing {gnippam[package]}")
                         install_if_missing({gnippam[package]}, True)
                     else:
                         logging.warning("Package was not found in the reverse index.")
