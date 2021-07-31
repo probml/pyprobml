@@ -35,7 +35,7 @@ def generate_plots(sigma_f, l, sigma_y):
     model.Gaussian_noise.variance.fix()
     mean, variance = model.predict(xstar)
     model.plot()
-    plt.title("Hyperparameters (l, sigma_f, sigma_y) are {}, {}, {}".format(l, sigma_f, sigma_y))
+    plt.title("(l, sigma_f, sigma_y)={}, {}, {}".format(l, sigma_f, sigma_y), fontsize=12)
     pml.save_fig(f'gprDemoChangeHparams{i}.pdf')
     plt.show()
 

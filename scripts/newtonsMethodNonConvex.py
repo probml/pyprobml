@@ -1,10 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
+import pyprobml_utils as pml
 
-
-if os.path.isdir('scripts'):
-    os.chdir('scripts')
 xmin = -4
 xmax = 13
 ymin = -50
@@ -36,5 +33,5 @@ plt.xticks([], [])
 plt.yticks([], [])
 plt.text(7.8, -90, '\u03B8'+'\u2096', fontsize=14)
 plt.text(10.3, -90, '\u03B8'+'\u2096'+'+'+'d'+'\u2096', fontsize=14)
-plt.savefig(r'../figures/newtonsMethodNonConvexTheta.png')
+pml.savefig(r'newtonsMethodNonConvexTheta.pdf')
 plt.show()

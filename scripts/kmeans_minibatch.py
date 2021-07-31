@@ -6,6 +6,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -25,7 +26,7 @@ X, y = make_blobs(n_samples=2000, centers=blob_centers,
 
 from timeit import timeit
 
-K = 10
+K = 50
 times = np.empty((K, 2))
 inertias = np.empty((K, 2))
 for k in range(1, K+1):
@@ -55,5 +56,5 @@ plt.title("Training time (seconds)", fontsize=14)
 #plt.axis([1, K, 0, 6])
 
 plt.tight_layout()
-plt.savefig("../figures/kmeans_minibatch.pdf", dpi=300)
+pml.savefig("kmeans_minibatch.pdf", dpi=300)
 plt.show()
