@@ -10,16 +10,23 @@ for consistency and comparison.
 - Pytorch Lightning  == 1.4.0
 - CUDA enabled computing device
 
+# Instruction For Training The Model
+
+## Download celeba data utils
+
+```
+wget -q https://raw.githubusercontent.com/sayantanauddy/vae_lightning/main/data.py
+```
+
 ## Download celeba data
 
-wget -q https://raw.githubusercontent.com/sayantanauddy/vae_lightning/main/data.py
-or curl https://raw.githubusercontent.com/sayantanauddy/vae_lightning/main/data.py > data.py
+**Important : ** Make sure to get your kaggle.json from [these instructions](https://github.com/Kaggle/kaggle-api#api-credentials) then run 
 
-Then, make sure to get your kaggle.json from [these instructions](https://github.com/Kaggle/kaggle-api#api-credentials) then run 
-
+```
 mkdir /root/.kaggle 
 cp kaggle.json /root/.kaggle/kaggle.json
 chmod 600 /root/.kaggle/kaggle.json
 rm kaggle.json
+```
 
 to copy kaggle.json into a folder first. 
