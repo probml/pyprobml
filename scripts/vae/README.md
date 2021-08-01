@@ -20,7 +20,7 @@ wget -q https://raw.githubusercontent.com/sayantanauddy/vae_lightning/main/data.
 
 ### Download celeba data
 
-**Important : ** Make sure to get your kaggle.json from [these instructions](https://github.com/Kaggle/kaggle-api#api-credentials) then run 
+**Important :** Make sure to get your kaggle.json from [these instructions](https://github.com/Kaggle/kaggle-api#api-credentials) then run 
 
 ```
 mkdir /root/.kaggle 
