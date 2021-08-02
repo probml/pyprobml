@@ -225,9 +225,6 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
                                 Sigma_cond_hist: Array) -> Tuple[Array, Array]:
         """
         Run the backward pass in Kalman smoother.
-
-        The backward smoothing is discussed in section 10.4.4 of Kevin P. Murphy, 2022,
-        Probabilistic Machine Learning: Advanced Topics
         The inputs are returned by forward_filter function
 
         Parameters
