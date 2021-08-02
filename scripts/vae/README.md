@@ -24,3 +24,13 @@ rm kaggle.json
 ```
 
 to copy kaggle.json into a folder first. 
+
+### To Train Model
+
+```
+python run.py -config ./configs/vanilla_vae.yaml
+```
+
+## To compare and plot the results of different models
+
+Use ```results.ipynb```
