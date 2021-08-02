@@ -16,16 +16,8 @@ parser.add_argument('--config',  '-c',
                     default='configs/vae.yaml')
 
 args = parser.parse_args()
-with open(args.filename, 'r') as file:
-    try:
-        config = yaml.safe_load(file)
-    except yaml.YAMLError as exc:
-        print(exc)
-
-# Assemble model
-model_name = config["exp_params"]["model_name"]
-vae = assembler(model_name , config)
-m = VAEModule(vae, config["exp_params"]["LR"])
+config = get_config(args.filename)
+vae = assembler(config)
 
 # Load data
 trans = []
