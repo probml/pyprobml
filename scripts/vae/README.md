@@ -12,12 +12,6 @@ for consistency and comparison.
 
 ## Instruction For Training The Model
 
-### Download celeba data utils
-
-```
-wget -q https://raw.githubusercontent.com/sayantanauddy/vae_lightning/main/data.py
-```
-
 ### Download celeba data
 
 **Important :** Make sure to get your kaggle.json from [these instructions](https://github.com/Kaggle/kaggle-api#api-credentials) then run 
