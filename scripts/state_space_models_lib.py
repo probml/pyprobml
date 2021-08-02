@@ -48,19 +48,14 @@ def convert_seed_and_sample_shape(
 
 
 class LinearGaussianStateSpaceModel(jittable.Jittable):
-    def __init__(self, num_timesteps, transition_matrix, transition_noise,
-                 observation_matrix, observation_noise, initial_state_prior):
-        self._num_timesteps = num_timesteps
+    def __init__(self, transition_matrix, transition_noise, observation_matrix,
+                 observation_noise, initial_state_prior):
         self._transition_matrix = transition_matrix
         self._transition_noise = transition_noise
         self._observation_matrix = observation_matrix
         self._observation_noise = observation_noise
         self._initial_state_prior = initial_state_prior
         self.observation_size, self.state_size = observation_matrix.shape
-
-    @property
-    def num_timesteps(self) -> Array:
-        return self._num_timesteps
 
     @property
     def transition_matrix(self) -> Array:
@@ -149,9 +144,9 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
 
         return state_next, (state_next, obs_next)
     
-    def _sample_n(self, key: PRNGKey, n: int) -> Tuple[Array, Array]:
+    def _sample_n(self, key: PRNGKey, n: int, num_timesteps: int) -> Tuple[Array, Array]:
         key_init, key_next, key_step = random.split(key, 3)
-        key_steps = random.split(key_step, n * self.num_timesteps).reshape(n, self.num_timesteps, -1)
+        key_steps = random.split(key_step, n * num_timesteps).reshape(n, num_timesteps, -1)
         
         state_init = self.initial_state_prior.sample(seed=key_init, sample_shape=(n,))
         
@@ -162,11 +157,13 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
 
     def sample(self, *,
                seed: Union[IntLike, PRNGKey],
+               num_timesteps: int,
                sample_shape: Union[IntLike, Sequence[IntLike]] = ()) -> Array:
         """Samples an event.
         Parameters
         ----------
         seed: PRNG key or integer seed.
+        num_timesteps: int
         sample_shape: Additional leading dimensions for sample.
 
         Returns
@@ -174,10 +171,11 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
         * Array(*sample_shape, batch_shape, event_shape)
             A sample of shape `sample_shape` + `batch_shape` + `event_shape`.
         """
+
         rng, sample_shape = convert_seed_and_sample_shape(seed, sample_shape)
         num_samples = functools.reduce(operator.mul, sample_shape, 1)  # product
 
-        state_samples, obs_samples = self._sample_n(rng, num_samples)
+        state_samples, obs_samples = self._sample_n(rng, num_samples, num_timesteps)
 
         state_samples = state_samples.reshape(sample_shape + state_samples.shape[1:])
         obs_samples = obs_samples.reshape(sample_shape + obs_samples.shape[1:])

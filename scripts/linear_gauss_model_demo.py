@@ -36,14 +36,13 @@ observation_noise = ssm.MultivariateNormal(jnp.zeros(obs_size),
 
 initial_state_prior = ssm.MultivariateNormal(mu0, Sigma0)
 
-kf = ssm.LinearGaussianStateSpaceModel(num_timesteps,
-                                   transition_matrix, transition_noise,
-                                   observation_matrix, observation_noise,
-                                   initial_state_prior)
+kf = ssm.LinearGaussianStateSpaceModel(transition_matrix, transition_noise,
+                                       observation_matrix, observation_noise,
+                                       initial_state_prior)
                                 
 n_samples = 5
 key = random.PRNGKey(31415)
-state_samples, obs_samples = kf.sample(seed=key, sample_shape=n_samples)
+state_samples, obs_samples = kf.sample(seed=key, sample_shape=n_samples, num_timesteps=num_timesteps)
 
 mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = kf.forward_filter(obs_samples)
 # equiv: mu_hist_smooth, Sigma_hist_smooth = kf.backward_smoothing_pass(mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist)
