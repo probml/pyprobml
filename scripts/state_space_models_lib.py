@@ -173,7 +173,7 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
         """
 
         rng, sample_shape = convert_seed_and_sample_shape(seed, sample_shape)
-        num_samples = functools.reduce(operator.mul, sample_shape, 1)  # product
+        num_samples = jnp.prod(sample_shape)
 
         state_samples, obs_samples = self._sample_n(rng, num_samples, num_timesteps)
 
