@@ -10,6 +10,10 @@ for consistency and comparison.
 - Pytorch Lightning  == 1.4.0
 - CUDA enabled computing device
 
+## To download this subdirectory only 
+
+Copy the url of the subdirectory and past it to this [webstie](https://download-directory.github.io) and then download this subdirectory as a zipfile
+
 ## Instruction For Training The Model
 
 ### Download celeba data
