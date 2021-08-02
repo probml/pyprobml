@@ -49,6 +49,8 @@ mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = kf.forward_filter(obs_sampl
 mu_hist_smooth, Sigma_hist_smooth = kf.posterior_marginals(obs_samples)
 marginal_log_likelihood = kf.log_prob(obs_samples)
 
+print(marginal_log_likelihood)
+
 fig, ax = plt.subplots(1, 3, figsize=(6.2 * 3, 4))
 for n in range(n_samples):
     p = ax[0].plot(*state_samples[n, :, [0, 1]], linewidth=2)

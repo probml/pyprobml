@@ -99,7 +99,19 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
         mun = mu_update + Kn @ (xt - x_update)
         Sigman = (I - Kn @ C) @ Sigman_cond
 
-        return (mun, Sigman), (mun, Sigman, mu_update, Sigman_cond)
+        Q = self.transition_noise.covariance()
+        R = self.observation_noise.covariance()
+        # xt conditional
+        mun_cond = self.transition_matrix @ mun
+        xn_cond = self.observation_matrix @ mun_cond
+        # St conditional
+        Sigma_cond = self.transition_matrix @ Sigman @ self.transition_matrix.T + Q
+        Sn = self.observation_matrix @ Sigma_cond @ self.observation_matrix.T + R
+
+        log_likelihood = MultivariateNormal(xn_cond, Sn).log_prob(xt)
+
+
+        return (mun, Sigman), (log_likelihood, mun, Sigman, mu_update, Sigman_cond)
 
     def __smoother_step(self,
                         state: Tuple[Array, Array],
@@ -115,9 +127,9 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
     def __forward_filter(self, x: Array) -> Tuple[Array, Array, Array, Array]:
         mu0 = self.initial_state_prior.mean()
         Sigma0 = self.initial_state_prior.covariance()
-        _, (filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist) = jax.lax.scan(self.__kalman_step, (mu0, Sigma0), x)
+        _, (log_likelihoods, filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist) = jax.lax.scan(self.__kalman_step, (mu0, Sigma0), x)
         
-        return filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist
+        return log_likelihoods, filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist
     
     def __backward_smoothing_pass(self, filtered_means: Array, filtered_covs: Array,
                                   mu_cond_hist: Array, Sigma_cond_hist: Array) -> Tuple[Array, Array]:
@@ -209,14 +221,15 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
         state_cov_dims = (*batch_shape, timesteps, self.state_size, self.state_size)
 
         x = x.reshape(-1, timesteps, self.observation_size)
-        filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist = forward_map(x)
+        log_likelihoods, filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist = forward_map(x)
 
+        log_likelihoods = log_likelihoods.reshape(*batch_shape, timesteps)
         filtered_means = filtered_means.reshape(state_mean_dims)
         filtered_covs = filtered_covs.reshape(state_cov_dims)
         mu_cond_hist = mu_cond_hist.reshape(state_mean_dims)
         Sigma_cond_hist = Sigma_cond_hist.reshape(state_cov_dims)
 
-        return filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist
+        return log_likelihoods, filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist
     
     def backward_smoothing_pass(self,
                                 filtered_means: Array,
@@ -279,7 +292,7 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
         * array(*batch_size, timesteps, state_size, state_size)
             Covariances of the smoothed marginal distributions
         """
-        filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist = self.forward_filter(x)
+        _, filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist = self.forward_filter(x)
         smoothed_means, smoothed_covs = self.backward_smoothing_pass(filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist)
         return smoothed_means, smoothed_covs
 
@@ -296,16 +309,5 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
         * Array(*batch_size)
             Marginal log-probabilities
         """
-        filtered_means, filtered_covs, *_ = self.forward_filter(x)
-        Q = self.transition_noise.covariance()
-        R = self.observation_noise.covariance()
-        # Compute every xt_cond_tminus1 term
-        mut_cond = jnp.einsum("...j,ij->...i", filtered_means, self.transition_matrix)
-        xt_cond = jnp.einsum("...j,ij->...i", mut_cond, self.observation_matrix) 
-        # Compute every St term
-        mut_cond = jnp.einsum("...j,ij->...i", filtered_means, self.transition_matrix)
-        Sigma_cond = jnp.einsum("ik,...kl,jl->...ij", self.transition_matrix, filtered_covs, self.transition_matrix) + Q
-        St = jnp.einsum("ik,...kl,jl->...ij", self.observation_matrix, Sigma_cond, self.observation_matrix) + R
-
-        log_likelihoods = MultivariateNormal(xt_cond, St).log_prob(x)
-        return log_likelihoods.sum(axis=-1)
+        log_probabilities, *_ = self.forward_filter(x)
+        return log_probabilities.sum(axis=-1)
