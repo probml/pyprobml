@@ -1,3 +1,7 @@
+"""
+This data utils file for celeba is from https://github.com/sayantanauddy/vae_lightning
+"""
+
 from functools import partial
 import pandas as pd
 import os
