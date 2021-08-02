@@ -79,7 +79,9 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
 
     def __kalman_step(self,
                       state: Tuple[Array, Array],
-                      xt: Array):
+                      xt: Array
+                      ) -> Tuple[Tuple[float, float],
+                                 Tuple[float, float, float, float, float]]:
         mun, Sigman = state
         A = self.transition_matrix
         C = self.observation_matrix
