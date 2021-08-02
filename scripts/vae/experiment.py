@@ -11,18 +11,38 @@ class VAEModule(LightningModule):
     def __init__(
         self,
         model,
-        lr: float = 1e-3
+        lr: float = 1e-3,
+        latent_dim: int = 256
     ):
 
         super(VAEModule, self).__init__()
 
-        self.save_hyperparameters()
-
         self.lr = lr
         self.model = model
+        self.latent_dim = latent_dim
 
     def forward(self, x):
+        x = x.to(self.device)
         return self.model(x)
+    
+    def det_encode(self, x):
+        x = x.to(self.device)
+        mu, _ = self.model.encoder(x)
+        return mu
+
+    def stoch_encode(self, x):
+        x = x.to(self.device)
+        mu, log_var = self.model.encoder(x)
+        z = self.model.sample(mu, log_var)
+        return z
+
+    def decode(self, z):
+        return self.model.decoder(z)
+    
+    def get_samples(self, num):
+        z = torch.randn(num, self.latent_dim)
+        z = z.to(self.device)
+        return self.model.decoder(z)
 
     def step(self, batch, batch_idx):
         x, y = batch
