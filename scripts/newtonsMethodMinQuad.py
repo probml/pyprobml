@@ -2,9 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+import pyprobml_utils as pml
 
-if os.path.isdir('scripts'):
-    os.chdir('scripts')
 xmin = -5
 xmax = 0
 ymin = -20
@@ -35,5 +34,5 @@ plt.xticks([], [])
 plt.yticks([], [])
 plt.text(-4.1, -30, '\u03B8'+'\u2096', fontsize=14)
 plt.text(-2.1, -30, '\u03B8'+'\u2096'+'+'+'d'+'\u2096', fontsize=14)
-plt.savefig(r'../figures/newtonsMethodMinQuadTheta.png')
+pml.savefig(r'newtonsMethodMinQuadTheta.pdf')
 plt.show()

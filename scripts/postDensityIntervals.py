@@ -33,7 +33,7 @@ plt.annotate(r'$\alpha /2$', xytext=(9.5, 0.11), xy=(8.3, 0.015),
              arrowprops=dict(facecolor='black'),
              fontsize=10)
 plt.ylim(0, 0.5)
-pml.savefig('centralInterval.png')
+pml.savefig('centralInterval.pdf')
 plt.show()
 
 plt.plot(domain, f(domain), '-r', linewidth=2)
@@ -47,7 +47,7 @@ plt.fill_between(np.arange(1.3544, 4.5837, 0.001), f(
     np.arange(1.3544, 4.5837, 0.001)), color='white')
 plt.yticks([0.15], ["pMIN"])
 plt.ylim(0, 0.5)
-pml.savefig('HPD.png')
+pml.savefig('HPD.pdf')
 
 plt.show()
 

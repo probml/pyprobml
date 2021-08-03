@@ -44,7 +44,7 @@ def main():
               transform=rot + base)
     plt.text(0.658, 1, r"$u_2$", fontsize=14)
     plt.text(1, 0.94, r"$u_1$", fontsize=14)
-    plt.text(-1.7, -0.48, r"$λ_2^{1/2}$", fontsize=14)
+    plt.text(-1.4, -0.48, r"$λ_2^{1/2}$", fontsize=14)
     plt.text(0.85, -0.3, r"$λ_1^{1/2}$", fontsize=14)
     plt.arrow(1, 0.3, 0.3, 0, length_includes_head=True, width=0.015, head_width=0.05, head_length=0.05, color='black',
               transform=rot + base)
@@ -54,9 +54,10 @@ def main():
     plt.ylabel("$x_2$", fontsize=14)
     xmin, xmax = plt.xlim()
     ymin, ymax = plt.ylim()
-    scale_factor = 2
+    scale_factor = 1.2
     plt.xlim(xmin * scale_factor, xmax * scale_factor)
     plt.ylim(ymin * scale_factor, ymax * scale_factor)
+    plt.tight_layout()
     pml.savefig("gaussEvec.pdf", dpi=300)
 
     plt.show()
