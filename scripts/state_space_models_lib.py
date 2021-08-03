@@ -80,8 +80,8 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
     def __kalman_step(self,
                       state: Tuple[Array, Array],
                       xt: Array
-                      ) -> Tuple[Tuple[float, float],
-                                 Tuple[float, float, float, float, float]]:
+                      ) -> Tuple[Tuple[Array, Array],
+                                 Tuple[Array, Array, Array, Array]]:
         mun, Sigman = state
         A = self.transition_matrix
         C = self.observation_matrix
@@ -135,11 +135,10 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
     
     def __backward_smoothing_pass(self, filtered_means: Array, filtered_covs: Array,
                                   mu_cond_hist: Array, Sigma_cond_hist: Array) -> Tuple[Array, Array]:
-        # filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist = self.__forward_filter(x)
         mut_giv_T = filtered_means[-1, :]
         Sigmat_giv_T = filtered_covs[-1, :]
 
-        elements = (filtered_means[-2::-1], filtered_covs[-2::-1, ...], mu_cond_hist[1:][::-1, ...], Sigma_cond_hist[1:][::-1, ...])
+        elements = (filtered_means[-2::-1], filtered_covs[-2::-1, ...], mu_cond_hist[:0:-1, ...], Sigma_cond_hist[:0:-1, ...])
         _, (smoothed_means, smoothed_covs) = jax.lax.scan(self.__smoother_step, (mut_giv_T, Sigmat_giv_T), elements)
         smoothed_means = jnp.concatenate([smoothed_means[::-1, ...], mut_giv_T[None, ...]], axis=0)
         smoothed_covs = jnp.concatenate([smoothed_covs[::-1, ...], Sigmat_giv_T[None, ...]], axis=0)
@@ -187,7 +186,7 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
         """
 
         rng, sample_shape = convert_seed_and_sample_shape(seed, sample_shape)
-        num_samples = jnp.prod(sample_shape)
+        num_samples = functools.reduce(operator.mul, sample_shape, 1)  # product
 
         state_samples, obs_samples = self._sample_n(rng, num_samples, num_timesteps)
 
@@ -295,7 +294,8 @@ class LinearGaussianStateSpaceModel(jittable.Jittable):
             Covariances of the smoothed marginal distributions
         """
         _, filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist = self.forward_filter(x)
-        smoothed_means, smoothed_covs = self.backward_smoothing_pass(filtered_means, filtered_covs, mu_cond_hist, Sigma_cond_hist)
+        smoothed_means, smoothed_covs = self.backward_smoothing_pass(filtered_means, filtered_covs,
+                                                                     mu_cond_hist, Sigma_cond_hist)
         return smoothed_means, smoothed_covs
 
     def log_prob(self, x: Array) -> Array:
