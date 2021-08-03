@@ -1,8 +1,7 @@
-import yaml
 import torch 
 import argparse
+from utils import get_config
 from assembler import assembler
-from experiment import VAEModule
 from data import  CelebADataModule
 from pytorch_lightning import Trainer
 import torchvision.transforms as transforms
@@ -17,7 +16,7 @@ parser.add_argument('--config',  '-c',
 
 args = parser.parse_args()
 config = get_config(args.filename)
-vae = assembler(config)
+vae = assembler(config, "training")
 
 # Load data
 trans = []
@@ -38,5 +37,5 @@ dm = CelebADataModule(data_dir=config["exp_params"]["data_path"],
 # Run Training Loop
 trainer= Trainer(gpus = config["trainer_params"]["gpus"],
         max_epochs = config["trainer_params"]["max_epochs"])
-trainer.fit(m, datamodule=dm)
-torch.save(m.state_dict(), f"{model_name}-celeba-conv.ckpt")
+trainer.fit(vae, datamodule=dm)
+torch.save(vae.state_dict(), f"{vae.model.name}_celeba_conv.ckpt")
