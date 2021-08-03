@@ -1,7 +1,7 @@
 # How to Contribute
 Kevin Murphy and Mahmoud Soliman. 
 
-**Last updated: 2021-06-03.**
+**Last updated: 2021-08-03.**
 
 
 We'd love to accept your patches and contributions to this project.
