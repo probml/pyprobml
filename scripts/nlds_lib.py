@@ -127,7 +127,7 @@ class ExtendedKalmanFilter(NLDS):
         for t in range(nsamples):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
-            Vt_cond = Gt @ Vt @ Gt + self.Q
+            Vt_cond = Gt @ Vt @ Gt.T + self.Q
             Ht = self.Dfx(mu_t_cond, *observations[t])
 
             xt_hat = self.fx(mu_t_cond, *observations[t])
@@ -240,7 +240,7 @@ class ContinuousExtendedKalmanFilter:
         return sample_state, sample_obs, jump_size
     
     def _Vt_dot(self, V, G):
-        return G @ V @ G + self.Q
+        return G @ V @ G.T + self.Q
     
     def estimate(self, sample_state, sample_obs, jump_size, dt):
         """
