@@ -44,10 +44,10 @@ n_samples = 5
 key = random.PRNGKey(31415)
 state_samples, obs_samples = kf.sample(seed=key, sample_shape=n_samples, num_timesteps=num_timesteps)
 
-mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = kf.forward_filter(obs_samples)
+log_probs, mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = kf.forward_filter(obs_samples)
 # equiv: mu_hist_smooth, Sigma_hist_smooth = kf.backward_smoothing_pass(mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist)
 mu_hist_smooth, Sigma_hist_smooth = kf.posterior_marginals(obs_samples)
-marginal_log_likelihood = kf.log_prob(obs_samples)
+marginal_log_likelihood = jnp.sum(log_probs, axis=-1)
 
 print(marginal_log_likelihood)
 
