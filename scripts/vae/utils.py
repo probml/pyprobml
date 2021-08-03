@@ -4,14 +4,6 @@ import matplotlib.pyplot as plt
 import torchvision.utils as vutils
 from einops import rearrange
 
-def load_model(vae):
-  model_name = vae.model.name
-  try:
-    vae.load_state_dict(torch.load(f"{model_name}_celeba_conv.ckpt"))
-  except  FileNotFoundError:
-    print(f"Please train the model using python run.py -c ./configs/{model_name}.yaml")
-  return vae 
-
 def get_config(fpath):
     with open(fpath, 'r') as file:
         try:
@@ -33,7 +25,7 @@ def plot_samples(vaes, num=25, figsize=(10,30), num_of_images_per_row=5):
             plot_samples(vae, num, figsize, num_of_images_per_row)
     else:
         model_samples = vaes.get_samples(num)
-        title = f"Samples from {vaes.model.name}"
+        title = f"Samples from {vaes.model_name}"
         plot(model_samples, title, figsize, num_of_images_per_row)
   
 def plot_reconstruction(vaes, batch, num_of_samples=5, num_of_images_per_row=5, figsize=(10, 30)):
@@ -43,8 +35,8 @@ def plot_reconstruction(vaes, batch, num_of_samples=5, num_of_images_per_row=5, 
 
     if hasattr(vaes, '__iter__'):
         for vae in vaes:
-            title = f"Reconstruction from {vae.model.name}"
+            title = f"Reconstruction from {vae.model_name}"
             plot(vae(img), title, figsize, num_of_images_per_row)
     else:
-        title = f"Reconstruction from {vaes.model.name}"
+        title = f"Reconstruction from {vaes.model_name}"
         plot(vaes(img), title, figsize, num_of_images_per_row)
