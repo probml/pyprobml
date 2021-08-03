@@ -25,67 +25,50 @@ Please follow the guidelines below when submitting code to [pyprobml](https://gi
 - In general, your commit should be a single file. If you want to check in multiple files, discuss this in the thread for the github issue you are dealing with.
 - If your pull request refers to an open issue, please be sure to mention it (e.g., 'Closes #foo') in your PR.
  
-### Coding guidelines
+### Testing your code in colab
+
 Make sure your code works properly in Google's Colab. (It is not sufficient for it to work on your local machine). 
-The first cell should contain the following boilerplate code, that emulates running locally:
+To run in colab, the first cell should contain the following boilerplate code, that clones the repo.
 ```python
-#!git clone https://github.com/probml/pyprobml /pyprobml &> /dev/null
-#%cd -q /pyprobml/scripts
+!git clone https://github.com/probml/pyprobml /pyprobml &> /dev/null
+%cd -q /pyprobml/scripts
+```
+Or you can just import the main utils library, which is a bit faster
+```python
 !mkdir figures
 !mkdir scripts
 %cd /content/scripts
 !wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/pyprobml_utils.py
 import pyprobml_utils as pml
 ```
-You can then import any other libraries that your code needs, eg
+Then you can load and run your code following this idiom:
 ```python
-import numpy as np
-np.set_printoptions(precision=3)
-import matplotlib.pyplot as plt
-import math
-import pandas as pd
-import sklearn 
-import scipy
-
-import jax
-import jax.numpy as jnp
-from jax import random
-```
-If using Numpyro, you can use this:
-```python
-import os
-os.environ["XLA_FLAGS"] = "--xla_force_host_platform_device_count=4" # use 2 for regular colab, 4 for high memory (colab pro)
-!pip install -q numpyro@git+https://github.com/pyro-ppl/numpyro
-import numpyro
-import numpyro.distributions as dist
-```
-If using Pyro, you can use this:
-```python
-!pip3 install pyro-ppl
-```
-If you want to create local files within colab,
- you can use this idiom:
-```python
-file = 'kalman_tracking_demo.py' # change this filename as needed
-!touch $file # create empty file
-from google.colab import files
-files.view(file) # open editor
-```
-Once it works, import it, or run it directly like so:
-```python
-%run $file  
-```
-To make sure colab notices any changes to the file, add this magic:
-```
 %load_ext autoreload
 %autoreload 2
+file = 'kalman_tracking_demo.py' # change this filename as needed
+!touch $file # create  file if necessary
+from google.colab import files
+files.view(file) # open editor
+%run $file  
 ```
-When it all works, it is generally best to 
-just check in your file(s), not the notebook itself, unless the notebook has lots of explanatory text and figures, or needs a GPU or needs to install packages.
-- Following the pep-8 guidlines, please name your python files using lowercase, with optional underscores separating words, as in foo_bar.py (even if this is different from the orignal matlab filename.) 
-- Make sure your code reproduces the figure(s) in the book as closely as is “reasonable”. Note that in some cases things will not match exactly, e.g., because of different random number seeds. Do not worry about that, as long as your code is correct. Similarly, do not stress over small visual differences (e.g., colors or fonts), although the figure should be readable. 
-- Follow the example below when  creating each figure (using the same figure file names as in the original Matlab code, if relevant).  For image filenames, use lowercase, but replace underscores with hyphens, as in foo-bar.pdf. 
+If you are using numpyro and want to do MCMC runs in parallel, add this cell to colab
+```
+import os
+os.environ["XLA_FLAGS"] = "--xla_force_host_platform_device_count=4" # use 2 for regular colab, 4 for high memory (colab pro)
+```
+When your code all works, it is generally best to just check in the scripts, not the notebook itself (unless you are creating a big tutorial with lots of text and pictures).
 
+### Coding guidelines
+- Your script file should import any libraries it needs.
+Please be sure to include the following, at a minimum:
+```python
+import pyprobml_utils as pml
+import superimport
+import numpy as np
+```
+- Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules). In particular, follow [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#function-and-variable-names).
+- Name your python files using lowercase, with optional underscores separating words, as in foo_bar.py (even if this is different from the orignal matlab filename.) 
+- Follow the example below when  creating figures for the book (using the same file names as in the original Matlab code, if relevant).  
 ```python
 fig, ax = plt.subplots()
 ...
@@ -95,8 +78,6 @@ plt.show() # this is necessary to force output  buffer to be flushed
 - When labeling plots, please make sure you use [latex notation for math/ Greek symbols](https://matplotlib.org/stable/tutorials/text/mathtext.html), where possible.
 - Please don't hardcode colors of your figure, use the default values. If you need to manually choose colors, use the [new default](https://matplotlib.org/stable/users/dflt_style_changes.html#colormap) colormap of matplotlib. This color map is designed to be viewable by color-blind people. If colors don't match the original (Matlab) figures, don't worry too much, as long as the logic is the same.
 - Please use github public [gists](https://gist.github.com/) to share the figures that your code generates, so we can quickly “eyeball” them. Include these gists in your PR.
-- Your implementation should match what is described in the book, but does not need to be identical to the original Matlab code (i.e., feel free to refactor things if it will improve your code).
-- Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules). In particular, follow [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#function-and-variable-names).
 - Avoid hard-coding [“magic numbers”](https://stackoverflow.com/questions/47882/what-is-a-magic-number-and-why-is-it-bad) in the body of your code. 
 For example, instead of writing:
 
@@ -119,7 +100,6 @@ for i in range(ndata):
     dist_mat[i,j]  = np.sum((xdata[i,:] - xdata[j,:])**2)
 ``` 
 You should write:
-
 
 ```python 
 from scipy.spatial.distance import pdist, cdist
@@ -157,7 +137,7 @@ More details on Python's indexing can be found in [Jake Vanderplas's book](https
 
 For more advanced vectorization, consider using [JAX](https://colab.research.google.com/github/probml/pyprobml/blob/master/book1/supplements/jax_intro.ipynb).
  
-- Do not use JAX if you don’t need to, i.e., default to standard numpy and scipy, unless you need autograd or vmap or some other JAX features.
+- Use numpy for simple demos, JAX for when you need autograd or vmap, and pytorch for when you are reusing existing pytorch code. 
  
 - Please make sure your code is reproducible by controlling randomness, eg use `np.random.state(0)` and `torch.manual_seed(0)`. (For JAX, use PRNG state.)
  
