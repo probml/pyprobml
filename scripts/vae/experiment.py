@@ -1,6 +1,4 @@
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 from pytorch_lightning import LightningModule
 
 class VAEModule(LightningModule):
@@ -19,6 +17,7 @@ class VAEModule(LightningModule):
 
         self.lr = lr
         self.model = model
+        self.model_name = model.name
         self.latent_dim = latent_dim
 
     def forward(self, x):
@@ -66,3 +65,63 @@ class VAEModule(LightningModule):
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
+    
+    def load_model(self):
+        try:
+            self.load_state_dict(torch.load(f"{self.model.name}_celeba_conv.ckpt"))
+        except  FileNotFoundError:
+            print(f"Please train the model using python run.py -c ./configs/{self.model.name}.yaml")
+
+class VAE2stageModule(LightningModule):
+    """
+    Standard lightning training code.
+    """
+
+    def __init__(
+        self,
+        stage1,
+        stage2,
+        lr: float = 1e-3,
+        latent_dim: int = 256
+    ):
+
+        super(VAE2stageModule, self).__init__()
+
+        self.lr = lr
+        self.stage1 = stage1
+        self.stage2 = stage2
+        self.model_name = stage2.model_name
+        self.latent_dim = latent_dim
+
+    @staticmethod
+    def load_model_from_checkpoint(vae):
+        try:
+            vae.load_state_dict(torch.load(f"{vae.model.name}_celeba_conv.ckpt"))
+        except  FileNotFoundError:
+            print(f"Please train the model using python run.py -c ./configs/{vae.model.name}.yaml") 
+
+    def load_model(self):
+        self.load_model_from_checkpoint(self.stage1)
+        self.load_model_from_checkpoint(self.stage2)
+
+    def forward(self, x):
+        u = self.stoch_encode(x)
+        return self.decode(u)
+    
+    def det_encode(self, x):
+        x = x.to(self.device)
+        u = self.stage2.det_encode(self.stage1.det_encode(x))
+        return u
+
+    def stoch_encode(self, x):
+        x = x.to(self.device)
+        u = self.stage2.stoch_encode(self.stage1.stoch_encode(x))
+        return u
+
+    def decode(self, u):
+        return self.stage1.decode(self.stage2.decode(u))
+    
+    def get_samples(self, num):
+        u = torch.randn(num, self.latent_dim)
+        u = u.to(self.device)
+        return self.decode(u)
