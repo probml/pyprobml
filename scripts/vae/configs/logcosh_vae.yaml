@@ -19,6 +19,7 @@ exp_params:
   crop_size: 128
   batch_size: 256 # Better to have a square number
   LR: 0.001
+  template: "default vae"
 
 trainer_params:
   gpus: 1
