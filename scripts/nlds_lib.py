@@ -416,7 +416,7 @@ class BootstrapFiltering(NLDS):
         """
         super().__init__(fz, fx, Q, R)
     
-    def filter(self, key, init_state, sample_obs, nsamples=2000):
+    def filter(self, key, init_state, sample_obs, nsamples=2000, Vinit=None):
         """
         init_state: array(state_size,)
             Initial state estimate
@@ -426,17 +426,26 @@ class BootstrapFiltering(NLDS):
         nsteps = sample_obs.shape[0]
         mu_hist = jnp.zeros((nsteps, 2))
         keys = split(key, nsteps)
+        V = self.Q if Vinit is None else Vinit
         for t, key_t in enumerate(keys):
+            key_t, key_reindex = random.split(key_t)
+            # 1. Draw new points from the dynamic model
             if t == 0:
-                zt_rvs = random.multivariate_normal(key_t, init_state, self.Q, (nsamples,))
+                zt_rvs = random.multivariate_normal(key_t, init_state, V, (nsamples,))
             else:
                 zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q)
-                
-            xt_rvs = random.multivariate_normal(key_t, self.fx(zt_rvs), self.R)
             
-            weights_t = stats.multivariate_normal.pdf(sample_obs[t], xt_rvs, self.Q)
+            # 2. Calculate weights
+            xt_rvs = self.fx(zt_rvs)
+            weights_t = stats.multivariate_normal.pdf(sample_obs[t], xt_rvs, self.R)
             weights_t = weights_t / weights_t.sum()
-            
+
+            # 3. Resampling
+            indices = jnp.arange(nsamples)
+            pi = random.choice(key_reindex, indices, shape=(nsamples,), p=weights_t, replace=True)
+            zt_rvs = zt_rvs[pi]
+            weights_t = jnp.ones(nsamples) / nsamples
+
             mu_t = (zt_rvs * weights_t[:, None]).sum(axis=0)
             mu_hist = index_update(mu_hist, t, mu_t)
         return mu_hist
