@@ -420,11 +420,11 @@ class BootstrapFiltering(NLDS):
     
     def __filter_step(self, state, obs_t):
         nsamples = self.nsamples
+        zt_rvs, key_t, Q = state
 
-        zt_rvs, key_t = state
         key_t, key_reindex, key_next = random.split(key_t, 3)
         # 1. Draw new points from the dynamic model
-        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q)
+        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), Q)
 
         # 2. Calculate unnormalised weights
         xt_rvs = self.fx(zt_rvs)
@@ -435,10 +435,12 @@ class BootstrapFiltering(NLDS):
         zt_rvs = zt_rvs[pi]
         weights_t = jnp.ones(nsamples) / nsamples
 
-        # 4. Compute latent-state estimate
+        # 4. Compute latent-state estimate,
+        #    Set next covariance state matrix
         mu_t = (zt_rvs * weights_t[:, None]).sum(axis=0)
+        Q = self.Q
 
-        return (zt_rvs, key_next), mu_t
+        return (zt_rvs, key_next, Q), mu_t
 
 
     def filter(self, key, init_state, sample_obs, nsamples=2000, Vinit=None):
@@ -454,9 +456,8 @@ class BootstrapFiltering(NLDS):
 
             V = self.Q if Vinit is None else Vinit
             zt_rvs = jnp.ones((nsamples, m)) * init_state
-            init_state = (zt_rvs, key)
+            init_state = (zt_rvs, key, V)
             self.nsamples = nsamples
             _, mu_hist = jax.lax.scan(self.__filter_step, init_state, sample_obs)
-            del self.nsamples
 
             return mu_hist
