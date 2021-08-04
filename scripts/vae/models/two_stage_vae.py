@@ -31,7 +31,6 @@ class Encoder(nn.Module):
       modules.append(
         nn.Sequential(
           nn.Linear(input_dim, hidden_dim),
-          nn.BatchNorm1d(hidden_dim),
           nn.LeakyReLU())
       )
       input_dim = hidden_dim
@@ -63,7 +62,6 @@ class Decoder(nn.Module):
       modules.append(
         nn.Sequential(
           nn.Linear(latent_dim, hidden_dim),
-          nn.BatchNorm1d(hidden_dim),
           nn.LeakyReLU())
       )
       latent_dim = hidden_dim
