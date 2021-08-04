@@ -58,8 +58,8 @@ sample_state, sample_obs = model.sample(key, x0, nsteps)
 # *** Pertubed data ***
 key_noisy, key_values = random.split(key_noisy)
 sample_obs_noise = sample_obs.copy()
-samples_map = random.bernoulli(key_noisy, 0.4, (nsteps,)) 
-replacement_values = random.uniform(key_values, (samples_map.sum(),), minval=-1, maxval=1)
+samples_map = random.bernoulli(key_noisy, 0.5, (nsteps,)) 
+replacement_values = random.uniform(key_values, (samples_map.sum(),), minval=-2, maxval=2)
 sample_obs_noise = index_update(sample_obs_noise.ravel(), samples_map, replacement_values)
 
 
@@ -73,6 +73,9 @@ particle_filter = ds.BootstrapFiltering(fz_vec, fx_vmap, Q, Rt)
 ekf_mean_hist, ekf_Sigma_hist = ekf.filter(x0, sample_obs)
 ukf_mean_hist, ukf_Sigma_hist = ukf.filter(x0, sample_obs)
 pf_mean_hist = particle_filter.filter(key_pf, x0, sample_obs, nsamples=4_000, Vinit=Vinit)
+
+ekf_perturbed_mean_hist, ekf_Sigma_hist = ekf.filter(x0, sample_obs_noise)
+ukf_perturbed_mean_hist, ukf_Sigma_hist = ukf.filter(x0, sample_obs_noise)
 pf_perturbed_mean_hist = particle_filter.filter(key_pf, x0, sample_obs_noise, nsamples=5_000)
 
 pf_estimate = fx_vmap(pf_mean_hist)
@@ -82,6 +85,9 @@ ground_truth = fx_vmap(sample_state)
 ekf_estimate = fx_vmap(ekf_mean_hist)
 ukf_estimate = fx_vmap(ukf_mean_hist)
 pf_estimate = fx_vmap(pf_mean_hist)
+
+ekf_perturbed_estimate = fx_vmap(ekf_perturbed_mean_hist)
+ukf_perturbed_estimate = fx_vmap(ukf_perturbed_mean_hist)
 pf_perturbed_estimate = fx_vmap(pf_perturbed_mean_hist)
 ground_truth = fx_vmap(sample_state)
 
@@ -102,5 +108,13 @@ pml.savefig("pendulum_pf_1d_demo.pdf")
 fig, ax = plt.subplots()
 plot_filter_true(ax, time, pf_perturbed_estimate, sample_obs_noise, ground_truth, "Bootstrap PF (noisy)")
 pml.savefig("pendulum_pf_noisy_1d_demo.pdf")
+
+fig, ax = plt.subplots()
+plot_filter_true(ax, time, ekf_perturbed_estimate, sample_obs_noise, ground_truth, "Extended KF (noisy)")
+pml.savefig("pendulum_ekf_noisy_1d_demo.pdf")
+
+fig, ax = plt.subplots()
+plot_filter_true(ax, time, ukf_perturbed_estimate, sample_obs_noise, ground_truth, "Unscented KF (noisy)")
+pml.savefig("pendulum_ukf_noisy_1d_demo.pdf")
 
 plt.show()
