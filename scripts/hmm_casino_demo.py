@@ -7,7 +7,7 @@
 # Original matlab code: https://github.com/probml/pmtk3/blob/master/demos/casinoDemo.m
 # Author: Gerardo Duran-Martin (@gerdm)
 
-from hmm_discrete_lib import HMMNumpy, HMMJax
+from hmm_discrete_lib import HMMNumpy
 from hmm_discrete_lib import hmm_sample_numpy, hmm_forwards_backwards_numpy, hmm_viterbi_numpy
 
 import numpy as np
