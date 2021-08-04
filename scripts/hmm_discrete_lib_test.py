@@ -29,7 +29,6 @@ A = A / jnp.sum(A, axis=1)
 B = uniform(key_B, (n_hidden, n_obs))
 B = B / jnp.sum(B, axis=1).reshape((-1, 1))
 
-print(B.shape)
 n_samples = 1000
 init_state_dist = jnp.ones(n_hidden) / n_hidden
 
