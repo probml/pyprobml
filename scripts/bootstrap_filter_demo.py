@@ -51,9 +51,10 @@ if __name__ == "__main__":
     model = ds.NLDS(lambda x: fz(x, dt), fx, Qt, Rt)
     sample_state, sample_obs = model.sample(key, x0, nsteps)
 
+    n_particles = 3_000
     fz_vec = jax.vmap(fz, in_axes=(0, None))
     particle_filter = ds.BootstrapFiltering(lambda x: fz_vec(x, dt), fx, Qt, Rt)
-    pf_mean = particle_filter.filter(key, x0, sample_obs)
+    pf_mean = particle_filter.filter(key, x0, sample_obs, n_particles)
 
 
     plot_inference(sample_obs, pf_mean)
