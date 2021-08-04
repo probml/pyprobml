@@ -8,9 +8,34 @@ Author : Aleyna Kara(@karalleyna)
 from jax.random import split
 import jax.numpy as jnp
 from jax import jit, lax, vmap
-from jax.nn import logsumexp
+from jax.nn import logsumexp, log_softmax, one_hot
 
 from functools import partial
+'''
+!pip install jax==0.2.11
+!pip install jaxlib==0.1.69
+!pip install tensorflow==2.5.0
+!pip install tensorflow-probability==0.13.0
+'''
+import flax
+import distrax
+
+'''
+Hidden Markov Model class in which trans_dist and init_dist are categorical-like
+distribution from distrax, and obs_dist is any instance of distrax.Distribution.
+
+The functions of optimizers expect that the type of its parameters 
+is pytree. So, they cannot work on a vanilla dataclass. To see more:
+                https://github.com/google/jax/issues/2371
+
+Since the flax.dataclass is registered pytree beforehand, it facilitates to use
+jit, vmap and optimizers on the hidden markov model.
+'''
+@flax.struct.dataclass
+class HMM:
+  trans_dist: distrax.Distribution
+  obs_dist: distrax.Distribution
+  init_dist: distrax.Distribution
 
 def logdotexp(u, v, axis=-1):
     '''
@@ -245,6 +270,8 @@ def hmm_viterbi_log(params, obs_seq, length=None):
     Computes, for each time step, the marginal conditional probability that the Hidden Markov Model was
     in each possible state given the observations that were made at each time step, i.e.
     P(z[i] | x[0], ..., x[num_steps - 1]) for all i from 0 to num_steps - 1
+    It is based on https://github.com/deepmind/distrax/blob/master/distrax/_src/utils/hmm.py
+
     Parameters
     ----------
     params : HMM
@@ -266,22 +293,51 @@ def hmm_viterbi_log(params, obs_seq, length=None):
 
     if length is None:
         length = seq_len
+
     trans_dist, obs_dist, init_dist = params.trans_dist, params.obs_dist, params.init_dist
+
+    trans_log_probs = log_softmax(trans_dist.logits)
+    init_log_probs = log_softmax(init_dist.logits)
 
     n_states = obs_dist.batch_shape[0]
 
-    w0 = trans_dist.logits + init_dist.logits + obs_dist.log_prob(obs_seq[0])
-    w0 = w0.max(axis=1)
+    first_log_prob = init_log_probs + obs_dist.log_prob(obs_seq[0])
 
-    def forwards_backwards(w_prev, t):
-        wn = jnp.where(t < length,
-                       trans_dist.logits + obs_dist.log_prob(obs_seq[t]) + w_prev,
-                       -jnp.inf + jnp.zeros_like(w_prev))
-        wn = wn.max(axis=1)
-        return wn, wn
+    if seq_len == 1:
+        return jnp.expand_dims(jnp.argmax(first_log_prob), axis=0)
+
+    def viterbi_forward(prev_logp, t):
+        obs_logp = obs_dist.log_prob(obs_seq[t])
+
+        logp = jnp.where(t <= length,
+                         prev_logp[..., None] + trans_log_probs + obs_logp[..., None, :],
+                         -jnp.inf + jnp.zeros_like(trans_log_probs))
+
+        max_logp_given_successor = jnp.where(t <= length, jnp.max(logp, axis=-2), prev_logp)
+        most_likely_given_successor = jnp.where(t <= length, jnp.argmax(logp, axis=-2), -1)
+
+        return max_logp_given_successor, most_likely_given_successor
 
     ts = jnp.arange(1, seq_len)
-    _, logp_hist = lax.scan(forwards_backwards, w0, ts)
-    logp_hist = jnp.vstack([w0.reshape(1, n_states), logp_hist])
+    final_log_prob, most_likely_sources = lax.scan(viterbi_forward, first_log_prob, ts)
 
-    return logp_hist.argmax(axis=1)
+    most_likely_initial_given_successor = jnp.argmax(
+        trans_log_probs + first_log_prob, axis=-2)
+
+    most_likely_sources = jnp.concatenate([
+        jnp.expand_dims(most_likely_initial_given_successor, axis=0),
+        most_likely_sources], axis=0)
+
+    def viterbi_backward(state, t):
+        state = jnp.where(t <= length,
+                          jnp.sum(most_likely_sources[t] * one_hot(state, n_states)).astype(jnp.int64),
+                          state)
+        most_likely = jnp.where(t <= length, state, -1)
+        return state, most_likely
+
+    final_state = jnp.argmax(final_log_prob)
+    _, most_likely_path = lax.scan(viterbi_backward, final_state, ts, reverse=True)
+
+    final_state = jnp.where(length == seq_len, final_state, -1)
+
+    return jnp.append(most_likely_path, final_state)
