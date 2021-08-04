@@ -42,6 +42,7 @@ def selu(z, scale=scale_0_1, alpha=alpha_0_1):
     return scale * elu(z, alpha)
 
 z = np.linspace(-5, 5, 200)
+# dummy test
 
 #plt.figure(figsize=(11,4))
 plt.figure()
