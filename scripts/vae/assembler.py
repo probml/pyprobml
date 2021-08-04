@@ -1,15 +1,23 @@
+import yaml
 import importlib
 from functools import partial
 from models.base_vae import VAE
-from models.two_stage_vae import Stage2VAE
-from utils import get_config
+from models.two_stage_vae import Stage2VAE 
 from experiment import VAEModule, VAE2stageModule
 
+def get_config(fpath):
+   with open(fpath, 'r') as file:
+      try:
+          config = yaml.safe_load(file)
+      except yaml.YAMLError as exc:
+          print(exc)
+      return config
+      
 def is_two_stage(config):
-    return config["exp_params"]["template"] == "2 stage vae"
+   return config["exp_params"]["template"] == "2 stage vae"
 
 def is_default_vae(config):
-    return config["exp_params"]["template"] == "default vae"
+   return config["exp_params"]["template"] == "default vae"
 
 def is_config_valid(config):
     # Check config is valid
