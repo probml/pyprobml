@@ -1,7 +1,6 @@
 import torch 
 import argparse
-from utils import get_config
-from assembler import assembler
+from assembler import get_config, assembler
 from data import  CelebADataModule
 from pytorch_lightning import Trainer
 import torchvision.transforms as transforms
