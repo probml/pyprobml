@@ -24,7 +24,7 @@ class Encoder(nn.Module):
     super(Encoder, self).__init__()
 
     if hidden_dims is None:
-      hidden_dims = [1024, 1024, 200]
+      hidden_dims = [250, 200, 150]
 
     modules = [] 
     for hidden_dim in hidden_dims:
@@ -37,8 +37,8 @@ class Encoder(nn.Module):
       input_dim = hidden_dim
 
     self.encoder = nn.Sequential(*modules)
-    self.fc_mu = nn.Linear(200, latent_dim)
-    self.fc_var = nn.Linear(200, latent_dim)
+    self.fc_mu = nn.Linear(hidden_dims[-1], latent_dim)
+    self.fc_var = nn.Linear(hidden_dims[-1], latent_dim)
 
   def forward(self, x):
     x = self.encoder(x)
@@ -55,7 +55,7 @@ class Decoder(nn.Module):
     super(Decoder, self).__init__()
 
     if hidden_dims is None:
-      hidden_dims = [1024, 1024, 200]
+      hidden_dims = [250, 200, 150]
       hidden_dims.reverse()
 
     modules = [] 
