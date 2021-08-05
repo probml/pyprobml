@@ -17,6 +17,7 @@ import jax.numpy as jnp
 from jax import random
 from jax.ops import index_update
 from jax.scipy import stats
+from jax.scipy.special import logit
 from math import ceil
 
 
@@ -127,7 +128,7 @@ class ExtendedKalmanFilter(NLDS):
         for t in range(nsamples):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
-            Vt_cond = Gt @ Vt @ Gt + self.Q
+            Vt_cond = Gt @ Vt @ Gt.T + self.Q
             Ht = self.Dfx(mu_t_cond, *observations[t])
 
             xt_hat = self.fx(mu_t_cond, *observations[t])
@@ -240,7 +241,7 @@ class ContinuousExtendedKalmanFilter:
         return sample_state, sample_obs, jump_size
     
     def _Vt_dot(self, V, G):
-        return G @ V @ G + self.Q
+        return G @ V @ G.T + self.Q
     
     def estimate(self, sample_state, sample_obs, jump_size, dt):
         """
@@ -406,6 +407,7 @@ class UnscentedKalmanFilter(NLDS):
 
         return mu_hist, Sigma_hist
 
+
 class BootstrapFiltering(NLDS):
     def __init__(self, fz, fx, Q, R):
         """
@@ -416,27 +418,46 @@ class BootstrapFiltering(NLDS):
         """
         super().__init__(fz, fx, Q, R)
     
-    def filter(self, key, init_state, sample_obs, nsamples=2000):
-        """
-        init_state: array(state_size,)
-            Initial state estimate
-        sample_obs: array(nsamples, obs_size)
-            Samples of the observations
-        """
-        nsteps = sample_obs.shape[0]
-        mu_hist = jnp.zeros((nsteps, 2))
-        keys = split(key, nsteps)
-        for t, key_t in enumerate(keys):
-            if t == 0:
-                zt_rvs = random.multivariate_normal(key_t, init_state, self.Q, (nsamples,))
-            else:
-                zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q)
-                
-            xt_rvs = random.multivariate_normal(key_t, self.fx(zt_rvs), self.R)
-            
-            weights_t = stats.multivariate_normal.pdf(sample_obs[t], xt_rvs, self.Q)
-            weights_t = weights_t / weights_t.sum()
-            
-            mu_t = (zt_rvs * weights_t[:, None]).sum(axis=0)
-            mu_hist = index_update(mu_hist, t, mu_t)
-        return mu_hist
+    def __filter_step(self, state, obs_t):
+        nsamples = self.nsamples
+        zt_rvs, key_t, Q = state
+
+        key_t, key_reindex, key_next = random.split(key_t, 3)
+        # 1. Draw new points from the dynamic model
+        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), Q)
+
+        # 2. Calculate unnormalised weights
+        xt_rvs = self.fx(zt_rvs)
+        weights_t = stats.multivariate_normal.pdf(obs_t, xt_rvs, self.R)
+
+        # 3. Resampling
+        pi = random.categorical(key_reindex, logit(weights_t), shape=(nsamples,))
+        zt_rvs = zt_rvs[pi]
+        weights_t = jnp.ones(nsamples) / nsamples
+
+        # 4. Compute latent-state estimate,
+        #    Set next covariance state matrix
+        mu_t = (zt_rvs * weights_t[:, None]).sum(axis=0)
+        Q = self.Q
+
+        return (zt_rvs, key_next, Q), mu_t
+
+
+    def filter(self, key, init_state, sample_obs, nsamples=2000, Vinit=None):
+            """
+            init_state: array(state_size,)
+                Initial state estimate
+            sample_obs: array(nsamples, obs_size)
+                Samples of the observations
+            """
+            m, *_ = init_state.shape
+            nsteps = sample_obs.shape[0]
+            mu_hist = jnp.zeros((nsteps, m))
+
+            V = self.Q if Vinit is None else Vinit
+            zt_rvs = jnp.ones((nsamples, m)) * init_state
+            init_state = (zt_rvs, key, V)
+            self.nsamples = nsamples
+            _, mu_hist = jax.lax.scan(self.__filter_step, init_state, sample_obs)
+
+            return mu_hist
