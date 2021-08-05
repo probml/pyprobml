@@ -420,27 +420,28 @@ class BootstrapFiltering(NLDS):
     
     def __filter_step(self, state, obs_t):
         nsamples = self.nsamples
-        zt_rvs, key_t, Q = state
+        indices = jnp.arange(nsamples)
+        zt_rvs, key_t = state
 
         key_t, key_reindex, key_next = random.split(key_t, 3)
         # 1. Draw new points from the dynamic model
-        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), Q)
+        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q)
 
         # 2. Calculate unnormalised weights
         xt_rvs = self.fx(zt_rvs)
         weights_t = stats.multivariate_normal.pdf(obs_t, xt_rvs, self.R)
 
         # 3. Resampling
-        pi = random.categorical(key_reindex, logit(weights_t), shape=(nsamples,))
-        zt_rvs = zt_rvs[pi]
+        pi = random.choice(key_reindex, indices,
+                           p=weights_t, shape=(nsamples,))
+        zt_rvs = zt_rvs[pi, ...]
         weights_t = jnp.ones(nsamples) / nsamples
 
         # 4. Compute latent-state estimate,
         #    Set next covariance state matrix
-        mu_t = (zt_rvs * weights_t[:, None]).sum(axis=0)
-        Q = self.Q
+        mu_t = jnp.einsum("im,i->m", zt_rvs, weights_t)
 
-        return (zt_rvs, key_next, Q), mu_t
+        return (zt_rvs, key_next), mu_t
 
 
     def filter(self, key, init_state, sample_obs, nsamples=2000, Vinit=None):
@@ -454,9 +455,11 @@ class BootstrapFiltering(NLDS):
             nsteps = sample_obs.shape[0]
             mu_hist = jnp.zeros((nsteps, m))
 
+            key, key_init = random.split(key, 2)
             V = self.Q if Vinit is None else Vinit
-            zt_rvs = jnp.ones((nsamples, m)) * init_state
-            init_state = (zt_rvs, key, V)
+            zt_rvs = random.multivariate_normal(key_init, init_state, V, shape=(nsamples,))
+            
+            init_state = (zt_rvs, key)
             self.nsamples = nsamples
             _, mu_hist = jax.lax.scan(self.__filter_step, init_state, sample_obs)
 
