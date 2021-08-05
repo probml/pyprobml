@@ -14,9 +14,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import distrax
+from distrax import HMM
 import tensorflow_probability as tfp
 
-from hmm_lib import hmm_sample, HMM
 import pyprobml_utils as pml
 
 def plot_2dhmm(hmm, samples_obs, samples_state, colors, ax, xmin, xmax, ymin, ymax, step=1e-2):
@@ -99,8 +99,8 @@ if __name__ == "__main__":
               obs_dist=distrax.as_distribution(
                   tfp.substrates.jax.distributions.MultivariateNormalFullCovariance(loc=mu_collection,
                                                                                     covariance_matrix=cov_collection)))
-    n_samples, seed = 50, 100
-    samples_state, samples_obs = hmm_sample(hmm, n_samples, PRNGKey(seed))
+    n_samples, seed = 50, 10
+    samples_state, samples_obs = hmm.sample(seed=PRNGKey(seed), seq_len=n_samples)
 
     xmin, xmax = 0, 1
     ymin, ymax = 0, 1.2

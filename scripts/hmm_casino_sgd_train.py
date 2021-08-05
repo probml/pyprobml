@@ -13,7 +13,7 @@ import jax.numpy as jnp
 
 import matplotlib.pyplot as plt
 
-from hmm_discrete_lib import HMMNumpy, HMMJax
+from hmm_discrete_lib import HMMJax
 from hmm_discrete_lib import hmm_sample_jax, hmm_plot_graphviz
 
 from hmm_sgd_lib import fit
