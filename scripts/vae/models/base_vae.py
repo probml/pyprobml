@@ -9,6 +9,7 @@ class VAE(nn.Module):
 
     def __init__(
         self,
+        name: str,
         loss: Callable,
         encoder: Callable,
         decoder: Callable,
@@ -17,6 +18,7 @@ class VAE(nn.Module):
 
         super(VAE, self).__init__()
 
+        self.name = name
         self.loss = loss
         self.kwargs = kwargs
         self.encoder = encoder
