@@ -1,4 +1,6 @@
-# Mixture of Factor analyzers
+# Mixture of Factor analyzers for CelebA images
+# from 
+# https://github.com/eitanrich/gans-n-gmms
 
 import numpy as np
 import torch
