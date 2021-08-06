@@ -1,8 +1,9 @@
 import yaml
 import importlib
 from functools import partial
-from models.base_vae import VAE
+from models.guassian_vae import VAE
 from models.two_stage_vae import Stage2VAE 
+from models.vq_vae import VQVAE
 from experiment import VAEModule, VAE2stageModule
 
 def get_config(fpath):
@@ -12,7 +13,9 @@ def get_config(fpath):
       except yaml.YAMLError as exc:
           print(exc)
       return config
-      
+
+def  is_vq_vae(config):
+    return config["exp_params"]["template"] == "vq vae"      
 def is_two_stage(config):
    return config["exp_params"]["template"] == "2 stage vae"
 
@@ -32,6 +35,8 @@ def is_config_valid(config):
         is_config_valid(config_stage_one)
         assert config_stage_one["encoder_params"]["latent_dim"] == config["encoder_params"]["input_dim"]
         assert config["decoder_params"]["output_dim"] == config["encoder_params"]["input_dim"]
+    elif is_vq_vae(config):
+        assert config["encoder_params"]["latent_dim"] == config["vq_params"]["embedding_dim"]
 
 def is_mode_training(mode):
     return mode=="training"
@@ -78,6 +83,10 @@ def assembler(config, mode):
         vae = Stage2VAE(vae_name, loss, encoder, decoder, vae_first_stage)
         vae = VAEModule(vae, config["exp_params"]["LR"], config["encoder_params"]["latent_dim"])
         vaes = [vae_first_stage , vae]
+    elif is_vq_vae(config):
+        vae = VQVAE(vae_name, loss, encoder, decoder, config["vq_params"])
+        vae = VAEModule(vae, config["exp_params"]["LR"], config["encoder_params"]["latent_dim"])
+        vaes = [vae]
     
     # training vs inference time model
     if is_mode_training(mode):
