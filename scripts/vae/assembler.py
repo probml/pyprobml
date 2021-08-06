@@ -4,7 +4,7 @@ from functools import partial
 from models.guassian_vae import VAE
 from models.two_stage_vae import Stage2VAE 
 from models.vq_vae import VQVAE
-from experiment import VAEModule, VAE2stageModule
+from experiment import VAEModule, VAE2stageModule, VQVAEModule
 
 def get_config(fpath):
    with open(fpath, 'r') as file:
@@ -85,7 +85,7 @@ def assembler(config, mode):
         vaes = [vae_first_stage , vae]
     elif is_vq_vae(config):
         vae = VQVAE(vae_name, loss, encoder, decoder, config["vq_params"])
-        vae = VAEModule(vae, config["exp_params"]["LR"], config["encoder_params"]["latent_dim"])
+        vae = VQVAEModule(vae, config["exp_params"]["LR"], config["encoder_params"]["latent_dim"])
         vaes = [vae]
     
     # training vs inference time model

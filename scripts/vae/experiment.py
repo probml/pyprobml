@@ -1,4 +1,5 @@
 import torch
+import warnings
 from pytorch_lightning import LightningModule
 
 class VAEModule(LightningModule):
@@ -125,3 +126,77 @@ class VAE2stageModule(LightningModule):
         u = torch.randn(num, self.latent_dim)
         u = u.to(self.device)
         return self.decode(u)
+
+class VQVAEModule(LightningModule):
+    """
+    Standard lightning training code.
+    """
+
+    def __init__(
+        self,
+        model,
+        lr: float = 1e-3,
+        latent_dim: int = 256
+    ):
+
+        super(VQVAEModule, self).__init__()
+
+        self.lr = lr
+        self.model = model
+        self.model_name = model.name
+        self.latent_dim = latent_dim
+
+    def forward(self, x):
+        x = x.to(self.device)
+        return self.model(x)
+    
+    def encode(self, x):
+        x = x.to(self.device)
+        z = self.model.encoder(x)[0]
+        return z
+
+    def qunatize_encode(self, x):
+        x = x.to(self.device)
+        z = self.model.encoder(x)[0]
+        quantized_inputs, _ = self.model.vq_layer(z)
+        return quantized_inputs
+
+    def decode(self, z):
+        return self.model.decoder(z)
+    
+    def get_samples(self, num):
+        # Warning these numbers are hardcoded for the default archiecture
+        warnings.warn("Sampling does not work yet, we need to sample from a pixel cnn prior", RuntimeWarning, stacklevel=2)
+        z = torch.randn(num, self.latent_dim, 16, 16)
+        z = z.to(self.device)
+        quantized_inputs, _ = self.model.vq_layer(z)
+        return self.model.decoder(quantized_inputs)
+
+    def step(self, batch, batch_idx):
+        x, y = batch
+
+        loss = self.model.compute_loss(x)
+
+        logs = {
+            "loss": loss,
+        }
+        return loss, logs
+
+    def training_step(self, batch, batch_idx):
+      loss, logs = self.step(batch, batch_idx)
+      self.log_dict({f"train_{k}": v for k, v in logs.items()}, on_step=True, on_epoch=False)
+      return loss
+
+    def validation_step(self, batch, batch_idx):
+      loss, logs = self.step(batch, batch_idx)
+      self.log_dict({f"val_{k}": v for k, v in logs.items()})
+      return loss
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=self.lr)
+    
+    def load_model(self):
+        try:
+            self.load_state_dict(torch.load(f"{self.model.name}_celeba_conv.ckpt"))
+        except  FileNotFoundError:
+            print(f"Please train the model using python run.py -c ./configs/{self.model.name}.yaml")
