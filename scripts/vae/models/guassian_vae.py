@@ -14,7 +14,7 @@ class VAE(nn.Module):
         encoder: Callable,
         decoder: Callable,
         **kwargs
-    ):
+    ) -> None:
 
         super(VAE, self).__init__()
 
@@ -45,8 +45,3 @@ class VAE(nn.Module):
         loss = self.loss(x, x_hat, z , mu, logvar)
 
         return loss
-
-    def step_sample(self, batch, batch_idx):
-      x, y = batch
-      z, x_hat = self._run_step(x)
-      return z, x_hat
