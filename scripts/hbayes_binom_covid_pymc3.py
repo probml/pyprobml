@@ -7,6 +7,7 @@ import pandas as pd
 #import seaborn as sns
 import pymc3 as pm
 import arviz as az
+import pyprobml_utils as pml
 
 np.random.seed(123)
 
@@ -31,10 +32,10 @@ with pm.Model() as model_h:
     #y = pm.Bernoulli('y', p=θ[group_idx], observed=data)
     y = pm.Binomial('y', p=theta, observed=G_samples, n=N_samples)
 
-    trace_h = pm.sample(1000)
+    trace_h = pm.sample(1000, cores=1, chains=2)
     
 az.plot_trace(trace_h)
-plt.savefig('../figures/hbayes_binom_covid_trace.png', dpi=300)
+pml.savefig('hbayes_binom_covid_trace.png', dpi=300)
 
 print(az.summary(trace_h))
 
@@ -73,7 +74,7 @@ axes = az.plot_forest(
     trace_h, var_names='θ', hdi_prob=0.95, combined=False, colors='cycle')
 y_lims = axes[0].get_ylim()
 #axes[0].vlines(post_hyper_mean, *y_lims)
-plt.savefig('../figures/hbayes_binom_covid_forest.png', dpi=300)
+pml.savefig('hbayes_binom_covid_forest.png', dpi=300)
 
 
 fig, axs = plt.subplots(4,1, figsize=(8,8))
@@ -95,4 +96,6 @@ ax = axs[3]
 ax.bar(xs, post_mean)
 ax.hlines(post_hyper_mean, 0, J, 'r', lw=3)
 ax.set_title('posterior mean (red line = hparam)')
-plt.savefig('../figures/hbayes_binom_covid_barplot.png', dpi=300)
+pml.savefig('hbayes_binom_covid_barplot.png', dpi=300)
+
+plt.show()

@@ -32,8 +32,7 @@ with pm.Model() as model_space_flu:
     gp = pm.gp.Latent(cov_func=cov)
     f = gp.prior('f', X=age)
     y_ = pm.Bernoulli('y', p=pm.math.sigmoid(f), observed=space_flu)
-    trace_space_flu = pm.sample(
-        1000, chains=1, compute_convergence_checks=False)
+    trace_space_flu = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
     
     
 X_new = np.linspace(0, 80, 200)[:, None]

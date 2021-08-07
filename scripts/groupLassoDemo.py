@@ -25,7 +25,7 @@ Sec. 11.5.3. in the book "Probabilistic Machine Learning: An Introduction by Kev
 for more information
 
 """
-#imports
+import superimport # installs packages as needed
 import numpy as np
 import matplotlib.pyplot as plt
 import math

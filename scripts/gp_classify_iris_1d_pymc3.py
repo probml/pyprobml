@@ -54,7 +54,7 @@ if 1:
         f = gp.prior("f", X=X_1)
         # logistic inverse link function and Bernoulli likelihood
         y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
-        trace_iris = pm.sample(1000, chains=1, compute_convergence_checks=False)
+        trace_iris = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
         
     # Posterior predictive
   
@@ -83,7 +83,7 @@ if 1:
     ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color='k', alpha=0.5)
     ax.set_xlabel('sepal_length')
     ax.set_ylabel('θ', rotation=0)
-    plt.savefig('../figures/gp_classify_iris1.pdf', dpi=300)
+    pml.savefig('gp_classify_iris1.pdf', dpi=300)
 
 # Change kernel to be sum of SE and linear, to improve tail behavior
 
@@ -99,7 +99,7 @@ with pm.Model() as model_iris2:
     f = gp.prior("f", X=X_1)
     # logistic inverse link function and Bernoulli likelihood
     y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
-    trace_iris2 = pm.sample(1000, chains=1, compute_convergence_checks=False)
+    trace_iris2 = pm.sample(1000, chains=1, cores=1, ompute_convergence_checks=False)
     
 with model_iris2:
     f_pred = gp.conditional('f_pred', X_new)
@@ -127,4 +127,4 @@ ax.set_xlabel('sepal_length')
 ax.set_ylabel('θ', rotation=0)
 pml.savefig('gp_classify_iris2.pdf', dpi=300)
 
-    
+plt.show()

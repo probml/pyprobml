@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 from patsy import bs, dmatrix
+import pyprobml_utils as pml
 
 x = np.linspace(0., 1., 20)
 knots = [0.25, 0.5, 0.75]
@@ -20,7 +21,8 @@ _, axes = plt.subplots(1, 3, sharey=True)
 for idx, (B, title, ax) in enumerate(zip((B0, B1, B3),
                                      ("Piecewise constant", "Piecewise linear", "Cubic spline"),
                                       axes)):
-    ax.imshow(B, cmap="cet_gray_r", aspect="auto")
+    #ax.imshow(B, cmap="cet_gray_r", aspect="auto")
+    ax.imshow(B, cmap="Greys", aspect="auto")
     ax.set_xticks(np.arange(B.shape[1]))
     ax.set_yticks(np.arange(B.shape[0]))
     ax.set_yticklabels([np.round(v,1) for v in x])
@@ -31,7 +33,7 @@ for idx, (B, title, ax) in enumerate(zip((B0, B1, B3),
 
 axes[1].set_xlabel("B-splines")
 axes[0].set_ylabel("x", rotation=0, labelpad=15);
-plt.savefig('../figures/splines_basis_heatmap.pdf', dpi=300)
+pml.savefig('splines_basis_heatmap.pdf', dpi=300)
 
 titles = ["Piecewise constant", "Piecewise linear", "Cubic spline"]
 Bs = [B0, B1, B3]
@@ -39,7 +41,8 @@ for i in range(3):
     B= Bs[i]
     title= titles[i]
     fig, ax = plt.subplots()
-    ax.imshow(B, cmap="cet_gray_r", aspect="auto")
+    #ax.imshow(B, cmap="cet_gray_r", aspect="auto")
+    ax.imshow(B, cmap="Greys", aspect="auto")
     ax.set_xticks(np.arange(B.shape[1]))
     ax.set_yticks(np.arange(B.shape[0]))
     ax.set_yticklabels([np.round(v,1) for v in x])
@@ -47,4 +50,6 @@ for i in range(3):
     ax.spines['bottom'].set_visible(False)
     ax.set_title(title)
     plt.tight_layout()
-    plt.savefig(f'../figures/splines_basis_heatmap{i}.pdf', dpi=300)
+    pml.savefig(f'splines_basis_heatmap{i}.pdf', dpi=300)
+
+plt.show()

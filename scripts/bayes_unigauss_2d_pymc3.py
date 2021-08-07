@@ -41,7 +41,7 @@ with pm.Model():
     # likelihood
     observed = pm.Normal('observed', mu=mu, sd=sigma, observed=data)
     # sample
-    trace = pm.sample(draws=10000, chains=1)
+    trace = pm.sample(draws=10000, chains=2, cores=1)
     
 pm.traceplot(trace);
 

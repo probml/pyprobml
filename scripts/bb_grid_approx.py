@@ -1,13 +1,10 @@
 # 1d grid approixmation to beta binomial model
 # https://github.com/aloctavodia/BAP
 
-
-import pymc3 as pm
 import numpy as np
-import pandas as pd
 import scipy.stats as stats
 import matplotlib.pyplot as plt
-import arviz as az
+import pyprobml_utils as pml
 
 def posterior_grid(heads, tails, grid_points=100):
     grid = np.linspace(0, 1, grid_points)
@@ -25,8 +22,8 @@ grid, posterior = posterior_grid(h, t, 20)
 plt.stem(grid, posterior, use_line_collection=True)
 plt.title('grid approximation')
 plt.yticks([])
-plt.xlabel('θ');
-plt.savefig('../figures/bb_grid.pdf')
+plt.xlabel('θ')
+pml.savefig('bb_grid.pdf')
 
 plt.figure()
 x = np.linspace(0, 1, 100)
@@ -35,4 +32,6 @@ post_exact = stats.beta.pdf(xs, h+1, t+1)
 post_exact = post_exact / np.sum(post_exact)
 plt.plot(xs, post_exact)
 plt.title('exact posterior')
-plt.savefig('../figures/bb_exact.pdf')
+pml.savefig('bb_exact.pdf')
+
+plt.show()

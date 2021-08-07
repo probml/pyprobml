@@ -6,6 +6,7 @@ import pandas as pd
 import pymc3 as pm
 import arviz as az
 import theano.tensor as tt
+import pyprobml_utils as pml
 
 np.random.seed(123)
 
@@ -25,7 +26,7 @@ if False:
         theta = pm.Beta('θ', alpha=μ*κ, beta=(1.0-μ)*κ, shape=len(N_samples))
         #y = pm.Bernoulli('y', p=θ[group_idx], observed=data)
         y = pm.Binomial('y', p=theta, observed=G_samples, n=N_samples)
-        trace = pm.sample(1000)
+        trace = pm.sample(1000, cores=1, chains=2)
     
 #https://docs.pymc.io/notebooks/GLM-hierarchical-binominal-model.html
     
@@ -44,10 +45,10 @@ with pm.Model() as model:
     beta = pm.Deterministic('beta', ab[1])
     theta = pm.Beta('θ', alpha=alpha, beta=beta, shape=len(N_samples))
     y = pm.Binomial('y', p=theta, observed=G_samples, n=N_samples)
-    trace = pm.sample(1000)
+    trace = pm.sample(1000, cores=1, chains=2)
     
 az.plot_trace(trace)
-plt.savefig('hbayes_binom_covid_trace.pdf', dpi=300)
+pml.savefig('hbayes_binom_covid_trace.pdf', dpi=300)
 
 print(az.summary(trace))
 
@@ -97,3 +98,5 @@ ax.bar(xs, post_mean)
 ax.hlines(hyper_mean, 0, J, 'r', lw=3)
 ax.set_title('posterior mean (red line = hparam)')
 pml.savefig('hbayes_binom_covid_barplot.pdf')
+
+plt.show()

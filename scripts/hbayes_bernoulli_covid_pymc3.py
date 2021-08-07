@@ -36,7 +36,7 @@ with pm.Model() as model_h:
     θ = pm.Beta('θ', alpha=μ*κ, beta=(1.0-μ)*κ, shape=len(N_samples))
     y = pm.Bernoulli('y', p=θ[group_idx], observed=data)
 
-    trace_h = pm.sample(1000)
+    trace_h = pm.sample(1000, cores=1, chains=2)
     
 az.plot_trace(trace_h)
 #plt.savefig('B11197_02_20.png', dpi=300)
@@ -125,3 +125,5 @@ ax.legend()
 ax.set_xlabel('$θ_{prior}$')
 plt.tight_layout()
 #plt.savefig('B11197_02_21.png', dpi=300)
+
+plt.show()

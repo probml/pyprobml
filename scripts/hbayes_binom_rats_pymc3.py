@@ -9,6 +9,7 @@ import pandas as pd
 import pymc3 as pm
 import arviz as az
 import theano.tensor as tt
+import pyprobml_utils as pml
 
 np.random.seed(123)
 
@@ -53,7 +54,7 @@ with pm.Model() as model:
 
     p = pm.Binomial('y', p=theta, observed=y, n=n)
     #trace = pm.sample(1000, tune=2000, target_accept=0.95)
-    trace = pm.sample(1000, tune=500, cores=1)
+    trace = pm.sample(1000, tune=500, cores=1, chains=2)
     
     
 #az.plot_trace(trace)
@@ -86,10 +87,10 @@ print(pooled_mle)
 
 
 axes = az.plot_forest(
-    trace, var_names='theta', credible_interval=0.95, combined=True, colors='cycle')
+    trace, var_names='theta', hdi_prob=0.95, combined=True, colors='cycle')
 y_lims = axes[0].get_ylim()
 axes[0].vlines(hyper_mean, *y_lims)
-plt.savefig('../figures/hbayes_binom_rats_forest95.pdf', dpi=300)
+pml.savefig('hbayes_binom_rats_forest95.pdf', dpi=300)
 
 
 J = len(n)
@@ -113,7 +114,7 @@ ax.bar(xs, post_mean)
 ax.hlines(hyper_mean, 0, J, 'r', lw=3)
 ax.set_ylim(0, 0.5)
 ax.set_title('posterior mean (red line = hparam)')
-plt.savefig('../figures/hbayes_binom_rats_barplot.pdf', dpi=300)
+pml.savefig('hbayes_binom_rats_barplot.pdf', dpi=300)
 
 
 J = len(n)
@@ -121,24 +122,25 @@ xs = np.arange(J)
 fig, ax = plt.subplots(1,1)
 ax.bar(xs, y)
 ax.set_title('number of postives')
-plt.savefig('../figures/hbayes_binom_rats_outcomes.pdf', dpi=300)
+pml.savefig('hbayes_binom_rats_outcomes.pdf', dpi=300)
 
 fig, ax = plt.subplots(1,1)
 ax.bar(xs, n)
 ax.set_title('popn size')
-plt.savefig('../figures/hbayes_binom_rats_popsize.pdf', dpi=300)
+pml.savefig('hbayes_binom_rats_popsize.pdf', dpi=300)
 
 fig, ax = plt.subplots(1,1)
 ax.bar(xs, mle)
 ax.set_ylim(0, 0.5)
 ax.hlines(pooled_mle, 0, J, 'r', lw=3)
 ax.set_title('MLE (red line = pooled)')
-plt.savefig('../figures/hbayes_binom_rats_MLE.pdf', dpi=300)
+pml.savefig('hbayes_binom_rats_MLE.pdf', dpi=300)
 
 fig, ax = plt.subplots(1,1)
 ax.bar(xs, post_mean)
 ax.hlines(hyper_mean, 0, J, 'r', lw=3)
 ax.set_ylim(0, 0.5)
 ax.set_title('posterior mean (red line = hparam)')
-plt.savefig('../figures/hbayes_binom_rats_postmean.pdf', dpi=300)
+pml.savefig('hbayes_binom_rats_postmean.pdf', dpi=300)
 
+plt.show()

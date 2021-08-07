@@ -9,6 +9,7 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import arviz as az
 import math
+import pyprobml_utils as pml
 
 #data = np.repeat([0, 1], (10, 3))
 data = np.repeat([0, 1], (10, 1))
@@ -26,7 +27,7 @@ post_exact = post_exact / np.sum(post_exact)
 plt.plot(xs, post_exact)
 plt.yticks([])
 plt.title('exact posterior')
-plt.savefig('../figures/bb_exact.pdf')
+pml.savefig('bb_exact.pdf')
 
 
 # Grid 
@@ -51,7 +52,7 @@ plt.plot(xs, post_exact*sf)
 plt.title('grid approximation')
 plt.yticks([])
 plt.xlabel('θ');
-plt.savefig('../figures/bb_grid.pdf')
+pml.savefig('bb_grid.pdf')
 
 
 # Laplace
@@ -72,7 +73,7 @@ plt.title('Quadratic approximation')
 plt.xlabel('θ', fontsize=14)
 plt.yticks([])
 plt.legend()
-plt.savefig('../figures/bb_laplace.pdf');
+pml.savefig('bb_laplace.pdf');
 
 
 
@@ -80,13 +81,13 @@ plt.savefig('../figures/bb_laplace.pdf');
 with pm.Model() as hmc_model:
     theta = pm.Beta('theta', 1., 1.)
     y = pm.Binomial('y', n=1, p=theta, observed=data) # Bernoulli
-    trace = pm.sample(1000, random_seed=42)
+    trace = pm.sample(1000, random_seed=42, cores=1, chains=2)
 thetas = trace['theta']
-axes = az.plot_posterior(thetas, credible_interval=0.95)
-plt.savefig('../figures/bb_hmc.pdf');
+axes = az.plot_posterior(thetas, hdi_prob=0.95)
+pml.savefig('bb_hmc.pdf');
 
 az.plot_trace(trace)
-plt.savefig('../figures/bb_hmc_trace.pdf', dpi=300)
+pml.savefig('bb_hmc_trace.pdf', dpi=300)
 
 # ADVI
 with pm.Model() as mf_model:
@@ -95,10 +96,10 @@ with pm.Model() as mf_model:
     mean_field = pm.fit(method='advi')
     trace_mf = mean_field.sample(1000)
 thetas = trace_mf['theta']
-axes = az.plot_posterior(thetas, credible_interval=0.95)
-plt.savefig('../figures/bb_mf.pdf');
+axes = az.plot_posterior(thetas, hdi_prob=0.95)
+pml.savefig('bb_mf.pdf');
 
-
+plt.show()
 
 
 # track mean and std
@@ -118,22 +119,22 @@ thetas = trace_approx['theta']
 plt.figure()
 plt.plot(tracker['mean'])
 plt.title('Mean')
-plt.savefig('../figures/bb_mf_mean.pdf');
+pml.savefig('bb_mf_mean.pdf');
 
 plt.figure()
 plt.plot(tracker['std'])
 plt.title('Std ')
-plt.savefig('../figures/bb_mf_std.pdf');
+pml.savefig('bb_mf_std.pdf');
 
 plt.figure()
 plt.plot(advi.hist)
 plt.title('Negative ELBO');
-plt.savefig('../figures/bb_mf_elbo.pdf');
+pml.savefig('bb_mf_elbo.pdf');
 
 plt.figure()
 sns.kdeplot(thetas);
 plt.title('KDE of posterior samples')
-plt.savefig('../figures/bb_mf_kde.pdf');
+pml.savefig('bb_mf_kde.pdf');
 
 
 fig,axs = plt.subplots(1,4, figsize=(30,10))
@@ -149,7 +150,7 @@ elbo_ax.plot(advi.hist)
 elbo_ax.set_title('Negative ELBO');
 kde_ax = sns.kdeplot(thetas);
 kde_ax.set_title('KDE of posterior samples')
-plt.savefig('../figures/bb_mf_panel.pdf');
+pml.savefig('bb_mf_panel.pdf');
 
 
 fig = plt.figure(figsize=(16, 9))
@@ -162,8 +163,10 @@ std_ax.plot(tracker['std'])
 std_ax.set_title('Std track')
 hist_ax.plot(advi.hist)
 hist_ax.set_title('Negative ELBO track');
-plt.savefig('../figures/bb_mf_tracker.pdf');
+pml.savefig('bb_mf_tracker.pdf');
 
 trace_approx = approx.sample(1000)
 thetas = trace_approx['theta']
-axes = az.plot_posterior(thetas, credible_interval=0.95)
+axes = az.plot_posterior(thetas, hdi_prob=0.95)
+
+plt.show()

@@ -8,6 +8,7 @@ import pandas as pd
 import theano.tensor as tt
 import matplotlib.pyplot as plt
 import arviz as az
+import pyprobml_utils as pml
 
 np.random.seed(42)
 
@@ -23,7 +24,7 @@ obs = df['exp']
 az.plot_kde(obs)
 plt.hist(obs, density=True, bins=30, alpha=0.3)
 plt.yticks([])
-plt.savefig('../figures/gmm_pymc3_data.pdf', dpi=300)
+pml.savefig('gmm_pymc3_data.pdf', dpi=300)
 
 # Illustrate unidentifiability
 
@@ -33,13 +34,13 @@ with pm.Model() as model_mg:
     means = pm.Normal('means', mu=obs.mean(), sd=10, shape=clusters)
     sd = pm.HalfNormal('sd', sd=10)
     y = pm.NormalMixture('y', w=p, mu=means, sd=sd, observed=obs)
-    trace_mg = pm.sample(random_seed=123)
+    trace_mg = pm.sample(random_seed=123, cores=1, chains=2)
 
 varnames = ['means', 'p']
 print(az.summary(trace_mg, varnames))
 
 az.plot_trace(trace_mg, varnames)
-plt.savefig('../figures/gmm_pymc3_label_switching.pdf', dpi=300)
+pml.savefig('gmm_pymc3_label_switching.pdf', dpi=300)
 
 # Add constraint that mu[0] < mu[1] using a potential (penalty) function
 
@@ -53,9 +54,11 @@ with pm.Model() as model_mgp:
                                tt.switch(means[1]-means[0] < 0,
                                          -np.inf, 0))
     y = pm.NormalMixture('y', w=p, mu=means, sd=sd, observed=obs)
-    trace_mgp = pm.sample(1000, random_seed=123)
+    trace_mgp = pm.sample(1000, random_seed=123, cores=1, chains=2)
 
 varnames = ['means', 'p']
 print(az.summary(trace_mgp, varnames))
 az.plot_trace(trace_mgp, varnames)
-plt.savefig('../figures/gmm_pymc3_constrained.pdf', dpi=300)
+pml.savefig('gmm_pymc3_constrained.pdf', dpi=300)
+
+plt.show()

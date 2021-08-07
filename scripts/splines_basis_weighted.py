@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 from patsy import bs, dmatrix
+import pyprobml_utils as pml
 
 x = np.linspace(0., 1., 500)
 knots = [0.25, 0.5, 0.75]
@@ -37,4 +38,5 @@ for idx, (B, title) in enumerate(zip((B0, B1, B3),
     ax[1, idx].plot(knots, np.zeros_like(knots), "ko")
     ax[0, idx].set_title(title)
 
-plt.savefig('../figures/splines_weighted.pdf', dpi=300)
+pml.savefig('splines_weighted.pdf', dpi=300)
+plt.show()

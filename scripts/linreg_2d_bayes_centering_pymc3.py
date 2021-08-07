@@ -9,11 +9,9 @@ import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import arviz as az
-
+import pyprobml_utils as pml
 import os
-figdir = "../figures"
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
+
     
 np.random.seed(1)
 N = 100
@@ -50,12 +48,12 @@ with pm.Model() as model_g:
     mu = pm.Deterministic('mu', w0 + w1 * x)
     #y_pred = pm.Normal('y_pred', mu=μ, sd=ϵ, observed=y)
     y_pred = pm.Normal('y_pred', mu=mu, sd=noiseSD, observed=y)
-    trace_g = pm.sample(1000)
+    trace_g = pm.sample(1000, cores=1, chains=2)
 
 az.plot_trace(trace_g, var_names=['w0', 'w1'])
 
 az.plot_pair(trace_g,var_names=['w0', 'w1'], plot_kwargs={'alpha': 0.1});
-save_fig('linreg_2d_bayes_post_noncentered_data.pdf')
+pml.savefig('linreg_2d_bayes_post_noncentered_data.pdf')
 plt.show()
 
 
@@ -73,10 +71,10 @@ with pm.Model() as model_g_centered:
     mu = pm.Deterministic('mu', w0 + w1 * x)
     #y_pred = pm.Normal('y_pred', mu=μ, sd=ϵ, observed=y)
     y_pred = pm.Normal('y_pred', mu=mu, sd=noiseSD, observed=y)
-    trace_g_centered = pm.sample(1000)
+    trace_g_centered = pm.sample(1000, cores=1, chains=2)
 
 
 az.plot_pair(trace_g_centered, var_names=['w0', 'w1'], plot_kwargs={'alpha': 0.1});
-save_fig('linreg_2d_bayes_post_centered_data.pdf')
+pml.savefig('linreg_2d_bayes_post_centered_data.pdf')
 plt.show()
 

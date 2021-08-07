@@ -4,7 +4,8 @@
 # [Statistical Rethinking ed 2](https://xcelab.net/rm/statistical-rethinking/).
 #The numpyro code is from [Du Phan's site]
 # (https://fehiepsi.github.io/rethinking-numpyro/06-the-haunted-dag-and-the-causal-terror.html)
-                          
+
+import superimport
 import numpy as np
 np.set_printoptions(precision=3)
 import matplotlib.pyplot as plt
