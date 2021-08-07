@@ -5,9 +5,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 
 from scipy.stats import uniform, norm, multivariate_normal
@@ -130,4 +128,4 @@ for di in DataIndices:
 
 fig.tight_layout()
 plt.show()
-save_fig('bayesLinRegPlot2dB.pdf')
+pml.savefig('bayesLinRegPlot2dB.pdf')

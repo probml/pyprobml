@@ -30,6 +30,7 @@ def save_fig(fname, *args, **kwargs):
         figdir = os.path.join(current_dir, "..", "figures")
 
     if not os.path.exists(figdir):
+        print('making directory {}'.format(figdir))
         os.mkdir(figdir)
     fname_full = os.path.join(figdir, fname)
     print('saving image to {}'.format(fname_full))
