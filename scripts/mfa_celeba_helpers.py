@@ -1,5 +1,5 @@
 # Mixture of Factor analyzers for CelebA images
-# from 
+# from
 # https://github.com/eitanrich/gans-n-gmms
 
 import numpy as np

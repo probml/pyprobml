@@ -3,20 +3,32 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+from inspect import getsourcefile
+from os.path import abspath
+
+
+#https://stackoverflow.com/questions/2632199/how-do-i-get-the-path-of-the-current-executed-file-in-python?lq=1
+def get_current_path():
+    current_path = abspath(getsourcefile(lambda:0)) # fullname of current file
+    current_dir = os.path.dirname(current_path)
+    return current_dir
 
 def test():
     print('welcome to python probabilistic ML library')
-
+    print(get_current_path())
 
 # https://stackoverflow.com/questions/10685495/reducing-the-size-of-pdf-figure-file-in-matplotlib
-    
+
 def save_fig(fname, *args, **kwargs):
     '''Save current plot window to the figures directory.'''
     if "PYPROBML" in os.environ:
         root = os.environ["PYPROBML"]
         figdir = os.path.join(root, 'figures')
     else:
-        figdir = '../figures' # default directory one above where code lives
+        #figdir = '../figures' # default directory one above where code lives
+        current_dir = get_current_path()
+        figdir = os.path.join(current_dir, "..", "figures")
+
     if not os.path.exists(figdir):
         os.mkdir(figdir)
     fname_full = os.path.join(figdir, fname)
@@ -115,3 +127,6 @@ def hinton_diagram(matrix, max_weight=None, ax=None):
     ax.grid(linestyle='--', linewidth=2)
     ax.autoscale_view()
     ax.invert_yaxis()
+
+if __name__ == "__main__":
+    test()
