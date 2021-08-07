@@ -2,15 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
-    
+import pyprobml_utils as pml
 
 plt.figure(figsize=(12,4))
 
@@ -37,7 +29,5 @@ plt.title('Quadratic convergence')
 plt.tight_layout()
 plt.draw()
 
-fname = 'convergenceRates.pdf'
-print(fname)
-save_fig(fname)
+pml.savefig('convergenceRates.pdf')
 plt.show()

@@ -2,7 +2,6 @@
 
 # Plot the full L2 regularization path for the prostate data set
 
-from scipy.io import loadmat
 from sklearn import linear_model
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,6 +9,7 @@ import matplotlib.ticker as ticker
 import pyprobml_utils as pml
 import requests
 from io import BytesIO
+from scipy.io import loadmat
 
 # Load prostate cancer data 
 #!wget https://github.com/probml/probml-data/blob/main/data/prostateStnd.mat?raw=true -O prostateStnd.mat

@@ -3,11 +3,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 import pyprobml_utils as pml
-
-#figdir = os.path.join(os.environ["PYPROBML"], "figures")
-#def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
 
 
 import torch
@@ -54,4 +50,5 @@ for t in range(100): update()
 
 plt.scatter(x[:,0],y)
 plt.scatter(x[:,0],x@a.detach())
+plt.show()
 pml.savefig('linreg_sgd.pdf')

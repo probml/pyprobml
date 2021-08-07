@@ -1,21 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-
-
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
+import pyprobml_utils as pml
 
 import scipy.spatial
 import matplotlib.tri as mtri
 from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
-import os
-
 #This class comes from http://stackoverflow.com/questions/22867620/putting-arrowheads-on-vectors-in-matplotlibs-3d-plot
 class Arrow3D(FancyArrowPatch):
     def __init__(self, xs, ys, zs, *args, **kwargs):
@@ -25,6 +15,7 @@ class Arrow3D(FancyArrowPatch):
     def draw(self, renderer):
         xs3d, ys3d, zs3d = self._verts3d
         xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.M)
+        #xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.axes.M)
         self.set_positions((xs[0],ys[0]),(xs[1],ys[1]))
         FancyArrowPatch.draw(self, renderer)
 
@@ -39,7 +30,8 @@ tri = tess.vertices
 triang = mtri.Triangulation(x=pts[:, 0],y=pts[:,1], triangles=tri)
 
 fig = plt.figure()
-ax = fig.gca(projection='3d')
+#ax = fig.gca(projection='3d')
+ax = plt.axes(projection="3d")
 ax.plot_trisurf(triang, z, alpha = .3, color = 'red', edgecolors = 'blue')
 ax.set_axis_off()
 
@@ -59,7 +51,9 @@ for i in range(3):
 
 ax.view_init(elev=30, azim=20)
 ax.dist = 15
-plt.draw()    
+plt.draw()
+plt.tight_layout()
+plt.show()
 
-save_fig('dirichletSimplex.pdf')
+pml.savefig('dirichletSimplex.pdf')
 

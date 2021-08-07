@@ -3,9 +3,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 from mpl_toolkits.mplot3d import axes3d, Axes3D 
 
@@ -27,18 +25,18 @@ SS = SS.reshape(W0.shape)
 
 plt.figure()
 plt.contourf(W0, W1, SS)
-save_fig('linregHeatmapSSE.pdf')
+pml.savefig('linregHeatmapSSE.pdf')
 plt.colorbar()
 plt.show()
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(W0, W1, SS)
-save_fig('linregSurfSSE.pdf')
+pml.savefig('linregSurfSSE.pdf')
 plt.show()
 
 fig,ax = plt.subplots()
 CS = plt.contour(W0, W1, SS, levels=np.linspace(0,2000,10), cmap='jet')
 plt.plot(w[0], w[1],'x')
-save_fig('linregContoursSSE.pdf')
+pml.savefig('linregContoursSSE.pdf')
 plt.show()

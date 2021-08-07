@@ -3,16 +3,14 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 
 from sklearn.neighbors import KNeighborsClassifier as KNN
 from sklearn.model_selection import cross_val_score
 
 
-from sklearn.datasets.samples_generator import make_blobs
+from sklearn.datasets import make_blobs
 X, y = make_blobs(n_samples=1000, centers=3, n_features=2, cluster_std=6, random_state=42)
 ntrain = 100
 x_train = X[:ntrain]
@@ -32,7 +30,7 @@ for i in range(len(y_unique)):
              marker=markers[i],
              c=colors[i])
 plt.title('train')
-save_fig('knnClassifyDemoTrain.pdf')
+pml.savefig('knnClassifyDemoTrain.pdf')
 plt.show()
 
 plt.figure()
@@ -42,7 +40,7 @@ for i in range(len(y_unique)):
              marker=markers[i],
              c=colors[i])
 plt.title('test')
-save_fig('knnClassifyDemoTest.pdf')
+pml.savefig('knnClassifyDemoTest.pdf')
 plt.show()
 
 x = np.linspace(np.min(x_test[:, 0]), np.max(x_test[:, 0]), 200)
@@ -64,7 +62,7 @@ for k in [1, 2, 5]:
                  marker=markers[i],
                  c=colors[i])
   plt.title('k=%s' % (k))
-  save_fig('knnClassify{}.pdf'.format(k))
+  pml.savefig('knnClassify{}.pdf'.format(k))
   plt.show()
 
 #plot train err and test err with different k
@@ -83,7 +81,7 @@ plt.plot(ks, test_errs, 'rx-', label='test')
 plt.legend()
 plt.xlabel('k')
 plt.ylabel('misclassification rate')
-save_fig('knnClassifyErrVsK.pdf')
+pml.savefig('knnClassifyErrVsK.pdf')
 plt.show()
 
 #cross_validate
@@ -110,5 +108,5 @@ for i in range(3):
     plt.contourf(xy_predic[:, i].ravel().reshape(200, 200), levels)
     plt.colorbar()
     plt.title('p(y=%s | data, k=10)' % (i))
-    plt.savefig('knnClassifyDemo_hotmap_%s.png' % (i))
+    pml.savefig('knnClassifyDemo_hotmap_%s.png' % (i))
 plt.show()

@@ -10,15 +10,7 @@ from matplotlib.colors import ListedColormap
 from sklearn import datasets
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-#figdir = os.path.join(os.environ["PYPROBML"], "figures")
-figdir = "../figures"
-
-
-def save_fig(fname):
-    if figdir:
-        plt.savefig(os.path.join(figdir, fname))
-
+import pyprobml_utils as pml
 
 iris = datasets.load_iris()
 
@@ -54,7 +46,7 @@ plt.xlabel("Petal width (cm)", fontsize=14)
 plt.ylabel("Probability", fontsize=14)
 plt.legend(loc="center left", fontsize=14)
 plt.axis([0, 3, -0.02, 1.02])
-save_fig("iris-logreg-1d.pdf")
+pml.savefig("iris-logreg-1d.pdf")
 plt.show()
 
 
@@ -94,7 +86,7 @@ plt.text(6.5, 2.3, "Iris-Virginica", fontsize=14, color="g", ha="center")
 plt.xlabel("Petal length", fontsize=14)
 plt.ylabel("Petal width", fontsize=14)
 plt.axis([2.9, 7, 0.8, 2.7])
-save_fig("iris-logreg-2d-2class.pdf")
+pml.savefig("iris-logreg-2d-2class.pdf")
 plt.show()
 
 
@@ -114,7 +106,7 @@ plt.text(6.5, 2.3, "Iris-Virginica", fontsize=14, color="g", ha="center")
 plt.xlabel("Petal length", fontsize=14)
 plt.ylabel("Petal width", fontsize=14)
 plt.axis([2.9, 7, 0.8, 2.7])
-save_fig("iris-logreg-2d-2class-no-probs.pdf")
+pml.savefig("iris-logreg-2d-2class-no-probs.pdf")
 plt.show()
 
 
@@ -159,7 +151,7 @@ plt.xlabel("Petal length", fontsize=14)
 plt.ylabel("Petal width", fontsize=14)
 plt.legend(loc="center left", fontsize=14)
 #plt.axis([0, 7, 0, 3.5])
-save_fig("iris-logreg-2d-3class.pdf")
+pml.savefig("iris-logreg-2d-3class.pdf")
 plt.show()
 
 
@@ -177,7 +169,7 @@ plt.xlabel("Petal length", fontsize=14)
 plt.ylabel("Petal width", fontsize=14)
 plt.legend(loc="center left", fontsize=14)
 #plt.axis([0, 7, 0, 3.5])
-save_fig("iris-logreg-2d-3class-noprobs.pdf")
+pml.savefig("iris-logreg-2d-3class-noprobs.pdf")
 plt.show()
 
 # Get predictive distribution for some ambiguous test points

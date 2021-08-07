@@ -9,9 +9,7 @@ from functools import reduce
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 import matplotlib.tri as tri
 
@@ -102,12 +100,12 @@ for (i, alpha) in enumerate(alphas):
     title = r'$\alpha$ = (%.3f, %.3f, %.3f)' % tuple(alpha)
     plt.title(title, fontdict={'fontsize': 12})
     a0 = int(np.round(alpha[0]*10))
-    save_fig('dirichletHeatmap{}.pdf'.format(a0))
+    pml.savefig('dirichletHeatmap{}.jpg'.format(a0))
     plt.show()
      
     plt.figure(figsize=(8,8))
     plot_points(dist.sample(5000))
-    save_fig('dirichletSample{}.pdf'.format(a0))
+    pml.savefig('dirichletSample{}.jpg'.format(a0))
     plt.show()
 
     

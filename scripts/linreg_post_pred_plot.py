@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 from scipy.stats import multivariate_normal
 from sklearn.linear_model import Ridge
@@ -47,7 +45,7 @@ def MakePlot(ypreds, SaveN, Title, lowerb = None, upperb = None):
     if Errlogi:
         plt.legend(loc=2)
     plt.title(Title)
-    save_fig(SaveN +'.pdf')
+    pml.savefig(SaveN +'.pdf')
 
 xtrainp = polyBasis(xtrain,polydeg)
 xtestp = polyBasis(xtest,polydeg)
