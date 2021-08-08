@@ -145,7 +145,7 @@ svi = SVI(
 )
 svi_run = svi.run(random.PRNGKey(0), 2000)
 p6_1 = svi_run.params
-#losses = p6_1.losses
+losses = svi_run.losses
 post_laplace = m6_1.sample_posterior(random.PRNGKey(1), p6_1, (1000,))
 
 analyze_post(post_laplace, 'laplace')
