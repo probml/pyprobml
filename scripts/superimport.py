@@ -1,3 +1,13 @@
+# If you add `import superimport` to the top of your script
+# then running it should automatically trigger installation of all required packages
+# Author: Mahmoud Soliman (mjs@aucegypt.edu)
+
+# Code is based on
+# https://stackoverflow.com/questions/44210656/how-to-check-if-a-module-is-installed-in-python-and-if-not-install-it-within-t
+# https://stackoverflow.com/questions/52311738/get-name-from-python-file-which-called-the-import
+# https://gist.github.com/gene1wood/9472a9d0dffce1a56d6e796afc6539b8
+# https://stackoverflow.com/questions/8718885/import-module-from-string-variable
+
 import sys
 import subprocess
 import pkg_resources
@@ -8,11 +18,6 @@ import re
 import logging
 import os
 
-# based on
-# https://stackoverflow.com/questions/44210656/how-to-check-if-a-module-is-installed-in-python-and-if-not-install-it-within-t
-# https://stackoverflow.com/questions/52311738/get-name-from-python-file-which-called-the-import
-# https://gist.github.com/gene1wood/9472a9d0dffce1a56d6e796afc6539b8
-# https://stackoverflow.com/questions/8718885/import-module-from-string-variable
 
 
 def get_packages_from_txt(file, dim="="):
@@ -58,6 +63,7 @@ def preprocess_imports(name):
     if name.find(" as ")!=-1:
         name = name.split(" as ")[0]
     return name
+
 def get_imports(
     file_string=None, patterns=[r"^import (.+)$", r"^from ((?!\.+).*?) import (?:.*)$"]
 ):

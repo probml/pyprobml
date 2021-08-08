@@ -1,5 +1,6 @@
 #https://github.com/pgmpy/pgmpy_notebook/blob/master/notebooks/2.%20Bayesian%20Networks.ipynb
 
+import superimport
 from pgmpy.models import BayesianModel
 from pgmpy.factors.discrete import TabularCPD
 
