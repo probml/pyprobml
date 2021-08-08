@@ -9,7 +9,6 @@ import pymc3 as pm
 from scipy import stats
 from scipy.stats import entropy
 from scipy.optimize import minimize
-
 import pyprobml_utils as pml
 
 
@@ -21,7 +20,7 @@ Y = stats.bernoulli(0.7).rvs(20)
 with pm.Model() as model:
     θ = pm.Beta("θ", 1, 1)
     y_obs = pm.Binomial("y_obs",n=1, p=θ, observed=Y)
-    trace = pm.sample(1000, cores=1, return_inferencedata=False)
+    trace = pm.sample(1000, cores=1, chains=2, return_inferencedata=False)
 
 idata = az.from_pymc3(trace)
 
@@ -67,3 +66,5 @@ ax.set_ylim(0, 4)
 ax.tick_params(axis='both', pad=7)
 ax.set_xlabel("θ")
 pml.savefig('Posterior_distribution.pdf')
+
+plt.show()

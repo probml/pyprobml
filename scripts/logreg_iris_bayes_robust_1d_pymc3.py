@@ -83,7 +83,7 @@ def infer_nonrobust_model():
         
         yl = pm.Bernoulli('yl', p=θ, observed=y_0)
     
-        trace = pm.sample(1000)
+        trace = pm.sample(1000, cores=1, chains=2)
         
     varnames = ['α', 'β', 'bd']
     az.summary(trace, varnames)
@@ -103,7 +103,7 @@ def infer_robust_model():
         p = π * 0.5 + (1 - π) * θ # true prob or 0.5
         yl = pm.Bernoulli('yl', p=p, observed=y_0)
     
-        trace = pm.sample(1000)
+        trace = pm.sample(1000, cores=1, chains=2)
     
     varnames = ['α', 'β', 'bd', 'π']
     az.summary(trace, varnames)
@@ -134,4 +134,3 @@ make_plot(trace)
 pml.savefig('logreg_iris_bayes_nonrobust_1d.pdf', dpi=300)
 
 plt.show()
-   

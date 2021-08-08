@@ -53,7 +53,7 @@ with pm.Model() as model_1:
      
     yl = pm.Bernoulli('yl', p=θ, observed=y_1) 
  
-    trace_1 = pm.sample(2000)
+    trace_1 = pm.sample(2000, cores=1, chains=2)
     
 varnames = ['α', 'β'] 
 #az.plot_forest(trace_1, var_names=varnames);
@@ -76,3 +76,4 @@ if unbalanced:
 else:
     pml.savefig('logreg_iris_bayes_2d.pdf', dpi=300)
         
+plt.show()

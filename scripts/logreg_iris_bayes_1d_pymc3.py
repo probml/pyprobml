@@ -62,7 +62,7 @@ with pm.Model() as model_0:
     
     yl = pm.Bernoulli('yl', p=θ, observed=y_0)
 
-    trace_0 = pm.sample(1000)
+    trace_0 = pm.sample(1000, cores=1, chains=2)
     
 
 varnames = ['α', 'β', 'bd']
@@ -95,3 +95,5 @@ plt.xticks(locs, np.round(locs + xmean, 1))
 #plt.xticks(x_c[idx], np.round(x_0[idx], 1))
 plt.tight_layout()
 pml.savefig('logreg_iris_bayes_1d.pdf', dpi=300)
+
+plt.show()
