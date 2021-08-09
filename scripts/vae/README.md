@@ -1,6 +1,7 @@
 # Pyprobml VAE 
 
-<a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+Compare_results of different VAEs : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+VAE tricks and what the different VAE try to address : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/vae_tricks.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 A collection of Variational AutoEncoders (VAEs) implemented in pytorch with focus on reproducibility and creating reusable blocks that can be used in any project. The aim of this project is to provide
 a quick and simple working example for many of the cool VAE idea in the textbook. All the models are trained on the [CelebA dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
@@ -36,7 +37,3 @@ to copy kaggle.json into a folder first.
 ```
 python run.py -config ./configs/vanilla_vae.yaml
 ```
-
-## To compare and plot the results of different models
-
-Use ```results.ipynb```
