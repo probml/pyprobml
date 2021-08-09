@@ -1,6 +1,7 @@
 # Pyprobml VAE 
 
 Compare_results of different VAEs : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
 VAE tricks and what the different VAE try to address : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/vae_tricks.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 A collection of Variational AutoEncoders (VAEs) implemented in pytorch with focus on reproducibility and creating reusable blocks that can be used in any project. The aim of this project is to provide
