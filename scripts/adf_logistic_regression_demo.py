@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 from sklearn.datasets import make_biclusters
 from jax import random
+from jax.scipy.optimize import minimize
 from jax_cosmo.scipy import integrate
 from functools import partial
 
@@ -140,6 +141,10 @@ states = inference_loop(key_init, mcmc_kernel, initial_state, n_samples)
 chains = states.position[burnin:, :]
 nsamp, _ = chains.shape
 
+# ** Laplace approximation **
+res = minimize(lambda x: E(x) / len(y), w0, method="BFGS")
+w_map = res.x
+SN = jax.hessian(E)(w_map)
 
 # ** ADF inference **
 q = 0.14
@@ -165,9 +170,13 @@ Phispace = jnp.concatenate([jnp.ones((1, nx, ny)), Xspace])
 # MCMC posterior predictive distribution
 Z_mcmc = sigmoid(jnp.einsum("mij,sm->sij", Phispace, chains))
 Z_mcmc = Z_mcmc.mean(axis=0)
-# ADF posterior predictive distribution
+# Laplace posterior predictive distribution
 key = random.PRNGKey(314)
-adf_samples = random.multivariate_normal(key, mu_t, jnp.diag(tau_t), (5000,))
+laplace_samples = random.multivariate_normal(key, w_map, SN, (n_samples,))
+Z_laplace = sigmoid(jnp.einsum("mij,sm->sij", Phispace, laplace_samples))
+Z_laplace = Z_laplace.mean(axis=0)
+# ADF posterior predictive distribution
+adf_samples = random.multivariate_normal(key, mu_t, jnp.diag(tau_t), (n_samples,))
 Z_adf = sigmoid(jnp.einsum("mij,sm->sij", Phispace, adf_samples))
 Z_adf = Z_adf.mean(axis=0)
 
@@ -180,12 +189,17 @@ colors = ["tab:red" if el else "tab:blue" for el in y]
 fig, ax = plt.subplots()
 title = "(MCMC) Predictive distribution"
 plot_posterior_predictive(ax, X, Z_mcmc, title, colors)
-pml.savefig("mcmc-predictive-surface.pdf")
+pml.savefig("mcmc-logreg-predictive-surface.pdf")
+
+fig, ax = plt.subplots()
+title = "(Laplace) Predictive distribution"
+plot_posterior_predictive(ax, X, Z_adf, title, colors)
+pml.savefig("laplace-logreg-predictive-surface.pdf")
 
 fig, ax = plt.subplots()
 title = "(ADF) Predictive distribution"
 plot_posterior_predictive(ax, X, Z_adf, title, colors)
-pml.savefig("adf-predictive-surface.pdf")
+pml.savefig("adf-logreg-predictive-surface.pdf")
 
 
 # ** Plotting training history ** 
@@ -198,7 +212,7 @@ fig, ax = plt.subplots(figsize=(6, 3))
 elements = zip(mu_t_hist.T, tau_t_hist.T, w_batch_all, w_batch_std_all, lcolors)
 for i, (w_online, w_err_online, w_batch, w_batch_err, c) in enumerate(elements):
     ax.errorbar(timesteps, w_online, jnp.sqrt(w_err_online), c=c, label=f"$w_{i}$ online")
-    ax.axhline(y=w_batch, c=lcolors[i], linestyle="--", label=f"$w_{i}$ batch")
+    ax.axhline(y=w_batch, c=lcolors[i], linestyle="--", label=f"$w_{i}$ batch (mcmc)")
     ax.fill_between(timesteps, w_batch - w_batch_err, w_batch + w_batch_err, color=c, alpha=0.1)
 ax.legend(bbox_to_anchor=(1.05, 1))
 ax.set_xlim(0, n_datapoints - 0.9)
