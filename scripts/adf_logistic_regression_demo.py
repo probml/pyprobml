@@ -1,5 +1,7 @@
-# Example of the training of a logistic regression
-# model using Assumed Density Filter (ADF)
+# Online training of a logistic regression model
+# using Assumed Density Filtering (ADF).
+# We compare the ADF result with MCMC sampling
+# of the posterior distribution
 # Dependencies:
 #   !pip install git+https://github.com/blackjax-devs/blackjax.git
 #   !pip install jax_cosmo
@@ -15,9 +17,6 @@ from sklearn.datasets import make_biclusters
 from jax import random
 from jax_cosmo.scipy import integrate
 from functools import partial
-
-import jax
-jax.config.update("jax_platform_name", "cpu")
 
 
 def sigmoid(z): return jnp.exp(z) / (1 + jnp.exp(z))
@@ -158,7 +157,7 @@ adf_loop = partial(adf_step, q=q, lbound=lbound, ubound=ubound)
 # ** Estimating posterior predictive distribution **
 xmin, ymin = X.min(axis=0) - 0.1
 xmax, ymax = X.max(axis=0) + 0.1
-step = 0.01
+step = 0.1
 Xspace = jnp.mgrid[xmin:xmax:step, ymin:ymax:step]
 _, nx, ny = Xspace.shape
 Phispace = jnp.concatenate([jnp.ones((1, nx, ny)), Xspace])
@@ -207,3 +206,5 @@ ax.set_xlabel("number samples")
 ax.set_ylabel("weights")
 plt.tight_layout()
 pml.savefig("adf-mcmc-online-hist.pdf")
+
+plt.show()
