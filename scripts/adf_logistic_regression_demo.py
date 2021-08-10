@@ -195,7 +195,7 @@ w_batch_std_all = chains.std(axis=0)
 timesteps = jnp.arange(n_datapoints)
 lcolors = ["black", "tab:blue", "tab:red"]
 
-fig, ax = plt.subplots(figsize=(8, 3))
+fig, ax = plt.subplots(figsize=(6, 3))
 elements = zip(mu_t_hist.T, tau_t_hist.T, w_batch_all, w_batch_std_all, lcolors)
 for i, (w_online, w_err_online, w_batch, w_batch_err, c) in enumerate(elements):
     ax.errorbar(timesteps, w_online, jnp.sqrt(w_err_online), c=c, label=f"$w_{i}$ online")
