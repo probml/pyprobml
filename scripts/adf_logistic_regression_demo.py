@@ -71,7 +71,7 @@ def vt_func(eta, y, mu, v):
     return eta ** 2 * jnp.exp(log_term) / jnp.sqrt(2 * jnp.pi * v ** 2)
 
 
-def adf_step(state, xs, *, q, lbound, ubound):
+def adf_step(state, xs, q, lbound, ubound):
     mu_t, tau_t = state
     Phi_t, y_t = xs
     
@@ -84,6 +84,7 @@ def adf_step(state, xs, *, q, lbound, ubound):
 
     v_t_cond_sqrt = jnp.sqrt(v_t_cond)
 
+    # Moment-matched Gaussian approximation elements
     Zt = integrate.romb(lambda eta: Zt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
 
     mt = integrate.romb(lambda eta: mt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
@@ -92,9 +93,9 @@ def adf_step(state, xs, *, q, lbound, ubound):
     vt = integrate.romb(lambda eta: vt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
     vt = vt / Zt - mt ** 2
     
+    # Posterior estimation
     delta_m = mt - m_t_cond
     delta_v = vt - v_t_cond
-
     a = Phi_t * tau_t_cond / jnp.power(Phi_t * tau_t_cond, 2).sum()
     mu_t = mu_t_cond + a * delta_m
     tau_t = tau_t_cond + a ** 2 * delta_v
@@ -160,7 +161,6 @@ xmax, ymax = X.max(axis=0) + 0.1
 step = 0.01
 Xspace = jnp.mgrid[xmin:xmax:step, ymin:ymax:step]
 _, nx, ny = Xspace.shape
-
 Phispace = jnp.concatenate([jnp.ones((1, nx, ny)), Xspace])
 
 # MCMC posterior predictive distribution
@@ -174,6 +174,8 @@ Z_adf = Z_adf.mean(axis=0)
 
 
 # ** Plotting predictive distribution **
+plt.rcParams["axes.spines.right"] = False
+plt.rcParams["axes.spines.top"] = False
 colors = ["tab:red" if el else "tab:blue" for el in y]
 
 fig, ax = plt.subplots()
@@ -185,3 +187,23 @@ fig, ax = plt.subplots()
 title = "(ADF) Predictive distribution"
 plot_posterior_predictive(ax, X, Z_adf, title, colors)
 pml.savefig("adf-predictive-surface.pdf")
+
+
+# ** Plotting training history ** 
+w_batch_all = chains.mean(axis=0)
+w_batch_std_all = chains.std(axis=0)
+timesteps = jnp.arange(n_datapoints)
+lcolors = ["black", "tab:blue", "tab:red"]
+
+fig, ax = plt.subplots(figsize=(8, 3))
+elements = zip(mu_t_hist.T, tau_t_hist.T, w_batch_all, w_batch_std_all, lcolors)
+for i, (w_online, w_err_online, w_batch, w_batch_err, c) in enumerate(elements):
+    ax.errorbar(timesteps, w_online, jnp.sqrt(w_err_online), c=c, label=f"$w_{i}$ online")
+    ax.axhline(y=w_batch, c=lcolors[i], linestyle="--", label=f"$w_{i}$ batch")
+    ax.fill_between(timesteps, w_batch - w_batch_err, w_batch + w_batch_err, color=c, alpha=0.1)
+ax.legend(bbox_to_anchor=(1.05, 1))
+ax.set_xlim(0, n_datapoints - 0.9)
+ax.set_xlabel("number samples")
+ax.set_ylabel("weights")
+plt.tight_layout()
+pml.savefig("adf-mcmc-online-hist.pdf")
