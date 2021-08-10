@@ -10,14 +10,21 @@ import jax
 import jax.numpy as jnp
 import blackjax.rwmh as mh
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
 from sklearn.datasets import make_biclusters
 from jax import random
 from jax_cosmo.scipy import integrate
+from functools import partial
+
+import jax
+jax.config.update("jax_platform_name", "cpu")
 
 
 def sigmoid(z): return jnp.exp(z) / (1 + jnp.exp(z))
 
+
 def log_sigmoid(z): return z - jnp.log(1 + jnp.exp(z))
+
 
 def inference_loop(rng_key, kernel, initial_state, num_samples):
     def one_step(state, rng_key):
@@ -29,15 +36,6 @@ def inference_loop(rng_key, kernel, initial_state, num_samples):
 
     return states
 
-n_datapoints = 20
-m = 2
-X, rows, cols = make_biclusters((n_datapoints, m), 2, noise=0.6, random_state=314, minval=-3, maxval=3)
-# whether datapoints belong to class 1
-y = rows[0] * 1.0
-
-alpha = 1.0
-Phi = jnp.c_[jnp.ones(n_datapoints)[:, None], X]
-N, M = Phi.shape
 
 def E_base(w, Phi, y, alpha):
     """
@@ -51,12 +49,83 @@ def E_base(w, Phi, y, alpha):
 
     return prior_term - log_likelihood_term.sum()
 
+
+def Zt_func(eta, y, mu, v):
+    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log(1 - sigmoid(eta))
+    log_term = log_term - (eta -  mu) ** 2 / (2 * v ** 2)
+    
+    return jnp.exp(log_term) / jnp.sqrt(2 * jnp.pi * v ** 2)
+
+
+def mt_func(eta, y, mu, v):
+    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log(1 - sigmoid(eta))
+    log_term = log_term - (eta -  mu) ** 2 / (2 * v ** 2)
+    
+    return eta * jnp.exp(log_term) / jnp.sqrt(2 * jnp.pi * v ** 2)
+
+
+def vt_func(eta, y, mu, v):
+    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log(1 - sigmoid(eta))
+    log_term = log_term - (eta -  mu) ** 2 / (2 * v ** 2)
+    
+    return eta ** 2 * jnp.exp(log_term) / jnp.sqrt(2 * jnp.pi * v ** 2)
+
+
+def adf_step(state, xs, *, q, lbound, ubound):
+    mu_t, tau_t = state
+    Phi_t, y_t = xs
+    
+    mu_t_cond = mu_t
+    tau_t_cond = tau_t + q
+
+    # prior predictive distribution
+    m_t_cond = (Phi_t * mu_t_cond).sum()
+    v_t_cond = (Phi_t ** 2 * tau_t_cond).sum()
+
+    v_t_cond_sqrt = jnp.sqrt(v_t_cond)
+
+    Zt = integrate.romb(lambda eta: Zt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
+
+    mt = integrate.romb(lambda eta: mt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
+    mt = mt / Zt
+
+    vt = integrate.romb(lambda eta: vt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
+    vt = vt / Zt - mt ** 2
+    
+    delta_m = mt - m_t_cond
+    delta_v = vt - v_t_cond
+
+    a = Phi_t * tau_t_cond / jnp.power(Phi_t * tau_t_cond, 2).sum()
+    mu_t = mu_t_cond + a * delta_m
+    tau_t = tau_t_cond + a ** 2 * delta_v
+    
+    return (mu_t, tau_t), (mu_t, tau_t)
+
+
+def plot_posterior_predictive(ax, X, Z, title, colors, cmap="RdBu_r"):
+    ax.contourf(*Xspace, Z, cmap=cmap, alpha=0.5, levels=20)
+    ax.scatter(*X.T, c=colors)
+    ax.set_title(title)
+    ax.axis("off")
+    plt.tight_layout()
+
+
+# ** Generating training data **
 key = random.PRNGKey(314)
+n_datapoints, m = 20, 2
+X, rows, cols = make_biclusters((n_datapoints, m), 2, noise=0.6,
+                                random_state=314, minval=-3, maxval=3)
+y = rows[0] * 1.0
+
+alpha = 1.0
 init_noise = 1.0
-w0 = random.multivariate_normal(key, jnp.zeros(M), jnp.eye(M) * init_noise)
+Phi = jnp.c_[jnp.ones(n_datapoints)[:, None], X]
+N, M = Phi.shape
 
+
+# ** MCMC Sampling with BlackJAX **
 sigma_mcmc = 0.8
-
+w0 = random.multivariate_normal(key, jnp.zeros(M), jnp.eye(M) * init_noise)
 E = partial(E_base, Phi=Phi, y=y, alpha=alpha)
 initial_state = mh.new_state(w0, E)
 
@@ -71,13 +140,48 @@ states = inference_loop(key_init, mcmc_kernel, initial_state, n_samples)
 chains = states.position[burnin:, :]
 nsamp, _ = chains.shape
 
-fig, ax = plt.subplots(1, 3, figsize=(8, 2))
-for i, axi in enumerate(ax):
-    axi.plot(states.position[:, i])
-    axi.set_title(f"$w_{i}$")
-    axi.axvline(x=burnin, c="tab:red")
-    axi.set_xlabel("step")
-plt.tight_layout()
 
-pml.savefig("log-reg-mcmc-chains.pdf")
-plt.show()
+# ** ADF inference **
+q = 0.14
+lbound, ubound = -10, 10
+mu_t = jnp.zeros(M)
+tau_t = jnp.ones(M) * q
+
+init_state = (mu_t, tau_t)
+xs = (Phi, y)
+
+adf_loop = partial(adf_step, q=q, lbound=lbound, ubound=ubound)
+(mu_t, tau_t), (mu_t_hist, tau_t_hist) = jax.lax.scan(adf_loop, init_state, xs)
+
+
+# ** Estimating posterior predictive distribution **
+xmin, ymin = X.min(axis=0) - 0.1
+xmax, ymax = X.max(axis=0) + 0.1
+step = 0.01
+Xspace = jnp.mgrid[xmin:xmax:step, ymin:ymax:step]
+_, nx, ny = Xspace.shape
+
+Phispace = jnp.concatenate([jnp.ones((1, nx, ny)), Xspace])
+
+# MCMC posterior predictive distribution
+Z_mcmc = sigmoid(jnp.einsum("mij,sm->sij", Phispace, chains))
+Z_mcmc = Z_mcmc.mean(axis=0)
+# ADF posterior predictive distribution
+key = random.PRNGKey(314)
+adf_samples = random.multivariate_normal(key, mu_t, jnp.diag(tau_t), (5000,))
+Z_adf = sigmoid(jnp.einsum("mij,sm->sij", Phispace, adf_samples))
+Z_adf = Z_adf.mean(axis=0)
+
+
+# ** Plotting predictive distribution **
+colors = ["tab:red" if el else "tab:blue" for el in y]
+
+fig, ax = plt.subplots()
+title = "(MCMC) Predictive distribution"
+plot_posterior_predictive(ax, X, Z_mcmc, title, colors)
+pml.savefig("mcmc-predictive-surface.pdf")
+
+fig, ax = plt.subplots()
+title = "(ADF) Predictive distribution"
+plot_posterior_predictive(ax, X, Z_adf, title, colors)
+pml.savefig("adf-predictive-surface.pdf")
