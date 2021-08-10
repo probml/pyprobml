@@ -46,3 +46,32 @@ def E(w):
     prior_term = alpha * w @ w / 2
 
     return prior_term - log_likelihood_term.sum()
+
+key = random.PRNGKey(314)
+init_noise = 1.0
+w0 = random.multivariate_normal(key, jnp.zeros(M), jnp.eye(M) * init_noise)
+
+sigma_mcmc = 0.8
+initial_state = mh.new_state(w0, E)
+
+mcmc_kernel = mh.kernel(E, jnp.ones(M) * sigma_mcmc)
+mcmc_kernel = jax.jit(mcmc_kernel)
+
+n_samples = 5_000
+burnin = 300
+key_init = jax.random.PRNGKey(0)
+states = inference_loop(key_init, mcmc_kernel, initial_state, n_samples)
+
+chains = states.position[burnin:, :]
+nsamp, _ = chains.shape
+
+fig, ax = plt.subplots(1, 3, figsize=(8, 2))
+for i, axi in enumerate(ax):
+    axi.plot(states.position[:, i])
+    axi.set_title(f"$w_{i}$")
+    axi.axvline(x=burnin, c="tab:red")
+    axi.set_xlabel("step")
+plt.tight_layout()
+
+pml.savefig("log-reg-mcmc-chains.pdf")
+plt.show()
