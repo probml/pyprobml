@@ -39,7 +39,11 @@ alpha = 1.0
 Phi = jnp.c_[jnp.ones(n_datapoints)[:, None], X]
 N, M = Phi.shape
 
-def E(w):
+def E_base(w, Phi, y, alpha):
+    """
+    Base function containing the Energy of a logistic
+    regression with 
+    """
     an = Phi @ w
     log_an = log_sigmoid(an)
     log_likelihood_term = y * log_an + (1 - y) * jnp.log(1 - sigmoid(an))
@@ -52,6 +56,8 @@ init_noise = 1.0
 w0 = random.multivariate_normal(key, jnp.zeros(M), jnp.eye(M) * init_noise)
 
 sigma_mcmc = 0.8
+
+E = partial(E_base, Phi=Phi, y=y, alpha=alpha)
 initial_state = mh.new_state(w0, E)
 
 mcmc_kernel = mh.kernel(E, jnp.ones(M) * sigma_mcmc)
