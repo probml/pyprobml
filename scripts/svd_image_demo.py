@@ -4,8 +4,15 @@ import matplotlib.pyplot as plt
 import os
 import pyprobml_utils as pml
 
-data_dir = "../data"
-img = matplotlib.image.imread(os.path.join(data_dir, "clown.png"))
+from PIL import Image
+import requests
+import io
+
+r = requests.get('https://github.com/probml/probml-data/blob/main/data/clown.png?raw=true', stream=True)
+img = Image.open(io.BytesIO(r.content))
+img.save('clown.png')
+img = matplotlib.image.imread("clown.png") 
+
 
 def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
