@@ -8,16 +8,16 @@ from PIL import Image
 import requests
 import io
 
-r = requests.get('https://github.com/probml/probml-data/blob/main/data/clown.png?raw=true', stream=True)
-img = Image.open(io.BytesIO(r.content))
-img.save('clown.png')
-img = matplotlib.image.imread("clown.png") 
-
 
 def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
 
-X = rgb2gray(img)    
+r = requests.get('https://github.com/probml/probml-data/blob/main/data/clown.png?raw=true', stream=True)
+img = Image.open(io.BytesIO(r.content))
+#img.save('clown.png')
+#img = matplotlib.image.imread("clown.png") 
+#X = rgb2gray(img)
+X = np.array(img)
 
 r = np.linalg.matrix_rank(X)
 print(r)
