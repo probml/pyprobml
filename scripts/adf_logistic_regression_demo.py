@@ -24,6 +24,7 @@ from jax.scipy.stats import norm
 from jax_cosmo.scipy import integrate
 from functools import partial
 
+jax.config.update("jax_platform_name", "cpu")
 jax.config.update("jax_enable_x64", True)
 
 
@@ -73,12 +74,12 @@ def mt_func(eta, y, mu, v, Zt):
     return eta * jnp.exp(log_term) / Zt
 
 
-def var_t_func(eta, y, mu, v, Zt, mean_t):
+def vt_func(eta, y, mu, v, Zt):
     cst = jnp.log(2 * jnp.pi * v ** 2) / 2
     log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log1p(-sigmoid(eta))
     log_term = log_term + norm.logpdf(eta, mu, v) + cst
     
-    return (eta - mean_t) ** 2 * jnp.exp(log_term) / Zt
+    return eta ** 2 * jnp.exp(log_term) / Zt
 
 
 def adf_step(state, xs, prior_variance, lbound, ubound):
@@ -99,12 +100,13 @@ def adf_step(state, xs, prior_variance, lbound, ubound):
 
     mt = integrate.romb(lambda eta: mt_func(eta, y_t, m_t_cond, v_t_cond_sqrt, Zt), lbound, ubound)
 
-    vt = integrate.romb(lambda eta: var_t_func(eta, y_t, m_t_cond, v_t_cond_sqrt, Zt, mt), lbound, ubound)
+    vt = integrate.romb(lambda eta: vt_func(eta, y_t, m_t_cond, v_t_cond_sqrt, Zt), lbound, ubound)
+    vt = vt - mt ** 2
     
     # Posterior estimation
     delta_m = mt - m_t_cond
     delta_v = vt - v_t_cond
-    a = Phi_t * tau_t_cond / jnp.power(Phi_t * tau_t_cond, 2).sum()
+    a = Phi_t * tau_t_cond / (Phi_t ** 2 * tau_t_cond).sum()
     mu_t = mu_t_cond + a * delta_m
     tau_t = tau_t_cond + a ** 2 * delta_v
     
@@ -155,12 +157,12 @@ w_map = res.x
 SN = jax.hessian(energy)(w_map)
 
 # ** ADF inference **
-prior_variance = 0.005
+prior_variance = 0.0
 # Lower and upper bounds of integration. Ideally, we would like to
 # integrate from -inf to inf, but we run into numerical issues.
-lbound, ubound = -22.0, 30.1
+lbound, ubound = -40.0, 35.0
 mu_t = jnp.zeros(ndims)
-tau_t = jnp.ones(ndims)
+tau_t = jnp.ones(ndims) * 3.0
 
 init_state = (mu_t, tau_t)
 xs = (Phi, y)
@@ -222,7 +224,7 @@ lcolors = ["black", "tab:blue", "tab:red"]
 
 elements = zip(mu_t_hist.T, tau_t_hist.T, w_batch_all, w_batch_std_all, lcolors)
 for i, (w_online, w_err_online, w_batch, w_batch_err, c) in enumerate(elements):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6, 4))
     ax.errorbar(timesteps, w_online, jnp.sqrt(w_err_online), c=c, label=f"$w_{i}$ online")
     ax.axhline(y=w_batch, c=lcolors[i], linestyle="--", label=f"$w_{i}$ batch (mcmc)")
     ax.fill_between(timesteps, w_batch - w_batch_err, w_batch + w_batch_err, color=c, alpha=0.1)
