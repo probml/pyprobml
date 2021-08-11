@@ -81,12 +81,12 @@ def var_t_func(eta, y, mu, v, Zt, mean_t):
     return (eta - mean_t) ** 2 * jnp.exp(log_term) / Zt
 
 
-def adf_step(state, xs, q, lbound, ubound):
+def adf_step(state, xs, prior_variance, lbound, ubound):
     mu_t, tau_t = state
     Phi_t, y_t = xs
     
     mu_t_cond = mu_t
-    tau_t_cond = tau_t + q
+    tau_t_cond = tau_t + prior_variance
 
     # prior predictive distribution
     m_t_cond = (Phi_t * mu_t_cond).sum()
@@ -121,24 +121,24 @@ def plot_posterior_predictive(ax, X, Z, title, colors, cmap="RdBu_r"):
 
 # ** Generating training data **
 key = random.PRNGKey(314)
-n_datapoints, m = 50, 2
-X, rows, cols = make_biclusters((n_datapoints, m), 2, noise=0.6,
+n_datapoints, ndims = 50, 2
+X, rows, cols = make_biclusters((n_datapoints, ndims), 2, noise=0.6,
                                 random_state=314, minval=-3, maxval=3)
 y = rows[0] * 1.0
 
 alpha = 1.0
 init_noise = 1.0
-Phi = jnp.c_[jnp.ones(n_datapoints)[:, None], X]
-N, M = Phi.shape
+Phi = jnp.c_[jnp.ones(n_datapoints)[:, None], X] # Design matrix
+ndata, ndims = Phi.shape
 
 
 # ** MCMC Sampling with BlackJAX **
 sigma_mcmc = 0.8
-w0 = random.multivariate_normal(key, jnp.zeros(M), jnp.eye(M) * init_noise)
+w0 = random.multivariate_normal(key, jnp.zeros(ndims), jnp.eye(ndims) * init_noise)
 energy = partial(E_base, Phi=Phi, y=y, alpha=alpha)
 initial_state = mh.new_state(w0, energy)
 
-mcmc_kernel = mh.kernel(energy, jnp.ones(M) * sigma_mcmc)
+mcmc_kernel = mh.kernel(energy, jnp.ones(ndims) * sigma_mcmc)
 mcmc_kernel = jax.jit(mcmc_kernel)
 
 n_samples = 5_000
@@ -155,15 +155,17 @@ w_map = res.x
 SN = jax.hessian(energy)(w_map)
 
 # ** ADF inference **
-q = 0.005
+prior_variance = 0.005
+# Lower and upper bounds of integration. Ideally, we would like to
+# integrate from -inf to inf, but we run into numerical issues.
 lbound, ubound = -22.0, 30.1
-mu_t = jnp.zeros(M)
-tau_t = jnp.ones(M)
+mu_t = jnp.zeros(ndims)
+tau_t = jnp.ones(ndims)
 
 init_state = (mu_t, tau_t)
 xs = (Phi, y)
 
-adf_loop = partial(adf_step, q=q, lbound=lbound, ubound=ubound)
+adf_loop = partial(adf_step, prior_variance=prior_variance, lbound=lbound, ubound=ubound)
 (mu_t, tau_t), (mu_t_hist, tau_t_hist) = jax.lax.scan(adf_loop, init_state, xs)
 
 
@@ -176,6 +178,8 @@ _, nx, ny = Xspace.shape
 Phispace = jnp.concatenate([jnp.ones((1, nx, ny)), Xspace])
 
 # MCMC posterior predictive distribution
+# maps m-dimensional features on an (i,j) grid times "s" m-dimensional samples to get
+# "s" samples on an (i,j) grid of predictions
 Z_mcmc = sigmoid(jnp.einsum("mij,sm->sij", Phispace, chains))
 Z_mcmc = Z_mcmc.mean(axis=0)
 # Laplace posterior predictive distribution
