@@ -2,11 +2,15 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt 
 import os
+import pyprobml_utils as pml
+from PIL import Image
+import requests
+import io
 
-figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-data_dir = "../data"
-img = matplotlib.image.imread(os.path.join(data_dir, "clown.png"))
+r = requests.get('https://github.com/probml/probml-data/blob/main/data/clown.png?raw=true', stream=True)
+img = Image.open(io.BytesIO(r.content))
+img.save('clown.png')
+img = matplotlib.image.imread("clown.png") 
 
 def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
@@ -27,7 +31,7 @@ for i in range(R):
     plt.imshow(x_hat, cmap='gray')
     plt.title("rank {}".format(k))
     plt.axis("off")
-    save_fig("svdImageDemoClown{}.pdf".format(k))
+    pml.savefig("svdImageDemoClown{}.pdf".format(k))
     plt.show()
 
 k = 100
@@ -43,7 +47,7 @@ x1d = X.ravel()
 np.random.shuffle(x1d) # inplace
 x2 = x1d.reshape(X.shape)
 U, sigma2, V = np.linalg.svd(x2, full_matrices = False)
-plt.plot(np.log(sigma2[:k]), 'g:', linewidth=4, label="Randomized")
+plt.plot(np.log(sigma2[:k]), 'b', linewidth=4, label="Randomized")
 plt.legend()
-save_fig("svdImageDemoClownSigmaScrambled.pdf")
+pml.savefig("svdImageDemoClownSigmaScrambled.pdf")
 plt.show()
