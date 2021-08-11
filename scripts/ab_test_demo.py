@@ -4,11 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-
-def savefig(fname):
-    #plt.savefig(os.path.join('../figures', fname))
-    plt.savefig(os.path.join(fname))
+import pyprobml_utils as pml
 
 def optimal_sample_size(N, s, sigma):
     # eqn 10
@@ -37,8 +33,7 @@ def eprofit_total(N, n1, n2, s, mu, sigma):
     p1 = eprofit_test(N, n1, n2, s, mu, sigma)
     p2 = eprofit_deploy(N, n1, n2, s, mu, sigma)
     return p1+p2
-    
-print('AB testing demo')
+
 
 mu = 0.68
 sigma = 0.03
@@ -74,7 +69,7 @@ plt.ylabel('Expected #conversions')
 plt.axvline(nopt)
 plt.axhline(eprofit_opt)
 plt.text(nopt, eprofit_opt, 'n*={:0.1f}'.format(nopt))
-savefig('ab_profit.png')
+pml.savefig('ab_profit.pdf')
 plt.show()
 
 plt.figure();
@@ -84,5 +79,5 @@ plt.ylabel('Expected error rate')
 plt.axvline(nopt)
 plt.axhline(error_rate_opt)
 plt.text(nopt, error_rate_opt, 'n*={:0.1f}'.format(nopt))
-savefig('ab_error.png')
+pml.savefig('ab_error.pdf')
 plt.show()

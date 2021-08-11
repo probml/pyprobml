@@ -29,10 +29,12 @@ with pm.Model() as model_h:
 
 np.random.seed(0)
 with model_h:
-  trace_h = pm.sample(1000, chains=4)
+  trace_h = pm.sample(1000, chains=2, cores=1)
   
 az.summary(trace_h).round(4)
 
-az.plot_forest(trace_h, var_names=["theta"], combined=True, credible_interval=0.95);
+az.plot_forest(trace_h, var_names=["theta"], combined=True, hdi_prob=0.95);
 
 az.plot_forest(trace_h, var_names=["theta"], combined=True, kind='ridgeplot');
+
+plt.show()

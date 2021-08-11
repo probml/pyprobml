@@ -7,10 +7,8 @@ import numpy as np
 from bayes_opt_utils import BayesianOptimizer, MultiRestartGradientOptimizer, expected_improvement
 
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-save_figures = False
+import pyprobml_utils as pml
+save_figures = True #False
 
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import ConstantKernel, Matern
@@ -84,8 +82,8 @@ Y = f(X,0)
 plt.plot(X, Y, 'y--', lw=2, label='Noise-free objective')
 plt.plot(X, f(X), 'bx', lw=1, alpha=0.1, label='Noisy samples')
 plt.plot(X_init, Y_init, 'kx', mew=3, label='Initial samples')
-plt.legend();
-if save_figures: save_fig('bayes-opt-init.pdf')
+plt.legend()
+if save_figures: pml.savefig('bayes-opt-init.pdf')
 plt.show()
 
 
@@ -123,13 +121,13 @@ def callback(X_next, Y_next, i):
   plt.figure()
   plot_approximation(gpr, X, Y, X_sample, Y_sample, X_next, show_legend=i==0)
   plt.title(f'Iteration {i+1}')
-  if save_figures: save_fig('bayes-opt-surrogate-{}.pdf'.format(i+1))
+  if save_figures: pml.savefig('bayes-opt-surrogate-{}.pdf'.format(i+1))
   plt.show()
   
   plt.figure()
   #plt.subplot(n_iter, 2, 2 * i + 2)
   plot_acquisition(X, expected_improvement(X, X_sample, Y_sample, gpr), X_next, show_legend=i==0)
-  if save_figures: save_fig('bayes-opt-acquisition-{}.pdf'.format(i+1))
+  if save_figures: pml.savefig('bayes-opt-acquisition-{}.pdf'.format(i+1))
   plt.show()
   
   # Add sample to previous samples
@@ -156,7 +154,7 @@ solver.maximize(f)
 
  
 plot_convergence(X_sample, Y_sample)
-if save_figures: save_fig('bayes-opt-convergence.pdf')
+if save_figures: pml.savefig('bayes-opt-convergence.pdf')
 plt.show()
   
 ####################

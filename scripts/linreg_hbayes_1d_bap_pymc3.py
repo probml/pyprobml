@@ -10,11 +10,7 @@ import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import arviz as az
-
-import os
-figdir = "../figures"
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
     
 N = 10 # nun samples per group
 M = 8 # num groups
@@ -42,7 +38,7 @@ for i in range(M):
     j += N
     k += N
 plt.tight_layout()
-save_fig('linreg_hbayes_1d_data.pdf')
+pml.savefig('linreg_hbayes_1d_data.pdf')
 
 
 
@@ -60,7 +56,7 @@ with pm.Model() as unpooled_model:
 
     α = pm.Deterministic('α', α_tmp - β * x_m.mean())
 
-    trace_up = pm.sample(2000)
+    trace_up = pm.sample(2000, cores=1, chains=2)
 
 
 az.summary(trace_up)
@@ -89,7 +85,7 @@ def plot_regression_line(trace):
 
 
 plot_regression_line(trace_up)    
-save_fig('linreg_hbayes_1d_unpooled_mean.pdf')
+pml.savefig('linreg_hbayes_1d_unpooled_mean.pdf')
 
 def plot_post_pred_samples(trace, nsamples=20):
     _, ax = plt.subplots(2, 4, figsize=(10, 5), sharex=True, sharey=True,
@@ -121,7 +117,7 @@ def plot_post_pred_samples(trace, nsamples=20):
         k += N
     
 plot_post_pred_samples(trace_up)    
-save_fig('linreg_hbayes_1d_unpooled_samples.pdf')
+pml.savefig('linreg_hbayes_1d_unpooled_samples.pdf')
     
     
 with pm.Model() as hierarchical_model:
@@ -145,14 +141,16 @@ with pm.Model() as hierarchical_model:
     α_μ = pm.Deterministic('α_μ', α_μ_tmp - β_μ * x_m.mean())
     α_σ = pm.Deterministic('α_sd', α_σ_tmp - β_μ * x_m.mean())
 
-    trace_hm = pm.sample(1000)
+    trace_hm = pm.sample(1000, cores=1, chains=2)
 
 az.summary(trace_hm)
 
 
 
 plot_regression_line(trace_hm)    
-save_fig('linreg_hbayes_1d_pooled_mean.pdf')
+pml.savefig('linreg_hbayes_1d_pooled_mean.pdf')
 
 plot_post_pred_samples(trace_hm)    
-save_fig('linreg_hbayes_1d_pooled_samples.pdf')
+pml.savefig('linreg_hbayes_1d_pooled_samples.pdf')
+
+plt.show()

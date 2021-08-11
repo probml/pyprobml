@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+import pyprobml_utils as pml
 
 from scipy.spatial import KDTree, Voronoi, voronoi_plot_2d
 
@@ -14,7 +13,7 @@ print('Using scipy.spatial.voronoi_plot_2d, wait...')
 voronoi_plot_2d(vor)
 xlim = plt.xlim()
 ylim = plt.ylim()
-save_fig('knnVoronoiMesh.pdf')
+pml.savefig('knnVoronoiMesh.pdf')
 plt.show()
 
 print('Using scipy.spatial.KDTree, wait a few seconds...')
@@ -26,5 +25,5 @@ xx, yy = np.meshgrid(x, y)
 xy = np.c_[xx.ravel(), yy.ravel()]
 plt.plot(data[:, 0], data[:, 1], 'ko')
 plt.pcolormesh(x, y, tree.query(xy)[1].reshape(200, 200), cmap='jet')
-save_fig('knnVoronoiColor.pdf')
+pml.savefig('knnVoronoiColor.pdf')
 plt.show()

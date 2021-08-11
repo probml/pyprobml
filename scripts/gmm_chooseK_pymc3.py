@@ -1,4 +1,3 @@
-
 # Gaussian mixture model using PyMC3
 # Based on https://github.com/aloctavodia/BAP/blob/master/code/Chp6/06_mixture_models.ipynb
 
@@ -9,16 +8,15 @@ import pandas as pd
 import theano.tensor as tt
 import matplotlib.pyplot as plt
 import arviz as az
+import pyprobml_utils as pml
 
 np.random.seed(42)
-
 
 #url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
 # There is some error reading the abvoe file
 # Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
-# So we make a copy here
-url = 'https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true'
-df= pd.read_csv(url)
+url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/chemical_shifts_theo_exp.csv' 
+df= pd.read_csv(url, sep=',') 
 data = df['exp']
 
 clusters = [3, 4, 5, 6]
@@ -34,7 +32,7 @@ for cluster in clusters:
                           transform=pm.distributions.transforms.ordered)
         sd = pm.HalfNormal('sd', sd=10)
         y = pm.NormalMixture('y', w=p, mu=means, sd=sd, observed=data)
-        trace = pm.sample(1000, tune=2000, random_seed=123)
+        trace = pm.sample(1000, tune=2000, random_seed=123, cores=1, chains=2)
         traces.append(trace)
         models.append(model)
         
@@ -66,7 +64,7 @@ for idx, trace_x in enumerate(traces):
     ax[idx].set_title('K = {}'.format(clusters[idx]))
     ax[idx].set_yticks([])
     ax[idx].set_xlabel('x')
-plt.savefig('../figures/gmm_chooseK_pymc3_kde.pdf', dpi=300)
+pml.savefig('gmm_chooseK_pymc3_kde.pdf')
 
 # Posteroior predictive check
 
@@ -88,8 +86,8 @@ for idx, d_sim in enumerate(ppc_mm):
     ax[idx].set_title(f'K = {clusters[idx]} \n p-value {p_value:.2f}')
     #ax[idx].set_yticks([])
     ax[idx].set_xlabel('iqr')
-    
-plt.savefig('../figures/gmm_chooseK_pymc3_pval.pdf', dpi=300)
+
+pml.savefig('gmm_chooseK_pymc3_pval.pdf')  
 
 # Compute information criteria for the 4 models
  # Use Bayesian Bootstrapping together with 
@@ -98,7 +96,6 @@ plt.savefig('../figures/gmm_chooseK_pymc3_pval.pdf', dpi=300)
 comp = az.compare(dict(zip(clusters, traces)), method='BB-pseudo-BMA')
 comp
 az.plot_compare(comp)
-plt.savefig('../figures/gmm_chooseK_pymc3_waic.pdf', dpi=300)
+pml.savefig('gmm_chooseK_pymc3_waic.pdf')
 
-
-
+plt.show()

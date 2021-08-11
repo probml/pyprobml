@@ -1,54 +1,130 @@
 
 import os
 import matplotlib.pyplot as plt
+import numpy as np
 
+from inspect import getsourcefile
+from os.path import abspath
+
+
+#https://stackoverflow.com/questions/2632199/how-do-i-get-the-path-of-the-current-executed-file-in-python?lq=1
+def get_current_path():
+    current_path = abspath(getsourcefile(lambda:0)) # fullname of current file
+    #current_path = os.path.dirname(__file__)
+    current_dir = os.path.dirname(current_path)
+    return current_dir
 
 def test():
     print('welcome to python probabilistic ML library')
+    print(get_current_path())
 
+# https://stackoverflow.com/questions/10685495/reducing-the-size-of-pdf-figure-file-in-matplotlib
 
 def save_fig(fname, *args, **kwargs):
-    '''Save current plot window to the figures directory.'''
-    if "PYPROBML" in os.environ:
-        root = os.environ["PYPROBML"]
-        figdir = os.path.join(root, 'figures')
-    else:
-        figdir = '../figures' # default directory one above where code lives
+    #figdir = '../figures' # default directory one above where code lives
+    current_dir = get_current_path()
+    figdir = os.path.join(current_dir, "..", "figures")
+
     if not os.path.exists(figdir):
+        print('making directory {}'.format(figdir))
         os.mkdir(figdir)
+
     fname_full = os.path.join(figdir, fname)
     print('saving image to {}'.format(fname_full))
-    plt.tight_layout()
+    #plt.tight_layout()
+
+    # use TrueType fonts so they are embedded
+    # https://stackoverflow.com/questions/9054884/how-to-embed-fonts-in-pdfs-produced-by-matplotlib
+    # https://jdhao.github.io/2018/01/18/mpl-plotting-notes-201801/
+    plt.rcParams['pdf.fonttype'] = 42
+
+    # Font sizes
+    SIZE_SMALL = 12
+    SIZE_MEDIUM = 14
+    SIZE_LARGE = 24
+    # https://stackoverflow.com/a/39566040
+    plt.rc('font', size=SIZE_SMALL)  # controls default text sizes
+    plt.rc('axes', titlesize=SIZE_SMALL)  # fontsize of the axes title
+    plt.rc('axes', labelsize=SIZE_SMALL)  # fontsize of the x and y labels
+    plt.rc('xtick', labelsize=SIZE_SMALL)  # fontsize of the tick labels
+    plt.rc('ytick', labelsize=SIZE_SMALL)  # fontsize of the tick labels
+    plt.rc('legend', fontsize=SIZE_SMALL)  # legend fontsize
+    plt.rc('figure', titlesize=SIZE_LARGE)  # fontsize of the figure title
+
     plt.savefig(fname_full, *args, **kwargs)
     
+    
+def savefig(fname, *args, **kwargs):
+    save_fig(fname, *args, **kwargs)
+
+from matplotlib.patches import Ellipse, transforms
+# https://matplotlib.org/devdocs/gallery/statistics/confidence_ellipse.html
+def plot_ellipse(Sigma, mu, ax, n_std=3.0, facecolor='none', edgecolor='k', plot_center='true', **kwargs):
+    cov = Sigma
+    pearson = cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])
+
+    ell_radius_x = np.sqrt(1 + pearson)
+    ell_radius_y = np.sqrt(1 - pearson)
+    ellipse = Ellipse((0, 0), width=ell_radius_x * 2, height=ell_radius_y * 2,
+                      facecolor=facecolor, edgecolor=edgecolor, **kwargs)
+
+    scale_x = np.sqrt(cov[0, 0]) * n_std
+    mean_x = mu[0]
+
+    scale_y = np.sqrt(cov[1, 1]) * n_std
+    mean_y = mu[1]
+
+    transf = (transforms.Affine2D()
+                        .rotate_deg(45)
+                        .scale(scale_x, scale_y)
+                        .translate(mean_x, mean_y))
+
+    ellipse.set_transform(transf + ax.transData)
+
+    if plot_center:
+        ax.plot(mean_x, mean_y, '.')
+    return ax.add_patch(ellipse)
+
+def plot_ellipse_test():
+    fig, ax = plt.subplots()
+    Sigma = np.array([[5,1],[1,5]])
+    plot_ellipse(Sigma, np.zeros(2), ax, n_std=1)
+    plt.axis('equal')
+    plt.show()
 
 
+def convergence_test(fval, previous_fval, threshold=1e-4, warn=False):
+    eps = 2e-10
+    converged = 0
+    delta_fval = np.abs(fval - previous_fval)
+    avg_fval = (np.abs(fval) + abs(previous_fval) + eps) / 2.0
+    if (delta_fval / avg_fval) < threshold:
+        converged = 1
 
+    if warn and (fval - previous_fval) < -2 * eps:
+        print('convergenceTest:fvalDecrease', 'objective decreased!')
+    return converged
 
-def git_ssh(git_command, email, username, verbose=False):
-    '''Execute a git command via ssh from colab.
-    Details in https://github.com/probml/pyprobml/blob/master/book1/intro/colab_intro.ipynb
-    Authors: Mahmoud Soliman <mjs@aucegypt.edu> and Kevin Murphy <murphyk@gmail.com>
-    '''
-    git_command=git_command.replace(r"https://github.com/","git@github.com:")
-    print('executing command via ssh:', git_command)
-    # copy keys from drive to local .ssh folder
-    if verbose:
-        print('Copying keys from gdrive to local VM')
-    os.system('rm -rf ~/.ssh')
-    os.system('mkdir ~/.ssh')
-    os.system('cp  -r /content/drive/MyDrive/ssh/* ~/.ssh/')
-    os.system('ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts')
-    os.system('ssh -T git@github.com') # test
-    # git commands
-    if verbose:
-        print('Executing git commands')
-    os.system('git config --global user.email {}'.format(email))
-    os.system('git config --global user.name {}'.format(username))
-    os.system(git_command)
-    # cleanup
-    if verbose:
-        print('Cleanup local VM')
-    os.system('rm -r ~/.ssh/')
-    os.system('git config --global user.email ""')
-    os.system('git config --global user.name ""')
+def hinton_diagram(matrix, max_weight=None, ax=None):
+    """Draw Hinton diagram for visualizing a weight matrix."""
+    if not max_weight:
+        max_weight = 2 ** np.ceil(np.log(np.abs(matrix).max()) / np.log(2))
+
+    ax.patch.set_facecolor('white')
+    ax.set_aspect('equal', 'box')
+
+    for (x, y), w in np.ndenumerate(matrix):
+        color = 'lawngreen' if w > 0 else 'royalblue'
+        size = np.sqrt(np.abs(w) / max_weight)
+        rect = plt.Rectangle([x - size / 2, y - size / 2], size, size,
+                             facecolor=color, edgecolor=color)
+        ax.add_patch(rect)
+    nr, nc = matrix.shape
+    ax.set_xticks(np.arange(0, nr))
+    ax.set_yticks(np.arange(0, nc))
+    ax.grid(linestyle='--', linewidth=2)
+    ax.autoscale_view()
+    ax.invert_yaxis()
+
+if __name__ == "__main__":
+    test()

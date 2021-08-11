@@ -13,7 +13,7 @@ from scipy.special import expit as logistic
 import matplotlib.pyplot as plt
 import arviz as az
 from sklearn.datasets import load_iris
-    
+import pyprobml_utils as pml
 
 iris = load_iris()
 X = iris.data 
@@ -53,7 +53,7 @@ with pm.Model() as model_1:
      
     yl = pm.Bernoulli('yl', p=θ, observed=y_1) 
  
-    trace_1 = pm.sample(2000)
+    trace_1 = pm.sample(2000, cores=1, chains=2)
     
 varnames = ['α', 'β'] 
 #az.plot_forest(trace_1, var_names=varnames);
@@ -65,14 +65,15 @@ plt.figure()
 plt.scatter(x_1[:,0], x_1[:,1], c=[f'C{x}' for x in y_1]) 
 plt.plot(x_1[:,0][idx], bd, color='k'); 
 
-az.plot_hpd(x_1[:,0], trace_1['bd'], color='k')
+az.plot_hdi(x_1[:,0], trace_1['bd'], color='k')
  
 plt.xlabel(x_n[0]) 
 plt.ylabel(x_n[1])
 
 plt.tight_layout()
 if unbalanced:
-    plt.savefig('../figures/logreg_iris_bayes_2d_unbalanced.pdf', dpi=300)      
+    pml.savefig('logreg_iris_bayes_2d_unbalanced.pdf', dpi=300)
 else:
-    plt.savefig('../figures/logreg_iris_bayes_2d.pdf', dpi=300)    
+    pml.savefig('logreg_iris_bayes_2d.pdf', dpi=300)
         
+plt.show()

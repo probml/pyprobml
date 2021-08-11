@@ -1,18 +1,14 @@
-
 #https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson2-sgd.ipynb
 #https://pytorch.org/tutorials/beginner/nn_tutorial.html
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-#figdir = os.path.join(os.environ["PYPROBML"], "figures")
-#def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 
 import torch
 from torch import nn
 import torch.nn.functional as F
-
 
 np.random.seed(42)
 
@@ -50,10 +46,9 @@ def update():
         a.sub_(lr * a.grad)
         a.grad.zero_()
 
-
 for t in range(100): update()
 
 plt.scatter(x[:,0],y)
-
-plt.scatter(x[:,0],x@a.detach());
-
+plt.scatter(x[:,0],x@a.detach())
+plt.show()
+pml.savefig('linreg_sgd.pdf')

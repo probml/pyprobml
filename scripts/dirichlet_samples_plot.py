@@ -2,14 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
+import pyprobml_utils as pml
 
 np.random.seed(0)
 
@@ -33,7 +26,7 @@ def MakeDirSampleFig(alpha):
 
     plt.draw()
     SaveN = "dirSample" + str(int(np.round(10*alpha))) + ".pdf"
-    save_fig(SaveN)
+    pml.savefig(SaveN)
 
 MakeDirSampleFig(.1)
 MakeDirSampleFig(1.0)

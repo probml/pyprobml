@@ -2,10 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-#figdir = os.path.join(os.environ["PYPROBML"], "figures")
-figdir = '../figures'
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 
 from scipy.stats import pareto
@@ -23,7 +20,7 @@ for i, param in enumerate(params):
 plt.title('Pareto Distribution')
 plt.legend()
 plt.axis((0.0, 0.5, 0, 20))
-save_fig('paretoPdf.pdf')
+pml.savefig('paretoPdf.pdf')
 plt.show()
 
 
@@ -35,5 +32,5 @@ for i, param in enumerate(params):
 plt.xlim(0.05, 1)
 plt.title('Log Pareto Distribution')
 plt.legend()
-save_fig('paretoLogPdf.pdf')
+pml.savefig('paretoLogPdf.pdf')
 plt.show()

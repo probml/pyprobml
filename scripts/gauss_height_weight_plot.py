@@ -7,17 +7,20 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-#figdir = os.path.join(os.environ["PYPROBML"], "figures")
-#datadir = os.path.join(os.environ["PYPROBML"], "data", "heightWeight")
-figdir = '../figures'
-datadir = '../data/heightWeight'
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
+import pyprobml_utils as pml
 from matplotlib.patches import Ellipse
 
-import scipy.io
-dataAll = scipy.io.loadmat(os.path.join(datadir, "heightWeight.mat"))
+from scipy.io import loadmat
+import requests
+from io import BytesIO
+
+#dataAll = scipy.io.loadmat(os.path.join(datadir, "heightWeight.mat"))
+#data = dataAll['heightWeightData']
+
+url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/heightWeight/heightWeight.mat'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+dataAll = loadmat(rawdata)
 data = dataAll['heightWeightData']
 
 sex = data[:, 0]
@@ -30,11 +33,10 @@ y_male = y[male_arg]
 x_female = x[female_arg]
 y_female = y[female_arg]
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
+fig, ax  = plt.subplots()
 ax.plot(x_male, y_male, 'bx')
 ax.plot(x_female, y_female, 'ro')
-save_fig('heightWeightScatter.pdf')
+pml.savefig('heightWeightScatter.pdf')
 plt.show()
 
 def draw_ell(cov, xy, color):
@@ -53,7 +55,11 @@ cov_matrix1 = np.cov(np.vstack([x_female.ravel(), y_female.ravel()]))
 xy1 = (np.mean(x_female), np.mean(y_female))
 cov_matrix2 = np.cov(np.vstack([x_male.ravel(), y_male.ravel()]))
 xy2 = (np.mean(x_male), np.mean(y_male))
+
+fig, ax  = plt.subplots()
+ax.plot(x_male, y_male, 'bx')
+ax.plot(x_female, y_female, 'ro')
 draw_ell(cov_matrix1, xy1, 'r')
 draw_ell(cov_matrix2, xy2, 'b')
-save_fig('heightWeightScatterCov.pdf')
+pml.savefig('heightWeightScatterCov.pdf')
 plt.show()

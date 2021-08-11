@@ -4,6 +4,7 @@
 import numpy as np
 from scipy.cluster.hierarchy import dendrogram, linkage
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
 
 X = np.array([[1,2],
     [2.5,4.5],
@@ -23,7 +24,7 @@ for label, x, y in zip(labels, X[:, 0], X[:, 1]):
         label,
         xy=(x, y), xytext=(-3, 3),
         textcoords='offset points', ha='right', va='bottom', fontsize=25, color="red")
-plt.savefig("../figures/singleListClustering.pdf", dpi=300)
+pml.savefig("agglom_demo_data.pdf", dpi=300)
 
 linked = linkage(X, 'single')
 
@@ -35,5 +36,6 @@ dendrogram(linked,
             labels=labelList,
             distance_sort='descending',
             show_leaf_counts=True)
-plt.savefig("../figures/resultingDendrogram.pdf", dpi=300)
+pml.savefig("agglom_demo_dendrogram.pdf", dpi=300)
 
+plt.show()

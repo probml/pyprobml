@@ -4,9 +4,8 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
+
 
 from scipy.stats import norm
 
@@ -30,7 +29,7 @@ linewidth = 3
 plt.figure()
 plt.plot(xs, p, 'black', linewidth=linewidth)
 plt.vlines(mean_p, ymin=0, ymax=max(p), color='red', linewidth=linewidth)
-save_fig('bimodalSpike.pdf')
+pml.savefig('bimodalSpike.pdf')
 plt.show()
 
 
@@ -45,5 +44,5 @@ p = sum(w[i] * n[i].pdf(xs) for i in range(2))
 plt.figure()
 linewidth = 3
 plt.plot(xs, p, 'black', linewidth=linewidth)
-save_fig('bimodalDistribution.pdf')
+pml.savefig('bimodalDistribution.pdf')
 plt.show()

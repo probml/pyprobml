@@ -1,7 +1,7 @@
 from numpy import linalg
 import numpy as np
 from matplotlib import pyplot as plt
-
+import pyprobml_utils as pml
 
 def linregUpdateSS(ss, xnew, ynew, xAll, yAll):
     if len(ss.keys()) == 0:
@@ -95,5 +95,5 @@ ax1.legend()
 ax1.set_title('linregOnlineDemo')
 ax1.set_ylabel('weights')
 ax1.set_xlabel('time')
-
-fig.savefig('../figures/linregOnlineDemo.png')
+pml.savefig('linregOnlineDemo.pdf')
+plt.show()

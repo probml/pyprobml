@@ -1,7 +1,4 @@
-
-
 # Plot saddle point in 2d
-
 #https://nbviewer.jupyter.org/github/entiretydotai/Meetup-Content/blob/master/Neural_Network/7_Optimizers.ipynb
 
 import numpy as np
@@ -10,7 +7,6 @@ import matplotlib.pyplot as plt
 import os
 from matplotlib import colors as mcolors
 import pyprobml_utils as pml
-
 
 fig = plt.figure(figsize=(8,8))
 ax = fig.gca(projection='3d')
@@ -25,5 +21,5 @@ ax.set_xlabel('$X$')
 ax.set_ylabel('$Y$')
 ax.set_zlabel(r'$Z$')
 ax.plot_surface(X, Y, Z) #color="red");
-pml.save_fig("saddle.pdf")
+pml.savefig("saddle.pdf")
 plt.show()

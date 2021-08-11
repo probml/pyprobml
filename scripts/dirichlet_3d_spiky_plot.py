@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from pyprobml_utils import save_fig
+import pyprobml_utils as pml
 
 
 from mpl_toolkits.mplot3d import proj3d
@@ -41,7 +41,7 @@ for i in range(len(alphas)):
     ttl = ','.join(['{:0.2f}'.format(d) for d in alphavec])
     ax.set_title(ttl)
     alpha = int(np.round(alphavec[0]*10))
-    save_fig('dirSimplexAlpha{}.pdf'.format(alpha))
+    pml.savefig('dirSimplexAlpha{}.pdf'.format(alpha))
     plt.show()
 
 if 0:
@@ -53,5 +53,5 @@ if 0:
     ttl = ','.join(['{:0.2f}'.format(d) for d in alphavec])
     ax.set_title(ttl)
     alpha = np.round(alphavec[0]*10)
+    pml.savefig('alpha.pdf')
     plt.show()
-    

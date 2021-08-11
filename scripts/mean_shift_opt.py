@@ -1,6 +1,6 @@
 # mean shift to find global modes
-import numpy as onp # original numpy
-#import jax.numpy as np
+import numpy as  np # original numpy
+#import jax.numpy as jnp
 #from jax import vmap
 import numpy as np
 from functools import partial
@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 
 import os
 figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+def save_fig(fname): plt.savefig(os.path.join(figdir, fname)) #os.path.join(figdir, fname)
 
 def kernelfn_scalar(x, lam=0.4, beta=10):
-    if np.abs(x) > lam:
+    if np.abs(x) > lam: 
         return 0.0
     else:
         return np.exp(-beta*x**2)
@@ -21,7 +21,7 @@ def kernelfn_scalar(x, lam=0.4, beta=10):
 #    kernels = vmap(kernelfn_scalar)(xs)
 #    return kernels
 
-kernelfn = onp.vectorize(kernelfn_scalar)
+kernelfn =  np.vectorize(kernelfn_scalar)
 
 def objfn(xs):
     weights = [0.5, 0.5]
@@ -32,34 +32,34 @@ def objfn(xs):
     return weights[0]*dist0.pdf(xs) + weights[1]*dist1.pdf(xs)
 
 def weightfn_scalar(S, s):
-    fn = onp.vectorize(lambda t: kernelfn_scalar(t-s))
+    fn =  np.vectorize(lambda t: kernelfn_scalar(t-s))
     vals = fn(S)
-    denom = onp.sum(vals)
+    denom =  np.sum(vals)
     return objfn(s) / denom
 
 def weightfn(S, xs):
-    #fn  = onp.vectorize(partial(weightfn_scalar, S))
+    #fn  =  np.vectorize(partial(weightfn_scalar, S))
     fn = objfn
     return fn(xs)
 
 def qfn_scalar(S, x):
-    fn = onp.vectorize(lambda s: kernelfn_scalar(s-x) * weightfn_scalar(S,s))
+    fn =  np.vectorize(lambda s: kernelfn_scalar(x-s) * weightfn_scalar(S,s))
     vals = fn(S)
-    return onp.sum(vals)
+    return  np.sum(vals)
 
 def qfn(S, xs):
-    fn  = onp.vectorize(partial(qfn_scalar, S))
+    fn  =  np.vectorize(partial(qfn_scalar, S))
     return fn(xs)
     
 def meanshift_scalar(S, x):
-    fn = onp.vectorize(lambda s: kernelfn_scalar(s-x) * weightfn_scalar(S,s) * s)
+    fn =  np.vectorize(lambda s: kernelfn_scalar(s-x) * weightfn_scalar(S,s) * s)
     numer = fn(S)
-    fn = onp.vectorize(lambda s: kernelfn_scalar(s-x) * weightfn_scalar(S,s))
+    fn =  np.vectorize(lambda s: kernelfn_scalar(s-x) * weightfn_scalar(S,s))
     denom = fn(S)
     return np.sum(numer) / np.sum(denom+1e-10)
 
 def meanshift(S, xs):
-    fn  = onp.vectorize(partial(meanshift_scalar, S))
+    fn  =  np.vectorize(partial(meanshift_scalar, S))
     return fn(xs)
 
 
@@ -68,7 +68,7 @@ plt.figure()
 plt.plot(grid, objfn(grid))
 save_fig('meanshift-target.pdf')
 
-onp.random.seed(42)
+np.random.seed(42)
 dist = uniform(loc=-1, scale=2) #-1..1
 S = dist.rvs(size=20)
 #S = grid 

@@ -9,6 +9,7 @@ import os
 
 import tensorflow as tf
 from tensorflow import keras
+import pyprobml_utils as pml
 
 devices = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(devices[0], True)
@@ -65,5 +66,5 @@ def show_reconstructions(model, images=X_valid, n_images=5):
         
         
 show_reconstructions(conv_ae)
-#save_fig("ae-cnn-fashion-recon.pdf")
+pml.savefig('ae-cnn-fashion-recon.pdf')
 plt.show()

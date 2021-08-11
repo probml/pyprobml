@@ -3,9 +3,8 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
+
 
 
 from sklearn.linear_model import Ridge
@@ -63,7 +62,7 @@ for ModDeg in degrees:
     plt.xlabel('size of training set')
     plt.ylabel('mse')
     plt.title('truth = degree {}, model = degree {}'.format(TrueDeg, ModDeg))
-    save_fig('polyfitN{}.pdf'.format(ModDeg))
+    pml.savefig('polyfitN{}.pdf'.format(ModDeg))
     plt.show()
 
 plt.show()

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # Fit logistic regression models to 3 classs 2d data.
 
 import matplotlib.pyplot as plt
@@ -8,7 +6,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from scipy.stats import multivariate_normal as mvn
 from sklearn.linear_model import LogisticRegression
 import matplotlib.colors as mcol
-
+import pyprobml_utils as pml
 
 def create_data(N):
     np.random.seed(234)
@@ -74,9 +72,7 @@ for i in range(len(models)):
     plotScatter(X[:, 0], X[:, 1], y)
     #plt.scatter(X[:,0], X[:,1], y)
     plt.title(names[i])
-
-    fname = '../logregMulti{}Boundary.png'.format(file_names[i])
-    plt.savefig(fname)
     plt.draw()
-
+    pml.savefig('logregMulti{}Boundary.png'.format(file_names[i]))
+    
 plt.show()

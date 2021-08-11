@@ -5,13 +5,10 @@ from tensorflow import keras
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = "../figures"
-
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 
-# print(tf.__version__)
+print(tf.__version__)
 np.random.seed(0)
 
 fashion_mnist = keras.datasets.fashion_mnist
@@ -37,5 +34,5 @@ for i in range(25):
     plt.grid(False)
     plt.imshow(train_images[i], cmap=plt.cm.binary)
     plt.xlabel(class_names[train_labels[i]])
-save_fig("fashion-mnist-data.pdf")
+pml.savefig("fashion-mnist-data.pdf")
 plt.show()

@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.linalg import sqrtm
-from pyprobml_utils import save_fig
-
+import pyprobml_utils as pml
 
 def L_dL_G(theta, X, sf):
     KL = 1/2 * (X[0,:] - (sf*theta[0] + 1/sf * theta[1]))**2 + 1/2*(X[1,:] - (1/sf * theta[0]))**2 - 1/2*X[0,:]**2 - 1/2*X[1,:]**2
@@ -13,9 +12,8 @@ def L_dL_G(theta, X, sf):
             ])
     dL = np.mean(dlpdtheta, axis=1)
     G = np.array([[sf**2 + 1/(sf**2),1],[1, 1/(sf**2)]])
-
-
     return L, dL, G
+
 def make_vector_field_plots():
     # initialize the theta domain
     theta1, theta2 = np.meshgrid(np.linspace(-1,1,9), np.linspace(-1,1,9))
@@ -35,7 +33,8 @@ def make_vector_field_plots():
     plt.xlabel(r"$\theta_1$")
     plt.ylabel(r"$\theta_2$")
     plt.title("Steepest descent vectors in original parameter space")
-    save_fig("SDOriginalParam.pdf")
+    #pml.savefig("SDOriginalParam.pdf")
+    pml.savefig("natgrad_descent_vectors_orig.pdf")
     plt.show()
 
     phi = theta.copy()
@@ -49,8 +48,9 @@ def make_vector_field_plots():
     plt.quiver(phi[0,:], phi[1,:], dLphi[0,:], dLphi[1,:])
     plt.xlabel(r"$\phi_1$")
     plt.ylabel(r"$\phi_2$")
-    plt.title("Steeped descent vectors in natural parameter space")
-    save_fig("SDNaturalParam.pdf")
+    plt.title("Steepest descent vectors in natural parameter space")
+    #pml.savefig("SDNaturalParam.pdf")
+    pml.savefig("natgrad_descent_vectors_natural.pdf")
     plt.show()
 
 def make_convergence_plots():
@@ -60,7 +60,8 @@ def make_convergence_plots():
     theta_init = np.array([[1], [-1]])
     sf = 3
 
-    theta_trajectory_steepest = theta_init.dot(np.ones((1, 10000)))
+    #theta_trajectory_steepest = theta_init.dot(np.ones((1, 10000)))
+    theta_trajectory_steepest = theta_init.dot(np.ones((1, 1000)))
     theta_trajectory_natural = theta_trajectory_steepest.copy()
     L_trajectory_steepest = np.zeros((1, theta_trajectory_steepest.shape[1] - 1))
     L_trajectory_natural = np.zeros_like(L_trajectory_steepest)
@@ -80,18 +81,20 @@ def make_convergence_plots():
     plt.plot(theta_trajectory_natural[0,:].T, theta_trajectory_natural[1,:].T, 'xb', label="Natural gradient descent")
     plt.xlabel(r"$\theta_1$")
     plt.ylabel(r"$\theta_2$")
-    plt.title("Descent paths for steepest and natural gradient descent")
+    plt.title("Parameter trajectories")
     plt.legend()
-    save_fig("DescentPathsSteepestNGDescent.pdf")
+    #pml.savefig("DescentPathsSteepestNGDescent.pdf")
+    pml.savefig("natgrad_descent_params.pdf")
     plt.show()
 
     plt.loglog(L_trajectory_steepest.flatten(), '+r', label="Steepest descent")
     plt.loglog(L_trajectory_natural.flatten(), 'xb', label="Natural gradient descent")
     plt.xlabel("Number of update steps")
     plt.ylabel("KL divergence")
-    plt.title("KL divergence vs. update step for steepest and natural gradient descent")
+    plt.title("KL divergence vs. update step")
     plt.legend()
-    save_fig("KLDivergenceSteepestNGDescent.pdf")
+    #pml.savefig("KLDivergenceSteepestNGDescent.pdf")
+    pml.savefig("natgrad_descent_kl.pdf")
     plt.show()
 
 make_vector_field_plots()

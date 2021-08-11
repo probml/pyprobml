@@ -3,12 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-
-def savefig(fname):
-  figdir = "../figures"
-  #figdir = os.path.join(os.environ["PYPROBML"], "figures")
-  plt.savefig(os.path.join(figdir, fname))
-    
+import pyprobml_utils as pml
 
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -35,7 +30,6 @@ def elu2(z, lam=0.5):
 def swish(z):
     return z * sigmoid(z)
 
-print('plot some activation functions')
 
 from scipy.special import erfc
 
@@ -48,21 +42,22 @@ def selu(z, scale=scale_0_1, alpha=alpha_0_1):
     return scale * elu(z, alpha)
 
 z = np.linspace(-5, 5, 200)
+# dummy test
 
 #plt.figure(figsize=(11,4))
 plt.figure()
-plt.plot(z, heaviside(z), "r-", linewidth=2, label="Heaviside")
-plt.plot(z, sigmoid(z), "g--", linewidth=2, label="Sigmoid")
-plt.plot(z, np.tanh(z), "b-", linewidth=2, label="Tanh")
+plt.plot(z, sigmoid(z), "b-", linewidth=2, label="Sigmoid")
+plt.plot(z, np.tanh(z), "g--", linewidth=2, label="Tanh")
 plt.plot(z, relu(z), "m-.", linewidth=2, label="ReLU")
 plt.grid(True)
 plt.legend(loc="lower right", fontsize=14)
 plt.title("Activation functions", fontsize=14)
 plt.axis([-5, 5, -1.2, 1.2])
-savefig('activationFuns.pdf')
+pml.savefig('activationFuns.pdf')
 plt.show()
 
 #plt.figure(figsize=(11,4))
+plt.figure()
 plt.plot(z, relu(z), "r-", linewidth=2, label="ReLU")
 plt.plot(z, lrelu(z), "g--", linewidth=2, label="LReLU")
 plt.plot(z, elu(z), "b-", linewidth=2, label="ELU")
@@ -72,10 +67,11 @@ plt.grid(True)
 plt.legend(loc="upper left", fontsize=14)
 plt.title("Activation functions", fontsize=14)
 plt.axis([-2, 2, -1.2, 2])
-savefig('activationFuns2.pdf')
+pml.savefig('activationFuns2.pdf')
 plt.show()
 
 # From https://github.com/ageron/handson-ml2/blob/master/11_training_deep_neural_networks.ipynb
+plt.figure()
 z = np.linspace(-5, 5, 200)
 plt.plot([-5, 5], [0, 0], 'k-')
 plt.plot([-5, 5], [1, 1], 'k--')
@@ -89,5 +85,5 @@ plt.annotate('Linear', xytext=(2, 0.2), xy=(0, 0.5), arrowprops=props, fontsize=
 plt.grid(True)
 plt.title("Sigmoid activation function", fontsize=14)
 plt.axis([-5, 5, -0.2, 1.2])
-savefig("sigmoid_saturation_plot")
+pml.savefig("sigmoid_saturation_plot.pdf")
 plt.show()

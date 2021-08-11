@@ -107,6 +107,7 @@ for t in range(ntrials):
         ttl = r'$\alpha_1 = {},\; \beta_1 = {},\; \alpha_2 = {},\; \beta_2 = {}$'.format(
             alpha1, beta1, alpha2, beta2)
         plt.title(ttl, fontsize=18)
+    plt.show()
     pml.save_fig(f'mlpPriors-{t}.pdf', dpi=300)
         
                  

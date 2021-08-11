@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
+import pyprobml_utils as pml
 
 x11 = 5
 x12 = 3
@@ -42,15 +43,18 @@ for i in range(len(tree)):
         if L5[i] & R5[j]:
             tree[i, j] = r[4]
             
-colors = np.array([[255, 0, 0], [0, 0, 255], [160, 32, 240], [0, 100, 0], [255, 140, 0]]) / 255
+#colors = np.array([[255, 0, 0], [0, 0, 255], [160, 32, 240], [0, 100, 0], [255, 140, 0]]) / 255
 
 X,Y = np.meshgrid(X1,X2)
 Z = tree
 fig = plt.figure(figsize=(12, 7))
 ax = fig.gca(projection='3d')
 ax.plot_surface(X, Y, Z, cmap="coolwarm", lw=0.5, rstride=1, cstride=1, edgecolor =['g'], color='w',antialiased=True)
-ax.set_xlabel('X axis')
-ax.set_ylabel('Y axis')
-ax.set_zlabel('Z axis')
+#ax.plot_surface(X, Y, Z, cmap="jet", lw=0.5, rstride=1, cstride=1, edgecolor =['g'], color='w',antialiased=True)
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('Y')
 ax.view_init(None, 50+180)
+plt.tight_layout()
+pml.savefig('regression_tree_surface.pdf', dpi=300)
 plt.show()

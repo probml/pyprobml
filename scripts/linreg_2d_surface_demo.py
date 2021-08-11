@@ -3,15 +3,18 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-from pyprobml_utils import save_fig
-
-    
-import scipy.io
+import pyprobml_utils as pml
+from scipy.io import loadmat
+import requests
+from io import BytesIO
 from mpl_toolkits.mplot3d import Axes3D
 
-datadir = os.path.join(os.environ["PYPROBML"], "data")
-data = scipy.io.loadmat(os.path.join(datadir, 'moteData', 'moteData.mat'))
+url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/moteData/moteData.mat'
+response = requests.get(url)
+#rawdata = response.text
+rawdata = BytesIO(response.content)
+data = loadmat(rawdata)
+
 X = data['X']
 y = data['y']
 
@@ -51,5 +54,5 @@ for use_quad in (False, True):
   if use_quad:
     name = 'linregSurfaceQuad.pdf'
 
-  save_fig(name)
+  pml.savefig(name)
   plt.show()

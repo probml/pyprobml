@@ -4,6 +4,7 @@ import numpy as np
 from scipy.linalg import eigh
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import rbf_kernel
+import pyprobml_utils as pml
 
 plt.style.use('classic')
 
@@ -39,6 +40,8 @@ def spectral_clustering_demo():
         kmeans.fit(eigen_vectors)
         assignments = kmeans.predict(eigen_vectors)
         plot_data(data, assignments, 'spectral clustering', data_type)
+
+        plt.show()
 
 def paranoid_assert(W, normalized_W, enable):
     if not enable:
@@ -93,7 +96,8 @@ def plot_data(data, assignments, title, data_type):
     ax.axis('square')
     ax.grid(True)
     ax.set_title(title)
-    plt.savefig(f"../figures/{data_type}_{title.replace(' ', '_')}.pdf")
+    plt.tight_layout()
+    pml.savefig(f"{data_type}_{title.replace(' ', '_')}.pdf")
 
 if __name__ == '__main__':
     spectral_clustering_demo()

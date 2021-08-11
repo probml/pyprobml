@@ -1,14 +1,8 @@
-
-
 # Show the curse of dimensionality.
-
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-
+import pyprobml_utils as pml
 
 ds = [1., 3., 5., 7., 10.]  
 s = np.linspace(0, 1, 100)
@@ -19,5 +13,5 @@ for d in ds:
   plt.xlabel('Fraction of data in neighborhood')
   plt.ylabel('Edge length of cube')
 
-save_fig('curseDimensionality.pdf')
+pml.savefig('curseDimensionality.pdf')
 plt.show()

@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 
 x = np.linspace(0,1,10000)
@@ -20,5 +18,5 @@ ticks = [0, 0.5, 1]
 plt.xticks(ticks)
 plt.yticks(ticks)
 
-save_fig("bernoulliEntropy.pdf")
+pml.savefig("bernoulliEntropy.pdf")
 plt.show()

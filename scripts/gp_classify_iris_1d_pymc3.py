@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from scipy.special import expit as logistic
+import pyprobml_utils as pml
 
 import matplotlib.pyplot as plt
 import arviz as az
@@ -53,14 +54,14 @@ if 1:
         f = gp.prior("f", X=X_1)
         # logistic inverse link function and Bernoulli likelihood
         y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
-        trace_iris = pm.sample(1000, chains=1, compute_convergence_checks=False)
+        trace_iris = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
         
     # Posterior predictive
   
     with model_iris:
         f_pred = gp.conditional('f_pred', X_new)
         pred_samples = pm.sample_posterior_predictive(
-            trace_iris, vars=[f_pred], samples=1000)
+            trace_iris, var_names=[f_pred], samples=1000)
     
     # Plot results
     _, ax = plt.subplots(figsize=(10, 6))
@@ -73,16 +74,16 @@ if 1:
     ax.scatter(x_1, np.random.normal(y, 0.02),
                marker='.', color=[f'C{x}' for x in y])
     
-    az.plot_hpd(X_new[:, 0], fp, color='C2')
+    az.plot_hdi(X_new[:, 0], fp, color='C2')
     
     db = np.array([find_midpoint(f, X_new[:, 0], 0.5) for f in fp])
     db_mean = db.mean()
-    db_hpd = az.hpd(db)
+    db_hpd = az.hdi(db)
     ax.vlines(db_mean, 0, 1, color='k')
     ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color='k', alpha=0.5)
     ax.set_xlabel('sepal_length')
     ax.set_ylabel('θ', rotation=0)
-    plt.savefig('../figures/gp_classify_iris1.pdf', dpi=300)
+    pml.savefig('gp_classify_iris1.pdf', dpi=300)
 
 # Change kernel to be sum of SE and linear, to improve tail behavior
 
@@ -98,7 +99,7 @@ with pm.Model() as model_iris2:
     f = gp.prior("f", X=X_1)
     # logistic inverse link function and Bernoulli likelihood
     y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
-    trace_iris2 = pm.sample(1000, chains=1, compute_convergence_checks=False)
+    trace_iris2 = pm.sample(1000, chains=1, cores=1, ompute_convergence_checks=False)
     
 with model_iris2:
     f_pred = gp.conditional('f_pred', X_new)
@@ -115,15 +116,15 @@ ax.scatter(x_1, np.random.normal(y, 0.02), marker='.', color=[f'C{ci}' for ci in
 
 db = np.array([find_midpoint(f, X_new[:,0], 0.5) for f in fp])
 db_mean = db.mean()
-db_hpd = az.hpd(db)
+db_hpd = az.hdi(db)
 ax.vlines(db_mean, 0, 1, color='k')
 ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color='k', alpha=0.5)
 
 ax.plot(X_new[:,0], fp_mean, 'C2', lw=3)
-az.plot_hpd(X_new[:,0], fp, color='C2')
+az.plot_hdi(X_new[:,0], fp, color='C2')
 
 ax.set_xlabel('sepal_length')
 ax.set_ylabel('θ', rotation=0)
-plt.savefig('../figures/gp_classify_iris2.pdf', dpi=300)
+pml.savefig('gp_classify_iris2.pdf', dpi=300)
 
-    
+plt.show()

@@ -1,15 +1,8 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import pyprobml_utils as pml
 
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
-    
 np.random.seed(0)
 N = 5000
 r = 2
@@ -28,7 +21,5 @@ print(('stderr = %f' % se))
 plt.figure(figsize=(5, 5))
 plt.plot(xs[inside], ys[inside], 'bo')
 plt.plot(xs[~inside], ys[~inside], 'rD')
-
-
-save_fig('mcEstimatePi.pdf')
+pml.savefig('mcEstimatePi.pdf')
 plt.show()

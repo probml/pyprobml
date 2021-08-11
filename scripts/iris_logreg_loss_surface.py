@@ -4,9 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 from mpl_toolkits.mplot3d import axes3d, Axes3D 
 
@@ -87,18 +85,18 @@ cbar.ax.set_ylabel('NLL', fontsize=12)
 plt.xlabel('$w$', fontsize=12)
 plt.ylabel('$b$', fontsize=12)
 plt.title('Loss function surface')
-save_fig('logregIrisLossHeatmap.pdf')
+pml.savefig('logregIrisLossHeatmap.pdf')
 plt.show()
 
 fig,ax = plt.subplots()
 CS = plt.contour(grid_w, grid_b, loss_grid,  cmap='jet')
 #plt.plot(b_mle, w_mle, 'x') # Plot centered at MLE
-save_fig('logregIrisLossContours.pdf')
+pml.savefig('logregIrisLossContours.pdf')
 plt.show()
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(grid_w, grid_b, loss_grid)
-save_fig('logregIrisLossSurf.pdf')
+pml.savefig('logregIrisLossSurf.pdf')
 plt.show()
 

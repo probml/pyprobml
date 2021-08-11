@@ -1,13 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-
-def save_fig(fname):
-    figdir = os.path.join(os.environ["PYPROBML"], "figures")
-    plt.tight_layout()    
-    fullname = os.path.join(figdir, fname)
-    print('saving to {}'.format(fullname))
-    plt.savefig(fullname)
+import pyprobml_utils as pml
 
 from scipy.stats import dirichlet
 
@@ -38,7 +31,7 @@ def MakeGraph(Data,SaveName):
     ax.plot(x, likelihood, 'k--', label=MakeLabel(Data, "lik"), linewidth=2.0)
     ax.plot(x, posterior, 'b--', label=MakeLabel(Data, "post"), linewidth=2.0)
     ax.legend(loc='upper left', shadow=True)
-    save_fig(SaveName)
+    pml.savefig(SaveName)
     plt.show()
 
 Data1 = {'prior': [1, 1],

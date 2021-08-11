@@ -4,9 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-figdir = os.path.join(os.environ["PYPROBML"], "figures")
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+import pyprobml_utils as pml
 
 from scipy.special import comb, beta
 from scipy.stats import binom
@@ -33,7 +31,7 @@ rects = ax.bar(ind, distribution, align='center')
 ax.set_title('posterior predictive')
 ax.set_xticks(list(range(N+1)))
 ax.set_xticklabels(list(range(N+1)))
-save_fig('BBpostpred.pdf')
+pml.savefig('BBpostpred.pdf')
 plt.show()
 
 # Plugin binomial distribution
@@ -48,7 +46,7 @@ rects = ax.bar(ind, distribution, align='center')
 ax.set_title('plugin predictive')
 ax.set_xticks(list(range(N+1)))
 ax.set_xticklabels(list(range(N+1)))
-save_fig('BBpluginpred.pdf')
+pml.savefig('BBpluginpred.pdf')
 plt.show()
 
 
