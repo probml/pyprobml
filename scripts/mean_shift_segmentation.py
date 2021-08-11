@@ -9,15 +9,16 @@ from itertools import cycle
 from PIL import Image
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pylab
+import requests
+import io
+import pyprobml_utils as pml
+import os
+
 #%matplotlib inline
 #pylab.rcParams['figure.figsize'] = 16, 12
 
-import os
-figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
-datadir = "../data"
-
-image = Image.open(os.path.join(datadir, 'bread.jpg'))
+r = requests.get('https://github.com/probml/probml-data/blob/main/data/bread.jpg?raw=true', stream=True)
+image = Image.open(io.BytesIO(r.content))
 
 # Image is (687 x 1025, RGB channels)
 image = np.array(image)
@@ -29,7 +30,7 @@ X = np.reshape(image, [-1, 3])
 plt.figure()
 plt.imshow(image)
 plt.axis('off')
-save_fig('meanshift_segmentation_input.pdf')
+pml.savefig('meanshift_segmentation_input.pdf')
 
 bandwidth = estimate_bandwidth(X, quantile=0.1, n_samples=100)
 print("bandwidth {}".format(bandwidth))
@@ -48,4 +49,4 @@ segmented_image = np.reshape(labels, original_shape[:2])  # Just take (height, w
 plt.figure()
 plt.imshow(segmented_image)
 plt.axis('off')
-save_fig('meanshift_segmentation_result.pdf')
+pml.savefig('meanshift_segmentation_result.pdf')
