@@ -1,4 +1,3 @@
-
 import scipy
 from scipy.io import loadmat
 import random
@@ -8,10 +7,11 @@ from sklearn.naive_bayes import BernoulliNB,MultinomialNB,GaussianNB
 import matplotlib.pyplot as plt
 from sklearn.feature_selection import mutual_info_classif
 import os
+import pyprobml_utils as pml
 
+!wget 'https://github.com/probml/probml-data/blob/main/data/XwindowsDocData.mat?raw=true' -O XwindowsDocData.mat
 
-
-data = loadmat('../data/XwindowsDocData.mat')
+data = loadmat('XwindowsDocData.mat')
 Xtrain = data['xtrain']
 Xtrain = scipy.sparse.csc_matrix.toarray(Xtrain)
 Xtest = data['xtest']
@@ -41,5 +41,5 @@ for i in range(0, C):
     plt.bar(np.arange(0, 600, 1), np.exp(model.feature_log_prob_)[i, :])
     plt.title(r'$P(x_j=1 \mid y='+str(i+1)+')$')
     fileName = 'naiveBayesBow'+str(i+1)+'ClassCond'
-    plt.savefig(r'../figures/'+fileName)
+    pml.savefig(fileName+'.pdf')
     plt.show()
