@@ -1,6 +1,10 @@
 # Online training of a logistic regression model
 # using Assumed Density Filtering (ADF).
 # We compare the ADF result with MCMC sampling
+# For further details, see the ADF paper:
+#   * O. Zoeter, "Bayesian Generalized Linear Models in a Terabyte World,"
+#     2007 5th International Symposium on Image and Signal Processing and Analysis, 2007,
+#     pp. 435-440, doi: 10.1109/ISPA.2007.4383733.
 # of the posterior distribution
 # Dependencies:
 #   !pip install git+https://github.com/blackjax-devs/blackjax.git
@@ -16,14 +20,17 @@ import pyprobml_utils as pml
 from sklearn.datasets import make_biclusters
 from jax import random
 from jax.scipy.optimize import minimize
+from jax.scipy.stats import norm
 from jax_cosmo.scipy import integrate
 from functools import partial
+
+jax.config.update("jax_enable_x64", True)
 
 
 def sigmoid(z): return jnp.exp(z) / (1 + jnp.exp(z))
 
 
-def log_sigmoid(z): return z - jnp.log(1 + jnp.exp(z))
+def log_sigmoid(z): return z - jnp.log1p(jnp.exp(z))
 
 
 def inference_loop(rng_key, kernel, initial_state, num_samples):
@@ -51,24 +58,27 @@ def E_base(w, Phi, y, alpha):
 
 
 def Zt_func(eta, y, mu, v):
-    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log(1 - sigmoid(eta))
-    log_term = log_term - (eta -  mu) ** 2 / (2 * v ** 2)
+    cst = jnp.log(2 * jnp.pi * v ** 2) / 2
+    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log1p(-sigmoid(eta))
+    log_term = log_term + norm.logpdf(eta, mu, v) + cst
     
-    return jnp.exp(log_term) / jnp.sqrt(2 * jnp.pi * v ** 2)
+    return jnp.exp(log_term)
 
 
-def mt_func(eta, y, mu, v):
-    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log(1 - sigmoid(eta))
-    log_term = log_term - (eta -  mu) ** 2 / (2 * v ** 2)
+def mt_func(eta, y, mu, v, Zt):
+    cst = jnp.log(2 * jnp.pi * v ** 2) / 2
+    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log1p(-sigmoid(eta))
+    log_term = log_term + norm.logpdf(eta, mu, v) + cst
     
-    return eta * jnp.exp(log_term) / jnp.sqrt(2 * jnp.pi * v ** 2)
+    return eta * jnp.exp(log_term) / Zt
 
 
-def vt_func(eta, y, mu, v):
-    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log(1 - sigmoid(eta))
-    log_term = log_term - (eta -  mu) ** 2 / (2 * v ** 2)
+def var_t_func(eta, y, mu, v, Zt, mean_t):
+    cst = jnp.log(2 * jnp.pi * v ** 2) / 2
+    log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log1p(-sigmoid(eta))
+    log_term = log_term + norm.logpdf(eta, mu, v) + cst
     
-    return eta ** 2 * jnp.exp(log_term) / jnp.sqrt(2 * jnp.pi * v ** 2)
+    return (eta - mean_t) ** 2 * jnp.exp(log_term) / Zt
 
 
 def adf_step(state, xs, q, lbound, ubound):
@@ -87,11 +97,9 @@ def adf_step(state, xs, q, lbound, ubound):
     # Moment-matched Gaussian approximation elements
     Zt = integrate.romb(lambda eta: Zt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
 
-    mt = integrate.romb(lambda eta: mt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
-    mt = mt / Zt
+    mt = integrate.romb(lambda eta: mt_func(eta, y_t, m_t_cond, v_t_cond_sqrt, Zt), lbound, ubound)
 
-    vt = integrate.romb(lambda eta: vt_func(eta, y_t, m_t_cond, v_t_cond_sqrt), lbound, ubound)
-    vt = vt / Zt - mt ** 2
+    vt = integrate.romb(lambda eta: var_t_func(eta, y_t, m_t_cond, v_t_cond_sqrt, Zt, mt), lbound, ubound)
     
     # Posterior estimation
     delta_m = mt - m_t_cond
@@ -104,8 +112,8 @@ def adf_step(state, xs, q, lbound, ubound):
 
 
 def plot_posterior_predictive(ax, X, Z, title, colors, cmap="RdBu_r"):
-    ax.contourf(*Xspace, Z, cmap=cmap, alpha=0.5, levels=20)
-    ax.scatter(*X.T, c=colors)
+    ax.contourf(*Xspace, Z, cmap=cmap, alpha=0.7, levels=20)
+    ax.scatter(*X.T, c=colors, edgecolors="gray", s=80)
     ax.set_title(title)
     ax.axis("off")
     plt.tight_layout()
@@ -113,7 +121,7 @@ def plot_posterior_predictive(ax, X, Z, title, colors, cmap="RdBu_r"):
 
 # ** Generating training data **
 key = random.PRNGKey(314)
-n_datapoints, m = 20, 2
+n_datapoints, m = 50, 2
 X, rows, cols = make_biclusters((n_datapoints, m), 2, noise=0.6,
                                 random_state=314, minval=-3, maxval=3)
 y = rows[0] * 1.0
@@ -127,10 +135,10 @@ N, M = Phi.shape
 # ** MCMC Sampling with BlackJAX **
 sigma_mcmc = 0.8
 w0 = random.multivariate_normal(key, jnp.zeros(M), jnp.eye(M) * init_noise)
-E = partial(E_base, Phi=Phi, y=y, alpha=alpha)
-initial_state = mh.new_state(w0, E)
+energy = partial(E_base, Phi=Phi, y=y, alpha=alpha)
+initial_state = mh.new_state(w0, energy)
 
-mcmc_kernel = mh.kernel(E, jnp.ones(M) * sigma_mcmc)
+mcmc_kernel = mh.kernel(energy, jnp.ones(M) * sigma_mcmc)
 mcmc_kernel = jax.jit(mcmc_kernel)
 
 n_samples = 5_000
@@ -142,15 +150,15 @@ chains = states.position[burnin:, :]
 nsamp, _ = chains.shape
 
 # ** Laplace approximation **
-res = minimize(lambda x: E(x) / len(y), w0, method="BFGS")
+res = minimize(lambda x: energy(x) / len(y), w0, method="BFGS")
 w_map = res.x
-SN = jax.hessian(E)(w_map)
+SN = jax.hessian(energy)(w_map)
 
 # ** ADF inference **
-q = 0.14
-lbound, ubound = -10, 10
+q = 0.005
+lbound, ubound = -22.0, 30.1
 mu_t = jnp.zeros(M)
-tau_t = jnp.ones(M) * q
+tau_t = jnp.ones(M)
 
 init_state = (mu_t, tau_t)
 xs = (Phi, y)
@@ -184,7 +192,7 @@ Z_adf = Z_adf.mean(axis=0)
 # ** Plotting predictive distribution **
 plt.rcParams["axes.spines.right"] = False
 plt.rcParams["axes.spines.top"] = False
-colors = ["tab:red" if el else "tab:blue" for el in y]
+colors = ["black" if el else "white" for el in y]
 
 fig, ax = plt.subplots()
 title = "(MCMC) Predictive distribution"
@@ -208,17 +216,17 @@ w_batch_std_all = chains.std(axis=0)
 timesteps = jnp.arange(n_datapoints)
 lcolors = ["black", "tab:blue", "tab:red"]
 
-fig, ax = plt.subplots(figsize=(6, 3))
 elements = zip(mu_t_hist.T, tau_t_hist.T, w_batch_all, w_batch_std_all, lcolors)
 for i, (w_online, w_err_online, w_batch, w_batch_err, c) in enumerate(elements):
+    fig, ax = plt.subplots()
     ax.errorbar(timesteps, w_online, jnp.sqrt(w_err_online), c=c, label=f"$w_{i}$ online")
     ax.axhline(y=w_batch, c=lcolors[i], linestyle="--", label=f"$w_{i}$ batch (mcmc)")
     ax.fill_between(timesteps, w_batch - w_batch_err, w_batch + w_batch_err, color=c, alpha=0.1)
-ax.legend(bbox_to_anchor=(1.05, 1))
-ax.set_xlim(0, n_datapoints - 0.9)
-ax.set_xlabel("number samples")
-ax.set_ylabel("weights")
-plt.tight_layout()
-pml.savefig("adf-mcmc-online-hist.pdf")
+    ax.legend(loc="lower left")
+    ax.set_xlim(0, n_datapoints - 0.9)
+    ax.set_xlabel("number samples")
+    ax.set_ylabel(f"weights ({i})")
+    plt.tight_layout()
+    pml.savefig(f"adf-mcmc-online-hist-w{i}.pdf")
 
 plt.show()
