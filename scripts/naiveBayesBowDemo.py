@@ -1,4 +1,5 @@
-# authors: ashishpapanai, animesh-007 
+# Authors: ashishpapanai, animesh-007
+
 import scipy
 import scipy.io as sio
 import numpy as np
@@ -6,16 +7,15 @@ from sklearn.metrics import zero_one_loss
 from sklearn.naive_bayes import MultinomialNB,ComplementNB,CategoricalNB,BernoulliNB,GaussianNB
 import matplotlib.pyplot as plt
 import os
-
-if os.path.isdir('scripts'):
-    os.chdir('scripts')
+import pyprobml_utils as pml
 
 data = None
 Xtrain = None
 Xtest = None
 
+!wget 'https://github.com/probml/probml-data/blob/main/data/XwindowsDocData.mat?raw=true' -O XwindowsDocData.mat
 
-data = sio.loadmat('../data/XwindowsDocData.mat')
+data = sio.loadmat('XwindowsDocData.mat')
 Xtrain = data['xtrain']
 Xtrain = scipy.sparse.csc_matrix.toarray(Xtrain)
 Xtest = data['xtest']
@@ -40,5 +40,5 @@ for i in range(0, C):
     plt.bar(np.arange(0, 600, 1), np.exp(model.feature_log_prob_)[i, :])
     plt.title('p(xj=1|y='+str(i)+')')
     fileName = 'naiveBayesBow'+str(i+1)+'ClassCond'
-    plt.savefig(r'../figures/'+fileName)
+    pml.savefig(fileName+'.pdf')
     plt.show()
