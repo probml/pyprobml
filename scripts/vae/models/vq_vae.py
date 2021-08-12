@@ -23,7 +23,6 @@ class VectorQuantizer(nn.Module):
         self.embedding.weight.data.uniform_(-1 / self.K, 1 / self.K)
 
     def get_codebook_indices(self, latents:Tensor) -> Tensor:
-        latents = latents.permute(0, 2, 3, 1).contiguous()  # [B x D x H x W] -> [B x H x W x D]
         flat_latents = latents.view(-1, self.D)  # [BHW x D]
 
         # Compute L2 distance between latents and embedding weights
@@ -36,6 +35,7 @@ class VectorQuantizer(nn.Module):
         return encoding_inds
 
     def forward(self, latents: Tensor) -> Tensor:
+        latents = latents.permute(0, 2, 3, 1).contiguous()  # [B x D x H x W] -> [B x H x W x D]
         latents_shape = latents.shape
         encoding_inds = self.get_codebook_indices(latents)
 
