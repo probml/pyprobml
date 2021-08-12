@@ -15,6 +15,16 @@ vq_params:
   embedding_dim: 64
   beta: 0.25
 
+pixel_params:
+  height: 16
+  width: 16
+  LR: 0.001
+  pretrained_path: "/content/drive/MyDrive/pretrained_models/vq_vae_celeba_conv.ckpt"
+  save_path: "/content/drive/MyDrive/pretrained_models/pixel_cnn_celeba_conv.ckpt"
+  hidden_dim: 128
+  num_residual_blocks: 0
+  num_pixelcnn_layers: 8
+
 exp_params:
   model_name: 'vq_vae'
   dataset: celeba
