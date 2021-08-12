@@ -1,5 +1,5 @@
 <h1 align="center">
-  <b>PyProbML VAE zoo 🐅 </b><br>
+  <b>PyProbML GAN zoo 🐅 </b><br>
 </h1>
 
 Compare results of different GANs : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/gan/compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
