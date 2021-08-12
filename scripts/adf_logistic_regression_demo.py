@@ -59,25 +59,22 @@ def E_base(w, Phi, y, alpha):
 
 
 def Zt_func(eta, y, mu, v):
-    cst = jnp.log(2 * jnp.pi * v ** 2) / 2
     log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log1p(-sigmoid(eta))
-    log_term = log_term + norm.logpdf(eta, mu, v) + cst
+    log_term = log_term + norm.logpdf(eta, mu, v)
     
     return jnp.exp(log_term)
 
 
 def mt_func(eta, y, mu, v, Zt):
-    cst = jnp.log(2 * jnp.pi * v ** 2) / 2
     log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log1p(-sigmoid(eta))
-    log_term = log_term + norm.logpdf(eta, mu, v) + cst
+    log_term = log_term + norm.logpdf(eta, mu, v)
     
     return eta * jnp.exp(log_term) / Zt
 
 
 def vt_func(eta, y, mu, v, Zt):
-    cst = jnp.log(2 * jnp.pi * v ** 2) / 2
     log_term = y * log_sigmoid(eta) + (1 - y) * jnp.log1p(-sigmoid(eta))
-    log_term = log_term + norm.logpdf(eta, mu, v) + cst
+    log_term = log_term + norm.logpdf(eta, mu, v)
     
     return eta ** 2 * jnp.exp(log_term) / Zt
 
@@ -125,7 +122,7 @@ def plot_posterior_predictive(ax, X, Z, title, colors, cmap="RdBu_r"):
 key = random.PRNGKey(314)
 n_datapoints, ndims = 50, 2
 X, rows, cols = make_biclusters((n_datapoints, ndims), 2, noise=0.6,
-                                random_state=314, minval=-3, maxval=3)
+                                random_state=3141, minval=-4, maxval=4)
 y = rows[0] * 1.0
 
 alpha = 1.0
@@ -160,9 +157,9 @@ SN = jax.hessian(energy)(w_map)
 prior_variance = 0.0
 # Lower and upper bounds of integration. Ideally, we would like to
 # integrate from -inf to inf, but we run into numerical issues.
-lbound, ubound = -40.0, 35.0
+lbound, ubound = -20, 20
 mu_t = jnp.zeros(ndims)
-tau_t = jnp.ones(ndims) * 3.0
+tau_t = jnp.ones(ndims) * 1.0
 
 init_state = (mu_t, tau_t)
 xs = (Phi, y)
@@ -218,15 +215,20 @@ pml.savefig("adf-logreg-predictive-surface.pdf")
 
 # ** Plotting training history ** 
 w_batch_all = chains.mean(axis=0)
+w_batch_laplace_all = w_map
+w_batch_laplace_std_all = jnp.sqrt(jnp.diag(SN))
+
 w_batch_std_all = chains.std(axis=0)
 timesteps = jnp.arange(n_datapoints)
 lcolors = ["black", "tab:blue", "tab:red"]
 
-elements = zip(mu_t_hist.T, tau_t_hist.T, w_batch_all, w_batch_std_all, lcolors)
-for i, (w_online, w_err_online, w_batch, w_batch_err, c) in enumerate(elements):
-    fig, ax = plt.subplots(figsize=(6, 4))
+elements = zip(mu_t_hist.T, tau_t_hist.T, w_batch_all, w_batch_std_all, w_batch_laplace_all, lcolors)
+for i, (w_online, w_err_online, w_batch, w_batch_err, w_batch_laplace, c) in enumerate(elements):
+    fig, ax = plt.subplots(figsize=(6, 3))
     ax.errorbar(timesteps, w_online, jnp.sqrt(w_err_online), c=c, label=f"$w_{i}$ online")
     ax.axhline(y=w_batch, c=lcolors[i], linestyle="--", label=f"$w_{i}$ batch (mcmc)")
+    ax.axhline(y=w_batch_laplace, c=lcolors[i], linestyle="dotted",
+               label=f"$w_{i}$ batch (Laplace)", linewidth=2)
     ax.fill_between(timesteps, w_batch - w_batch_err, w_batch + w_batch_err, color=c, alpha=0.1)
     ax.legend(loc="lower left")
     ax.set_xlim(0, n_datapoints - 0.9)
