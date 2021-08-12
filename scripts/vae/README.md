@@ -2,7 +2,7 @@
   <b>PyProbML VAE zoo 🐘 </b><br>
 </h1>
 
-Compare_results of different VAEs : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+Compare results of different VAEs : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 VAE tricks and what the different VAE try to address : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/vae_tricks.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
@@ -52,7 +52,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 | Info VAE   ([Code][infovae_code], [Config][infovae_config])            |[Link](https://arxiv.org/abs/1706.02262)          |    ![][5]     | ![][13] |
 | LogCosh VAE   ([Code][logcoshvae_code], [Config][logcoshvae_config])   |[Link](https://openreview.net/forum?id=rkglvsC9Ym)|    ![][6]     | ![][14] |
 | Two-stage VAE   ([Code][twostage_code], [Config][twostage_config])     |[Link](https://arxiv.org/abs/1903.05789)          |    ![][7]     | ![][15] |
-| Sigma VAE   ([Code][sigma_code], [Config][sigma_config])               |[Link](https://arxiv.org/abs/2006.13202)          |    **N/A**    | ![][16] |
+| Sigma VAE   ([Code][sigma_code], [Config][sigma_config])               |[Link](https://arxiv.org/abs/2006.13202)          |    ![][8]     | ![][16] |
 | VQ-VAE (*K = 512, D = 64*) ([Code][vqvae_code], [Config][vqvae_config])|[Link](https://arxiv.org/abs/1711.00937)          |    ![][9]     | **N/A** |
 
 -----------
