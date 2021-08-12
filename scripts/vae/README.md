@@ -53,7 +53,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 | LogCosh VAE   ([Code][logcoshvae_code], [Config][logcoshvae_config])   |[Link](https://openreview.net/forum?id=rkglvsC9Ym)|    ![][6]     | ![][14] |
 | Two-stage VAE   ([Code][twostage_code], [Config][twostage_config])     |[Link](https://arxiv.org/abs/1903.05789)          |    ![][7]     | ![][15] |
 | Sigma VAE   ([Code][sigma_code], [Config][sigma_config])               |[Link](https://arxiv.org/abs/2006.13202)          |    ![][8]     | ![][16] |
-| VQ-VAE (*K = 512, D = 64*) ([Code][vqvae_code], [Config][vqvae_config])|[Link](https://arxiv.org/abs/1711.00937)          |    ![][9]     | **N/A** |
+| VQ-VAE (*K = 512, D = 64*) ([Code][vqvae_code], [Config][vqvae_config]) + PixelCNN([Code][pixelCNN_code]) |[Link](https://arxiv.org/abs/1711.00937)          |    ![][9]     | **N/A** |
 
 -----------
 
@@ -65,6 +65,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 [vqvae_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/vq_vae.py
 [twostage_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/two_stage_vae.py
 [sigma_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/sigma_vae.py
+[pixelCNN_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/sigma_vae.py
 
 [vae_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/vanilla_vae.yaml
 [logcoshvae_config]: https://github.com/AntixK/PyTorch-VAE/blob/master/configs/logcosh_vae.yaml
