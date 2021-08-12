@@ -82,7 +82,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 [5]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/info_vae_recon.png
 [6]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/logcosh_vae_recon.png
 [7]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/two_stage_vae_recon.png
-[8]: https://github.com/AntixK/PyTorch-VAE/blob/master/assets/sigma_vae_recon.png
+[8]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/sigma_vae_recon.png
 [9]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vq_vae_recon.png
 [10]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_vae_samples.png
 [11]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/hinge_vae_samples.png
