@@ -22,9 +22,8 @@ class VectorQuantizer(nn.Module):
         self.embedding = nn.Embedding(self.K, self.D)
         self.embedding.weight.data.uniform_(-1 / self.K, 1 / self.K)
 
-    def forward(self, latents: Tensor) -> Tensor:
+    def get_codebook_indices(self, latents:Tensor) -> Tensor:
         latents = latents.permute(0, 2, 3, 1).contiguous()  # [B x D x H x W] -> [B x H x W x D]
-        latents_shape = latents.shape
         flat_latents = latents.view(-1, self.D)  # [BHW x D]
 
         # Compute L2 distance between latents and embedding weights
@@ -34,11 +33,15 @@ class VectorQuantizer(nn.Module):
 
         # Get the encoding that has the min distance
         encoding_inds = torch.argmin(dist, dim=1).unsqueeze(1)  # [BHW, 1]
+        return encoding_inds
+
+    def forward(self, latents: Tensor) -> Tensor:
+        latents_shape = latents.shape
+        encoding_inds = self.get_codebook_indices(latents)
 
         # Convert to one-hot encodings
         device = latents.device
-        encoding_one_hot = torch.zeros(encoding_inds.size(0), self.K, device=device)
-        encoding_one_hot.scatter_(1, encoding_inds, 1)  # [BHW x K]
+        encoding_one_hot = torch.nn.functional.one_hot(encoding_inds, num_classes=self.K).float().to(device)
 
         # Quantize the latents
         quantized_latents = torch.matmul(encoding_one_hot, self.embedding.weight)  # [BHW, D]
