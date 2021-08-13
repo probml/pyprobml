@@ -1,5 +1,6 @@
 import torch
 import warnings
+from models.pixel_cnn import PixelCNN
 from pytorch_lightning import LightningModule
 from torch.nn import functional as F
 
@@ -139,16 +140,16 @@ class VQVAEModule(LightningModule):
     def __init__(
             self,
             model,
-            lr: float = 1e-3,
-            latent_dim: int = 256
+            config
     ):
 
         super(VQVAEModule, self).__init__()
 
-        self.lr = lr
+        self.lr = config["exp_params"]["LR"]
         self.model = model
-        self.model_name = model.name
-        self.latent_dim = latent_dim
+        self.config = config
+        self.model_name = config["exp_params"]["model_name"]
+        self.latent_dim = config["encoder_params"]["latent_dim"]
 
     def forward(self, x):
         x = x.to(self.device)
@@ -168,14 +169,28 @@ class VQVAEModule(LightningModule):
     def decode(self, z):
         return self.model.decoder(z)
 
+    def set_pixel_cnn(self):
+        num_residual_blocks = self.config["pixel_params"]["num_residual_blocks"]
+        num_pixelcnn_layers = self.config["pixel_params"]["num_pixelcnn_layers"]
+        num_embeddings = self.config["vq_params"]["num_embeddings"]
+        hidden_dim = self.config["pixel_params"]["hidden_dim"]
+        pixel_cnn_raw = PixelCNN(hidden_dim, num_residual_blocks, num_pixelcnn_layers, num_embeddings)
+        pixel_cnn = PixelCNNModule(pixel_cnn_raw,
+                                self,
+                                self.config["pixel_params"]["height"],
+                                self.config["pixel_params"]["width"],
+                                self.config["pixel_params"]["LR"])
+        self.pixel_cnn = pixel_cnn 
+        self.pixel_cnn.to(self.device)
+
     def get_samples(self, num):
         # Warning these numbers are hardcoded for the default archiecture
-        warnings.warn("Sampling does not work yet, we need to sample from a pixel cnn prior", RuntimeWarning,
-                      stacklevel=2)
-        z = torch.randn(num, self.latent_dim, 16, 16)
-        z = z.to(self.device)
-        quantized_inputs, _ = self.model.vq_layer(z)
-        return self.model.decoder(quantized_inputs)
+        if self.pixel_cnn is None:
+            raise "Pixel cnn not define please use set_pixel_cnn method first"
+        
+        priors = self.pixel_cnn.get_priors(num)
+        generated_samples = self.pixel_cnn.generate_samples_from_priors(priors)
+        return generated_samples
 
     def step(self, batch, batch_idx):
         x, y = batch
@@ -200,12 +215,23 @@ class VQVAEModule(LightningModule):
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
 
-    def load_model(self):
+    def load_model_vq_vae(self):
         try:
             self.load_state_dict(torch.load(f"{self.model.name}_celeba_conv.ckpt"))
         except FileNotFoundError:
             print(f"Please train the model using python run.py -c ./configs/{self.model.name}.yaml")
+    
+    def load_model_pixel_cnn(self):
+        try:
+            fpath = self.config["pixel_params"]["save_path"]
+            self.pixel_cnn.load_state_dict(torch.load(f"{fpath}"))
+        except FileNotFoundError:
+            print(f"Please train the model using python run_pixel.py -c ./configs/{self.model.name}.yaml")
 
+    def load_model(self):
+        self.load_model_vq_vae()
+        self.set_pixel_cnn()
+        self.load_model_pixel_cnn()
 
 class PixelCNNModule(LightningModule):
 
@@ -240,7 +266,7 @@ class PixelCNNModule(LightningModule):
         return loss
 
     def sample(self, inputs):
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = inputs.device
         self.model.eval()
         with torch.no_grad():
             inputs_ohe = F.one_hot(inputs.long(), num_classes=self.vector_quantizer.K).to(device)
@@ -254,8 +280,7 @@ class PixelCNNModule(LightningModule):
         return sampled
 
     def get_priors(self, batch):
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        priors = torch.zeros(size=(batch,) + (1, self.height, self.width), device=device)
+        priors = torch.zeros(size=(batch,) + (1, self.height, self.width), device=self.device)
         # Iterate over the priors because generation has to be done sequentially pixel by pixel.
         for row in range(self.height):
             for col in range(self.width):
@@ -269,7 +294,7 @@ class PixelCNNModule(LightningModule):
         return priors
 
     def generate_samples_from_priors(self, priors):
-        priors = priors.to("cpu")
+        priors = priors.to(self.device)
         priors_ohe = F.one_hot(priors.view(-1, 1).long(), num_classes=self.vector_quantizer.K).squeeze().float()
         quantized = torch.matmul(priors_ohe, self.vector_quantizer.embedding.weight)  # [BHW, D]
         quantized = quantized.view(-1, self.height, self.width, self.vector_quantizer.D).permute(0, 3, 1, 2)
@@ -279,7 +304,7 @@ class PixelCNNModule(LightningModule):
     def configure_optimizers(self):
         return torch.optim.Adam(self.model.parameters(), lr=self.lr)
 
-    def load(self, path):
+    def load_model(self, path):
         try:
             self.load_state_dict(torch.load(path))
 
