@@ -15,7 +15,7 @@ def rgb2gray(rgb):
 r = requests.get('https://github.com/probml/probml-data/blob/main/data/clown.png?raw=true', stream=True)
 img = Image.open(io.BytesIO(r.content))
 #img.save('clown.png')
-#img = matplotlib.image.imread("clown.png") 
+#img = matplotlib.image.imread("clown.png")
 #X = rgb2gray(img)
 X = np.array(img)
 
