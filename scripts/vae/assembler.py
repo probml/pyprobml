@@ -4,7 +4,8 @@ from functools import partial
 from models.guassian_vae import VAE
 from models.two_stage_vae import Stage2VAE 
 from models.vq_vae import VQVAE
-from experiment import VAEModule, VAE2stageModule, VQVAEModule
+from models.pixel_cnn import PixelCNN
+from experiment import VAEModule, VAE2stageModule, VQVAEModule, PixelCNNModule
 
 def get_config(fpath):
    with open(fpath, 'r') as file:
@@ -85,14 +86,15 @@ def assembler(config, mode):
         vaes = [vae_first_stage , vae]
     elif is_vq_vae(config):
         vae = VQVAE(vae_name, loss, encoder, decoder, config["vq_params"])
-        vae = VQVAEModule(vae, config["exp_params"]["LR"], config["encoder_params"]["latent_dim"])
+        vae = VQVAEModule(vae, config)
         vaes = [vae]
     
     # training vs inference time model
     if is_mode_training(mode):
         vae = vaes[-1]
     elif is_mode_inference(mode):
-        vae = compose_for_inference(vaes)
+        if is_two_stage(config):
+            vae = compose_for_inference(vaes)
 
     return vae
 
