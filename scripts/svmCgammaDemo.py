@@ -6,6 +6,8 @@ from sklearn.metrics import make_scorer, zero_one_loss
 import matplotlib.pyplot as plt
 from cycler import cycler
 import pyprobml_utils as pml
+import requests
+from io import BytesIO
 
 # Using Colorblind friendly colors
 
@@ -16,9 +18,12 @@ plt.rc('axes', prop_cycle=cb_cycler)
 
 # -------------------------------------------
 # loading data
-!wget 'https://github.com/probml/probml-data/blob/main/data/hastieMixture.mat?raw=true' -O hastieMixture.mat
 
-data = loadmat('hastieMixture.mat')
+url = 'https://github.com/probml/probml-data/blob/main/data/hastieMixture.mat?raw=true'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+data = loadmat(rawdata)
+
 X = data['ans'][0][0][0]
 y = data['ans'][0][0][1].astype('int32')
 bayeserror = data['ans'][0][0][8]
@@ -95,3 +100,4 @@ ax.set_ylabel('log(' + r"$\gamma$" + ')', weight='bold', size='x-large')
 ax.set_zlabel('Cv_error', weight='bold', size='x-large')
 pml.savefig('svmCvSurf.pdf')
 plt.show()
+
