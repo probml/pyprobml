@@ -96,5 +96,5 @@ python run.py -config ./configs/vanilla_vae.yaml
 [15]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/two_stage_vae_samples.png
 [16]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/sigma_vae_samples.png
 [17]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vq_vae_samples.png
-[18]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_vae_recon.png
-[19]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_vae_samples.png
+[18]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_ae_recon.png
+[19]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_ae_samples.png
