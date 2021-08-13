@@ -46,7 +46,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 | Model                                                                  | Paper                                            |Reconstruction | Samples |
 |------------------------------------------------------------------------|--------------------------------------------------|---------------|---------|
 | Original Images (for reconstruction)                                   |**N/A**                                           |    ![][1]     | **N/A** |
-| AE ([Code][ae_code], [Config][ae_config])                              |**N/A**                                           |    ![][2]     | ![][10] |
+| AE ([Code][ae_code], [Config][ae_config])                              |**N/A**                                           |    ![][18]     | ![][19] |
 | VAE ([Code][vae_code], [Config][vae_config])                           |[Link](https://arxiv.org/abs/1312.6114)           |    ![][2]     | ![][10] |
 | Hinge VAE ([Code][hingevae_code], [Config][hingevae_config])           |[Link](https://arxiv.org/abs/1606.04934)          |    ![][3]     | ![][11] |
 | MMD VAE ([Code][mmdvae_code], [Config][mmdvae_config])                 |[Link](https://arxiv.org/abs/1706.02262)          |    ![][4]     | ![][12] |
