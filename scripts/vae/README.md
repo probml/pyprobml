@@ -58,7 +58,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 
 ## Acknowledgement
 
-The idea of this zoo and some of the scripts were based on Anand Krishnamoorthy [Pytorch-VAE library][https://github.com/AntixK/PyTorch-VAE], we also used the script from [sayantanauddy][https://github.com/sayantanauddy/vae_lightning] to transform and download the celeba from kaggle. 
+The idea of this zoo and some of the scripts were based on Anand Krishnamoorthy [Pytorch-VAE library](https://github.com/AntixK/PyTorch-VAE), we also used the script from [sayantanauddy](https://github.com/sayantanauddy/vae_lightning) to transform and download the celeba from kaggle. 
 
 -----------
 
