@@ -155,7 +155,7 @@ class VQVAEModule(LightningModule):
         x = x.to(self.device)
         return self.model(x)
 
-    def encode(self, x):
+    def det_encode(self, x):
         x = x.to(self.device)
         z = self.model.encoder(x)[0]
         return z
