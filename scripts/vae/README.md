@@ -53,7 +53,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 | LogCosh VAE   ([Code][logcoshvae_code], [Config][logcoshvae_config])   |[Link](https://openreview.net/forum?id=rkglvsC9Ym)|    ![][6]     | ![][14] |
 | Two-stage VAE   ([Code][twostage_code], [Config][twostage_config])     |[Link](https://arxiv.org/abs/1903.05789)          |    ![][7]     | ![][15] |
 | Sigma VAE   ([Code][sigma_code], [Config][sigma_config])               |[Link](https://arxiv.org/abs/2006.13202)          |    ![][8]     | ![][16] |
-| VQ-VAE (*K = 512, D = 64*) ([Code][vqvae_code], [Config][vqvae_config]) + PixelCNN([Code][pixelCNN_code]) |[Link](https://arxiv.org/abs/1711.00937)          |    ![][9]     | **N/A** |
+| VQ-VAE (*K = 512, D = 64*) ([Code][vqvae_code], [Config][vqvae_config]) + PixelCNN([Code][pixelCNN_code]) |[Link](https://arxiv.org/abs/1711.00937)          |    ![][9]     | ![][17] |
 
 -----------
 
@@ -92,3 +92,4 @@ python run.py -config ./configs/vanilla_vae.yaml
 [14]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/logcosh_vae_samples.png
 [15]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/two_stage_vae_samples.png
 [16]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/sigma_vae_samples.png
+[17]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vq_vae_samples.png
