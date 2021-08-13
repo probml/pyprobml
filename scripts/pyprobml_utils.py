@@ -155,7 +155,7 @@ def kdeg(x, X, h):
     return px
 
 
-def scale_3d(ax, x_scale, y_scale, z_scale, factor=0.62):
+def scale_3d(ax, x_scale, y_scale, z_scale, factor):
     scale=np.diag([x_scale, y_scale, z_scale, 1.0])
     scale=scale*(1.0/scale.max())
     scale[3,3]=factor
@@ -164,12 +164,12 @@ def scale_3d(ax, x_scale, y_scale, z_scale, factor=0.62):
     return short_proj
 
 
-def style3d(ax, x_scale, y_scale, z_scale):
+def style3d(ax, x_scale, y_scale, z_scale, factor=0.62):
     plt.gca().patch.set_facecolor('white')
     ax.w_xaxis.set_pane_color((0, 0, 0, 0))
     ax.w_yaxis.set_pane_color((0, 0, 0, 0))
     ax.w_zaxis.set_pane_color((0, 0, 0, 0))
-    ax.get_proj = scale_3d(ax, x_scale, y_scale, z_scale)
+    ax.get_proj = scale_3d(ax, x_scale, y_scale, z_scale, factor)
 
 
 if __name__ == "__main__":
