@@ -56,6 +56,10 @@ python run.py -config ./configs/vanilla_vae.yaml
 | Sigma VAE   ([Code][sigma_code], [Config][sigma_config])               |[Link](https://arxiv.org/abs/2006.13202)          |    ![][8]     | ![][16] |
 | VQ-VAE (*K = 512, D = 64*) ([Code][vqvae_code], [Config][vqvae_config]) + PixelCNN([Code][pixelCNN_code]) |[Link](https://arxiv.org/abs/1711.00937)          |    ![][9]     | ![][17] |
 
+## Acknowledgement
+
+The idea of this zoo and some of the scripts were based on Anand Krishnamoorthy [Pytorch-VAE library][https://github.com/AntixK/PyTorch-VAE], we also used the script from [sayantanauddy][https://github.com/sayantanauddy/vae_lightning] to transform and download the celeba from kaggle. 
+
 -----------
 
 [ae_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/vanilla_ae.py
