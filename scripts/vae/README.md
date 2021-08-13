@@ -46,6 +46,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 | Model                                                                  | Paper                                            |Reconstruction | Samples |
 |------------------------------------------------------------------------|--------------------------------------------------|---------------|---------|
 | Original Images (for reconstruction)                                   |**N/A**                                           |    ![][1]     | **N/A** |
+| AE ([Code][ae_code], [Config][ae_config])                              |**N/A**                                           |    ![][2]     | ![][10] |
 | VAE ([Code][vae_code], [Config][vae_config])                           |[Link](https://arxiv.org/abs/1312.6114)           |    ![][2]     | ![][10] |
 | Hinge VAE ([Code][hingevae_code], [Config][hingevae_config])           |[Link](https://arxiv.org/abs/1606.04934)          |    ![][3]     | ![][11] |
 | MMD VAE ([Code][mmdvae_code], [Config][mmdvae_config])                 |[Link](https://arxiv.org/abs/1706.02262)          |    ![][4]     | ![][12] |
@@ -57,6 +58,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 
 -----------
 
+[ae_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/vanilla_ae.py
 [vae_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/vanilla_vae.py
 [mmdvae_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/mmd_vae.py
 [hingevae_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/hinge_vae.py
@@ -67,6 +69,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 [sigma_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/sigma_vae.py
 [pixelCNN_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/sigma_vae.py
 
+[ae_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/vanilla_ae.yaml
 [vae_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/vanilla_vae.yaml
 [logcoshvae_config]: https://github.com/AntixK/PyTorch-VAE/blob/master/configs/logcosh_vae.yaml
 [infovae_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/info_vae.yaml
@@ -93,3 +96,5 @@ python run.py -config ./configs/vanilla_vae.yaml
 [15]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/two_stage_vae_samples.png
 [16]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/sigma_vae_samples.png
 [17]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vq_vae_samples.png
+[18]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_vae_recon.png
+[19]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_vae_samples.png
