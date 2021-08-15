@@ -1,7 +1,7 @@
 import torch 
 import argparse
 from assembler import get_config, assembler
-from data import  CelebADataModule
+from download_celeba import celeba_dataloader
 from pytorch_lightning import Trainer
 import torchvision.transforms as transforms
 
@@ -18,20 +18,11 @@ config = get_config(args.filename)
 vae = assembler(config, "training")
 
 # Load data
-trans = []
-trans.append(transforms.RandomHorizontalFlip())
-if config["exp_params"]["crop_size"] > 0:
-  trans.append(transforms.CenterCrop(config["exp_params"]["crop_size"]))
-trans.append(transforms.Resize(config["exp_params"]["img_size"]))
-trans.append(transforms.ToTensor())
-transform = transforms.Compose(trans)
+dm = celeba_dataloader(config["exp_params"]["batch_size"],
+                       config["exp_params"]["img_size"],
+                       config["exp_params"]["crop_size"],
+                        config["exp_params"]["data_path"])
 
-dm = CelebADataModule(data_dir=config["exp_params"]["data_path"],
-                                target_type='attr',
-                                train_transform=transform,
-                                val_transform=transform,
-                                download=True,
-                                batch_size=config["exp_params"]["batch_size"])
 
 # Run Training Loop
 trainer= Trainer(gpus = config["trainer_params"]["gpus"],
