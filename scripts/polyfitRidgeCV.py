@@ -97,12 +97,12 @@ for lam in lambdas:
     test_mse.append(((ypred_test - ytest) ** 2).mean())
 
 plt.figure()
-plt.semilogx(lambdas, train_mse, "-s")
-plt.semilogx(lambdas, test_mse, "-x")
-plt.legend(["train_mse", "test_mse"])
-plt.xlabel("log lambda")
-plt.ylabel("mean squared error")
-pml.save_fig("../figures/polyfitRidgeUcurve.pdf")
+plt.semilogx(lambdas, train_mse, "-s", lw=3)
+plt.semilogx(lambdas, test_mse, "-x", lw=3)
+plt.legend(["train_mse", "test_mse"],  fontsize=14)
+plt.xlabel("log lambda", fontsize=12)
+plt.ylabel("mean squared error",  fontsize=12)
+pml.savefig("polyfitRidgeUcurve.pdf")
 
 # -------------------------------------------
 # cv vs lambda
@@ -126,16 +126,16 @@ for lam in lambdas:
 
 plt.figure()
 plt.errorbar(
-    lambdas, np.log(cv_means), yerr=np.log(np.array(cv_stand_errors)) / 2, fmt="-o"
+    lambdas, np.log(cv_means), yerr=np.log(np.array(cv_stand_errors)) / 2, lw=3, fmt="-o"
 )
-plt.title("{}-fold cross validation, ntrain = {}".format(n_folds, poly_train.shape[0]))
+plt.title("{}-fold cross validation, ntrain = {}".format(n_folds, poly_train.shape[0]), fontsize=12)
 plt.axvline(
     lambdas[np.argmin(cv_means)], ls="--"
 )  # lambda corresponding to minimum cv_mean.
 plt.xscale("log")
-plt.xlabel("log lambda")
-plt.ylabel("mean squared error")
-pml.save_fig("../figures/polyfitRidgeCV.pdf")
+plt.xlabel("log lambda", fontsize=12)
+plt.ylabel("mean squared error", fontsize=12)
+pml.savefig("polyfitRidgeCV.pdf")
 
 
 plt.figure()
