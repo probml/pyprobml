@@ -25,7 +25,6 @@ Copy the url of the subdirectory and past it to this [webstie](https://download-
 ### Download celeba data
 
 **Important :** Make sure to get your kaggle.json from [these instructions](https://github.com/Kaggle/kaggle-api#api-credentials) then run 
-
 ```
 mkdir /root/.kaggle 
 cp kaggle.json /root/.kaggle/kaggle.json
@@ -33,7 +32,10 @@ chmod 600 /root/.kaggle/kaggle.json
 rm kaggle.json
 ```
 
-to copy kaggle.json into a folder first. 
+to copy kaggle.json into a folder first. Then to download the data run the following script
+```
+python download_celeba.py
+```
 
 ### To Train Model
 
