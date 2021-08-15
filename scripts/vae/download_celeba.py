@@ -1,7 +1,7 @@
 from absl import app
 from absl import flags
 import torchvision.transforms as transforms
-from utils.data import  CelebADataModule
+from data import  CelebADataModule
 
 FLAGS = flags.FLAGS
 
