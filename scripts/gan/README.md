@@ -34,7 +34,7 @@ rm kaggle.json
 
 to copy kaggle.json into a folder first. Then to download the data first donwload the following [script](https://github.com/probml/pyprobml/blob/master/scripts/download_celeba.py)
 ```
-wget https://github.com/probml/pyprobml/blob/master/scripts/download_celeba.py
+wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/download_celeba.py
 ```
 and run the following script
 ```
