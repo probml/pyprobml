@@ -32,7 +32,11 @@ chmod 600 /root/.kaggle/kaggle.json
 rm kaggle.json
 ```
 
-to copy kaggle.json into a folder first. Then to download the data run the following script
+to copy kaggle.json into a folder first. Then to download the data first donwload the following [script](https://github.com/probml/pyprobml/blob/master/scripts/download_celeba.py)
+```
+wget https://github.com/probml/pyprobml/blob/master/scripts/download_celeba.py
+```
+and run the following script
 ```
 python download_celeba.py
 ```
@@ -50,6 +54,7 @@ python run.py -config ./configs/vanilla_vae.yaml
 | Original Images (for reconstruction)                                   |**N/A**                                           |    ![][1]     | **N/A** |
 | AE ([Code][ae_code], [Config][ae_config])                              |**N/A**                                           |    ![][18]     | ![][19] |
 | VAE ([Code][vae_code], [Config][vae_config])                           |[Link](https://arxiv.org/abs/1312.6114)           |    ![][2]     | ![][10] |
+| beta-VAE ([Code][beta_vae_code], [Config][beta_vae_config])            |[Link](https://openreview.net/pdf?id=Sy2fzU9gl)    |    ![][20]     | ![][21] |
 | Hinge VAE ([Code][hingevae_code], [Config][hingevae_config])           |[Link](https://arxiv.org/abs/1606.04934)          |    ![][3]     | ![][11] |
 | MMD VAE ([Code][mmdvae_code], [Config][mmdvae_config])                 |[Link](https://arxiv.org/abs/1706.02262)          |    ![][4]     | ![][12] |
 | Info VAE   ([Code][infovae_code], [Config][infovae_config])            |[Link](https://arxiv.org/abs/1706.02262)          |    ![][5]     | ![][13] |
@@ -74,6 +79,7 @@ The idea of this zoo and some of the scripts were based on Anand Krishnamoorthy 
 [twostage_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/two_stage_vae.py
 [sigma_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/sigma_vae.py
 [pixelCNN_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/sigma_vae.py
+[beta_vae_code]: https://github.com/probml/pyprobml/blob/master/scripts/vae/models/beta_vae.py
 
 [ae_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/vanilla_ae.yaml
 [vae_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/vanilla_vae.yaml
@@ -84,6 +90,7 @@ The idea of this zoo and some of the scripts were based on Anand Krishnamoorthy 
 [hingevae_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/hinge_vae.yaml
 [twostage_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/two_stage_vae.yaml
 [sigma_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/sigma_vae.yaml
+[beta_vae_config]: https://github.com/probml/pyprobml/blob/master/scripts/vae/configs/beta_vae.yaml
 
 [1]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/original.png
 [2]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_vae_recon.png
@@ -104,3 +111,5 @@ The idea of this zoo and some of the scripts were based on Anand Krishnamoorthy 
 [17]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vq_vae_samples.png
 [18]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_ae_recon.png
 [19]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/vanilla_ae_samples.png
+[20]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/beta_vae_recon.png
+[21]: https://github.com/probml/pyprobml/blob/master/scripts/vae/assets/beta_vae_samples.png
