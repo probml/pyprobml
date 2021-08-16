@@ -32,7 +32,11 @@ chmod 600 /root/.kaggle/kaggle.json
 rm kaggle.json
 ```
 
-to copy kaggle.json into a folder first. Then to download the data run the following script
+to copy kaggle.json into a folder first. Then to download the data first donwload the following [script](https://github.com/probml/pyprobml/blob/master/scripts/download_celeba.py)
+```
+wget https://github.com/probml/pyprobml/blob/master/scripts/download_celeba.py
+```
+and run the following script
 ```
 python download_celeba.py
 ```
