@@ -1,6 +1,7 @@
 # This code is referenced from
 # https://github.com/probml/pmtk3/blob/master/demos/fisherDiscrimVowelDemo.m
-# Author: Srikar-Reddy-Jilugu(@always-newbie161)
+# Author:Srikar-Reddy-Jilugu(@always-newbie161)
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,7 +10,12 @@ from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from fisher_lda_fit import fisher_lda_fit
 import pyprobml_utils as pml
+import requests
+from io import BytesIO
 
+url = 'https://github.com/probml/probml-data/blob/main/data/vowelTrain.mat?raw=true'
+r = requests.get(url, allow_redirects=True)
+rawdata = BytesIO(r.content)
 
 def plot_projection_data(X, y, mu, nclasses, figure_num):
     """
@@ -40,7 +46,8 @@ def plot_projection_data(X, y, mu, nclasses, figure_num):
         plt.scatter(mu[c, 0], mu[c, 1], marker=symbols[c], s=40, facecolor="black")
 
 
-data = loadmat('../data/vowelTrain.mat')
+
+data = loadmat(rawdata)
 X = data['Xtrain']
 y = data['ytrain']
 nsamples, ndims = X.shape
@@ -49,6 +56,7 @@ K = 2
 
 # ------------------------
 # PCA projection
+
 pca = PCA(K)
 X_pca = pca.fit_transform(X)
 X_pca = -X_pca  # make it look like the Hastie figure
@@ -61,7 +69,7 @@ muC2d_pca = pca.fit_transform(muC)
 symbols = '+ovd*.xs^d><ph'
 plot_projection_data(X_pca, y, muC2d_pca, nclasses, figure_num=0)
 plt.title('PCA projection of vowel data to 2d')
-pml.savefig('fisher_vowel_pca.pdf')
+pml.savefig('fisherDiscrimVowelPCA.pdf')
 
 # ------------------------
 # FLDA projection
@@ -72,6 +80,7 @@ X_lda = X @ W
 muC2d_lda = muC @ W
 plot_projection_data(X_lda, y, muC2d_lda, nclasses, figure_num=1)
 plt.title('FLDA projection of vowel data to 2d')
-pml.savefig('fisher_vowel_flda.pdf')
+pml.savefig('fisherDiscrimVowelLDA.pdf')
 
 plt.show()
+
