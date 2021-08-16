@@ -24,6 +24,10 @@ chmod 600 /root/.kaggle/kaggle.json
 rm kaggle.json
 python download_celeba.py 
 ```
+Then to download the data first donwload the following [script](https://github.com/probml/pyprobml/blob/master/scripts/download_celeba.py)
+```
+wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/download_celeba.py
+```
 ### To run the  script
 1. install packages
 ```
