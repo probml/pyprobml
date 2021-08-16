@@ -32,7 +32,10 @@ chmod 600 /root/.kaggle/kaggle.json
 rm kaggle.json
 ```
 
-to copy kaggle.json into a folder first. 
+to copy kaggle.json into a folder first. Then to download the data run the following script
+```
+python download_celeba.py
+```
 
 ### To Train Model
 
