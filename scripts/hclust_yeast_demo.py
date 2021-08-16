@@ -9,9 +9,13 @@ import numpy as np
 import seaborn
 import pyprobml_utils as pml
 
-if os.path.isdir('scripts'):
-    os.chdir('scripts')
-data = scipy.io.loadmat('../data/yeastData310.mat')
+import requests
+from io import BytesIO
+
+url = 'https://github.com/probml/probml-data/blob/main/data/yeastData310.mat?raw=true'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+data = scipy.io.loadmat(rawdata)
 
 X = data['X']
 
@@ -63,3 +67,4 @@ plt.title('single link')
 plt.tick_params(labelbottom=False)
 pml.savefig('clusterYeastSingleLink.pdf')
 plt.show()
+
