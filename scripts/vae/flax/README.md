@@ -42,5 +42,3 @@ pip install pytorch-lightning flax
 ```
 python vae_conv_mnist_flax_main.py
 ```
-## Example notebooks: 
-- Celeba dataset: <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/vae/flax/flax_conv_vae_celeba_notebook.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
