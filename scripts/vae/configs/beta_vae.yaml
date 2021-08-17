@@ -1,0 +1,25 @@
+encoder_params:
+  in_channels: 3
+  hidden_dims: null
+  latent_dim: 256
+
+decoder_params:
+  hidden_dims: null
+  latent_dim: 256
+
+loss_params:
+  kl_coeff: 1.5
+
+exp_params:
+  model_name: 'beta_vae'
+  dataset: celeba
+  data_path: "kaggle"
+  img_size: 64
+  crop_size: 128
+  batch_size: 256 # Better to have a square number
+  LR: 0.001
+  template: "default vae"
+
+trainer_params:
+  gpus: 1
+  max_epochs: 30

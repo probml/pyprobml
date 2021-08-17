@@ -32,10 +32,51 @@ chmod 600 /root/.kaggle/kaggle.json
 rm kaggle.json
 ```
 
-to copy kaggle.json into a folder first. 
+to copy kaggle.json into a folder first. Then to download the data first donwload the following [script](https://github.com/probml/pyprobml/blob/master/scripts/download_celeba.py)
+```
+wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/download_celeba.py
+```
+and run the following script
+```
+python download_celeba.py
+```
 
 ### To Train Model
 
 ```
 python run.py -config ./configs/dcgan.yaml
 ```
+## Results
+
+| Model                                                                  | Paper                                            | Samples |
+|------------------------------------------------------------------------|--------------------------------------------------|---------|
+| GAN ([Code][dcgan_code], [Config][dcgan_config])                       |[Link](https://arxiv.org/abs/1406.2661)           |  ![][1] |
+| SNGAN ([Code][sngan_code], [Config][sngan_config])                     |[Link](https://arxiv.org/abs/1802.05957)          |  ![][2] |
+| LOGAN ([Code][logan_code], [Config][logan_config])                     |[Link](https://arxiv.org/abs/1912.00953)          |  ![][3] |
+| WGAN ([Code][wgan_code], [Config][wgan_config])                        |[Link](https://arxiv.org/abs/1701.07875)          |  ![][4] |
+| GP-WGAN   ([Code][gp_wgan_code], [Config][gp_wgan_config])             |[Link](https://arxiv.org/pdf/1704.00028.pdf)      |  ![][5] |
+
+
+## Acknowledgement
+
+The idea of this zoo and some of the scripts were based on Anand Krishnamoorthy [Pytorch-VAE library](https://github.com/AntixK/PyTorch-VAE), we also used the script from [sayantanauddy](https://github.com/sayantanauddy/vae_lightning) to transform and download the celeba from kaggle. 
+
+-----------
+
+[dcgan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/scripts/gan/models/dcgan.py
+[gp_wgan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/scripts/gan/models/gp_wgan.py
+[logan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/scripts/gan/models/logan.py
+[sngan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/scripts/gan/models/sngan.py
+[wgan_code]: https://github.com/probml/pyprobml/blob/master/scripts/gan/models/wgan.py
+
+[dcgan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/dcgan.yaml
+[gp_wgan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/gp_wgan.yaml
+[logan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/logan.yaml
+[sngan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/sngan.yaml
+[wgan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/wgan.yaml
+
+[1]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/dcgan.png
+[2]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/logan.png
+[3]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/sngan.png
+[4]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/wgan.png
+[5]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/gp_wgan.png

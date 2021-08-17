@@ -7,8 +7,8 @@ import pyprobml_utils as pml
 from mpl_toolkits.mplot3d import proj3d
 from scipy.stats import dirichlet
 
-grain = 20 #how many points along each axis to plot
-edgedist = 0.008 #How close to an extreme value of say [1,0,0] are we willing to plot.
+grain = 100 # 20 #how many points along each axis to plot
+edgedist = 0.005 # 0.008 #How close to an extreme value of say [1,0,0] are we willing to plot.
 weight = np.linspace(0, 1, grain)
 
 #Most extreme corners of the sample space
@@ -32,16 +32,18 @@ for i in range(len(alphas)):
     azim = 20
     probs = np.array([dpdf(v1, v2, alphavec) for v1 in weight for v2 in weight]).reshape(-1,grain)
     
-    fig = plt.figure(figsize=(20,15))
+    #fig = plt.figure(figsize=(20,15))
+    fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     X,Y = np.meshgrid(weight, weight)
     ax.plot_surface(Y, X, probs, cmap = 'jet', vmin=0, vmax=3,rstride=1,cstride=1, linewidth=0)
     ax.view_init(elev=25, azim=azim)
     ax.set_zlabel('p')
     ttl = ','.join(['{:0.2f}'.format(d) for d in alphavec])
-    ax.set_title(ttl)
+    ax.set_title(ttl, fontsize=14)
     alpha = int(np.round(alphavec[0]*10))
-    pml.savefig('dirSimplexAlpha{}.pdf'.format(alpha))
+    plt.tight_layout()
+    pml.savefig('dirSimplexAlpha{}Legible.png'.format(alpha))
     plt.show()
 
 if 0:

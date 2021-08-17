@@ -230,7 +230,7 @@ for i, (w_online, w_err_online, w_batch, w_batch_err, w_batch_laplace, c) in enu
     ax.axhline(y=w_batch_laplace, c=lcolors[i], linestyle="dotted",
                label=f"$w_{i}$ batch (Laplace)", linewidth=2)
     ax.fill_between(timesteps, w_batch - w_batch_err, w_batch + w_batch_err, color=c, alpha=0.1)
-    ax.legend(loc="lower left")
+    ax.legend() #loc="lower left")
     ax.set_xlim(0, n_datapoints - 0.9)
     ax.set_xlabel("number samples")
     ax.set_ylabel(f"weights ({i})")
