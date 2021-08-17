@@ -117,7 +117,8 @@ mapping = get_packages_from_txt(mapper, ":")
 stdlib_path = pipreqs.__path__[0] + "/stdlib"
 stdlib = get_packages_from_txt(stdlib_path, "")
 dir_name = os.path.dirname(__file__)
-mapping2 = get_packages_from_txt(f"{dir_name}/superimport/mapping2", ":")
+#mapping2 = get_packages_from_txt(f"{dir_name}/superimport/mapping2", ":")
+mapping2 = get_packages_from_txt(f"{dir_name}/superimport_mappings.txt", ":")
 
 mapping = {**mapping, **mapping2}  # adding two dictionaries
 

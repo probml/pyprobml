@@ -3,6 +3,9 @@
 Author: Ang Ming Liang
 
 Based on https://github.com/probml/pmtk3/blob/master/demos/ebBinom.m
+
+See also https://github.com/ericsuh/dirichlet
+
 """
 
 import numpy as np
@@ -63,52 +66,64 @@ quartiles = np.array([[beta.ppf(0.25, a,b), beta.ppf(0.75, a, b),beta.ppf(0.50, 
              for (a,b) in zip(aPost, bPost)])
 CItheta, mediantheta = quartiles[:, :2], quartiles[:, 2]
 
+alpha_mean = np.mean(aPost)
+beta_mean = np.mean(bPost)
+hyper_mean = alpha_mean/(alpha_mean + beta_mean)
+print('hyper mean')
+print(hyper_mean)
+
+
 thetaMLE = y/n
 thetaPooledMLE = np.sum(y)/np.sum(n)
 x = np.arange(0, len(y))
 
 # Plot
 
-plt.figure(figsize=(10, 3))
-plt.title('num. positives')
-plt.bar(x, y)
-plt.xlim(0, 70)
-plt.ylim(0, 20)
-pml.savefig('num_positives.pdf')
+J = len(n)
+fig, axs = plt.subplots(4,1, figsize=(10,10))
+plt.subplots_adjust(hspace=0.3)
+axs = np.reshape(axs, 4)
+
+xs = np.arange(J)
+ax = axs[0]
+ax.bar(xs, y)
+ax.set_title('Number of postives')
+
+ax = axs[1]
+ax.bar(xs, n)
+ax.set_title('Group size')
+
+ax = axs[2]
+ax.set_ylim(0, 0.5)
+ax.bar(x, thetaMLE)
+ax.plot([0, len(thetaMLE)], [thetaPooledMLE, thetaPooledMLE], color="red")
+ax.set_title('MLE (red line = pooled)')
+
+ax = axs[3]
+ax.bar(x, meantheta)
+ax.plot([0, len(meantheta)], [popMean, popMean], color="red")
+ax.set_ylim(0, 0.5)
+ax.set_title('Posterior mean (red line = hparam)')
+
+plt.tight_layout()
+pml.savefig('eb_binom_rats_barplot.pdf', dpi=300)
 plt.show()
 
-plt.figure(figsize=(10, 3))
-plt.title('pop size')
-plt.bar(x, n)
-plt.xlim(0, 70)
-plt.ylim(0, 50)
-pml.savefig('pop_size.pdf')
-plt.show()
 
-plt.figure(figsize=(10, 3))
-plt.title("MLE (red line = pooled MLE)")
-plt.bar(x, thetaMLE)
-plt.plot([0, len(thetaMLE)], [thetaPooledMLE, thetaPooledMLE], color="red")
-plt.xlim(0, 70)
-plt.ylim(0, 0.5)
-pml.savefig('mle.pdf')
-plt.show()
-
-plt.figure(figsize=(10, 3))
-plt.title("posterior mean (red line=population mean)")
-plt.bar(x, meantheta)
-plt.plot([0, len(meantheta)], [popMean, popMean], color="red")
-plt.xlim(0, 70)
-plt.ylim(0, 0.5)
-pml.savefig('post_mean.pdf')
-plt.show()
-
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(10, 10))
 plt.title("95% confidence interval")
-for (height, q, median) in zip(range(len(n)-1, 1, -1), CItheta, mediantheta):
+#for (height, q, median) in zip(range(len(n)-1, 1, -1), CItheta, mediantheta):
+for j in range(J):
+    height = J-j
+    q = CItheta[j]
+    median = mediantheta[j]
     plt.plot([q[0], q[1]], [height, height], 'b', alpha=0.5)
     plt.plot(median, height, 'b*')
-plt.yticks(x)
-plt.show()
-pml.savefig('CI.pdf')
+#plt.yticks(x)
+ax  = plt.gca()
+ax.set_xlim(0, 0.4)
+y_lims = ax.get_ylim()
+ax.vlines(hyper_mean, *y_lims)
+plt.tight_layout()
+pml.savefig('eb_binom_rats_CI.pdf')
 plt.show()
