@@ -1,3 +1,4 @@
+import superimport
 # https://skorch.readthedocs.io/en/stable/user/quickstart.html
 
 import numpy as np

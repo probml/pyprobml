@@ -1,3 +1,5 @@
+import superimport
+
 # Plot 2d sigmoid functions for various values of w1, w2.
 # i.e. sigmoid(w1*x1 +%w2*x2)
 # Based on https://github.com/probml/pmtk3/blob/master/demos/sigmoidplot2D.m
