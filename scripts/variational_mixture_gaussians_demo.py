@@ -12,7 +12,12 @@ import variational_mixture_gaussians as vmg
 import pyprobml_utils as pml
 from scipy import stats as scistats
 from jax import random
+import requests
+from io import BytesIO
 
+url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/faithful.txt'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
 
 def plot_mixtures(X, r, mu, pi, Sigma, ax, step=0.01, cmap="viridis", levels=1):
     colors = ["tab:red", "tab:blue", "tab:green","tab:cyan", "tab:orange", "tab:purple"]
@@ -40,7 +45,7 @@ if __name__ == "__main__":
     plt.rcParams["axes.spines.right"] = False
     plt.rcParams["axes.spines.top"] = False
 
-    data = jnp.array(np.loadtxt("../data/faithful.txt"))
+    data = jnp.array(np.loadtxt(rawdata))
     X = (data - data.mean(axis=0)) / data.std(axis=0)
     # Prior parameters
     key = random.PRNGKey(3141)
@@ -99,3 +104,4 @@ if __name__ == "__main__":
     pml.savefig(f"gmmvb-alpha-dist-{n_iterations}.pdf")
 
     plt.show()
+
