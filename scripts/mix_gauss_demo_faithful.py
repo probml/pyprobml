@@ -8,6 +8,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 from matplotlib.colors import ListedColormap
+import requests
+from io import BytesIO
+
+url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/faithful.txt'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+
+
 
 def create_colormap():
     N = 256
@@ -20,7 +28,7 @@ def create_colormap():
 
 def main():
     cmap = create_colormap()
-    X = np.loadtxt("../data/faithful.txt")
+    X = np.loadtxt(rawdata)
     # Normalise data
     X = (X - X.mean(axis=0)) / (X.std(axis=0))
     mu1 = np.array([-1.5, 1.5])
@@ -50,9 +58,10 @@ def main():
         axi.set_title("Iteration {ix}".format(ix=ix))
         
     plt.tight_layout()
-    plt.savefig('../figures/gmm_faithful.pdf', dpi=300)
+    pml.savefig('gmm_faithful.pdf', dpi=300)
     plt.show()
 
 
 if __name__ == "__main__":
     main()
+
