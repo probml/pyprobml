@@ -6,6 +6,8 @@ from sklearn.metrics import make_scorer, zero_one_loss
 import matplotlib.pyplot as plt
 from cycler import cycler
 import pyprobml_utils as pml
+import requests
+from io import BytesIO
 
 # Using Colorblind friendly colors
 
@@ -17,7 +19,11 @@ plt.rc('axes', prop_cycle=cb_cycler)
 # -------------------------------------------
 # loading data
 
-data = loadmat('../data/hastieMixture.mat')
+url = 'https://github.com/probml/probml-data/blob/main/data/hastieMixture.mat?raw=true'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+data = loadmat(rawdata)
+
 X = data['ans'][0][0][0]
 y = data['ans'][0][0][1].astype('int32')
 bayeserror = data['ans'][0][0][8]
@@ -45,7 +51,7 @@ for g in gammas:
     plt.semilogx(Crange, np.repeat(bayeserror, len(Crange)), label='bayeserror', lw=2)
     plt.axvline(Crange[np.argmin(cross_validation_means)], label='lowest point', ls='--')
     plt.legend(loc="best")
-    pml.save_fig(f'svmCvGamma{int(10*g)}.pdf')
+    pml.savefig(f'svmCvGamma{int(10*g)}.pdf')
     plt.show()
 
 # -------------------------------------------
@@ -65,7 +71,7 @@ pos = plt.imshow(cross_validation_means, interpolation='nearest', aspect='auto',
 plt.colorbar()
 plt.xlabel('indices of C')
 plt.ylabel('indices of ' + r"$\gamma$")
-pml.save_fig('svmCvHeatmap.pdf')
+pml.savefig('svmCvHeatmap.pdf')
 plt.show()
 
 # -------------------------------------------
@@ -80,7 +86,7 @@ plt.yscale("log")
 plt.xlabel('C', weight='bold', size='x-large')
 plt.ylabel(r"$\gamma$", weight='bold', size='x-large')
 plt.contour(xx, yy, cross_validation_means, cmap=plt.get_cmap('viridis'))
-pml.save_fig('svmCvContour.pdf')
+pml.savefig('svmCvContour.pdf')
 plt.show()
 
 # -------------------------------------------
@@ -92,7 +98,6 @@ ax.plot_surface(np.log(xx), np.log(yy), cross_validation_means, cmap=plt.get_cma
 ax.set_xlabel('log(C)', weight='bold', size='x-large')
 ax.set_ylabel('log(' + r"$\gamma$" + ')', weight='bold', size='x-large')
 ax.set_zlabel('Cv_error', weight='bold', size='x-large')
-pml.save_fig('svmCvSurf.pdf')
+pml.savefig('svmCvSurf.pdf')
 plt.show()
 
-# -------------------------------------------
