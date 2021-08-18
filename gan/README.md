@@ -66,20 +66,20 @@ The idea of this zoo and some of the scripts were based on Anand Krishnamoorthy 
 
 -----------
 
-[dcgan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/scripts/gan/models/dcgan.py
-[gp_wgan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/scripts/gan/models/gp_wgan.py
-[logan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/scripts/gan/models/logan.py
-[sngan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/scripts/gan/models/sngan.py
-[wgan_code]: https://github.com/probml/pyprobml/blob/master/scripts/gan/models/wgan.py
+[dcgan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/gan/models/dcgan.py
+[gp_wgan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/gan/models/gp_wgan.py
+[logan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/gan/models/logan.py
+[sngan_code]: https://raw.githubusercontent.com/probml/pyprobml/master/gan/models/sngan.py
+[wgan_code]: https://github.com/probml/pyprobml/blob/master/gan/models/wgan.py
 
-[dcgan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/dcgan.yaml
-[gp_wgan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/gp_wgan.yaml
-[logan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/logan.yaml
-[sngan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/sngan.yaml
-[wgan_config]: https://github.com/probml/pyprobml/blob/master/scripts/gan/configs/wgan.yaml
+[dcgan_config]: https://github.com/probml/pyprobml/blob/master/gan/configs/dcgan.yaml
+[gp_wgan_config]: https://github.com/probml/pyprobml/blob/master/gan/configs/gp_wgan.yaml
+[logan_config]: https://github.com/probml/pyprobml/blob/master/gan/configs/logan.yaml
+[sngan_config]: https://github.com/probml/pyprobml/blob/master/gan/configs/sngan.yaml
+[wgan_config]: https://github.com/probml/pyprobml/blob/master/gan/configs/wgan.yaml
 
-[1]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/dcgan.png
-[2]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/logan.png
-[3]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/sngan.png
-[4]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/wgan.png
-[5]: https://github.com/probml/pyprobml/blob/master/scripts/gan/assets/gp_wgan.png
+[1]: https://github.com/probml/pyprobml/blob/master/gan/assets/dcgan.png
+[2]: https://github.com/probml/pyprobml/blob/master/gan/assets/logan.png
+[3]: https://github.com/probml/pyprobml/blob/master/gan/assets/sngan.png
+[4]: https://github.com/probml/pyprobml/blob/master/gan/assets/wgan.png
+[5]: https://github.com/probml/pyprobml/blob/master/gan/assets/gp_wgan.png
