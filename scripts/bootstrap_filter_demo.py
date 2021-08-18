@@ -1,7 +1,7 @@
 # Demo of the bootstrap filter under a
 # nonlinear discrete system
 
-# Author: Gerardo Gerardo Durán-Martín (@gerdm)
+# Author: Gerardo Durán-Martín (@gerdm)
 
 import jax
 import nlds_lib as ds
