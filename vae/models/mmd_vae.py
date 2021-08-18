@@ -44,7 +44,7 @@ def compute_rbf(x1: torch.Tensor,
     :return:
     """
     z_dim = x2.size(-1)
-    sigma = 2. * z_dim * latent_var
+    sigma = (2. / z_dim) * latent_var
 
     result = torch.exp(-((x1 - x2).pow(2).mean(-1) / sigma))
     return result
