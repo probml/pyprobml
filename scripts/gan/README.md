@@ -5,6 +5,9 @@
 Compare results of different GANs : <a href="https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/gan_compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 
+GAN tricks and what the different GAN try to address : <a href="https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/gan_tricks.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+
 A collection of Generative Adverserial Networks (GANs) implemented in pytorch with focus on reproducibility and creating reusable blocks that can be used in any project. The aim of this project is to provide
 a quick and simple working example for many of the cool GAN idea in the textbook. All the models are trained on the [CelebA dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
 for consistency and comparison. 
