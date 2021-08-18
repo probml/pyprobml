@@ -63,7 +63,7 @@ def compute_inv_mult_quad(x1: torch.Tensor,
     :return:
     """
     z_dim = x2.size(-1)
-    C = 2 * z_dim * latent_var
+    C = (2 / z_dim) * latent_var
     kernel = C / (eps + C + (x1 - x2).pow(2).sum(dim = -1))
 
     # Exclude diagonal elements
