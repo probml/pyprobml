@@ -2,7 +2,7 @@
   <b>PyProbML GAN zoo 🐅 </b><br>
 </h1>
 
-Compare results of different GANs : <a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/scripts/gan/compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+Compare results of different GANs : <a href="https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/gan_compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 
 A collection of Generative Adverserial Networks (GANs) implemented in pytorch with focus on reproducibility and creating reusable blocks that can be used in any project. The aim of this project is to provide
