@@ -12,21 +12,19 @@ import matplotlib.pyplot as plt
 import mixture_kalman_filter_lib as kflib
 import pyprobml_utils as pml
 from jax import random
-from mpl_toolkits.mplot3d import Axes3D
 from functools import partial
 from sklearn.preprocessing import OneHotEncoder
 from jax.scipy.special import logit
-from numpy import linalg
 
 plt.rcParams["axes.spines.right"] = False
 plt.rcParams["axes.spines.top"] = False
 
 
-def plot_3d_belief_state(mu_hist, dim, ax, skip=3, npoints=2000, azimuth=-30, elevation=30):
+def plot_3d_belief_state(mu_hist, dim, ax, skip=3, npoints=2000, azimuth=-30, elevation=30, h=0.5):
     nsteps = len(mu_hist)
     xmin, xmax = mu_hist[..., dim].min(), mu_hist[..., dim].max()
     xrange = jnp.linspace(xmin, xmax, npoints).reshape(-1, 1)
-    res = np.apply_along_axis(lambda X: pml.kdeg(xrange, X[..., None], 0.5), 1, mu_hist)
+    res = np.apply_along_axis(lambda X: pml.kdeg(xrange, X[..., None], h), 1, mu_hist)
     densities = res[..., dim]
     for t in range(0, nsteps, skip):
         tloc = t * np.ones(npoints)
@@ -145,7 +143,7 @@ dims = [0, 2]
 for dim in dims:
     fig = plt.figure()
     ax = plt.axes(projection="3d")
-    plot_3d_belief_state(mu_hist, dim, ax)
-    pml.savefig(f"rbpf-maneuver-belief-stated-dim{dim}.pdf", pad_inches=0, bbox_inches="tight")
+    plot_3d_belief_state(mu_hist, dim, ax, h=1.1)
+    pml.savefig(f"rbpf-maneuver-belief-states-dim{dim}.pdf", pad_inches=0, bbox_inches="tight")
 
 plt.show()
