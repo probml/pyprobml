@@ -16,7 +16,13 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 import pyprobml_utils as pml
 import os
+import requests
+from io import BytesIO
 
+url = 'https://github.com/probml/probml-data/blob/main/data/heightWeight/heightWeight.mat?raw=true'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+dataAll = scipy.io.loadmat(rawdata)
 
 def draw_ell(ax, cov, xy, color):
     u, v = np.linalg.eigh(cov)
@@ -31,8 +37,8 @@ def draw_ell(ax, cov, xy, color):
     e.set_edgecolor(color)
 
 
-datadir = os.path.join("../data", "heightWeight")
-dataAll = scipy.io.loadmat(os.path.join(datadir, "heightWeight.mat"))
+#datadir = os.path.join("../data", "heightWeight")
+#dataAll = scipy.io.loadmat(os.path.join(datadir, "heightWeight.mat"))
 data = dataAll['heightWeightData']
 
 y_vec = data[:, 0]            # 1=male, 2=female
@@ -81,3 +87,4 @@ for i in range(4):
 #plt.subplots_adjust(hspace=0.3, wspace=0.3)
 #pml.savefig('heightWeightWhitenZCA.pdf')
 plt.show()
+
