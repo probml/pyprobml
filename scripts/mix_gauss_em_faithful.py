@@ -1,3 +1,5 @@
+#!pip install distrax
+
 '''
 Visualize fitting a mixture of Gaussians by em algorithm to the old faithful dataset
 reproduce Bishop fig 9.8
@@ -10,6 +12,9 @@ import pyprobml_utils as pml
 
 from mix_gauss_lib import GMM
 from matplotlib.colors import ListedColormap
+
+import requests
+from io import BytesIO
 
 # 64-bit precision is needed to attain the same results when scipy.stats.multivariate_normal is used.
 from jax.config import config
@@ -29,7 +34,10 @@ def main():
     cmap = create_colormap()
     colors = ["tab:red", "tab:blue"]
 
-    observations = np.loadtxt("../data/faithful.txt")
+    url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/faithful.txt'
+    response = requests.get(url)
+    rawdata = BytesIO(response.content)
+    observations = np.loadtxt(rawdata)
     # Normalize data
     observations = (observations - observations.mean(axis=0)) / (observations.std(axis=0))
     # Initial configuration
@@ -65,8 +73,9 @@ def main():
         axi.set_title(f"Iteration {idx}")
 
     plt.tight_layout()
-    pml.savefig('../figures/gmm_faithful.pdf')
+    pml.savefig('gmm_faithful.pdf')
     plt.show()
 
 if __name__ == "__main__":
     main()
+
