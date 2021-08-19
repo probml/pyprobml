@@ -5,6 +5,9 @@ Author: Aleyna Kara(@karalleyna)
 '''
 
 # 64-bit precision is needed to attain the same results when scipy.stats.multivariate_normal is used.
+
+#!pip install distrax
+
 from jax.config import config
 config.update("jax_enable_x64", True)
 
@@ -12,6 +15,8 @@ import numpy as np
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml
+import requests
+from io import BytesIO
 
 from mix_gauss_lib import GMM
 from mix_gauss_em_faithful import create_colormap
@@ -24,7 +29,11 @@ def main():
     cmap = create_colormap()
     colors = ["tab:red", "tab:blue"]
 
-    observations = np.loadtxt("../data/faithful.txt")
+    url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/faithful.txt'
+    response = requests.get(url)
+    rawdata = BytesIO(response.content)
+    observations = np.loadtxt(rawdata)
+    
     # Normalize data
     observations = (observations - observations.mean(axis=0)) / (observations.std(axis=0))
     # Initial configuration
@@ -61,8 +70,9 @@ def main():
         axi.set_title(f"Iteration {idx}")
 
     plt.tight_layout()
-    pml.savefig('../figures/gmm_faithful.pdf')
+    pml.savefig('gmm_faithful.pdf')
     plt.show()
 
 if __name__ == "__main__":
     main()
+
