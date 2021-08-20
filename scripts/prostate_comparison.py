@@ -23,12 +23,10 @@ from sklearn.preprocessing import StandardScaler
 def get_features_and_label(dataset, is_training):
     '''
     Gets matrices representing features and target from the original data set
-
     Parameters
     ----------
     dataset: DataFrame
       Original dataset
-
     is_training : str
       Label to show whether a data point is in training data or not.
         * "T" -> Training data
@@ -49,7 +47,6 @@ def get_features_and_label(dataset, is_training):
 class OneStandardErrorRuleModel:
     '''
     Select the least complex model among one standard error of the best.
-
     Attributes
     ----------
         estimator :
@@ -118,7 +115,6 @@ class OneStandardErrorRuleModel:
 class BestSubsetRegression(LinearRegression):
     '''
     Linear regression based on the best features subset of fixed size.
-
     Attributes
     ----------
         subset_size : Int
@@ -149,7 +145,7 @@ class BestSubsetRegression(LinearRegression):
         return self
 
 
-path = '../data/prostate/prostate.csv'
+path = 'https://raw.githubusercontent.com/probml/probml-data/main/data/prostate/prostate.csv'
 X = pd.read_csv(path, sep='\t').iloc[:, 1:]
 X_train, y_train = get_features_and_label(X, 'T')
 X_test, y_test = get_features_and_label(X, 'F')
@@ -210,3 +206,4 @@ plt.boxplot(residuals)
 plt.xticks(np.arange(n_models) + 1, xlabels[1:])
 pml.savefig('prostate-subsets-CV.pdf')
 plt.show()
+
