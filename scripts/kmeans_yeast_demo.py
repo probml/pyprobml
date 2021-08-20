@@ -4,8 +4,14 @@ import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 from matplotlib import cm
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+import requests
+from io import BytesIO
 
-data = loadmat('../data/yeastData310.mat')  # dictionary containing 'X', 'genes', 'times'
+url = 'https://github.com/probml/probml-data/blob/main/data/yeastData310.mat?raw=true'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+data = loadmat(rawdata) # dictionary containing 'X', 'genes', 'times'
+
 X = data['X']
 
 # Cluster yeast data using Kmeans
