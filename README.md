@@ -32,7 +32,7 @@ Thus you will need an internet connection to run the code.
 ## Jupyter notebooks
 
 The scripts needed to make all the figures for each chapter are automatically combined together into a series of Jupyter notebooks, one per chapter.
-* [Volume 1 figure notebooks](https://github.com/probml/pml-book/tree/main/pml1/figure_notebooks)
+* [Volume 1 figure notebooks](https://github.com/probml/pml-book/tree/main/pml1/)
 * [Volume 2 figure notebooks](https://github.com/probml/pml-book/tree/main/pml2). (Note: volume 2 is not finished yet.)
 
 In addition to the automatically generated notebooks, there are a series of manually created notebooks, which create additional figures, and provide supplementary material for the book. These are stored in the [notebooks repo](https://github.com/probml/probml-notebooks), since they can be quite large. Some of these notebooks use the scripts mentioned above, but others are independent of the book content.
