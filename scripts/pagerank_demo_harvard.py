@@ -11,9 +11,13 @@ import matplotlib.pyplot as plt
 import pyprobml_utils as pml
 from scipy.io import loadmat
 
+import requests
+from io import BytesIO
 
-path = '../data/harvard500.mat'
-mat = loadmat(path)
+url = 'https://github.com/probml/probml-data/blob/main/data/harvard500.mat?raw=true'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+mat = loadmat(rawdata)
 G_harvard = mat['G']
 
 #plt.figure(figsize=(6, 6))
@@ -27,9 +31,9 @@ plt.show()
 p = 0.85
 pi_sparse_harvard = pagerank_power_method_sparse(G_harvard, p)[0]
 
-
 fig, ax = plt.subplots()
 plt.bar(np.arange(0, pi_sparse_harvard.shape[0]), pi_sparse_harvard, width=1.0, color='darkblue')
 ax.set_ylim([0, 0.02])
 pml.savefig('harvard500-pagerank')
 plt.show()
+
