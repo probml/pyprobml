@@ -30,7 +30,7 @@ Please follow the guidelines below when submitting code to [pyprobml](https://gi
 Make sure your code works properly in Google's Colab. (It is not sufficient for it to work on your local machine). 
 To run in colab, the first cell should contain the following boilerplate code, that clones the repo.
 ```python
-!git clone https://github.com/probml/pyprobml /pyprobml &> /dev/null
+!git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
 %cd -q /pyprobml/scripts
 ```
 Or you can just import the main utils library, which is a bit faster
