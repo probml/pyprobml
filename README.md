@@ -2,36 +2,55 @@
 
 <img src="https://img.shields.io/github/stars/probml/pyprobml?style=social">
 
-Python 3 code for my new book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/).
-This is work in progress, so expect  very rough edges.
+Python 3 code for the new book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
+This is work in progress, so expect rough edges.
 
 
-## Scripts
+## Running the scripts
 
 The `scripts` directory contains python files to generate individual figures from vol 1 and vol 2 of the book.
 To manually execute an individual script from the command line,
 follow this example:
 ```
-cd pyprobml
-python3 scripts/softmax_plot.py 
+git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
+python3 pyprobml/scripts/softmax_plot.py 
 ```
-This will save files to the `pyprobml/figures` directory.
+This will clone the repo (without the version history, to save time/space), run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
 
-To browse the code using VScode instead of the gihub file viewer, you can just replace 
+Many scripts **require packages to be installed**; in some cases, the list of necessary packages is noted in the comments at the start of the file.
+However, an easier way is to  just add `import superimport`  to the top of your script --- the [superimport](https://github.com/probml/pyprobml/blob/master/scripts/superimport.py) library will automagically pip install all necessary packages on your local machine (or colab instance). For an example of this, see [student_pgm.py](https://github.com/probml/pyprobml/blob/master/scripts/student_pgm.py);
+if you type
+`
+python3 pyprobml/scripts/student_pgm.py
+`
+it will detect that the [pgmpy](https://pgmpy.org/) library is missing from your path, install it,
+and then run the script. (If you run the script a second time, it skips the installation step.)
+
+Some scripts download datasets stored in the [probml-data repo](https://github.com/probml/probml-data).
+Thus you will need an internet connection to run the code.
+
+## Jupyter notebooks
+
+The scripts needed to make all the figures for each chapter are automatically combined together into a series of Jupyter notebooks, one per chapter.
+* [Volume 1 figure notebooks](https://github.com/probml/pml-book/tree/main/pml1/figure_notebooks)
+* [Volume 2 figure notebooks](https://github.com/probml/pml-book/tree/main/pml2). (Note: volume 2 is not finished yet.)
+
+In addition to the automatically generated notebooks, there are a series of manually created notebooks, which create additional figures, and provide supplementary material for the book. These are stored in the [notebooks repo](https://github.com/probml/probml-notebooks), since they can be quite large. Some of these notebooks use the scripts mentioned above, but others are independent of the book content.
+
+## Colab, GCP, TPUs, and all that
+
+When you open a Jupyter notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/probml-notebooks/blob/main/markdown/colab_gcp_tpu_tutorial.md) with more information.
+
+
+## Viewing the source code
+
+To browse the code using VScode instead of the github file viewer, you can just replace 
 https://github.com/probml/pyprobml/tree/master/scripts
 with 
 https://github1s.com/probml/pyprobml/tree/master/scripts (see [this tweet](https://twitter.com/hediet_dev/status/1359093978570907648?s=21)).
 The output should look like this:
 
 ![](https://github.com/probml/probml-notebooks/raw/main/images/github-vscode-browser.png)
-
-## Jupyter notebooks
-
-The `notebooks` directory contains various examples that illustrate concepts and/or generate figures from vol 1 and vol 2 of the book.
-In addition, we automatically combine all the figure scripts into a single notebook per chapter.
-These are stored [here](https://github.com/probml/pml-book/tree/main/pml1/figure_notebooks).
-
-When you open a notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU. See [this tutorial](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/colab_intro.ipynb) for details on how to use Colab.
 
 
 
