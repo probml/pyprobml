@@ -1,20 +1,17 @@
-
-
-#PCA in 2d on digit images. 
+# PCA in 2d on digit images. 
 # Based on fig 14.23 of  of "Elements of statistical learning". Code is from Andrey Gaskov's site:
 
 # Code modified from    
-#https://github.com/empathy87/The-Elements-of-Statistical-Learning-Python-Notebooks/blob/master/examples/ZIP%20Code.ipynb
-
-
+# https://github.com/empathy87/The-Elements-of-Statistical-Learning-Python-Notebooks/blob/master/examples/ZIP%20Code.ipynb
 
 import pandas as pd
 from matplotlib import transforms, pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn import datasets
-
-
+import requests
+from io import BytesIO
+import pyprobml_utils as pml
 from tensorflow import keras
 import tensorflow as tf
 
@@ -43,8 +40,11 @@ if 0:
 
 
 if 0:
-    # load numpy array from the compressed file
-    arr = np.load('../data/zip.npy.npz')['arr_0']
+    # load numpy array from the compressed file 
+    url = 'https://github.com/probml/probml-data/blob/main/data/goog.npy?raw=true'
+    response = requests.get(url)
+    rawdata = BytesIO(response.content)
+    arr = np.load(rawdata)['arr_0'] #'../data/zip.npy.npz'
     # do train-test split by the last column
     train, test = arr[arr[:, -1] == 0], arr[arr[:, -1] == 1]
     X_train, X_test = train[:, 1:-1], test[:, 1:-1]
@@ -105,6 +105,6 @@ ax = axarr[1]
 ax.imshow(img, cmap="gray")
 ax.set_aspect('equal', 'datalim')
 plt.tight_layout()
-plt.savefig('../figures/pca_digits.pdf', dpi=300)
+pml.savefig('pca_digits.pdf')
 plt.show()
 
