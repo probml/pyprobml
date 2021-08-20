@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Author: Ang Ming Liang
 Based on: https://github.com/probml/pmtk3/blob/master/demos/isingImageDenoiseDemo.m
@@ -17,7 +16,7 @@ np.random.seed(1)
 
 sigma =2
 
-img = pd.read_csv("../data/letterA.csv").to_numpy()
+img = pd.read_csv('https://raw.githubusercontent.com/probml/probml-data/main/data/letterA.csv').to_numpy()
 mean = np.mean(img)
 base = np.ones(img.shape)
 img2 = base*(img > mean) - base*(img<mean)
