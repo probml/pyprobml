@@ -54,8 +54,8 @@ python run.py -config ./configs/dcgan.yaml
 | Model                                                                  | Paper                                            | Samples |
 |------------------------------------------------------------------------|--------------------------------------------------|---------|
 | GAN ([Code][dcgan_code], [Config][dcgan_config])                       |[Link](https://arxiv.org/abs/1406.2661)           |  ![][1] |
-| SNGAN ([Code][sngan_code], [Config][sngan_config])                     |[Link](https://arxiv.org/abs/1802.05957)          |  ![][2] |
-| LOGAN ([Code][logan_code], [Config][logan_config])                     |[Link](https://arxiv.org/abs/1912.00953)          |  ![][3] |
+| SNGAN ([Code][sngan_code], [Config][sngan_config])                     |[Link](https://arxiv.org/abs/1802.05957)          |  ![][3] |
+| LOGAN ([Code][logan_code], [Config][logan_config])                     |[Link](https://arxiv.org/abs/1912.00953)          |  ![][2] |
 | WGAN ([Code][wgan_code], [Config][wgan_config])                        |[Link](https://arxiv.org/abs/1701.07875)          |  ![][4] |
 | GP-WGAN   ([Code][gp_wgan_code], [Config][gp_wgan_config])             |[Link](https://arxiv.org/pdf/1704.00028.pdf)      |  ![][5] |
 
