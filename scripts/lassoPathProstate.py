@@ -1,4 +1,3 @@
-
 # Figure 11.12 (b)
 # Plot the full L1 regularization path for the prostate data set
 
@@ -7,10 +6,16 @@ from sklearn import linear_model
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import requests
+from io import BytesIO
+import pyprobml_utils as pml
 
 # Load prostate cancer data 
+url = 'https://github.com/probml/probml-data/blob/main/data/prostate/prostateStnd.mat?raw=true'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+data = loadmat(rawdata)
 
-data = loadmat('../data/prostate/prostateStnd')
 names = list(map(lambda x: x[0], data['names'][0]))
 X, y = data['X'], data['y']
 
@@ -30,4 +35,6 @@ plt.xlabel(r'$\tau$')
 ax.xaxis.set_major_locator(ticker.MultipleLocator(0.5))
 plt.plot(xs,ys,marker='o')
 plt.legend(names)
+pml.savefig('L1.pdf')
 plt.show()
+
