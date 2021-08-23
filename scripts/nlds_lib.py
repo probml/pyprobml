@@ -31,9 +31,9 @@ class NLDS:
         self.__Q = Q
         self.__R = R
     
-    def Q(self, z):
+    def Q(self, *args):
         if callable(self.__Q):
-            return self.__Q(z)
+            return self.__Q(*args)
         else:
             return self.__Q
     
@@ -47,7 +47,7 @@ class NLDS:
         key, state_t = input_vals
         key_system, key_obs, key = random.split(key, 3)
 
-        state_t = random.multivariate_normal(key_system, self.fz(state_t), self.Q(state_t))
+        state_t = random.multivariate_normal(key_system, self.fz(state_t), self.Q())
         obs_t = random.multivariate_normal(key_obs, self.fx(state_t, *obs), self.R(*obs))
 
         return (key, state_t), (state_t, obs_t)
@@ -124,7 +124,7 @@ class ExtendedKalmanFilter(NLDS):
 
         I = jnp.eye(self.state_size)
         nsamples = len(sample_obs)
-        Vt = self.Q(init_state) if Vinit is None else Vinit
+        Vt = self.Q() if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsamples
         else:
@@ -141,7 +141,7 @@ class ExtendedKalmanFilter(NLDS):
         for t in range(nsamples):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
-            Vt_cond = Gt @ Vt @ Gt.T + self.Q(mu_t)
+            Vt_cond = Gt @ Vt @ Gt.T + self.Q()
             Ht = self.Dfx(mu_t_cond, *observations[t])
 
             xt_hat = self.fx(mu_t_cond, *observations[t])
@@ -314,9 +314,9 @@ class UnscentedKalmanFilter(NLDS):
     """
     Implementation of the Unscented Kalman Filter for discrete time systems
     """
-    def __init__(self, fz, fx, Q, R, alpha, beta, kappa):
+    def __init__(self, fz, fx, Q, R, alpha, beta, kappa, d):
         super().__init__(fz, fx, Q, R)
-        self.d, _ = Q.shape
+        self.d = d
         self.alpha = alpha
         self.beta = beta
         self.kappa = kappa
@@ -324,11 +324,11 @@ class UnscentedKalmanFilter(NLDS):
         self.gamma = jnp.sqrt(self.d + self.lmbda)
 
     @classmethod
-    def from_base(cls, model, alpha, beta, kappa):
+    def from_base(cls, model, alpha, beta, kappa, d):
         """
         Initialise class from an instance of the NLDS parent class
         """
-        return cls(model.fz, model.fx, model.Q, model.R, alpha, beta, kappa)
+        return cls(model.fz, model.fx, model.Q, model.R, alpha, beta, kappa, d)
     
     @staticmethod
     def sqrtm(M):
@@ -372,7 +372,7 @@ class UnscentedKalmanFilter(NLDS):
                             for i in range(2 * self.d + 1)])
         nsteps, *_ = sample_obs.shape
         mu_t = init_state
-        Sigma_t = self.Q if Vinit is None else Vinit
+        Sigma_t = self.Q() if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsteps
         else:
@@ -394,7 +394,7 @@ class UnscentedKalmanFilter(NLDS):
             z_bar = self.fz(sigma_points)
             mu_bar = z_bar @ wm_vec
             Sigma_bar = (z_bar - mu_bar[:, None])
-            Sigma_bar = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar, Sigma_bar) + self.Q
+            Sigma_bar = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar, Sigma_bar) + self.Q()
 
             Sigma_bar_half = self.sqrtm(Sigma_bar)
             comp1 = mu_bar[:, None] + self.gamma * Sigma_bar_half
@@ -405,7 +405,7 @@ class UnscentedKalmanFilter(NLDS):
             x_bar = self.fx(sigma_points, *observations[t])
             x_hat = x_bar @ wm_vec
             St = x_bar - x_hat[:, None]
-            St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R
+            St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R(*observations[t])
 
             mu_hat_component = z_bar - mu_bar[:, None]
             x_hat_component = x_bar - x_hat[:, None]
@@ -438,11 +438,11 @@ class BootstrapFiltering(NLDS):
 
         key_t, key_reindex, key_next = random.split(key_t, 3)
         # 1. Draw new points from the dynamic model
-        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q)
+        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q())
 
         # 2. Calculate unnormalised weights
         xt_rvs = self.fx(zt_rvs)
-        weights_t = stats.multivariate_normal.pdf(obs_t, xt_rvs, self.R)
+        weights_t = stats.multivariate_normal.pdf(obs_t, xt_rvs, self.R())
 
         # 3. Resampling
         pi = random.choice(key_reindex, indices,
@@ -469,7 +469,7 @@ class BootstrapFiltering(NLDS):
             mu_hist = jnp.zeros((nsteps, m))
 
             key, key_init = random.split(key, 2)
-            V = self.Q if Vinit is None else Vinit
+            V = self.Q() if Vinit is None else Vinit
             zt_rvs = random.multivariate_normal(key_init, init_state, V, shape=(nsamples,))
             
             init_state = (zt_rvs, key)
