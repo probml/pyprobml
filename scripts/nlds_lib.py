@@ -120,9 +120,11 @@ class ExtendedKalmanFilter(NLDS):
         * array(nsamples, state_size, state_size)
             History of filtered covariance terms
         """
+        self.state_size, *_ = init_state.shape
+
         I = jnp.eye(self.state_size)
         nsamples = len(sample_obs)
-        Vt = self.Q if Vinit is None else Vinit
+        Vt = self.Q(init_state) if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsamples
         else:
@@ -139,11 +141,11 @@ class ExtendedKalmanFilter(NLDS):
         for t in range(nsamples):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
-            Vt_cond = Gt @ Vt @ Gt.T + self.Q
+            Vt_cond = Gt @ Vt @ Gt.T + self.Q(mu_t)
             Ht = self.Dfx(mu_t_cond, *observations[t])
 
             xt_hat = self.fx(mu_t_cond, *observations[t])
-            Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R)
+            Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R(*observations[t]))
             mu_t = mu_t_cond + Kt @ (sample_obs[t] - xt_hat)
             Vt = (I - Kt @ Ht) @ Vt_cond
 
