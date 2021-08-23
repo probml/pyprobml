@@ -45,17 +45,18 @@ if __name__ == "__main__":
     nsteps = 100
     # Initial state vector
     x0 = jnp.array([1.5, 0.0])
+    state_size, *_ = x0.shape
     # State noise
-    Qt = jnp.eye(2) * 0.001
+    Qt = jnp.eye(state_size) * 0.001
     # Observed noise
     Rt = jnp.eye(2) * 0.05
     alpha, beta, kappa = 1, 0, 2
 
-    key = random.PRNGKey(314)
+    key = random.PRNGKey(31415)
     model = ds.NLDS(lambda x: fz(x, dt), fx, Qt, Rt)
     sample_state, sample_obs = model.sample(key, x0, nsteps)
     ekf = ds.ExtendedKalmanFilter.from_base(model)
-    ukf = ds.UnscentedKalmanFilter.from_base(model, alpha, beta, kappa)
+    ukf = ds.UnscentedKalmanFilter.from_base(model, alpha, beta, kappa, state_size)
 
     ekf_mean_hist, ekf_Sigma_hist = ekf.filter(x0, sample_obs)
     ukf_mean_hist, ukf_Sigma_hist = ukf.filter(x0, sample_obs)
