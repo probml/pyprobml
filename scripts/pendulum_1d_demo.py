@@ -66,9 +66,10 @@ colors = ["tab:red" if samp else "tab:blue" for samp in samples_map]
 
 # *** Perform filtering ****
 alpha, beta, kappa = 1, 0, 2
-Vinit = jnp.eye(2)
+state_size = 2
+Vinit = jnp.eye(state_size)
 ekf = ds.ExtendedKalmanFilter.from_base(model)
-ukf = ds.UnscentedKalmanFilter.from_base(model, alpha, beta, kappa)
+ukf = ds.UnscentedKalmanFilter.from_base(model, alpha, beta, kappa, state_size)
 particle_filter = ds.BootstrapFiltering(fz_vec, fx_vmap, Q, Rt)
 
 print("Filtering data...")

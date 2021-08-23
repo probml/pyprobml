@@ -28,12 +28,31 @@ class NLDS:
     def __init__(self, fz, fx, Q, R):
         self.fz = fz
         self.fx = fx
-        self.Q = Q
-        self.R = R
-        self.state_size, _ = Q.shape
-        self.obs_size, _ = R.shape
+        self.__Q = Q
+        self.__R = R
+    
+    def Q(self, z, *args):
+        if callable(self.__Q):
+            return self.__Q(z, *args)
+        else:
+            return self.__Q
+    
+    def R(self, x, *args):
+        if callable(self.__R):
+            return self.__R(x, *args)
+        else:
+            return self.__R
+    
+    def __sample_step(self, input_vals, obs):
+        key, state_t = input_vals
+        key_system, key_obs, key = random.split(key, 3)
 
-    def sample(self, key, x0, nsteps):
+        state_t = random.multivariate_normal(key_system, self.fz(state_t), self.Q(state_t))
+        obs_t = random.multivariate_normal(key_obs, self.fx(state_t, *obs), self.R(state_t, *obs))
+
+        return (key, state_t), (state_t, obs_t)
+
+    def sample(self, key, x0, nsteps, obs=None):
         """
         Sample discrete elements of a nonlinear system
 
@@ -44,6 +63,8 @@ class NLDS:
             Initial state of simulation
         nsteps: int
             Total number of steps to sample from the system
+        obs: None, tuple of arrays
+            Observed values to pass to fx and R
 
         Returns
         -------
@@ -52,25 +73,15 @@ class NLDS:
         * array(nsamples, obs_size)
             Observed-space values
         """
-        key, key_system_noise, key_obs_noise = random.split(key, 3)
-
-        state_hist = jnp.zeros((nsteps, self.state_size))
-        obs_hist = jnp.zeros((nsteps, self.obs_size))
-
+        obs = () if obs is None else obs
         state_t = x0.copy()
         obs_t = self.fx(state_t)
 
-        state_noise = random.multivariate_normal(key_system_noise, jnp.zeros((self.state_size,)), self.Q, (nsteps,))
-        obs_noise = random.multivariate_normal(key_obs_noise, jnp.zeros((self.obs_size,)), self.R, (nsteps,))
-        state_hist = index_update(state_hist, 0, state_t)
-        obs_hist = index_update(obs_hist, 0, obs_t)
+        self.state_size, *_ = state_t.shape
+        self.obs_t, *_ = obs_t.shape
 
-        for t in range(1, nsteps):
-            state_t = self.fz(state_t) + state_noise[t]
-            obs_t = self.fx(state_t) + obs_noise[t]
-
-            state_hist = index_update(state_hist, t, state_t)
-            obs_hist = index_update(obs_hist, t, obs_t)
+        init_state = (key, state_t)
+        _, (state_hist, obs_hist) = jax.lax.scan(self.__sample_step, init_state, obs, length=nsteps)
         
         return state_hist, obs_hist
 
@@ -109,9 +120,11 @@ class ExtendedKalmanFilter(NLDS):
         * array(nsamples, state_size, state_size)
             History of filtered covariance terms
         """
+        self.state_size, *_ = init_state.shape
+
         I = jnp.eye(self.state_size)
         nsamples = len(sample_obs)
-        Vt = self.Q if Vinit is None else Vinit
+        Vt = self.Q(init_state) if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsamples
         else:
@@ -128,11 +141,11 @@ class ExtendedKalmanFilter(NLDS):
         for t in range(nsamples):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
-            Vt_cond = Gt @ Vt @ Gt.T + self.Q
+            Vt_cond = Gt @ Vt @ Gt.T + self.Q(mu_t)
             Ht = self.Dfx(mu_t_cond, *observations[t])
 
             xt_hat = self.fx(mu_t_cond, *observations[t])
-            Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R)
+            Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R(mu_t, *observations[t]))
             mu_t = mu_t_cond + Kt @ (sample_obs[t] - xt_hat)
             Vt = (I - Kt @ Ht) @ Vt_cond
 
@@ -301,9 +314,9 @@ class UnscentedKalmanFilter(NLDS):
     """
     Implementation of the Unscented Kalman Filter for discrete time systems
     """
-    def __init__(self, fz, fx, Q, R, alpha, beta, kappa):
+    def __init__(self, fz, fx, Q, R, alpha, beta, kappa, d):
         super().__init__(fz, fx, Q, R)
-        self.d, _ = Q.shape
+        self.d = d
         self.alpha = alpha
         self.beta = beta
         self.kappa = kappa
@@ -311,11 +324,11 @@ class UnscentedKalmanFilter(NLDS):
         self.gamma = jnp.sqrt(self.d + self.lmbda)
 
     @classmethod
-    def from_base(cls, model, alpha, beta, kappa):
+    def from_base(cls, model, alpha, beta, kappa, d):
         """
         Initialise class from an instance of the NLDS parent class
         """
-        return cls(model.fz, model.fx, model.Q, model.R, alpha, beta, kappa)
+        return cls(model.fz, model.fx, model.Q, model.R, alpha, beta, kappa, d)
     
     @staticmethod
     def sqrtm(M):
@@ -359,7 +372,7 @@ class UnscentedKalmanFilter(NLDS):
                             for i in range(2 * self.d + 1)])
         nsteps, *_ = sample_obs.shape
         mu_t = init_state
-        Sigma_t = self.Q if Vinit is None else Vinit
+        Sigma_t = self.Q(init_state) if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsteps
         else:
@@ -381,7 +394,7 @@ class UnscentedKalmanFilter(NLDS):
             z_bar = self.fz(sigma_points)
             mu_bar = z_bar @ wm_vec
             Sigma_bar = (z_bar - mu_bar[:, None])
-            Sigma_bar = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar, Sigma_bar) + self.Q
+            Sigma_bar = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar, Sigma_bar) + self.Q(mu_t)
 
             Sigma_bar_half = self.sqrtm(Sigma_bar)
             comp1 = mu_bar[:, None] + self.gamma * Sigma_bar_half
@@ -392,7 +405,7 @@ class UnscentedKalmanFilter(NLDS):
             x_bar = self.fx(sigma_points, *observations[t])
             x_hat = x_bar @ wm_vec
             St = x_bar - x_hat[:, None]
-            St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R
+            St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R(mu_t, *observations[t])
 
             mu_hat_component = z_bar - mu_bar[:, None]
             x_hat_component = x_bar - x_hat[:, None]
@@ -425,11 +438,11 @@ class BootstrapFiltering(NLDS):
 
         key_t, key_reindex, key_next = random.split(key_t, 3)
         # 1. Draw new points from the dynamic model
-        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q)
+        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q(zt_rvs))
 
         # 2. Calculate unnormalised weights
         xt_rvs = self.fx(zt_rvs)
-        weights_t = stats.multivariate_normal.pdf(obs_t, xt_rvs, self.R)
+        weights_t = stats.multivariate_normal.pdf(obs_t, xt_rvs, self.R(zt_rvs, obs_t))
 
         # 3. Resampling
         pi = random.choice(key_reindex, indices,
@@ -456,7 +469,7 @@ class BootstrapFiltering(NLDS):
             mu_hist = jnp.zeros((nsteps, m))
 
             key, key_init = random.split(key, 2)
-            V = self.Q if Vinit is None else Vinit
+            V = self.Q(init_state) if Vinit is None else Vinit
             zt_rvs = random.multivariate_normal(key_init, init_state, V, shape=(nsamples,))
             
             init_state = (zt_rvs, key)
