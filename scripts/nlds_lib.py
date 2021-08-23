@@ -31,15 +31,15 @@ class NLDS:
         self.__Q = Q
         self.__R = R
     
-    def Q(self, *args):
+    def Q(self, z, *args):
         if callable(self.__Q):
-            return self.__Q(*args)
+            return self.__Q(z, *args)
         else:
             return self.__Q
     
-    def R(self, *args):
+    def R(self, x, *args):
         if callable(self.__R):
-            return self.__R(*args)
+            return self.__R(x, *args)
         else:
             return self.__R
     
@@ -47,8 +47,8 @@ class NLDS:
         key, state_t = input_vals
         key_system, key_obs, key = random.split(key, 3)
 
-        state_t = random.multivariate_normal(key_system, self.fz(state_t), self.Q())
-        obs_t = random.multivariate_normal(key_obs, self.fx(state_t, *obs), self.R(*obs))
+        state_t = random.multivariate_normal(key_system, self.fz(state_t), self.Q(state_t))
+        obs_t = random.multivariate_normal(key_obs, self.fx(state_t, *obs), self.R(state_t, *obs))
 
         return (key, state_t), (state_t, obs_t)
 
@@ -124,7 +124,7 @@ class ExtendedKalmanFilter(NLDS):
 
         I = jnp.eye(self.state_size)
         nsamples = len(sample_obs)
-        Vt = self.Q() if Vinit is None else Vinit
+        Vt = self.Q(init_state) if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsamples
         else:
@@ -141,11 +141,11 @@ class ExtendedKalmanFilter(NLDS):
         for t in range(nsamples):
             Gt = self.Dfz(mu_t)
             mu_t_cond = self.fz(mu_t)
-            Vt_cond = Gt @ Vt @ Gt.T + self.Q()
+            Vt_cond = Gt @ Vt @ Gt.T + self.Q(mu_t)
             Ht = self.Dfx(mu_t_cond, *observations[t])
 
             xt_hat = self.fx(mu_t_cond, *observations[t])
-            Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R(*observations[t]))
+            Kt = Vt_cond @ Ht.T @ jnp.linalg.inv(Ht @ Vt_cond @ Ht.T + self.R(mu_t, *observations[t]))
             mu_t = mu_t_cond + Kt @ (sample_obs[t] - xt_hat)
             Vt = (I - Kt @ Ht) @ Vt_cond
 
@@ -372,7 +372,7 @@ class UnscentedKalmanFilter(NLDS):
                             for i in range(2 * self.d + 1)])
         nsteps, *_ = sample_obs.shape
         mu_t = init_state
-        Sigma_t = self.Q() if Vinit is None else Vinit
+        Sigma_t = self.Q(init_state) if Vinit is None else Vinit
         if observations is None:
             observations = [()] * nsteps
         else:
@@ -394,7 +394,7 @@ class UnscentedKalmanFilter(NLDS):
             z_bar = self.fz(sigma_points)
             mu_bar = z_bar @ wm_vec
             Sigma_bar = (z_bar - mu_bar[:, None])
-            Sigma_bar = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar, Sigma_bar) + self.Q()
+            Sigma_bar = jnp.einsum("i,ji,ki->jk", wc_vec, Sigma_bar, Sigma_bar) + self.Q(mu_t)
 
             Sigma_bar_half = self.sqrtm(Sigma_bar)
             comp1 = mu_bar[:, None] + self.gamma * Sigma_bar_half
@@ -405,7 +405,7 @@ class UnscentedKalmanFilter(NLDS):
             x_bar = self.fx(sigma_points, *observations[t])
             x_hat = x_bar @ wm_vec
             St = x_bar - x_hat[:, None]
-            St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R(*observations[t])
+            St = jnp.einsum("i,ji,ki->jk", wc_vec, St, St) + self.R(mu_t, *observations[t])
 
             mu_hat_component = z_bar - mu_bar[:, None]
             x_hat_component = x_bar - x_hat[:, None]
@@ -469,7 +469,7 @@ class BootstrapFiltering(NLDS):
             mu_hist = jnp.zeros((nsteps, m))
 
             key, key_init = random.split(key, 2)
-            V = self.Q() if Vinit is None else Vinit
+            V = self.Q(init_state) if Vinit is None else Vinit
             zt_rvs = random.multivariate_normal(key_init, init_state, V, shape=(nsamples,))
             
             init_state = (zt_rvs, key)
