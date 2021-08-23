@@ -6,6 +6,7 @@
 # Code is based on
 # https://fehiepsi.github.io/rethinking-numpyro/06-the-haunted-dag-and-the-causal-terror.html
 
+import superimport
 from causalgraphicalmodels import CausalGraphicalModel
 
 dag = CausalGraphicalModel(
