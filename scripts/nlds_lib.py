@@ -438,11 +438,11 @@ class BootstrapFiltering(NLDS):
 
         key_t, key_reindex, key_next = random.split(key_t, 3)
         # 1. Draw new points from the dynamic model
-        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q())
+        zt_rvs = random.multivariate_normal(key_t, self.fz(zt_rvs), self.Q(zt_rvs))
 
         # 2. Calculate unnormalised weights
         xt_rvs = self.fx(zt_rvs)
-        weights_t = stats.multivariate_normal.pdf(obs_t, xt_rvs, self.R())
+        weights_t = stats.multivariate_normal.pdf(obs_t, xt_rvs, self.R(zt_rvs, obs_t))
 
         # 3. Resampling
         pi = random.choice(key_reindex, indices,
