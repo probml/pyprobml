@@ -18,13 +18,20 @@ python3 pyprobml/scripts/softmax_plot.py
 This will clone the repo (without the version history, to save time/space), run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
 
 Many scripts **require packages to be installed**; in some cases, the list of necessary packages is noted in the comments at the start of the file.
-However, an easier way is to  just add `import superimport`  to the top of your script --- the [superimport](https://github.com/probml/pyprobml/blob/master/scripts/superimport.py) library will automagically pip install all necessary packages on your local machine (or colab instance). For an example of this, see [student_pgm.py](https://github.com/probml/pyprobml/blob/master/scripts/student_pgm.py);
+However, an easier way is to  first type
+```
+pip install superimport
+```
+on your local machine (or colab instance), and then add `import superimport`  to the top of each of your scripts.
+The [superimport](https://github.com/probml/superimport) library will parse your file, figure out all missing packages, and then install them for you,
+before running the rest of the script as usual. (If you run the script a second time, it skips the installation step.)
+For an example of this, see [student_pgm.py](https://github.com/probml/pyprobml/blob/master/scripts/student_pgm.py);
 if you type
 `
 python3 pyprobml/scripts/student_pgm.py
 `
 it will detect that the [pgmpy](https://pgmpy.org/) library is missing from your path, install it,
-and then run the script. (If you run the script a second time, it skips the installation step.)
+and then run the script. 
 
 Some scripts download datasets stored in the [probml-data repo](https://github.com/probml/probml-data).
 Thus you will need an internet connection to run the code.
