@@ -28,12 +28,31 @@ class NLDS:
     def __init__(self, fz, fx, Q, R):
         self.fz = fz
         self.fx = fx
-        self.Q = Q
-        self.R = R
-        self.state_size, _ = Q.shape
-        self.obs_size, _ = R.shape
+        self.__Q = Q
+        self.__R = R
+    
+    def Q(self, z):
+        if callable(self.__Q):
+            return self.__Q(z)
+        else:
+            return self.__Q
+    
+    def R(self, *args):
+        if callable(self.__R):
+            return self.__R(*args)
+        else:
+            return self.__R
+    
+    def __sample_step(self, input_vals, obs):
+        key, state_t = input_vals
+        key_system, key_obs, key = random.split(key, 3)
 
-    def sample(self, key, x0, nsteps):
+        state_t = random.multivariate_normal(key_system, self.fz(state_t), self.Q(state_t))
+        obs_t = random.multivariate_normal(key_obs, self.fx(state_t, *obs), self.R(*obs))
+
+        return (key, state_t), (state_t, obs_t)
+
+    def sample(self, key, x0, nsteps, obs=None):
         """
         Sample discrete elements of a nonlinear system
 
@@ -44,6 +63,8 @@ class NLDS:
             Initial state of simulation
         nsteps: int
             Total number of steps to sample from the system
+        obs: None, tuple of arrays
+            Observed values to pass to fx and R
 
         Returns
         -------
@@ -52,25 +73,15 @@ class NLDS:
         * array(nsamples, obs_size)
             Observed-space values
         """
-        key, key_system_noise, key_obs_noise = random.split(key, 3)
-
-        state_hist = jnp.zeros((nsteps, self.state_size))
-        obs_hist = jnp.zeros((nsteps, self.obs_size))
-
+        obs = () if obs is None else obs
         state_t = x0.copy()
         obs_t = self.fx(state_t)
 
-        state_noise = random.multivariate_normal(key_system_noise, jnp.zeros((self.state_size,)), self.Q, (nsteps,))
-        obs_noise = random.multivariate_normal(key_obs_noise, jnp.zeros((self.obs_size,)), self.R, (nsteps,))
-        state_hist = index_update(state_hist, 0, state_t)
-        obs_hist = index_update(obs_hist, 0, obs_t)
+        self.state_size, *_ = state_t.shape
+        self.obs_t, *_ = obs_t.shape
 
-        for t in range(1, nsteps):
-            state_t = self.fz(state_t) + state_noise[t]
-            obs_t = self.fx(state_t) + obs_noise[t]
-
-            state_hist = index_update(state_hist, t, state_t)
-            obs_hist = index_update(obs_hist, t, obs_t)
+        init_state = (key, state_t)
+        _, (state_hist, obs_hist) = jax.lax.scan(self.__sample_step, init_state, obs, length=nsteps)
         
         return state_hist, obs_hist
 
