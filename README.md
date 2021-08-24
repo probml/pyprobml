@@ -17,12 +17,13 @@ python3 pyprobml/scripts/softmax_plot.py
 ```
 This will clone the repo (without the version history, to save time/space), run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
 
-Many scripts **require packages to be installed**; in some cases, the list of necessary packages is noted in the comments at the start of the file.
-However, an easier way is to  first type
+Many scripts rely on external packages, such as scipy, jax, etc.
+In some cases, the list of necessary packages is noted in the comments at the start of the file.
+However, rather than making the user install each dependency themselves, you can just install a single meta-package:
 ```
 pip install superimport
 ```
-on your local machine (or colab instance), and then add `import superimport`  to the top of each of your scripts.
+This needs to be done on your local machine (or once per colab instance). You then need to add `import superimport`  to the top of each of your scripts.
 The [superimport](https://github.com/probml/superimport) library will parse your file, figure out all missing packages, and then install them for you,
 before running the rest of the script as usual. (If you run the script a second time, it skips the installation step.)
 For an example of this, see [student_pgm.py](https://github.com/probml/pyprobml/blob/master/scripts/student_pgm.py);
@@ -31,7 +32,7 @@ if you type
 python3 pyprobml/scripts/student_pgm.py
 `
 it will detect that the [pgmpy](https://pgmpy.org/) library is missing from your path, install it,
-and then run the script. 
+and then run the script. Thus you will need an internet connection to run the code.
 
 Some scripts download datasets stored in the [probml-data repo](https://github.com/probml/probml-data).
 Thus you will need an internet connection to run the code.
@@ -44,10 +45,22 @@ The scripts needed to make all the figures for each chapter are automatically co
 
 In addition to the automatically generated notebooks, there are a series of manually created notebooks, which create additional figures, and provide supplementary material for the book. These are stored in the [notebooks repo](https://github.com/probml/probml-notebooks), since they can be quite large. Some of these notebooks use the scripts mentioned above, but others are independent of the book content.
 
+
+
 ## Colab, GCP, TPUs, and all that
 
 When you open a Jupyter notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/probml-notebooks/blob/main/markdown/colab_gcp_tpu_tutorial.md) with more information.
 
+Colab has many ML-related packages already installed, but not all. We use superimport, mentioned above, to automatically install the missing ones.
+One wrinkle arises if you try to run multiple scripts inside a single colab session (e.g., using `%run foo.py` and then `%run bar.py`). Because of python 
+optimizations, it will only call
+superimport the first time, so it will work on `foo` but fail on `bar`.
+To force it to call superimport for each script, you need to unimport the superimport symbol before running the script, like this:
+```
+from superimport import unimport
+unimport(module="superimport")
+%run myscript.py
+```
 
 ## Viewing the source code
 
