@@ -122,3 +122,4 @@ print(w_eekf, end="\n"*2)
 print("Laplace weights")
 print(w_laplace, end="\n"*2)
 plt.show()
+
