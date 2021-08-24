@@ -1,6 +1,8 @@
 #  Solving  linear systems
 
 
+import superimport
+
 import numpy as np
 from scipy import linalg
 from itertools import combinations

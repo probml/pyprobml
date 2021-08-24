@@ -1,5 +1,7 @@
 # Bar graphs showing a uniform discrete distribution and another with full prob on one value.
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

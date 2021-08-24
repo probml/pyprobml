@@ -4,6 +4,8 @@
 # Used to find a common typo in my notes: a repeated word.
 # Vim spell checker sometimes highlights, but not always.
 
+import superimport
+
 import fileinput
 import sys
 import re

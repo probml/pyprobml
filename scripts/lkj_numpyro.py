@@ -4,6 +4,8 @@
 # The numpyro code is from [Du Phan's site]
 #https://fehiepsi.github.io/rethinking-numpyro/14-adventures-in-covariance.html
 
+import superimport
+
 import numpy as np
 np.set_printoptions(precision=3)
 import matplotlib.pyplot as plt

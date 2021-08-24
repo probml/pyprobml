@@ -2,6 +2,8 @@
 # Based on 
 # https://github.com/ageron/handson-ml2/blob/master/17_autoencoders_and_gans.ipynb
 
+import superimport
+
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt

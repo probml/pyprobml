@@ -3,6 +3,8 @@
 # Each of the missiles is then filtered and smoothed in parallel
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax.numpy as jnp
 import lds_lib as lds
 import matplotlib.pyplot as plt

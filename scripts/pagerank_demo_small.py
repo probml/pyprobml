@@ -5,6 +5,8 @@ Author: Cleve Moler, Aleyna Kara
 This file is converted to Python from https://github.com/probml/pmtk3/blob/master/demos/pagerankDemoPmtk.m
 '''
 
+import superimport
+
 import numpy as np
 from pagerank_power_method_sparse import pagerank_power_method_sparse
 import matplotlib.pyplot as plt

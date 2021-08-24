@@ -1,6 +1,8 @@
 # Mostly copied from:
 # https://github.com/mattjj/svae/blob/master/experiments/gmm_svae_synth.py
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

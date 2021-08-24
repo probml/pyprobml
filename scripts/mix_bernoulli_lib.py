@@ -1,6 +1,8 @@
 # Implementation of Bernoulli Mixture Model
 # Author : Aleyna Kara(@karalleyna)
 
+import superimport
+
 import jax.numpy as jnp
 from jax import vmap, jit, value_and_grad
 from jax.random import PRNGKey, uniform, split, permutation

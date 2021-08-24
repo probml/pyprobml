@@ -3,6 +3,8 @@ Fits Bernoulli mixture model for mnist digits using em algorithm
 Author: Meduri Venkata Shivaditya, Aleyna Kara(@karalleyna)
 '''
 
+import superimport
+
 from jax.random import PRNGKey, randint
 import tensorflow as tf
 from mix_bernoulli_lib import BMM

@@ -1,4 +1,6 @@
 #https://pystan.readthedocs.org/en/latest/getting_started.html
+import superimport
+
 import pystan
 import numpy as np
 import matplotlib.pyplot as plt

@@ -3,6 +3,8 @@
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax
 import jax.numpy as jnp
 from math import ceil

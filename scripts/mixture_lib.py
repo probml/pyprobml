@@ -1,6 +1,8 @@
 # Mixture distributions
 # Author Aleyna Kara(@karalleyna)
 
+import superimport
+
 import distrax
 
 import jax

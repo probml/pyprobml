@@ -1,6 +1,8 @@
 # The implementation of Baulm-Welch algorithm for Hidden Markov Models with discrete observations in a stateless way.
 # Author : Aleyna Kara(@karalleyna)
 
+import superimport
+
 from scipy.special import softmax
 import numpy as np
 

@@ -2,6 +2,8 @@
 # Converted by John Fearns - jdf22@infradead.org
 # Wrapped Ledoit-Wolf optimal shrinkage estimator for cov(X)
 
+import superimport
+
 from sklearn.covariance import LedoitWolf
 
 # Returns C, shrinkage, S

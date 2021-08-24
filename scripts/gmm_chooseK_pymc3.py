@@ -1,6 +1,8 @@
 # Gaussian mixture model using PyMC3
 # Based on https://github.com/aloctavodia/BAP/blob/master/code/Chp6/06_mixture_models.ipynb
 
+import superimport
+
 import pymc3 as pm
 import numpy as np
 import scipy.stats as stats

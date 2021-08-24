@@ -1,6 +1,8 @@
 # Convert Neyman-Pearson testing paradigm(Fig 5.15 (a)) to python/JAX
 # Author: Garvit9000c
 
+import superimport
+
 from scipy.stats import multivariate_normal as gaussprob
 import numpy as np
 import matplotlib.pyplot as plt

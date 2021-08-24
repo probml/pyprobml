@@ -2,6 +2,8 @@
 # Converted by John Fearns - jdf22@infradead.org
 # Sequential updating of Sigma in 1d given fixed mean
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm

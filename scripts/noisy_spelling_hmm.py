@@ -7,6 +7,8 @@ and a random letter with prob p3.
 Author : Aleyna Kara (@karalleyna)
 '''
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from hmm_lib import HMMDiscrete

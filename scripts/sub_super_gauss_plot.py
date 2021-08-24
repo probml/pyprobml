@@ -1,3 +1,5 @@
+import superimport
+
 import pyprobml_utils as pml
 import numpy as np
 from scipy.stats import uniform, laplace, norm

@@ -3,6 +3,8 @@
 # Code is from chapter 9 of 
 # https://github.com/ageron/handson-ml2
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm

@@ -2,6 +2,8 @@
 # Plots the posterior and plugin predictives for the Beta-Binomial distribution.
 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

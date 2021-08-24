@@ -8,6 +8,8 @@
 #!wget http://www.bnlearn.com/bnrepository/asia/asia.bif.gz
 #!gzip -qd asia.bif.gz | rm asia.bif.gz
 
+import superimport
+
 from pgmpy.readwrite import BIFReader
 reader = BIFReader('data/asia.bif')
 asia_model = reader.get_model()

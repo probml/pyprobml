@@ -3,6 +3,8 @@
 # A is better than B. Plots true positive rate, (tpr) vs false positive
 # rate, (fpr).
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

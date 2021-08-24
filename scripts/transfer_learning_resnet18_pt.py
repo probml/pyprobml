@@ -4,6 +4,8 @@
 # License: BSD
 # Author: Sasank Chilamkurthy
 
+import superimport
+
 from __future__ import print_function, division
 
 import torch

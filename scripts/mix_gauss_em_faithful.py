@@ -5,6 +5,8 @@ Visualize fitting a mixture of Gaussians by em algorithm to the old faithful dat
 reproduce Bishop fig 9.8
 Author: Gerardo Durán-Martín, Aleyna Kara(@karalleyna)
 '''
+import superimport
+
 import numpy as np
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

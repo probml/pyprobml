@@ -1,4 +1,6 @@
 # Compute 95% CI for a beta distribution
+import superimport
+
 from scipy.stats import beta
 import numpy as np
 np.random.seed(42)

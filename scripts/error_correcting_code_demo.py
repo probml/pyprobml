@@ -4,6 +4,8 @@
 #https://github.com/probml/pmtk3/blob/master/demos/errorCorrectingCodeDemo.m
 
 #!pip install pgmpy
+import superimport
+
 import pyprobml_utils as pml
 import pgmpy_utils as pgm
 from pgmpy.models import BayesianModel

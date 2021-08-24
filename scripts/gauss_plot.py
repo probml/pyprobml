@@ -1,5 +1,7 @@
 # Plot pdf and cdf of standard normal
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

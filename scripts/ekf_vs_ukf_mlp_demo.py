@@ -13,6 +13,8 @@
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax
 import numpy as np
 import nlds_lib as ds

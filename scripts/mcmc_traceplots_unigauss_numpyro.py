@@ -5,6 +5,8 @@
 # https://fehiepsi.github.io/rethinking-numpyro/09-markov-chain-monte-carlo.html
 
 
+import superimport
+
 import numpy as np
 np.set_printoptions(precision=3)
 import matplotlib.pyplot as plt

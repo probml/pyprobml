@@ -3,6 +3,8 @@ This demo shows the parameter estimations of HMMs via Baulm-Welch algorithm on t
 Author : Aleyna Kara(@karalleyna)
 '''
 
+import superimport
+
 import jax.numpy as jnp
 from jax.random import split, PRNGKey, randint
 

@@ -3,6 +3,8 @@
 
 #https://github.com/AmazaspShumik/sklearn-bayes/blob/master/ipython_notebooks_tutorials/linear_models/bayesian_logistic_regression_demo.ipynb
 
+import superimport
+
 #from skbayes.linear_models import EBLogisticRegression,VBLogisticRegression
 from bayes_logistic import EBLogisticRegression, VBLogisticRegression
 

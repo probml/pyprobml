@@ -1,3 +1,5 @@
+import superimport
+
 import numpy as np
 from scipy.stats import multivariate_normal as mvn
 

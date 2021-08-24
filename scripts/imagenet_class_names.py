@@ -1,4 +1,6 @@
 #  load imagenet id to class label mappings
+import superimport
+
 import requests
 
 # readable list here, with synonyms:

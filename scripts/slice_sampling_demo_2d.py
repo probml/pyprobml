@@ -5,6 +5,8 @@ Author : Ang Ming Liang
 This code is based on https://github.com/probml/pmtk3/blob/master/demos/sliceSamplingDemo2d.m
 """
 
+import superimport
+
 import numpy as np
 from scipy.stats import norm
 from scipy.stats import binom

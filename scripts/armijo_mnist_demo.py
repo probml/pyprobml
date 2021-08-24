@@ -3,6 +3,8 @@
 
 # Linesearch code is from
 # https://github.com/IssamLaradji/stochastic_line_search/blob/master/main.py
+import superimport
+
 from armijo_sgd import SGD_Armijo, ArmijoModel
 
 # Neural net code is based on various tutorials

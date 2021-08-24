@@ -1,6 +1,8 @@
 # Test for mixture_general_lib
 # Author : Aleyna Kara(@karalleyna)
 
+import superimport
+
 import jax.numpy as jnp
 import distrax
 from mixture_lib import MixtureSameFamily

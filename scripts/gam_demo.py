@@ -1,5 +1,7 @@
 
 #https://pygam.readthedocs.io/en/latest/notebooks/quick_start.html#
+import superimport
+
 import pygam
 
 from pygam.datasets import wage

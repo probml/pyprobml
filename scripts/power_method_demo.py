@@ -1,5 +1,7 @@
 # Illustrate the powr method for computing largest eigenvector
 
+import superimport
+
 import numpy as np
 from numpy.linalg import norm
 

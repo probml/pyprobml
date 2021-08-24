@@ -1,6 +1,8 @@
 # Convert riskFnGauss(Fig 5.13) to python/JAX
 # Author: Garvit9000c
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

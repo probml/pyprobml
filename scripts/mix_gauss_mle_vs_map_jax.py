@@ -2,6 +2,8 @@
 # Based on: https://github.com/probml/pmtk3/blob/master/demos/mixGaussMLvsMAP.m
 # Author: Gerardo Durán-Martín, Aleyna Kara(@karalleyna)
 
+import superimport
+
 import jax.numpy as jnp
 from jax.random import PRNGKey, split, normal
 from jax import tree_multimap

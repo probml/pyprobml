@@ -2,6 +2,8 @@
 # We show that GD can "blow up" if the initial step size is too large,
 # but proximal methods are robust.
 
+import superimport
+
 import numpy as np
 np.set_printoptions(precision=3)
 import matplotlib.pyplot as plt

@@ -2,6 +2,8 @@
 # Based on: https://github.com/aloctavodia/BAP/blob/master/code/Chp3/03_Modeling%20with%20Linear%20Regressions.ipynb
 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

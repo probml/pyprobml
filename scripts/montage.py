@@ -3,6 +3,8 @@
 # Source 
 #http://www.datawrangling.org/python-montage-code-for-displaying-arrays/
   
+import superimport
+
 from numpy import array,flipud,shape,zeros,rot90,ceil,floor,sqrt
 import matplotlib.pylab as plt
  

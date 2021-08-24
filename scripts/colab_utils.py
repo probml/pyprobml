@@ -1,3 +1,5 @@
+import superimport
+
 import os
 import cv2 # open CV 2
 

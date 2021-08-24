@@ -1,3 +1,5 @@
+import superimport
+
 import numpy as np
 from scipy.special import betaln, betainc
 from scipy.special import logsumexp

@@ -1,3 +1,5 @@
+import superimport
+
 import pyprobml_utils as pml
 
 #!pip install GPy

@@ -22,6 +22,8 @@ Author : Kevin P. Murphy, Cleve Moler, Aleyna Kara
 This file is based on https://github.com/probml/pmtk3/blob/master/demos/pagerankDemo.m
 '''
 
+import superimport
+
 import numpy as np
 from IPython.display import display
 from graphviz import Digraph

@@ -1,6 +1,8 @@
 
 # Logistic regression on the iris flower dataset.
 
+import superimport
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import zero_one_loss
 from sklearn.model_selection import train_test_split

@@ -1,3 +1,5 @@
+import superimport
+
 import numpy as np
 from numpy.random import laplace
 from scipy.stats import multivariate_normal

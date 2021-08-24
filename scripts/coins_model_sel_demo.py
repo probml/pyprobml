@@ -1,3 +1,5 @@
+import superimport
+
 import numpy as np
 from pyprobml_utils import save_fig
 import matplotlib.pyplot as plt

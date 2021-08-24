@@ -2,6 +2,8 @@
 # Author : Aleyna Kara
 # This file is generated from varEMbound.m
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

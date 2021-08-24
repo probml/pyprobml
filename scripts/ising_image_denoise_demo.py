@@ -3,6 +3,8 @@ Author: Ang Ming Liang
 Based on: https://github.com/probml/pmtk3/blob/master/demos/isingImageDenoiseDemo.m
 """
 
+import superimport
+
 import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt

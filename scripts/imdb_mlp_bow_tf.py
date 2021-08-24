@@ -2,6 +2,8 @@
 # Movie review classifier using keras. Based on 
 # https://www.tensorflow.org/tutorials/keras/basic_text_classification
 
+import superimport
+
 from __future__ import absolute_import, division, print_function
 
 import numpy as np

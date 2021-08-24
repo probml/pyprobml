@@ -8,6 +8,8 @@ Created on Tue Oct 27 10:08:08 2020
 
 # Fit logistic regression models to 3 classs 2d data.
 
+import superimport
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.datasets import make_classification

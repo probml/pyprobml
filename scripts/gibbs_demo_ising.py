@@ -4,6 +4,8 @@ Author : Ming Liang Ang
 Based on : https://github.com/probml/pmtk3/blob/master/demos/gibbsDemoIsing.m
 """
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 #from tqdm.notebook import tqdm

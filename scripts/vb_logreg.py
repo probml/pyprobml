@@ -3,6 +3,8 @@
 # Written by Amazasp Shaumyan
 #https://github.com/AmazaspShumik/sklearn-bayes/blob/master/skbayes/linear_models/bayes_logistic.py
 
+import superimport
+
 import numpy as np
 from scipy.optimize import fmin_l_bfgs_b
 from sklearn.utils.optimize import newton_cg

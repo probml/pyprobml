@@ -20,6 +20,8 @@ These are the steps:
     for ridge regression.
 """
 
+import superimport
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

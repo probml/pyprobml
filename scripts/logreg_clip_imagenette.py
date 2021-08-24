@@ -4,6 +4,8 @@ using sklearn and pytorch_lightning
 Author : Srikar-Reddy-Jilugu(@always-newbie161)
 """
 
+import superimport
+
 from clip_dataloader import get_imagenette_clip_loaders
 from argparse import ArgumentParser
 from sklearn.linear_model import LogisticRegression

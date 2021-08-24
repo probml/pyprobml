@@ -3,6 +3,8 @@
 
 #  Author: Gerardo Durán-Martín
 
+import superimport
+
 import gmm_lib
 import numpy as np
 import matplotlib.pyplot as plt

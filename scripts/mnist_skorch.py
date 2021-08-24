@@ -4,6 +4,8 @@
 # Code using skorch and pure pytorch:
 # https://github.com/dnouri/skorch/blob/master/examples/benchmarks/mnist.py
 
+import superimport
+
 import numpy as np
 from time import time
 

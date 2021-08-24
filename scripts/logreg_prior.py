@@ -8,6 +8,8 @@
 # The use of Cauchy priors for logistic regression coefficients is discussed in
 # https://arxiv.org/abs/1507.07170
 
+import superimport
+
 import pyprobml_utils as pml
 import numpy as np
 np.set_printoptions(precision=3)

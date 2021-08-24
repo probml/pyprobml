@@ -3,6 +3,8 @@ code taken from
 https://github.com/ctgk/PRML/blob/master/prml/kernel/relevance_vector_regressor.py
 """
 
+import superimport
+
 import numpy as np
 
 

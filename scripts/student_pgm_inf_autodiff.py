@@ -15,6 +15,8 @@ S   G
 All nodes are binary except G (grade), which has 3 levels.
 """
     
+import superimport
+
 import numpy as np 
 
 

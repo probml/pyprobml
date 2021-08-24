@@ -1,6 +1,8 @@
 #https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson2-sgd.ipynb
 #https://pytorch.org/tutorials/beginner/nn_tutorial.html
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

@@ -4,6 +4,8 @@
 
 # !pip install matplotlib==3.4.2
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import statsmodels.api as sm

@@ -1,6 +1,8 @@
 # Linear regression as a function of training set size
 # Based on https://github.com/probml/pmtk3/blob/master/demos/linregPolyVsN.m
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

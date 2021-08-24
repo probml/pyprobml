@@ -4,6 +4,8 @@
 # Based on 
 #https://github.com/aloctavodia/BAP/blob/master/code/Chp3/03_Modeling%20with%20Linear%20Regressions.ipynb
 
+import superimport
+
 import pymc3 as pm
 import numpy as np
 import scipy.stats as stats

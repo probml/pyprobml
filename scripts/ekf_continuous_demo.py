@@ -6,6 +6,8 @@
 #   * Nonlinear Dynamics and Chaos - Steven Strogatz
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import nlds_lib as ds
 import matplotlib.pyplot as plt 
 import pyprobml_utils as pml
