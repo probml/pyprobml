@@ -1,6 +1,8 @@
 # This file show a demo of showing that MLE(precision matrix) of a ggm
 # satisfies the constraints mentioned in the GGM section of the book.
 
+import superimport
+
 import numpy as np
 from ggm_fit_htf import ggm_fit_htf
 

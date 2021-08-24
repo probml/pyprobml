@@ -1,6 +1,8 @@
 # Load pre-trained ConvVAE model (eg trained in colab)
 # See https://github.com/probml/pyprobml/blob/master/notebooks/lvm/vae_mnist_2d_tf.ipynb for training script
 
+import superimport
+
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt

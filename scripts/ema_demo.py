@@ -3,6 +3,8 @@
 #http://people.duke.edu/~ccc14/sta-663-2019/notebook/S09G_Gradient_Descent_Optimization.html#Smoothing-with-exponentially-weighted-averages
 #http://people.duke.edu/~ccc14/sta-663-2018/notebooks/S09G_Gradient_Descent_Optimization.html
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pyprobml_utils import save_fig

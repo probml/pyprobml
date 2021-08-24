@@ -2,6 +2,8 @@
 # Based on https://github.com/probml/pmtk3/blob/master/demos/bimodalDemo.m
 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

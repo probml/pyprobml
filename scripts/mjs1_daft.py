@@ -1,3 +1,5 @@
+import superimport
+
 import daft
 
 import matplotlib.patches as patches

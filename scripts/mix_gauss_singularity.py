@@ -3,6 +3,8 @@
 
 # Author: Gerardo Durán Martín
 
+import superimport
+
 import numpy as np
 import pyprobml_utils as pml
 from scipy.stats import norm

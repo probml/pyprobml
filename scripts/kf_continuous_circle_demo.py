@@ -7,6 +7,8 @@
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import lds_cts_time_lib as lds
 import matplotlib.pyplot as plt 
 import pyprobml_utils as pml

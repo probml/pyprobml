@@ -3,6 +3,8 @@
 # Based on
 # https://github.com/probml/pmtk3/blob/master/demos/hmmSelfLoopDist.m
 
+import superimport
+
 import pyprobml_utils as pml
 import numpy as np
 import matplotlib.pyplot as plt

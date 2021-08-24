@@ -1,6 +1,8 @@
 # Convert twoPowerCurves(Fig 5.15 (b)) to python/JAX
 # Author: Garvit9000c
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

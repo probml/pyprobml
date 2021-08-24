@@ -7,6 +7,8 @@
 
 # !pip install -q distrax
 
+import superimport
+
 import chex
 import jax
 import distrax

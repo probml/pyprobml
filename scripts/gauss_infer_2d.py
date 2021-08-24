@@ -1,3 +1,5 @@
+import superimport
+
 import numpy as np
 from numpy.linalg import cholesky
 from matplotlib import pyplot as plt

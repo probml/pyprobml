@@ -1,5 +1,7 @@
 # Library of pytorch functions related to convolutional variational autoencoders
 
+import superimport
+
 import os
 import time
 import numpy as np

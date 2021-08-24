@@ -3,6 +3,8 @@
 
 #https://github.com/AmazaspShumik/sklearn-bayes/blob/master/ipython_notebooks_tutorials/rvm_ard/ard_classification_demo.ipynb
 
+import superimport
+
 from ard_linreg_logreg import ClassificationARD
 from ard_vb_linreg_logreg import VBClassificationARD 
 

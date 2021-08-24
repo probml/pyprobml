@@ -3,6 +3,8 @@
 # "Bayesian Modeling and Comptuation In Python"
 # https://github.com/aloctavodia/BMCP/blob/master/Code/chp_3_5/splines.py
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

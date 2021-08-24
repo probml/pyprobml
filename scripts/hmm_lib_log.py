@@ -5,6 +5,8 @@ and operates within the log space.
 Author : Aleyna Kara(@karalleyna)
 '''
 
+import superimport
+
 from jax.random import split
 import jax.numpy as jnp
 from jax import jit, lax, vmap

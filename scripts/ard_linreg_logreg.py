@@ -3,6 +3,8 @@
 
 #https://github.com/AmazaspShumik/sklearn-bayes/blob/master/skbayes/rvm_ard_models/fast_rvm.py
 
+import superimport
+
 import numpy as np
 from sklearn.base import RegressorMixin, BaseEstimator
 #from sklearn.externals import six

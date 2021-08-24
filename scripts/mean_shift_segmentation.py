@@ -2,6 +2,8 @@
 #https://github.com/log0/build-your-own-meanshift/blob/master/Meanshift%20Image%20Segmentation.ipynb
 #http://www.chioka.in/meanshift-algorithm-for-the-rest-of-us-python/
 
+import superimport
+
 import numpy as np
 from sklearn.cluster import MeanShift, estimate_bandwidth
 from sklearn.datasets.samples_generator import make_blobs

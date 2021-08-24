@@ -4,6 +4,8 @@
 # Code modified from    
 # https://github.com/empathy87/The-Elements-of-Statistical-Learning-Python-Notebooks/blob/master/examples/ZIP%20Code.ipynb
 
+import superimport
+
 import pandas as pd
 from matplotlib import transforms, pyplot as plt
 import numpy as np

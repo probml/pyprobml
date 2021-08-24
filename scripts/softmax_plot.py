@@ -1,6 +1,8 @@
 # Plot the softmax function.
 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

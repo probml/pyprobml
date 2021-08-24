@@ -4,6 +4,8 @@ https://github.com/probml/pmtk3/blob/master/demos/svmRegrDemo.m
 This file performs demos for rbf kernel regressors using L1reg, L2reg, SVM, RVM for noisy sine data
 Author: Srikar Reddy Jilugu(@always-newbie161)
 """
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math

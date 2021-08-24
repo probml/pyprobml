@@ -2,6 +2,8 @@
 # Converted by John Fearns - jdf22@infradead.org
 # Demo of the quality of shrinkage estimation of a covariance matrix
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pyprobml_utils import save_fig

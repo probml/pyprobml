@@ -1,6 +1,8 @@
 # Implementation of the Hidden Markov Model for discrete observations
 # Author: Gerardo Duran-Martin (@gerdm), Aleyna Kara (@karalleyna)
 
+import superimport
+
 from dataclasses import dataclass
 
 from numpy.random import seed

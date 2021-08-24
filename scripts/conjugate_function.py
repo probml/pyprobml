@@ -1,6 +1,8 @@
 # Conjugate function Illustration
 # This code is based on https://github.com/probml/pmtk3/blob/master/demos/conjugateFunction.m
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math

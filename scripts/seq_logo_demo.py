@@ -5,6 +5,8 @@
 
 #!pip install logomaker
 
+import superimport
+
 import numpy as np
 import pandas as pd
 import pyprobml_utils as pml

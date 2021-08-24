@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # based on  https://github.com/probml/pmtk3/blob/master/demos/betaHPD.m
 
+import superimport
+
 import seaborn as sns
 import numpy as np
 from scipy.stats import beta

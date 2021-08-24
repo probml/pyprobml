@@ -3,6 +3,8 @@
 # Based on matlab code by Kevin Murphy
 #https://github.com/probml/pmtk3/blob/master/demos/discrimAnalysisDboundariesDemo.m
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os

@@ -2,6 +2,8 @@
 # Training code based on 
 #https://github.com/scikit-learn/scikit-learn/blob/master/benchmarks/bench_mnist.py
 
+import superimport
+
 import numpy as np
 from time import time
 

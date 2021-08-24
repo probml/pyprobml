@@ -3,6 +3,8 @@
 # Code is based on 
 # https://github.com/aloctavodia/BAP/blob/master/code/Chp4/04_Generalizing_linear_models.ipynb
 
+import superimport
+
 import pymc3 as pm
 import numpy as np
 import pandas as pd

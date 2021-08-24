@@ -1,5 +1,7 @@
 # Plot theoretical rates of convergence
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

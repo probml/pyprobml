@@ -6,6 +6,8 @@
 #https://github.com/CSCfi/machine-learning-scripts/blob/master/notebooks/pytorch-mnist-mlp.ipynb
 
 
+import superimport
+
 import numpy as np
 np.set_printoptions(precision=3)
 import matplotlib.pyplot as plt

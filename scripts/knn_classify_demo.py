@@ -1,6 +1,8 @@
 
 # KNN classifier applied to 2d dataset with 3 classes
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

@@ -5,6 +5,8 @@ Author : Ang Ming Liang
 This code is based on https://github.com/probml/pmtk3/blob/master/demos/sliceSamplingDemo1d.m
 """
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mcmc_utils import slice_sample

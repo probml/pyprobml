@@ -5,6 +5,8 @@
 
 #!pip install pgmpy
 
+import superimport
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

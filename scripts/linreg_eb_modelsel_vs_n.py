@@ -4,6 +4,8 @@
 # Based on a demo by Zoubin Ghahramani
 # Authors: Duane Rich (@Duane321), Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

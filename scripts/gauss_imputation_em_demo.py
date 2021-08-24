@@ -1,6 +1,8 @@
 # Illustrate imputation of an N*D partially observed data matrix by fitting a Gaussian using EM and then predicting missing entries
 # authors: Drishttii@, murphyk@
 
+import superimport
+
 import pyprobml_utils as pml
 import gauss_utils as gauss
 

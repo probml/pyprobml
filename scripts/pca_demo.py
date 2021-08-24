@@ -1,6 +1,8 @@
 # PCA applied to a 3d dataset projecting to 2d
 # Compare to linear_autoencoder_pca_tf
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os

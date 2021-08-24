@@ -5,6 +5,8 @@ https://github.com/probml/pyprobml/tree/master/notebooks/clip_data_extractor.ipy
 
 Author: Srikar-Reddy-Jilugu(@always-newbie161)
 """
+import superimport
+
 import torch
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms

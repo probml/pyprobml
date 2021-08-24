@@ -2,6 +2,8 @@
 # Based on fig 11.3 of
 # [Statistical Rethinking ed 2](https://xcelab.net/rm/statistical-rethinking/).
 
+import superimport
+
 import pyprobml_utils as pml
 import numpy as np
 np.set_printoptions(precision=3)

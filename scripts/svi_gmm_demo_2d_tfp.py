@@ -2,6 +2,8 @@
 # https://github.com/brendanhasz/svi-gaussian-mixture-model/blob/master/BayesianGaussianMixtureModel.ipynb
 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns

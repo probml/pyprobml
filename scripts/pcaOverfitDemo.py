@@ -6,6 +6,8 @@
 # Screeplot and fraction of variance explained
 # likelihood of PCA model shows “knee” or “elbow” in the curve
 
+import superimport
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA

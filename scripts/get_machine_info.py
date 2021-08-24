@@ -1,5 +1,7 @@
 
 
+import superimport
+
 import subprocess
 result = subprocess.run(['nvidia-smi'], stdout=subprocess.PIPE)
 print('GPU info')

@@ -1,6 +1,8 @@
 # Desmonstrate automatic differentiaiton on binary logistic regression
 # using JAX, Torch and TF
 
+import superimport
+
 import numpy as np
 #from scipy.misc import logsumexp
 from scipy.special import logsumexp

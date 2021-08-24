@@ -3,6 +3,8 @@ Implementation of Gaussian Mixture Models.
 Author : Aleyna Kara(@karalleyna)
 '''
 
+import superimport
+
 import jax.numpy as jnp
 from jax import vmap, value_and_grad, jit
 from jax.lax import scan

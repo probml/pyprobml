@@ -10,6 +10,8 @@
 #   https://github.com/probml/pyprobml/blob/master/book/gauss_height_weight_plot.py
 
 
+import superimport
+
 import numpy as np
 import scipy.io
 import matplotlib.pyplot as plt

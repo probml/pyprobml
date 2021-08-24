@@ -2,6 +2,8 @@
 
 # Plot the full L2 regularization path for the prostate data set
 
+import superimport
+
 from sklearn import linear_model
 import numpy as np
 import matplotlib.pyplot as plt

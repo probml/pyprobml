@@ -4,6 +4,8 @@
 # https://brendanhasz.github.io/2019/07/23/bayesian-density-net.html
 
 
+import superimport
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function

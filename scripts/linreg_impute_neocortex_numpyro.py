@@ -1,5 +1,7 @@
 # This file shows a demo implimentation of bayesian imputation for
 # neocortex data
+import superimport
+
 import math
 import numpy as np
 import pandas as pd

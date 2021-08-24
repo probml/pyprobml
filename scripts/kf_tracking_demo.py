@@ -1,6 +1,8 @@
 # This script produces an illustration of Kalman filtering and smoothing
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from jax import random

@@ -7,6 +7,8 @@ https://gitlab.inria.fr/thoth/spams-devel
 (Can be instaled from PyPi through pip install ...)
 '''
 
+import superimport
+
 import numpy as np
 from spams import trainDL, nmf, displayPatches, im2col_sliding
 from sklearn.decomposition import TruncatedSVD

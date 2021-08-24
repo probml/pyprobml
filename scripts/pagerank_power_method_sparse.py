@@ -2,6 +2,8 @@
 # Author : Cleve Moler, Aleyna Kara
 # This function is the Python implementation of  https://github.com/probml/pmtk3/blob/master/demos/pagerankpow.m
 
+import superimport
+
 import numpy as np
 from scipy.sparse import coo_matrix
 

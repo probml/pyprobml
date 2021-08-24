@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import superimport
+
 from math import floor
 from numpy import arange
 from scipy.stats import gamma

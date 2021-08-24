@@ -1,6 +1,8 @@
 # check gpu
 
 print("\n\n\n\nTest Torch\n\n")
+import superimport
+
 import torch
 print("torch version {}".format(torch.__version__))
 if torch.cuda.is_available():

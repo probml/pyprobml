@@ -1,6 +1,8 @@
 # Linear autoencoder (ie PCA) applied to a 3d dataset projecting to 2d
 #https://github.com/ageron/handson-ml2/blob/master/17_autoencoders_and_gans.ipynb
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os

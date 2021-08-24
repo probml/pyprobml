@@ -6,6 +6,8 @@
 
 
 # Commented out IPython magic to ensure Python compatibility.
+import superimport
+
 import pandas as pd
 from matplotlib import transforms, pyplot as plt
 import numpy as np

@@ -3,6 +3,8 @@
 # V. Kuleshov and P. S. Liang, “Calibrated Structured Prediction,” in NIPS, 2015, pp. 3474–3482 [Online]. 
 #Available: http://papers.nips.cc/paper/5658-calibrated-structured-prediction.pdf
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os

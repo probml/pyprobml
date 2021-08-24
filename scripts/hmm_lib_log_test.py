@@ -4,6 +4,8 @@ in terms of the speed. It also checks whether or not the inference algorithms gi
 Author : Aleyna Kara (@karalleyna)
 '''
 
+import superimport
+
 import time
 
 import jax.numpy as jnp

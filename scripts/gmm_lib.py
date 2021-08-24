@@ -2,6 +2,8 @@
 # To-do: convert library into class
 # Author: Gerardo Durán-Martín
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal

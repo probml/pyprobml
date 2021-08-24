@@ -1,6 +1,8 @@
 # 1d grid approixmation to beta binomial model
 # https://github.com/aloctavodia/BAP
 
+import superimport
+
 import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt

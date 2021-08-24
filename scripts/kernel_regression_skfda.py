@@ -1,3 +1,5 @@
+import superimport
+
 from skfda import preprocessing as pp
 from skfda import FDataGrid
 import math

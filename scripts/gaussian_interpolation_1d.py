@@ -1,5 +1,7 @@
 # Interpolate noise-free observations using a multivariate Gaussiab
 
+import superimport
+
 import numpy as np
 import scipy.sparse
 import matplotlib.pyplot as plt

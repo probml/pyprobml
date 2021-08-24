@@ -4,6 +4,8 @@ Demonstrate automatic differentiaiton on binary logistic regression
 using JAX, Torch and TF
 """
 
+import superimport
+
 import warnings
 
 import tensorflow as tf

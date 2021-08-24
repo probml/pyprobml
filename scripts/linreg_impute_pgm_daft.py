@@ -1,3 +1,5 @@
+import superimport
+
 import daft
 
 # Colors.

@@ -3,6 +3,8 @@
 # https://github.com/d2l-ai/d2l-en/blob/master/chapter_recurrent-neural-networks/lang-model.md
 # D2L sec 8.2
 
+import superimport
+
 import collections
 import re
 import os

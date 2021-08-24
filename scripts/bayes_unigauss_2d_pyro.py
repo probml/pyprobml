@@ -2,6 +2,8 @@
 # https://www.ritchievink.com/blog/2019/06/10/bayesian-inference-how-we-are-able-to-chase-the-posterior/
 # We use the same data and model as in posteriorGrid2d.py
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats

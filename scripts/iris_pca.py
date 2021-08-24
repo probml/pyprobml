@@ -1,5 +1,7 @@
 # Project 4d iris to 3d and 2d usign PCA
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os

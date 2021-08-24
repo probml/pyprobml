@@ -4,6 +4,8 @@
 #The numpyro code is from [Du Phan's site](https://fehiepsi.github.io/rethinking-numpyro/05-the-many-variables-and-the-spurious-waffles.html)
   
 
+import superimport
+
 import pyprobml_utils as pml
    
 import numpy as np

@@ -5,6 +5,8 @@
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax
 import jax.numpy as jnp
 import nlds_lib as ds

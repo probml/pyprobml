@@ -4,6 +4,8 @@
 #!pip install pgmpy
 #!pip install graphviz
 
+import superimport
+
 import pgmpy
 import numpy as np
 import itertools

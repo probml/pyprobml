@@ -10,6 +10,8 @@ Created on Fri Sep  4 12:22:42 2020
 #  This script registers the "turbo" colormap to matplotlib, and the reversed version as "turbo_r"
 #  Reference:  https://ai.googleblog.com/2019/08/turbo-improved-rainbow-colormap-for.html
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

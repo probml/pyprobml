@@ -1,5 +1,7 @@
 # Empirical Bayes for 8 schools
 
+import superimport
+
 import numpy as np
 
 # Data of the Eight Schools Model

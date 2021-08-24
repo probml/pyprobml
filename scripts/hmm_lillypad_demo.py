@@ -3,6 +3,8 @@
 
 # Author: Gerardo Durán-Martín (@gerdm), Aleyna Kara(@karalleyna)
 
+import superimport
+
 import logging
 logging.getLogger('absl').setLevel(logging.CRITICAL)
 

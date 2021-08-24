@@ -1,6 +1,8 @@
 # This file shows demo of robust prior(using cauchy prior)
 # This code is based on https://github.com/probml/pmtk3/blob/master/demos/robustPriorDemo.m
 
+import superimport
+
 import numpy as np
 import math
 from scipy.stats import norm, cauchy

@@ -1,6 +1,8 @@
 # Bootstrap demo for the MLE for a Bernoulli
 # Author: Animesh Gupta
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

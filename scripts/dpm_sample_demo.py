@@ -1,6 +1,8 @@
 # Sample from a DP mixture of 2D Gaussians
 # Converted from https://github.com/probml/pmtk3/blob/master/demos/dpmSampleDemo.m
 
+import superimport
+
 import pyprobml_utils as pml
 
 import numpy as np

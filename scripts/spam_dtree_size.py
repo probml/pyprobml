@@ -4,6 +4,8 @@
 
 #https://github.com/empathy87/The-Elements-of-Statistical-Learning-Python-Notebooks/blob/master/examples/Spam.ipynb
 
+import superimport
+
 from one_standard_error_rule_model import OneStandardErrorRuleModel
 from sklearn import tree
 

@@ -3,6 +3,8 @@
 # Author: Jake Vanderplas -- <vanderplas@astro.washington.edu>
 # Modified by Kevin Murphy
 
+import superimport
+
 from collections import OrderedDict
 from functools import partial
 from time import time

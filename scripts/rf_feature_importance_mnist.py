@@ -1,3 +1,5 @@
+import superimport
+
 # feature importance using random forests  on ,mnist
 # Based on https://github.com/ageron/handson-ml2/blob/master/06_decision_trees.ipynb
 

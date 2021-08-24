@@ -1,6 +1,8 @@
 # Common functions that can be used for any hidden markov model type.
 # Author: Aleyna Kara(@karalleyna)
 
+import superimport
+
 from jax import vmap, jit
 from jax.random import split, randint, PRNGKey, permutation
 from functools import partial

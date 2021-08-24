@@ -3,6 +3,8 @@
 # http://www.pitt.edu/~naraehan/presentation/Movie+Reviews+sentiment+analysis+with+Scikit-Learn.html
 # https://medium.com/@cristhianboujon/how-to-list-the-most-common-words-from-text-corpus-using-scikit-learn-dad4d0cab41d
 
+import superimport
+
 import numpy as np
 from numpy.testing import assert_allclose
 

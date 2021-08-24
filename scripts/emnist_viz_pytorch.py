@@ -2,6 +2,8 @@
 
 # https://pytorch.org/tutorials/beginner/basics/data_tutorial.html
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

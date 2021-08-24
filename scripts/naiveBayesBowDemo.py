@@ -12,6 +12,8 @@ Original file is located at
 # %cd -q /pyprobml/scripts
 
 # authors: ashishpapanai, animesh-007 
+import superimport
+
 import scipy
 import scipy.io as sio
 import numpy as np

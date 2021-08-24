@@ -2,6 +2,8 @@
 # Converted by John Fearns - jdf22@infradead.org
 # Compare some Normal Inverse Chi Squared Distributions
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm

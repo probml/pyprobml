@@ -5,6 +5,8 @@
 # > pip install -Uq tfp-nightly[jax] > /dev/null
 # Author: Gerardo Duran-Martin (@gerdm)
 
+import superimport
+
 import numpy as np
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

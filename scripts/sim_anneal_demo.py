@@ -3,6 +3,8 @@
 # https://scicomp.stackexchange.com/questions/33325/can-i-solve-a-model-in-gekko-with-black-box-simulated-annealing-or-ga-solvers
 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import random

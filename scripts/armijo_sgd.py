@@ -1,5 +1,7 @@
 #https://github.com/IssamLaradji/stochastic_line_search/blob/master/sgd_armijo.py
 
+import superimport
+
 import torch
 import copy
 import torch.nn as nn

@@ -8,6 +8,8 @@ Created on Tue Oct 27 10:08:08 2020
 
 # Fit logistic regression models to 2d data using polynomial features
 
+import superimport
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.datasets import make_classification, make_blobs

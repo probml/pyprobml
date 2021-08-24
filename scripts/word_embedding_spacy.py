@@ -7,6 +7,8 @@
 # Then run the command below to get a word embedding model (medium sized)
 # python -m spacy download en_core_web_md
 
+import superimport
+
 import spacy
 import numpy as np
 import pandas as pd

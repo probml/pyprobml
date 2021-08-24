@@ -3,6 +3,8 @@
 # https://github.com/krasserm/bayesian-machine-learning/blob/dev/bayesian-optimization/bayesian_optimization.ipynb
 
 
+import superimport
+
 import numpy as np
 from bayes_opt_utils import BayesianOptimizer, MultiRestartGradientOptimizer, expected_improvement
 

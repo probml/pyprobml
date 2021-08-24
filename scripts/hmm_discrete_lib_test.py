@@ -4,6 +4,8 @@ Also, checks whether or not they give the same result.
 Author : Aleyna Kara (@karalleyna)
 '''
 
+import superimport
+
 import time
 
 import jax.numpy as jnp
