@@ -1,7 +1,7 @@
 # How to Contribute
 Kevin Murphy and Mahmoud Soliman. 
 
-**Last updated: 2021-08-03.**
+**Last updated: 2021-08-24.**
 
 
 We'd love to accept your patches and contributions to this project.
@@ -14,7 +14,7 @@ Contributions to this project means that the contributors agree to releasing the
 
 ## Guidelines
 
-Please follow the guidelines below when submitting code to [pyprobml](https://github.com/probml/pyprobml). In general, your commit should be in response to an open issue. Most of these issues currently concern converting legacy Matlab code to Python. In the future, we may create new issues related to converting Tensorflow or PyTorch code to JAX. 
+Please follow the guidelines below when submitting code to [pyprobml](https://github.com/probml/pyprobml). In general, your commit should be in response to an open issue. If you want to add something new, please open an issue first. 
 
 ### Github guidelines
 
@@ -28,20 +28,17 @@ Please follow the guidelines below when submitting code to [pyprobml](https://gi
 ### Testing your code in colab
 
 Make sure your code works properly in Google's Colab. (It is not sufficient for it to work on your local machine). 
-To run in colab, the first cell should contain the following boilerplate code, that clones the repo.
+
+The first cell should contain the following boilerplate code, that installs superimport (which will automatically install missing packages),
+and then clones the pyprobml repo.
 ```python
+!pip install superimport -qqq
+from superimport import unimport
 !git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
 %cd -q /pyprobml/scripts
 ```
-Or you can just import the main utils library, which is a bit faster
-```python
-!mkdir figures
-!mkdir scripts
-%cd /content/scripts
-!wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/pyprobml_utils.py
-import pyprobml_utils as pml
-```
-Then you can load and run your code following this idiom:
+
+You can edit your sourcecode in a colab editor following this idiom:
 ```python
 %load_ext autoreload
 %autoreload 2
@@ -49,14 +46,16 @@ file = 'kalman_tracking_demo.py' # change this filename as needed
 !touch $file # create  file if necessary
 from google.colab import files
 files.view(file) # open editor
-%run $file  
 ```
-If you are using numpyro and want to do MCMC runs in parallel, add this cell to colab
+
+You can run your code following this idiom:
 ```
-import os
-os.environ["XLA_FLAGS"] = "--xla_force_host_platform_device_count=4" # use 2 for regular colab, 4 for high memory (colab pro)
+unimport(module="superimport")
+file = 'kalman_tracking_demo.py' # change this filename as needed
+%run $file
 ```
-When your code all works, it is generally best to just check in the scripts, not the notebook itself (unless you are creating a big tutorial with lots of text and pictures).
+
+When your code all works, make a pull request containing your scripts. Do not check in the notebook itself (unless you are creating a big tutorial with lots of text and pictures, in which case you should open a PR on https://github.com/probml/probml-notebooks).
 
 ### Coding guidelines
 - Your script file should import any libraries it needs.
