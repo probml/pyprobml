@@ -24,15 +24,10 @@ However, rather than making the user install each dependency themselves, you can
 pip install superimport
 ```
 This needs to be done on your local machine (or once per colab instance). You then need to add `import superimport`  to the top of each of your scripts.
-The [superimport](https://github.com/probml/superimport) library will parse your file, figure out all missing packages, and then install them for you,
+The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
+library will parse your file, figure out all missing packages, and then install them for you,
 before running the rest of the script as usual. (If you run the script a second time, it skips the installation step.)
-For an example of this, see [student_pgm.py](https://github.com/probml/pyprobml/blob/master/scripts/student_pgm.py);
-if you type
-`
-python3 pyprobml/scripts/student_pgm.py
-`
-it will detect that the [pgmpy](https://pgmpy.org/) library is missing from your path, install it,
-and then run the script. Thus you will need an internet connection to run the code.
+Thus you will need an internet connection to run the code.
 
 Some scripts download datasets stored in the [probml-data repo](https://github.com/probml/probml-data).
 Thus you will need an internet connection to run the code.
