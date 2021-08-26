@@ -19,7 +19,9 @@ import pyprobml_utils as pml
 from rvm_classifier import RVC # Core implementation.
 from sklearn.datasets import make_moons
 
-if 0:
+use_bishop = False
+
+if use_bishop:
     # loading bishop data from a mat file.
     data = {}
     with h5py.File('../data/bishop2class.mat', 'r') as f:
