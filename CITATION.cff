@@ -8,8 +8,8 @@ authors:
     family-names: Mahmoud
     given-names: Soliman
   -
-    family-names: "Duran-Martin	"
-    given-names: "Gerardo "
+    family-names: "Duran-Martin"
+    given-names: "Gerardo"
   -
     family-names: Kara
     given-names: Aleyna
@@ -19,6 +19,9 @@ authors:
   -
     family-names: Reddy
     given-names: Srikar
+  -
+    family-names: Patel
+    given-names: Drishti
 cff-version: "1.1.0"
 date-released: 2021-08-25
 message: "If you use this software, please cite it using these metadata."
