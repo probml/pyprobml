@@ -17,26 +17,24 @@ from sklearn.model_selection import cross_val_score
 from sklearn.kernel_approximation import RBFSampler
 import pyprobml_utils as pml
 from rvm_classifier import RVC # Core implementation.
-
-
-# loading bishop data from a mat file.
-data = {}
-with h5py.File('../data/bishop2class.mat', 'r') as f:
-    for name, d in f.items():
-        data[name] = np.array(d)
-# data['X'] is (2,200), data['Y'] is (1,200)
+from sklearn.datasets import make_moons
 
 if 0:
-    url = 'https://github.com/probml/probml-data/blob/main/data/bishop2class.mat?raw=true'
-    r = requests.get(url, allow_redirects=True)
-    rawdata = BytesIO(r.content)
-    data2 = loadmat(rawdata)
+    # loading bishop data from a mat file.
+    data = {}
+    with h5py.File('../data/bishop2class.mat', 'r') as f:
+        for name, d in f.items():
+            data[name] = np.array(d)
+    # data['X'] is (2,200), data['Y'] is (1,200)
 
 
-X = data['X'].transpose()
-Y = data['Y']
-y = Y.flatten()
-y = y - 1  # changing to {0,1}
+    X = data['X'].transpose()
+    Y = data['Y']
+    y = Y.flatten()
+    y = y - 1  # changing to {0,1}
+
+else:
+    X, y = make_moons(n_samples=200, noise=0.3, random_state=0)
 
 # Feature Mapping X to rbf_features to simulate non-linear logreg using linear ones.
 rbf_feature = RBFSampler(gamma=0.3, random_state=1)
@@ -80,6 +78,7 @@ def plot_scatters(X, y):
 def plot_SVs(SV):
     plt.scatter(SV[:, 0], SV[:, 1], s=100, facecolor="none", edgecolor="green")
 
+levels = [0.5] # np.linspace(0, 1, 5)
 
 for (name, clf) in classifiers.items():
 
@@ -88,17 +87,16 @@ for (name, clf) in classifiers.items():
         Z = clf.predict_proba(rbf_feature.fit_transform(np.c_[xx.ravel(), yy.ravel()]))
         Z = Z[:, 0].reshape(xx.shape)
         plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X_rbf))))
-        plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['black', 'w'])
+        plt.contour(xx, yy, Z, levels, colors=['black', 'w'])
         plot_scatters(X, y)
         pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
-
     elif name == 'logregL1':
         clf.fit(X_rbf, y)
         Z = clf.predict_proba(rbf_feature.fit_transform(np.c_[xx.ravel(), yy.ravel()]))
         Z = Z[:, 0].reshape(xx.shape)
         plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X_rbf))))
-        plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['w','black', 'w'])
+        plt.contour(xx, yy, Z, levels, colors=['w','black', 'w'])
         plot_scatters(X, y)
         conf_scores = np.abs(clf.decision_function(X_rbf))
         SV = X[(conf_scores > conf_scores.mean())]  # samples having a higher confidence scores are taken as support vectors.
@@ -110,7 +108,7 @@ for (name, clf) in classifiers.items():
         Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])
         Z = Z.reshape(xx.shape)
         plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X))))
-        plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['black', 'w'])
+        plt.contour(xx, yy, Z, levels, colors=['black', 'w'])
         plot_scatters(X, y)
         plot_SVs(clf.relevance_vectors_)
         pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
