@@ -39,8 +39,6 @@ def draw_ell(ax, cov, xy, color):
     e.set_edgecolor(color)
 
 
-#datadir = os.path.join("../data", "heightWeight")
-#dataAll = scipy.io.loadmat(os.path.join(datadir, "heightWeight.mat"))
 data = dataAll['heightWeightData']
 
 y_vec = data[:, 0]            # 1=male, 2=female

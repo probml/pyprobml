@@ -6,6 +6,10 @@ import superimport
 
 import numpy as np
 import h5py
+import requests
+from io import BytesIO
+from scipy.io import loadmat
+
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
@@ -20,6 +24,14 @@ data = {}
 with h5py.File('../data/bishop2class.mat', 'r') as f:
     for name, d in f.items():
         data[name] = np.array(d)
+# data['X'] is (2,200), data['Y'] is (1,200)
+
+if 0:
+    url = 'https://github.com/probml/probml-data/blob/main/data/bishop2class.mat?raw=true'
+    r = requests.get(url, allow_redirects=True)
+    rawdata = BytesIO(r.content)
+    data2 = loadmat(rawdata)
+
 
 X = data['X'].transpose()
 Y = data['Y']
@@ -78,7 +90,7 @@ for (name, clf) in classifiers.items():
         plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X_rbf))))
         plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['black', 'w'])
         plot_scatters(X, y)
-        pml.save_fig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
 
     elif name == 'logregL1':
@@ -91,7 +103,7 @@ for (name, clf) in classifiers.items():
         conf_scores = np.abs(clf.decision_function(X_rbf))
         SV = X[(conf_scores > conf_scores.mean())]  # samples having a higher confidence scores are taken as support vectors.
         plot_SVs(SV)
-        pml.save_fig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
     elif name == 'RVM':
         clf.fit(X, y)
@@ -101,7 +113,7 @@ for (name, clf) in classifiers.items():
         plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['black', 'w'])
         plot_scatters(X, y)
         plot_SVs(clf.relevance_vectors_)
-        pml.save_fig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
     elif name == 'SVM':
         clf.fit(X, y)
@@ -112,5 +124,5 @@ for (name, clf) in classifiers.items():
         plt.contour(xx, yy, Z, colors=['w', 'w', 'w', 'black'])
         plot_scatters(X, y)
         plot_SVs(clf.support_vectors_)
-        pml.save_fig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()

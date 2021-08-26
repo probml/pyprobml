@@ -19,6 +19,13 @@ url = 'https://github.com/probml/probml-data/blob/main/data/vowelTrain.mat?raw=t
 r = requests.get(url, allow_redirects=True)
 rawdata = BytesIO(r.content)
 
+data = loadmat(rawdata)
+X = data['Xtrain']
+y = data['ytrain']
+nsamples, ndims = X.shape
+nclasses = np.max(y)
+
+
 def plot_projection_data(X, y, mu, nclasses, figure_num):
     """
     2d data is visualized with their respective symbol and color
@@ -49,14 +56,12 @@ def plot_projection_data(X, y, mu, nclasses, figure_num):
 
 
 
-data = loadmat(rawdata)
-X = data['Xtrain']
-y = data['ytrain']
-nsamples, ndims = X.shape
-nclasses = np.max(y)
-K = 2
+
 
 # ------------------------
+
+K  = 2
+
 # PCA projection
 
 pca = PCA(K)

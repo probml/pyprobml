@@ -12,13 +12,19 @@ import superimport
 import numpy as np
 from spams import trainDL, nmf, displayPatches, im2col_sliding
 from sklearn.decomposition import TruncatedSVD
-from PIL import Image
-import matplotlib.pyplot as plt
+
 import pyprobml_utils as pml
+
+import matplotlib.pyplot as plt
+from PIL import Image
+import requests
+import io
 
 # dimension of latent space or no .of basis vectors.
 D = 64
-img = Image.open('../data/lena.png')
+r = requests.get('https://github.com/probml/probml-data/blob/main/data/lena.png?raw=true', stream=True)
+img = Image.open(io.BytesIO(r.content))
+
 img = np.array(img) / 255
 # spams accepts only column stored arrays i.e fortran-based
 X = np.asfortranarray(img)

@@ -5,19 +5,15 @@ import re
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import pyprobml_utils as pml
+import requests
 
 
-figdir = "../figures"
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
-    
-data_dir = "../data"
-fname = os.path.join(data_dir, 'timemachine.txt')
-
-with open(fname, 'r') as f:
-    lines = f.readlines()
-    raw_dataset = [re.sub('[^A-Za-z]+', ' ', st).lower().split()
-                   for st in lines]
+url  = 'https://raw.githubusercontent.com/probml/probml-data/main/data/timemachine.txt'
+response = requests.get(url)
+data = response.text
+lines = [s+'\n' for s in response.text.split("\n")]
+raw_dataset = [re.sub('[^A-Za-z]+', ' ', st).lower().split() for st in lines]
 
 # Print first few lines
 for sentence in raw_dataset[:10]:
@@ -109,11 +105,11 @@ def hinton_diagram(matrix, max_weight=None, ax=None):
     
 plt.figure(figsize=(8,8))
 hinton_diagram(bigram_count.T)
-save_fig('bigram-count.pdf')
+pml.savefig('bigram-count.pdf')
 plt.show()
 
 plt.figure(figsize=(8,8))
 hinton_diagram(bigram_prob.T)
-save_fig('bigram-prob.pdf')
+pml.savefig('bigram-prob.pdf')
 plt.show()
 
