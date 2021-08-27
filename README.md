@@ -57,16 +57,6 @@ unimport(module="superimport")
 %run myscript.py
 ```
 
-## Viewing the source code
-
-To browse the code using VScode instead of the github file viewer, you can just replace 
-https://github.com/probml/pyprobml/tree/master/scripts
-with 
-https://github1s.com/probml/pyprobml/tree/master/scripts (see [this tweet](https://twitter.com/hediet_dev/status/1359093978570907648?s=21)).
-The output should look like this:
-
-![](https://github.com/probml/probml-notebooks/raw/main/images/github-vscode-browser.png)
-
 
 
 ## How to contribute
