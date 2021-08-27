@@ -20,14 +20,14 @@ from rvm_classifier import RVC # Core implementation.
 from sklearn.datasets import make_moons
 
 
-X, y = make_moons(n_samples=200, noise=0.3, random_state=0)
+X, y = make_moons(n_samples=200, noise=0.3, random_state=10)
 #X, y = make_moons(n_samples=100, noise=0.15, random_state=42)
 
 
 
 
 # Feature Mapping X to rbf_features to simulate non-linear logreg using linear ones.
-rbf_feature = RBFSampler(gamma=0.3, random_state=1)
+rbf_feature = RBFSampler(gamma=0.3, random_state=1, n_components=100)
 X_rbf = rbf_feature.fit_transform(X)
 
 # Using CV to find SVM regularization parameter.
@@ -86,22 +86,27 @@ for (name, clf) in classifiers.items():
         clf.fit(X_rbf, y)
         Z = clf.predict_proba(rbf_feature.fit_transform(np.c_[xx.ravel(), yy.ravel()]))
         Z = Z[:, 0].reshape(xx.shape)
-        plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X_rbf))))
         plt.contour(xx, yy, Z, levels)
         plot_scatters(X, y)
         conf_scores = np.abs(clf.decision_function(X_rbf))
-        SV = X[(conf_scores > conf_scores.mean())]  # samples having a higher confidence scores are taken as support vectors.
+        SV = X[(conf_scores > conf_scores.mean())]
+        nsupport = SV.shape[0]
+        nerr = np.sum(y != clf.predict(X_rbf))
         plot_SVs(SV)
+        plt.title(f"{name}, nerr={nerr}, nsupport={nsupport}")
         pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
     elif name == 'RVM':
         clf.fit(X, y)
         Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])
         Z = Z.reshape(xx.shape)
-        plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X))))
         plt.contour(xx, yy, Z, levels)
         plot_scatters(X, y)
-        plot_SVs(clf.relevance_vectors_)
+        SV = clf.relevance_vectors_
+        plot_SVs(SV)
+        nsupport = SV.shape[0]
+        nerr = np.sum(y != clf.predict(X))
+        plt.title(f"{name}, nerr={nerr}, nsupport={nsupport}")
         pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
     elif name == 'SVM':
@@ -109,9 +114,12 @@ for (name, clf) in classifiers.items():
         Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])
         Z = Z[:, 0]
         Z = Z.reshape(xx.shape)
-        plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X))))
         plt.contour(xx, yy, Z, levels)
         plot_scatters(X, y)
-        plot_SVs(clf.support_vectors_)
+        SV = clf.support_vectors_
+        plot_SVs(SV)
+        nsupport = SV.shape[0]
+        nerr = np.sum(y != clf.predict(X))
+        plt.title(f"{name}, nerr={nerr}, nsupport={nsupport}")
         pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
