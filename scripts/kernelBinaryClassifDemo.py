@@ -20,27 +20,29 @@ from rvm_classifier import RVC # Core implementation.
 from sklearn.datasets import make_moons
 
 
-X, y = make_moons(n_samples=200, noise=0.3, random_state=10)
+N = 200
+X, y = make_moons(n_samples=N, noise=0.3, random_state=10)
 #X, y = make_moons(n_samples=100, noise=0.15, random_state=42)
 
 
 
 
 # Feature Mapping X to rbf_features to simulate non-linear logreg using linear ones.
-rbf_feature = RBFSampler(gamma=0.3, random_state=1, n_components=100)
+rbf_feature = RBFSampler(gamma=0.3, random_state=1, n_components=N)
 X_rbf = rbf_feature.fit_transform(X)
 
 # Using CV to find SVM regularization parameter.
 C = np.power(2, np.linspace(-5, 5, 10))
 mean_scores = [cross_val_score(SVC(kernel='rbf', gamma=0.3, C=c), X, y, cv=5).mean() for c in C]
 c = C[np.argmax(mean_scores)]
+print('SVM c= ', c)
 
 classifiers = {
-    'logregL2': LogisticRegression(C=0.2, penalty='l2',
+    'logregL2': LogisticRegression(C=c, penalty='l2',
                                    solver='saga',
                                    multi_class='ovr',
                                    max_iter=10000),
-    'logregL1': LogisticRegression(C=1, penalty='l1',
+    'logregL1': LogisticRegression(C=c, penalty='l1',
                                    solver='saga',
                                    multi_class='ovr',
                                    max_iter=10000),
