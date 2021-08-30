@@ -51,9 +51,9 @@ One wrinkle arises if you try to run multiple scripts inside a single colab sess
 optimizations, it will only call
 superimport the first time, so it will work on `foo` but fail on `bar`.
 To force it to call superimport for each script, you need to unimport the superimport symbol before running the script, like this:
-```
-from superimport import unimport
-unimport(module="superimport")
+```python
+from deimport.deimport import deimport
+deimport(superimport)
 %run myscript.py
 ```
 
