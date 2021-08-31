@@ -2,6 +2,7 @@
 
 <img src="https://img.shields.io/github/stars/probml/pyprobml?style=social">
 
+
 Python 3 code for the new book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
 This is work in progress, so expect rough edges.
 
@@ -62,6 +63,13 @@ deimport(superimport)
 ## How to contribute
 
 See [this guide](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) for how to contribute code.
+
+
+## Some stats
+
+[![Stargazers over time](https://starchart.cc/probml/pyprobml.svg)](https://starchart.cc/probml/pyprobml)
+
+
 
 <h2><a id="acknowledgements"></a>Acknowledgements</h2>
 
