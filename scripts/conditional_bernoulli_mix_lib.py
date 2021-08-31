@@ -1,3 +1,6 @@
+# Necessary functions for demo and ClassConditionalBMM
+# Author : Aleyna Kara(@karalleyna)
+
 import jax.numpy as jnp
 from jax import vmap, jit, value_and_grad
 from jax.random import PRNGKey, split, permutation

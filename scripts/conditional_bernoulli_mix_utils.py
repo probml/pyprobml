@@ -1,3 +1,6 @@
+# Necessary functions for demo and ClassConditionalBMM
+# Author : Aleyna Kara(@karalleyna)
+
 import jax
 import jax.numpy as jnp
 from jax.random import PRNGKey, split
