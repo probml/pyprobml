@@ -1,3 +1,7 @@
+# Resolution of a Multi-Armed Bandit problem
+# using Thompson Sampling.
+# Author: Gerardo Durán-Martín (@gerdm)
+
 import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
