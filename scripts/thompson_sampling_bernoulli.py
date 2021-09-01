@@ -52,15 +52,15 @@ bandits_pdf_hist = beta.pdf(p_range[:, None, None], alpha_hist[None, ...], beta_
 
 # Indexed by position
 times = [0, 9, 19, 49, 99, 199]
-fig, ax = plt.subplots(len(times), K, figsize=(13, 10))
-for ax_row, t in zip(ax, times):
-    for k, (axi, color) in enumerate(zip(ax_row, colors)):
+for t in times:
+    for k, color in enumerate(colors):
+        fig, axi = plt.subplots()
         bandit = bandits_pdf_hist[:, t, k]
         axi.plot(p_range, bandit, c=color)
         axi.set_xlim(0, 1)
         n_pos = alpha_hist[t, k].item() - 1
         n_trials = beta_hist[t, k].item() + n_pos - 1
         axi.set_title(f"t={t+1}\np={probs[k]:0.2f}\n{n_pos:.0f}/{n_trials:.0f}")
-plt.tight_layout()
-pml.savefig("thompson_sampling_bernoulli.pdf")
+        pml.savefig(f"thompson_sampling_bernoulli_w{k}_t{t}.pdf")
+        plt.tight_layout()
 plt.show()
