@@ -65,10 +65,14 @@ deimport(superimport)
 See [this guide](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) for how to contribute code.
 
 
-## Some stats
+## Metrics
 
 [![Stargazers over time](https://starchart.cc/probml/pyprobml.svg)](https://starchart.cc/probml/pyprobml)
 
+## GSOC 2021
+
+For a summary of some of the contributions to this codebase during Google Summer of Code 2021,
+see [this link](https://github.com/probml/pml-book/blob/main/gsoc2021.html).
 
 
 <h2><a id="acknowledgements"></a>Acknowledgements</h2>
