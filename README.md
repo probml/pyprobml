@@ -72,7 +72,9 @@ See [this guide](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md)
 ## GSOC 2021
 
 For a summary of some of the contributions to this codebase during Google Summer of Code 2021,
-see [this link](https://github.com/probml/pml-book/blob/main/gsoc2021.html).
+see [this link](https://probml.github.io/pml-book/gsoc2021.html).
+
+
 
 
 <h2><a id="acknowledgements"></a>Acknowledgements</h2>
