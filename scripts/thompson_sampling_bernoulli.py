@@ -11,6 +11,7 @@ from jax.nn import one_hot
 from jax.scipy.stats import beta
 from functools import partial
 
+
 class BetaBernoulliBandits:
     def __init__(self, K):
         self.K = K
@@ -62,39 +63,41 @@ def thompson_sampling_step(model_params, key, model, environment):
     model_params = model.update(action, model_params, reward)
     return model_params, (model_params, action)
 
-T = 200
-key = random.PRNGKey(31415)
-keys = random.split(key, T)
-mean_rewards = jnp.array([0.45, 0.75, 0.5, 0.7])
-K = len(mean_rewards)
-bbbandit = BetaBernoulliBandits(mean_rewards)
-init_params = {"alpha": jnp.ones(K),
-               "beta": jnp.ones(K)}
 
-environment = partial(true_reward, mean_rewards=mean_rewards)
-thompson_partial = partial(thompson_sampling_step,
-                           model=BetaBernoulliBandits(K),
-                           environment=environment)
-posteriors, (hist, actions) = jax.lax.scan(thompson_partial, init_params, keys)
+if __name__ == "__main__":
+    T = 200
+    key = random.PRNGKey(31415)
+    keys = random.split(key, T)
+    mean_rewards = jnp.array([0.45, 0.75, 0.5, 0.7])
+    K = len(mean_rewards)
+    bbbandit = BetaBernoulliBandits(mean_rewards)
+    init_params = {"alpha": jnp.ones(K),
+                "beta": jnp.ones(K)}
+
+    environment = partial(true_reward, mean_rewards=mean_rewards)
+    thompson_partial = partial(thompson_sampling_step,
+                            model=BetaBernoulliBandits(K),
+                            environment=environment)
+    posteriors, (hist, actions) = jax.lax.scan(thompson_partial, init_params, keys)
 
 
-p_range = jnp.linspace(0, 1, 100)
-bandits_pdf_hist = beta.pdf(p_range[:, None, None], hist["alpha"][None, ...], hist["beta"][None, ...])
-colors = ["orange", "blue", "green", "red"]
-colors = [f"tab:{color}" for color in colors]
+    p_range = jnp.linspace(0, 1, 100)
+    bandits_pdf_hist = beta.pdf(p_range[:, None, None], hist["alpha"][None, ...], hist["beta"][None, ...])
+    colors = ["orange", "blue", "green", "red"]
+    colors = [f"tab:{color}" for color in colors]
 
-# Indexed by position
-times = [0, 9, 19, 49, 99, 199]
-for t in times:
-    for k, color in enumerate(colors):
-        fig, axi = plt.subplots()
-        bandit = bandits_pdf_hist[:, t, k]
-        axi.plot(p_range, bandit, c=color)
-        axi.set_xlim(0, 1)
+    # Indexed by position
+    times = [0, 9, 19, 49, 99, 199]
+    for t in times:
+        for k, color in enumerate(colors):
+            fig, axi = plt.subplots()
+            bandit = bandits_pdf_hist[:, t, k]
+            axi.plot(p_range, bandit, c=color)
+            axi.set_xlim(0, 1)
 
-        n_pos = hist["alpha"][t, k].item() - 1
-        n_trials = hist["beta"][t, k].item() + n_pos - 1
-        axi.set_title(f"t={t+1}\np={mean_rewards[k]:0.2f}\n{n_pos:.0f}/{n_trials:.0f}")
-        pml.savefig(f"thompson_sampling_bernoulli_w{k}_t{t+1}.pdf")
-        plt.tight_layout()
-plt.show()
+            n_pos = hist["alpha"][t, k].item() - 1
+            n_trials = hist["beta"][t, k].item() + n_pos - 1
+            axi.set_title(f"t={t+1}\np={mean_rewards[k]:0.2f}\n{n_pos:.0f}/{n_trials:.0f}")
+            pml.savefig(f"thompson_sampling_bernoulli_w{k}_t{t+1}.pdf")
+            plt.tight_layout()
+    plt.show()
