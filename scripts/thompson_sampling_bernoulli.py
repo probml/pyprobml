@@ -10,16 +10,30 @@ from jax import random
 from jax.nn import one_hot
 from jax.scipy.stats import beta
 
+
+class BetaBernoulliBandit:
+    def __init__(self, alpha0, beta0, num_bandits):
+        self.alpha0 = alpha0
+        self.beta0 = beta0
+        self.num_bandits = num_bandits
+    
+    def sample(self, key, alphas, betas):
+        actions = random.beta(key, alphas, betas)
+        return actions
+    
+    def predict_reward(self, actions):
+        rewards = actions.argmax()
+
 def thompson_sampling_step(state, key):
     alphas, betas, reward_per_arm = state
-    keys = key
     K = len(alphas)
+    key_action, key_reward = random.split(key)
     
     # Choose an arm to pull
     # (Sample from the policy distribution)
-    action_t = random.beta(key, alphas, betas).argmax()
+    action_t = random.beta(key_action, alphas, betas).argmax()
     # Pull the arm and observe reward (either 1 or 0)
-    reward = random.bernoulli(key, reward_per_arm[action_t])
+    reward = random.bernoulli(key_reward, reward_per_arm[action_t])
     
     # Update policy distribution
     ind_vector = one_hot(action_t, K)
