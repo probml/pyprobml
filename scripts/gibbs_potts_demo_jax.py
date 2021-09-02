@@ -4,6 +4,8 @@ Author: Ang Ming Liang
 For further explanations refer to the following gist https://gist.github.com/Neoanarika/a339224d24affd7840a30a1064fc16ff
 """
 
+import superimport
+
 import jax
 import jax.numpy as jnp 
 from jax import lax

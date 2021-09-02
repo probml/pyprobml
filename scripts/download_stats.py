@@ -10,6 +10,8 @@ optional args:
 -api_url url can be pointed to any other github repo to get the release stats
 -hourly sleeps for an hour and checks again
 '''
+import superimport
+
 import time
 import requests
 import json

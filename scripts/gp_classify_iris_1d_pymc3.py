@@ -2,6 +2,8 @@
 # Code is based on 
 #https://github.com/aloctavodia/BAP/blob/master/code/Chp7/07_Gaussian%20process.ipynb
 
+import superimport
+
 import pymc3 as pm
 import numpy as np
 import pandas as pd

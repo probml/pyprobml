@@ -2,6 +2,8 @@
 # Rewritten by John Fearns - jdf22@infradead.org
 # A smaller version of Josh Tenenbaum's Number Game
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math

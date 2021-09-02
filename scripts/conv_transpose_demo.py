@@ -1,6 +1,8 @@
 # Demo of transposed convolution in 2d
 # Based on code from https://machinelearningmastery.com/generative_adversarial_networks/
 
+import superimport
+
 import tensorflow as tf
 from numpy import asarray
 from tensorflow.keras.models import Sequential

@@ -2,6 +2,8 @@
 # Code is based on 
 # https://github.com/ageron/handson-ml2/blob/master/05_support_vector_machines.ipynb
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

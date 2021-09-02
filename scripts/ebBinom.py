@@ -8,6 +8,8 @@ See also https://github.com/ericsuh/dirichlet
 
 """
 
+import superimport
+
 import numpy as np
 from scipy.stats import beta
 import matplotlib.pyplot as plt

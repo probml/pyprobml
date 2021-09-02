@@ -1,3 +1,5 @@
+import superimport
+
 import pyprobml_utils as pml
 import matplotlib.pyplot as plt 
 from sklearn.linear_model import LinearRegression

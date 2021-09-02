@@ -1,6 +1,8 @@
 # Anscombe's quartet 
 # Author: Drishtii
 
+import superimport
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

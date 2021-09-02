@@ -1,6 +1,8 @@
 # prior and posterior predctiive for beta binomial
 # fig 1.6 of 'Bayeysian Modeling and Computation'
 
+import superimport
+
 import arviz as az
 import matplotlib.pyplot as plt
 import numpy as np

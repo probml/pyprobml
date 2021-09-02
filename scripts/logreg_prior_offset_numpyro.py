@@ -5,6 +5,8 @@
 # The numpyro code is nased on [Du Phan's site]
 # https://fehiepsi.github.io/rethinking-numpyro/11-god-spiked-the-integers.html
 
+import superimport
+
 import pyprobml_utils as pml
 
 import numpy as np

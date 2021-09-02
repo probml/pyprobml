@@ -17,6 +17,8 @@ rm kaggle.json
 to copy kaggle.json into a folder first 
 """
 
+import superimport
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

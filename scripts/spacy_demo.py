@@ -4,6 +4,8 @@
 # https://nlpforhackers.io/complete-guide-to-spacy/
 
 
+import superimport
+
 import spacy
 
 nlps = spacy.load('en_core_web_sm')

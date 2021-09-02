@@ -1,6 +1,8 @@
 # https://medium.com/tensorflow/regression-with-probabilistic-layers-in-tensorflow-probability-e46ff5d37baf
 
 
+import superimport
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function

@@ -1,9 +1,12 @@
 # Plots various neural net activation functions.
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os
 import pyprobml_utils as pml
+import sys
 
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -42,7 +45,9 @@ def selu(z, scale=scale_0_1, alpha=alpha_0_1):
     return scale * elu(z, alpha)
 
 z = np.linspace(-5, 5, 200)
+print(z)
 # dummy test
+#sys.exit()
 
 #plt.figure(figsize=(11,4))
 plt.figure()

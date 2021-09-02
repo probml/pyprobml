@@ -3,6 +3,8 @@
 #The goal is to reproduce fig 3.7 from Bishop's book.
 #We fit the linear model f(x,w) = w0 + w1*x and plot the posterior over w.
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

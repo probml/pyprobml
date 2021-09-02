@@ -2,6 +2,8 @@
 
 #https://github.com/AmazaspShumik/sklearn-bayes/blob/master/skbayes/rvm_ard_models/vrvm.py
 
+import superimport
+
 import numpy as np
 from sklearn.externals import six
 from scipy.special import expit

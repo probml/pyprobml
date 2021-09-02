@@ -1,5 +1,7 @@
 #https://github.com/tonysyu/mpltools/blob/master/mpltools/special/hinton.py
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import collections

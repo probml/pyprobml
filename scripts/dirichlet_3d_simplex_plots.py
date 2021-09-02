@@ -5,6 +5,8 @@
 # http://blog.bogatron.net/blog/2014/02/02/visualizing-dirichlet-distributions/
 
 
+import superimport
+
 from functools import reduce
 
 import numpy as np

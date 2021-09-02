@@ -60,6 +60,8 @@ Implements inference in a Bayes net using autodiff applied to Z=einsum(factors).
  '''
 
 
+import superimport
+
 import numpy as np # original numpy
 import jax.numpy as jnp
 from jax import grad, jit, vmap

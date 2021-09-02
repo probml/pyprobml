@@ -1,6 +1,8 @@
 # Quadratic lower bounds on the sigmoid (logistic) function
 # Author : Aleyna Kara
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

@@ -2,6 +2,8 @@
 # Author : Aleyna Kara
 # This file is generated from https://github.com/probml/pmtk3/blob/master/demos/newcombPlugin.m
 
+import superimport
+
 import pyprobml_utils as pml
 import numpy as np
 import requests

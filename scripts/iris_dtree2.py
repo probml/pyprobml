@@ -3,6 +3,8 @@
 # https://scikit-learn.org/stable/modules/tree.html
 #https://scikit-learn.org/stable/auto_examples/tree/plot_iris_dtc.html
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

@@ -3,6 +3,8 @@
 # matrix A has imaginary eigenvalues
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax.numpy as jnp
 import lds_lib as lds
 import matplotlib.pyplot as plt

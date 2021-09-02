@@ -1,6 +1,8 @@
 
 # Fit logistic regression models to 3 classs 2d data.
 
+import superimport
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.preprocessing import PolynomialFeatures

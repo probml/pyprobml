@@ -5,6 +5,8 @@ Based on https://github.com/probml/pmtk3/blob/master/demos/prostateComparison.m
 Sourced from https://github.com/empathy87/The-Elements-of-Statistical-Learning-Python-Notebooks/blob/master/examples/Prostate%20Cancer.ipynb
 '''
 
+import superimport
+
 import pyprobml_utils as pml
 import numpy as np
 import matplotlib.pyplot as plt

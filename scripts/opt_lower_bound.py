@@ -1,6 +1,8 @@
 # Lowerbound illustration
 # This file is based on https://github.com/probml/pmtk3/blob/master/demos/optLowerbound.m
 
+import superimport
+
 import numpy as np
 import math
 import matplotlib.pyplot as plt

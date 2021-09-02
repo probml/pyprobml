@@ -18,6 +18,8 @@ from the sklearn.neighbors module, are supervised dimensionality reduction metho
 # License: BSD 3 clause (C) INRIA 2011
 
 figdir = "../figures"
+import superimport
+
 import os
 def save_fig(fname):
     if figdir: plt.savefig(os.path.join(figdir, fname))

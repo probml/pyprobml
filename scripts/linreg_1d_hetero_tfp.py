@@ -2,6 +2,8 @@
 # Adapted from
 # https://colab.sandbox.google.com/github/tensorflow/probability/blob/master/tensorflow_probability/examples/jupyter_notebooks/Probabilistic_Layers_Regression.ipynb#scrollTo=5zCEYpzu7bDX
 
+import superimport
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function

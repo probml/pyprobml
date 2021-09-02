@@ -3,6 +3,8 @@
 # Author:Srikar-Reddy-Jilugu(@always-newbie161)
 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
@@ -16,6 +18,13 @@ from io import BytesIO
 url = 'https://github.com/probml/probml-data/blob/main/data/vowelTrain.mat?raw=true'
 r = requests.get(url, allow_redirects=True)
 rawdata = BytesIO(r.content)
+
+data = loadmat(rawdata)
+X = data['Xtrain']
+y = data['ytrain']
+nsamples, ndims = X.shape
+nclasses = np.max(y)
+
 
 def plot_projection_data(X, y, mu, nclasses, figure_num):
     """
@@ -47,14 +56,12 @@ def plot_projection_data(X, y, mu, nclasses, figure_num):
 
 
 
-data = loadmat(rawdata)
-X = data['Xtrain']
-y = data['ytrain']
-nsamples, ndims = X.shape
-nclasses = np.max(y)
-K = 2
+
 
 # ------------------------
+
+K  = 2
+
 # PCA projection
 
 pca = PCA(K)

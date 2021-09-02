@@ -3,6 +3,8 @@
 # jeffreys prior for bernoulli using 2 paramterizatiobs
 # fig 1.10 of 'Bayeysian Modeling and Computation'
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt 
 import pyprobml_utils as pml

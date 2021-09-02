@@ -1,3 +1,5 @@
+import superimport
+
 from scipy.stats import beta
 
 np.random.seed(42)

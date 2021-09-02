@@ -5,6 +5,8 @@
 #
 #https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_20newsgroups_vectorized.html
 
+import superimport
+
 import numpy as np
 
 categories = ['alt.atheism', 'soc.religion.christian','comp.graphics', 'sci.med']

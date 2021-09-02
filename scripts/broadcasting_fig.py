@@ -3,6 +3,8 @@
 # Adapted from astroML: see http://www.astroml.org/book_figures/appendix/fig_broadcast_visual.html
 
 
+import superimport
+
 #import numpy as np
 import matplotlib.pyplot as plt
 import os

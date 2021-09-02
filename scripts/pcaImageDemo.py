@@ -1,3 +1,5 @@
+import superimport
+
 from numpy.linalg import matrix_rank
 from matplotlib import pyplot as plt
 from sklearn.datasets import fetch_olivetti_faces

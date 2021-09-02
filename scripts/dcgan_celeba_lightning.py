@@ -17,6 +17,8 @@ rm kaggle.json
 to copy kaggle.json into a folder first 
 """
 
+import superimport
+
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import truncnorm

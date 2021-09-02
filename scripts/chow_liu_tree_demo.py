@@ -6,6 +6,8 @@
 #!pip install pgmpy
 
 
+import superimport
+
 import pandas as pd
 from sklearn.datasets import fetch_20newsgroups
 import networkx as nx

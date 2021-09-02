@@ -11,6 +11,8 @@
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax
 from jax._src.random import split
 import jax.numpy as jnp

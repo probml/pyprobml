@@ -2,6 +2,8 @@
 # Code based on
 #https://numpyro.readthedocs.io/en/latest/examples/funnel.html
 
+import superimport
+
 import pyprobml_utils as pml
 
 import matplotlib.pyplot as plt

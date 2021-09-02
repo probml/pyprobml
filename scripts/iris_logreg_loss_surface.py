@@ -2,6 +2,8 @@
 # Loosely based on 
 # https://peterroelants.github.io/posts/neural-network-implementation-part02/
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

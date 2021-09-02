@@ -2,6 +2,8 @@
 #https://gist.github.com/tomquisel/a421235422fdf6b51ec2ccc5e3dee1b4
 # tomquisel
 
+import superimport
+
 import numpy as np
 from sklearn.utils.validation import check_is_fitted
 

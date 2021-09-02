@@ -1,6 +1,8 @@
 # Plot polynomial regression on 1d problem
 # Based on https://github.com/probml/pmtk3/blob/master/demos/linregPolyVsDegree.m
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os

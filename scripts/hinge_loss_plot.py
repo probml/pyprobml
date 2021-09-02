@@ -1,5 +1,7 @@
 # Plots 0-1, hinge and log loss.
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

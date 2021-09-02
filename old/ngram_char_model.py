@@ -1,3 +1,5 @@
+import superimport
+
 import collections
 import re
 import os
@@ -5,10 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import itertools
 import random
+import pyprobml_utils as pml
 
-figdir = "../figures"
-def save_fig(fname):
-    if figdir: plt.savefig(os.path.join(figdir, fname))
     
 data_dir = "../data"
 fname = os.path.join(data_dir, 'timemachine.txt')

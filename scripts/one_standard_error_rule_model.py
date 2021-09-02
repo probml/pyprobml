@@ -1,5 +1,7 @@
 #https://github.com/empathy87/The-Elements-of-Statistical-Learning-Python-Notebooks/blob/master/examples/Spam.ipynb
 
+import superimport
+
 import numpy as np
 from sklearn import tree
 from sklearn.model_selection import GridSearchCV, KFold

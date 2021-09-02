@@ -1,5 +1,7 @@
 
 
+import superimport
+
 import numpy as np
 from scipy import stats
 from pyitlib import discrete_random_variable as drv

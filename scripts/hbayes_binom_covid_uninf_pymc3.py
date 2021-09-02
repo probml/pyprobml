@@ -1,3 +1,5 @@
+import superimport
+
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 import numpy as np

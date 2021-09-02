@@ -1,6 +1,8 @@
 # Implementation of a variational mixture of Gaussians
 # Author: Gerardo Duran-Martin (@gerdm)
 
+import superimport
+
 import jax
 import jax.numpy as jnp
 from jax.scipy import special

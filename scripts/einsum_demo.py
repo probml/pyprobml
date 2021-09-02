@@ -2,6 +2,8 @@
 # https://rockt.github.io/2018/04/30/einsum
 # https://docs.scipy.org/doc/numpy/reference/generated/numpy.einsum.html
 
+import superimport
+
 import numpy as np
 
 np.random.seed(42)

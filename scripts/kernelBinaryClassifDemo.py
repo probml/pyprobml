@@ -2,8 +2,14 @@
 # SVC, RVC.
 # Author Srikar Reddy Jilugu(@always-newbie161)
 
+import superimport
+
 import numpy as np
 import h5py
+import requests
+from io import BytesIO
+from scipy.io import loadmat
+
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
@@ -11,34 +17,32 @@ from sklearn.model_selection import cross_val_score
 from sklearn.kernel_approximation import RBFSampler
 import pyprobml_utils as pml
 from rvm_classifier import RVC # Core implementation.
+from sklearn.datasets import make_moons
 
 
-# loading bishop data from a mat file.
-data = {}
-with h5py.File('../data/bishop2class.mat', 'r') as f:
-    for name, d in f.items():
-        data[name] = np.array(d)
+N = 200
+X, y = make_moons(n_samples=N, noise=0.3, random_state=10)
+#X, y = make_moons(n_samples=100, noise=0.15, random_state=42)
 
-X = data['X'].transpose()
-Y = data['Y']
-y = Y.flatten()
-y = y - 1  # changing to {0,1}
+
+
 
 # Feature Mapping X to rbf_features to simulate non-linear logreg using linear ones.
-rbf_feature = RBFSampler(gamma=0.3, random_state=1)
+rbf_feature = RBFSampler(gamma=0.3, random_state=1, n_components=N)
 X_rbf = rbf_feature.fit_transform(X)
 
 # Using CV to find SVM regularization parameter.
 C = np.power(2, np.linspace(-5, 5, 10))
 mean_scores = [cross_val_score(SVC(kernel='rbf', gamma=0.3, C=c), X, y, cv=5).mean() for c in C]
 c = C[np.argmax(mean_scores)]
+print('SVM c= ', c)
 
 classifiers = {
-    'logregL2': LogisticRegression(C=0.2, penalty='l2',
+    'logregL2': LogisticRegression(C=c, penalty='l2',
                                    solver='saga',
                                    multi_class='ovr',
                                    max_iter=10000),
-    'logregL1': LogisticRegression(C=1, penalty='l1',
+    'logregL1': LogisticRegression(C=c, penalty='l1',
                                    solver='saga',
                                    multi_class='ovr',
                                    max_iter=10000),
@@ -66,6 +70,8 @@ def plot_scatters(X, y):
 def plot_SVs(SV):
     plt.scatter(SV[:, 0], SV[:, 1], s=100, facecolor="none", edgecolor="green")
 
+levels = [0.5]
+#levels = np.linspace(0, 1, 5)
 
 for (name, clf) in classifiers.items():
 
@@ -74,41 +80,48 @@ for (name, clf) in classifiers.items():
         Z = clf.predict_proba(rbf_feature.fit_transform(np.c_[xx.ravel(), yy.ravel()]))
         Z = Z[:, 0].reshape(xx.shape)
         plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X_rbf))))
-        plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['black', 'w'])
+        plt.contour(xx, yy, Z, levels)
         plot_scatters(X, y)
-        pml.save_fig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
-
     elif name == 'logregL1':
         clf.fit(X_rbf, y)
         Z = clf.predict_proba(rbf_feature.fit_transform(np.c_[xx.ravel(), yy.ravel()]))
         Z = Z[:, 0].reshape(xx.shape)
-        plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X_rbf))))
-        plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['w','black', 'w'])
+        plt.contour(xx, yy, Z, levels)
         plot_scatters(X, y)
         conf_scores = np.abs(clf.decision_function(X_rbf))
-        SV = X[(conf_scores > conf_scores.mean())]  # samples having a higher confidence scores are taken as support vectors.
+        SV = X[(conf_scores > conf_scores.mean())]
+        nsupport = SV.shape[0]
+        nerr = np.sum(y != clf.predict(X_rbf))
         plot_SVs(SV)
-        pml.save_fig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        plt.title(f"{name}, nerr={nerr}, nsupport={nsupport}")
+        pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
     elif name == 'RVM':
         clf.fit(X, y)
         Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])
         Z = Z.reshape(xx.shape)
-        plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X))))
-        plt.contour(xx, yy, Z, np.linspace(0, 1, 5), colors=['black', 'w'])
+        plt.contour(xx, yy, Z, levels)
         plot_scatters(X, y)
-        plot_SVs(clf.relevance_vectors_)
-        pml.save_fig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        SV = clf.relevance_vectors_
+        plot_SVs(SV)
+        nsupport = SV.shape[0]
+        nerr = np.sum(y != clf.predict(X))
+        plt.title(f"{name}, nerr={nerr}, nsupport={nsupport}")
+        pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()
     elif name == 'SVM':
         clf.fit(X, y)
         Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])
         Z = Z[:, 0]
         Z = Z.reshape(xx.shape)
-        plt.title(name + ", nerr= {}".format(np.sum(y != clf.predict(X))))
-        plt.contour(xx, yy, Z, colors=['w', 'w', 'w', 'black'])
+        plt.contour(xx, yy, Z, levels)
         plot_scatters(X, y)
-        plot_SVs(clf.support_vectors_)
-        pml.save_fig("../figures/kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
+        SV = clf.support_vectors_
+        plot_SVs(SV)
+        nsupport = SV.shape[0]
+        nerr = np.sum(y != clf.predict(X))
+        plt.title(f"{name}, nerr={nerr}, nsupport={nsupport}")
+        pml.savefig("kernelBinaryClassifDemo{}.pdf".format(name),  dpi=300)
         plt.show()

@@ -1,6 +1,8 @@
 # From chapter 2 of
 # https://github.com/aloctavodia/BAP
 
+import superimport
+
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 import numpy as np

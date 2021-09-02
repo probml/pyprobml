@@ -2,6 +2,8 @@
 # MC on change of variables and empirical distribution, highlighting that
 # modes are not, in general, preserved.
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm

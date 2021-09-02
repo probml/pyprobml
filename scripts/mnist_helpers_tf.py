@@ -1,5 +1,7 @@
 # Helper functions for DNN demos related to mnist images
 
+import superimport
+
 import tensorflow as tf
 from tensorflow import keras
 assert tf.__version__ >= "2.0"

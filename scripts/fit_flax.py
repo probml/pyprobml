@@ -11,6 +11,8 @@
 # y: (N,) containing integer label
 
 
+import superimport
+
 import numpy as np
 import jax
 import jax.numpy as jnp

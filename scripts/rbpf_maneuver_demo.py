@@ -4,6 +4,8 @@
 
 # !pip install matplotlib==3.4.2
 
+import superimport
+
 import jax
 import numpy as np
 import jax.numpy as jnp

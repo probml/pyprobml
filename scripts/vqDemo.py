@@ -4,6 +4,8 @@
 # Use racoon face image
 # https://docs.scipy.org/doc/scipy/reference/generated/scipy.misc.face.html
 
+import superimport
+
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt

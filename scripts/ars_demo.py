@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # Author: Ang Ming Liang
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from arspy.ars import adaptive_rejection_sampling

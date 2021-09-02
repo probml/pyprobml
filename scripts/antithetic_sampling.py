@@ -2,6 +2,8 @@
 # https://en.wikipedia.org/wiki/Antithetic_variates
 
 
+import superimport
+
 import numpy as np
 np.random.seed(0)
 

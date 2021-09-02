@@ -1,6 +1,8 @@
 # Kernel PCA toy example for k(x,y)=exp(-||x-y||^2/rbf_var)
 # Author: Animesh Gupta
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.linalg as la

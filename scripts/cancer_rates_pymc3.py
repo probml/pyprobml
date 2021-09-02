@@ -1,5 +1,7 @@
 
 
+import superimport
+
 import pymc3 as pm
 import numpy as np
 import pandas as pd

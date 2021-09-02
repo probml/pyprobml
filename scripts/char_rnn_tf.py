@@ -2,6 +2,8 @@
 # Stateless character RNN for shakespeare
 
 # TensorFlow ≥2.0-preview is required
+import superimport
+
 import tensorflow as tf
 from tensorflow import keras
 assert tf.__version__ >= "2.0"

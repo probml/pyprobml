@@ -2,6 +2,8 @@
 # random forests  in 2d
 # Based on https://github.com/ageron/handson-ml2/blob/master/06_decision_trees.ipynb
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os

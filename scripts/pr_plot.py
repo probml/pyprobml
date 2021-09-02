@@ -1,6 +1,8 @@
 # Precision-recall curve for two hypothetical classifications systems.
 # A is better than B. 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

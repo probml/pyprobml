@@ -1,5 +1,7 @@
 #https://www.tensorflow.org/datasets/datasets#imagenet2012
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from time import time

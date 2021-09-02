@@ -2,6 +2,8 @@
 # utility functions for multivariate Gaussians
 # author: murphyk@
 
+import superimport
+
 import numpy as np
 
 

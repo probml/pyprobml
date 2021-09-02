@@ -1,6 +1,8 @@
 # Agglomerative Clustering Demo
 # Author: Animesh Gupta
 
+import superimport
+
 import numpy as np
 from scipy.cluster.hierarchy import dendrogram, linkage
 import matplotlib.pyplot as plt

@@ -1,6 +1,8 @@
 
 #https://docs.pymc.io/notebooks/GLM-hierarchical-binominal-model.html
 
+import superimport
+
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 import numpy as np

@@ -8,6 +8,8 @@ It includes
 
 Author: Aleyna Kara(@karalleyna)
 '''
+import superimport
+
 from jax.random import split, randint, PRNGKey
 import jax.numpy as jnp
 

@@ -2,6 +2,8 @@
 # Based on https://github.com/probml/pmtk3/blob/master/demos/polyfitRidgeLasso.m
 
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pyprobml_utils import save_fig

@@ -1,6 +1,8 @@
 # Control variates demo
 #https://en.wikipedia.org/wiki/Control_variates
 
+import superimport
+
 import numpy as np
 np.random.seed(0)
 

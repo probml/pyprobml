@@ -1,6 +1,8 @@
 # Fit linear and quadratic surfaces to data
 # Based on https://github.com/probml/pmtk3/blob/master/demos/surfaceFitDemo.m
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pyprobml_utils as pml

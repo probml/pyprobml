@@ -2,6 +2,8 @@
 # Based on http://d2l.ai/chapter_computer-vision/transposed-conv.html
 
 
+import superimport
+
 import torch
 from torch import nn
 import numpy as np

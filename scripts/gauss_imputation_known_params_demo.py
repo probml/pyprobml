@@ -2,6 +2,8 @@
 # Illustration of data imputation using an MVN.
 # Based on https://github.com/probml/pmtk3/blob/master/demos/gaussImputationDemo.m
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_spd_matrix

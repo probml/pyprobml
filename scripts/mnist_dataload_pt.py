@@ -7,6 +7,8 @@
 # https://github.com/google/jax/blob/master/notebooks/neural_network_and_data_loading.ipynb
 
 
+import superimport
+
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from torchvision import datasets, transforms

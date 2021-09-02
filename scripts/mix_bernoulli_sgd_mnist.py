@@ -3,6 +3,8 @@ Fits Bernoulli mixture model for mnist digits using Gradient Descent
 Author: Aleyna Kara(@karalleyna)
 '''
 
+import superimport
+
 import jax.numpy as jnp
 
 from mix_bernoulli_lib import BMM

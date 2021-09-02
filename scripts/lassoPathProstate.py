@@ -1,6 +1,8 @@
 # Figure 11.12 (b)
 # Plot the full L1 regularization path for the prostate data set
 
+import superimport
+
 from scipy.io import loadmat
 from sklearn import linear_model
 import numpy as np

@@ -1,6 +1,8 @@
 # Jax implementation of a Linear Dynamical System
 # Author:  Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax
 import jax.numpy as jnp
 from jax import random

@@ -1,5 +1,7 @@
 #Plots the pmfs of binomial distributions with varying probability of success parameter
 
+import superimport
+
 from scipy.stats import binom
 
 import numpy as np

@@ -2,6 +2,8 @@
 # Code is based on chapter 9 of 
 # https://github.com/ageron/handson-ml2
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 

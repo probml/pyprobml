@@ -3,6 +3,8 @@
 # https://machinelearningmastery.com/generative_adversarial_networks/
 
 
+import superimport
+
 import tensorflow as tf
 from tensorflow import keras
 

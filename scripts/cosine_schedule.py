@@ -1,6 +1,8 @@
 # Cosine annealing learning rate schedule
 # https://machinelearningmastery.com/snapshot-ensemble-deep-learning-neural-network/
 
+import superimport
+
 #from matplotlib import pyplot
 from math import pi
 from math import cos

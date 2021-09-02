@@ -2,6 +2,8 @@
 # Converted by John Fearns - jdf22@infradead.org
 # Josh Tenenbaum's Healthy Levels game
 
+import superimport
+
 import numpy as np
 import matplotlib.pyplot as plt
 #from pyprobml_utils import save_fig

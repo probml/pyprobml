@@ -9,6 +9,8 @@ Original file is located at
 
 # illustrate automatic differentiation using jax
 # https://github.com/google/jax
+import superimport
+
 import numpy as np # original numpy
 import jax.numpy as jnp
 from jax import grad, hessian
