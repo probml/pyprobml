@@ -12,9 +12,8 @@ from jax.scipy.stats import beta
 from functools import partial
 
 class BetaBernoulliBandits:
-    def __init__(self, mean_rewards):
-        self.mean_rewards = mean_rewards
-        self.K = len(mean_rewards)
+    def __init__(self, K):
+        self.K = K
         
     def sample(self, key, params):
         alphas = params["alpha"]
@@ -25,10 +24,6 @@ class BetaBernoulliBandits:
     def predict_rewards(self, params_sample):
         return params_sample
     
-    def true_reward(self, key, action):
-        reward = random.bernoulli(key, self.mean_rewards[action])
-        return reward
-        
     def update(self, action, params, reward):
         alphas = params["alpha"]
         betas = params["beta"]
@@ -42,35 +37,51 @@ class BetaBernoulliBandits:
         }
 
 
-def thompson_sampling_step(model_params, key, model):
+def true_reward(key, action, mean_rewards):
+    reward = random.bernoulli(key, mean_rewards[action])
+    return reward
+
+
+def thompson_sampling_step(model_params, key, model, environment):
+    """
+    Context-free implementation of the Thompson sampling algorithm.
+    This implementation considers a single step
+    
+    Parameters
+    ----------
+    model_params: dict
+    environment: function
+    key: jax.random.PRNGKey
+    moidel: instance of a Bandit model
+    """
     key_sample, key_reward = random.split(key)
-    params = model.sample(key, model_params)
+    params = model.sample(key_sample, model_params)
     pred_rewards = model.predict_rewards(params)
     action = pred_rewards.argmax()
-    reward = model.true_reward(key, action)
+    reward = environment(key_reward, action)
     model_params = model.update(action, model_params, reward)
-    return model_params, model_params
-
-
-p_range = jnp.linspace(0, 1, 200)
-colors = ["orange", "blue", "green", "red"]
-colors = [f"tab:{color}" for color in colors]
-
+    return model_params, (model_params, action)
 
 T = 200
 key = random.PRNGKey(31415)
 keys = random.split(key, T)
-reward_per_arm = jnp.array([0.65, 0.4, 0.5, 0.9])
-K = len(reward_per_arm)
-bbbandit = BetaBernoulliBandits(reward_per_arm)
+mean_rewards = jnp.array([0.45, 0.75, 0.5, 0.7])
+K = len(mean_rewards)
+bbbandit = BetaBernoulliBandits(mean_rewards)
 init_params = {"alpha": jnp.ones(K),
                "beta": jnp.ones(K)}
 
-thompson_partial = partial(thompson_sampling_step, model=BetaBernoulliBandits(reward_per_arm))
-posteriors, hist = jax.lax.scan(thompson_partial, init_params, keys)
+environment = partial(true_reward, mean_rewards=mean_rewards)
+thompson_partial = partial(thompson_sampling_step,
+                           model=BetaBernoulliBandits(K),
+                           environment=environment)
+posteriors, (hist, actions) = jax.lax.scan(thompson_partial, init_params, keys)
 
 
+p_range = jnp.linspace(0, 1, 100)
 bandits_pdf_hist = beta.pdf(p_range[:, None, None], hist["alpha"][None, ...], hist["beta"][None, ...])
+colors = ["orange", "blue", "green", "red"]
+colors = [f"tab:{color}" for color in colors]
 
 # Indexed by position
 times = [0, 9, 19, 49, 99, 199]
@@ -80,9 +91,10 @@ for t in times:
         bandit = bandits_pdf_hist[:, t, k]
         axi.plot(p_range, bandit, c=color)
         axi.set_xlim(0, 1)
+
         n_pos = hist["alpha"][t, k].item() - 1
         n_trials = hist["beta"][t, k].item() + n_pos - 1
-        axi.set_title(f"t={t+1}\np={reward_per_arm[k]:0.2f}\n{n_pos:.0f}/{n_trials:.0f}")
+        axi.set_title(f"t={t+1}\np={mean_rewards[k]:0.2f}\n{n_pos:.0f}/{n_trials:.0f}")
         pml.savefig(f"thompson_sampling_bernoulli_w{k}_t{t+1}.pdf")
         plt.tight_layout()
 plt.show()
