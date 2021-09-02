@@ -17,12 +17,12 @@ def thompson_sampling_step(state, key):
     
     # Choose an arm to pull
     # (Sample from the policy distribution)
-    theta_t = random.beta(key, alphas, betas).argmax()
+    action_t = random.beta(key, alphas, betas).argmax()
     # Pull the arm and observe reward (either 1 or 0)
-    reward = random.bernoulli(key, reward_per_arm[theta_t])
+    reward = random.bernoulli(key, reward_per_arm[action_t])
     
     # Update policy distribution
-    ind_vector = one_hot(theta_t, K)
+    ind_vector = one_hot(action_t, K)
     alphas_posterior = alphas + ind_vector * reward
     betas_posterior = betas + ind_vector * (1 - reward)
     
