@@ -9,59 +9,68 @@ import pyprobml_utils as pml
 from jax import random
 from jax.nn import one_hot
 from jax.scipy.stats import beta
+from functools import partial
+
+class BetaBernoulliBandits:
+    def __init__(self, mean_rewards):
+        self.mean_rewards = mean_rewards
+        self.K = len(mean_rewards)
+        
+    def sample(self, key, params):
+        alphas = params["alpha"]
+        betas = params["beta"]
+        params_sample = random.beta(key, alphas, betas)
+        return params_sample
+    
+    def predict_rewards(self, params_sample):
+        return params_sample
+    
+    def true_reward(self, key, action):
+        reward = random.bernoulli(key, self.mean_rewards[action])
+        return reward
+        
+    def update(self, action, params, reward):
+        alphas = params["alpha"]
+        betas = params["beta"]
+        # Update policy distribution
+        ind_vector = one_hot(action, self.K)
+        alphas_posterior = alphas + ind_vector * reward
+        betas_posterior = betas + ind_vector * (1 - reward)
+        return {
+            "alpha": alphas_posterior,
+            "beta": betas_posterior
+        }
 
 
-class BetaBernoulliBandit:
-    def __init__(self, alpha0, beta0, num_bandits):
-        self.alpha0 = alpha0
-        self.beta0 = beta0
-        self.num_bandits = num_bandits
-    
-    def sample(self, key, alphas, betas):
-        actions = random.beta(key, alphas, betas)
-        return actions
-    
-    def predict_reward(self, actions):
-        rewards = actions.argmax()
-
-def thompson_sampling_step(state, key):
-    alphas, betas, reward_per_arm = state
-    K = len(alphas)
-    key_action, key_reward = random.split(key)
-    
-    # Choose an arm to pull
-    # (Sample from the policy distribution)
-    action_t = random.beta(key_action, alphas, betas).argmax()
-    # Pull the arm and observe reward (either 1 or 0)
-    reward = random.bernoulli(key_reward, reward_per_arm[action_t])
-    
-    # Update policy distribution
-    ind_vector = one_hot(action_t, K)
-    alphas_posterior = alphas + ind_vector * reward
-    betas_posterior = betas + ind_vector * (1 - reward)
-    
-    return (alphas_posterior, betas_posterior, reward_per_arm), (alphas_posterior, betas_posterior)
+def thompson_sampling_step(model_params, key, model):
+    key_sample, key_reward = random.split(key)
+    params = model.sample(key, model_params)
+    pred_rewards = model.predict_rewards(params)
+    action = pred_rewards.argmax()
+    reward = model.true_reward(key, action)
+    model_params = model.update(action, model_params, reward)
+    return model_params, model_params
 
 
-p_range = jnp.linspace(0, 1, 100)
+p_range = jnp.linspace(0, 1, 200)
 colors = ["orange", "blue", "green", "red"]
 colors = [f"tab:{color}" for color in colors]
 
+
 T = 200
-key = random.PRNGKey(314)
+key = random.PRNGKey(31415)
 keys = random.split(key, T)
 reward_per_arm = jnp.array([0.65, 0.4, 0.5, 0.9])
 K = len(reward_per_arm)
+bbbandit = BetaBernoulliBandits(reward_per_arm)
+init_params = {"alpha": jnp.ones(K),
+               "beta": jnp.ones(K)}
 
-alpha_priors = jnp.ones(K) * 1
-beta_priors = jnp.ones(K) * 1
+thompson_partial = partial(thompson_sampling_step, model=BetaBernoulliBandits(reward_per_arm))
+posteriors, hist = jax.lax.scan(thompson_partial, init_params, keys)
 
-init_state = (alpha_priors, beta_priors, reward_per_arm)
-posteriors, hist = jax.lax.scan(thompson_sampling_step, init_state, keys)
-alpha_posterior, beta_posterior, _ = posteriors
-alpha_hist, beta_hist = hist
 
-bandits_pdf_hist = beta.pdf(p_range[:, None, None], alpha_hist[None, ...], beta_hist[None, ...])
+bandits_pdf_hist = beta.pdf(p_range[:, None, None], hist["alpha"][None, ...], hist["beta"][None, ...])
 
 # Indexed by position
 times = [0, 9, 19, 49, 99, 199]
@@ -71,9 +80,9 @@ for t in times:
         bandit = bandits_pdf_hist[:, t, k]
         axi.plot(p_range, bandit, c=color)
         axi.set_xlim(0, 1)
-        n_pos = alpha_hist[t, k].item() - 1
-        n_trials = beta_hist[t, k].item() + n_pos - 1
+        n_pos = hist["alpha"][t, k].item() - 1
+        n_trials = hist["beta"][t, k].item() + n_pos - 1
         axi.set_title(f"t={t+1}\np={reward_per_arm[k]:0.2f}\n{n_pos:.0f}/{n_trials:.0f}")
-        pml.savefig(f"thompson_sampling_bernoulli_w{k}_t{t}.pdf")
+        pml.savefig(f"thompson_sampling_bernoulli_w{k}_t{t+1}.pdf")
         plt.tight_layout()
 plt.show()
