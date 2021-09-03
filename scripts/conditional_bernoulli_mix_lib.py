@@ -6,6 +6,7 @@ from jax import vmap, jit, value_and_grad
 from jax.random import PRNGKey, split, permutation
 from jax.lax import scan
 from jax.scipy.special import expit, logit
+from jax.experimental import optimizers
 
 import distrax
 from distrax._src.utils import jittable
@@ -13,6 +14,7 @@ from distrax._src.utils import jittable
 from mixture_lib import MixtureSameFamily
 import itertools
 
+opt_init, opt_update, get_params = optimizers.adam(1e-1)
 
 class ClassConditionalBMM(jittable.Jittable):
     def __init__(self, mixing_coeffs, probs, class_priors, C, threshold=1e-10):
