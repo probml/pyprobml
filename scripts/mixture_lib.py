@@ -1,8 +1,7 @@
 # Mixture distributions
 # Author Aleyna Kara(@karalleyna)
 
-import superimport
-
+#!pip install distrax
 import distrax
 
 import jax
