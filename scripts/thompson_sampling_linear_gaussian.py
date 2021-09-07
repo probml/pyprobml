@@ -8,6 +8,8 @@
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
+import superimport
+
 import jax
 import seaborn as sns
 import matplotlib.pyplot as plt
