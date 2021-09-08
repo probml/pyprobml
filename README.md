@@ -47,16 +47,6 @@ In addition to the automatically generated notebooks, there are a series of manu
 
 When you open a Jupyter notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/probml-notebooks/blob/main/markdown/colab_gcp_tpu_tutorial.md) with more information.
 
-Colab has many ML-related packages already installed, but not all. We use superimport, mentioned above, to automatically install the missing ones.
-One wrinkle arises if you try to run multiple scripts inside a single colab session (e.g., using `%run foo.py` and then `%run bar.py`). Because of python 
-optimizations, it will only call
-superimport the first time, so it will work on `foo` but fail on `bar`.
-To force it to call superimport for each script, you need to unimport the superimport symbol before running the script, like this:
-```python
-from deimport.deimport import deimport
-deimport(superimport)
-%run myscript.py
-```
 
 
 
