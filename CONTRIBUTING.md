@@ -33,7 +33,6 @@ The first cell should contain the following boilerplate code, that installs supe
 and then clones the pyprobml repo.
 ```python
 !pip install superimport -qqq
-from superimport import unimport
 !git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
 %cd -q /pyprobml/scripts
 ```
