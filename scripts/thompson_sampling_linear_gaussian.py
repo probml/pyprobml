@@ -110,101 +110,106 @@ def thompson_sampling_step(model_params, state, model, environment):
     return model_params, (model_params, arm_reward)
 
 
-if __name__ == "__main__":
-    plt.rcParams["axes.spines.top"] = False
-    plt.rcParams["axes.spines.right"] = False
+
+plt.rcParams["axes.spines.top"] = False
+plt.rcParams["axes.spines.right"] = False
 
 
-    # 1. Specify underlying dynamics (unknown)
-    W = jnp.array([
-        [-5.0, 2.0, 0.5],
-        [0.0,  0.0, 0.0],
-        [5.0, -1.5, -1.0]
-    ])
+# 1. Specify underlying dynamics (unknown)
+W = jnp.array([
+    [-5.0, 2.0, 0.5],
+    [0.0,  0.0, 0.0],
+    [5.0, -1.5, -1.0]
+])
 
-    sigmas = jnp.ones(3)
+sigmas = jnp.ones(3)
 
-    K, M = W.shape
-    N = 500
-    T = 4
-    x = jnp.linspace(0, T, N)
-    X = jnp.c_[jnp.ones(N), x, x ** 2]
+K, M = W.shape
+N = 500
+T = 4
+x = jnp.linspace(0, T, N)
+X = jnp.c_[jnp.ones(N), x, x ** 2]
 
-    true_params = {
-        "w": W,
-        "sigma2": sigmas ** 2
-    }
-
-
-    # 2. Sample one instance of the multi-armed bandit process
-    #    this is only for plotting, it will not be used fo training
-    key = random.PRNGKey(314)
-    noise = random.multivariate_normal(key, mean=jnp.zeros(K), cov=jnp.eye(K) * sigmas, shape=(N,))
-    Y = jnp.einsum("nm,km->nk", X, W) + noise
+true_params = {
+    "w": W,
+    "sigma2": sigmas ** 2
+}
 
 
-    # 3. Configure the model parameters that will be used
-    # during Thompson sampling
-    eta = 2.0
-    lmbda = 5.0
-    init_params = {
-        "mu": jnp.zeros((K, M)),
-        "Sigma": lmbda * jnp.eye(M) * jnp.ones((K, 1, 1)),
-        "a": eta * jnp.ones(K),
-        "b": eta * jnp.ones(K),
-    }
-    environment = partial(true_reward, true_params=true_params)
-    thompson_partial = partial(thompson_sampling_step,
-                            model=NormalGammaBandit(),
-                            environment=environment)
-    thompson_vmap = jax.vmap(lambda key: jax.lax.scan(thompson_partial, init_params, (random.split(key, N), X)))
+# 2. Sample one instance of the multi-armed bandit process
+#    this is only for plotting, it will not be used fo training
+key = random.PRNGKey(314)
+noise = random.multivariate_normal(key, mean=jnp.zeros(K), cov=jnp.eye(K) * sigmas, shape=(N,))
+Y = jnp.einsum("nm,km->nk", X, W) + noise
 
 
-    #4. Do Thompson sampling
-    nsamples = 100
-    key = random.PRNGKey(3141)
-    keys = random.split(key, nsamples)
-    posteriors_samples, (_, hist_reward_samples) = thompson_vmap(keys)
+# 3. Configure the model parameters that will be used
+# during Thompson sampling
+eta = 2.0
+lmbda = 5.0
+init_params = {
+    "mu": jnp.zeros((K, M)),
+    "Sigma": lmbda * jnp.eye(M) * jnp.ones((K, 1, 1)),
+    "a": eta * jnp.ones(K),
+    "b": eta * jnp.ones(K),
+}
+environment = partial(true_reward, true_params=true_params)
+thompson_partial = partial(thompson_sampling_step,
+                        model=NormalGammaBandit(),
+                        environment=environment)
+thompson_vmap = jax.vmap(lambda key: jax.lax.scan(thompson_partial, init_params, (random.split(key, N), X)))
 
 
-    # 5. Plotting
-    # 5.1 Example dataset
-    plt.plot(x, Y)
-    plt.axhline(y=0, c="black")
-    plt.legend([f"arm{i}" for i in range(K)])
-    pml.savefig("linear-gaussian-model.pdf")
+#4. Do Thompson sampling
+nsamples = 100
+key = random.PRNGKey(3141)
+keys = random.split(key, nsamples)
+posteriors_samples, (_, hist_reward_samples) = thompson_vmap(keys)
 
-    # 5.2 Plot heatmap of chosen arm and given reward
-    ix = 0
-    map_reward = hist_reward_samples[ix]
-    map_reward = index_update(map_reward, map_reward==0, jnp.nan)
-    labels = [f"arm{i}" for i in range(K)]
-    map_reward_df = pd.DataFrame(map_reward, index=[f"{t:0.2f}" for t in x], columns=labels)
 
-    fig, ax = plt.subplots(figsize=(4, 5))
-    sns.heatmap(map_reward_df, cmap="viridis", ax=ax, xticklabels=labels)
-    plt.ylabel("time")
-    pml.savefig("linear-gaussian-action-reward.pdf")
+# 5. Plotting
+# 5.1 Example dataset
+plt.plot(x, Y)
+plt.axhline(y=0, c="black")
+plt.legend([f"arm{i}" for i in range(K)])
+pml.savefig("bandit-lingauss-true-reward.pdf")
 
-    # 5.3 Plot cumulative reward per arm
-    fig, ax = plt.subplots()
-    plt.plot(x, hist_reward_samples[ix].cumsum(axis=0))
-    plt.legend(labels, loc="upper left")
-    plt.ylabel("cumulative reward")
-    plt.xlabel("time")
-    pml.savefig("linear-gaussian-cumulative-reward.pdf")
+# 5.2 Plot heatmap of chosen arm and given reward
+ix = 0
+map_reward = hist_reward_samples[ix]
+map_reward = index_update(map_reward, map_reward==0, jnp.nan)
+labels = [f"arm{i}" for i in range(K)]
+map_reward_df = pd.DataFrame(map_reward, index=[f"{t:0.2f}" for t in x], columns=labels)
 
-    # 5.4 Plot regret
-    fig, ax = plt.subplots()
-    expected_hist_reward = hist_reward_samples.mean(axis=0)
-    optimal_reward = jnp.einsum("nm,km->nk", X, true_params["w"]).max(axis=1)
-    regret = optimal_reward - expected_hist_reward.max(axis=1)
-    cumulative_regret = regret.cumsum()
+fig, ax = plt.subplots(figsize=(4, 5))
+sns.heatmap(map_reward_df, cmap="viridis", ax=ax, xticklabels=labels)
+plt.ylabel("time")
+pml.savefig("bandit-lingauss-heatmap.pdf")
 
-    plt.plot(x, cumulative_regret)
-    plt.title("Cumulative regret")
-    plt.ylabel("$L_T$")
-    plt.xlabel("time")
-    pml.savefig("linear-gaussian-cumulative-regret.pdf")
+# 5.3 Plot cumulative reward per arm
+fig, ax = plt.subplots()
+plt.plot(x, hist_reward_samples[ix].cumsum(axis=0))
+plt.legend(labels, loc="upper left")
+plt.ylabel("cumulative reward")
+plt.xlabel("time")
+pml.savefig("bandit-lingauss-cumulative-reward.pdf")
 
-    plt.show()
+# 5.4 Plot regret
+fig, ax = plt.subplots()
+expected_hist_reward = hist_reward_samples.mean(axis=0)
+optimal_reward = jnp.einsum("nm,km->nk", X, true_params["w"]).max(axis=1)
+regret = optimal_reward - expected_hist_reward.max(axis=1)
+cumulative_regret = regret.cumsum()
+
+
+# plt.plot(x, cumulative_regret)
+plt.plot(x, cumulative_regret, label='observed')
+scale_factor = 20  # empirical
+plt.plot(x, scale_factor * jnp.sqrt(x), label='c $\sqrt{t}$')
+plt.title("Cumulative regret")
+plt.ylabel("$L_T$")
+plt.xlabel("time")
+plt.legend()
+pml.savefig("bandit-lingauss-cumulative-regret.pdf")
+
+plt.show()
