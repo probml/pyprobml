@@ -51,19 +51,19 @@ class Word(jittable.Jittable):
         Mixing coefficients
     initial_probs : array
         Initial probabilities
-    K : int
+    n_char : int
         Number of component distributions
     rng_key : array
         Random key of shape (2,) and dtype uint32
     '''
 
     def __init__(self, word, p1, p2, p3, L, type, dataset=None, targets=None, mixing_coeffs=None, initial_probs=None,
-                 K=3, rng_key=None):
+                 n_char=3, rng_key=None):
         self.word, self.word_len = word, len(word)
         self.p1, self.p2, self.p3 = p1, p2, p3
         self.type_ = type
         self.L = L  # num_of_letters + blank character
-        self.K = K
+        self.n_char = n_char
 
         self.init_dist = None
         self.trans_dist = None
@@ -150,12 +150,12 @@ class Word(jittable.Jittable):
             class_priors[i] = self.emission_prob_(self.word[i])
 
         if (mixing_coeffs is None or probs is None) and (dataset is not None and targets is not None):
-            mixing_coeffs = jnp.full((self.L - 1, self.K), 1. / self.K)
+            mixing_coeffs = jnp.full((self.L - 1, self.n_char), 1. / self.n_char)
 
             if rng_key is None:
                 rng_key = PRNGKey(0)
 
-            probs = uniform(rng_key, minval=0.4, maxval=0.6, shape=(self.L - 1, self.K, dataset.shape[-1]))
+            probs = uniform(rng_key, minval=0.4, maxval=0.6, shape=(self.L - 1, self.n_char, dataset.shape[-1]))
 
             class_conditional_bmm = ClassConditionalBMM(mixing_coeffs, probs, jnp.array(class_priors), self.L - 1)
 
@@ -219,7 +219,7 @@ class Word(jittable.Jittable):
 
         def _loglikelihood(i, cls, img):
             prior = self._obs_dist.class_priors.logits[i, cls]
-            logbern = jnp.where(cls == self.L - 1, jnp.ones((self.K,)) * log_threshold * n_pixels,
+            logbern = jnp.where(cls == self.L - 1, jnp.ones((self.n_char,)) * log_threshold * n_pixels,
                                 self._obs_dist.loglikelihood(img, cls))
             return logbern, prior
 
