@@ -17,12 +17,12 @@ import itertools
 opt_init, opt_update, get_params = optimizers.adam(1e-1)
 
 class ClassConditionalBMM(jittable.Jittable):
-    def __init__(self, mixing_coeffs, probs, class_priors, C, threshold=1e-10):
+    def __init__(self, mixing_coeffs, probs, class_priors, n_char, threshold=1e-10):
         self.mixing_coeffs = mixing_coeffs
         self.probs = probs
         self.class_priors = class_priors
         self.model = (logit(mixing_coeffs), logit(probs))
-        self.num_of_classes = C
+        self.num_of_classes = n_char
         self.threshold = threshold
         self.log_threshold = jnp.log(threshold)
 
