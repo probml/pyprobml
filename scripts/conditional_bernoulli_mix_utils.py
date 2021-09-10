@@ -78,7 +78,7 @@ def fake_test_data(test_words, dataset, targets, L, type_, rng_key=None):
     return test_images
 
 
-def training_data(select_n):
+def get_emnist_images_per_class(select_n):
     """
     Gets training data with its targets
 
