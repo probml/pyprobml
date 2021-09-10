@@ -37,7 +37,7 @@ class Word(jittable.Jittable):
       The probability of the blank character
     p3: float
       The probability of the uppercase and lowercase letters except correct one
-    L : int
+    n_char : int
       The number of letters used when constructing words
     type : str
       "all" : Includes both uppercase and lowercase letters
@@ -51,19 +51,19 @@ class Word(jittable.Jittable):
         Mixing coefficients
     initial_probs : array
         Initial probabilities
-    n_char : int
+    n_mix : int
         Number of component distributions
     rng_key : array
         Random key of shape (2,) and dtype uint32
     '''
 
-    def __init__(self, word, p1, p2, p3, L, type, dataset=None, targets=None, mixing_coeffs=None, initial_probs=None,
-                 n_char=3, rng_key=None):
+    def __init__(self, word, p1, p2, p3, n_char, type, dataset=None, targets=None, mixing_coeffs=None, initial_probs=None,
+                 n_mix=3, rng_key=None):
         self.word, self.word_len = word, len(word)
         self.p1, self.p2, self.p3 = p1, p2, p3
         self.type_ = type
-        self.L = L  # num_of_letters + blank character
-        self.n_char = n_char
+        self.n_char = n_char + 1 # num_of_letters + blank character
+        self.n_mix = n_mix
 
         self.init_dist = None
         self.trans_dist = None
@@ -109,9 +109,9 @@ class Word(jittable.Jittable):
             Emission probabilities
         """
         ascii_no = ord(letter.upper()) - 65  # 65 :ascii number of A
-        idx = [ascii_no, ascii_no + self.L // 2] if self.type_ == 'all' else (
-            ascii_no if self.type_ == "upper" else ascii_no + self.L // 2)
-        emission_prob = np.full((1, self.L), self.p3)
+        idx = [ascii_no, ascii_no + self.n_char // 2] if self.type_ == 'all' else (
+            ascii_no if self.type_ == "upper" else ascii_no + self.n_char // 2)
+        emission_prob = np.full((1, self.n_char), self.p3)
         emission_prob[:, -1] = self.p2
 
         if letter == "-":
@@ -119,8 +119,8 @@ class Word(jittable.Jittable):
 
         emission_prob[:, idx] = self.p1
         if self.type_ is not 'all':
-            start = self.L // 2 if self.type_ is 'upper' else 0
-            emission_prob[:, start: start + self.L // 2] = 0
+            start = self.n_char // 2 if self.type_ is 'upper' else 0
+            emission_prob[:, start: start + self.n_char // 2] = 0
         return emission_prob
 
     def init_emission_probs(self, mixing_coeffs, probs, dataset, targets, rng_key=None, num_of_iter=7):
@@ -144,26 +144,26 @@ class Word(jittable.Jittable):
         -------
 
         """
-        class_priors = np.zeros((self.word_len, self.L))  # observation likelihoods
+        class_priors = np.zeros((self.word_len, self.n_char))  # observation likelihoods
 
         for i in range(self.word_len):
             class_priors[i] = self.emission_prob_(self.word[i])
 
         if (mixing_coeffs is None or probs is None) and (dataset is not None and targets is not None):
-            mixing_coeffs = jnp.full((self.L - 1, self.n_char), 1. / self.n_char)
+            mixing_coeffs = jnp.full((self.n_char - 1, self.n_mix), 1. / self.n_mix)
 
             if rng_key is None:
                 rng_key = PRNGKey(0)
 
-            probs = uniform(rng_key, minval=0.4, maxval=0.6, shape=(self.L - 1, self.n_char, dataset.shape[-1]))
+            probs = uniform(rng_key, minval=0.4, maxval=0.6, shape=(self.n_char - 1, self.n_mix, dataset.shape[-1]))
 
-            class_conditional_bmm = ClassConditionalBMM(mixing_coeffs, probs, jnp.array(class_priors), self.L - 1)
+            class_conditional_bmm = ClassConditionalBMM(mixing_coeffs, probs, jnp.array(class_priors), self.n_char - 1)
 
             class_conditional_bmm.fit_em(dataset, targets, num_of_iter)
             self._obs_dist = class_conditional_bmm
 
         else:
-            self._obs_dist = ClassConditionalBMM(mixing_coeffs, probs, jnp.array(class_priors), self.L - 1)
+            self._obs_dist = ClassConditionalBMM(mixing_coeffs, probs, jnp.array(class_priors), self.n_char - 1)
 
     @jit
     def sample(self, rng_key):
@@ -182,7 +182,7 @@ class Word(jittable.Jittable):
         class_priors = self._obs_dist.class_priors.sample(seed=sample_key)  # 4,
 
         def _sample(cls, key):
-            return jnp.where(cls == self.L - 1, 0, self._obs_dist.model.sample(seed=key)[cls])
+            return jnp.where(cls == self.n_char - 1, 0, self._obs_dist.model.sample(seed=key)[cls])
 
         obs_seq = vmap(_sample, in_axes=(0, 0))(class_priors, keys)
         return jnp.hstack([obs_seq, class_priors.reshape((-1, 1))])
@@ -219,7 +219,7 @@ class Word(jittable.Jittable):
 
         def _loglikelihood(i, cls, img):
             prior = self._obs_dist.class_priors.logits[i, cls]
-            logbern = jnp.where(cls == self.L - 1, jnp.ones((self.n_char,)) * log_threshold * n_pixels,
+            logbern = jnp.where(cls == self.n_char - 1, jnp.ones((self.n_mix,)) * log_threshold * n_pixels,
                                 self._obs_dist.loglikelihood(img, cls))
             return logbern, prior
 
@@ -227,7 +227,7 @@ class Word(jittable.Jittable):
 
         extended_word = word + "-" * (len(self.word) - len(word))
         images = jnp.vstack([images, jnp.zeros((len(self.word) - len(word), n_pixels))])
-        classes = encode(extended_word, self.L, self.type_)
+        classes = encode(extended_word, self.n_char, self.type_)
         indices = jnp.arange(len(self.word))
 
         ll, priors = vmap(_loglikelihood, in_axes=(0, 0, 0))(indices, classes, images)
