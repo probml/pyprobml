@@ -124,5 +124,7 @@ if __name__ == "__main__":
     #   as a function of the dimension
     performance = jnp.exp(-jnp.array(ans["loss"])) / jnp.exp(-optimal_loss)
     plt.plot(dimensions, performance, marker="o")
+    plt.xlabel("Subspace dim $d$")
+    plt.ylabel("Performance")
     pml.savefig("intrinsic-dimension-toy-demo.pdf")
     plt.show()
