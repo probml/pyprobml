@@ -4,6 +4,7 @@ log likelihood of the given sequence given an ngram model.
 
 Author : Aleyna Kara(@karalleyna)
 '''
+import superimport
 from nltk.util import ngrams
 from nltk import FreqDist, LidstoneProbDist
 from dataclasses import dataclass
@@ -90,23 +91,19 @@ def ngram_loglikelihood(model, seq):
 
     return ll
 
-def test():
-    url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/bible.txt'
-    response = requests.get(url)
-    text = response.content.decode("utf-8")
-    data = preprocessing(text, case_folding=True)
 
-    n = 10
-    model = ngram_model_fit(n, data, smoothing=1)
+url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/bible.txt'
+response = requests.get(url)
+text = response.content.decode("utf-8")
+data = preprocessing(text, case_folding=True)
 
-    sample = ngram_model_sample(model, text_length=500, prefix='christian', seed=0)
-    print(sample)
+n = 10
+model = ngram_model_fit(n, data, smoothing=1)
 
-    # ngram statistics
-    print(f'Most common {n}-grams\n', model.freq_dist.most_common(10))
+sample = ngram_model_sample(model, text_length=500, prefix='christian', seed=0)
+print(sample)
 
-def main():
-    test()
+# ngram statistics
+#print(f'Most common {n}-grams\n', model.freq_dist.most_common(10))
 
-if __name__ == "__main__":
-    main()
+
