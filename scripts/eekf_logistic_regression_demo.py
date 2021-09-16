@@ -114,7 +114,7 @@ for k, (wk, Pk, wk_laplace, Pk_laplace, c) in enumerate(zip(*elements)):
     ax.set_xlabel("number samples")
     ax.set_ylabel("weights")
     plt.tight_layout()
-    pml.savefig(f"eekf-laplace-hist-w{k}")
+    pml.savefig(f"eekf-laplace-hist-w{k}.pdf")
 
 print("EEKF weights")
 print(w_eekf, end="\n"*2)
