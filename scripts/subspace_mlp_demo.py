@@ -44,6 +44,21 @@ def create_train_state(rng, learning_rate, momentum):
       apply_fn=mlp.apply, params=params, tx=tx)
 
 
+def cross_entropy_loss(*, logits, labels):
+    one_hot_labels = jax.nn.one_hot(labels, num_classes=10)
+    return -jnp.mean(jnp.sum(one_hot_labels * logits, axis=-1))
+
+
+def compute_metrics(*, logits, labels):
+    loss = cross_entropy_loss(logits=logits, labels=labels)
+    accuracy = jnp.mean(jnp.argmax(logits, -1) == labels)
+    metrics = {
+      "loss": loss,
+      "accuracy": accuracy,
+    }
+    return metrics
+
+
 @jax.jit
 def train_step(state, batch):
     """Train for a single step."""
@@ -78,12 +93,13 @@ def normal_accuracy(params,batch):
     logits = jax.nn.log_softmax(logits)
     return jnp.mean(jnp.argmax(logits, -1) == batch["label"])
 
+
 @jax.jit
 def theta_to_flat_params(theta,M,flat_params0):
     return jnp.matmul(theta,M)[0] + flat_params0
 
-# To-do: add explicit dependence on , vec0, treedef, ahd shapes_list
-def projected_loss(theta_subspace, batch):
+
+def projected_loss(theta_subspace, batch, M, flat_params0, reconstruct_fn):
     """
     Project the subspace model weights onto the full model weights and
     compute the loss.
@@ -93,7 +109,7 @@ def projected_loss(theta_subspace, batch):
     """
     projected_params = theta_to_flat_params(theta_subspace, M, flat_params0)
     projected_params = reconstruct_fn(projected_params)
-    return normal_loss(projected_subspace_params, batch)
+    return normal_loss(projected_params, batch)
 
 
 @jax.jit
@@ -126,33 +142,29 @@ def generate_projection(d, D, k_nonzero=None, enforce_no_overlap_if_possible=Tru
         for i in range(d):
             M_now[i,ids_shaped[i]] = M_random[i,ids_shaped[i]]
     #normalization to unit length of each basis vector
-    M_now = M_now / np.linalg.norm(M_now,axis=-1,keepdims=True)  
+    M_now = M_now / np.linalg.norm(M_now, axis=-1, keepdims=True)
     return M_now
 
 
-n_epochs = 300
-hyperparams = {
-    "lr": 1e-1,
-    "beta_1": 0.9,
-    "beta_2": 0.999,
-    "epsilon": 1e-7
-}
+def subspace_learning(d, w_init_flat, hyperparams, reconstruct_fn, n_epochs=300):
+    D = len(w_init_flat)
+    A = jnp.array(generate_projection(d, D))
+    projected_loss_partial = partial(projected_loss, M=A,
+                                     reconstruct_fn=reconstruct_fn,
+                                     flat_params0=w_init_flat)
+    loss_grad_wrt_theta = jax.grad(projected_loss_partial)
 
-
-if __name__ == "__main__":
-    key = random.PRNGKey(314)
-
-    d = 20
     theta = jnp.zeros((1, d))
     mass = jnp.zeros((1, d))
     velocity = jnp.zeros((1, d))
 
-    print(f"Testing subpace {d=}")
-    n_epochs = 0
     for e in range(n_epochs):
         grads = loss_grad_wrt_theta(theta, train_ds)
         theta, mass, velocity = adam_update(grads, theta, mass, velocity, hyperparams)
-        params_now = training_utils.theta_to_paramstree(theta, M, vec0, treedef, shapes_list)
+
+        params_now = theta_to_flat_params(theta, A, w_init_flat)
+        params_now = reconstruct_fn(params_now)
+
         epoch_loss = normal_loss(params_now, train_ds)
         epoch_accuracy = normal_accuracy(params_now, train_ds)
         if e % 100 == 0 or e == n_epochs - 1:
@@ -166,3 +178,30 @@ if __name__ == "__main__":
         metric_str = f"epoch: {e+1:03} || acc: {epoch_accuracy:0.2%} || loss:{epoch_loss:0.2f}"
         metric_str += val_str
         print(metric_str, end=end)
+
+    return theta
+
+
+if __name__ == "__main__":
+    from functools import partial
+    train_ds, test_ds = get_datasets()
+    n_features = 28 ** 2
+    train_ds["image"] = train_ds["image"].reshape(-1, n_features)
+    test_ds["image"] = test_ds["image"].reshape(-1, n_features)
+
+    key = random.PRNGKey(314)
+    key, key_params = random.split(key)
+    x0 = jnp.zeros(784)
+    w_init = MLP().init(key, x0)["params"]
+    w_init_flat, reconstruct_fn = jax.flatten_util.ravel_pytree(w_init)
+    D, d = len(w_init_flat), 600
+
+    d = 300
+    hyperparams = {
+        "lr": 1e-1,
+        "beta_1": 0.9,
+        "beta_2": 0.999,
+        "epsilon": 1e-7
+    }
+
+    theta = subspace_learning(d, w_init_flat, hyperparams, reconstruct_fn, n_epochs=300)
