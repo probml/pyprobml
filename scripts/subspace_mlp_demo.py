@@ -2,6 +2,10 @@
 # * https://github.com/ganguli-lab/degrees-of-freedom
 # * https://github.com/uber-research/intrinsic-dimension
 
+# Author: Gerardo Durán-Martín (@gerdm)
+
+import superimport
+
 import jax
 import optax
 import jax.numpy as jnp
