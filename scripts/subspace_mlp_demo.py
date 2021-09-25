@@ -181,7 +181,7 @@ if __name__ == "__main__":
         print(f"Running time: {end_time - init_time:0.2f}s")
         acc_vals.append(accuracy)
     
-    fig, ax = plt.subplots(figsize=(7, 3))
+    fig, ax = plt.subplots(figsize=(6, 3))
     plt.plot(subspace_dims[::2], acc_vals[::2], marker="o")
     plt.yticks([0.2, 0.4, 0.6, 0.8, 1.0])
     plt.axhline(y=0.9, c="tab:gray", linestyle="--")
