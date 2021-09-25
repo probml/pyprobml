@@ -1,6 +1,7 @@
 # This demo replicates Figure 2 of the paper
 # "Measuring the Intrinsic Dimension of Objetive Landscape"
 # By Li et al. (https://arxiv.org/abs/1804.08838)
+# We consider a 2-layer MLP with ReLU activations
 # Code based on the following repos:
 # * https://github.com/ganguli-lab/degrees-of-freedom
 # * https://github.com/uber-research/intrinsic-dimension
@@ -15,8 +16,11 @@ import jax.numpy as jnp
 import flax.linen as nn
 import numpy as np
 import tensorflow_datasets as tfds
+import matplotlib.pyplot as plt
+import pyprobml_utils as pml
 from jax import random
-from flax.training import train_state
+from time import time
+from functools import partial
 
 
 def get_datasets():
@@ -42,45 +46,6 @@ class MLP(nn.Module):
         return nn.log_softmax(x)
 
 
-def create_train_state(rng, learning_rate, momentum):
-    """Creates initial `TrainState`."""
-    mlp = MLP()
-    params = mlp.init(rng, jnp.ones((1, 28 ** 2)))['params']
-    tx = optax.sgd(learning_rate, momentum)
-    return train_state.TrainState.create(
-      apply_fn=mlp.apply, params=params, tx=tx)
-
-
-def cross_entropy_loss(*, logits, labels):
-    one_hot_labels = jax.nn.one_hot(labels, num_classes=10)
-    return -jnp.mean(jnp.sum(one_hot_labels * logits, axis=-1))
-
-
-def compute_metrics(*, logits, labels):
-    loss = cross_entropy_loss(logits=logits, labels=labels)
-    accuracy = jnp.mean(jnp.argmax(logits, -1) == labels)
-    metrics = {
-      "loss": loss,
-      "accuracy": accuracy,
-    }
-    return metrics
-
-
-@jax.jit
-def train_step(state, batch):
-    """Train for a single step."""
-    def loss_fn(params):
-        logits = MLP().apply({'params': params}, batch['image'])
-        loss = cross_entropy_loss(logits=logits, labels=batch['label'])
-        return loss, logits
-    
-    grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
-    (_, logits), grads = grad_fn(state.params)
-    state = state.apply_gradients(grads=grads)
-    metrics = compute_metrics(logits=logits, labels=batch['label'])
-    return state, metrics
-
-
 @jax.vmap
 def cross_entropy_loss(logits, label):
     return -logits[label]
@@ -103,7 +68,7 @@ def normal_accuracy(params,batch):
 
 @jax.jit
 def theta_to_flat_params(theta,M,flat_params0):
-    return jnp.matmul(theta,M)[0] + flat_params0
+    return jnp.matmul(theta, M)[0] + flat_params0
 
 
 def projected_loss(theta_subspace, batch, M, flat_params0, reconstruct_fn):
@@ -131,31 +96,22 @@ def adam_update(grads, params, mass, velocity, hyperparams):
     return params, mass, velocity
 
 
-def generate_projection(d, D, k_nonzero=None, enforce_no_overlap_if_possible=True):
-    M_random = np.random.normal(loc=0.0,scale=1.0,size=(d,D))
-    if k_nonzero is None:
-        M_now = M_random
-    else:
-        M_now = np.zeros((d,D))
-        if ((k_nonzero*d <= D) and (enforce_no_overlap_if_possible == True)):
-            ids_flat = np.random.choice(range(D),(k_nonzero*d),replace=False)
-            ids_shaped = ids_flat.reshape([d,k_nonzero])
-        elif ((k_nonzero*d <= D) and (enforce_no_overlap_if_possible == False)):
-            ids_flat = np.random.choice(range(D),(k_nonzero*d),replace=True)
-            ids_shaped = ids_flat.reshape([d,k_nonzero])
-        else:
-            ids_flat = np.random.choice(range(D),(k_nonzero*d),replace=True)
-            ids_shaped = ids_flat.reshape([d,k_nonzero])
-        for i in range(d):
-            M_now[i,ids_shaped[i]] = M_random[i,ids_shaped[i]]
-    #normalization to unit length of each basis vector
-    M_now = M_now / np.linalg.norm(M_now, axis=-1, keepdims=True)
-    return M_now
+def generate_projection(key, d, D):
+    M = random.normal(key, shape=(d,D))
+    M = M / jnp.linalg.norm(M, axis=-1, keepdims=True)
+    return M
 
 
-def subspace_learning(d, w_init_flat, hyperparams, reconstruct_fn, n_epochs=300):
+def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
+    key_params, key_subspace = random.split(key)
+    _, num_features = train_ds["image"].shape
+
+    x0 = jnp.zeros(num_features)
+    w_init = model().init(key_params, x0)["params"]
+    w_init_flat, reconstruct_fn = jax.flatten_util.ravel_pytree(w_init)
+
     D = len(w_init_flat)
-    A = jnp.array(generate_projection(d, D))
+    A = generate_projection(key_subspace, d, D)
     projected_loss_partial = partial(projected_loss, M=A,
                                      reconstruct_fn=reconstruct_fn,
                                      flat_params0=w_init_flat)
@@ -166,17 +122,17 @@ def subspace_learning(d, w_init_flat, hyperparams, reconstruct_fn, n_epochs=300)
     velocity = jnp.zeros((1, d))
 
     for e in range(n_epochs):
-        grads = loss_grad_wrt_theta(theta, train_ds)
+        grads = loss_grad_wrt_theta(theta, datasets["train"])
         theta, mass, velocity = adam_update(grads, theta, mass, velocity, hyperparams)
 
         params_now = theta_to_flat_params(theta, A, w_init_flat)
         params_now = reconstruct_fn(params_now)
 
-        epoch_loss = normal_loss(params_now, train_ds)
-        epoch_accuracy = normal_accuracy(params_now, train_ds)
+        epoch_loss = normal_loss(params_now, datasets["train"])
+        epoch_accuracy = normal_accuracy(params_now, datasets["train"])
         if e % 100 == 0 or e == n_epochs - 1:
             end = "\n"
-            epoch_val_accuracy = normal_accuracy(params_now, test_ds)
+            epoch_val_accuracy = normal_accuracy(params_now, datasets["test"])
             val_str = f" || val acc: {epoch_val_accuracy:0.2%}"
         else:
             end = "\r"
@@ -186,24 +142,24 @@ def subspace_learning(d, w_init_flat, hyperparams, reconstruct_fn, n_epochs=300)
         metric_str += val_str
         print(metric_str, end=end)
 
-    return theta
+    return theta, epoch_val_accuracy
 
 
 if __name__ == "__main__":
-    from functools import partial
-    train_ds, test_ds = get_datasets()
+    plt.rcParams["axes.spines.right"] = False
+    plt.rcParams["axes.spines.top"] = False
+
+    key = random.PRNGKey(314)
     n_features = 28 ** 2
+    train_ds, test_ds = get_datasets()
     train_ds["image"] = train_ds["image"].reshape(-1, n_features)
     test_ds["image"] = test_ds["image"].reshape(-1, n_features)
 
-    key = random.PRNGKey(314)
-    key, key_params = random.split(key)
-    x0 = jnp.zeros(784)
-    w_init = MLP().init(key, x0)["params"]
-    w_init_flat, reconstruct_fn = jax.flatten_util.ravel_pytree(w_init)
-    D, d = len(w_init_flat), 600
+    datasets = {
+        "train": train_ds,
+        "test": test_ds,
+    }
 
-    d = 300
     hyperparams = {
         "lr": 1e-1,
         "beta_1": 0.9,
@@ -211,4 +167,25 @@ if __name__ == "__main__":
         "epsilon": 1e-7
     }
 
-    theta = subspace_learning(d, w_init_flat, hyperparams, reconstruct_fn, n_epochs=300)
+    min_dim, max_dim = 10, 1300
+    jump_size = 50
+    subspace_dims = [2] + list(range(min_dim, max_dim, jump_size))
+
+    acc_vals = []
+    n_epochs = 300
+    for dim in subspace_dims:
+        init_time = time()
+        print(f"\nTesting subpace {dim=}")
+        theta, accuracy = subspace_learning(key, MLP, datasets, dim, hyperparams, n_epochs=n_epochs)
+        end_time = time()
+        print(f"Running time: {end_time - init_time:0.2f}s")
+        acc_vals.append(accuracy)
+    
+    fig, ax = plt.subplots(figsize=(7, 3))
+    plt.plot(subspace_dims[::2], acc_vals[::2], marker="o")
+    plt.yticks([0.2, 0.4, 0.6, 0.8, 1.0])
+    plt.axhline(y=0.9, c="tab:gray", linestyle="--")
+    plt.xlabel("Subspace dim $d$", fontsize=13)
+    plt.ylabel("Validation accuracy", fontsize=13)
+    plt.tight_layout()
+    pml.savefig("subspace_learning.pdf")
