@@ -1,4 +1,7 @@
-# Based on
+# This demo replicates Figure 2 of the paper
+# "Measuring the Intrinsic Dimension of Objetive Landscape"
+# By Li et al. (https://arxiv.org/abs/1804.08838)
+# Code based on the following repos:
 # * https://github.com/ganguli-lab/degrees-of-freedom
 # * https://github.com/uber-research/intrinsic-dimension
 
