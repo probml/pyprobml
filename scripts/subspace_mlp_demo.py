@@ -67,8 +67,9 @@ def normal_accuracy(params,batch):
 
 
 @jax.jit
-def theta_to_flat_params(theta,M,flat_params0):
-    return jnp.matmul(theta, M)[0] + flat_params0
+def convert_params_from_subspace_to_full(params_subspace, A, params_full_init):
+    params_full = jnp.matmul(params_subspace, A)[0] + params_full_init
+    return params_full
 
 
 def projected_loss(theta_subspace, batch, M, flat_params0, reconstruct_fn):
@@ -79,7 +80,7 @@ def projected_loss(theta_subspace, batch, M, flat_params0, reconstruct_fn):
     1. Project theta_subspace ∈ R^d => theta ∈ R^D
     2. Compute loss of the model w.r.t. theta_subspace
     """
-    projected_params = theta_to_flat_params(theta_subspace, M, flat_params0)
+    projected_params = convert_params_from_subspace_to_full(theta_subspace, M, flat_params0)
     projected_params = reconstruct_fn(projected_params)
     return normal_loss(projected_params, batch)
 
@@ -125,7 +126,7 @@ def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
         grads = loss_grad_wrt_theta(theta, datasets["train"])
         theta, mass, velocity = adam_update(grads, theta, mass, velocity, hyperparams)
 
-        params_now = theta_to_flat_params(theta, A, w_init_flat)
+        params_now = convert_params_from_subspace_to_full(theta, A, w_init_flat)
         params_now = reconstruct_fn(params_now)
 
         epoch_loss = normal_loss(params_now, datasets["train"])
