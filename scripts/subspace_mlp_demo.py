@@ -187,8 +187,9 @@ if __name__ == "__main__":
     plt.rcParams["axes.spines.top"] = False
 
     key = random.PRNGKey(314)
-    n_features = 28 ** 2
     train_ds, test_ds = get_datasets()
+    _, *n_features = train_ds["X"].shape
+    n_features = np.prod(n_features)
     train_ds["X"] = train_ds["X"].reshape(-1, n_features)
     test_ds["X"] = test_ds["X"].reshape(-1, n_features)
 
