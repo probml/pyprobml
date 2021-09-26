@@ -36,6 +36,9 @@ and then clones the pyprobml repo.
 !git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
 %cd -q /pyprobml/scripts
 ```
+The superimport library is described 
+[here](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb); it will import all other dependencies.
+
 
 You can edit your sourcecode in a colab editor following this idiom:
 ```python
@@ -49,9 +52,14 @@ files.view(file) # open editor
 
 You can run your code following this idiom:
 ```
-unimport(module="superimport")
 file = 'kalman_tracking_demo.py' # change this filename as needed
 %run $file
+```
+
+To test a single file, use this idiom (note the `raw` in the URL):
+```
+!wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/kalman_tracking_demo.py
+%run kalman_tracking_demo.py
 ```
 
 When your code all works, make a pull request containing your scripts. Do not check in the notebook itself (unless you are creating a big tutorial with lots of text and pictures, in which case you should open a PR on https://github.com/probml/probml-notebooks).
