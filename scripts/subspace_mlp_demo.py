@@ -31,8 +31,15 @@ def get_datasets():
     ds_builder.download_and_prepare()
     train_ds = tfds.as_numpy(ds_builder.as_dataset(split="train", batch_size=-1))
     test_ds = tfds.as_numpy(ds_builder.as_dataset(split="test", batch_size=-1))
-    train_ds["image"] = jnp.float32(train_ds["image"]) / 255.
-    test_ds["image"] = jnp.float32(test_ds["image"]) / 255.
+
+    train_ds["X"] = train_ds.pop("image")
+    train_ds["y"] = train_ds.pop("label")
+
+    test_ds["X"] = test_ds.pop("image")
+    test_ds["y"] = test_ds.pop("label")
+
+    train_ds["X"] = jnp.float32(train_ds["X"]) / 255.
+    test_ds["X"] = jnp.float32(test_ds["X"]) / 255.
     return train_ds, test_ds
 
 
@@ -48,17 +55,17 @@ class MLP(nn.Module):
 
 @jax.jit
 def cross_entropy_loss(params, batch):
-    logits = MLP().apply({"params": params}, batch["image"])
+    logits = MLP().apply({"params": params}, batch["X"])
     logits = jax.nn.log_softmax(logits)
-    loss = jnp.mean(-logits[batch["label"]])
+    loss = jnp.mean(-logits[batch["y"]])
     return loss
 
 
 @jax.jit
 def normal_accuracy(params,batch):
-    logits = MLP().apply({"params": params}, batch["image"])
+    logits = MLP().apply({"params": params}, batch["X"])
     logits = jax.nn.log_softmax(logits)
-    return jnp.mean(jnp.argmax(logits, -1) == batch["label"])
+    return jnp.mean(jnp.argmax(logits, -1) == batch["y"])
 
 
 @jax.jit
@@ -134,7 +141,7 @@ def generate_random_basis(key, d, D):
 
 def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
     key_params, key_subspace = random.split(key)
-    _, num_features = train_ds["image"].shape
+    _, num_features = train_ds["X"].shape
 
     x0 = jnp.zeros(num_features)
     params_full_init = model().init(key_params, x0)["params"]
@@ -182,8 +189,8 @@ if __name__ == "__main__":
     key = random.PRNGKey(314)
     n_features = 28 ** 2
     train_ds, test_ds = get_datasets()
-    train_ds["image"] = train_ds["image"].reshape(-1, n_features)
-    test_ds["image"] = test_ds["image"].reshape(-1, n_features)
+    train_ds["X"] = train_ds["X"].reshape(-1, n_features)
+    test_ds["X"] = test_ds["X"].reshape(-1, n_features)
 
     datasets = {
         "train": train_ds,
