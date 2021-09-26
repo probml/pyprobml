@@ -62,7 +62,7 @@ def normal_accuracy(params,batch):
 
 
 @jax.jit
-def convert_params_from_subspace_to_full(params_subspace, A, params_full_init):
+def convert_params_from_subspace_to_full(params_subspace, projection_matrix, params_full_init):
     """
     Project the subspace model weights onto the full model weights
 
@@ -70,7 +70,7 @@ def convert_params_from_subspace_to_full(params_subspace, A, params_full_init):
     ----------
     params_subspace: jnp.ndarray(d)
         The subspace model weights
-    A: jnp.ndarray(D,d)
+    projection_matrix: jnp.ndarray(D,d)
         The projection matrix
     params_full_init: jnp.ndarray(D)
         The initial full model weights
@@ -79,11 +79,11 @@ def convert_params_from_subspace_to_full(params_subspace, A, params_full_init):
     -------
     params_full: jnp.ndarray(D)
     """
-    params_full = jnp.matmul(params_subspace, A)[0] + params_full_init
+    params_full = jnp.matmul(params_subspace, projection_matrix)[0] + params_full_init
     return params_full
 
 
-def projected_loss(params_subspace, batch, A, params_full_init, reconstruct_fn):
+def projected_loss(params_subspace, batch, projection_matrix, params_full_init, reconstruct_fn):
     """
     Project the subspace model weights onto the full model weights and
     compute the loss.
@@ -98,7 +98,7 @@ def projected_loss(params_subspace, batch, A, params_full_init, reconstruct_fn):
         The subspace model weights
     bath: dict
         The batch of data to train
-    A: jnp.ndarray(D,d)
+    projection_matrix: jnp.ndarray(D,d)
         The projection matrix
     params_full_init: jnp.ndarray(D)
         The initial full model weights
@@ -109,9 +109,9 @@ def projected_loss(params_subspace, batch, A, params_full_init, reconstruct_fn):
     -------
     loss: float
     """
-    projected_params = convert_params_from_subspace_to_full(params_subspace, A, params_full_init)
-    projected_params = reconstruct_fn(projected_params)
-    return cross_entropy_loss(projected_params, batch)
+    params_full = convert_params_from_subspace_to_full(params_subspace, projection_matrix, params_full_init)
+    params_pytree = reconstruct_fn(params_full)
+    return cross_entropy_loss(params_pytree, batch)
 
 
 @jax.jit
@@ -127,9 +127,9 @@ def adam_update(grads, params, mass, velocity, hyperparams):
 
 
 def generate_projection(key, d, D):
-    M = random.normal(key, shape=(d,D))
-    M = M / jnp.linalg.norm(M, axis=-1, keepdims=True)
-    return M
+    projection_matrix = random.normal(key, shape=(d,D))
+    projection_matrix = projection_matrix / jnp.linalg.norm(projection_matrix, axis=-1, keepdims=True)
+    return projection_matrix
 
 
 def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
@@ -141,28 +141,28 @@ def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
     params_full_init, reconstruct_fn = jax.flatten_util.ravel_pytree(params_full_init)
 
     D = len(params_full_init)
-    A = generate_projection(key_subspace, d, D)
-    projected_loss_partial = partial(projected_loss, A=A,
+    projection_matrix = generate_projection(key_subspace, d, D)
+    projected_loss_partial = partial(projected_loss, projection_matrix=projection_matrix,
                                      reconstruct_fn=reconstruct_fn,
                                      params_full_init=params_full_init)
-    loss_grad_wrt_theta = jax.grad(projected_loss_partial)
+    loss_grad_wrt_params_subspace = jax.grad(projected_loss_partial)
 
-    theta = jnp.zeros((1, d))
+    params_subspace = jnp.zeros((1, d))
     mass = jnp.zeros((1, d))
     velocity = jnp.zeros((1, d))
 
     for e in range(n_epochs):
-        grads = loss_grad_wrt_theta(theta, datasets["train"])
-        theta, mass, velocity = adam_update(grads, theta, mass, velocity, hyperparams)
+        grads = loss_grad_wrt_params_subspace(params_subspace, datasets["train"])
+        params_subspace, mass, velocity = adam_update(grads, params_subspace, mass, velocity, hyperparams)
 
-        params_now = convert_params_from_subspace_to_full(theta, A, params_full_init)
-        params_now = reconstruct_fn(params_now)
+        params_full = convert_params_from_subspace_to_full(params_subspace, projection_matrix, params_full_init)
+        params_pytree = reconstruct_fn(params_full)
 
-        epoch_loss = cross_entropy_loss(params_now, datasets["train"])
-        epoch_accuracy = normal_accuracy(params_now, datasets["train"])
+        epoch_loss = cross_entropy_loss(params_pytree, datasets["train"])
+        epoch_accuracy = normal_accuracy(params_pytree, datasets["train"])
         if e % 100 == 0 or e == n_epochs - 1:
             end = "\n"
-            epoch_val_accuracy = normal_accuracy(params_now, datasets["test"])
+            epoch_val_accuracy = normal_accuracy(params_pytree, datasets["test"])
             val_str = f" || val acc: {epoch_val_accuracy:0.2%}"
         else:
             end = "\r"
@@ -172,7 +172,7 @@ def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
         metric_str += val_str
         print(metric_str, end=end)
 
-    return theta, epoch_val_accuracy
+    return params_subspace, epoch_val_accuracy
 
 
 if __name__ == "__main__":
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     for dim in subspace_dims:
         init_time = time()
         print(f"\nTesting subpace {dim=}")
-        theta, accuracy = subspace_learning(key, MLP, datasets, dim, hyperparams, n_epochs=n_epochs)
+        params_subspace, accuracy = subspace_learning(key, MLP, datasets, dim, hyperparams, n_epochs=n_epochs)
         end_time = time()
         print(f"Running time: {end_time - init_time:0.2f}s")
         acc_vals.append(accuracy)
