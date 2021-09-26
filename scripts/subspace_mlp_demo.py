@@ -46,16 +46,11 @@ class MLP(nn.Module):
         return nn.log_softmax(x)
 
 
-@jax.vmap
-def cross_entropy_loss(logits, label):
-    return -logits[label]
-
-
 @jax.jit
-def normal_loss(params, batch):
+def cross_entropy_loss(params, batch):
     logits = MLP().apply({"params": params}, batch["image"])
     logits = jax.nn.log_softmax(logits)
-    loss = jnp.mean(cross_entropy_loss(logits, batch["label"]))
+    loss = jnp.mean(-logits[batch["label"]])
     return loss
 
 
@@ -82,7 +77,7 @@ def projected_loss(theta_subspace, batch, M, flat_params0, reconstruct_fn):
     """
     projected_params = convert_params_from_subspace_to_full(theta_subspace, M, flat_params0)
     projected_params = reconstruct_fn(projected_params)
-    return normal_loss(projected_params, batch)
+    return cross_entropy_loss(projected_params, batch)
 
 
 @jax.jit
@@ -129,7 +124,7 @@ def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
         params_now = convert_params_from_subspace_to_full(theta, A, w_init_flat)
         params_now = reconstruct_fn(params_now)
 
-        epoch_loss = normal_loss(params_now, datasets["train"])
+        epoch_loss = cross_entropy_loss(params_now, datasets["train"])
         epoch_accuracy = normal_accuracy(params_now, datasets["train"])
         if e % 100 == 0 or e == n_epochs - 1:
             end = "\n"
