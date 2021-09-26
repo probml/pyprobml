@@ -208,7 +208,6 @@ if __name__ == "__main__":
     min_dim, max_dim = 10, 1300
     jump_size = 50
     subspace_dims = [2] + list(range(min_dim, max_dim, jump_size))
-    subspace_dims = [2]
 
     acc_vals = []
     n_epochs = 300
