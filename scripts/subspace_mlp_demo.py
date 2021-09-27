@@ -213,7 +213,7 @@ if __name__ == "__main__":
     n_epochs = 300
     for dim in subspace_dims:
         init_time = time()
-        print(f"\nTesting subpace {dim=}")
+        print(f"\nTesting subpace {dim}")
         params_subspace, accuracy = subspace_learning(key, MLP, datasets, dim, hyperparams, n_epochs=n_epochs)
         end_time = time()
         print(f"Running time: {end_time - init_time:0.2f}s")
