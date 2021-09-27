@@ -7,7 +7,7 @@ Python 3 code for the new book series [Probabilistic Machine Learning](https://p
 This is work in progress, so expect rough edges.
 
 
-## Running the scripts
+## Running the scripts 
 
 The `scripts` directory contains python files to generate individual figures from vol 1 and vol 2 of the book.
 To manually execute an individual script from the command line,
@@ -22,7 +22,7 @@ Many scripts rely on external packages, such as scipy, jax, etc.
 In some cases, the list of necessary packages is noted in the comments at the start of the file.
 However, rather than making the user install each dependency themselves, you can just install a single meta-package:
 ```
-pip install superimport
+pip install superimport 
 ```
 This needs to be done on your local machine (or once per colab instance). You then need to add `import superimport`  to the top of each of your scripts.
 The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
@@ -33,6 +33,7 @@ Thus you will need an internet connection to run the code.
 Some scripts download datasets stored in the [probml-data repo](https://github.com/probml/probml-data).
 Thus you will need an internet connection to run the code.
 
+
 ## Jupyter notebooks
 
 The scripts needed to make all the figures for each chapter are automatically combined together into a series of Jupyter notebooks, one per chapter.
@@ -42,12 +43,46 @@ The scripts needed to make all the figures for each chapter are automatically co
 In addition to the automatically generated notebooks, there are a series of manually created notebooks, which create additional figures, and provide supplementary material for the book. These are stored in the [notebooks repo](https://github.com/probml/probml-notebooks), since they can be quite large. Some of these notebooks use the scripts mentioned above, but others are independent of the book content.
 
 
+## Colab
 
-## Colab, GCP, TPUs, and all that
+The best way to run the code is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have a created a [intro to colab](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/colab_intro.ipynb) notebook with more details.
 
-When you open a Jupyter notebook, there will be a button at the top that says 'Open in colab'. If you click on this, it will start a virtual machine (VM) instance on Google Cloud Platform (GCP), running [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/probml-notebooks/blob/main/markdown/colab_gcp_tpu_tutorial.md) with more information.
+You can run the book code inside colab as shown in the example below.
+```
+%%capture
+!pip install superimport 
+!pip install deimport
+
+!git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
+%cd /pyprobml/scripts
+
+%run kf_tracking_demo.py
+```
+
+To run code from github, follow the example below.
+(Note the `raw` in the URL.)
+```
+!wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/softmax_plot.py
+%run softmax_plot.py
+```
+
+To edit a file locally and then run, follow the example below.
+```
+%load_ext autoreload
+%autoreload 2
+
+file = 'foo.py' # change this filename as needed
+!touch $file # create  file if necessary
+from google.colab import files
+files.view(file) # open editor
+
+%run $file
+```
 
 
+## GCP, TPUs, and all that
+
+When you want more power or control than colab gives you, you should get a Google Cloud Platform (GCP) account, and get access to a TPU VM. You can then use this as a virtual desktop which you can access via ssh from inside VScode. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/probml-notebooks/blob/main/markdown/colab_gcp_tpu_tutorial.md) with more information.
 
 
 ## How to contribute
