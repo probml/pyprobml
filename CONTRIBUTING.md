@@ -25,51 +25,18 @@ Please follow the guidelines below when submitting code to [pyprobml](https://gi
 - In general, your commit should be a single file. If you want to check in multiple files, discuss this in the thread for the github issue you are dealing with.
 - If your pull request refers to an open issue, please be sure to mention it (e.g., 'Closes #foo') in your PR.
  
-### Testing your code in colab
 
-Make sure your code works properly in Google's Colab. (It is not sufficient for it to work on your local machine). 
-
-The first cell should contain the following boilerplate code, that installs superimport (which will automatically install missing packages),
-and then clones the pyprobml repo.
-```python
-!pip install superimport -qqq
-!git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
-%cd -q /pyprobml/scripts
-```
-The superimport library is described 
-[here](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb); it will import all other dependencies.
-
-
-You can edit your sourcecode in a colab editor following this idiom:
-```python
-%load_ext autoreload
-%autoreload 2
-file = 'kalman_tracking_demo.py' # change this filename as needed
-!touch $file # create  file if necessary
-from google.colab import files
-files.view(file) # open editor
-```
-
-You can run your code following this idiom:
-```
-file = 'kalman_tracking_demo.py' # change this filename as needed
-%run $file
-```
-
-To test a single file, use this idiom (note the `raw` in the URL):
-```
-!wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/kalman_tracking_demo.py
-%run kalman_tracking_demo.py
-```
-
-When your code all works, make a pull request containing your scripts. Do not check in the notebook itself (unless you are creating a big tutorial with lots of text and pictures, in which case you should open a PR on https://github.com/probml/probml-notebooks).
 
 ### Coding guidelines
-- Your script file should import any libraries it needs.
-Please be sure to include the following, at a minimum:
+
+- Make sure your code works properly in a Google Colab. (It is not sufficient for it to work on your local machine). 
+Do not check in the notebook itself (unless you are creating a big tutorial with lots of text and pictures, in which case you should open a PR on https://github.com/probml/probml-notebooks).
+- Use the
+[superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb) library to install  all other dependencies.
+- Your script file should contain the following noilerplate, at a minimum:
 ```python
-import pyprobml_utils as pml
 import superimport
+import pyprobml_utils as pml
 import numpy as np
 ```
 - Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules). In particular, follow [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#function-and-variable-names).
