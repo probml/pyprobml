@@ -113,5 +113,5 @@ losses = jnp.append(losses, loss)
 # Plot loss curve
 plt.plot(losses, linewidth=3)
 plt.xlabel("Iteration")
-pml.savefig("subspace_learning.png")
+pml.savefig("subspace_sgd_mlp_mnist_demo.png")
 plt.show()

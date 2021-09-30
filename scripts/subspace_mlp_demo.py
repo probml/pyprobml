@@ -221,7 +221,7 @@ jump_size = 200 # 100
 subspace_dims = [2] + list(range(min_dim, max_dim, jump_size))
 
 acc_vals = []
-n_epochs = 30 # 300
+n_epochs = 100
 
 for dim in subspace_dims:
     init_time = time()
@@ -240,5 +240,5 @@ plt.axhline(y=0.9, c="tab:gray", linestyle="--")
 plt.xlabel("Subspace dim $d$", fontsize=13)
 plt.ylabel("Validation accuracy", fontsize=13)
 plt.tight_layout()
-pml.savefig("subspace_mlp_acc_vs_dim.png")
+pml.savefig("subspace_mlp_demo.png")
 plt.show()

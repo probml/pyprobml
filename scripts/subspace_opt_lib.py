@@ -37,6 +37,7 @@ def data_stream(key, X, y, batch_size):
 
 
 def make_potential(key, predict_fn, dataset, batch_size, l2_regularizer):
+    # Return function to compute negative log joint for each minibatch
     dataloader = data_stream(key, dataset["X"], dataset["y"], batch_size)
     n_data = dataset["X"].shape[0]
 
@@ -54,7 +55,6 @@ def make_potential(key, predict_fn, dataset, batch_size, l2_regularizer):
         return sum(tree_map(lambda p: jnp.sum(jax.scipy.stats.norm.logpdf(p, scale=l2_regularizer)), leaves_of_params))
 
     def potential(params, data):
-        # Negative log joint (energy function)
         ll = n_data * jnp.mean(loglikelihood(params, *data))
         logp = logprior(params)
         return -(ll + logp)
@@ -84,7 +84,6 @@ def make_potential_subspace(key, anchor_params_tree, predict_fn, dataset, batch_
         return params_pytree
 
     def loglikelihood(params, x, y):
-        """Computes the log-likelihood."""
         logits = predict_fn(params, x)
         num_classes = logits.shape[-1]
         labels = one_hot(y, num_classes)
@@ -93,6 +92,7 @@ def make_potential_subspace(key, anchor_params_tree, predict_fn, dataset, batch_
 
     @partial(jit, static_argnames=("prior_variance"))
     def logprior(params):
+        # Spherical Gaussian prior 
         return jnp.sum(jax.scipy.stats.norm.logpdf(params, scale=l2_regularizer))
 
     def potential(params_sub, data):
