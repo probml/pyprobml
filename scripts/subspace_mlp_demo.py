@@ -143,6 +143,7 @@ def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
     x0 = jnp.zeros(num_features)
     params_full_init = model().init(key_params, x0)["params"]
     params_full_init, flat_to_pytree_fn = jax.flatten_util.ravel_pytree(params_full_init)
+    
 
     D = len(params_full_init)
     projection_matrix = generate_random_basis(key_subspace, d, D)
@@ -192,51 +193,52 @@ def print_metrics(loss_values, train_accuracies, val_accuracies, print_every=100
         print(metric_str(n_epochs, epoch_loss, epoch_train_accuracy, epoch_val_accuracy))
 
 
-if __name__ == "__main__":
-    plt.rcParams["axes.spines.right"] = False
-    plt.rcParams["axes.spines.top"] = False
 
-    key = random.PRNGKey(314)
-    train_ds, test_ds = get_datasets()
-    _, *n_features = train_ds["X"].shape
-    n_features = np.prod(n_features)
-    train_ds["X"] = train_ds["X"].reshape(-1, n_features)
-    test_ds["X"] = test_ds["X"].reshape(-1, n_features)
+plt.rcParams["axes.spines.right"] = False
+plt.rcParams["axes.spines.top"] = False
 
-    datasets = {
-        "train": train_ds,
-        "test": test_ds,
-    }
+key = random.PRNGKey(314)
+train_ds, test_ds = get_datasets()
+_, *n_features = train_ds["X"].shape
+n_features = np.prod(n_features)
+train_ds["X"] = train_ds["X"].reshape(-1, n_features)
+test_ds["X"] = test_ds["X"].reshape(-1, n_features)
 
-    hyperparams = {
-        "lr": 1e-2,
-        "beta_1": 0.9,
-        "beta_2": 0.999,
-        "epsilon": 1e-7
-    }
+datasets = {
+    "train": train_ds,
+    "test": test_ds,
+}
 
-    min_dim, max_dim = 10, 1300
-    jump_size = 50
-    subspace_dims = [2] + list(range(min_dim, max_dim, jump_size))
+hyperparams = {
+    "lr": 1e-2,
+    "beta_1": 0.9,
+    "beta_2": 0.999,
+    "epsilon": 1e-7
+}
 
-    acc_vals = []
-    n_epochs = 300
+min_dim, max_dim = 10, 1000
+jump_size = 200 # 100
+subspace_dims = [2] + list(range(min_dim, max_dim, jump_size))
 
-    for dim in subspace_dims:
-        init_time = time()
-        print(f"\nTesting subpace {dim}")
-        params_subspace, loss_values, train_accuracies, val_accuracies = subspace_learning(key, MLP, datasets, dim,
-                                                                                           hyperparams, n_epochs=n_epochs)
-        end_time = time()
-        print(f"Running time: {end_time - init_time:0.2f}s")
-        acc_vals.append(val_accuracies[-1])
-        print_metrics(loss_values, train_accuracies, val_accuracies, print_every=100)
+acc_vals = []
+n_epochs = 30 # 300
 
-    fig, ax = plt.subplots(figsize=(6, 3))
-    plt.plot(subspace_dims[::2], acc_vals[::2], marker="o")
-    plt.yticks([0.2, 0.4, 0.6, 0.8, 1.0])
-    plt.axhline(y=0.9, c="tab:gray", linestyle="--")
-    plt.xlabel("Subspace dim $d$", fontsize=13)
-    plt.ylabel("Validation accuracy", fontsize=13)
-    plt.tight_layout()
-    pml.savefig("subspace_learning.pdf")
+for dim in subspace_dims:
+    init_time = time()
+    print(f"\nTesting subpace {dim}")
+    params_subspace, loss_values, train_accuracies, val_accuracies = subspace_learning(key, MLP, datasets, dim,
+                                                                                        hyperparams, n_epochs=n_epochs)
+    end_time = time()
+    print(f"Running time: {end_time - init_time:0.2f}s")
+    acc_vals.append(val_accuracies[-1])
+    print_metrics(loss_values, train_accuracies, val_accuracies, print_every=100)
+
+fig, ax = plt.subplots(figsize=(6, 3))
+plt.plot(subspace_dims[::2], acc_vals[::2], marker="o")
+plt.yticks([0.2, 0.4, 0.6, 0.8, 1.0])
+plt.axhline(y=0.9, c="tab:gray", linestyle="--")
+plt.xlabel("Subspace dim $d$", fontsize=13)
+plt.ylabel("Validation accuracy", fontsize=13)
+plt.tight_layout()
+pml.savefig("subspace_mlp_acc_vs_dim.png")
+plt.show()

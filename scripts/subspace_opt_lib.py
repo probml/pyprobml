@@ -1,10 +1,11 @@
 # Author : Kevin Murphy(@murphyk), Aleyna Kara(@karalleyna)
 
-import superimport
+#import superimport
 
 import jax
 import jax.numpy as jnp
 from jax import jit, value_and_grad, tree_leaves, tree_map
+from jax import random
 from jax.random import split, permutation
 from jax.nn import one_hot
 from jax.lax import scan
@@ -12,8 +13,16 @@ from jax.lax import scan
 import optax
 
 from functools import partial
-from subspace_mlp_demo import convert_params_from_subspace_to_full, generate_random_basis
 
+
+def generate_random_basis(key, d, D):
+    projection_matrix = random.normal(key, shape=(d, D))
+    projection_matrix = projection_matrix / jnp.linalg.norm(projection_matrix, axis=-1, keepdims=True)
+    return projection_matrix
+
+@jax.jit
+def convert_params_from_subspace_to_full(params_subspace, projection_matrix, params_full_init):
+    return jnp.matmul(params_subspace, projection_matrix)[0] + params_full_init
 
 def data_stream(key, X, y, batch_size):
     n_data = len(X)
@@ -32,7 +41,6 @@ def make_potential(key, predict_fn, dataset, batch_size, l2_regularizer):
     n_data = dataset["X"].shape[0]
 
     def loglikelihood(params, x, y):
-        # Computes the loglikelihood
         logits = predict_fn(params, x)
         num_classes = logits.shape[-1]
         labels = one_hot(y, num_classes)
@@ -41,7 +49,7 @@ def make_potential(key, predict_fn, dataset, batch_size, l2_regularizer):
 
     @partial(jit, static_argnames=("prior_variance"))
     def logprior(params):
-        # Computes the Gaussian prior logdensity
+        # Spherical Gaussian prior 
         leaves_of_params = tree_leaves(params)
         return sum(tree_map(lambda p: jnp.sum(jax.scipy.stats.norm.logpdf(p, scale=l2_regularizer)), leaves_of_params))
 
