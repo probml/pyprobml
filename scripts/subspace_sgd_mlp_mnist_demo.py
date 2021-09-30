@@ -1,6 +1,6 @@
 # Author : Kevin Murphy(@murphyk), Aleyna Kara(@karalleyna)
 
-#import superimport
+# import superimport
 
 import matplotlib.pyplot as plt
 
@@ -15,6 +15,7 @@ from tensorflow.keras.datasets import mnist
 
 from subspace_opt_lib import make_potential, make_potential_subspace, optimize_loop
 from subspace_mlp_demo import generate_random_basis
+
 
 def load_mnist(key, n_train, n_test, shuffle=True):
     (X, y), (X_test, y_test) = mnist.load_data()
@@ -82,7 +83,8 @@ if __name__ == "__main__":
 
     objective_subspace, subspace_to_pytree_fn = make_potential_subspace(subspace_key, anchor_params_tree, predict,
                                                                         train_ds, batch_size, l2_regularizer,
-                                                                        subspace_dim, projection_matrix=projection_matrix)
+                                                                        subspace_dim,
+                                                                        projection_matrix=projection_matrix)
 
     losses = jnp.array([])
     params_subspace = normal(key, shape=(subspace_dim,))
@@ -93,7 +95,8 @@ if __name__ == "__main__":
     # Do more subspace optimization continuing from before (warm-start)
     objective_subspace, subspace_to_pytree_fn = make_potential_subspace(subspace_key, anchor_params_tree, predict,
                                                                         train_ds, batch_size, l2_regularizer,
-                                                                        subspace_dim, projection_matrix=projection_matrix)
+                                                                        subspace_dim,
+                                                                        projection_matrix=projection_matrix)
     params_subspace, loss, _ = optimize_loop(objective_subspace, params_subspace, optimizer, n_steps)
     print(f"Loss : {loss[-1]}")
     losses = jnp.append(losses, loss)

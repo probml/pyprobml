@@ -14,6 +14,7 @@ import optax
 from functools import partial
 from subspace_mlp_demo import convert_params_from_subspace_to_full, generate_random_basis
 
+
 def data_stream(key, X, y, batch_size):
     n_data = len(X)
     while True:
@@ -97,18 +98,18 @@ def make_potential_subspace(key, anchor_params_tree, predict_fn, dataset, batch_
 
     return objective, subspace_to_pytree_fn
 
+
 def optimize_loop(objective, initial_params, optimizer, n_steps, callback=None):
-  opt_state = optimizer.init(initial_params)
+    opt_state = optimizer.init(initial_params)
 
-  def train_step(carry, step):
-    params, opt_state = carry
-    loss, grads = value_and_grad(objective)(params)
-    updates, opt_state = optimizer.update(grads, opt_state)
-    params = optax.apply_updates(params, updates)
-    callback_result = callback(params, step)  if callback is not None else None
-    return (params, opt_state), (loss, callback_result)
+    def train_step(carry, step):
+        params, opt_state = carry
+        loss, grads = value_and_grad(objective)(params)
+        updates, opt_state = optimizer.update(grads, opt_state)
+        params = optax.apply_updates(params, updates)
+        callback_result = callback(params, step) if callback is not None else None
+        return (params, opt_state), (loss, callback_result)
 
-  steps = jnp.arange(n_steps)
-  (params, _), (loss, callback_hist) = scan(train_step, (initial_params, opt_state), steps)
-  return params, loss, callback_hist
-
+    steps = jnp.arange(n_steps)
+    (params, _), (loss, callback_hist) = scan(train_step, (initial_params, opt_state), steps)
+    return params, loss, callback_hist
