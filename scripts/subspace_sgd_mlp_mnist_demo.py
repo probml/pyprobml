@@ -90,10 +90,9 @@ anchor_params_full, flat_to_pytree_fn = jax.flatten_util.ravel_pytree(anchor_par
 full_dim = len(anchor_params_full)
 projection_matrix = sub.generate_random_basis(key, subspace_dim, full_dim)
 
-objective_subspace, subspace_to_pytree_fn = sub.make_potential_subspace(subspace_key, anchor_params_tree, predict,
-                                                                    train_ds, batch_size, l2_regularizer,
-                                                                    subspace_dim,
-                                                                    projection_matrix=projection_matrix)
+objective_subspace, subspace_to_pytree_fn = sub.make_potential_subspace(
+    subspace_key, anchor_params_tree, predict, train_ds, batch_size, l2_regularizer,
+    subspace_dim, projection_matrix=projection_matrix)
 
 losses = jnp.array([])
 params_subspace = normal(key, shape=(subspace_dim,))
@@ -102,10 +101,6 @@ print(f"Loss : {loss[-1]}")
 losses = jnp.append(losses, loss)
 
 # Do more subspace optimization continuing from before (warm-start)
-objective_subspace, subspace_to_pytree_fn = sub.make_potential_subspace(subspace_key, anchor_params_tree, predict,
-                                                                    train_ds, batch_size, l2_regularizer,
-                                                                    subspace_dim,
-                                                                    projection_matrix=projection_matrix)
 params_subspace, loss, _ = sub.optimize_loop(objective_subspace, params_subspace, optimizer, n_steps)
 print(f"Loss : {loss[-1]}")
 losses = jnp.append(losses, loss)
