@@ -1,6 +1,6 @@
 # Author : Kevin Murphy(@murphyk), Aleyna Kara(@karalleyna)
 
-#import superimport
+# import superimport
 
 import jax
 import jax.numpy as jnp
@@ -20,9 +20,11 @@ def generate_random_basis(key, d, D):
     projection_matrix = projection_matrix / jnp.linalg.norm(projection_matrix, axis=-1, keepdims=True)
     return projection_matrix
 
-@jax.jit
+
+@jit
 def convert_params_from_subspace_to_full(params_subspace, projection_matrix, params_full_init):
     return jnp.matmul(params_subspace, projection_matrix)[0] + params_full_init
+
 
 def data_stream(key, X, y, batch_size):
     n_data = len(X)
@@ -41,6 +43,7 @@ def make_potential(key, predict_fn, dataset, batch_size, l2_regularizer):
     dataloader = data_stream(key, dataset["X"], dataset["y"], batch_size)
     n_data = dataset["X"].shape[0]
 
+    @jit
     def loglikelihood(params, x, y):
         logits = predict_fn(params, x)
         num_classes = logits.shape[-1]
@@ -48,17 +51,19 @@ def make_potential(key, predict_fn, dataset, batch_size, l2_regularizer):
         ll = jnp.sum(labels * logits, axis=-1)
         return ll
 
-    @partial(jit, static_argnames=("prior_variance"))
+    @jit
     def logprior(params):
         # Spherical Gaussian prior 
         leaves_of_params = tree_leaves(params)
         return sum(tree_map(lambda p: jnp.sum(jax.scipy.stats.norm.logpdf(p, scale=l2_regularizer)), leaves_of_params))
 
+    @jit
     def potential(params, data):
         ll = n_data * jnp.mean(loglikelihood(params, *data))
         logp = logprior(params)
         return -(ll + logp)
 
+    @jit
     def objective(params):
         return potential(params, next(dataloader))
 
@@ -78,11 +83,13 @@ def make_potential_subspace(key, anchor_params_tree, predict_fn, dataset, batch_
         subspace_key, key = split(key)
         projection_matrix = generate_random_basis(key, subspace_dim, full_dim)
 
+    @jit
     def subspace_to_pytree_fn(params_subspace):
         params_full = convert_params_from_subspace_to_full(params_subspace, projection_matrix, anchor_params_full)
         params_pytree = flat_to_pytree_fn(params_full)
         return params_pytree
 
+    @jit
     def loglikelihood(params, x, y):
         logits = predict_fn(params, x)
         num_classes = logits.shape[-1]
@@ -90,17 +97,19 @@ def make_potential_subspace(key, anchor_params_tree, predict_fn, dataset, batch_
         ll = jnp.sum(labels * logits, axis=-1)
         return ll
 
-    @partial(jit, static_argnames=("prior_variance"))
+    @jit
     def logprior(params):
         # Spherical Gaussian prior 
         return jnp.sum(jax.scipy.stats.norm.logpdf(params, scale=l2_regularizer))
 
+    @jit
     def potential(params_sub, data):
         params_pytree = subspace_to_pytree_fn(params_sub)
         ll = n_data * jnp.mean(loglikelihood(params_pytree, *data))
         logp = logprior(params_sub)
         return -(ll + logp)
 
+    @jit
     def objective(params_sub):
         return potential(params_sub, next(dataloader))
 

@@ -32,13 +32,14 @@ def get_datasets():
     test_ds = tfds.as_numpy(ds_builder.as_dataset(split="test", batch_size=-1))
 
     train_ds["X"] = train_ds.pop("image")
-    train_ds["y"] = train_ds.pop("label")
+    train_ds["y"] = jnp.array(train_ds.pop("label"))
 
     test_ds["X"] = test_ds.pop("image")
-    test_ds["y"] = test_ds.pop("label")
+    test_ds["y"] = jnp.array(test_ds.pop("label"))
 
     train_ds["X"] = jnp.float32(train_ds["X"]) / 255.
     test_ds["X"] = jnp.float32(test_ds["X"]) / 255.
+
     return train_ds, test_ds
 
 
@@ -143,7 +144,6 @@ def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
     x0 = jnp.zeros(num_features)
     params_full_init = model().init(key_params, x0)["params"]
     params_full_init, flat_to_pytree_fn = jax.flatten_util.ravel_pytree(params_full_init)
-    
 
     D = len(params_full_init)
     projection_matrix = generate_random_basis(key_subspace, d, D)
@@ -171,7 +171,7 @@ def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
     epochs = jnp.arange(n_epochs)
 
     (params_subspace, _, _), (loss_values, train_accuracies, val_accuracies) = jax.lax.scan(train_step, (
-    initial_params_subspace, mass, velocity), epochs)
+        initial_params_subspace, mass, velocity), epochs)
 
     return params_subspace, loss_values, train_accuracies, val_accuracies
 
@@ -191,7 +191,6 @@ def print_metrics(loss_values, train_accuracies, val_accuracies, print_every=100
         epoch_loss, epoch_train_accuracy, epoch_val_accuracy = loss_values[n_epochs - 1], train_accuracies[
             n_epochs - 1], val_accuracies[n_epochs - 1]
         print(metric_str(n_epochs, epoch_loss, epoch_train_accuracy, epoch_val_accuracy))
-
 
 
 plt.rcParams["axes.spines.right"] = False
@@ -217,7 +216,7 @@ hyperparams = {
 }
 
 min_dim, max_dim = 10, 1000
-jump_size = 200 # 100
+jump_size = 200  # 100
 subspace_dims = [2] + list(range(min_dim, max_dim, jump_size))
 
 acc_vals = []
@@ -227,7 +226,7 @@ for dim in subspace_dims:
     init_time = time()
     print(f"\nTesting subpace {dim}")
     params_subspace, loss_values, train_accuracies, val_accuracies = subspace_learning(key, MLP, datasets, dim,
-                                                                                        hyperparams, n_epochs=n_epochs)
+                                                                                       hyperparams, n_epochs=n_epochs)
     end_time = time()
     print(f"Running time: {end_time - init_time:0.2f}s")
     acc_vals.append(val_accuracies[-1])
