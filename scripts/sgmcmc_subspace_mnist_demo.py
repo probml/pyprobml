@@ -79,11 +79,6 @@ data = (train_ds["X"], train_ds["y"])
 n_features = train_ds["X"].shape[1]
 n_classes = 10
 
-subspace_dim = 100
-nwarmup = 100
-nsteps = 300
-nsamples = 300
-
 # model
 init_random_params, predict = stax.serial(
     Dense(n_features), Relu,
@@ -95,29 +90,37 @@ _, params_init_tree = init_random_params(init_key, input_shape=(-1, n_features))
 l2_regularizer = 0.01
 batch_size = 512
 
-# optimize
-opt = optax.adam(learning_rate=1e-3)
-params_tree, params_subspace, prev_log_post_trace, loglik_sub, logprior_sub, subspace_to_pytree_fn = sub.subspace_optimizer(
-    opt_key, loglikelihood, logprior, params_init_tree, data, batch_size, subspace_dim, nwarmup, nsteps, opt)
+subspace_dim = 100
+nwarmup = 100
+nsteps = 300
+nsamples = 300
+
+# optimizer
+print("running optimizer in subspace")
+opt = optax.adam(learning_rate=1e-1)
+params_tree, params_subspace, opt_log_post_trace, _ = sub.subspace_optimizer(
+    opt_key, loglikelihood, logprior, params_init_tree, data, batch_size, subspace_dim,
+    nwarmup, nsteps, opt, pbar=False)
 
 print(f"Train accuracy : {accuracy(params_tree, train_ds)}")
 print(f"Test accuracy : {accuracy(params_tree, test_ds)}")
 
-# optimize then sample
+# Loss Curve
+plt.plot(-jnp.append(opt_log_post_trace, opt_log_post_trace), linewidth=2)
+plt.xlabel("Iteration")
+plt.ylabel(f"NLL for subspace dimension {subspace_dim}")
+pml.savefig("subspace_sgd_mlp_mnist_demo.png")
+plt.show()
+
+
+# sampler
+print("running sampler in subspace")
 sampler = partial(build_sgldCV_sampler, dt=1e-12)  # or any other whitejax sampler
-params_tree_samples = sub.subspace_sampler(sample_key, loglikelihood, logprior, params_init_tree, sampler, data,
-                                           batch_size, subspace_dim, nwarmup, nsteps, nsamples, use_cv=True, opt=opt)
+params_tree_samples = sub.subspace_sampler(
+    sample_key, loglikelihood, logprior, params_init_tree, sampler, data,
+    batch_size, subspace_dim, nwarmup, nsteps, nsamples, use_cv=True, opt=opt, pbar=False)
 params_tree_samples_mean = tree_map(lambda x: jnp.mean(x, axis=0), params_tree_samples)
 
 print(f"Train accuracy : {accuracy(params_tree_samples_mean, train_ds)}")
 print(f"Test accuracy : {accuracy(params_tree_samples_mean, test_ds)}")
 
-# Do more subspace optimization continuing from before (warm-start)
-optimizer_sub = sub.build_optax_optimizer(opt, loglik_sub, logprior_sub, data, batch_size)
-_, log_post_trace = optimizer_sub(warmstart_key, nsteps, params_subspace)
-
-# Loss Curve
-plt.plot(-jnp.append(prev_log_post_trace, log_post_trace), linewidth=2)
-plt.xlabel("Iteration")
-pml.savefig("subspace_sgd_mlp_mnist_demo.png")
-plt.show()
