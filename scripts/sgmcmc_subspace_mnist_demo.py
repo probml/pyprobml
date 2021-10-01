@@ -118,5 +118,6 @@ _, log_post_trace = optimizer_sub(warmstart_key, nsteps, params_subspace)
 
 # Loss Curve
 plt.plot(-jnp.append(prev_log_post_trace, log_post_trace), linewidth=2)
+plt.xlabel("Iteration")
 pml.savefig("subspace_sgd_mlp_mnist_demo.png")
 plt.show()
