@@ -7,9 +7,6 @@ from jax.random import split
 
 import optax
 
-from sgmcmcjax.util import build_grad_log_post, progress_bar_scan
-from sgmcmcjax.gradient_estimation import build_gradient_estimation_fn
-
 from sgmcmc_utils import build_optax_optimizer
 
 def generate_random_basis(key, d, D):
@@ -78,7 +75,7 @@ def subspace_sampler(key, loglikelihood, logprior, params_init_tree, build_sampl
     opt_key, sample_key = split(key)
     params_tree, params_sub, log_post_trace, subspace_fns = subspace_optimizer(
         opt_key, loglikelihood, logprior, params_init_tree, data, batch_size,
-        subspace_dim, nsteps_full, nsteps_sub, opt, pbar)
+        subspace_dim, nsteps_full, nsteps_sub, opt, pbar=pbar)
     loglik_sub, logprior_sub, subspace_to_pytree_fn = subspace_fns
     if use_cv:
         sampler_sub = build_sampler(loglikelihood=loglik_sub, logprior=logprior_sub, data=data, batch_size=batch_size,
