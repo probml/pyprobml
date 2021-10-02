@@ -41,14 +41,14 @@ def make_subspace_fns(loglikelihood, logprior, anchor_params_tree, projection_ma
     return loglikelihood_subspace, logprior_subspace, subspace_to_pytree_fn
 
 
-def subspace_optimizer(key, loglikelihood, logprior, anchor_params_tree, data, batch_size, subspace_dim, nsteps,
-                       opt=optax.adam(learning_rate=0.1), nwarmup=None, projection_matrix=None, pbar=True):
+def subspace_optimizer(key, loglikelihood, logprior, anchor_params_tree, data, batch_size, subspace_dim, nwarmup,
+                       nsteps, opt=optax.adam(learning_rate=0.1), projection_matrix=None, pbar=True):
     optimizer = build_optax_optimizer(opt, loglikelihood, logprior, data, batch_size, pbar)
 
     opt_key, subspace_key, sub_init_key, sub_opt_key = split(key, 4)
 
     # Find good anchor in full space during warmup phase
-    if nwarmup is not None:
+    if nwarmup > 0:
         anchor_params_tree, _ = optimizer(opt_key, nwarmup, anchor_params_tree)
 
     anchor_params_full, _ = jax.flatten_util.ravel_pytree(anchor_params_tree)
@@ -79,8 +79,9 @@ def subspace_sampler(key, loglikelihood, logprior, params_init_tree, build_sampl
     opt_key, sample_key = split(key)
     params_tree, params_sub, log_post_trace, subspace_fns = subspace_optimizer(
         opt_key, loglikelihood, logprior, params_init_tree, data, batch_size,
-        subspace_dim, nsteps_sub, opt, nwarmup=nsteps_full, pbar=pbar)
+        subspace_dim, nsteps_full, nsteps_sub, opt, pbar=pbar)
     loglik_sub, logprior_sub, subspace_to_pytree_fn = subspace_fns
+
     if use_cv:
         sampler_sub = build_sampler(loglikelihood=loglik_sub, logprior=logprior_sub, data=data, batch_size=batch_size,
                                     centering_value=params_sub, pbar=pbar)

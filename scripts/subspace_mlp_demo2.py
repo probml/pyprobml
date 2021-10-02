@@ -117,8 +117,8 @@ subspace_dims = [2] + list(range(min_dim, max_dim, jump_size))
 
 accuracy_trace = []
 n_epochs = 100
-nwarmup = 50
-nsteps = 250
+nwarmup = 0
+nsteps = 300
 print_every = 100
 
 for subspace_dim in subspace_dims:
@@ -127,7 +127,8 @@ for subspace_dim in subspace_dims:
     init_time = time()
     print(f"\nTesting subpace {subspace_dim}")
     params_tree, _, log_post_trace, _ = sub.subspace_optimizer(opt_key, loglikelihood, logprior, params_init_tree,
-                                                               train_data, n_data, subspace_dim, nsteps, opt=opt)
+                                                               train_data, n_data, subspace_dim, nwarmup, nsteps,
+                                                               opt=opt)
     end_time = time()
     print(f"Running time: {end_time - init_time:0.2f}s")
     test_accuracy = accuracy(params_tree, test_ds, predict)

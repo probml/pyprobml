@@ -94,3 +94,79 @@ def build_nuts_sampler(num_warmup, loglikelihood, logprior, data, batchsize=None
         return states.position
 
     return nuts_sampler
+
+from typing import (Any, Callable, Iterable, Optional, Tuple, Union)
+
+from flax.linen.module import Module, compact
+from flax.linen.initializers import lecun_normal, zeros, normal
+
+default_kernel_init = lecun_normal()
+PRNGKey = Any
+Shape = Iterable[int]
+Dtype = Any
+Array = Any
+
+
+class ProjectedDense(Module):
+    features: int
+    subspace_dim: int
+    use_bias: bool = True
+    dtype: Any = jnp.float32
+    precision: Any = None
+    kernel_init: Callable[[PRNGKey, Shape, Dtype], Array] = default_kernel_init
+    bias_init: Callable[[PRNGKey, Shape, Dtype], Array] = zeros
+    subspace_kernel_init: Callable[[PRNGKey, Shape, Dtype], Array] = normal
+    subspace_bias_init: Callable[[PRNGKey, Shape, Dtype], Array] = normal
+    projection_matrix_init: Callable[[PRNGKey, Shape, Dtype], Array] = normal
+
+    @compact
+    def __call__(self, inputs: Array) -> Array:
+        """Applies a linear transformation to the inputs along the last dimension.
+        Args:
+          inputs: The nd-array to be transformed.
+        Returns:
+          The transformed input.
+        """
+        inputs = jnp.asarray(inputs, self.dtype)
+        full_dim = inputs.shape[-1] * self.features
+
+        key = self.make_rng('kernel')
+        kernel = self.variable('kernel', 'kernel',
+                               self.kernel_init, key,
+                               (1, full_dim))
+        kernel = jnp.asarray(kernel.value, self.dtype)
+
+        subspace_kernel = self.param('subspace_kernel', self.subspace_kernel_init, (1, self.subspace_dim))
+        subspace_kernel = jnp.asarray(subspace_kernel, self.dtype)
+
+        key = self.make_rng('projection_matrix')
+        projection_matrix = self.variable('projection_matrix', 'projection_matrix',
+                                          self.projection_matrix_init, key,
+                                          (self.subspace_dim, full_dim))
+        projection_matrix = jnp.asarray(projection_matrix.value, self.dtype)
+
+        weight = jnp.matmul(subspace_kernel, projection_matrix) + kernel
+        weight = weight.reshape((inputs.shape[-1], self.features))
+
+        y = lax.dot_general(inputs, weight,
+                            (((inputs.ndim - 1,), (0,)), ((), ())),
+                            precision=self.precision)
+        if self.use_bias:
+            subspace_bias_kernel = self.param('subspace_bias', self.subspace_bias_init, (1, self.subspace_dim))
+            subspace_bias_kernel = jnp.asarray(subspace_bias_kernel, self.dtype)
+
+            key = self.make_rng('bias')
+            bias = self.variable('bias', "b", self.bias_init, key, (1, self.features))
+            bias = jnp.asarray(bias.value, self.dtype)
+
+            key = self.make_rng('projection_matrix_bias')
+            projection_matrix_bias = self.variable('projection_matrix_bias', 'projection_matrix_bias',
+                                                   self.projection_matrix_init, key,
+                                                   (self.subspace_dim, self.features))
+
+            projection_matrix_bias = jnp.asarray(projection_matrix_bias.value, self.dtype)
+            b = jnp.matmul(subspace_bias_kernel, projection_matrix_bias) + bias
+
+            y += jnp.reshape(b, (1,) * (y.ndim - 1) + (-1,))
+
+        return y
