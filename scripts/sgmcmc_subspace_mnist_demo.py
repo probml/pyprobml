@@ -112,15 +112,13 @@ plt.ylabel(f"NLL for subspace dimension {subspace_dim}")
 pml.savefig("subspace_sgd_mlp_mnist_demo.png")
 plt.show()
 
-
 # sampler
 print("running sampler in subspace")
 sampler = partial(build_sgldCV_sampler, dt=1e-12)  # or any other whitejax sampler
 params_tree_samples = sub.subspace_sampler(
     sample_key, loglikelihood, logprior, params_init_tree, sampler, data,
-    batch_size, subspace_dim, nwarmup, nsteps, nsamples, use_cv=True, opt=opt, pbar=False)
+    batch_size, subspace_dim, nsamples, nsteps_full=nwarmup, nsteps_sub=nsteps, use_cv=True, opt=opt, pbar=False)
 params_tree_samples_mean = tree_map(lambda x: jnp.mean(x, axis=0), params_tree_samples)
 
 print(f"Train accuracy : {accuracy(params_tree_samples_mean, train_ds)}")
 print(f"Test accuracy : {accuracy(params_tree_samples_mean, test_ds)}")
-

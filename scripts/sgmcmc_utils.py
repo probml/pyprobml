@@ -1,15 +1,15 @@
 # Various extensions to https://github.com/jeremiecoullon/SGMCMCJax
 # Author : Kevin Murphy(@murphyk), Aleyna Kara(@karalleyna)
 
-import jax
 import jax.numpy as jnp
-from jax import jit, tree_leaves, lax, random, tree_map, vmap
+from jax import jit, lax, random, tree_map, vmap
 from jax.random import split
 
 from blackjax import nuts, stan_warmup
 import optax
 from sgmcmcjax.util import build_grad_log_post, progress_bar_scan
 from sgmcmcjax.gradient_estimation import build_gradient_estimation_fn
+
 
 # Extends https://github.com/jeremiecoullon/SGMCMCJax/blob/master/sgmcmcjax/optimizer.py
 def build_optax_optimizer(optimizer, loglikelihood, logprior, data, batch_size, pbar: bool = True):
@@ -47,15 +47,16 @@ def inference_loop(rng_key, kernel, initial_state, num_samples, pbar):
         return (state, key), state
 
     lebody = progress_bar_scan(num_samples)(one_step) if pbar else one_step
-    #_, states = lax.scan(one_step, (initial_state, rng_key), jnp.arange(num_samples))
+    # _, states = lax.scan(one_step, (initial_state, rng_key), jnp.arange(num_samples))
     _, states = lax.scan(lebody, (initial_state, rng_key), jnp.arange(num_samples))
     return states
 
+
 def build_log_post(loglikelihood, logprior, data):
-    if len(data)==1:
+    if len(data) == 1:
         batch_loglik = jit(vmap(loglikelihood, in_axes=(None, 0)))
-    elif len(data)==2:
-        batch_loglik = jit(vmap(loglikelihood, in_axes=(None, 0,0)))
+    elif len(data) == 2:
+        batch_loglik = jit(vmap(loglikelihood, in_axes=(None, 0, 0)))
     else:
         raise ValueError("Data must be a tuple of size 1 or 2")
 
@@ -64,16 +65,18 @@ def build_log_post(loglikelihood, logprior, data):
 
     return jit(log_post)
 
+
 def build_nuts_sampler(num_warmup, loglikelihood, logprior, data, batchsize=None, pbar=True):
-  # wrapper for blackjax, so it acts like other sgmcmc samplers
+    # wrapper for blackjax, so it acts like other sgmcmc samplers
     log_post = build_log_post(loglikelihood, logprior, data)
+
     def potential(params):
-         v = log_post(params)
-         return -v
+        v = log_post(params)
+        return -v
 
     def nuts_sampler(rng_key, num_samples, initial_params):
         initial_state = nuts.new_state(initial_params, potential)
- 
+
         kernel_generator = lambda step_size, inverse_mass_matrix: jit(nuts.kernel(
             potential, step_size, inverse_mass_matrix))
         stan_key, key = split(rng_key)
