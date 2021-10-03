@@ -75,12 +75,11 @@ def subspace_sampler(key, loglikelihood, logprior, params_init_tree, build_sampl
                      nsteps_full=0, nsteps_sub=0, projection_matrix=None, use_cv=True, pbar=True):
     subspace_key, sample_key = split(key)
 
-    if nsteps_full > 0 and nsteps_sub > 0:
+    if nsteps_full > 0 or nsteps_sub > 0:
         # Find good control variate / starting point in subspace
         params_tree, params_sub, log_post_trace, subspace_fns = subspace_optimizer(
             subspace_key, loglikelihood, logprior, params_init_tree, data, batch_size,
             subspace_dim, nsteps_full, nsteps_sub, opt, pbar=pbar)
-        loglik_sub, logprior_sub, subspace_to_pytree_fn = subspace_fns
     else:
         params_sub = jax.random.normal(subspace_key, (subspace_dim,))
         if projection_matrix is None:
@@ -88,6 +87,8 @@ def subspace_sampler(key, loglikelihood, logprior, params_init_tree, build_sampl
 
         subspace_fns = make_subspace_fns(loglikelihood, logprior, params_init_tree, projection_matrix=projection_matrix)
 
+    loglik_sub, logprior_sub, subspace_to_pytree_fn = subspace_fns
+    
     if use_cv:
         sampler_sub = build_sampler(loglikelihood=loglik_sub, logprior=logprior_sub, data=data, batch_size=batch_size,
                                     centering_value=params_sub, pbar=pbar)
