@@ -10,8 +10,10 @@ import optax
 from sgmcmc_utils import build_optax_optimizer
 
 
-def generate_random_basis(key, d, D):
-    projection_matrix = random.normal(key, shape=(d, D))
+def generate_random_basis(key, anchor_params_tree, subspace_dim):
+    anchor_params_full, _ = jax.flatten_util.ravel_pytree(anchor_params_tree)
+    full_dim = len(anchor_params_full)
+    projection_matrix = random.normal(key, shape=(subspace_dim, full_dim))
     projection_matrix = projection_matrix / jnp.linalg.norm(projection_matrix, axis=-1, keepdims=True)
     return projection_matrix
 
@@ -43,20 +45,16 @@ def make_subspace_fns(loglikelihood, logprior, anchor_params_tree, projection_ma
 
 def subspace_optimizer(key, loglikelihood, logprior, anchor_params_tree, data, batch_size, subspace_dim, nwarmup,
                        nsteps, opt=optax.adam(learning_rate=0.1), projection_matrix=None, pbar=True):
-    optimizer = build_optax_optimizer(opt, loglikelihood, logprior, data, batch_size, pbar)
-
     opt_key, subspace_key, sub_init_key, sub_opt_key = split(key, 4)
 
     # Find good anchor in full space during warmup phase
     if nwarmup > 0:
+        optimizer = build_optax_optimizer(opt, loglikelihood, logprior, data, batch_size, pbar)
         anchor_params_tree, _ = optimizer(opt_key, nwarmup, anchor_params_tree)
-
-    anchor_params_full, _ = jax.flatten_util.ravel_pytree(anchor_params_tree)
-    full_dim = len(anchor_params_full)
 
     # Make Random subspace
     if projection_matrix is None:
-        projection_matrix = generate_random_basis(subspace_key, subspace_dim, full_dim)
+        projection_matrix = generate_random_basis(subspace_key, anchor_params_tree, subspace_dim)
 
     loglik_sub, logprior_sub, subspace_to_pytree_fn = make_subspace_fns(loglikelihood, logprior, anchor_params_tree,
                                                                         projection_matrix)
@@ -73,14 +71,22 @@ def subspace_optimizer(key, loglikelihood, logprior, anchor_params_tree, data, b
 
 
 def subspace_sampler(key, loglikelihood, logprior, params_init_tree, build_sampler, data, batch_size,
-                     subspace_dim, nsteps_full, nsteps_sub, nsamples, use_cv=True,
-                     opt=optax.adam(learning_rate=0.1), pbar=True):
-    # Find good control variate / starting point in subspace
-    opt_key, sample_key = split(key)
-    params_tree, params_sub, log_post_trace, subspace_fns = subspace_optimizer(
-        opt_key, loglikelihood, logprior, params_init_tree, data, batch_size,
-        subspace_dim, nsteps_full, nsteps_sub, opt, pbar=pbar)
-    loglik_sub, logprior_sub, subspace_to_pytree_fn = subspace_fns
+                     subspace_dim, nsamples, opt=optax.adam(learning_rate=0.1),
+                     nsteps_full=0, nsteps_sub=0, projection_matrix=None, use_cv=True, pbar=True):
+    subspace_key, sample_key = split(key)
+
+    if nsteps_full > 0 and nsteps_sub > 0:
+        # Find good control variate / starting point in subspace
+        params_tree, params_sub, log_post_trace, subspace_fns = subspace_optimizer(
+            subspace_key, loglikelihood, logprior, params_init_tree, data, batch_size,
+            subspace_dim, nsteps_full, nsteps_sub, opt, pbar=pbar)
+        loglik_sub, logprior_sub, subspace_to_pytree_fn = subspace_fns
+    else:
+        params_sub = jax.random.normal(subspace_key, (subspace_dim,))
+        if projection_matrix is None:
+            projection_matrix = generate_random_basis(subspace_key, params_init_tree, subspace_dim)
+
+        subspace_fns = make_subspace_fns(loglikelihood, logprior, params_init_tree, projection_matrix=projection_matrix)
 
     if use_cv:
         sampler_sub = build_sampler(loglikelihood=loglik_sub, logprior=logprior_sub, data=data, batch_size=batch_size,

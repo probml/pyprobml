@@ -94,4 +94,3 @@ def build_nuts_sampler(num_warmup, loglikelihood, logprior, data, batchsize=None
         return states.position
 
     return nuts_sampler
-
