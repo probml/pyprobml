@@ -66,7 +66,7 @@ def build_log_post(loglikelihood, logprior, data):
     return jit(log_post)
 
 
-def build_nuts_sampler(num_warmup, loglikelihood, logprior, data, batchsize=None, pbar=True):
+def build_nuts_sampler(nwarmup, loglikelihood, logprior, data, batch_size=None, pbar=True):
     # wrapper for blackjax, so it acts like other sgmcmc samplers
     log_post = build_log_post(loglikelihood, logprior, data)
 
@@ -85,7 +85,7 @@ def build_nuts_sampler(num_warmup, loglikelihood, logprior, data, batchsize=None
             stan_key,
             kernel_generator,
             initial_state,
-            num_warmup)
+            nwarmup)
 
         nuts_kernel = kernel_generator(step_size, inverse_mass_matrix)
 
