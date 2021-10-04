@@ -6,7 +6,7 @@ from functools import partial
 
 import jax
 import jax.numpy as jnp
-from jax import jit, tree_leaves, tree_map
+from jax import jit, tree_leaves, tree_map, vmap
 from jax.random import split, PRNGKey, permutation
 from jax.nn import one_hot, log_softmax
 from jax.experimental import stax
@@ -118,7 +118,9 @@ sampler = partial(build_sgldCV_sampler, dt=1e-12)  # or any other whitejax sampl
 params_tree_samples = sub.subspace_sampler(
     sample_key, loglikelihood, logprior, params_init_tree, sampler, data,
     batch_size, subspace_dim, nsamples, nsteps_full=nwarmup, nsteps_sub=nsteps, use_cv=True, opt=opt, pbar=False)
-params_tree_samples_mean = tree_map(lambda x: jnp.mean(x, axis=0), params_tree_samples)
 
-print(f"Train accuracy : {accuracy(params_tree_samples_mean, train_ds)}")
-print(f"Test accuracy : {accuracy(params_tree_samples_mean, test_ds)}")
+train_accuracy = jnp.mean(vmap(accuracy, in_axes=(0, None))(params_tree_samples, train_ds))
+test_accuracy = jnp.mean(vmap(accuracy, in_axes=(0, None))(params_tree_samples, test_ds))
+
+print(f"Train accuracy : {train_accuracy}")
+print(f"Test accuracy : {test_accuracy}")
