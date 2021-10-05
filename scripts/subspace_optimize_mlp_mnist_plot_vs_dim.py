@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 from time import time
 from functools import partial
 
-import sgmcmc_subspace_lib as sub
+import subspace_lib as sub
 
 
 def get_datasets():
@@ -111,15 +111,13 @@ predict = lambda params, x: MLP().apply({"params": params}, x)
 l2_regularizer = 1.0
 batch_size = n_data
 
-min_dim, max_dim = 10, 1000
-jump_size = 200  # 100
-subspace_dims = [2] + list(range(min_dim, max_dim, jump_size))
+min_dim, max_dim = 10, 800
+jump_size = 200  
+subspace_dims = range(min_dim, max_dim+jump_size, jump_size)
 
 accuracy_trace = []
-n_epochs = 100
-nwarmup = 0
+nwarmup = 0 # use random subsapce
 nsteps = 300
-print_every = 100
 
 for subspace_dim in subspace_dims:
     # optimize
@@ -142,4 +140,5 @@ plt.axhline(y=0.9, c="tab:gray", linestyle="--")
 plt.xlabel("Subspace dim $d$", fontsize=13)
 plt.ylabel("Validation accuracy", fontsize=13)
 plt.tight_layout()
+plt.savefig("subspace_optimize_mlp_mnist.png")
 plt.show()

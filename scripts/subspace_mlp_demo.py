@@ -16,7 +16,6 @@ import flax.linen as nn
 import numpy as np
 import tensorflow_datasets as tfds
 import matplotlib.pyplot as plt
-import pyprobml_utils as pml
 from jax import random
 from time import time
 from functools import partial
@@ -239,5 +238,5 @@ plt.axhline(y=0.9, c="tab:gray", linestyle="--")
 plt.xlabel("Subspace dim $d$", fontsize=13)
 plt.ylabel("Validation accuracy", fontsize=13)
 plt.tight_layout()
-pml.savefig("subspace_mlp_demo.png")
+plt.savefig("subspace_mlp_demo.png")
 plt.show()
