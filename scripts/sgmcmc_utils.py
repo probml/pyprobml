@@ -69,9 +69,10 @@ def build_log_post(loglikelihood, logprior, data):
 def build_nuts_sampler(nwarmup, loglikelihood, logprior, data, batch_size=None, pbar=True):
     # wrapper for blackjax, so it acts like other sgmcmc samplers
     log_post = build_log_post(loglikelihood, logprior, data)
+    ndata = data.shape[0]
 
     def potential(params):
-        v = log_post(params)
+        v = log_post(params)/ndata # scale down by N to avoid numerical problems
         return -v
 
     def nuts_sampler(rng_key, num_samples, initial_params):
