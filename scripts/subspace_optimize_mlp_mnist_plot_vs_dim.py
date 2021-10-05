@@ -108,8 +108,9 @@ params_init_tree = MLP().init(key, train_ds["X"][[0], :])["params"]
 
 predict = lambda params, x: MLP().apply({"params": params}, x)
 
-l2_regularizer = 1.0
-batch_size = n_data
+l2_regularizer = 0.011
+#batch_size = n_data
+batch_size = 512
 
 min_dim, max_dim = 10, 800
 jump_size = 200  
@@ -120,13 +121,12 @@ nwarmup = 0 # use random subsapce
 nsteps = 300
 
 for subspace_dim in subspace_dims:
-    # optimize
     opt = optax.adam(**hyperparams)
     init_time = time()
     print(f"\nTesting subpace {subspace_dim}")
-    params_tree, _, log_post_trace, _ = sub.subspace_optimizer(opt_key, loglikelihood, logprior, params_init_tree,
-                                                               train_data, n_data, subspace_dim, nwarmup, nsteps,
-                                                               opt=opt)
+    params_tree, params_subspace, log_post_trace, subspace_fns = sub.subspace_optimizer(
+        opt_key, loglikelihood, logprior, params_init_tree,
+        train_data, batch_size, subspace_dim, nwarmup, nsteps, opt)
     end_time = time()
     print(f"Running time: {end_time - init_time:0.2f}s")
     test_accuracy = accuracy(params_tree, test_ds, predict)

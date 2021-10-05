@@ -1,9 +1,9 @@
 # Author : Kevin Murphy(@murphyk), Aleyna Kara(@karalleyna)
 
 import matplotlib.pyplot as plt
-import pyprobml_utils as pml
 from functools import partial
 
+import numpy as np
 import jax
 import jax.numpy as jnp
 from jax import jit, tree_leaves, tree_map, vmap
@@ -17,7 +17,7 @@ import optax
 from tensorflow.keras.datasets import mnist
 from sgmcmcjax.samplers import build_sgldCV_sampler
 
-import sgmcmc_subspace_lib as sub
+import subspace_lib as sub
 
 
 def load_mnist(key, n_train, n_test, shuffle=True):
@@ -73,7 +73,7 @@ def logprior(params):
 key = PRNGKey(42)
 data_key, init_key, opt_key, sample_key, warmstart_key = split(key, 5)
 
-n_train, n_test = 5000, 1000
+n_train, n_test = 20000, 1000
 train_ds, test_ds = load_mnist(data_key, n_train, n_test)
 data = (train_ds["X"], train_ds["y"])
 n_features = train_ds["X"].shape[1]
@@ -81,11 +81,19 @@ n_classes = 10
 
 # model
 init_random_params, predict = stax.serial(
-    Dense(n_features), Relu,
+    Dense(200), Relu,
     Dense(50), Relu,
     Dense(n_classes), LogSoftmax)
 
 _, params_init_tree = init_random_params(init_key, input_shape=(-1, n_features))
+
+leaves = tree_leaves(params_init_tree)
+n = 0
+for i in range(len(leaves)):
+    sh = leaves[i].shape
+    n += np.prod(sh)
+    print(f"size of parameters in leaf {i} is {sh}")
+print("total nparams", n)
 
 l2_regularizer = 0.01
 batch_size = 512
@@ -98,23 +106,20 @@ nsamples = 300
 # optimizer
 print("running optimizer in subspace")
 opt = optax.adam(learning_rate=1e-1)
-params_tree, params_subspace, opt_log_post_trace, _ = sub.subspace_optimizer(
+params_tree, params_subspace, opt_log_post_trace, subspace_fns = sub.subspace_optimizer(
     opt_key, loglikelihood, logprior, params_init_tree, data, batch_size, subspace_dim,
     nwarmup, nsteps, opt, pbar=False)
+
+loglikelihood_subspace, logprior_subspace, subspace_to_pytree_fn  = subspace_fns
 
 print(f"Train accuracy : {accuracy(params_tree, train_ds)}")
 print(f"Test accuracy : {accuracy(params_tree, test_ds)}")
 
-# Loss Curve
-plt.plot(-jnp.append(opt_log_post_trace, opt_log_post_trace), linewidth=2)
-plt.xlabel("Iteration")
-plt.ylabel(f"NLL for subspace dimension {subspace_dim}")
-pml.savefig("subspace_sgd_mlp_mnist_demo.png")
-plt.show()
+
 
 # sampler
 print("running sampler in subspace")
-sampler = partial(build_sgldCV_sampler, dt=1e-12)  # or any other whitejax sampler
+sampler = partial(build_sgldCV_sampler, dt=1e-5)  # or any other whitejax sampler
 params_tree_samples = sub.subspace_sampler(
     sample_key, loglikelihood, logprior, params_init_tree, sampler, data,
     batch_size, subspace_dim, nsamples, nsteps_full=nwarmup, nsteps_sub=nsteps, use_cv=True, opt=opt, pbar=False)
@@ -124,3 +129,11 @@ test_accuracy = jnp.mean(vmap(accuracy, in_axes=(0, None))(params_tree_samples, 
 
 print(f"Train accuracy : {train_accuracy}")
 print(f"Test accuracy : {test_accuracy}")
+
+leaves = tree_leaves(params_tree_samples)
+n = 0
+for i in range(len(leaves)):
+    sh = leaves[i].shape
+    n += np.prod(sh)
+    print(f"size of parameters in leaf {i} is {sh}")
+print("total nparams", n)
