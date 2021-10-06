@@ -162,7 +162,6 @@ x = test_ds["X"][0]
 params = params_tree_samples
 logits = vmap(predict, in_axes=(0,None))(params, x)
 print(logits.shape) # nsamples x nclasses
-print(logits)
 
 
 # vmap accuracy across the sampled parameter trees, then take average
@@ -171,9 +170,6 @@ test_accuracy = jnp.mean(vmap(accuracy, in_axes=(0, None))(params_tree_samples, 
 
 print(f"Train accuracy : {train_accuracy}")
 print(f"Test accuracy : {test_accuracy}")
-
-
-
 
 
 # run sampler from previous location (on "new" data) 
