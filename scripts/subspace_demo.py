@@ -1,6 +1,4 @@
 # Author : Kevin Murphy(@murphyk), Aleyna Kara(@karalleyna)
-
-import matplotlib.pyplot as plt
 from functools import partial
 
 import numpy as np
@@ -8,7 +6,7 @@ import jax
 import jax.numpy as jnp
 from jax import jit, tree_leaves, tree_map, vmap
 from jax.random import split, PRNGKey, permutation
-from jax.nn import one_hot, log_softmax
+from jax.nn import one_hot
 from jax.experimental import stax
 from jax.experimental.stax import Dense, Relu, LogSoftmax
 
@@ -59,7 +57,7 @@ def loglikelihood(params, x, y):
 @jit
 def accuracy(params, batch):
     logits = predict(params, batch["X"])
-    #logits = log_softmax(logits)
+    # logits = log_softmax(logits)
     return jnp.mean(jnp.argmax(logits, -1) == batch["y"])
 
 
@@ -108,17 +106,16 @@ opt = optax.adam(learning_rate=1e-1)
 
 # initialize subspace
 key, mykey = split(key)
-subspace_fns = sub.init_subspace_opt(
+subspace_fns, subspace_dim = sub.init_subspace_opt(
     mykey, loglikelihood, logprior, params_init_tree, subspace_dim,
     data, batch_size, nwarmup, opt, use_svd=False, pbar=False)
 loglik_sub, logprior_sub, subspace_to_pytree_fn = subspace_fns
 key, mykey = split(key)
 params_subspace_init = jax.random.normal(mykey, (subspace_dim,))
 
-
-# evaluate at rnd starting location 
+# evaluate at rnd starting location
 print("performance at start")
-params_subspace  = params_subspace_init
+params_subspace = params_subspace_init
 params_tree = subspace_to_pytree_fn(params_subspace)
 print(params_subspace[:10])
 print(f"Train accuracy : {accuracy(params_tree, train_ds)}")
@@ -126,9 +123,9 @@ print(f"Test accuracy : {accuracy(params_tree, test_ds)}")
 
 # run optimizer from rnd starting location 
 key, mykey = split(key)
-params_subspace  = params_subspace_init
+params_subspace = params_subspace_init
 params_tree, params_subspace, log_post_trace = sub.subspace_optimizer(
-    mykey, subspace_fns, data, batch_size,  nsteps, opt, params_subspace, pbar=False)
+    mykey, subspace_fns, data, batch_size, nsteps, opt, params_subspace, pbar=False)
 
 print(params_subspace[:10])
 print(f"Train accuracy : {accuracy(params_tree, train_ds)}")
@@ -139,23 +136,21 @@ print("running optimizer in subspace")
 data_new = data
 key, mykey = split(key)
 params_tree, params_subspace, log_post_trace = sub.subspace_optimizer(
-    mykey, subspace_fns, data_new, batch_size,  nsteps, opt, params_subspace, pbar=False)
+    mykey, subspace_fns, data_new, batch_size, nsteps, opt, params_subspace, pbar=False)
 
 print(params_subspace[:10])
 print(f"Train accuracy : {accuracy(params_tree, train_ds)}")
 print(f"Test accuracy : {accuracy(params_tree, test_ds)}")
 
-
-
-# run sampler from rnd starting location 
+# run sampler from rnd starting location
 print("running sampler in subspace")
-params_subspace  = params_subspace_init
+params_subspace = params_subspace_init
 sampler = partial(build_sgldCV_sampler, dt=1e-5)  # or any other whitejax sampler
 nsamples = 200
 
 key, mykey = split(key)
 params_tree_samples, params_sub_samples = sub.subspace_sampler(
-    mykey, subspace_fns, data, batch_size,  nsamples, sampler, params_subspace, use_cv=True, pbar=False)
+    mykey, subspace_fns, data, batch_size, nsamples, sampler, params_subspace, use_cv=True, pbar=False)
 
 # compute posteriot predictive for a single test example using all nsamples
 x = test_ds["X"][0]
@@ -163,23 +158,21 @@ params = params_tree_samples
 logits = vmap(predict, in_axes=(0,None))(params, x)
 print(logits.shape) # nsamples x nclasses
 
-
 # vmap accuracy across the sampled parameter trees, then take average
 train_accuracy = jnp.mean(vmap(accuracy, in_axes=(0, None))(params_tree_samples, train_ds))
 test_accuracy = jnp.mean(vmap(accuracy, in_axes=(0, None))(params_tree_samples, test_ds))
 
 print(f"Train accuracy : {train_accuracy}")
 print(f"Test accuracy : {test_accuracy}")
-
 
 # run sampler from previous location (on "new" data) 
 print("running sampler in subspace")
 data_new = data
 
 key, mykey = split(key)
-params_subspace = params_sub_samples[0] # pick first sample as starting point
+params_subspace = params_sub_samples[0]  # pick first sample as starting point
 params_tree_samples, params_sub_samples = sub.subspace_sampler(
-    mykey, subspace_fns, data_new, batch_size,  nsamples, sampler, params_subspace, use_cv=True, pbar=False)
+    mykey, subspace_fns, data_new, batch_size, nsamples, sampler, params_subspace, use_cv=True, pbar=False)
 
 # vmap accuracy across the sampled parameter trees, then take average
 train_accuracy = jnp.mean(vmap(accuracy, in_axes=(0, None))(params_tree_samples, train_ds))
@@ -187,4 +180,3 @@ test_accuracy = jnp.mean(vmap(accuracy, in_axes=(0, None))(params_tree_samples, 
 
 print(f"Train accuracy : {train_accuracy}")
 print(f"Test accuracy : {test_accuracy}")
-
