@@ -4,6 +4,7 @@
 import jax.numpy as jnp
 from jax import jit, lax, random, tree_map, vmap
 from jax.random import split
+from jax.flatten_util import ravel_pytree
 
 from blackjax import nuts, stan_warmup
 import optax
@@ -24,13 +25,13 @@ def build_optax_optimizer(optimizer, loglikelihood, logprior, data, batch_size, 
         neg_param_grad = tree_map(lambda x: -x, param_grad)
         updates, state = optimizer.update(neg_param_grad, state)
         params = optax.apply_updates(params, updates)
-        return (key, state, params), lp_val
+        return (key, state, params), (lp_val, ravel_pytree(params)[0])
 
     def run_optimizer(key, Niters, params):
         state = optimizer.init(params)
         lebody = progress_bar_scan(Niters)(body) if pbar else body
-        (key, state, params), logpost_array = lax.scan(lebody, (key, state, params), jnp.arange(Niters))
-        return params, logpost_array
+        (key, state, params), (logpost_array, params_trace) = lax.scan(lebody, (key, state, params), jnp.arange(Niters))
+        return params, logpost_array, params_trace
 
     return run_optimizer
 
@@ -72,7 +73,7 @@ def build_nuts_sampler(nwarmup, loglikelihood, logprior, data, batch_size=None, 
     ndata = data.shape[0]
 
     def potential(params):
-        v = log_post(params)/ndata # scale down by N to avoid numerical problems
+        v = log_post(params) / ndata  # scale down by N to avoid numerical problems
         return -v
 
     def nuts_sampler(rng_key, num_samples, initial_params):
