@@ -14,6 +14,11 @@ tfd = tfp.distributions
 
 import tensorflow_datasets as tfds
 
+import flax
+import flax.linen as nn
+
+import optax
+from sgmcmc_utils import build_optax_optimizer
 
 class BanditEnvironment:
     def __init__(self, key, X, Y):
@@ -72,10 +77,10 @@ class LinearBandit:
             context = contexts[t]
             action = actions[t]
             reward = rewards[t]
-            bel = bandit.update_bel(bel, context, action, reward)
+            bel = self.update_bel(key, bel, context, action, reward)
         return bel
 
-    def update_bel(self, bel, x, action, reward):        
+    def update_bel(self, key, bel, context, action, reward):        
         mu_k = bel["mu"][action]
         Sigma_k = bel["Sigma"][action]
         Lambda_k = jnp.linalg.inv(Sigma_k)
@@ -83,9 +88,9 @@ class LinearBandit:
         b_k = bel["b"][action]
         
         # weight params
-        Lambda_update = jnp.outer(x, x) + Lambda_k
+        Lambda_update = jnp.outer(context, context) + Lambda_k
         Sigma_update = jnp.linalg.inv(Lambda_update)
-        mu_update = Sigma_update @ (Lambda_k @ mu_k + x * reward)
+        mu_update = Sigma_update @ (Lambda_k @ mu_k + context * reward)
         # noise params
         a_update = a_k + 1/2
         b_update = b_k + (reward ** 2 + mu_k.T @ Lambda_k @ mu_k - mu_update.T @ Lambda_update @ mu_update) / 2
@@ -115,6 +120,103 @@ class LinearBandit:
         return action
     
 
+class MLP(nn.Module):
+    num_features: int
+    num_arms: int
+    @nn.compact
+    def __call__(self, x): # x has both context and action
+        x = nn.relu(nn.Dense(100)(x))
+        x = nn.relu(nn.Dense(50)(x))        
+        x = nn.Dense(1)(x) # identity activation for scalar regression output
+        return x
+
+
+def fit_model(key, model, X, y, variables):
+    opt = optax.adam(learning_rate=1e-1)
+    data = (X,y)
+    batch_size = 512
+    nsteps = 100
+
+    def loglik(params, x, y):
+        pred_y = model.apply(variables, x)
+        loss = jnp.square(y - pred_y)
+        return loss
+
+    def logprior(params):
+        # Spherical Gaussian prior
+        l2_regularizer = 0.01
+        leaves_of_params = tree_leaves(params)
+        return sum(tree_map(lambda p: jnp.sum(jax.scipy.stats.norm.logpdf(p, scale=l2_regularizer)), leaves_of_params))
+
+    optimizer = build_optax_optimizer(opt, loglik, logprior, data, batch_size, pbar=False)
+    key, mykey = split(key)
+    params = variables["params"]
+    params, log_post_trace = optimizer(mykey, nsteps, params)
+    variables["params"] = params
+    return variables
+
+
+def NeuralGreedy():
+    def __init__(self, num_features, num_arms, epsilon, memory=None):
+        self.num_features = num_features
+        self.num_arms = num_arms
+        self.model = MLP(num_features, num_arms)
+        self.epsilon = epsilon
+        self.memory = memory
+
+    def encode(self, context, action):
+        action_onehot = jax.nn.one_hot(action, self.num_arms)
+        ndims = self.num_features + self.num_arms
+        x = np.concatenate([context, action_onehot]);
+        return x
+
+    def init_bel(self, key, contexts, actions, rewards):
+        ndims = self.num_features + self.num_arms
+        ndata = len(rewards)
+        X = jax.vmap(self.encode)(contexts, actions)
+        y = rewards
+        variables = self.model.init(key, X)
+        variables = fit_model(key, self.model, X, y, variables)
+        bel = (X, y, variables)
+        return bel       
+
+    def update_bel(self, key, bel, context, action, reward): 
+        (X, y, variables) = bel
+        if self.memory is not None: # finite memory
+            if len(y)==self.memory: # memory is full
+                X.pop(0)
+                y.pop(0)
+        x = self.encode(context, action)
+        X.append(x)
+        y.append(reward)
+        variables = fit_model(key, self.model, X, y, variables)
+        bel = (X, y, variables)
+        return bel
+
+    def choose_action(self, key, bel, context):
+        (X, y, variables) = bel
+        key, mykey = split(key)
+        coin = jax.random.bernoulli(mykey, self.epsilon, (1))
+        if coin == 0:
+            # random action
+            actions = jnp.arange(self.num_arms)
+            key, mykey = split(key)
+            action = jax.random.choice(mykey, actions)
+        else:
+            # greedy action
+            predicted_rewards = jnp.zeros((self.num_arms,))
+            # should make this a minibatch of A examples
+            # so we can predict all rewards in parallel
+            for a in range(self.num_arms):
+                x = self.encode(context, a)
+                predicted_rewards[a] = self.model.apply(variables, x)
+            action =  predicted_rewards.argmax()
+        return action
+        
+        
+    
+
+
 def run_bandit(key, bandit, env, nsteps, npulls):
     contexts, actions, rewards = env.warmup(npulls)
     nwarmup = len(rewards)
@@ -127,7 +229,8 @@ def run_bandit(key, bandit, env, nsteps, npulls):
         key, mykey = split(key)
         action = bandit.choose_action(mykey, bel, context)
         reward = env.get_reward(t, action)
-        bel = bandit.update_bel(bel, context, action, reward)
+        key, mykey = split(key)
+        bel = bandit.update_bel(mykey, bel, context, action, reward)
         contexts.append(context)
         actions.append(action)
         rewards.append(reward)
@@ -192,4 +295,11 @@ def trial(key):
 
 res = vmap(trial, in_axes=(0,))(keys)
 print(res)
+'''
+
+# Neural greedy
+'''
+bandit = NeuralGreedy(num_features, num_arms, epsilon=0.1)
+contexts, actions, rewards = run_bandit(key, bandit, env, nsteps=20, npulls=1)
+print(len(rewards))
 '''
