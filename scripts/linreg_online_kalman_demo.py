@@ -10,7 +10,7 @@ import pyprobml_utils as pml
 from numpy.linalg import inv
 
 
-def kf_linreg(X, y, sigma2, mu0, Sigma0, A):
+def kf_linreg(X, y, R, mu0, Sigma0, F, Q):
     """
     Online estimation of a linear regression
     using Kalman Filters
@@ -21,13 +21,13 @@ def kf_linreg(X, y, sigma2, mu0, Sigma0, A):
         Matrix of features
     y: array(n_obs,)
         Array of observations
-    sigma2: float
+    Q: float
         Known variance
     mu0: array(dimension)
         Prior mean
     Sigma0: array(dimesion, dimension)
         Prior covariance matrix
-    
+
     Returns
     -------
     * array(n_obs, dimension)
@@ -47,17 +47,21 @@ def kf_linreg(X, y, sigma2, mu0, Sigma0, A):
     Sigma_hist[0] = Sigma_t
     for t in range(n_obs):
         xt, yt = X[t], y[t]
-        Kt = inv(inv(Sigma_t) + np.outer(xt, xt) / sigma2) @ xt / sigma2
-        mu_t = A @ mu_t + Kt * (yt - xt @ mu_t)
-        Sigma_t = (I - Kt[:, None] @ xt[None, :]) @ Sigma_t
+
+        Ht = xt[None, :]
+        Sigma_t = F @ Sigma_t @ F.T + Q
+        St = Ht @ Sigma_t @ Ht.T + R
+        Kt = Sigma_t @ Ht.T @ inv(St).squeeze(-1)
+        mu_t = F @ mu_t + Kt * (yt - Ht @ F @ mu_t)
+        Sigma_t = (I - Kt[:, None] @ Ht) @ Sigma_t
 
         mu_hist[t] = mu_t
         Sigma_hist[t] = Sigma_t
-    
+
     return mu_hist, Sigma_hist
 
 
-def posterior_lreg(X, y, sigma2, mu0, Sigma0):
+def posterior_lreg(X, y, R, mu0, Sigma0):
     """
     Compute mean and covariance matrix of a
     Bayesian Linear regression
@@ -68,13 +72,13 @@ def posterior_lreg(X, y, sigma2, mu0, Sigma0):
         Matrix of features
     y: array(n_obs,)
         Array of observations
-    sigma2: float
+    R: float
         Known variance
     mu0: array(dimension)
         Prior mean
     Sigma0: array(dimesion, dimension)
         Prior covariance matrix
-    
+
     Returns
     -------
     * array(dimension)
@@ -82,9 +86,9 @@ def posterior_lreg(X, y, sigma2, mu0, Sigma0):
     * array(n_obs, dimension, dimension)
         Posterior covariance matrix
     """
-    Sn_bayes_inv = inv(Sigma0) + X.T @ X / sigma2
+    Sn_bayes_inv = inv(Sigma0) + X.T @ X / R
     Sn_bayes = inv(Sn_bayes_inv)
-    mn_bayes = Sn_bayes @ (inv(Sigma0) @ mu0 + X.T @ y / sigma2)
+    mn_bayes = Sn_bayes @ (inv(Sigma0) @ mu0 + X.T @ y / R)
 
     return mn_bayes, Sn_bayes
 
@@ -97,23 +101,23 @@ if __name__ == "__main__":
     timesteps = np.arange(n_obs)
     x = np.linspace(0, 20, n_obs)
     X = np.c_[np.ones(n_obs), x]
-    A = np.eye(2)
+    F = np.eye(2)
     mu0 = np.zeros(2)
     Sigma0 = np.eye(2) * 10.
 
-    sigma2 = 1
+    Q, R = 0, 1
     # Data from original matlab example
     y = np.array([2.4865, -0.3033, -4.0531, -4.3359, -6.1742, -5.604, -3.5069, -2.3257, -4.6377,
-          -0.2327, -1.9858, 1.0284, -2.264, -0.4508, 1.1672, 6.6524, 4.1452, 5.2677, 6.3403, 9.6264, 14.7842])
+                  -0.2327, -1.9858, 1.0284, -2.264, -0.4508, 1.1672, 6.6524, 4.1452, 5.2677, 6.3403, 9.6264, 14.7842])
 
     # Online estimation
-    mu_hist, Sigma_hist = kf_linreg(X, y, sigma2, mu0, Sigma0, A)
+    mu_hist, Sigma_hist = kf_linreg(X, y, R, mu0, Sigma0, F, Q)
     kf_var = Sigma_hist[-1, [0, 1], [0, 1]]
     w0_hist, w1_hist = mu_hist.T
     w0_err, w1_err = np.sqrt(Sigma_hist[:, [0, 1], [0, 1]].T)
 
     # Offline estimation
-    (w0_post, w1_post), Sigma_post = posterior_lreg(X, y, sigma2, mu0, Sigma0)
+    (w0_post, w1_post), Sigma_post = posterior_lreg(X, y, R, mu0, Sigma0)
     w0_std, w1_std = np.sqrt(Sigma_post[[0, 1], [0, 1]])
 
     # Asserting values for means and variance
@@ -137,6 +141,5 @@ if __name__ == "__main__":
     ax.set_ylabel("weights")
     ax.set_ylim(-8, 4)
     ax.set_xlim(-0.5, n_obs)
-
     pml.savefig("linreg-online-kalman.pdf")
     plt.show()
