@@ -20,7 +20,6 @@ If the task is complicated, you can specify each step using check boxes so that 
 
 - [x] Performed a self-review of the code
 - [x] Tested on Google Colab.
-- [ ] Made a public PR 
 
 ## Potential problems/Important remarks
 
