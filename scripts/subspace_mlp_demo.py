@@ -18,6 +18,7 @@ import tensorflow_datasets as tfds
 import matplotlib.pyplot as plt
 from jax import random
 from time import time
+from jax.flatten_util import ravel_pytree
 from functools import partial
 
 
@@ -142,7 +143,7 @@ def subspace_learning(key, model, datasets, d, hyperparams, n_epochs=300):
 
     x0 = jnp.zeros(num_features)
     params_full_init = model().init(key_params, x0)["params"]
-    params_full_init, flat_to_pytree_fn = jax.flatten_util.ravel_pytree(params_full_init)
+    params_full_init, flat_to_pytree_fn = ravel_pytree(params_full_init)
 
     D = len(params_full_init)
     projection_matrix = generate_random_basis(key_subspace, d, D)
