@@ -9,10 +9,11 @@ import pyprobml_utils as pml
 zeroOne = np.vectorize(lambda x: 1 * (x <= 0))
 hinge = np.vectorize(lambda x: max(0, 1-x))
 logLoss =  np.vectorize(lambda x: np.log2(1 + np.exp(-x)))
+expLoss =  np.vectorize(lambda x: np.exp(-x))
 
-funs = [zeroOne, hinge, logLoss]
-styles = ['k-', 'b:', 'r-.']
-labels = ['0-1', 'hinge', 'exp']
+funs = [zeroOne, hinge, logLoss, expLoss]
+styles = ['k-', 'b:', 'r-.', 'g-']
+labels = ['0-1', 'hinge', 'logloss', 'exp']
 x = np.arange(-2, 2, .01)
 
 for i, fun in enumerate(funs):
