@@ -13,7 +13,7 @@ expLoss =  np.vectorize(lambda x: np.exp(-x))
 
 funs = [zeroOne, hinge, logLoss, expLoss]
 styles = ['k-', 'b:', 'r-.', 'g-']
-labels = ['0-1', 'hinge', 'logloss', 'exp']
+labels = ['0-1 loss', 'hinge loss', 'log loss', 'exp loss']
 x = np.arange(-2, 2, .01)
 
 for i, fun in enumerate(funs):
