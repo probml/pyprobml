@@ -12,7 +12,7 @@ from jax.lax import scan
 import jax.numpy as jnp
 
 
-def kf_linreg(X, Y, R, mu0, Sigma0, F, Q):
+def kf_linreg(X, y, R, mu0, Sigma0, F, Q):
     """
     Online estimation of a linear regression
     using Kalman Filters
