@@ -1,11 +1,18 @@
 # Jax implementation of a Linear Dynamical System
 # Author:  Gerardo Durán-Martín (@gerdm), Aleyna Kara(@karalleyna)
+
 import superimport
 
 import jax
+from jax import vmap
+from jax.random import multivariate_normal, split
+from jax.lax import Precision
 import jax.numpy as jnp
-from jax import random
 from jax.numpy.linalg import inv
+from jax.lax import scan
+from tensorflow_probability.substrates import jax as tfp
+
+tfd = tfp.distributions
 
 
 class KalmanFilter:
@@ -74,19 +81,19 @@ class KalmanFilter:
         * array(n_samples, timesteps, observation_size):
             Simulation of observed states
         """
-        key_z1, key_system_noise, key_obs_noise = random.split(key, 3)
+        key_z1, key_system_noise, key_obs_noise = split(key, 3)
         if not sample_intial_state:
             state_t = self.mu0 * jnp.ones((n_samples, self.state_size))
         else:
-            state_t = random.multivariate_normal(key_z1, self.mu0, self.Sigma0, (n_samples,))
+            state_t = multivariate_normal(key_z1, self.mu0, self.Sigma0, (n_samples,))
 
         # Generate all future noise terms
         zeros_state = jnp.zeros(self.state_size)
         observation_size = self.timesteps if isinstance(self.R, int) else self.R.shape[0]
         zeros_obs = jnp.zeros(observation_size)
 
-        system_noise = random.multivariate_normal(key_system_noise, zeros_state, self.Q, (self.timesteps, n_samples))
-        obs_noise = random.multivariate_normal(key_obs_noise, zeros_obs, self.R, (self.timesteps, n_samples))
+        system_noise = multivariate_normal(key_system_noise, zeros_state, self.Q, (self.timesteps, n_samples))
+        obs_noise = multivariate_normal(key_obs_noise, zeros_obs, self.R, (self.timesteps, n_samples))
 
         obs_t = jnp.einsum("ij,sj->si", self.C(0), state_t) + obs_noise[0]
 
@@ -271,3 +278,121 @@ class KalmanFilter:
         if has_one_sim:
             mu_hist_smooth, Sigma_hist_smooth = mu_hist_smooth[0, ...], Sigma_hist_smooth[0, ...]
         return mu_hist_smooth, Sigma_hist_smooth
+
+
+class KalmanFilterNoiseEstimation:
+    """
+    Implementation of the Kalman Filtering and Smoothing
+    procedure of a Linear Dynamical System with known parameters.
+    This class exemplifies the use of Kalman Filtering assuming
+    the model parameters are known.
+    Parameters
+    ----------
+    A: array(state_size, state_size)
+        Transition matrix
+    C: array(observation_size, state_size)
+        Observation matrix
+    Q: array(state_size, state_size)
+        Transition covariance matrix
+    R: array(observation_size, observation_size)
+        Observation covariance
+    mu0: array(state_size)
+        Mean of initial configuration
+    Sigma0: array(state_size, state_size) or 0
+        Covariance of initial configuration. If value is set
+        to zero, the initial state will be completely determined
+        by mu0
+    timesteps: int
+        Total number of steps to sample
+    """
+
+    def __init__(self, A, Q, mu0, Sigma0, v0, tau0, update_fn=None):
+        self.A = A
+        self.Q = Q
+        self.mu0 = mu0
+        self.Sigma0 = Sigma0
+        self.v = v0
+        self.tau = tau0
+        self.__update_fn = update_fn
+
+    def update(self, state, bel, *args):
+        if self.__update_fn is None:
+            return bel
+        else:
+            return self.__update_fn(state, bel, *args)
+
+    def kalman_step(self, state, xt):
+        mu, Sigma, v, tau = state
+        x, y = xt
+
+        mu_cond = jnp.matmul(self.A, mu, precision=Precision.HIGHEST)
+        Sigmat_cond = jnp.matmul(jnp.matmul(self.A, Sigma, precision=Precision.HIGHEST), self.A,
+                                 precision=Precision.HIGHEST) + self.Q
+
+        e_k = y - x.T @ mu_cond
+        s_k = x.T @ Sigmat_cond @ x + 1
+        Kt = (Sigmat_cond @ x) / s_k
+
+        mu = mu + e_k * Kt
+        Sigma = Sigmat_cond - jnp.outer(Kt, Kt) * s_k
+
+        v_update = v + 1
+        tau = (v * tau + (e_k * e_k) / s_k) / v_update
+
+        return mu, Sigma, v_update, tau
+
+    def __kalman_filter(self, x_hist):
+        """
+        Compute the online version of the Kalman-Filter, i.e,
+        the one-step-ahead prediction for the hidden state or the
+        time update step
+        Parameters
+        ----------
+        x_hist: array(timesteps, observation_size)
+        Returns
+        -------
+        * array(timesteps, state_size):
+            Filtered means mut
+        * array(timesteps, state_size, state_size)
+            Filtered covariances Sigmat
+        * array(timesteps, state_size)
+            Filtered conditional means mut|t-1
+        * array(timesteps, state_size, state_size)
+            Filtered conditional covariances Sigmat|t-1
+        """
+        _, (mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist) = scan(self.kalman_step,
+                                                                       (self.mu0, self.Sigma0, 0), x_hist)
+        return mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist
+
+    def filter(self, x_hist):
+        """
+        Compute the online version of the Kalman-Filter, i.e,
+        the one-step-ahead prediction for the hidden state or the
+        time update step.
+        Note that x_hist can optionally be of dimensionality two,
+        This corresponds to different samples of the same underlying
+        Linear Dynamical System
+        Parameters
+        ----------
+        x_hist: array(n_samples?, timesteps, observation_size)
+        Returns
+        -------
+        * array(n_samples?, timesteps, state_size):
+            Filtered means mut
+        * array(n_samples?, timesteps, state_size, state_size)
+            Filtered covariances Sigmat
+        * array(n_samples?, timesteps, state_size)
+            Filtered conditional means mut|t-1
+        * array(n_samples?, timesteps, state_size, state_size)
+            Filtered conditional covariances Sigmat|t-1
+        """
+        has_one_sim = False
+        if x_hist.ndim == 2:
+            x_hist = x_hist[None, ...]
+            has_one_sim = True
+        kalman_map = vmap(self.__kalman_filter, 0)
+        mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = kalman_map(x_hist)
+        if has_one_sim:
+            mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist = mu_hist[0, ...], Sigma_hist[0, ...], mu_cond_hist[
+                0, ...], Sigma_cond_hist[0, ...]
+        return mu_hist, Sigma_hist, mu_cond_hist, Sigma_cond_hist
