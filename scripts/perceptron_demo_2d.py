@@ -123,8 +123,8 @@ for t in snapshots:
 '''
 
 # sklearn version
-from sklearn.linear_model import perceptron
-net_sklearn = perceptron.Perceptron()
+from sklearn.linear_model import Perceptron
+net_sklearn = Perceptron()
 net_sklearn.fit(X, y)
 w = net_sklearn.coef_[0]
 offset = net_sklearn.intercept_[0]
