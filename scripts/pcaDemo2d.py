@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 import os
+import pyprobml_utils as pml
 
 np.random.seed(42)
 
@@ -36,18 +37,13 @@ ax.set_ylim(-5, 5)
 ax.set_xlim(-5, 5)
 
 # Plot projected points
-ax.scatter(X_reconstr[:, 0], X_reconstr[:, 1], marker='o', facecolor='none', edgecolor='teal')
+ax.scatter(X_reconstr[:, 0], X_reconstr[:, 1], marker='x')
 
 # Plot projection lines
 for (xi1, xi2), (xi1_rec, xi2_rec) in zip(X, X_reconstr):
     ax.plot([xi1, xi1_rec], [xi2, xi2_rec], color='blue')
 
-# Save figure
-figdir = "../figures"
-#
-def save_fig(fname):
-    plt.savefig(os.path.join(figdir, fname))
 
-save_fig("pcaDemo2dProjection.pdf")
+pml.savefig("pcaDemo2dProjection.pdf")
 
-plt.draw()
+plt.show()
