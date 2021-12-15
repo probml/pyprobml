@@ -2,7 +2,6 @@
 # we consider a length 3 HMM with K states
 # h1 - h2 - h3
 
-import superimport
 
 import numpy as np # original numpy
 import jax.numpy as jnp

@@ -88,10 +88,11 @@ while not converged:
     comp_mean = X.mean(axis=1)
     axs.scatter(comp_mean[0], comp_mean[1], marker='x', c='r', s=200)
     axs.set_title('E step {}'.format(iterator))
+    pml.savefig(f'pcaEmStepByStepEstep{iterator}.pdf')
+
 
     W = np.dot(X, Z[0].T) / np.dot(Z[0], Z[0].T)
     negmseNew = -np.mean((np.ravel(Xrecon) - np.ravel(X) ** 2))
-
     converged = pml.convergence_test(negmseOld, negmseNew, 1e-2)
 
     Wortho = orth(W)
@@ -115,8 +116,9 @@ while not converged:
     comp_mean = X.mean(axis=1)
     axs2.scatter(comp_mean[0], comp_mean[1], marker='x', c='r', s=200)
     axs2.set_title('M step {}'.format(iterator))
+    pml.savefig(f'pcaEmStepByStepMstep{iterator}.pdf')
 
-    fig.savefig('../figures/pcaEmStepByStepEstep{}.pdf'.format(iterator))
-    fig2.savefig('../figures/pcaEmStepByStepMstep{}.pdf'.format(iterator))
+    #fig.savefig('../figures/pcaEmStepByStepEstep{}.pdf'.format(iterator))
+    #fig2.savefig('../figures/pcaEmStepByStepMstep{}.pdf'.format(iterator))
 
     iterator = iterator + 1
