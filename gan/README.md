@@ -2,7 +2,8 @@
   <b>PyProbML GAN zoo 🐅 </b><br>
 </h1>
 
-Compare results of different GANs : <a href="https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/gan_compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+Compare results of different GANs : 
+<a href="https://colab.research.google.com/github/probml/pyprobml/blob/master/gan/gan_compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 
 GAN tricks and what the different GAN try to address : <a href="https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/gan_tricks.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
