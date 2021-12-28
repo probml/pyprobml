@@ -6,7 +6,7 @@ Author:
   <a href="https://github.com/Neoanarika">Ming Liang Ang</a>. Summer 2021.
     <p>
   
-Compare results of different VAEs : <a href="https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/vae_compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+Compare results of different VAEs : <a href= "https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/vae_compare_results.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 VAE tricks and what the different VAE try to address : <a href="https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/vae_tricks.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
