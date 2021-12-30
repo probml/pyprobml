@@ -13,6 +13,8 @@ The `scripts` directory contains python files to generate individual figures fro
 To manually execute an individual script from the command line,
 follow this example:
 ```
+pip install git+git://github.com/probml/jsl
+pip install superimport 
 git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
 python3 pyprobml/scripts/softmax_plot.py 
 ```
@@ -20,10 +22,7 @@ This will clone the repo (without the version history, to save time/space), run 
 
 Many scripts rely on external packages, such as scipy, jax, etc.
 In some cases, the list of necessary packages is noted in the comments at the start of the file.
-However, rather than making the user install each dependency themselves, you can just install a single meta-package:
-```
-pip install superimport 
-```
+However, rather than making the user install each dependency themselves, you can just install `superimport` instead.
 This needs to be done on your local machine (or once per colab instance). You then need to add `import superimport`  to the top of each of your scripts.
 The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
 library will parse your file, figure out all missing packages, and then install them for you,
