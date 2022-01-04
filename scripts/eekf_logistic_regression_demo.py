@@ -9,6 +9,7 @@ from jsl.demos import eekf_logistic_regression_demo
 import matplotlib.pyplot as plt
 
 figures = eekf_logistic_regression_demo.main()
+data = figures.pop("data")
 for name, figure in figures.items():
     filename = f"./../figures/{name}.pdf"
     figure.savefig(filename)

@@ -105,7 +105,7 @@ xs = (Phi, y)
 
 adf_loop = partial(adf_step, prior_variance=prior_variance, lbound=lbound, ubound=ubound)
 (mu_t, tau_t), (mu_t_hist, tau_t_hist) = jax.lax.scan(adf_loop, init_state, xs)
-print("ADF weigths")
+print("ADF weights")
 print(mu_t)
 
 # ADF posterior predictive distribution
@@ -121,16 +121,18 @@ colors = ["black" if el else "white" for el in y]
 ## Add posterior marginal for ADF-estimated weights
 for i in range(ndims):
     mean, std = mu_t[i], jnp.sqrt(tau_t[i])
-    fig = figures[f"weights_marginals_w{i}"]
+    #fig = figures[f"weights_marginals_w{i}"]
+    fig = figures[f"logistic_regression_weights_marginals_w{i}"]
     ax = fig.gca()
     x = jnp.linspace(mean - 4 * std, mean + 4 * std, 500)
     ax.plot(x, norm.pdf(x, mean, std), label="posterior (ADF)", linestyle="dashdot")
     ax.legend()
 
 fig_adf, ax = plt.subplots()
-title = "(ADF) Predictive distribution"
+title = "ADF Predictive distribution"
 demo.plot_posterior_predictive(ax, X, Xspace, Z_adf, title, colors)
-figures["predictive_distribution_adf"] = fig_adf
+#figures["predictive_distribution_adf"] = fig_adf
+figures["logistic_regression_surface_adf"] = fig_adf
 
 lcolors = ["black", "tab:blue", "tab:red"]
 elements = mu_t_hist.T, tau_t_hist.T, w_laplace, lcolors
@@ -146,7 +148,8 @@ for k, (wk, Pk, wk_laplace, c) in enumerate(zip(*elements)):
     ax.set_xlabel("number samples")
     ax.set_ylabel("weights")
     plt.tight_layout()
-    figures[f"adf_logistic_regression_hist_w{k}"] = fig_weight_k
+    #figures[f"adf_logistic_regression_hist_w{k}"] = fig_weight_k
+    figures[f"logistic_regression_hist_adf_w{k}"] = fig_weight_k
 
 for name, figure in figures.items():
     filename = f"./../figures/{name}.pdf"
