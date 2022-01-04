@@ -35,6 +35,7 @@ y = data["y"]
 Phi = data["Phi"]
 Xspace = data["Xspace"]
 Phispace = data["Phispace"]
+w_laplace = data["w_laplace"]
 
 def sigmoid(z): return jnp.exp(z) / (1 + jnp.exp(z))
 def log_sigmoid(z): return z - jnp.log1p(jnp.exp(z))
@@ -94,7 +95,7 @@ def adf_step(state, xs, prior_variance, lbound, ubound):
 prior_variance = 0.0
 # Lower and upper bounds of integration. Ideally, we would like to
 # integrate from -inf to inf, but we run into numerical issues.
-_, ndims = Phi.shape
+n_datapoints, ndims = Phi.shape
 lbound, ubound = -20, 20
 mu_t = jnp.zeros(ndims)
 tau_t = jnp.ones(ndims) * 1.0
@@ -104,6 +105,8 @@ xs = (Phi, y)
 
 adf_loop = partial(adf_step, prior_variance=prior_variance, lbound=lbound, ubound=ubound)
 (mu_t, tau_t), (mu_t_hist, tau_t_hist) = jax.lax.scan(adf_loop, init_state, xs)
+print("ADF weigths")
+print(mu_t)
 
 # ADF posterior predictive distribution
 n_samples = 5000
@@ -121,8 +124,32 @@ for i in range(ndims):
     fig = figures[f"weights_marginals_w{i}"]
     ax = fig.gca()
     x = jnp.linspace(mean - 4 * std, mean + 4 * std, 500)
-    ax.plot(x, norm.pdf(x, mean, std), label="posterior (ADF)")
+    ax.plot(x, norm.pdf(x, mean, std), label="posterior (ADF)", linestyle="dashdot")
     ax.legend()
 
+fig_adf, ax = plt.subplots()
+title = "(ADF) Predictive distribution"
+demo.plot_posterior_predictive(ax, X, Xspace, Z_adf, title, colors)
+figures["predictive_distribution_adf"] = fig_adf
+
+lcolors = ["black", "tab:blue", "tab:red"]
+elements = mu_t_hist.T, tau_t_hist.T, w_laplace, lcolors
+timesteps = jnp.arange(n_datapoints) + 1
+
+for k, (wk, Pk, wk_laplace, c) in enumerate(zip(*elements)):
+    fig_weight_k, ax = plt.subplots()
+    ax.errorbar(timesteps, wk, jnp.sqrt(Pk), c=c, label=f"$w_{k}$ online (adf)")
+    ax.axhline(y=wk_laplace, c=c, linestyle="dotted", label=f"$w_{k}$ batch (Laplace)", linewidth=3)
+
+    ax.set_xlim(1, n_datapoints)
+    ax.legend(framealpha=0.7, loc="upper right")
+    ax.set_xlabel("number samples")
+    ax.set_ylabel("weights")
+    plt.tight_layout()
+    figures[f"adf_logistic_regression_hist_w{k}"] = fig_weight_k
+
+for name, figure in figures.items():
+    filename = f"./../figures/{name}.pdf"
+    figure.savefig(filename)
 
 plt.show()
