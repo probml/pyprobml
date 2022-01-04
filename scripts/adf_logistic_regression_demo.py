@@ -27,9 +27,9 @@ from jsl.demos import eekf_logistic_regression_demo as demo
 jax.config.update("jax_platform_name", "cpu")
 jax.config.update("jax_enable_x64", True)
 
-result = demo.main()
+figures = demo.main()
 
-data = result.pop("data")
+data = figures.pop("data")
 X = data["X"]
 y = data["y"]
 Phi = data["Phi"]
@@ -115,11 +115,14 @@ Z_adf = Z_adf.mean(axis=0)
 # ** Plotting predictive distribution **
 colors = ["black" if el else "white" for el in y]
 
-fig, ax = plt.subplots()
-title = "(ADF) Predictive distribution"
-demo.plot_posterior_predictive(ax, X, Xspace, Z_adf, title, colors)
-# pml.savefig("adf-logreg-predictive-surface.pdf")
-print("ADF weigths")
-print(mu_t)
+## Add posterior marginal for ADF-estimated weights
+for i in range(ndims):
+    mean, std = mu_t[i], jnp.sqrt(tau_t[i])
+    fig = figures[f"weights_marginals_w{i}"]
+    ax = fig.gca()
+    x = jnp.linspace(mean - 4 * std, mean + 4 * std, 500)
+    ax.plot(x, norm.pdf(x, mean, std), label="posterior (ADF)")
+    ax.legend()
+
 
 plt.show()
