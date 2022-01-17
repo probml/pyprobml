@@ -16,14 +16,14 @@ def optimal_sample_size(N, s, sigma):
 
 def prob_error(n1, n2, s, sigma):
     # eqn 12
-    x = np.sqrt(2)*sigma/s * np.sqrt(n1*n2/(n1+n2))
+    x = np.sqrt(2)*sigma/s * np.sqrt(n1*n2/(n1 +n2 +1e-10))
     p = 0.25 - 1/(2*np.pi)*np.arctan(x)
     return 2*p # could have m1<m2 or m1>m2
 
 def eprofit_deploy(N, n1, n2, s, mu, sigma):
     # eqn 9
     numer = np.sqrt(2)*sigma**2
-    tmp = 2*sigma**2 + (n1+n2) / (n1*n2) * (s**2)
+    tmp = 2*sigma**2 + (n1+n2) / (n1*n2 + 1e-10) * (s**2)
     denom = np.sqrt(np.pi)*np.sqrt(tmp)
     return (N-n1-n2)*(mu + numer/denom)
 
@@ -76,7 +76,7 @@ pml.savefig('ab_profit.png')
 plt.show()
 
 plt.figure();
-plt.plot(ns, error_rate)
+plt.plot(ns, error_rate) 
 plt.xlabel('Test size')
 plt.ylabel('Expected error rate')
 plt.axvline(nopt)
