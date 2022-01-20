@@ -20,7 +20,7 @@ import requests
 from io import BytesIO
 
 # Local import
-import ffvb
+import vb_gauss_cholesky as ffvb
 
 
 class LinearRegressor(nn.Module):

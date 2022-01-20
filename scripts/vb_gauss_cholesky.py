@@ -1,3 +1,9 @@
+'''
+It implements the full covariance FFVB method from 3.5.1 of https://arxiv.org/abs/2103.01327
+For original Matlab code, please see Example4.zip in https://github.com/VBayesLab/Tutorial-on-VB.
+Author : Aleyna Kara(@karalleyna)
+'''
+
 import jax
 import jax.numpy as jnp
 from jax import random, jit, grad, lax, ops
