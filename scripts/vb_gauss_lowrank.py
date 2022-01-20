@@ -1,5 +1,6 @@
 '''
 It implements the NAGVAC-1 method from 3.5.2 of https://arxiv.org/abs/2103.01327
+For more details, see https://arxiv.org/abs/1805.10157
 For original Matlab code, please see https://github.com/VBayesLab/VBLab/blob/main/VBLab/VB/NAGVAC.m
 Author : Aleyna Kara(@karalleyna)
 '''
