@@ -1,6 +1,6 @@
 '''
-
-!pip install -q statsmodels
+It implements example 3.4 from https://arxiv.org/abs/2103.0132
+Author: Aleyna Kara(@karalleyna)
 '''
 
 import jax
