@@ -15,9 +15,8 @@ follow this example:
 ```
 !pip install git+git://github.com/probml/jsl
 !pip install superimport 
-!git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
+!git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null
 
-%cd /pyprobml
 python3 scripts/softmax_plot.py 
 ```
 This will clone the repo (without the version history, to save time/space), run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
