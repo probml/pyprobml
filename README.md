@@ -4,7 +4,7 @@
 
 
 Python 3 code for the new book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
-This is work in progress, so expect very rough edges!
+This is work in progress, so expect very rough edges!!
  
 
 ## Running the scripts 
