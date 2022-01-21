@@ -4,37 +4,11 @@
 
 
 Python 3 code for the new book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
-This is work in progress, so expect very rough edges!!
+This contains code to reproduce the figures in the books.
+This is work in progress, so expect rough edges.
  
 
-## Running the scripts 
-
-The `scripts` directory contains python files to generate individual figures from vol 1 and vol 2 of the book.
-To manually execute an individual script from the command line,
-follow this example:
-```
-!pip install git+git://github.com/probml/jsl
-!pip install superimport 
-!git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null
-
-python3 scripts/softmax_plot.py 
-```
-This will clone the repo (without the version history, to save time/space), run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
-
-Many scripts rely on external packages, such as scipy, jax, etc.
-In some cases, the list of necessary packages is noted in the comments at the start of the file.
-However, rather than making the user install each dependency themselves, you can just install `superimport` instead.
-This needs to be done on your local machine (or once per colab instance). You then need to add `import superimport`  to the top of each of your scripts.
-The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
-library will parse your file, figure out all missing packages, and then install them for you,
-before running the rest of the script as usual. (If you run the script a second time, it skips the installation step.)
-Thus you will need an internet connection to run the code.
-
-Some scripts download datasets stored in the [probml-data repo](https://github.com/probml/probml-data).
-Thus you will need an internet connection to run the code.
-
-
-## Jupyter notebooks
+## Running the notebooks
 
 The scripts needed to make all the figures for each chapter are automatically combined together into a series of Jupyter notebooks, one per chapter.
 * [Volume 1 figure notebooks](https://github.com/probml/pml-book/tree/main/pml1/)
@@ -42,21 +16,30 @@ The scripts needed to make all the figures for each chapter are automatically co
 
 In addition to the automatically generated notebooks, there are a series of manually created notebooks, which create additional figures, and provide supplementary material for the book. These are stored in the [notebooks repo](https://github.com/probml/probml-notebooks), since they can be quite large. Some of these notebooks use the scripts mentioned above, but others are independent of the book content.
 
+The easiest way to run these notebooks is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have a created a [intro to colab](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/colab_intro.ipynb) notebook with more details.
 
-## Colab
 
-The best way to run the code is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have a created a [intro to colab](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/colab_intro.ipynb) notebook with more details.
+## Running scripts in colab
 
-You can run the book code inside colab as shown in the example below.
+The easiest way to run individual scripts is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). 
+Here are some additional packages you need to install - just cut and paste this into a code cell:
 ```
-%%capture
-!pip install superimport 
-!pip install deimport
+pip install --upgrade git+https://github.com/google/flax.git
+pip install blackjax
+pip install superimport # used by pyprobml
+pip install fire # used byJSL
+pip install git+git://github.com/probml/jsl # Accompanying codebase
+git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
+```
 
-!git clone --depth 1 https://github.com/probml/pyprobml /pyprobml &> /dev/null
-%cd /pyprobml/scripts
+Note: The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
+library will automatically install packages for any file which contains the line `import superimport'. We use this to 
+download more packages on demand, for individual scripts that need them.
 
-%run kf_tracking_demo.py
+Then run a script from a cell like this:
+```
+%run pyprobml/scripts/softmax_plot.py
+%run pyprobml/scripts/kf_tracking_demo.py
 ```
 
 To run code from github, follow the example below.
@@ -68,16 +51,44 @@ To run code from github, follow the example below.
 
 To edit a file locally and then run, follow the example below.
 ```
+# Make sure local changes to file are detected by runtime
 %load_ext autoreload
 %autoreload 2
 
-file = 'foo.py' # change this filename as needed
-!touch $file # create  file if necessary
+file = 'softmax_plot.py' # change this filename as needed
 from google.colab import files
 files.view(file) # open editor
 
 %run $file
 ```
+
+## Running the scripts locally 
+
+We assume you have already installed [JAX](https://github.com/google/jax#installation) and
+[Tensorflow](https://www.tensorflow.org/install) and [Torch](https://pytorch.org/),
+since the details on how to do this depend on whether you have a CPU, GPU, etc.
+
+For the remaining python packages, do this:
+```
+pip install --upgrade git+https://github.com/google/flax.git
+pip install blackjax
+pip install superimport # used by pyprobml
+pip install fire # used byJSL
+pip install git+git://github.com/probml/jsl # Accompanying codebase
+git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
+```
+
+Note: The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
+library will automatically install packages for any file which contains the line `import superimport'. We use this to 
+download more packages on demand, for individual scripts that need them.
+
+
+To manually execute an individual script from the command line,
+follow this example:
+```
+python3 pyprobml/scripts/softmax_plot.py 
+```
+This will  run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
 
 
 ## GCP, TPUs, and all that
