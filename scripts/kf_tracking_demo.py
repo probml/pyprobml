@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 
 figures = demo.main()
 for name, figure in figures.items():
-    filename = f"./../figures/{name}.pdf"
+    #filename = f"./../figures/{name}.pdf"
+    filename = f"{name}.png"
+    figure.savefig(filename)
+    filename = f"{name}.pdf"
     figure.savefig(filename)
 plt.show()
