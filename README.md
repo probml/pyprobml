@@ -24,10 +24,9 @@ The easiest way to run these notebooks is inside [Colab](https://colab.research.
 The easiest way to run individual scripts is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). 
 Here are some additional packages you need to install - just cut and paste this into a code cell:
 ```
+pip install superimport # used by pyprobml
 pip install --upgrade git+https://github.com/google/flax.git
 pip install blackjax
-pip install superimport # used by pyprobml
-pip install fire # used byJSL
 pip install git+git://github.com/probml/jsl # Accompanying codebase
 git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
 ```
@@ -73,7 +72,6 @@ For the remaining python packages, do this:
 pip install --upgrade git+https://github.com/google/flax.git
 pip install blackjax
 pip install superimport # used by pyprobml
-pip install fire # used byJSL
 pip install git+git://github.com/probml/jsl # Accompanying codebase
 git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
 ```
