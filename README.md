@@ -3,8 +3,7 @@
 <img src="https://img.shields.io/github/stars/probml/pyprobml?style=social">
 
 
-Python 3 code for the new book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
-This contains code to reproduce the figures in the books.
+Python 3 code to reproduce the figures in the book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
 This is work in progress, so expect rough edges.
  
 
@@ -22,43 +21,38 @@ The easiest way to run these notebooks is inside [Colab](https://colab.research.
 ## Running scripts in colab
 
 The easiest way to run individual scripts is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). 
-Here are some additional packages you need to install - just cut and paste this into a code cell:
+Just cut and paste this into a code cell:
 ```
-pip install superimport # used by pyprobml
-pip install --upgrade git+https://github.com/google/flax.git
-pip install blackjax
-pip install git+git://github.com/probml/jsl # Accompanying codebase
+pip install superimport 
 git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
 ```
-
 Note: The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
-library will automatically install packages for any file which contains the line `import superimport'. We use this to 
-download more packages on demand, for individual scripts that need them.
+library will automatically install packages for any file which contains the line `import superimport'.
 
 Then run a script from a cell like this:
 ```
 %run pyprobml/scripts/softmax_plot.py
-%run pyprobml/scripts/kf_tracking_demo.py
 ```
 
-To run code from github, follow the example below.
-(Note the `raw` in the URL.)
-```
-!wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/softmax_plot.py
-%run softmax_plot.py
-```
 
-To edit a file locally and then run, follow the example below.
+To edit a file locally and then run it, follow the example below.
 ```
 # Make sure local changes to file are detected by runtime
 %load_ext autoreload
 %autoreload 2
 
-file = 'softmax_plot.py' # change this filename as needed
+file = 'pyprobml/scripts/softmax_plot.py' # change this filename as needed
 from google.colab import files
 files.view(file) # open editor
 
 %run $file
+```
+
+To download and run code from github, follow the example below.
+(Note the `raw` in the URL.)
+```
+!wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/softmax_plot.py
+%run softmax_plot.py
 ```
 
 ## Running the scripts locally 
@@ -69,16 +63,12 @@ since the details on how to do this depend on whether you have a CPU, GPU, etc.
 
 For the remaining python packages, do this:
 ```
-pip install --upgrade git+https://github.com/google/flax.git
-pip install blackjax
-pip install superimport # used by pyprobml
-pip install git+git://github.com/probml/jsl # Accompanying codebase
+pip install superimport 
 git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
 ```
 
 Note: The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
-library will automatically install packages for any file which contains the line `import superimport'. We use this to 
-download more packages on demand, for individual scripts that need them.
+library will automatically install packages for any file which contains the line `import superimport'. 
 
 
 To manually execute an individual script from the command line,
@@ -87,6 +77,16 @@ follow this example:
 python3 pyprobml/scripts/softmax_plot.py 
 ```
 This will  run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
+
+## Running scripts for vol 2
+
+Some demos for vol 2 use [JSL (Jax State-space Library)](https://github.com/probml/JSL).
+This requires extra packages, see [these installation instructions](https://github.com/probml/JSL#installation).
+Then you can run the pyprobml version of the JSL demos like this
+```
+%run pyprobml/scripts/kf_tracking_demo.py # colab
+python3 pyprobml/scripts/kf_tracking_demo.py # locally
+```
 
 
 ## GCP, TPUs, and all that
