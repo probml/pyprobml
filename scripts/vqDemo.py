@@ -11,7 +11,7 @@ import scipy as sp
 import matplotlib.pyplot as plt
 
 from sklearn import cluster
-
+import pyprobml_utils as pml
 
 try:  # SciPy >= 0.16 have face in misc
     from scipy.misc import face
@@ -40,5 +40,6 @@ for n_cluster in n_clusters:
     plt.figure(figsize=(4,4))
     plt.title(f'K = {n_cluster}')
     plt.imshow(face_compressed, cmap=plt.cm.gray, vmin=vmin, vmax=vmax)
-    plt.savefig(f"../figures/vectorQuantization_{n_cluster}.pdf", dpi=300)
+    pml.savefig(f"vectorQuantization_{n_cluster}.pdf", dpi=300)
+    plt.show()
  

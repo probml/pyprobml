@@ -19,6 +19,8 @@ import statsmodels.api as sm
 import requests
 from io import BytesIO
 
+import pyprobml_utils as pml
+
 # Local import
 import vb_gauss_cholesky as ffvb
 
@@ -123,5 +125,6 @@ if __name__ == '__main__':
             ax.set_title('Lower Bound')
 
     plt.tight_layout()
-    plt.savefig("../figures/vb_gauss_cholesky_mroz.pdf", dpi=300)
+    pml.savefig("vb_gauss_cholesky_mroz.pdf")
+    pml.savefig("vb_gauss_cholesky_mroz.png")
     plt.show()
