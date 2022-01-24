@@ -87,7 +87,7 @@ def main():
 
     ## Fixed Form Variational Bayes Approximation
     (w_ffvb, cov_ffvb), _ = ffvb.vb_gauss_chol(key, partial_loglikelihood,
-                                                 logprior_fn, (Phi, y), optimizer, variables, niters=800)
+                                               logprior_fn, (Phi, y), optimizer, variables, niters=800)
     w_ffvb = w_ffvb['params']['Dense_0']['kernel'].squeeze()
     cov_ffvb = cov_ffvb['params']['Dense_0']['kernel']
     cov_ffvb = cov_ffvb @ cov_ffvb.T
@@ -101,13 +101,12 @@ def main():
     # FFVB surface predictive distribution
     ffvb_samples = random.multivariate_normal(key, w_ffvb, cov_ffvb, (nsamples,))
     Z_ffvb = nn.sigmoid(jnp.einsum("mij,sm->sij", Phispace, ffvb_samples))
-    Z_ffvb =    Z_ffvb.mean(axis=0)
+    Z_ffvb = Z_ffvb.mean(axis=0)
 
     fig_ffvb, ax = plt.subplots()
     title = "FFVB  Predictive Distribution"
     plot_posterior_predictive(ax, X, Xspace, Z_ffvb, title, colors)
     plt.savefig('../figures/ffvb_predictive_distribution.pdf', dpi=300)
-
 
     # *** Plotting posterior marginals of weights ***
     for i in range(nfeatures):
@@ -117,7 +116,6 @@ def main():
         ax.plot(x, norm.pdf(x, mean_ffvb, std_ffvb), label="posterior (FFVB)", linestyle="dashdot")
         ax.legend()
         ax.set_title(f"Posterior marginals of weights ({i})")
-        # dict_figures[f"weights_marginals_w{i}"] = fig_weights_marginals
         plt.savefig(f'../figures/ffvb_weights_marginals_{i}.pdf', dpi=300)
 
     print("FFVB weights")

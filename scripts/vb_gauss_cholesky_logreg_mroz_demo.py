@@ -26,9 +26,9 @@ import vb_gauss_cholesky as ffvb
 def learning_rate_schedule(init_value, threshold):
     def schedule(count):
         return lax.cond(count < threshold,
-                            lambda count: init_value,
-                            lambda count: init_value * threshold / count,
-                            count)
+                        lambda count: init_value,
+                        lambda count: init_value * threshold / count,
+                        count)
 
     return schedule
 
@@ -95,9 +95,9 @@ if __name__ == '__main__':
     loglikelihood_fn, logprior_fn = make_fns_for_posterior(model.apply, nfeatures, variance)
 
     lambda_best, avg_lower_bounds = ffvb.vb_gauss_chol(random.PRNGKey(42), loglikelihood_fn, logprior_fn,
-                                                  (X, y), optimizer, variables,
-                                                  lower_triangular=None, num_samples=20,
-                                                  window_size=10, niters=150, eps=0.1)
+                                                       (X, y), optimizer, variables,
+                                                       lower_triangular=None, num_samples=20,
+                                                       window_size=10, niters=150, eps=0.1)
 
     mu = lambda_best[0]['params']['Dense_0']['kernel']
     lower_triangular = lambda_best[1]['params']['Dense_0']['kernel']
