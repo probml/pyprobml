@@ -106,7 +106,7 @@ def main():
     fig_ffvb, ax = plt.subplots()
     title = "FFVB  Predictive Distribution"
     plot_posterior_predictive(ax, X, Xspace, Z_ffvb, title, colors)
-    plt.savefig('../figures/ffvb_predictive_distribution.png')
+    plt.savefig('../figures/ffvb_predictive_distribution.pdf', dpi=300)
 
 
     # *** Plotting posterior marginals of weights ***
@@ -118,7 +118,7 @@ def main():
         ax.legend()
         ax.set_title(f"Posterior marginals of weights ({i})")
         # dict_figures[f"weights_marginals_w{i}"] = fig_weights_marginals
-        plt.savefig(f'../figures/ffvb_weights_marginals_{i}.png')
+        plt.savefig(f'../figures/ffvb_weights_marginals_{i}.pdf', dpi=300)
 
     print("FFVB weights")
     print(w_ffvb, end="\n" * 2)
