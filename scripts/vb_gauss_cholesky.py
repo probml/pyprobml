@@ -89,9 +89,11 @@ def make_vb_gauss_chol_fns(loglikelihood_fn, logprior_fn, nfeatures, num_samples
     return step
 
 
-def vb_gauss_chol(key, loglikelihood_fn, logprior_fn, data, optimizer, mean,
-                  lower_triangular=None, num_samples=20, max_patience=10,
-                  window_size=10, niters=500, eps=0.1, smooth=True):
+def vb_gauss_chol(key, loglikelihood_fn, logprior_fn,
+                  data, optimizer, mean,
+                  lower_triangular=None, num_samples=20,
+                  window_size=10, niters=500,
+                  eps=0.1, smooth=True):
     '''
     Arguments:
       num_samples : number of Monte Carlo samples,

@@ -10,6 +10,10 @@ import jax.numpy as jnp
 import jax
 from jax.random import split, PRNGKey
 
+import pandas as pd
+
+import requests
+from io import BytesIO
 
 '''
 TODO: Jaxify the implementation.
@@ -58,7 +62,11 @@ def inverse_fisher_times_grad(b, c, grad):
 
 
 # TODO: Add  labour force data to pyprobml data
-# data = loadmat("/content/LabourForce.mat")['data']
+url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/vb_data_mroz.csv'
+response = requests.get(url)
+rawdata = BytesIO(response.content)
+df = pd.read_csv(rawdata)
+data = df.to_numpy()
 X, y = jnp.array(data[:, :-1]), jnp.array(data[:, -1])
 
 iter = 1
@@ -137,7 +145,7 @@ def init_fn(dummy, U_normal):
     grad_log_q = grad_log_q_function(b, c, theta, mu)
 
     # Gradient of h(theta) and lowerbound
-    grad_theta = grad_h_theta - grad_log_q;
+    grad_theta = grad_h_theta - grad_log_q
     return None, (grad_theta, epsilon1 * grad_theta, epsilon2 * grad_theta, h_theta)
 
 
@@ -164,7 +172,7 @@ for i in range(max_iter):
     if(save_params):
         params_iter(iter,:) = mu'''
 
-    iter = iter + 1;
+    iter = iter + 1
     rqmc = normal(key, shape=(S, d_theta + 1))
     # store gradient of lb over S MC simulations
     grad_lb_iter = jnp.zeros((S, 3 * d_theta))
@@ -213,3 +221,5 @@ for i in range(max_iter):
             patience = patience + 1
     if (patience>max_patience) or (iter>max_iter):
         stop = True'''
+
+print(LB)
