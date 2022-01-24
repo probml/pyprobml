@@ -7,7 +7,6 @@
 #     pp. 435-440, doi: 10.1109/ISPA.2007.4383733.
 # of the posterior distribution
 # Dependencies:
-#   !pip install git+https://github.com/blackjax-devs/blackjax.git
 #   !pip install jax_cosmo
 
 # Author: Gerardo Durán-Martín (@gerdm)
@@ -23,6 +22,8 @@ from jax.scipy.stats import norm
 from jax_cosmo.scipy import integrate
 from functools import partial
 from jsl.demos import eekf_logistic_regression_demo as demo
+
+import pyprobml_utils as pml
 
 jax.config.update("jax_platform_name", "cpu")
 jax.config.update("jax_enable_x64", True)
@@ -132,7 +133,10 @@ fig_adf, ax = plt.subplots()
 title = "ADF Predictive distribution"
 demo.plot_posterior_predictive(ax, X, Xspace, Z_adf, title, colors)
 #figures["predictive_distribution_adf"] = fig_adf
-figures["logistic_regression_surface_adf"] = fig_adf
+#figures["logistic_regression_surface_adf"] = fig_adf
+pml.savefig("logistic_regression_surface_adf.pdf")
+
+# Posterior vs time
 
 lcolors = ["black", "tab:blue", "tab:red"]
 elements = mu_t_hist.T, tau_t_hist.T, w_laplace, lcolors
@@ -149,10 +153,11 @@ for k, (wk, Pk, wk_laplace, c) in enumerate(zip(*elements)):
     ax.set_ylabel("weights")
     plt.tight_layout()
     #figures[f"adf_logistic_regression_hist_w{k}"] = fig_weight_k
-    figures[f"logistic_regression_hist_adf_w{k}"] = fig_weight_k
+    #figures[f"logistic_regression_hist_adf_w{k}"] = fig_weight_k
+    pml.savefig(f"logistic_regression_hist_adf_w{k}")
 
-for name, figure in figures.items():
-    filename = f"./../figures/{name}.pdf"
-    figure.savefig(filename)
+#for name, figure in figures.items():
+#    filename = f"./../figures/{name}.pdf"
+#    figure.savefig(filename)
 
 plt.show()
