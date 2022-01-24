@@ -6,6 +6,7 @@ Author: Aleyna Kara(@karalleyna)
 from jax import jit, random, tree_leaves, tree_multimap, tree_map, lax
 import jax.numpy as jnp
 from jax.scipy.stats import norm
+from jax.random import split
 
 import flax.linen as nn
 from flax.core.frozen_dict import unfreeze, freeze
@@ -25,17 +26,7 @@ import pyprobml_utils as pml
 import vb_gauss_cholesky as ffvb
 
 
-def learning_rate_schedule(init_value, threshold):
-    def schedule(count):
-        return lax.cond(count < threshold,
-                        lambda count: init_value,
-                        lambda count: init_value * threshold / count,
-                        count)
-
-    return schedule
-
-
-def make_fns_for_posterior(predict_fn, nfeatures, variance=1.):
+def make_fns_for_posterior(predict_fn, alpha):
     @jit
     def loglikelihood(params, x, y):
         predictions = predict_fn(params, x)
@@ -45,16 +36,12 @@ def make_fns_for_posterior(predict_fn, nfeatures, variance=1.):
     @jit
     def logprior(params):
         # Spherical Gaussian prior
-        log_p_theta = tree_multimap(lambda param, d: (-d / 2 * jnp.log(2 * jnp.pi) - d / 2 * jnp.log(variance) - (
-                param.T @ param) / 2 / variance).flatten(),
-                                    params, nfeatures)
-
-        return sum(tree_leaves(log_p_theta))[0]
+        return -sum(tree_leaves(tree_map(lambda x: jnp.log(alpha * x.T @ x / 2).sum(), params)))
 
     return loglikelihood, logprior
 
 
-class LinearRegressor(nn.Module):
+class LogisticRegressor(nn.Module):
     @nn.compact
     def __call__(self, x):
         x = nn.Dense(1, use_bias=False, kernel_init=nn.initializers.zeros)(x)
@@ -63,6 +50,7 @@ class LinearRegressor(nn.Module):
 
 if __name__ == '__main__':
     key = random.PRNGKey(42)
+
     # Load the data
     url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/vb_data_mroz.csv'
     response = requests.get(url)
@@ -78,25 +66,23 @@ if __name__ == '__main__':
     results = glm_binom.fit()
     mu = jnp.array(results.params)
 
-    model = LinearRegressor()
-    variables = model.init(random.PRNGKey(0), X)
+    model = LogisticRegressor()
+    init_key, key = split(key)
+    variables = model.init(init_key, X)
     output = model.apply(variables, X)
 
-    start_learning_rate, tau_threshold = 1e-3, 100
-    b1, b2 = 0.6, 0.6
-
-    learning_rate_fn = learning_rate_schedule(start_learning_rate, tau_threshold)
-    optimizer = optax.adam(learning_rate_fn, b1=b1, b2=b2)
+    learning_rate = 1e-3
+    optimizer = optax.adam(learning_rate)
 
     variables = unfreeze(variables)
     variables['params']['Dense_0']['kernel'] = mu.reshape((-1, 1))
     variables = freeze(variables)
 
-    variance = 10.
+    alpha = 1.
     nfeatures = tree_map(lambda x: x.shape[0], variables)
-    loglikelihood_fn, logprior_fn = make_fns_for_posterior(model.apply, nfeatures, variance)
+    loglikelihood_fn, logprior_fn = make_fns_for_posterior(model.apply, alpha)
 
-    lambda_best, avg_lower_bounds = ffvb.vb_gauss_chol(random.PRNGKey(42), loglikelihood_fn, logprior_fn,
+    lambda_best, avg_lower_bounds = ffvb.vb_gauss_chol(key, loglikelihood_fn, logprior_fn,
                                                        (X, y), optimizer, variables,
                                                        lower_triangular=None, num_samples=20,
                                                        window_size=10, niters=150, eps=0.1)

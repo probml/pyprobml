@@ -38,8 +38,7 @@ def loglikelihood_fn(params, Phi, y, predict_fn):
 
 
 def logprior_fn(params, alpha=2.0):
-    return sum(jax.tree_leaves(jax.tree_map(lambda x: jnp.log(alpha * x.T @ x / 2).sum(), params)))
-
+    return -sum(jax.tree_leaves(jax.tree_map(lambda x: jnp.log(alpha * x.T @ x / 2).sum(), params)))
 
 
 key = jax.random.PRNGKey(0)
