@@ -126,7 +126,7 @@ def vb_gauss_chol(key, loglikelihood_fn, logprior_fn,
         grads, lower_bound = step_fn(key, variational_params, grads, data)
 
         grads = jax.tree_map(lambda x: x[..., None] if len(x.shape) == 1 else x, grads)
-        grads = jax.tree_map(clip, grads)
+        grads = clip(grads)
 
         updates, opt_state = optimizer.update(grads, opt_state)
         params = optax.apply_updates(params, updates)
