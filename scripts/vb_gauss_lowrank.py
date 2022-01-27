@@ -1,225 +1,133 @@
-'''
-It implements the NAGVAC-1 method from 3.5.2 of https://arxiv.org/abs/2103.01327
-For more details, see https://arxiv.org/abs/1805.10157
-For original Matlab code, please see https://github.com/VBayesLab/VBLab/blob/main/VBLab/VB/NAGVAC.m
-Author : Aleyna Kara(@karalleyna)
-'''
-
-from jax.random import normal
 import jax.numpy as jnp
-import jax
-from jax.random import split, PRNGKey
-
-import pandas as pd
-
-import requests
-from io import BytesIO
-
-'''
-TODO: Jaxify the implementation.
-'''
-
-def h_fn(w, batch, eps=0.01):
-    X, y = batch
-    p = 1 / (1 + jnp.exp(-jnp.dot(X, w)))
-    p = jnp.clip(p, eps, 1 - eps)
-    ll = jnp.mean(y * jnp.log(p) + (1 - y) * jnp.log(1 - p))
-    lp = 0.5 * eps * jnp.sum(w**2)
-    return ll + lp
-
-
-def grad_log_q_function(b,c,theta,mu):
-  x = theta - mu
-  d = b /c**2
-  grad_log_q = -x/c**2 + (d.T @ x) /(1+(d.T@b))*d
-  return grad_log_q
-
+import optax
+from jax.random import normal, PRNGKey, split
+from jax import  lax, tree_map, value_and_grad, tree_leaves
 
 ## I^-1 x grad
 def inverse_fisher_times_grad(b, c, grad):
-    d = len(b)
+    d = b.size
     grad1, grad2, grad3 = grad
     c2 = c ** 2
     b2 = b ** 2
+
     prod1 = (b.T @ grad1) * b + (grad1 * c2)
     alpha = 1 / (1 + jnp.sum(b2 / c2))
     Cminus = jnp.diag(1 / c2)
     Cminus_b = b / c2
     Sigma_inv = Cminus - alpha * (Cminus_b @ Cminus_b.T)
 
-    A11_inv = (1 / (1 - alpha)) * ((1 - 1 / (jnp.sum(b2) + 1 - alpha)) * (b * b.T) + jnp.diag(c2.flatten()))
+    A11_inv = (1 / (1 - alpha)) * ((1 - 1 / (jnp.sum(b2) + 1 - alpha)) * (b @ b.T) + jnp.diag(c2.flatten()))
     C = jnp.diag(c.flatten())
 
-    A12 = 2 * (C @ Sigma_inv @ b @ jnp.ones((1, d))) @ Sigma_inv
-    A21 = A12.T  # (7, 7)
-    A22 = 2 * C @ (Sigma_inv * Sigma_inv) @ C  # (7, 7)
-    D = A22 - A21 @ A11_inv @ A12  # (7, 7)
+    A12 = 2 * (C @ Sigma_inv @ b @ jnp.ones((1, d))) * Sigma_inv
+    A21 = A12.T
+    A22 = 2 * C @ (Sigma_inv * Sigma_inv) @ C
+    D = A22 - A21 @ A11_inv @ A12
     sol = jnp.linalg.lstsq(grad3, D)[0].T
     sol2 = jnp.linalg.lstsq(A21, D)[0]
     prod2 = A11_inv @ grad2 + (A11_inv @ A12) @ sol2 @ (A11_inv @ grad2) - (A11_inv @ A12) @ sol
     prod3 = -sol2 @ (A11_inv @ grad2) + sol
-    return jnp.concatenate([prod1, prod2, prod3])
+    return prod1, prod2,  prod3
 
 
-# TODO: Add  labour force data to pyprobml data
-url = 'https://raw.githubusercontent.com/probml/probml-data/main/data/vb_data_mroz.csv'
-response = requests.get(url)
-rawdata = BytesIO(response.content)
-df = pd.read_csv(rawdata)
-data = df.to_numpy()
-X, y = jnp.array(data[:, :-1]), jnp.array(data[:, -1])
+def grad_log_q_function(b, c,theta,mu):
+  x = theta - mu
+  d = b /c**2
+  grad_log_q = -x/c**2 + (d.T @ x) /(1+(d.T@b))*d
+  return grad_log_q
 
-iter = 1
-patience = 0
-stop = False
-LB_smooth = 0
-lambda_best = []
+def clip(X, threshold=100):
+    # gradient clipping
+    X_leaves = tree_leaves(X)
+    norm = sum(tree_map(jnp.linalg.norm, X_leaves))
 
-# additional parameters that can be given the function as optional, initialize them none by default
-ini_mu = None
+    def true_fun(x):
+        return (threshold / norm) * x
 
-# prior sigma for mu
-std_init = 0.01
+    def false_fun(x):
+        return x
 
-# Shape of mu, model params
-d_theta = 7
-
-# initial scale
-init_scale = 0.1
-
-# number of sample
-S = 10
-
-S = 200
-max_patience = 20
-max_iter = 100
-max_grad = 200
-window_size = 50
-momentum_weight = 0.9
-
-key = jax.random.PRNGKey(0)
-
-'''
-Initialization of mu
-If initial parameters are not specified, then use some
-initialization methods
-'''
-
-if ini_mu is None:
-    mu_key, key = split(key, 2)
-    mu = std_init * normal(mu_key, shape=(d_theta, 1))
-else:
-    mu = ini_mu
-
-b_key, key = split(key, 2)
-b = std_init * normal(b_key, shape=(d_theta, 1))
-c = init_scale * jnp.ones((d_theta, 1))
-
-# Variational parameters vector
-
-lmbda = jnp.concatenate([mu, b, c])
-
-tau_threshold = 2500
-eps0 = 0.01  # learning_rate
-# TODO: Store all setting to a structure
-# param(iter,:) = mu.T
-
-# First VB iteration
-rqmc_key, key = split(key, 2)
-rqmc = normal(rqmc_key, shape=(S, d_theta + 1))
-
-# Store gradient of lb over S MC simulations
-grad_lb_iter = jnp.zeros((S, 3 * d_theta))
-
-# To estimate the first term in lb = E_q(log f)-E_q(log q)
-lb_first_term = jnp.zeros((S, 1))
+    X = tree_map(lambda x: lax.cond(norm > threshold, true_fun, false_fun, x), X)
+    return X
 
 
-def init_fn(dummy, U_normal):
-    # Parameters in Normal distribution
-    epsilon1 = U_normal[0]
-    epsilon2 = U_normal[1:].reshape((-1, 1))
-    theta = mu + b * epsilon1 + c * epsilon2
-    h_theta, grad_h_theta = jax.value_and_grad(h_fn)(theta, (X, y))
-    # Gradient of  log variational distribution
-    grad_log_q = grad_log_q_function(b, c, theta, mu)
+# To estimate the first term in lb = E_q(log f)-E_q(log q):lb_first_term
 
-    # Gradient of h(theta) and lowerbound
-    grad_theta = grad_h_theta - grad_log_q
-    return None, (grad_theta, epsilon1 * grad_theta, epsilon2 * grad_theta, h_theta)
+def vb_gauss_lowrank(key, logjoint_fn, data, nparams,
+                     prior_mean, prior_std=0.01, init_scale=1., optimizer=optax.adam(1e-3),
+                     num_samples=10, niters=5000, threshold=100, window_size=30, smooth=True):
 
-
-_, (*grad_lb_iter, lb_first_term) = jax.lax.scan(init_fn, None, rqmc)
-# Estimation of lowerbound
-logdet = jnp.log(jnp.linalg.det(1 + (b / (c ** 2)).T * b)) + jnp.sum(jnp.log((c ** 2)))
-# Mean of log-q -> mean(log q(theta))
-lb_log_q = -0.5 * d_theta * jnp.log(2 * jnp.pi) - 0.5 * logdet - d_theta / 2
-
-LB = jnp.array([])
-LB = jnp.append(LB, jnp.mean(lb_first_term) - lb_log_q)
-
-# Gradient of log variational distribution
-grad_lb = jax.tree_map(lambda x: jnp.mean(x, axis=0), grad_lb_iter)
-gradient_lambda = inverse_fisher_times_grad(b, c, grad_lb)
-gradient_bar = gradient_lambda
-
-# Main VB loop
-for i in range(max_iter):
-    # if users want to save variational mean in each iteration
-    # only use when debuging code
-    '''TODO : Replace for loop with jax.lax.scan
-
-    if(save_params):
-        params_iter(iter,:) = mu'''
-
-    iter = iter + 1
-    rqmc = normal(key, shape=(S, d_theta + 1))
-    # store gradient of lb over S MC simulations
-    grad_lb_iter = jnp.zeros((S, 3 * d_theta))
-    # to estimate the first term in lb = E_q(log f)-E_q(log q)
-    lb_first_term = jnp.zeros((S, 1))
-
-    _, (*grad_lb_iter, lb_first_term) = jax.lax.scan(init_fn, None, rqmc)
-    # Estimation of lowerbound
-    logdet = jnp.log(jnp.linalg.det(1 + (b / (c ** 2)).T * b)) + jnp.sum(jnp.log((c ** 2)))
-    # Mean of log-q -> mean(log q(theta))
-    lb_log_q = -0.5 * d_theta * jnp.log(2 * jnp.pi) - 0.5 * logdet - d_theta / 2
-    LB = jnp.append(LB, jnp.mean(lb_first_term) - lb_log_q)
-
-    # Gradient of log variational distribution
-    grad_lb = jax.tree_map(lambda x: x.mean(axis=0), grad_lb_iter)
-    gradient_lambda = inverse_fisher_times_grad(b, c, grad_lb)
-
-    # Gradient clipping
-    grad_norm = jnp.linalg.norm(gradient_lambda)
-    norm_gradient_threshold = max_grad
-
-    if jnp.linalg.norm(gradient_lambda) > norm_gradient_threshold:
-        gradient_lambda = (norm_gradient_threshold / grad_norm) * gradient_lambda
-
-    gradient_bar = momentum_weight * gradient_bar + (1 - momentum_weight) * gradient_lambda
-
-    if iter > tau_threshold:
-        stepsize = eps0 * tau_threshold / iter
+    if prior_mean is None:
+        mu_key, key = split(key, 2)
+        mu = prior_std * normal(mu_key, shape=(nparams, 1))
     else:
-        stepsize = eps0
+        mu = prior_mean
 
-    # Reconstruct variantional parameters
-    mu = mu + stepsize * gradient_bar[0] * stepsize
-    b = b + stepsize * gradient_bar[1] * stepsize
-    c = c + stepsize * gradient_bar[2] * stepsize
+    b_key, key = split(key, 2)
+    b = prior_std * normal(b_key, shape=(nparams, 1))
+    c = init_scale * jnp.ones((nparams, 1))
 
-    '''
-    TODO : Add smoothing as follows:
 
-    if iter > window_size:  
-        LB_smooth[iter-window_size] = jnp.mean(LB[iter-window_size+1:iter])
-        if LB_smooth[end] >= jnp.max(LB_smooth):
-            mu_best, b_best, c_best = mu, b, c
-            patience = 0
-        else:
-            patience = patience + 1
-    if (patience>max_patience) or (iter>max_iter):
-        stop = True'''
+    variational_params = (mu, b, c)
+    opt_state = optimizer.init(variational_params)
 
-print(LB)
+    def step_fn(variational_params, U_normal):
+        mu, b, c = variational_params
+        # Parameters in Normal distribution
+        epsilon1 = U_normal[0]
+        epsilon2 = U_normal[1:].reshape((-1, 1))
+        theta = mu + b * epsilon1 + c * epsilon2
+        h_theta, grad_h_theta = value_and_grad(logjoint_fn)(theta, data)
+        # Gradient of  log variational distribution
+        grad_log_q = grad_log_q_function(b, c, theta, mu)
+        # Gradient of h(theta) and lowerbound
+        grad_theta = grad_h_theta - grad_log_q
+        return variational_params, (grad_theta, epsilon1 * grad_theta, epsilon2 * grad_theta, h_theta)
+
+
+    # Main VB loop
+    def iter_fn(all_params, key):
+        variational_params, opt_state = all_params
+        mu, b, c = variational_params
+
+        samples = normal(key, shape=(num_samples, nparams + 1))
+
+        _, (*grad_lb_iter, lb_first_term) = lax.scan(step_fn, variational_params, samples)
+
+        # Estimation of lower bound
+        logdet = jnp.log(jnp.linalg.det(1 + (b / (c ** 2)).T @ b)) + jnp.sum(jnp.log((c ** 2)))
+
+        # Mean of log-q -> mean(log q(theta))
+        lb_log_q = -0.5 * nparams * jnp.log(2 * jnp.pi) - 0.5 * logdet - nparams / 2
+        lb = jnp.mean(lb_first_term) - lb_log_q
+
+        # Gradient of log variational distribution
+        grad_lb = tree_map(lambda x: x.mean(axis=0), grad_lb_iter)
+        grads = inverse_fisher_times_grad(b, c, grad_lb)
+
+        # Gradient clipping
+        grads = clip(grads, threshold=threshold)
+
+        updates, opt_state = optimizer.update(grads, opt_state)
+        variational_params = optax.apply_updates(variational_params, updates)
+
+        return (variational_params, opt_state), (variational_params, lb)
+
+    keys = split(key, niters)
+    _, (variational_params, lower_bounds) = lax.scan(iter_fn, (variational_params, opt_state), keys)
+
+    if smooth:
+        def simple_moving_average(cur_sum, i):
+            diff = (lower_bounds[i] - lower_bounds[i - window_size]) / window_size
+            cur_sum += diff
+            return cur_sum, cur_sum
+
+        indices = jnp.arange(window_size, niters)
+        cur_sum = jnp.sum(lower_bounds[:window_size]) / window_size
+        _, lower_bounds = lax.scan(simple_moving_average, cur_sum, indices)
+        lower_bounds = jnp.append(jnp.array([cur_sum]), lower_bounds)
+
+    i = jnp.argmax(lower_bounds) + window_size - 1 if smooth else jnp.argmax(lower_bounds)
+    best_params = tree_map(lambda x: x[i], variational_params)
+
+    return best_params, lower_bounds
