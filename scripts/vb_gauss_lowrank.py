@@ -1,9 +1,11 @@
 import jax.numpy as jnp
-import optax
-from jax.random import normal, PRNGKey, split
-from jax import  lax, tree_map, value_and_grad, tree_leaves
+from jax.random import normal, split
+from jax import lax, tree_map, value_and_grad, tree_leaves
 
-## I^-1 x grad
+import optax
+
+
+# I^-1 x grad
 def inverse_fisher_times_grad(b, c, grad):
     d = b.size
     grad1, grad2, grad3 = grad
@@ -27,14 +29,15 @@ def inverse_fisher_times_grad(b, c, grad):
     sol2 = jnp.linalg.lstsq(A21, D)[0]
     prod2 = A11_inv @ grad2 + (A11_inv @ A12) @ sol2 @ (A11_inv @ grad2) - (A11_inv @ A12) @ sol
     prod3 = -sol2 @ (A11_inv @ grad2) + sol
-    return prod1, prod2,  prod3
+    return prod1, prod2, prod3
 
 
-def grad_log_q_function(b, c,theta,mu):
-  x = theta - mu
-  d = b /c**2
-  grad_log_q = -x/c**2 + (d.T @ x) /(1+(d.T@b))*d
-  return grad_log_q
+def grad_log_q_function(b, c, theta, mu):
+    x = theta - mu
+    d = b / c ** 2
+    grad_log_q = -x / c ** 2 + (d.T @ x) / (1 + (d.T @ b)) * d
+    return grad_log_q
+
 
 def clip(X, threshold=100):
     # gradient clipping
@@ -54,9 +57,8 @@ def clip(X, threshold=100):
 # To estimate the first term in lb = E_q(log f)-E_q(log q):lb_first_term
 
 def vb_gauss_lowrank(key, logjoint_fn, data, nparams,
-                     prior_mean, prior_std=0.01, init_scale=1., optimizer=optax.adam(1e-3),
+                     prior_mean=None, prior_std=0.01, init_scale=1., optimizer=optax.adam(1e-3),
                      num_samples=10, niters=5000, threshold=100, window_size=30, smooth=True):
-
     if prior_mean is None:
         mu_key, key = split(key, 2)
         mu = prior_std * normal(mu_key, shape=(nparams, 1))
@@ -66,7 +68,6 @@ def vb_gauss_lowrank(key, logjoint_fn, data, nparams,
     b_key, key = split(key, 2)
     b = prior_std * normal(b_key, shape=(nparams, 1))
     c = init_scale * jnp.ones((nparams, 1))
-
 
     variational_params = (mu, b, c)
     opt_state = optimizer.init(variational_params)
@@ -80,10 +81,9 @@ def vb_gauss_lowrank(key, logjoint_fn, data, nparams,
         h_theta, grad_h_theta = value_and_grad(logjoint_fn)(theta, data)
         # Gradient of  log variational distribution
         grad_log_q = grad_log_q_function(b, c, theta, mu)
-        # Gradient of h(theta) and lowerbound
+        # Gradient of h(theta) and lower bound
         grad_theta = grad_h_theta - grad_log_q
         return variational_params, (grad_theta, epsilon1 * grad_theta, epsilon2 * grad_theta, h_theta)
-
 
     # Main VB loop
     def iter_fn(all_params, key):

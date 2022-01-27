@@ -3,7 +3,7 @@ It implements example 3.4 from https://arxiv.org/abs/2103.0132
 Author: Aleyna Kara(@karalleyna)
 '''
 
-from jax import jit, random, tree_leaves, tree_multimap, tree_map, lax
+from jax import jit, random, tree_leaves, tree_map
 import jax.numpy as jnp
 from jax.scipy.stats import norm
 from jax.random import split
