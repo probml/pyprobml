@@ -21,16 +21,16 @@ from jax import random
 from jax.scipy.stats import norm
 from jax_cosmo.scipy import integrate
 from functools import partial
-from jsl.demos import eekf_logistic_regression_demo as demo
+from jsl.demos import logreg_biclusters_demo as demo
 
 import pyprobml_utils as pml
 
+# cosmo seems to only support numerical integration in CPU mode
 jax.config.update("jax_platform_name", "cpu")
 jax.config.update("jax_enable_x64", True)
 
-figures = demo.main()
+figures, data = demo.main()
 
-data = figures.pop("data")
 X = data["X"]
 y = data["y"]
 Phi = data["Phi"]
