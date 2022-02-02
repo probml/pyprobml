@@ -63,6 +63,12 @@ y = rows[0] * 1.0
 Phi = jnp.c_[jnp.ones(n_datapoints)[:, None], X]
 nfeatures = Phi.shape[-1]
 
+# Model
+model = LogReg()
+init_key, key = jax.random.split(key)
+variables = model.init(init_key, Phi)
+
+
 # colors = ["black" if el else "white" for el in y]
 
 # Predictive domain
@@ -74,9 +80,7 @@ _, nx, ny = Xspace.shape
 Phispace = jnp.concatenate([jnp.ones((1, nx, ny)), Xspace])
 
 ### FFVB Approximation
-model = LogReg()
-init_key, key = jax.random.split(key)
-variables = model.init(init_key, Phi)
+
 
 partial_loglikelihood = partial(loglikelihood_fn,
                                 predict_fn=lambda params, x: model.apply(params, x).squeeze())
@@ -148,3 +152,5 @@ print(w_ffvb, end="\n" * 2)
 
 print("NAGVAC weights")
 print(w_lowrank, end="\n" * 2)
+
+plt.show()
