@@ -7,7 +7,6 @@ from jax import random, vmap, tree_map
 from flax.core.frozen_dict import unfreeze, freeze
 from flax import traverse_util
 
-
 def gen_phi(key, w_mat_lst):
     # TODO : Make it work with features list
     phi = {}
@@ -31,8 +30,9 @@ def update_weight(params, w_mat_lst):
         
         if k[-1] == 'kernel':
             updated_params[k] = w_mat_lst[k][:, :-1]
-            updated_params[tuple([*k[:-1], 'bias'])] = w_mat_lst[k][:, -1]
+            updated_params[tuple([*k[:-1], 'bias'])] = w_mat_lst[k][:, -1].copy()
     updated_params = freeze(traverse_util.unflatten_dict(updated_params))
+    params = freeze(params)
     return updated_params
 
 def randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst):
@@ -48,16 +48,22 @@ def randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_ma
         :return:
     """
     # W = M + B*Phi*A^t
+    k = ("params", "Dense_0", "kernel")
+    b = b_mat_lst[k]
+    m = m_mat_lst[k]
+    a = a_mat_lst[k]
+    phi = phi_mat_lst[k]
 
     w_mat_lst = jax.tree_multimap(lambda m, b, phi, a: m + ((b @ phi) @ a.T ),
                                   m_mat_lst, b_mat_lst, phi_mat_lst, a_mat_lst)
-    params = update_weight(params, w_mat_lst)
+    updated_params = update_weight(params, w_mat_lst)
+    return updated_params, w_mat_lst
 
 def cross_entropy_loss(params, inputs, labels, num_classes, predict_fn):
   logits = predict_fn(params, inputs)
   one_hot_labels = jax.nn.one_hot(labels, num_classes=num_classes)
   xentropy = (logits * one_hot_labels).sum(axis=-1)
-  return xentropy.mean()
+  return -xentropy.sum()
 
 
 def weight_grad(grads):
@@ -69,15 +75,12 @@ def weight_grad(grads):
     """
     grad_mat = {}
     grads = unfreeze(grads)
-
     for k, v  in traverse_util.flatten_dict(grads).items():
         if k[-1] == 'kernel':
-          grad_mat[k] = jnp.vstack([v, grad_mat[k]]).T
+          grad_mat[k] = jnp.hstack([v.T, grad_mat[k]])
         else:
           k = (*k[:-1], "kernel")
-          grad_mat[k] = v.reshape((1, -1))
-
-
+          grad_mat[k] = v.reshape((-1, 1)).copy()
     grads = freeze(grads)
     return grad_mat
 
@@ -105,9 +108,12 @@ def aggregate_grads(avg_psi_mat_lst, grad_mat_list, train_mc_iters):
         :param grad_mat_list: A list of matrices in size of P*N.
         :return:
     """
+
     for k, v in grad_mat_list.items():
         avg_psi_mat_lst[k] += (1/train_mc_iters)*v
-
+    
+    return avg_psi_mat_lst
+    
 def aggregate_e_a(e_a_mat_lst, grads, b_mat_lst, phi_mat_lst, train_mc_iters):
     """
         This function estimate the expectation of the e_a ((1/P)E(Psi^t*B*Phi)) using Monte Carlo average.
@@ -118,9 +124,11 @@ def aggregate_e_a(e_a_mat_lst, grads, b_mat_lst, phi_mat_lst, train_mc_iters):
         :param phi_mat_lst: A list of normal random matrices in size of P*N.
         :return:
     """
+
     for k, v in grads.items():
         b, phi = b_mat_lst[k], phi_mat_lst[k]
         e_a_mat_lst[k] += (1/(train_mc_iters * b.shape[0])) * ((v.T @  b) @ phi)
+    return e_a_mat_lst
 
 def aggregate_e_b(e_b_mat_lst, grads, a_mat_lst, phi_mat_lst, train_mc_iters):
     """
@@ -135,8 +143,9 @@ def aggregate_e_b(e_b_mat_lst, grads, a_mat_lst, phi_mat_lst, train_mc_iters):
     for k, v in grads.items():
         a, phi = a_mat_lst[k], phi_mat_lst[k]
         e_b_mat_lst[k] += (1/(train_mc_iters * a.shape[0])) *((v @ a) @  phi.T)
+    return e_b_mat_lst
 
-def update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, eta=1, diagonal=False):
+def update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, eta=1., diagonal=False):
     """
         This function updates the mean according to M = M - B*B^t*E[Psi]*A*A^t.
         :param m_mat_lst: m_mat_lst: A list of matrices in size of P*N.
@@ -147,17 +156,19 @@ def update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, eta=1, diagonal=F
         :param diagonal: .
         :return:
     """
+
     if diagonal:
         # M = M - diag(B*B^t)*E[Psi]*diag(A*A^t)
-        m_mat_lst = jax.tree_multimap(lambda m, b, avg, a: m -eta +
-                                         (jnp.diag(jnp.diag(b @ b.T)) @ avg) @ jnp.diag(jnp.diag(a @ a.T)
-                                         ),
+        m_mat_lst = jax.tree_multimap(lambda m, b, psi, a: m -eta *
+                                         ((jnp.diag(jnp.diag(b @ b.T)) @ psi) @ jnp.diag(jnp.diag(a @ a.T)
+                                         )),
                                  m_mat_lst, b_mat_lst, avg_psi_mat_lst, a_mat_lst)
     else:
         # M = M - B*B^t*E[Psi]*A*A^t
-        m_mat_lst = jax.tree_multimap(lambda m, b, avg, a: m -eta+ ((b @ b.T) @ avg)@ (a @ a.T),
-                              m_mat_lst, b_mat_lst, avg_psi_mat_lst, a_mat_lst) 
-
+        m_mat_lst = jax.tree_multimap(lambda m, b, psi, a: m -eta * ((b @ b.T) @ psi) @ (a @ a.T),
+                              m_mat_lst, b_mat_lst, avg_psi_mat_lst, a_mat_lst)
+    
+    return m_mat_lst
 
 def solve_matrix_equation(v_mat, e_mat, print_norm_flag=False):
     """
@@ -172,26 +183,32 @@ def solve_matrix_equation(v_mat, e_mat, print_norm_flag=False):
     #v = jax.tree_map(lambda x: x.astype(jnp.float64), v)
     #e = jax.tree_map(lambda x: x.astype(jnp.float64), e)
 
-    v_mat = jnp.vstack(jax.tree_leaves(v_mat))
-    e_mat = jnp.vstack(jax.tree_leaves(e_mat))
+    v_mat = v_mat.astype(jnp.float64)
+    e_mat = e_mat.astype(jnp.float64)
 
     ve_product = v_mat @ e_mat
+    b_mat = v_mat + 0.25 * (ve_product @ ve_product.T)
 
-    b_mat = v_mat + 0.25 + (ve_product @ ve_product.T)
-    left_mat, diag_mat, right_mat = jnp.linalg.svd(b_mat)
-
+    left_mat, diag_mat, right_mat = jnp.linalg.svd(b_mat, full_matrices=False)
+    right_mat = right_mat.T
     # ??? : assert (jnp.min(diag_mat) > 0), "v_mat is singular!"
 
     # L = B^{1/2}
     l_mat = ((left_mat @ jnp.diag(jnp.sqrt(diag_mat))) @
                    right_mat.T)
+
     inv_l_mat = (right_mat @ jnp.diag(1 / jnp.sqrt(diag_mat))) @ left_mat.T
-    # L^-1*V*E=S*Lambda*W^t (SVD)
-    s_mat, lambda_mat, w_mat = jnp.linalg.svd(inv_l_mat @ ve_product)
+
+    # L^-1*V*E=S*Lambda*W^t 
+    s_mat, lambda_mat, w_mat = jnp.linalg.svd(inv_l_mat @ ve_product, full_matrices=False)
+    w_mat = w_mat.T
     # Q = S*W^t
-    q_mat = s_mat @ w_mat.T
+    q_mat = s_mat @ w_mat.T 
+    
+    
     # X = L*Q-(1/2)V*E
-    x_mat = (l_mat @ q_mat) - 0.5 +  ve_product
+    x_mat = (l_mat @ q_mat) - 0.5 *  ve_product
+    
     ''' TODO : if print_norm_flag:
         mat = torch.add(torch.add(torch.mm(x_mat, torch.transpose(x_mat, 0, 1)),
                                   torch.mm(ve_product, torch.transpose(x_mat, 0, 1))), -1, v_mat)
@@ -221,8 +238,7 @@ def update_a_b(a_mat_lst, b_mat_lst, e_a_mat_lst, e_b_mat_lst, use_gsvd = False)
         updated_a_mat_lst[k] = (updated_a)
         updated_b_mat_lst[k] = (updated_b)
     
-    a_mat_lst = updated_a_mat_lst
-    b_mat_lst = updated_b_mat_lst
+    return updated_a_mat_lst, updated_b_mat_lst
 
 def zero_matrix(avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst):
     """
@@ -231,9 +247,10 @@ def zero_matrix(avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst):
         :param e_b_mat_lst: A list of matrices in size of P*P.
         :return:
     """
-    avg_psi_mat_lst = jax.tree_map(jnp.zeros_like, avg_psi_mat_lst)
-    e_a_mat_lst = jax.tree_map(jnp.zeros_like, e_a_mat_lst)
-    e_b_mat_lst = jax.tree_map(jnp.zeros_like, e_b_mat_lst)
+    avg_psi_mat_lst = jax.tree_map(lambda x: jnp.zeros(x.shape), avg_psi_mat_lst)
+    e_a_mat_lst = jax.tree_map(lambda x: jnp.zeros(x.shape), e_a_mat_lst)
+    e_b_mat_lst = jax.tree_map(lambda x: jnp.zeros(x.shape), e_b_mat_lst)
+    return avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst
 
 def init_param(key, params, s_init, use_custom_init=False, alpha=0.5):
   """
@@ -262,31 +279,31 @@ def init_param(key, params, s_init, use_custom_init=False, alpha=0.5):
 
   for k, v in traverse_util.flatten_dict(params).items():
     if k[-1] =='kernel':
-      in_feature, out_feature = v.shape
+      out_feature, in_feature = v.shape
 
-      w_mat = jnp.zeros((in_feature, out_feature + 1))
+      w_mat = jnp.zeros((out_feature, in_feature + 1))
       w_mat_lst[k] = w_mat
           
-      avg_psi_mat = jnp.zeros((in_feature, out_feature + 1))
+      avg_psi_mat = jnp.zeros((out_feature, in_feature + 1))
       avg_psi_mat_lst[k] = avg_psi_mat
 
 
       if use_custom_init:
           m_key, key = random.split(key)
-          m_mat = jnp.sqrt((2.0 * alpha / (out_feature + 2.0))) * random.normal(m_key, shape=(in_feature, out_feature + 1))
+          m_mat = jnp.sqrt((2.0 * alpha / (in_feature + 2.0))) * random.normal(m_key, shape=(out_feature, in_feature + 1))
 
-          coef = jnp.sqrt(jnp.sqrt((2.0 * (1.0 - alpha)/(out_feature + 2.0))))
-          a_mat = jnp.diag(coef * jnp.ones((out_feature + 1,)))
-          b_mat = jnp.diag(coef * jnp.ones((in_feature, )))
+          coef = jnp.sqrt(jnp.sqrt((2.0 * (1.0 - alpha)/(in_feature + 2.0))))
+          a_mat = jnp.diag(coef * jnp.ones((in_feature + 1,)))
+          b_mat = jnp.diag(coef * jnp.ones((out_feature, )))
       else:
-          key1, key2, key = random.split(key)
-          m_mat = jnp.hstack([jnp.sqrt(2.0 / (in_feature + out_feature)) *
-                                      random.normal(key1, shape=(in_feature, out_feature)),
-                                      jnp.sqrt(2.0/(1.0 + out_feature)) *
-                                      random.normal(key2, shape=(in_feature, 1))])
+          key1, key2, key = random.split(key, 3)
+          m_mat = jnp.hstack([jnp.sqrt(2.0 / (out_feature + in_feature)) *
+                                      random.normal(key1, shape=(out_feature, in_feature)),
+                                      jnp.sqrt(2.0/(1.0 + in_feature)) *
+                                      random.normal(key2, shape=(out_feature, 1))])
           
-          a_mat = jnp.diag(s_init * jnp.ones((out_feature+1, )))
-          b_mat = jnp.diag(s_init * jnp.ones((in_feature, )))
+          a_mat = jnp.diag(s_init * jnp.ones((in_feature+1, )))
+          b_mat = jnp.diag(s_init * jnp.ones((out_feature, )))
 
       e_a_mat = jnp.zeros((v.shape[1] + 1, v.shape[1]+1))
       e_b_mat = jnp.zeros((v.shape[0], v.shape[0]))

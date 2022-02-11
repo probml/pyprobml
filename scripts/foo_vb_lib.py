@@ -6,7 +6,7 @@ This script is based on https://github.com/chenzeno/FOO-VB/blob/ebc14a930ba9d1c1
 '''
 import numpy as np
 
-from jax import random, value_and_grad, tree_map, vmap
+from jax import random, value_and_grad, tree_map, vmap, lax
 import jax.numpy as jnp
 
 from functools import partial
@@ -15,7 +15,7 @@ import foo_vb_utils as utils
 
 def train_continuous_mnist(key, model, train_loader,
                            test_loader, num_classes, config):
-    ava_test = []
+    ava_test = [] 
 
     init_key, key = random.split(key)
     variables = model.init(init_key, jnp.zeros((config.batch_size, 784)))
@@ -32,52 +32,58 @@ def train_continuous_mnist(key, model, train_loader,
     for task in range(len(test_loader)):
         for epoch in range(1, config.epochs + 1):
             for batch_idx, (data, target) in enumerate(train_loader[0]):
-                data, target = jnp.array(data.numpy()), jnp.array(target.numpy())
-
-                data = data.reshape(-1, 784)
+                data, target = jnp.array(data.detach().numpy()), jnp.array(target.detach().numpy())
+                data = data.reshape((-1, 784))
                 
                 for mc_iter in range(config.train_mc_iters):
                     # Phi ~ MN(0,I,I)
                     phi_key, key = random.split(key)
+                    
                     phi_mat_lst = utils.gen_phi(phi_key, w_mat_lst)
+                    
                     # W = M +B*Phi*A^t
-                    utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
-                    params = tree_map(jnp.transpose, params)
-                    loss, grads = grad_fn(params, data, target)
-                    params = tree_map(jnp.transpose, params)
-                    loss *= config.batch_size
-
+                    params, w_mat_lst = utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
+                    loss, grads = grad_fn(tree_map(jnp.transpose, params), data, target)
                     grad_mat_lst = utils.weight_grad(grads)
-                    utils.aggregate_grads(avg_psi_mat_lst, grad_mat_lst, config.train_mc_iters)
-                    utils.aggregate_e_a(e_a_mat_lst, grad_mat_lst, b_mat_lst,
+                    avg_psi_mat_lst = utils.aggregate_grads(avg_psi_mat_lst, grad_mat_lst, config.train_mc_iters)
+                    e_a_mat_lst = utils.aggregate_e_a(e_a_mat_lst, grad_mat_lst, b_mat_lst,
                                   phi_mat_lst, config.train_mc_iters)
                     
-                    utils.aggregate_e_b(e_b_mat_lst, grad_mat_lst, a_mat_lst,
+                    e_b_mat_lst = utils.aggregate_e_b(e_b_mat_lst, grad_mat_lst, a_mat_lst,
                                         phi_mat_lst, config.train_mc_iters)
 
                 # M = M - B*B^t*avg_Phi*A*A^t
-                utils.update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, config.eta)
-                utils.update_a_b(a_mat_lst, b_mat_lst, e_a_mat_lst, e_b_mat_lst)
-                utils.zero_matrix(avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst)
-            
-                correct = 0
-                for data, target in test_loader[task]:
-                    data, target = jnp.array(data.numpy()), jnp.array(target.numpy())
-                    data = data.reshape(-1, 784)
-                    def monte_carlo_iter_fn(phi_key, params):
-                        phi_mat_lst = utils.gen_phi(phi_key, w_mat_lst)
-                        utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
-                        output = model.apply(params, data)
-                        pred = jnp.argmax(output, axis=1) # keepdims=True)  # get the index of the max log-probability
-                        return jnp.sum(pred==target)
+                m_mat_lst = utils.update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, config.eta)
+                a_mat_lst, b_mat_lst = utils.update_a_b(a_mat_lst, b_mat_lst, e_a_mat_lst, e_b_mat_lst)
+                avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst = utils.zero_matrix(avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst)
+            correct = 0
+            for data, target in test_loader[task]:
+                data, target = jnp.array(data.numpy()), jnp.array(target.numpy())
+                data = data.reshape((-1, 784))
+                
+                def monte_carlo_iter_fn(all_params, phi_key):
+                    params, w_mat_lst = all_params
+                    phi_mat_lst = utils.gen_phi(phi_key, w_mat_lst)
+                    params, w_mat_lst = utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
+                    output = model.apply(tree_map(jnp.transpose, params), data)
+                    pred = jnp.argmax(output, axis=1) # keepdims=True)  # get the index of the max log-probability
+                    return (params, w_mat_lst), jnp.sum(pred==target)
 
-                    keys = random.split(random.PRNGKey(0), config.train_mc_iters)
-                    correct_per_task = vmap(monte_carlo_iter_fn, in_axes=(0, None))(keys, 
-                                                                            tree_map(jnp.transpose, params))
-                    correct += jnp.sum(correct_per_task)
+                def scan(f, init, xs, length=None):
+                    if xs is None:
+                        xs = [None] * length
+                    carry = init
+                    ys = []
+                    for x in xs:
+                        carry, y = f(carry, x)
+                        ys.append(y)
+                    return carry, jnp.stack(ys)
 
-                test_acc = 100. * correct / (len(test_loader[task].dataset) * config.train_mc_iters)
-            
+                keys = random.split(random.PRNGKey(0), config.train_mc_iters)
+                (params, w_mat_lst), correct_per_task = scan(monte_carlo_iter_fn, (params, w_mat_lst), keys)
+                correct += jnp.sum(correct_per_task)
+
+            test_acc = 100. * correct / (len(test_loader[task].dataset) * config.train_mc_iters)
             print('\nTask num {}, Epoch num {} Test Accuracy: {:.2f}%\n'.format(
                 task, epoch, test_acc))
         
@@ -90,7 +96,7 @@ def train_continuous_mnist(key, model, train_loader,
                 for mc_iter in range(config.train_mc_iters):
                     phi_key, key = random.split(key)
                     phi_mat_lst = utils.gen_phi(w_mat_lst)
-                    utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
+                    params, w_mat_lst = utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
                     output = model(data)
                     pred = jnp.argmax(axis=1) # get the index of the max log-probability
                     correct += jnp.sum(pred == target)
@@ -136,22 +142,21 @@ def train_multiple_tasks( key, model, train_loader,
                     # Phi ~ MN(0,I,I)
                     phi_mat_lst = utils.gen_phi(w_mat_lst)
                     # W = M +B*Phi*A^t
-                    utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
+                    params, w_mat_lst = utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
                     output = model(data)
-                   
-                    loss = config.batch_size * criterion(output, target)
                     print(loss)
                     loss.backward()
                     grad_mat_lst = grad_fn(params, data, target)
-                    utils.aggregate_grads(avg_psi_mat_lst, grad_mat_lst, config.train_mc_iters)
-                    utils.aggregate_e_a(e_a_mat_lst, grad_mat_lst, b_mat_lst,
+                    
+                    avg_psi_mat_lst = utils.aggregate_grads(avg_psi_mat_lst, grad_mat_lst, config.train_mc_iters)
+                    e_a_mat_lst = utils.aggregate_e_a(e_a_mat_lst, grad_mat_lst, b_mat_lst,
                     phi_mat_lst, config.train_mc_iters)
                     
-                    utils.aggregate_e_b(e_b_mat_lst, grad_mat_lst, a_mat_lst,
+                    e_b_mat_lst = utils.aggregate_e_b(e_b_mat_lst, grad_mat_lst, a_mat_lst,
                                         phi_mat_lst, config.train_mc_iters)
                 # M = M - B*B^t*avg_Phi*A*A^t
-                utils.update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, config.eta)  # , task == 0)
-                utils.update_a_b(a_mat_lst, b_mat_lst, e_a_mat_lst, e_b_mat_lst)
+                m_mat_lst = utils.update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, config.eta)  # , task == 0)
+                a_mat_lst, b_mat_lst = utils.update_a_b(a_mat_lst, b_mat_lst, e_a_mat_lst, e_b_mat_lst)
                 utils.zero_matrix(avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst)
 
                 correct = 0
@@ -161,7 +166,7 @@ def train_multiple_tasks( key, model, train_loader,
                     data = data[:, perm_lst[task]]
                     for mc_iter in range(config.train_mc_iters):
                         phi_mat_lst = utils.gen_phi(w_mat_lst)
-                        utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
+                        params, w_mat_lst = utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
                         output = model(data)
                         pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
                         correct += pred.eq(target.view_as(pred)).sum().item()
@@ -173,11 +178,12 @@ def train_multiple_tasks( key, model, train_loader,
                     data = data[:, perm_lst[task]]
                     for mc_iter in range(config.train_mc_iters):
                         phi_mat_lst = utils.gen_phi(w_mat_lst)
-                        utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
+                        params, w_mat_lst = utils.randomize_weights(params, w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
                         output = model(data)
                         pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
                         correct += pred.eq(target.view_as(pred)).sum().item()
                     break
                 test_acc = 100. * correct / (len(test_loader.dataset) * config.train_mc_iters)
+                print(test_acc)
             print('\nTask num {}, Epoch num {}, Train Accuracy: {:.2f}% Test Accuracy: {:.2f}%\n'.format(
                 task, epoch, train_acc, test_acc))
