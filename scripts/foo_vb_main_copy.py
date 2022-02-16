@@ -1,7 +1,6 @@
 from jax.config import config
 config.update("jax_enable_x64", True)
 
-
 from jax.config import config
 config.update("jax_debug_nans", True)
 from random import randint
@@ -10,9 +9,9 @@ from jax import random
 import flax.linen as nn
 from typing import Sequence, Callable
 
-import foo_vb_utils as utils
+import foo_vb_utils_copy as utils
 import foo_vb_datasets as ds
-import foo_vb_lib
+import foo_vb_lib_copy as  foo_vb_lib
 
 import ml_collections
 
@@ -38,8 +37,10 @@ def get_config():
   config.tasks = 10
   config.results_dir = "."
 
-  config.dataset = "permuted_mnist"
+  config.dataset = "continuous_permuted_mnist"
   config.iterations_per_virtual_epc = 468
+
+  config.diagonal=True
   
   return config
 

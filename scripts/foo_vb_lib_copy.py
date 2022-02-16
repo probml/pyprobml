@@ -5,13 +5,24 @@ This script is based on https://github.com/chenzeno/FOO-VB/blob/ebc14a930ba9d1c1
 '''
 import numpy as np
 
+from time import time
+
 from jax import random, value_and_grad, tree_map, vmap, lax
 import jax.numpy as jnp
 
 from functools import partial
 
-import foo_vb_utils as utils
+import foo_vb_utils_copy as utils
 
+def scan(f, init, xs, length=None):
+    if xs is None:
+        xs = [None] * length
+    carry = init
+    ys = []
+    for x in xs:
+        carry, y = f(carry, x)
+        ys.append(y)
+    return carry, jnp.stack(ys)
 
 def init_step(key, model, image_size, config):
     model_key, param_key = random.split(key) 
@@ -21,7 +32,7 @@ def init_step(key, model, image_size, config):
     return lists
 
 
-def train_step(key, lsts, data, target, value_and_grad_fn, train_mc_iters, eta):
+def train_step(key, lsts, data, target, value_and_grad_fn, train_mc_iters, eta, diagonal):
         w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst = lsts
         
         def monte_carlo_step(agg_lsts, key):
@@ -45,11 +56,11 @@ def train_step(key, lsts, data, target, value_and_grad_fn, train_mc_iters, eta):
 
         # M = M - B*B^t*avg_Phi*A*A^t
         keys = random.split(key, train_mc_iters)
-        (avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst), losses = lax.scan(monte_carlo_step, (avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst), keys) 
+        (avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst), losses = scan(monte_carlo_step, (avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst), keys) 
         
         print("Loss :", losses.mean())
         
-        m_mat_lst = utils.update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, eta)
+        m_mat_lst = utils.update_m(m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, eta, diagonal=diagonal)
         a_mat_lst, b_mat_lst = utils.update_a_b(a_mat_lst, b_mat_lst, e_a_mat_lst, e_b_mat_lst)
         avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst = utils.zero_matrix(avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst)
         
@@ -58,20 +69,19 @@ def train_step(key, lsts, data, target, value_and_grad_fn, train_mc_iters, eta):
         return lists, losses
 
 
-def eval_step(lsts, data, target):
-    w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst = lists 
+def eval_step(model, lsts, data, target, train_mc_iters):
+    w_mat_lst, m_mat_lst, a_mat_lst, b_mat_lst, avg_psi_mat_lst, e_a_mat_lst, e_b_mat_lst = lsts 
 
-    def monte_carlo_step(all_params, phi_key):
-        params, w_mat_lst = all_params
+    def monte_carlo_step(w_mat_lst, phi_key):
         phi_mat_lst = utils.gen_phi(phi_key, w_mat_lst)
         params = utils.randomize_weights(m_mat_lst, a_mat_lst, b_mat_lst, phi_mat_lst)
         output = model.apply(tree_map(jnp.transpose, params), data)
         # get the index of the max log-probability
         pred = jnp.argmax(output, axis=1)
-        return (params, w_mat_lst), jnp.sum(pred==target)
+        return w_mat_lst, jnp.sum(pred==target)
 
-    keys = random.split(random.PRNGKey(0), config.train_mc_iters)
-    (params, w_mat_lst), correct_per_iter = scan(monte_carlo_step, (params, w_mat_lst), keys)
+    keys = random.split(random.PRNGKey(0), train_mc_iters)
+    _, correct_per_iter = scan(monte_carlo_step,  w_mat_lst, keys)
     n_correct = jnp.sum(correct_per_iter)
 
     return n_correct
@@ -92,18 +102,20 @@ def train_continuous_mnist(key, model, train_loader,
 
     for task in range(len(test_loader)):
         for epoch in range(1, config.epochs + 1):
+            start_time = time()
             for batch_idx, (data, target) in enumerate(train_loader[0]):
-                data, target = jnp.array(data.numpy().reshape((-1, image_size))), jnp.array(target.numpy())
+                data, target = jnp.array(data.view(-1, image_size).numpy()), jnp.array(target.numpy())
 
                 train_key, key = random.split(key) 
                 lists, losses = train_step(train_key, lists, data, target, grad_fn,
-                                     config.train_mc_iters, config.eta)
+                                     config.train_mc_iters, config.eta, config.diagonal)
             
+            print("Time : ", time() - start_time)
             total = 0
 
             for data, target in test_loader[task]:
                 data, target = jnp.array(data.numpy().reshape((-1, image_size))), jnp.array(target.numpy())
-                n_correct = eval_step(lists, data, target)
+                n_correct = eval_step(model, lists, data, target, config.train_mc_iters)
                 total += n_correct
                 
             test_acc = 100. * total / (len(test_loader[task].dataset) * config.train_mc_iters)
@@ -116,7 +128,7 @@ def train_continuous_mnist(key, model, train_loader,
             total = 0
             for data, target in test_loader[i]:
                 data, target = jnp.array(data.numpy().reshape((-1, image_size))), jnp.array(target.numpy())
-                n_correct = eval_step(lists, data, target)
+                n_correct = eval_step(model, lists, data, target, config.train_mc_iters)
                 total += n_correct
             
             test_acc = 100. * total / (len(test_loader[task].dataset) * config.train_mc_iters)
@@ -151,14 +163,15 @@ def train_multiple_tasks( key, model, train_loader,
                 train_key, key = random.split(key)
                 start_time = time.time()
                 lists, losses = train_step(train_key, lists, data, target, grad_fn,
-                                    config.train_mc_iters, config.eta)
-                print(start_time - time.time())
+                                    config.train_mc_iters, config.eta, config.diagonal)
+                print("Time : ", start_time - time.time())
+            
             total = 0
             
             for data, target in train_loader:
                 data, target = jnp.array(data.numpy().reshape((-1, image_size))), jnp.array(target.numpy())
                 data = data[:, perm_lst[task]]
-                n_correct = eval_step(lists, data, target)
+                n_correct = eval_step(model, lists, data, target, config.train_mc_iters)
                 total += n_correct
 
             train_acc = 100. * total / (len(train_loader.dataset) * args.train_mc_iters)
@@ -168,7 +181,7 @@ def train_multiple_tasks( key, model, train_loader,
             for data, target in test_loader:
                 data, target = jnp.array(data.numpy().reshape((-1, image_size))), jnp.array(target.numpy())
                 data = data[:, perm_lst[task]]
-                n_correct = eval_step(lists, data, target)
+                n_correct = eval_step(model, lists, data, target, config.train_mc_iters)
                 total += n_correct
 
             test_acc = 100. * total / (len(test_loader.dataset) * config.train_mc_iters) 
@@ -184,7 +197,7 @@ def train_multiple_tasks( key, model, train_loader,
                 data, target = jnp.array(data.numpy().reshape((-1, image_size))), jnp.array(target.numpy())
                 data = data[:, perm_lst[i]]
 
-                n_correct = eval_step(lists, data, target)
+                n_correct = eval_step(model, lists, data, target, config.train_mc_iters)
                 total += n_correct
             
             test_acc = 100. * total / (len(test_loader.dataset) * args.train_mc_iters)
