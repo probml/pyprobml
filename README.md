@@ -4,7 +4,8 @@
 
 
 Python 3 code to reproduce the figures in the book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
-This is work in progress, so expect rough edges!!!!
+This is work in progress, so expect rough edges!
+(Some demos use code from our companion [JAX State Space Library](https://github.com/probml/JSL).)
  
 
 ## Running the notebooks
