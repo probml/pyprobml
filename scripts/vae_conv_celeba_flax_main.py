@@ -1,17 +1,18 @@
 """
 Author: Ang Ming Liang
 
-In order to download the celeba dataset from kaggle first donwload this helper library using wget 
-https://raw.githubusercontent.com/probml/pyprobml/master/scripts/vae/data.py and download your kaggle.json is you have not.
-Then run the following commands
+You need to download celeba dataset from kaggle.
+First make sure you have kaggle.json,
+as explained at https://github.com/Kaggle/kaggle-api#api-credentials.
+then run the following commands in a cell or terminal
+```
+mkdir /root/.kaggle
+cp kaggle.json /root/.kaggle/kaggle.json
+chmod 600 /root/.kaggle/kaggle.json
+rm kaggle.json
+python download_celeba.py
+```
 
-```
-    mkdir /root/.kaggle
-    cp kaggle.json /root/.kaggle/kaggle.json
-    chmod 600 /root/.kaggle/kaggle.json
-    rm kaggle.json
-```
-and run download_celeba.py
 """
 from absl import app
 from absl import flags

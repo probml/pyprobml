@@ -3,9 +3,8 @@
 from absl import app
 from absl import flags
 import torchvision.transforms as transforms
-# This file must be on your path! https://github.com/probml/pyprobml/blob/master/vae/data.py
 
-from data import  CelebADataModule
+from celeba_data import  CelebADataModule
 
 FLAGS = flags.FLAGS
 
