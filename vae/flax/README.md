@@ -1,20 +1,8 @@
 # Flax Implementation of VAEs
 
-## To run mnist
-1. install packages
-```
-pip install pytorch-lightning flax
-```
-2. Run the script
-- In a jupyter notebook cell
-```
-%run vae_conv_mnist_flax_lib.py
-```
-- In a command line/terminal
-```
-python vae_conv_mnist_flax_main.py
-```
-## To run celeba
+We use the CelebA dataset.
+
+
 ### Donwload data from kaggle
 First make sure you have kaggle.json, instructions for downloading kaggle.json can be found [here](), then run the following commands in a cell or terminal 
 ```
@@ -28,17 +16,20 @@ Then to download the data first donwload the following [script](https://github.c
 ```
 wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/download_celeba.py
 ```
+### Install packages
+
+```
+pip install flax
+```
+
 ### To run the  script
-1. install packages
-```
-pip install pytorch-lightning flax
-```
-2. Run the script
+
+
 - In a jupyter notebook cell
 ```
 %run vae_conv_celeba_flax_lib.py
 ```
 - In a command line/terminal
 ```
-python vae_conv_mnist_flax_main.py
+python vae_conv_celeba_flax_main.py
 ```
