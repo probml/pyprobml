@@ -16,22 +16,34 @@ Contributions to this project means that the contributors agree to releasing the
 
 - Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules). In particular, follow [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#function-and-variable-names).
 - See [this list of python tutorials](https://github.com/probml/probml-notebooks/blob/main/markdown/python_tutorials.md) for more guidelines.
+- Use [JAX](https://github.com/probml/probml-notebooks/blob/main/markdown/jax_tutorials.md)  instead of numpy/scipy.
+- If you need to use a neural network, use [Flax](https://github.com/google/flax) instead of PyTorch/TF.
 - In general it is best to write your code as a series of files, but **you should check that they can be run inside of [Google Colab](https://github.com/probml/probml-notebooks/blob/main/notebooks/colab_intro.ipynb)**, after installing necessary packages. 
-Here is an example notebook to test your code:
+Here is an example notebook to test your code (note that the main code lives in external files, we just use Colab (GPU mode) to run it from inside
+a cell.)
 ```
-# get code from the book
-!git clone https://github.com/probml/pyprobml
-
 # get your code
 !git clone my_repo # link to your repo
 
 # install common dependencies that are not already in colab
-!pip install --upgrade flax optax einops distrax 
+%%capture
+!pip install --upgrade --user pip
+!pip install --upgrade --user tensorflow tensorflow_probability
+!pip install git+git://github.com/deepmind/optax.git
+!pip install --upgrade git+https://github.com/google/flax.git
+!pip install git+git://github.com/blackjax-devs/blackjax.git
+!pip install git+git://github.com/deepmind/distrax.git
+!pip install superimport  einops arviz
 
+
+# get code for the book
+!git clone https://github.com/probml/pyprobml
+!pip install git+git://github.com/probml/jsl
+
+# Test your code
 %run my_repo/main.py
 ```
-- If you want to check in a single notebook rather than python scripts,  open a PR on https://github.com/probml/probml-notebooks.
-- Use [JAX](https://github.com/probml/probml-notebooks/blob/main/markdown/jax_tutorials.md) where appropriate instead of numpy.
+- If you want to check in a notebook,  open a PR on https://github.com/probml/probml-notebooks.
 - A typical set of imports will look like this:
 ```
 import numpy as np
