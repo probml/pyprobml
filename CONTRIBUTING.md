@@ -72,4 +72,8 @@ import optax
 - If your pull request refers to an open issue, please be sure to mention it using the  [issue keyword](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword).
 -  When the code is ready, request a review from both [@murphyk](https://github.com/murphyk) and [@mjsML](https://github.com/mjsML).
 - Make sure your pull request has only one commit (We will squash the commits anyway, however github still emails all people following the repo for every single commit!).
-- Please use github public [gists](https://gist.github.com/) to share the figures that your code generates, so we can quickly “eyeball” them. Include these gists in your PR.
+- Please use github public [gists](https://gist.github.com/) to share the figures that your code generates, so we can quickly “eyeball” them.
+ Include these gists in your PR.
+- If your code is in a notebook stored in your forked copy of the repo, please include a link to it in your PR (similar to [this example](https://github.com/probml/pyprobml/pull/685)
+- 
+- 
