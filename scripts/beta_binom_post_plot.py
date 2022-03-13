@@ -44,7 +44,6 @@ def make_graph(data, save_name):
     ax.set_ylabel("Prior/Posterior")
     ax.set_title(f"$N_0$:{n_0}, $N_1$:{n_1}")
     pml.savefig(save_name)
-    plt.show()
 
 
 data1 = {
@@ -52,28 +51,28 @@ data1 = {
     "likelihood": {"n_0": 1, "n_1": 4},
     "posterior": {"a": 5, "b": 2},
 }
+make_graph(data1, "betaPostUninfSmallSample.pdf")
 
 data2 = {
     "prior": {"a": 1, "b": 1},
     "likelihood": {"n_0": 10, "n_1": 40},
     "posterior": {"a": 41, "b": 11},
 }
+make_graph(data2, "betaPostUninfLargeSample.pdf")
 
 data3 = {
     "prior": {"a": 2, "b": 2},
     "likelihood": {"n_0": 1, "n_1": 4},
     "posterior": {"a": 6, "b": 3},
 }
+make_graph(data3, "betaPostInfSmallSample.pdf")
 
 data4 = {
     "prior": {"a": 2, "b": 2},
     "likelihood": {"n_0": 10, "n_1": 40},
     "posterior": {"a": 42, "b": 12},
 }
+make_graph(data4, "betaPostInfLargeSample.pdf")
 
-make_graph(data1, "betaPost1")
-make_graph(data2, "betaPost2")
-make_graph(data3, "betaPost3")
-make_graph(data4, "betaPost4")
 
 plt.show()
