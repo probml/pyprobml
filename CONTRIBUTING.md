@@ -27,18 +27,18 @@ a cell.)
 
 # install common dependencies that are not already in colab
 %%capture
-!pip install --upgrade --user pip
-!pip install --upgrade --user tensorflow tensorflow_probability
-!pip install git+git://github.com/deepmind/optax.git
-!pip install --upgrade git+https://github.com/google/flax.git
-!pip install git+git://github.com/blackjax-devs/blackjax.git
-!pip install git+git://github.com/deepmind/distrax.git
-!pip install superimport  einops arviz
+%pip install --upgrade --user pip
+%pip install --upgrade --user tensorflow tensorflow_probability
+%pip install git+git://github.com/deepmind/optax.git
+%pip install --upgrade git+https://github.com/google/flax.git
+%pip install git+git://github.com/blackjax-devs/blackjax.git
+%pip install git+git://github.com/deepmind/distrax.git
+%pip install superimport  einops arviz
 
 
 # get code for the book
 !git clone https://github.com/probml/pyprobml
-!pip install git+git://github.com/probml/jsl
+%pip install git+git://github.com/probml/jsl
 
 # Test your code
 %run my_repo/main.py
@@ -77,5 +77,3 @@ import optax
  Include these gists in your PR.
 - Look at [this example](https://github.com/probml/pyprobml/pull/690) for how to format your PR. 
 - If your code is in a notebook stored in your forked copy of the repo, please include a link to it in your PR (similar to [this example](https://github.com/probml/pyprobml/pull/688)
-- 
-- 
