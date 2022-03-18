@@ -23,21 +23,21 @@ The easiest way to run these notebooks is inside [Colab](https://colab.research.
 
 The easiest way to run individual scripts is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). 
 Just cut and paste this into a code cell:
-```
-pip install superimport 
-git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
+```py
+%pip install superimport 
+!git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
 ```
 Note: The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
 library will automatically install packages for any file which contains the line `import superimport'.
 
 Then run a script from a cell like this:
-```
+```py
 %run pyprobml/scripts/softmax_plot.py
 ```
 
 
 To edit a file locally and then run it, follow the example below.
-```
+```py
 # Make sure local changes to file are detected by runtime
 %load_ext autoreload
 %autoreload 2
@@ -51,7 +51,7 @@ files.view(file) # open editor
 
 To download and run code from github, follow the example below.
 (Note the `raw` in the URL.)
-```
+```py
 !wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/softmax_plot.py
 %run softmax_plot.py
 ```
@@ -63,7 +63,7 @@ We assume you have already installed [JAX](https://github.com/google/jax#install
 since the details on how to do this depend on whether you have a CPU, GPU, etc.
 
 For the remaining python packages, do this:
-```
+```bash
 pip install superimport 
 git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
 ```
@@ -74,7 +74,7 @@ library will automatically install packages for any file which contains the line
 
 To manually execute an individual script from the command line,
 follow this example:
-```
+```bash
 python3 pyprobml/scripts/softmax_plot.py 
 ```
 This will  run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
