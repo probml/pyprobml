@@ -27,7 +27,7 @@ jobs:
     
     - name: Check notebooks for errors
       run: |
-        pip install pytest
+        pip install pytest nbformat
         pytest tests/test_notebooks.py
 
     - name: Convert notebooks to Python code
