@@ -14,6 +14,6 @@ def test_run_notebooks(script):
     Test python scripts
     """
     print("Testing script: {}".format(script))
-    cmd = ["ipython", f"script"]
+    cmd = ["ipython", f"{script}"]
     subprocess.run(cmd, check=True)
     print("PASSED {}".format(script))
