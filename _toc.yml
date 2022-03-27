@@ -1,0 +1,6 @@
+format: jb-book
+root: intro
+parts:
+  - caption: 
+    chapters:
+      # - file: notebooks/example.ipynb
