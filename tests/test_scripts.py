@@ -3,8 +3,8 @@ import os
 import subprocess
 from glob import glob
 
-os.environ["DEV_MODE"] = "True"
-os.environ["TEST_MODE"] = "True"
+os.environ["DEV_MODE"] = "True"  # To enable latexify code
+os.environ["TEST_MODE"] = "True"  # To avoid saving the figures
 scripts = glob("auto_generated_scripts/*.py")
 
 
@@ -13,4 +13,7 @@ def test_run_notebooks(script):
     """
     Test python scripts
     """
-    subprocess.run(["ipython", f"{script}"], check=True)
+    print("Testing script: {}".format(script))
+    cmd = ["ipython", f"{script}"]
+    subprocess.run(cmd, check=True)
+    print("PASSED {}".format(script))

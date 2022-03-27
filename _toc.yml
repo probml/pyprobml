@@ -1,6 +1,6 @@
 format: jb-book
 root: intro
 parts:
-  - caption: 
+  - caption: "Book 1: Chapter 2: Probability: Univariate Models"
     chapters:
-      # - file: notebooks/example.ipynb
+      - file: notebooks/discrete_prob_dist_plot.ipynb
