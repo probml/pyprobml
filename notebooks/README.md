@@ -8,7 +8,7 @@
 2. Fork the main repo and create a new branch for your figure.
 3. Create a notebook with the same name as the source code file (e.g. `scripts/discrete_prob_dist_plot.py` -> `notebooks/discrete_prob_dist_plot.ipynb`).
 4. Take [this notebook](https://github.com/probml/pyprobml/blob/master/notebooks/discrete_prob_dist_plot.ipynb) as a reference while converting the source code to a notebook.
-5. To ensure your code passed the code formatting check, `pip install pre-commit` locally and run `pre-commit install`.
+5. To ensure your code passes the code formatting check, `pip install pre-commit` locally and run `pre-commit install`.
 6. Follow PEP 8 naming convention.
 7. Convert the existing code to `jax`, `flax` and `distrax` wherever possible.
 8. (If applicable) In the last cell, create a demo with `@interact`, `interactive` or any other tools available with `ipywidgets`. Make sure the demo works on Google colab.
