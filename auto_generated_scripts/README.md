@@ -1,0 +1,1 @@
+This folder contains the auto-generated scripts from the notebooks present in the `notebooks` folder. Generation of these files takes place automatically via the GitHub workflow.
