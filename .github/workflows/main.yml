@@ -28,7 +28,7 @@ jobs:
     - name: Check notebooks for errors
       run: |
         pip install pytest
-        pytest tests/test_notebooks.py
+        pytest -s --verbose tests/test_notebooks.py
 
     - name: Convert notebooks to Python code
       run: |
@@ -37,7 +37,7 @@ jobs:
     
     - name: Check auto-generated scripts for errors
       run: |
-        pytest tests/test_scripts.py  
+        pytest -s --verbose tests/test_scripts.py  
     
     - name: Commit py files (does not run on pull requests)
       run: |

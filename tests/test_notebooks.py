@@ -3,8 +3,8 @@ import os
 import subprocess
 from glob import glob
 
-os.environ["DEV_MODE"] = "True"
-os.environ["TEST_MODE"] = "True"
+os.environ["DEV_MODE"] = "True"  # To enable latexify code
+os.environ["TEST_MODE"] = "True"  # To avoid saving the figures
 notebooks = glob("notebooks/*.ipynb")
 
 
@@ -13,4 +13,7 @@ def test_run_notebooks(notebook):
     """
     Test notebooks
     """
-    subprocess.run(["ipython", f"{notebook}"], check=True)
+    print("Testing notebook: {}".format(notebook))
+    cmd = ["ipython", "-c", "%run {}".format(notebook)]
+    subprocess.run(cmd, check=True)
+    print("PASSED {}".format(notebook))
