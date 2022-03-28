@@ -1,12 +1,16 @@
 name: Main workflow
 
-on: 
+on:  # Trigger only for notebooks
   push:
     branches:
     - master
+    paths:
+    - 'notebooks/*.ipynb'
   pull_request:
     branches:
     - master
+    paths:
+    - 'notebooks/*.ipynb'
 
 jobs:
   test_run:
@@ -30,23 +34,23 @@ jobs:
         pip install pytest jupyter
         pytest -s --verbose tests/test_notebooks.py
 
-    - name: Convert notebooks to Python code
-      run: |
-        pip install jupyter
-        jupyter nbconvert --to python notebooks/*.ipynb --output-dir=auto_generated_scripts
+    # - name: Convert notebooks to Python code
+    #   run: |
+    #     pip install jupyter
+    #     jupyter nbconvert --to python notebooks/*.ipynb --output-dir=auto_generated_scripts
     
-    - name: Check auto-generated scripts for errors
-      run: |
-        pytest -s --verbose tests/test_scripts.py  
+    # - name: Check auto-generated scripts for errors
+    #   run: |
+    #     pytest -s --verbose tests/test_scripts.py  
     
-    - name: Commit py files (does not run on pull requests)
-      run: |
-        git config --local user.name github-actions
-        git config --local user.email github-actions@github.com
-        git add auto_generated_scripts/*.py
-        git commit -m "auto generated py files" || echo "No changes to commit"
-        git push
-      if: github.event_name == 'push'  # Don't run on pull requests
+    # - name: Commit py files (does not run on pull requests)
+    #   run: |
+    #     git config --local user.name github-actions
+    #     git config --local user.email github-actions@github.com
+    #     git add auto_generated_scripts/*.py
+    #     git commit -m "auto generated py files" || echo "No changes to commit"
+    #     git push
+    #   if: github.event_name == 'push'  # Don't run on pull requests
     
     - name: Locally build Jupyter-book
       run: |
