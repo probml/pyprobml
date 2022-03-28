@@ -73,8 +73,8 @@ class BOCD:
 
         log_predictive_run_length = self.run_length_pred(xt, state["mean"], state["precision"])
 
-        pred_new_0 = jax.nn.logsumexp(state["log_pred"] + log_predictive_run_length + jnp.log(H))
-        pred_new = state["log_pred"] + log_predictive_run_length  + jnp.log((1 - H))
+        pred_new_0 = jax.nn.logsumexp(state["log_pred"] + log_predictive_run_length + jnp.log(self.hazard))
+        pred_new = state["log_pred"] + log_predictive_run_length  + jnp.log((1 - self.hazard))
 
         state["log_pred"] = jnp.r_[pred_new_0, pred_new[:-1]]
         state["log_pred"] = state["log_pred"] - jax.nn.logsumexp(state["log_pred"])
@@ -111,14 +111,31 @@ def plot_gmm_changepoints(ax, gmm_output, timesteps=None):
     plt.tight_layout()
 
 
-def plot_bocd_changepoints(ax, bocd_output, timesteps=None):
-    ...
+def plot_bocd_changepoints(ax, X, posterior_predictive, changepoints, timesteps=None):
+    T = len(X)
+    timesteps = jnp.arange(T) if timesteps is None else timesteps
+
+    r_max = posterior_predictive.argmax(axis=1).max()
+    ax[1].plot(posterior_predictive.argmax(axis=1), c="tab:red", linewidth=3)
+    ax[1].imshow(jnp.rot90(posterior_predictive, k=3)[:, ::-1], origin="lower", aspect="auto", cmap="bone_r")
+
+    ax[0].plot(timesteps, X, marker="o", markersize=3, linewidth=1, c="tab:gray")
+
+    ax[0].set_xlim(0, T)
+    ax[1].set_xlim(0, T)
+    if changepoints is not None:
+        for changepoint, axi in product(changepoints, ax):
+            axi.axvline(x=changepoint, c="tab:red", linestyle="dotted")
+
+    ax[1].set_ylim(0, r_max)    
+
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
     import pyprobml_utils as pml
 
     key = jax.random.PRNGKey(27182)
+
 
     T = 200
     means = jnp.array([0, -5, 3, 2])
@@ -136,6 +153,15 @@ if __name__ == "__main__":
     gmm_output = gmm.sample(key, T)
     changepoints, *_ = jnp.where(jnp.diff(gmm_output["latent"]) != 0)
 
+    mu_hat, lambda_hat = 0, 1.0
+    hazard = len(changepoints) / T
+    bocd = BOCD(mu_hat, lambda_hat, precision, hazard)
+    _, bocd_post_predictive = bocd(gmm_output["observed"])
+
     fig, ax = plt.subplots(2, 1, figsize=(12, 5), sharex="all")
     plot_gmm_changepoints(ax, gmm_output)
-    pml.savefig("bocd-gmm-changepoints.pdf")
+    pml.savefig("gmm-changepoints.pdf")
+
+    fig, ax = plt.subplots(2, 1, figsize=(12, 5), sharex="all")
+    plot_bocd_changepoints(ax, gmm_output["observed"], bocd_post_predictive, changepoints)
+    pml.savefig("bocd-changepoints.pdf")
