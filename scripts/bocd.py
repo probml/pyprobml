@@ -12,8 +12,8 @@ class GMM:
         self.precisions = precisions * jnp.ones(self.n_states)
 
     def _step_hmm(self, key, s_prev):
-        p_transition = transition_matrix[s_prev, :]
-        s_next = jax.random.choice(key, n_states, p=p_transition)
+        p_transition = self.transition_matrix[s_prev, :]
+        s_next = jax.random.choice(key, self.n_states, p=p_transition)
         return s_next
 
     def _step_process(self, s_prev, key):
@@ -37,6 +37,7 @@ class GMM:
         s_init = jax.random.choice(key_init, self.n_states)
         _, outputs = jax.lax.scan(self._step_process, s_init, keys)
         return outputs
+
 
 class BOCD:
     def __init__(self, mu0, lambda0, lambda_data, hazard):
@@ -84,3 +85,14 @@ class BOCD:
         state["mean"] = state["mean"] * time_select
 
         return state, state["log_pred"]
+
+
+def plot_gmm_changepoints(ax, gmm_output, timesteps=None):
+    ...
+
+
+def plot_bocd_changepoints(ax, bocd_output, timesteps=None):
+    ...
+
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
