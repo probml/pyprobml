@@ -2,6 +2,7 @@ import jax
 import jax.numpy as jnp
 from jax.scipy import stats
 from functools import partial
+from itertools import product
 
 
 class GMM:
@@ -88,7 +89,27 @@ class BOCD:
 
 
 def plot_gmm_changepoints(ax, gmm_output, timesteps=None):
-    ...
+    X = gmm_output["observed"]
+    states = gmm_output["latent"]
+    print(states)
+    n_states = len(states)
+    T = len(X)
+    timesteps = jnp.arange(T) if timesteps is None else timesteps
+
+    ax[0].plot(timesteps, X, marker="o", markersize=3, linewidth=1, c="tab:gray")
+
+    ax[1].scatter(timesteps, states, c="tab:gray")
+    ax[1].set_yticks(jnp.arange(n_states))
+    for y in range(n_states):
+        ax[1].axhline(y=y, c="tab:gray", alpha=0.3)
+        
+    for changepoint, axi in product(changepoints, ax):
+        axi.axvline(x=changepoint, c="tab:red", linestyle="dotted")
+    
+    for axi in ax:
+        axi.set_xlim(timesteps[0], timesteps[-1])
+
+    plt.tight_layout()
 
 
 def plot_bocd_changepoints(ax, bocd_output, timesteps=None):
@@ -96,3 +117,26 @@ def plot_bocd_changepoints(ax, bocd_output, timesteps=None):
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
+    import pyprobml_utils as pml
+
+    key = jax.random.PRNGKey(27182)
+
+    T = 200
+    means = jnp.array([0, -5, 3, 2])
+    precision = 1
+    p_stay = 0.97
+    p_move = 1 - p_stay
+    transition_matrix = jnp.array([
+        [p_stay, p_move, 0.0, 0.0],
+        [0.0, p_stay, p_move, 0.0],
+        [0.0, 0.0, p_stay, p_move],
+        [p_move, 0.0, 0.0, p_stay],
+    ])
+
+    gmm = GMM(transition_matrix, means, precision)
+    gmm_output = gmm.sample(key, T)
+    changepoints, *_ = jnp.where(jnp.diff(gmm_output["latent"]) != 0)
+
+    fig, ax = plt.subplots(2, 1, figsize=(12, 5), sharex="all")
+    plot_gmm_changepoints(ax, gmm_output)
+    pml.savefig("bocd-gmm-changepoints.pdf")
