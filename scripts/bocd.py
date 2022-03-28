@@ -4,6 +4,40 @@ from jax.scipy import stats
 from functools import partial
 
 
+class GMM:
+    def __init__(self, transition_matrix, means, precisions):
+        self.transition_matrix = transition_matrix
+        self.n_states, _ = transition_matrix.shape
+        self.means = means
+        self.precisions = precisions * jnp.ones(self.n_states)
+
+    def _step_hmm(self, key, s_prev):
+        p_transition = transition_matrix[s_prev, :]
+        s_next = jax.random.choice(key, n_states, p=p_transition)
+        return s_next
+
+    def _step_process(self, s_prev, key):
+        key_obs, key_step = jax.random.split(key)
+        
+        s_next = self._step_hmm(key_step, s_prev)
+        mean = self.means[s_next]
+        precision = self.precisions[s_next]
+        obs_next = jax.random.normal(key_obs) / precision + mean
+        
+        output = {
+            "latent": s_next,
+            "observed": obs_next,
+        }
+
+        return s_next, output
+    
+    def sample(self, key, T):
+        key_init, key_steps = jax.random.split(key)
+        keys = jax.random.split(key_steps, T)
+        s_init = jax.random.choice(key_init, self.n_states)
+        _, outputs = jax.lax.scan(self._step_process, s_init, keys)
+        return outputs
+
 class BOCD:
     def __init__(self, mu0, lambda0, lambda_data, hazard):
         self.mu0 = mu0
