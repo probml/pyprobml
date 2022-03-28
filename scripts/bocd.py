@@ -91,8 +91,7 @@ class BOCD:
 def plot_gmm_changepoints(ax, gmm_output, timesteps=None):
     X = gmm_output["observed"]
     states = gmm_output["latent"]
-    print(states)
-    n_states = len(states)
+    n_states = len(jnp.unique(states))
     T = len(X)
     timesteps = jnp.arange(T) if timesteps is None else timesteps
 
