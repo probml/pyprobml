@@ -1,3 +1,6 @@
+# Bayesian online changepoint detection (BOCD)
+# Based on @gwgundersen's work: https://github.com/gwgundersen
+# Author: Gerardo Duran-Martin (@gerdm)
 import jax
 import jax.numpy as jnp
 from jax.scipy import stats
@@ -41,6 +44,11 @@ class GMM:
 
 
 class BOCD:
+    """
+    Bayesian online changepoint detection (BOCD) implementation
+    for a a univariate gaussian process with fixed precision and
+    varying mean.
+    """
     def __init__(self, mu0, lambda0, lambda_data, hazard):
         self.mu0 = mu0
         self.lambda0 = lambda0
@@ -138,7 +146,7 @@ if __name__ == "__main__":
 
 
     T = 200
-    means = jnp.array([0, -5, 3, 2])
+    means = jnp.array([0, -5, 3, -2])
     precision = 1
     p_stay = 0.97
     p_move = 1 - p_stay
