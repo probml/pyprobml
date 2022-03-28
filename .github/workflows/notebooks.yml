@@ -6,11 +6,15 @@ on:  # Trigger only for notebooks
     - master
     paths:
     - 'notebooks/*.ipynb'
+    - '.github/workflows/notebooks.yml'
+    - 'tests/test_notebooks.py'
   pull_request:
     branches:
     - master
     paths:
     - 'notebooks/*.ipynb'
+    - '.github/workflows/notebooks.yml'
+    - 'tests/test_notebooks.py'
 
 jobs:
   test_run:
