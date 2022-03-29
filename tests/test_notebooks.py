@@ -3,8 +3,8 @@ import os
 import subprocess
 from glob import glob
 
-os.environ["DEV_MODE"] = "True"  # To enable latexify code
-os.environ["TEST_MODE"] = "True"  # To avoid saving the figures
+os.environ["LATEXIFY"] = ""  # To enable latexify code
+os.environ["NO_SAVE_FIGS"] = ""  # To avoid saving the figures
 notebooks = glob("notebooks/*.ipynb")
 
 
