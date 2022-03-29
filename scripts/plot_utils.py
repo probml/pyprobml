@@ -4,10 +4,18 @@ import matplotlib.pyplot as plt
 DEFAULT_WIDTH = 6.0
 GOLDEN_MEAN = (5**0.5 - 1.0) / 2.0  # Aesthetic ratio
 DEFAULT_HEIGHT = 1.5
+SIZE_SMALL = 9  # Caption size in the book
+DEFAULT_FIG_PATH = "figures"
 # SPLINE_COLOR = 'gray'
 
 
-def latexify(width_scale_factor=1, height_scale_factor=1, fig_width=None, fig_height=None):
+def latexify(
+    width_scale_factor=1,
+    height_scale_factor=1,
+    fig_width=None,
+    fig_height=None,
+    font_size=SIZE_SMALL,
+):
     """
     width_scale_factor: float, with this factor the figure will be scaled
     fig_width: float, width of the figure in inches (if this is specified, width_scale_factor is ignored)
@@ -24,7 +32,6 @@ def latexify(width_scale_factor=1, height_scale_factor=1, fig_width=None, fig_he
     plt.rcParams["pdf.fonttype"] = 42
 
     # Font sizes
-    SIZE_SMALL = 9  # Caption size in the book
     # SIZE_MEDIUM = 14
     # SIZE_LARGE = 24
     # https://stackoverflow.com/a/39566040
@@ -38,22 +45,19 @@ def latexify(width_scale_factor=1, height_scale_factor=1, fig_width=None, fig_he
 
     # latexify: https://nipunbatra.github.io/blog/visualisation/2014/06/02/latexify.html
     plt.rcParams["backend"] = "ps"
-    if not "TEST_MODE" in os.environ:  # remove latex dependecy from GitHub actions
+    if not "NO_SAVE_FIGS" in os.environ:  # To remove latex dependecy from GitHub actions
         plt.rc("text", usetex=True)
     plt.rc("font", family="serif")
     plt.rc("figure", figsize=(fig_width, fig_height))
 
 
-DEFAULT_PATH = "figures"
-
-
 def savefig(f_name, fig_dir=None, *args, **kwargs):
     if fig_dir is None:
-        fig_dir = DEFAULT_PATH
+        fig_dir = DEFAULT_FIG_PATH
 
     fname_full = os.path.join(fig_dir, f_name)
 
-    if not "TEST_MODE" in os.environ:
+    if not "NO_SAVE_FIGS" in os.environ:
         print("saving image to {}".format(fname_full))
         plt.tight_layout(pad=0)
         print("Figure size:", plt.gcf().get_size_inches())

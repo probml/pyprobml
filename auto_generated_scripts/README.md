@@ -9,5 +9,5 @@ ipython discrete_prob_dist_plot.py
 ```
 * Save figures with `latexify`.
 ```bash
-DEV_MODE=1 ipython discrete_prob_dist_plot.py
+LATEXIFY=1 ipython discrete_prob_dist_plot.py
 ```
