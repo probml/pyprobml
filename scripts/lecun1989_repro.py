@@ -119,13 +119,15 @@ def eval_split(data, split, params):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Train a 1989 LeCun ConvNet on digits")
     parser.add_argument('--learning-rate', '-l', type=float, default=0.03, help="SGD learning rate")
-    parser.add_argument('--output-dir'   , '-o', type=str,   default='out/1989', help="output directory for training logs")
+    parser.add_argument('--output-dir'   , '-o', type=str,   default=None, 
+                        help="output filepath to save trained params: leave empty to not save")
     args = parser.parse_args()
     print(vars(args))
     key1, key2 = jax.random.split(jax.random.PRNGKey(42))
     data = get_datasets(key1, 7291, 2007)
     state = train(key2, data, 23, args.learning_rate)
-    bytes_output = serialization.to_bytes(state.params)
-    os.makedirs(os.path.dirname(args.output_dir), exist_ok=True)
-    with open(args.output_dir, 'wb') as f:
-        f.write(bytes_output)
+    if args.output_dir:
+        bytes_output = serialization.to_bytes(state.params)
+        os.makedirs(os.path.dirname(args.output_dir), exist_ok=True)
+        with open(args.output_dir, 'wb') as f:
+            f.write(bytes_output)
