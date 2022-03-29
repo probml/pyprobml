@@ -145,4 +145,3 @@ if __name__ == '__main__':
         os.makedirs(os.path.dirname(args.output_dir), exist_ok=True)
         with open(args.output_dir, 'wb') as f:
             f.write(bytes_output)
-        
