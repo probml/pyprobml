@@ -4,3 +4,5 @@ parts:
   - caption: "Book 1: Chapter 2: Probability: Univariate Models"
     chapters:
       - file: notebooks/discrete_prob_dist_plot.ipynb
+      - file: notebooks/gauss_plot.ipynb
+      - file: notebooks/quantile_plot.ipynb
