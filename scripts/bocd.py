@@ -116,7 +116,7 @@ def plot_gmm_changepoints(ax, gmm_output, timesteps=None):
     for axi in ax:
         axi.set_xlim(timesteps[0], timesteps[-1])
 
-    plt.tight_layout()
+    #plt.tight_layout()
 
 
 def plot_bocd_changepoints(ax, X, posterior_predictive, changepoints, timesteps=None):
@@ -137,6 +137,8 @@ def plot_bocd_changepoints(ax, X, posterior_predictive, changepoints, timesteps=
 
     ax[1].set_ylim(0, r_max)    
 
+    #plt.tight_layout()
+
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
@@ -146,7 +148,8 @@ if __name__ == "__main__":
 
 
     T = 200
-    means = jnp.array([0, -5, 3, -2])
+    #means = jnp.array([0, -5, 3, -2])
+    means = jnp.array([0, -1, 1, -2]) # closer together (harder)
     precision = 1
     p_stay = 0.97
     p_move = 1 - p_stay
@@ -168,8 +171,10 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots(2, 1, figsize=(12, 5), sharex="all")
     plot_gmm_changepoints(ax, gmm_output)
-    pml.savefig("gmm-changepoints.pdf")
+    pml.savefig("bocd-changepoints-truth.pdf")
 
     fig, ax = plt.subplots(2, 1, figsize=(12, 5), sharex="all")
     plot_bocd_changepoints(ax, gmm_output["observed"], bocd_post_predictive, changepoints)
-    pml.savefig("bocd-changepoints.pdf")
+    pml.savefig("bocd-changepoints-estimated.pdf")
+
+    plt.show()
