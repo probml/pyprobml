@@ -5,7 +5,9 @@ from glob import glob
 
 os.environ["LATEXIFY"] = ""  # To enable latexify code
 os.environ["NO_SAVE_FIGS"] = ""  # To avoid saving the figures
-notebooks = glob("notebooks/*.ipynb")
+notebooks1 = glob("notebooks/book1/*.ipynb")
+notebooks2 = glob("notebooks/book2/*.ipynb")
+notebooks = notebooks1 + notebooks2
 
 
 @pytest.mark.parametrize("notebook", notebooks)
