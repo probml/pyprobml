@@ -2,7 +2,7 @@ import os
 import matplotlib.pyplot as plt
 
 DEFAULT_WIDTH = 6.0
-GOLDEN_MEAN = (5**0.5 - 1.0) / 2.0  # Aesthetic ratio
+# GOLDEN_MEAN = (5**0.5 - 1.0) / 2.0  # Aesthetic ratio
 DEFAULT_HEIGHT = 1.5
 SIZE_SMALL = 9  # Caption size in the book
 DEFAULT_FIG_PATH = "figures"
@@ -16,10 +16,12 @@ def latexify(
     fig_height=None,
     font_size=SIZE_SMALL,
 ):
-    """
-    width_scale_factor: float, with this factor the figure will be scaled
+    f"""
+    width_scale_factor: float, DEFAULT_WIDTH will be divided by this number, DEFAULT_WIDTH is page width: {DEFAULT_WIDTH} inches.
+    height_scale_factor: float, DEFAULT_HEIGHT will be divided by this number, DEFAULT_HEIGHT is {DEFAULT_HEIGHT} inches.
     fig_width: float, width of the figure in inches (if this is specified, width_scale_factor is ignored)
-    fig_height: float, height of the figure in inches
+    fig_height: float, height of the figure in inches (if this is specified, height_scale_factor is ignored)
+    font_size: float, font size
     """
     if fig_width is None:
         fig_width = DEFAULT_WIDTH / width_scale_factor
@@ -35,13 +37,13 @@ def latexify(
     # SIZE_MEDIUM = 14
     # SIZE_LARGE = 24
     # https://stackoverflow.com/a/39566040
-    plt.rc("font", size=SIZE_SMALL)  # controls default text sizes
-    plt.rc("axes", titlesize=SIZE_SMALL)  # fontsize of the axes title
-    plt.rc("axes", labelsize=SIZE_SMALL)  # fontsize of the x and y labels
-    plt.rc("xtick", labelsize=SIZE_SMALL)  # fontsize of the tick labels
-    plt.rc("ytick", labelsize=SIZE_SMALL)  # fontsize of the tick labels
-    plt.rc("legend", fontsize=SIZE_SMALL)  # legend fontsize
-    plt.rc("figure", titlesize=SIZE_SMALL)  # fontsize of the figure title
+    plt.rc("font", size=font_size)  # controls default text sizes
+    plt.rc("axes", titlesize=font_size)  # fontsize of the axes title
+    plt.rc("axes", labelsize=font_size)  # fontsize of the x and y labels
+    plt.rc("xtick", labelsize=font_size)  # fontsize of the tick labels
+    plt.rc("ytick", labelsize=font_size)  # fontsize of the tick labels
+    plt.rc("legend", fontsize=font_size)  # legend fontsize
+    plt.rc("figure", titlesize=font_size)  # fontsize of the figure title
 
     # latexify: https://nipunbatra.github.io/blog/visualisation/2014/06/02/latexify.html
     plt.rcParams["backend"] = "ps"
@@ -51,10 +53,7 @@ def latexify(
     plt.rc("figure", figsize=(fig_width, fig_height))
 
 
-def savefig(f_name, fig_dir=None, *args, **kwargs):
-    if fig_dir is None:
-        fig_dir = DEFAULT_FIG_PATH
-
+def savefig(f_name, fig_dir=DEFAULT_FIG_PATH, *args, **kwargs):
     fname_full = os.path.join(fig_dir, f_name)
 
     if not "NO_SAVE_FIGS" in os.environ:

@@ -7,9 +7,9 @@
 1. Choose a figure from [book1](https://probml.github.io/pml-book/book1.html) or [book2](https://probml.github.io/pml-book/book2.html) and find out its source code in this repo (mostly in the `scripts` folder).
 2. Fork the main repo and create a new branch for your figure.
 3. Create a notebook with the same name as the source code file (e.g. `scripts/discrete_prob_dist_plot.py` -> `notebooks/discrete_prob_dist_plot.ipynb`).
-4. Take [this notebook](https://github.com/probml/pyprobml/blob/master/notebooks/discrete_prob_dist_plot.ipynb) as a reference while converting the source code to a notebook.
+4. Take [this notebook](https://github.com/probml/pyprobml/blob/master/notebooks/book1/discrete_prob_dist_plot.ipynb) as a reference while converting the source code to a notebook.
 5. To ensure your code passes the code formatting check, `pip install pre-commit` locally and run `pre-commit install`.
-    * Install `black` for jupyter notebooks with: `pip install black[jupyter]` (Linux) and `pip install 'black[jupyer]'` (macOS)
+    * Install `black` for jupyter notebooks with: `pip install black[jupyter]` (bash) and `pip install 'black[jupyer]'` (zsh).
     * `pre-commit` will automatically format your notebook with `line-length=120` as set by [this config](https://github.com/probml/pyprobml/blob/master/.pre-commit-config.yaml).
 6. Follow PEP 8 naming convention.
 7. Convert the existing code to `jax`, `flax` and `distrax` wherever possible.
@@ -24,7 +24,7 @@ LATEXIFY=1 ipython <notebook>.ipynb
 ```
 For example:
 ```py
-LATEXIFY=1 ipython notebooks/discrete_prob_dist_plot.ipynb
+LATEXIFY=1 ipython notebooks/book1/discrete_prob_dist_plot.ipynb
 ```
 
 * Figures will be saved in the `figures` folder in the repo's root by default.
