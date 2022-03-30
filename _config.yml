@@ -4,7 +4,9 @@ title                       : "Probabilistic Machine Learning"
 copyright                   : "2022"  # Copyright year to be placed in the footer
 execute:
   execute_notebooks: false
-  
+
+only_build_toc_files: true
+
 launch_buttons:
   colab_url: "https://colab.research.google.com"
 
