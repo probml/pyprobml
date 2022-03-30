@@ -4,3 +4,4 @@ parts:
   - caption: "Book 1: Chapter 2: Probability: Univariate Models"
     chapters:
       - file: notebooks/discrete_prob_dist_plot.ipynb
+      - file: notebooks/binom_dist_plot.ipynb
