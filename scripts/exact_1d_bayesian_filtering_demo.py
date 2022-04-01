@@ -249,7 +249,7 @@ def experiment_setup(
     # generate true states
     rng_key, rng_subkey = random.split(rng_key)
     x_true = generate_x_true(
-        rng_subkey, max_iter=max_iter, x0_rvs=x0_rvs, v_rvs=v_rvs, f=f
+        rng_subkey, max_iter=max_iter, x0_rvs=x0_rvs,v_rvs=v_rvs, f=f,
     )
 
     # generate measurement
@@ -267,3 +267,249 @@ def experiment_setup(
         ax.legend(prop={"size": 16})
 
     return x_grid, x_true, y
+
+
+# functions for the particle filter example
+
+# state transition function
+def state_trans_func1(x, v, k):
+    return x / 2 + 25 * x / (1 + x**2) + 8 * jnp.cos(1.2 * (k + 1)) + v
+
+
+# measurement function
+def measure_func1(x, e):
+    return x**2 / 20 + e
+
+
+# to get x from measurement without noise
+def inv_measure_func1(y):
+    x = jnp.sqrt(20 * y)
+    return [x, -x]
+
+
+# functions to get sample
+def v_rvs1(rng_key, shape):
+    return random.normal(rng_key, shape=shape) * jnp.sqrt(10)
+
+
+def e_rvs1(rng_key, shape):
+    return random.normal(rng_key, shape=shape)
+
+
+def x0_rvs1(rng_key, shape):
+    return random.normal(rng_key, shape=shape)
+
+
+# functions to get density
+v_pdf1 = functools.partial(jsp.stats.norm.pdf, scale=jnp.sqrt(10))
+e_pdf1 = functools.partial(jsp.stats.norm.pdf, scale=1)
+x0_pdf1 = jsp.stats.norm.pdf
+
+
+def the_particle_filter_example(
+    rng_key=random.PRNGKey(4),
+    grid_minval=-30,
+    grid_maxval=30,
+    num_grid_points=500,
+    max_iter=20,
+    iter_=14,
+    plot_all_densities=False):
+    # generate data points and densities
+    x_grid, x_true, y = experiment_setup(
+        rng_key=rng_key, grid_minval=grid_minval, grid_maxval=grid_maxval,
+        num_grid_points=num_grid_points, x0_rvs=x0_rvs1, v_rvs=v_rvs1,
+        e_rvs=e_rvs1, f=state_trans_func1, h=measure_func1,
+        max_iter=max_iter, plot_xy=False,
+    )
+
+
+    p_filter, p_pred, p_smooth = point_mass_density(
+        y, x_grid, x0_pdf1,
+        x_pdf=x_pdf, v_pdf=v_pdf1, e_pdf=e_pdf1,
+        f=state_trans_func1, h=measure_func1,
+    )
+
+    if plot_all_densities:
+        # looking for weird density plot by plotting all max_iter densities
+        plot_densities(
+            x_true, y, inv_measure_func1,
+            x_grid, p_pred, p_filter,
+            p_smooth, max_iter,
+        )
+
+    # plot the kth density
+    plot_density(
+        x_true, y, inv_measure_func1,
+        x_grid, p_pred, p_filter,
+        p_smooth, k=iter_, legend=True,
+        ax=None, title=f"Particle filter example densities at $x_{{{iter_}}}$",
+    )
+
+    plt.show()
+
+
+# functions for student t random walk example
+
+# state transition function
+def state_trans_func2(x, v, k=None):
+    return x + v
+
+
+# measurement function
+def measure_func2(x, e):
+    return x + e
+
+
+# to get x from measurement without noise
+def inv_measure_func2(y):
+    return y
+
+
+# functions to get sample
+def v_rvs2(rng_key, shape):
+    return random.t(rng_key, df=3, shape=shape)
+
+
+def e_rvs2(rng_key, shape):
+    return random.t(rng_key, df=3, shape=shape)
+
+
+def x0_rvs2(rng_key, shape):
+    return random.t(rng_key, df=3, shape=shape)
+
+
+# functions to get density
+pdf2 = functools.partial(jsp.stats.t.pdf, df=3)
+v_pdf2 = pdf2
+e_pdf2 = pdf2
+x0_pdf2 = pdf2
+
+
+def student_t_random_walk_example(
+    rng_key=random.PRNGKey(0),
+    grid_minval=-60,
+    grid_maxval=30,
+    num_grid_points=500,
+    max_iter=25,
+    iter_=22,
+    plot_all_densities=False):
+    # generate data points and densities
+    x_grid, x_true, y = experiment_setup(
+        rng_key=rng_key, grid_minval=grid_minval, grid_maxval=grid_maxval,
+        num_grid_points=num_grid_points, x0_rvs=x0_rvs2, v_rvs=v_rvs2,
+        e_rvs=e_rvs2, f=state_trans_func2, h=measure_func2,
+        max_iter=max_iter, plot_xy=False,
+    )
+
+    p_filter, p_pred, p_smooth = point_mass_density(
+        y, x_grid, x0_pdf2,
+        x_pdf=x_pdf, v_pdf=v_pdf2, e_pdf=e_pdf2,
+        f=state_trans_func2, h=measure_func2,
+    )
+
+    if plot_all_densities:
+        # looking for weird density plot by plotting all max_iter densities
+        plot_densities(
+            x_true, y, inv_measure_func2,
+            x_grid, p_pred, p_filter,
+            p_smooth, max_iter,
+        )
+
+    # plot the kth density
+    plot_density(
+        x_true, y, inv_measure_func2,
+        x_grid, p_pred, p_filter,
+        p_smooth, k=iter_, legend=True,
+        ax=None, title=f"Student's t random walk example densities at $x_{{{iter_}}}$",
+    )
+
+    plt.show()
+
+
+# functions for saturated measurements example
+
+# state transition function
+def state_trans_func3(x, v, k=None):
+    return 0.7 * x + v
+
+
+# measurement function
+def saturate(x, minval, maxval):
+    return jnp.maximum(jnp.minimum(x, maxval), minval)
+
+
+def measure_func3(x, e, minval=-1.5, maxval=1.5):
+    return saturate(x + e, minval=minval, maxval=maxval)
+
+
+# to get x from measurement without noise
+def inv_measure_func3(y):
+    return y
+
+
+# functions to get sample
+def v_rvs3(rng_key, shape):
+    return random.normal(rng_key, shape=shape)
+
+
+def e_rvs3(rng_key, shape):
+    return random.normal(rng_key, shape=shape) * jnp.sqrt(0.5)
+
+
+def x0_rvs3(rng_key, shape):
+    return random.normal(rng_key, shape=shape) * jnp.sqrt(0.1)
+
+
+# functions to get density
+x0_pdf3 = functools.partial(jsp.stats.norm.pdf, scale=jnp.sqrt(0.1))
+
+
+def saturated_measurements_example(
+    rng_key=random.PRNGKey(0),
+    num_samples=10000,
+    grid_minval=-6,
+    grid_maxval=6,
+    num_grid_points=500,
+    max_iter=24,
+    iter_=18,
+    plot_all_densities=False):
+    # generate data points and densities
+    rng_key, subkey = random.split(rng_key, num=2)
+    x_grid, x_true, y = experiment_setup(
+        rng_key=rng_key, grid_minval=grid_minval, grid_maxval=grid_maxval,
+        num_grid_points=num_grid_points, x0_rvs=x0_rvs3, v_rvs=v_rvs3,
+        e_rvs=e_rvs3, f=state_trans_func3, h=measure_func3,
+        max_iter=max_iter, plot_xy=True,
+    )
+
+    p_filter, p_pred = novel_density(
+        subkey, y, x_grid,
+        x0_pdf3, v_rvs3, e_rvs3,
+        state_trans_func3, measure_func3, num_samples,
+        max_iter, kernel_variance=0.15,
+    )
+    p_smooth = None
+
+    if plot_all_densities:
+        # looking for weird density plot by plotting all max_iter densities
+        plot_densities(
+            x_true, y, inv_measure_func3,
+            x_grid, p_pred, p_filter,
+            p_smooth, max_iter,
+        )
+
+    # plot the kth density
+    plot_density(
+        x_true, y, inv_measure_func3,
+        x_grid, p_pred, p_filter,
+        p_smooth, k=iter_, legend=True,
+        ax=None, title=f"Saturated measurements example densities at $x_{{{iter_}}}$",
+    )
+
+    plt.show()
+
+
+if __name__ == '__main__':
+    the_particle_filter_example()
+    student_t_random_walk_example()
+    saturated_measurements_example()
