@@ -20,11 +20,13 @@
 ### Generating figures and saving them locally
 * To generate pdf figures, go to the root of the repo and use the following command:
 ```py
-LATEXIFY=1 ipython <notebook>.ipynb
+export LATEXIFY=1
+ipython <notebook>.ipynb
 ```
 For example:
 ```py
-LATEXIFY=1 ipython notebooks/book1/discrete_prob_dist_plot.ipynb
+export LATEXIFY=1
+ipython notebooks/book1/discrete_prob_dist_plot.ipynb
 ```
 
 * Figures will be saved in the `figures` folder in the repo's root by default.
