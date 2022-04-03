@@ -15,7 +15,7 @@
 7. Convert the existing code to `jax`, `flax` and `distrax` wherever possible.
 8. (If applicable) In the last cell, create a demo with `@interact`, `interactive` or any other tools available with `ipywidgets`. Make sure the demo works on Google colab.
 9. Please modify existing figure name by adding `_latexified` suffix e.g. `figures/uniform_distribution.pdf` -> `figures/uniform_distribution_latexified.pdf`.
-10. Finally, add an entry for the new notebook in the `_toc.yml` file.
+10. Verify the notebook locally by running `pytest -s`.
 
 ### Generating figures and saving them locally
 * To generate pdf figures, go to the root of the repo and use the following command:
