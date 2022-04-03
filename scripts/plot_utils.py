@@ -53,12 +53,13 @@ def latexify(
     plt.rc("figure", figsize=(fig_width, fig_height))
 
 
-def savefig(f_name, fig_dir=DEFAULT_FIG_PATH, *args, **kwargs):
+def savefig(f_name, fig_dir=DEFAULT_FIG_PATH, tight_layout=True, *args, **kwargs):
     fname_full = os.path.join(fig_dir, f_name)
 
     if not "NO_SAVE_FIGS" in os.environ:
         print("saving image to {}".format(fname_full))
-        plt.tight_layout(pad=0)
+        if tight_layout:
+            plt.tight_layout(pad=0)
         print("Figure size:", plt.gcf().get_size_inches())
-        plt.savefig(fname_full, pad_inches=0.0, *args, **kwargs)
+        plt.savefig(fname_full, pad_inches=0.0, pad=0, h_pad=0, w_pad=0, *args, **kwargs)
         # bbox_inches="tight",  # This changes the size of the figure
