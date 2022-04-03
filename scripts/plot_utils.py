@@ -47,7 +47,7 @@ def latexify(
 
     # latexify: https://nipunbatra.github.io/blog/visualisation/2014/06/02/latexify.html
     plt.rcParams["backend"] = "ps"
-    if not "NO_SAVE_FIGS" in os.environ:  # To remove latex dependecy from GitHub actions
+    if not "NO_SAVE_FIGS" in os.environ:  # To remove latex dependency from GitHub actions
         plt.rc("text", usetex=True)
     plt.rc("font", family="serif")
     plt.rc("figure", figsize=(fig_width, fig_height))
