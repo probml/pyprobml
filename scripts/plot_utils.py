@@ -54,6 +54,8 @@ def latexify(
 
 
 def savefig(f_name, fig_dir=DEFAULT_FIG_PATH, tight_layout=True, *args, **kwargs):
+    if len(f_name) == 0:
+        return
     fname_full = os.path.join(fig_dir, f_name)
 
     if not "NO_SAVE_FIGS" in os.environ:
