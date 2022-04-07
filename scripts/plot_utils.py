@@ -47,18 +47,21 @@ def latexify(
 
     # latexify: https://nipunbatra.github.io/blog/visualisation/2014/06/02/latexify.html
     plt.rcParams["backend"] = "ps"
-    if not "NO_SAVE_FIGS" in os.environ:  # To remove latex dependecy from GitHub actions
+    if not "NO_SAVE_FIGS" in os.environ:  # To remove latex dependency from GitHub actions
         plt.rc("text", usetex=True)
     plt.rc("font", family="serif")
     plt.rc("figure", figsize=(fig_width, fig_height))
 
 
-def savefig(f_name, fig_dir=DEFAULT_FIG_PATH, *args, **kwargs):
+def savefig(f_name, fig_dir=DEFAULT_FIG_PATH, tight_layout=True, *args, **kwargs):
+    if len(f_name) == 0:
+        return
     fname_full = os.path.join(fig_dir, f_name)
 
     if not "NO_SAVE_FIGS" in os.environ:
         print("saving image to {}".format(fname_full))
-        plt.tight_layout(pad=0)
+        if tight_layout:
+            plt.tight_layout(pad=0)
         print("Figure size:", plt.gcf().get_size_inches())
-        plt.savefig(fname_full, pad_inches=0.0, *args, **kwargs)
+        plt.savefig(fname_full, pad_inches=0.0, pad=0, h_pad=0, w_pad=0, *args, **kwargs)
         # bbox_inches="tight",  # This changes the size of the figure

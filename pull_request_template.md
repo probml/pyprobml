@@ -46,4 +46,4 @@ Refer to this template for example: https://gist.github.com/patel-zeel/28a101009
 
 ## Potential problems/Important remarks
 
-<!-- If you have any import remarks  for the reviewers to look at closer,  you can write them in detail here.  -->
+<!-- If you have any important remarks for the reviewers to take a closer look, you can write them in detail here.  -->
