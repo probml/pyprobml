@@ -60,6 +60,8 @@ def visualize_model(model):
     states = get_state_names(model, name)
     cpd = model.get_cpds(name)
     values = cpd.values
+    if values.ndim > 2:
+      values = values.reshape(values.shape[0], -1)
     values = values.T
     the_string = ""
 
@@ -85,7 +87,6 @@ def visualize_model(model):
       r, c = get_lengths(states, name)
       rows = np.prod(r) + 1
       cols = c + 1
-      values = values.reshape(rows-1, cols-1)
       row_string = ""
       for row in range(rows):
         col_string = ""
