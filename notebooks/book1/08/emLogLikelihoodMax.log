@@ -1,0 +1,150 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import multivariate_normal
+import os
+
+
+if os.path.isdir("scripts"):
+    os.chdir("scripts")
+
+
+def f1(x):
+    return np.log(multivariate_normal.pdf(x, 0, 0.25**2)) + 1
+
+
+def f2(x):
+    return np.log(multivariate_normal.pdf(x, 1, 0.2**2)) + 20
+
+
+def f3(x):
+    return (
+        5 * np.sin(2 * (x - 0.5))
+        + f1(0.5 * x)
+        + f2(0.5 * x)
+        + 3.5
+        + 20 * np.transpose(multivariate_normal.pdf(x, -2, 0.5**2))
+        - 20 * np.transpose(multivariate_normal.pdf(x, 3, 1**2))
+        - 70 * np.transpose(multivariate_normal.pdf(x, 4, 0.5**2))
+        + 40 * np.transpose(multivariate_normal.pdf(x, -3, 0.5**2))
+        + 100 * np.transpose(multivariate_normal.pdf(x, -4, 0.8**2))
+        + 10 * np.transpose(multivariate_normal.pdf(x, 3, 0.3**2))
+        - 10 * np.transpose(multivariate_normal.pdf(x, -2.8, 0.5**2))
+    )
+
+
+domain = np.arange(-5, 5.01, 0.01)
+
+p1 = plt.plot(domain, f1(domain), "-b")
+p2 = plt.plot(domain, f2(domain), ":g")
+p3 = plt.plot(domain, f3(domain), "-.r")
+plt.axis([-3, 5, -50, 50])
+plt.legend(
+    [
+        "Q(" + "\u03B8" + "," + "\u03B8" + "\u209C" + ")",
+        "Q(" + "\u03B8" + "," + "\u03B8" + "\u209C" + "+" + "\u2081" + ")",
+        "I(" + "\u03B8" + ")",
+    ]
+)
+plt.vlines(-0.65, -50, -0.60, linestyles="dotted")
+plt.vlines(0.065, -50, 8.766, linestyles="dotted")
+plt.vlines(1.129, -50, 23.376, linestyles="dotted")
+
+plt.xticks([], [])
+plt.yticks([], [])
+
+plt.text(-0.75, -58, "\u03B8" + "\u2096", fontsize=16)
+plt.text(-0.165, -58, "\u03B8" + "\u209C" + "\u208A" + "\u2081", fontsize=16)
+plt.text(1.029, -58, "\u03B8" + "\u209C" + "\u208A" + "\u2082", fontsize=16)
+
+
+plt.savefig("figures/emLogLikelihoodMax.png")
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+Input In [1], in <cell line: 60>()
+     56 plt.text(-0.165, -58, "\u03B8" + "\u209C" + "\u208A" + "\u2081", fontsize=16)
+     57 plt.text(1.029, -58, "\u03B8" + "\u209C" + "\u208A" + "\u2082", fontsize=16)
+---> 60 plt.savefig("figures/emLogLikelihoodMax.png")
+     61 plt.show()
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/pyplot.py:958, in savefig(*args, **kwargs)
+    955 @_copy_docstring_and_deprecators(Figure.savefig)
+    956 def savefig(*args, **kwargs):
+    957     fig = gcf()
+--> 958     res = fig.savefig(*args, **kwargs)
+    959     fig.canvas.draw_idle()   # need this if 'transparent=True' to reset colors
+    960     return res
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/figure.py:3019, in Figure.savefig(self, fname, transparent, **kwargs)
+   3015     for ax in self.axes:
+   3016         stack.enter_context(
+   3017             ax.patch._cm_set(facecolor='none', edgecolor='none'))
+-> 3019 self.canvas.print_figure(fname, **kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/backend_bases.py:2319, in FigureCanvasBase.print_figure(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)
+   2315 try:
+   2316     # _get_renderer may change the figure dpi (as vector formats
+   2317     # force the figure dpi to 72), so we need to set it again here.
+   2318     with cbook._setattr_cm(self.figure, dpi=dpi):
+-> 2319         result = print_method(
+   2320             filename,
+   2321             facecolor=facecolor,
+   2322             edgecolor=edgecolor,
+   2323             orientation=orientation,
+   2324             bbox_inches_restore=_bbox_inches_restore,
+   2325             **kwargs)
+   2326 finally:
+   2327     if bbox_inches and restore_bbox:
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/backend_bases.py:1648, in _check_savefig_extra_args.<locals>.wrapper(*args, **kwargs)
+   1640     _api.warn_deprecated(
+   1641         '3.3', name=name, removal='3.6',
+   1642         message='%(name)s() got unexpected keyword argument "'
+   1643                 + arg + '" which is no longer supported as of '
+   1644                 '%(since)s and will become an error '
+   1645                 '%(removal)s')
+   1646     kwargs.pop(arg)
+-> 1648 return func(*args, **kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/_api/deprecation.py:412, in delete_parameter.<locals>.wrapper(*inner_args, **inner_kwargs)
+    402     deprecation_addendum = (
+    403         f"If any parameter follows {name!r}, they should be passed as "
+    404         f"keyword, not positionally.")
+    405     warn_deprecated(
+    406         since,
+    407         name=repr(name),
+   (...)
+    410                  else deprecation_addendum,
+    411         **kwargs)
+--> 412 return func(*inner_args, **inner_kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/backends/backend_agg.py:541, in FigureCanvasAgg.print_png(self, filename_or_obj, metadata, pil_kwargs, *args)
+    494 """
+    495 Write the figure to a PNG file.
+    496 
+   (...)
+    538     *metadata*, including the default 'Software' key.
+    539 """
+    540 FigureCanvasAgg.draw(self)
+--> 541 mpl.image.imsave(
+    542     filename_or_obj, self.buffer_rgba(), format="png", origin="upper",
+    543     dpi=self.figure.dpi, metadata=metadata, pil_kwargs=pil_kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/image.py:1675, in imsave(fname, arr, vmin, vmax, cmap, format, origin, dpi, metadata, pil_kwargs)
+   1673 pil_kwargs.setdefault("format", format)
+   1674 pil_kwargs.setdefault("dpi", (dpi, dpi))
+-> 1675 image.save(fname, **pil_kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/PIL/Image.py:2297, in Image.save(self, fp, format, **params)
+   2295         fp = builtins.open(filename, "r+b")
+   2296     else:
+-> 2297         fp = builtins.open(filename, "w+b")
+   2299 try:
+   2300     save_handler(self, fp, filename)
+
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/emLogLikelihoodMax.png'
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/emLogLikelihoodMax.png'

@@ -1,0 +1,77 @@
+An error occurred while executing the following cell:
+------------------
+
+# feature importance using random forests  on ,mnist
+# Based on https://github.com/ageron/handson-ml2/blob/master/06_decision_trees.ipynb
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+try:
+    from sklearn.datasets import fetch_openml
+except:
+    %pip install scikit-learn
+    from sklearn.datasets import fetch_openml
+from sklearn.ensemble import RandomForestClassifier
+
+mnist = fetch_openml('mnist_784', version=1)
+mnist.target = mnist.target.astype(np.uint8)
+X= mnist["data"]
+y = mnist["target"]
+
+def plot_digit(data):
+    image = data.reshape(28, 28)
+    plt.figure()
+    plt.imshow(image, cmap = mpl.cm.hot,
+               interpolation="nearest")
+    plt.axis("off")
+    
+
+    
+rnd_clf = RandomForestClassifier(n_estimators=100, random_state=42)
+ndxA = np.where(y==0)[0]
+ndxB = np.where(y==8)[0]
+ndx = np.concatenate((ndxA, ndxB))
+Xc = X[ndx,:]
+yc = y[ndx]
+rnd_clf.fit(Xc, yc)
+
+plot_digit(rnd_clf.feature_importances_)
+cbar = plt.colorbar(ticks=[rnd_clf.feature_importances_.min(), rnd_clf.feature_importances_.max()])
+cbar.ax.set_yticklabels(['Not important', 'Very important'])
+plt.savefig("figures/rf_feature_importance_mnist.pdf", dpi=300)
+#plt.savefig("figures/rf_feature_importance_mnist_class{}.pdf".format(c), dpi=300)
+plt.show()
+
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+Input In [1], in <cell line: 33>()
+     31 ndxB = np.where(y==8)[0]
+     32 ndx = np.concatenate((ndxA, ndxB))
+---> 33 Xc = X[ndx,:]
+     34 yc = y[ndx]
+     35 rnd_clf.fit(Xc, yc)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/core/frame.py:3458, in DataFrame.__getitem__(self, key)
+   3456 if self.columns.nlevels > 1:
+   3457     return self._getitem_multilevel(key)
+-> 3458 indexer = self.columns.get_loc(key)
+   3459 if is_integer(indexer):
+   3460     indexer = [indexer]
+
+File /usr/local/lib/python3.9/dist-packages/pandas/core/indexes/base.py:3361, in Index.get_loc(self, key, method, tolerance)
+   3359 casted_key = self._maybe_cast_indexer(key)
+   3360 try:
+-> 3361     return self._engine.get_loc(casted_key)
+   3362 except KeyError as err:
+   3363     raise KeyError(key) from err
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_libs/index.pyx:76, in pandas._libs.index.IndexEngine.get_loc()
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_libs/index.pyx:82, in pandas._libs.index.IndexEngine.get_loc()
+
+TypeError: '(array([    1,    21,    34, ..., 69959, 69967, 69991]), slice(None, None, None))' is an invalid key
+TypeError: '(array([    1,    21,    34, ..., 69959, 69967, 69991]), slice(None, None, None))' is an invalid key

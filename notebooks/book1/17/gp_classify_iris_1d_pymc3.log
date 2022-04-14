@@ -1,0 +1,201 @@
+An error occurred while executing the following cell:
+------------------
+# Gaussian process binary classification in 1d
+# Code is based on
+# https://github.com/aloctavodia/BAP/blob/master/code/Chp7/07_Gaussian%20process.ipynb
+
+
+try:
+    import pymc3 as pm
+except:
+    %pip install pymc3
+    import pymc3 as pm
+import numpy as np
+
+try:
+    import pandas as pd
+except:
+    %pip install pandas
+    import pandas as pd
+from scipy import stats
+from scipy.special import expit as logistic
+import probml_utils as pml
+
+import matplotlib.pyplot as plt
+
+try:
+    import arviz as az
+except:
+    %pip install arviz
+    import arviz as az
+
+try:
+    from sklearn.datasets import load_iris
+except:
+    %pip install scikit-learn
+    from sklearn.datasets import load_iris
+
+
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Convert to pandas dataframe
+df_iris = pd.DataFrame(data=iris.data, columns=["sepal_length", "sepal_width", "petal_length", "petal_width"])
+df_iris["species"] = pd.Series(iris.target_names[y], dtype="category")
+
+
+# Covnert to a two-class problem, and extract 1 feature to make 1d
+df = df_iris.query("species == ('setosa', 'versicolor')")
+y = pd.Categorical(df["species"]).codes
+x_1 = df["sepal_length"].values
+X_1 = x_1[:, None]
+
+# For evaluating posterior predictive
+X_new = np.linspace(np.floor(x_1.min()), np.ceil(x_1.max()), 200)[:, None]
+
+
+def find_midpoint(array1, array2, value):
+    array1 = np.asarray(array1)
+    idx0 = np.argsort(np.abs(array1 - value))[0]
+    idx1 = idx0 - 1 if array1[idx0] > value else idx0 + 1
+    if idx1 == len(array1):
+        idx1 -= 1
+    return (array2[idx0] + array2[idx1]) / 2
+
+
+if 1:
+    # Posterior over length scale l of kernel
+    with pm.Model() as model_iris:
+        # ℓ = pm.HalfCauchy("ℓ", 1)
+        ℓ = pm.Gamma("ℓ", 2, 0.5)
+        cov = pm.gp.cov.ExpQuad(1, ℓ)
+        gp = pm.gp.Latent(cov_func=cov)
+        f = gp.prior("f", X=X_1)
+        # logistic inverse link function and Bernoulli likelihood
+        y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
+        trace_iris = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
+
+    # Posterior predictive
+
+    with model_iris:
+        f_pred = gp.conditional("f_pred", X_new)
+        pred_samples = pm.sample_posterior_predictive(trace_iris, var_names=[f_pred], samples=1000)
+
+    # Plot results
+    _, ax = plt.subplots(figsize=(10, 6))
+
+    fp = logistic(pred_samples["f_pred"])
+    fp_mean = np.mean(fp, 0)
+
+    ax.plot(X_new[:, 0], fp_mean)
+    # plot the data (with some jitter) and the true latent function
+    ax.scatter(x_1, np.random.normal(y, 0.02), marker=".", color=[f"C{x}" for x in y])
+
+    az.plot_hdi(X_new[:, 0], fp, color="C2")
+
+    db = np.array([find_midpoint(f, X_new[:, 0], 0.5) for f in fp])
+    db_mean = db.mean()
+    db_hpd = az.hdi(db)
+    ax.vlines(db_mean, 0, 1, color="k")
+    ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color="k", alpha=0.5)
+    ax.set_xlabel("sepal_length")
+    ax.set_ylabel("θ", rotation=0)
+    pml.savefig("gp_classify_iris1.pdf", dpi=300)
+
+# Change kernel to be sum of SE and linear, to improve tail behavior
+
+with pm.Model() as model_iris2:
+    # ℓ = pm.HalfCauchy("ℓ", 1)
+    ℓ = pm.Gamma("ℓ", 2, 0.5)
+    c = pm.Normal("c", x_1.min())
+    τ = pm.HalfNormal("τ", 5)
+    cov = pm.gp.cov.ExpQuad(1, ℓ) + τ * pm.gp.cov.Linear(1, c) + pm.gp.cov.WhiteNoise(1e-5)
+    gp = pm.gp.Latent(cov_func=cov)
+    f = gp.prior("f", X=X_1)
+    # logistic inverse link function and Bernoulli likelihood
+    y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
+    trace_iris2 = pm.sample(1000, chains=1, cores=1, ompute_convergence_checks=False)
+
+with model_iris2:
+    f_pred = gp.conditional("f_pred", X_new)
+    pred_samples = pm.sample_posterior_predictive(trace_iris2, vars=[f_pred], samples=1000)
+
+_, ax = plt.subplots(figsize=(10, 6))
+
+fp = logistic(pred_samples["f_pred"])
+fp_mean = np.mean(fp, 0)
+
+ax.scatter(x_1, np.random.normal(y, 0.02), marker=".", color=[f"C{ci}" for ci in y])
+
+db = np.array([find_midpoint(f, X_new[:, 0], 0.5) for f in fp])
+db_mean = db.mean()
+db_hpd = az.hdi(db)
+ax.vlines(db_mean, 0, 1, color="k")
+ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color="k", alpha=0.5)
+
+ax.plot(X_new[:, 0], fp_mean, "C2", lw=3)
+az.plot_hdi(X_new[:, 0], fp, color="C2")
+
+ax.set_xlabel("sepal_length")
+ax.set_ylabel("θ", rotation=0)
+pml.savefig("gp_classify_iris2.pdf", dpi=300)
+
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+KeyError                                  Traceback (most recent call last)
+File /usr/local/lib/python3.9/dist-packages/pymc3/model.py:1236, in Model.__getitem__(self, key)
+   1235 try:
+-> 1236     return self.named_vars[self.name_for(key)]
+   1237 except KeyError:
+
+KeyError: f_pred ~ MvNormal
+
+During handling of the above exception, another exception occurred:
+
+KeyError                                  Traceback (most recent call last)
+Input In [1], in <cell line: 67>()
+     79 with model_iris:
+     80     f_pred = gp.conditional("f_pred", X_new)
+---> 81     pred_samples = pm.sample_posterior_predictive(trace_iris, var_names=[f_pred], samples=1000)
+     83 # Plot results
+     84 _, ax = plt.subplots(figsize=(10, 6))
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/sampling.py:1724, in sample_posterior_predictive(trace, samples, model, var_names, size, keep_size, random_seed, progressbar)
+   1717     warnings.warn(
+   1718         "The effect of Potentials on other parameters is ignored during posterior predictive sampling. "
+   1719         "This is likely to lead to invalid or biased predictive samples.",
+   1720         UserWarning,
+   1721     )
+   1723 if var_names is not None:
+-> 1724     vars_ = [model[x] for x in var_names]
+   1725 else:
+   1726     vars_ = model.observed_RVs
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/sampling.py:1724, in <listcomp>(.0)
+   1717     warnings.warn(
+   1718         "The effect of Potentials on other parameters is ignored during posterior predictive sampling. "
+   1719         "This is likely to lead to invalid or biased predictive samples.",
+   1720         UserWarning,
+   1721     )
+   1723 if var_names is not None:
+-> 1724     vars_ = [model[x] for x in var_names]
+   1725 else:
+   1726     vars_ = model.observed_RVs
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/model.py:1238, in Model.__getitem__(self, key)
+   1236     return self.named_vars[self.name_for(key)]
+   1237 except KeyError:
+-> 1238     raise e
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/model.py:1233, in Model.__getitem__(self, key)
+   1231 def __getitem__(self, key):
+   1232     try:
+-> 1233         return self.named_vars[key]
+   1234     except KeyError as e:
+   1235         try:
+
+KeyError: f_pred ~ MvNormal
+KeyError: f_pred ~ MvNormal

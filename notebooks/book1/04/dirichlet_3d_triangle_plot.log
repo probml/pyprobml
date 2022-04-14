@@ -1,0 +1,154 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import probml_utils as pml
+
+import scipy.spatial
+import matplotlib.tri as mtri
+from matplotlib.patches import FancyArrowPatch
+from mpl_toolkits.mplot3d import proj3d
+
+# This class comes from http://stackoverflow.com/questions/22867620/putting-arrowheads-on-vectors-in-matplotlibs-3d-plot
+class Arrow3D(FancyArrowPatch):
+    def __init__(self, xs, ys, zs, *args, **kwargs):
+        FancyArrowPatch.__init__(self, (0, 0), (0, 0), *args, **kwargs)
+        self._verts3d = xs, ys, zs
+
+    def draw(self, renderer):
+        xs3d, ys3d, zs3d = self._verts3d
+        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.M)
+        # xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.axes.M)
+        self.set_positions((xs[0], ys[0]), (xs[1], ys[1]))
+        FancyArrowPatch.draw(self, renderer)
+
+
+x = [1, 0, 0]
+y = [0, 1, 0]
+z = [0, 0, 1]
+
+pts = np.vstack([x, y]).T
+tess = scipy.spatial.Delaunay(pts)
+
+tri = tess.vertices
+triang = mtri.Triangulation(x=pts[:, 0], y=pts[:, 1], triangles=tri)
+
+fig = plt.figure()
+# ax = fig.gca(projection='3d')
+ax = plt.axes(projection="3d")
+ax.plot_trisurf(triang, z, alpha=0.3, color="red", edgecolors="blue")
+ax.set_axis_off()
+
+for i in range(3):
+    EndPs = [[0, 0], [0, 0], [0, 0]]
+    EndPs[i][1] = 1.4
+    art = Arrow3D(EndPs[0], EndPs[1], EndPs[2], mutation_scale=20, lw=3, arrowstyle="-|>", color="black")
+    ax.add_artist(art)
+    theta = "$\theta_" + str(i) + "$"
+    EndPs = [[0, 0], [0, 0], [0, 0]]
+    if i == 0:
+        EndPs[i][1] = 1
+        EndPs[2][1] = -0.2
+    else:
+        EndPs[i][1] = 1
+    ax.text(EndPs[0][1], EndPs[1][1], EndPs[2][1], r"$\theta_%s$" % (i + 1), size=20)
+
+ax.view_init(elev=30, azim=20)
+ax.dist = 15
+plt.draw()
+plt.tight_layout()
+plt.show()
+
+pml.savefig("dirichletSimplex.pdf")
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+File /usr/local/lib/python3.9/dist-packages/IPython/core/formatters.py:339, in BaseFormatter.__call__(self, obj)
+    337     pass
+    338 else:
+--> 339     return printer(obj)
+    340 # Finally look for special method names
+    341 method = get_real_method(obj, self.print_method)
+
+File /usr/local/lib/python3.9/dist-packages/IPython/core/pylabtools.py:151, in print_figure(fig, fmt, bbox_inches, base64, **kwargs)
+    148     from matplotlib.backend_bases import FigureCanvasBase
+    149     FigureCanvasBase(fig)
+--> 151 fig.canvas.print_figure(bytes_io, **kw)
+    152 data = bytes_io.getvalue()
+    153 if fmt == 'svg':
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/backend_bases.py:2295, in FigureCanvasBase.print_figure(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)
+   2289     renderer = _get_renderer(
+   2290         self.figure,
+   2291         functools.partial(
+   2292             print_method, orientation=orientation)
+   2293     )
+   2294     with getattr(renderer, "_draw_disabled", nullcontext)():
+-> 2295         self.figure.draw(renderer)
+   2297 if bbox_inches:
+   2298     if bbox_inches == "tight":
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/artist.py:73, in _finalize_rasterization.<locals>.draw_wrapper(artist, renderer, *args, **kwargs)
+     71 @wraps(draw)
+     72 def draw_wrapper(artist, renderer, *args, **kwargs):
+---> 73     result = draw(artist, renderer, *args, **kwargs)
+     74     if renderer._rasterizing:
+     75         renderer.stop_rasterizing()
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/artist.py:50, in allow_rasterization.<locals>.draw_wrapper(artist, renderer)
+     47     if artist.get_agg_filter() is not None:
+     48         renderer.start_filter()
+---> 50     return draw(artist, renderer)
+     51 finally:
+     52     if artist.get_agg_filter() is not None:
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/figure.py:2810, in Figure.draw(self, renderer)
+   2807         # ValueError can occur when resizing a window.
+   2809 self.patch.draw(renderer)
+-> 2810 mimage._draw_list_compositing_images(
+   2811     renderer, self, artists, self.suppressComposite)
+   2813 for sfig in self.subfigs:
+   2814     sfig.draw(renderer)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/image.py:132, in _draw_list_compositing_images(renderer, parent, artists, suppress_composite)
+    130 if not_composite or not has_images:
+    131     for a in artists:
+--> 132         a.draw(renderer)
+    133 else:
+    134     # Composite any adjacent images together
+    135     image_group = []
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/artist.py:50, in allow_rasterization.<locals>.draw_wrapper(artist, renderer)
+     47     if artist.get_agg_filter() is not None:
+     48         renderer.start_filter()
+---> 50     return draw(artist, renderer)
+     51 finally:
+     52     if artist.get_agg_filter() is not None:
+
+File /usr/local/lib/python3.9/dist-packages/mpl_toolkits/mplot3d/axes3d.py:451, in Axes3D.draw(self, renderer)
+    448 zorder_offset = max(axis.get_zorder()
+    449                     for axis in self._get_axis_list()) + 1
+    450 collection_zorder = patch_zorder = zorder_offset
+--> 451 for artist in sorted(collections_and_patches,
+    452                      key=do_3d_projection,
+    453                      reverse=True):
+    454     if isinstance(artist, mcoll.Collection):
+    455         artist.zorder = collection_zorder
+
+File /usr/local/lib/python3.9/dist-packages/mpl_toolkits/mplot3d/axes3d.py:426, in Axes3D.draw.<locals>.do_3d_projection(artist)
+    417 """
+    418 Call `do_3d_projection` on an *artist*, and warn if passing
+    419 *renderer*.
+   (...)
+    423 calling convention.
+    424 """
+    425 try:
+--> 426     signature = inspect.signature(artist.do_3d_projection)
+    427     signature.bind()
+    428 # ValueError if `inspect.signature` cannot provide a signature
+    429 # and TypeError if the binding fails or the object does not
+    430 # appear to be callable - the next call will then re-raise.
+
+AttributeError: 'Arrow3D' object has no attribute 'do_3d_projection'
+AttributeError: 'Arrow3D' object has no attribute 'do_3d_projection'

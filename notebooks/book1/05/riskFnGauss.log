@@ -1,0 +1,128 @@
+An error occurred while executing the following cell:
+------------------
+# Convert riskFnGauss(Fig 5.13) to python/JAX
+# Author: Garvit9000c
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+for n in [5, 20]:
+    # Domain
+    mus = np.arange(-1.8, 1.8, 0.1)
+
+    # constants
+    M = len(mus)
+    n0 = 1
+    n0B = 5
+    mu0 = 0
+    pi = np.pi
+
+    # functions
+    r1 = (1 / n) * np.ones(M)
+    r2 = (pi / (2 * n)) * np.ones(M)
+    r3 = (mus - mu0) ** 2
+    r4 = (n + n0) ** (-2) * (n + n0**2 * (mu0 - mus) ** 2)
+    r5 = (n + n0B) ** (-2) * (n + n0B**2 * (mu0 - mus) ** 2)
+
+    # Plotting
+    plt.title("risk function for n=" + str(n))
+    legendStr = ["mle", "median", "fixed", "postmean1", "postmean5"]
+    style = [["b", "solid"], ["r", "dotted"], ["k", "dashdot"], ["lime", "dashed"], ["cyan", "solid"]]
+
+    r = [r1, r2, r3, r4, r5]
+    for i in range(len(r)):
+        plt.plot(mus, r[i], style[i][0], lineStyle=style[i][1], label=legendStr[i])
+    plt.legend(loc="upper left", prop={"size": 7})
+
+    if n == 5:
+        plt.ylim(0, 0.5)
+    else:
+        plt.ylim(0, 0.18)
+    plt.xticks([-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2])
+
+    # axis Labels
+    plt.xlabel(r"$\theta_*$")
+    plt.ylabel(r"$R(\theta_*,\delta)$")
+
+    D = {5: "a", 20: "b"}
+    plt.savefig("figures/riskFnGauss(" + D[n] + ").pdf", dpi=300)
+    plt.show()
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+Input In [1], in <cell line: 8>()
+     31 r = [r1, r2, r3, r4, r5]
+     32 for i in range(len(r)):
+---> 33     plt.plot(mus, r[i], style[i][0], lineStyle=style[i][1], label=legendStr[i])
+     34 plt.legend(loc="upper left", prop={"size": 7})
+     36 if n == 5:
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/pyplot.py:2757, in plot(scalex, scaley, data, *args, **kwargs)
+   2755 @_copy_docstring_and_deprecators(Axes.plot)
+   2756 def plot(*args, scalex=True, scaley=True, data=None, **kwargs):
+-> 2757     return gca().plot(
+   2758         *args, scalex=scalex, scaley=scaley,
+   2759         **({"data": data} if data is not None else {}), **kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_axes.py:1632, in Axes.plot(self, scalex, scaley, data, *args, **kwargs)
+   1390 """
+   1391 Plot y versus x as lines and/or markers.
+   1392 
+   (...)
+   1629 (``'green'``) or hex strings (``'#008000'``).
+   1630 """
+   1631 kwargs = cbook.normalize_kwargs(kwargs, mlines.Line2D)
+-> 1632 lines = [*self._get_lines(*args, data=data, **kwargs)]
+   1633 for line in lines:
+   1634     self.add_line(line)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_base.py:312, in _process_plot_var_args.__call__(self, data, *args, **kwargs)
+    310     this += args[0],
+    311     args = args[1:]
+--> 312 yield from self._plot_args(this, kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_base.py:538, in _process_plot_var_args._plot_args(self, tup, kwargs, return_kwargs)
+    536     return list(result)
+    537 else:
+--> 538     return [l[0] for l in result]
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_base.py:538, in <listcomp>(.0)
+    536     return list(result)
+    537 else:
+--> 538     return [l[0] for l in result]
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_base.py:531, in <genexpr>(.0)
+    528 else:
+    529     labels = [label] * n_datasets
+--> 531 result = (make_artist(x[:, j % ncx], y[:, j % ncy], kw,
+    532                       {**kwargs, 'label': label})
+    533           for j, label in enumerate(labels))
+    535 if return_kwargs:
+    536     return list(result)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_base.py:351, in _process_plot_var_args._makeline(self, x, y, kw, kwargs)
+    349 default_dict = self._getdefaults(set(), kw)
+    350 self._setdefaults(default_dict, kw)
+--> 351 seg = mlines.Line2D(x, y, **kw)
+    352 return seg, kw
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/lines.py:393, in Line2D.__init__(self, xdata, ydata, linewidth, linestyle, color, marker, markersize, markeredgewidth, markeredgecolor, markerfacecolor, markerfacecoloralt, fillstyle, antialiased, dash_capstyle, solid_capstyle, dash_joinstyle, solid_joinstyle, pickradius, drawstyle, markevery, **kwargs)
+    389 self.set_markeredgewidth(markeredgewidth)
+    391 # update kwargs before updating data to give the caller a
+    392 # chance to init axes (and hence unit support)
+--> 393 self.update(kwargs)
+    394 self.pickradius = pickradius
+    395 self.ind_offset = 0
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/artist.py:1064, in Artist.update(self, props)
+   1062             func = getattr(self, f"set_{k}", None)
+   1063             if not callable(func):
+-> 1064                 raise AttributeError(f"{type(self).__name__!r} object "
+   1065                                      f"has no property {k!r}")
+   1066             ret.append(func(v))
+   1067 if ret:
+
+AttributeError: 'Line2D' object has no property 'lineStyle'
+AttributeError: 'Line2D' object has no property 'lineStyle'
