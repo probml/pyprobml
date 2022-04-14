@@ -1,0 +1,5 @@
+pytest
+pytest-timeout
+pytest-xdist
+black[jupyter]
+testbook

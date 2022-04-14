@@ -1,0 +1,12 @@
+jaxlib
+jax
+jupyter
+matplotlib
+numpy
+requests
+scipy
+seaborn
+scikit-learn
+git+https://github.com/probml/probml-utils.git
+h5py
+pandas==1.3.5
