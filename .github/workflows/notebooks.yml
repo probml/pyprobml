@@ -22,22 +22,19 @@ jobs:
         apt update
         apt install python3-pip -y
 
-    - name: Install black
+    - name: Install requirements
       run: |
-        pip install black[jupyter]
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
 
     - name: Check code formatting of notebooks
       run: |
-        black --check --verbose notebooks/book1/*.ipynb
-        black --check --verbose notebooks/book2/*.ipynb
-    
-    - name: Install pytest and jupyter
-      run: |
-        pip install pytest jupyter
+        black --check --verbose notebooks/book1/*/*.ipynb
+        black --check --verbose notebooks/book2/*/*.ipynb
 
     - name: Check notebooks for errors
       run: |
-        pytest -s --verbose tests/test_notebooks.py
+        pytest -n auto -s --verbose tests/test_notebooks.py
 
     - name: Push figures to auto_generated_figures (does not run on pull requests)
       uses: peaceiris/actions-gh-pages@v3.6.1
@@ -46,3 +43,11 @@ jobs:
         publish_dir: figures/
         publish_branch: auto_generated_figures
       if: github.event_name == 'push'  # Don't run on pull requests
+    
+    - name: Push test-results to workflow_testing_indicator
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: test_results/
+        publish_branch: workflow_testing_indicator
+      if: always()
