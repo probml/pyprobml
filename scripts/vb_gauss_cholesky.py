@@ -52,7 +52,7 @@ def make_vb_gauss_chol_fns(loglikelihood_fn, logprior_fn, nfeatures, num_samples
         mean, std = variational_params
         epsilon = jax.tree_map(lambda x: random.normal(key, x.shape), mean)
 
-        params = jax.tree_multimap(lambda mu, sigma, eps: mu + sigma @ eps,
+        params = jax.tree_map(lambda mu, sigma, eps: mu + sigma @ eps,
                                    mean, std, epsilon)
         return params, epsilon
 
@@ -61,7 +61,7 @@ def make_vb_gauss_chol_fns(loglikelihood_fn, logprior_fn, nfeatures, num_samples
 
         _, std = variational_params
         diagonal = jax.tree_map(lambda L: jnp.diag(jnp.diag(L)), std)
-        grad_lower = jax.tree_multimap(lambda dL, D, n: dL / num_samples + D[jnp.tril_indices(n)],
+        grad_lower = jax.tree_map(lambda dL, D, n: dL / num_samples + D[jnp.tril_indices(n)],
                                        grad_lower, diagonal, nfeatures)
         return grad_mu, grad_lower
 
@@ -70,10 +70,10 @@ def make_vb_gauss_chol_fns(loglikelihood_fn, logprior_fn, nfeatures, num_samples
             grad_mu, grad_lower, lower_bound = grads_and_lb
             params, epsilon = sample(key, variational_params)
             grad_logjoint = take_grad(params, data)
-            grad_mu = jax.tree_multimap(lambda x, y: x + y.flatten(),
+            grad_mu = jax.tree_map(lambda x, y: x + y.flatten(),
                                         grad_mu, grad_logjoint)
-            tmp = jax.tree_multimap(jnp.outer, grad_logjoint, epsilon)
-            grad_lower = jax.tree_multimap(lambda x, y: x + y[jnp.tril_indices(len(y))],
+            tmp = jax.tree_map(jnp.outer, grad_logjoint, epsilon)
+            grad_lower = jax.tree_map(lambda x, y: x + y[jnp.tril_indices(len(y))],
                                            grad_lower, tmp)
             lower_bound = lower_bound + logjoint(params, data)
             return (grad_mu, grad_lower, lower_bound), None
@@ -110,7 +110,7 @@ def vb_gauss_chol(key, loglikelihood_fn, logprior_fn,
     # Initialize parameters of the model + optimizer.
     variational_params = (mean, lower_triangular)
 
-    params = (mean, jax.tree_multimap(lambda L, n: L[jnp.tril_indices(n)][..., None],
+    params = (mean, jax.tree_map(lambda L, n: L[jnp.tril_indices(n)][..., None],
                                       lower_triangular, nfeatures))
 
     opt_state = optimizer.init(params)
@@ -132,10 +132,10 @@ def vb_gauss_chol(key, loglikelihood_fn, logprior_fn,
         params = optax.apply_updates(params, updates)
 
         mean, std = params
-        variational_params = (mean, jax.tree_multimap(lambda s, d: vechinv(s, d), std, nfeatures))
+        variational_params = (mean, jax.tree_map(lambda s, d: vechinv(s, d), std, nfeatures))
         cholesky = jax.tree_map(lambda L: jnp.log(jnp.linalg.det(L @ L.T)), variational_params[1])
 
-        lb = jax.tree_multimap(lambda chol, n: lower_bound / num_samples + 1 / 2 * chol + n / 2,
+        lb = jax.tree_map(lambda chol, n: lower_bound / num_samples + 1 / 2 * chol + n / 2,
                                cholesky, nfeatures)
 
         return (variational_params, params, opt_state), (variational_params, lb)

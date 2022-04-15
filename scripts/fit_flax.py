@@ -176,7 +176,7 @@ def test():
   params_new, history =  fit_model(
     model, rng, num_steps, train_iter, test_iter)
 
-  diff = tree_util.tree_multimap(lambda x,y: x-y, params_init, params_new)
+  diff = tree_util.tree_map(lambda x,y: x-y, params_init, params_new)
   print(diff)
   norm = l2norm_sq(diff)
   assert norm > 0 # check that parameters have changed :)
