@@ -1,0 +1,134 @@
+An error occurred while executing the following cell:
+------------------
+"""
+Fits Bernoulli mixture model for mnist digits using em algorithm
+Author: Meduri Venkata Shivaditya, Aleyna Kara(@karalleyna)
+"""
+
+
+from jax.random import PRNGKey, randint
+
+try:
+    import tensorflow as tf
+except:
+    %pip install tensorflow
+    import tensorflow as tf
+from probml_utils.mix_bernoulli_lib import BMM
+
+
+def mnist_data(n_obs, rng_key=None):
+    """
+    Downloads data from tensorflow datasets
+    Parameters
+    ----------
+    n_obs : int
+        Number of digits randomly chosen from mnist
+    rng_key : array
+        Random key of shape (2,) and dtype uint32
+    Returns
+    -------
+    * array((n_obs, 784))
+        Dataset
+    """
+    rng_key = PRNGKey(0) if rng_key is None else rng_key
+
+    (x_train, y_train), _ = tf.keras.datasets.mnist.load_data()
+    x = (x_train > 0).astype("int")  # Converting to binary
+    dataset_size = x.shape[0]
+
+    perm = randint(rng_key, minval=0, maxval=dataset_size, shape=((n_obs,)))
+    x_train = x[perm]
+    x_train = x_train.reshape((n_obs, 784))
+
+    return x_train
+
+
+def main():
+    n_obs = 1000
+    observations = mnist_data(n_obs)  # subsample the MNIST dataset
+    n_vars = len(observations[0])
+    K, num_of_iters = 12, 10
+    n_row, n_col = 3, 4
+    bmm = BMM(K, n_vars)
+    _ = bmm.fit_em(observations, num_of_iters=num_of_iters)
+    bmm.plot(n_row, n_col, "bmm_em_mnist")
+
+
+if __name__ == "__main__":
+    main()
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+File /usr/local/lib/python3.9/dist-packages/scipy/linalg/__init__.py:213, in <module>
+    212 from ._decomp_update import *
+--> 213 from ._sketches import *
+    214 from ._decomp_cossin import *
+
+File /usr/local/lib/python3.9/dist-packages/scipy/linalg/_sketches.py:9, in <module>
+      8 from scipy._lib._util import check_random_state, rng_integers
+----> 9 from scipy.sparse import csc_matrix
+     11 __all__ = ['clarkson_woodruff_transform']
+
+ModuleNotFoundError: No module named 'scipy.sparse'
+
+The above exception was the direct cause of the following exception:
+
+ImportError                               Traceback (most recent call last)
+Input In [1], in <cell line: 7>()
+      1 """
+      2 Fits Bernoulli mixture model for mnist digits using em algorithm
+      3 Author: Meduri Venkata Shivaditya, Aleyna Kara(@karalleyna)
+      4 """
+----> 7 from jax.random import PRNGKey, randint
+      9 try:
+     10     import tensorflow as tf
+
+File /usr/local/lib/python3.9/dist-packages/jax/__init__.py:37, in <module>
+     30 del _cloud_tpu_init
+     32 # flake8: noqa: F401
+     33 
+     34 # Confusingly there are two things named "config": the module and the class.
+     35 # We want the exported object to be the class, so we first import the module
+     36 # to make sure a later import doesn't overwrite the class.
+---> 37 from jax import config as _config_module
+     38 del _config_module
+     40 from jax._src.config import (
+     41   config as config,
+     42   enable_checks as enable_checks,
+   (...)
+     57   transfer_guard_device_to_host as transfer_guard_device_to_host,
+     58 )
+
+File /usr/local/lib/python3.9/dist-packages/jax/config.py:18, in <module>
+      1 # Copyright 2018 Google LLC
+      2 #
+      3 # Licensed under the Apache License, Version 2.0 (the "License");
+   (...)
+     16 
+     17 # flake8: noqa: F401
+---> 18 from jax._src.config import config
+
+File /usr/local/lib/python3.9/dist-packages/jax/_src/config.py:27, in <module>
+     24 from typing import Any, List, Callable, NamedTuple, Iterator, Optional
+     25 import warnings
+---> 27 from jax._src import lib
+     28 from jax._src.lib import jax_jit
+     29 if lib.xla_extension_version >= 58:
+
+File /usr/local/lib/python3.9/dist-packages/jax/_src/lib/__init__.py:101, in <module>
+     98 cpu_feature_guard.check_cpu_features()
+    100 import jaxlib.xla_client as xla_client
+--> 101 import jaxlib.lapack as lapack
+    102 import jaxlib.pocketfft as pocketfft
+    104 xla_extension = xla_client._xla
+
+File /usr/local/lib/python3.9/dist-packages/jaxlib/lapack.py:24, in <module>
+     21 import numpy as np
+     22 from jaxlib import xla_client
+---> 24 from . import _lapack
+     25 for _name, _value in _lapack.registrations().items():
+     26   xla_client.register_custom_call_target(_name, _value, platform="cpu")
+
+ImportError: initialization failed
+ImportError: initialization failed
