@@ -317,5 +317,5 @@ File /usr/lib/python3/dist-packages/pkg_resources/__init__.py:782, in WorkingSet
     784 # push the new requirements onto the stack
     785 new_requirements = dist.requires(req.extras)[::-1]
 
-ContextualVersionConflict: (scipy 1.8.0 (/usr/local/lib/python3.9/dist-packages), Requirement.parse('scipy<1.8.0,>=1.7.3'), {'pymc3'})
-ContextualVersionConflict: (scipy 1.8.0 (/usr/local/lib/python3.9/dist-packages), Requirement.parse('scipy<1.8.0,>=1.7.3'), {'pymc3'})
+ContextualVersionConflict: (numpy 1.22.3 (/usr/local/lib/python3.9/dist-packages), Requirement.parse('numpy<1.22.2,>=1.15.0'), {'pymc3'})
+ContextualVersionConflict: (numpy 1.22.3 (/usr/local/lib/python3.9/dist-packages), Requirement.parse('numpy<1.22.2,>=1.15.0'), {'pymc3'})

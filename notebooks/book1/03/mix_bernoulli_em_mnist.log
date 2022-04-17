@@ -59,76 +59,79 @@ if __name__ == "__main__":
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-File /usr/local/lib/python3.9/dist-packages/scipy/linalg/__init__.py:213, in <module>
-    212 from ._decomp_update import *
---> 213 from ._sketches import *
-    214 from ._decomp_cossin import *
-
-File /usr/local/lib/python3.9/dist-packages/scipy/linalg/_sketches.py:9, in <module>
-      8 from scipy._lib._util import check_random_state, rng_integers
-----> 9 from scipy.sparse import csc_matrix
-     11 __all__ = ['clarkson_woodruff_transform']
-
-ModuleNotFoundError: No module named 'scipy.sparse'
-
-The above exception was the direct cause of the following exception:
-
-ImportError                               Traceback (most recent call last)
-Input In [1], in <cell line: 7>()
-      1 """
-      2 Fits Bernoulli mixture model for mnist digits using em algorithm
-      3 Author: Meduri Venkata Shivaditya, Aleyna Kara(@karalleyna)
-      4 """
-----> 7 from jax.random import PRNGKey, randint
-      9 try:
-     10     import tensorflow as tf
-
-File /usr/local/lib/python3.9/dist-packages/jax/__init__.py:37, in <module>
-     30 del _cloud_tpu_init
-     32 # flake8: noqa: F401
-     33 
-     34 # Confusingly there are two things named "config": the module and the class.
-     35 # We want the exported object to be the class, so we first import the module
-     36 # to make sure a later import doesn't overwrite the class.
----> 37 from jax import config as _config_module
-     38 del _config_module
-     40 from jax._src.config import (
-     41   config as config,
-     42   enable_checks as enable_checks,
+AttributeError                            Traceback (most recent call last)
+Input In [1], in <cell line: 14>()
+     12     get_ipython().run_line_magic('pip', 'install tensorflow')
+     13     import tensorflow as tf
+---> 14 from probml_utils.mix_bernoulli_lib import BMM
+     17 def mnist_data(n_obs, rng_key=None):
+     18     """
+     19     Downloads data from tensorflow datasets
+     20     Parameters
    (...)
-     57   transfer_guard_device_to_host as transfer_guard_device_to_host,
-     58 )
+     29         Dataset
+     30     """
 
-File /usr/local/lib/python3.9/dist-packages/jax/config.py:18, in <module>
-      1 # Copyright 2018 Google LLC
+File /usr/local/lib/python3.9/dist-packages/probml_utils/mix_bernoulli_lib.py:12, in <module>
+      9 from jax.nn import softmax
+     10 from jax.experimental import optimizers
+---> 12 import distrax
+     13 from distrax._src.utils import jittable
+     15 from .mixture_lib import MixtureSameFamily
+
+File /usr/local/lib/python3.9/dist-packages/distrax/__init__.py:20, in <module>
+     18 from distrax._src.bijectors.bijector import Bijector
+     19 from distrax._src.bijectors.bijector import BijectorLike
+---> 20 from distrax._src.bijectors.block import Block
+     21 from distrax._src.bijectors.chain import Chain
+     22 from distrax._src.bijectors.gumbel_cdf import GumbelCDF
+
+File /usr/local/lib/python3.9/dist-packages/distrax/_src/bijectors/block.py:20, in <module>
+     17 from typing import Tuple
+     19 from distrax._src.bijectors import bijector as base
+---> 20 from distrax._src.utils import conversion
+     21 from distrax._src.utils import math
+     23 Array = base.Array
+
+File /usr/local/lib/python3.9/dist-packages/distrax/_src/utils/conversion.py:19, in <module>
+     15 """Utility functions for conversion between different types."""
+     17 from typing import Optional, Union
+---> 19 import chex
+     20 from distrax._src.bijectors import bijector
+     21 from distrax._src.bijectors import bijector_from_tfp
+
+File /usr/local/lib/python3.9/dist-packages/chex/__init__.py:17, in <module>
+      1 # Copyright 2020 DeepMind Technologies Limited. All Rights Reserved.
       2 #
       3 # Licensed under the Apache License, Version 2.0 (the "License");
    (...)
-     16 
-     17 # flake8: noqa: F401
----> 18 from jax._src.config import config
+     13 # limitations under the License.
+     14 # ==============================================================================
+     15 """Chex: Testing made fun, in JAX!"""
+---> 17 from chex._src.asserts import assert_axis_dimension
+     18 from chex._src.asserts import assert_axis_dimension_comparator
+     19 from chex._src.asserts import assert_axis_dimension_gt
 
-File /usr/local/lib/python3.9/dist-packages/jax/_src/config.py:27, in <module>
-     24 from typing import Any, List, Callable, NamedTuple, Iterator, Optional
-     25 import warnings
----> 27 from jax._src import lib
-     28 from jax._src.lib import jax_jit
-     29 if lib.xla_extension_version >= 58:
+File /usr/local/lib/python3.9/dist-packages/chex/_src/asserts.py:26, in <module>
+     23 import unittest
+     24 from unittest import mock
+---> 26 from chex._src import asserts_internal as _ai
+     27 from chex._src import pytypes
+     28 import jax
 
-File /usr/local/lib/python3.9/dist-packages/jax/_src/lib/__init__.py:101, in <module>
-     98 cpu_feature_guard.check_cpu_features()
-    100 import jaxlib.xla_client as xla_client
---> 101 import jaxlib.lapack as lapack
-    102 import jaxlib.pocketfft as pocketfft
-    104 xla_extension = xla_client._xla
+File /usr/local/lib/python3.9/dist-packages/chex/_src/asserts_internal.py:32, in <module>
+     29 from typing import Any, Sequence, Union, Callable, Optional, Set, Tuple, Type
+     31 from absl import logging
+---> 32 from chex._src import pytypes
+     33 import jax
+     34 import jax.numpy as jnp
 
-File /usr/local/lib/python3.9/dist-packages/jaxlib/lapack.py:24, in <module>
-     21 import numpy as np
-     22 from jaxlib import xla_client
----> 24 from . import _lapack
-     25 for _name, _value in _lapack.registrations().items():
-     26   xla_client.register_custom_call_target(_name, _value, platform="cpu")
+File /usr/local/lib/python3.9/dist-packages/chex/_src/pytypes.py:40, in <module>
+     37 PyTreeDef = type(jax.tree_structure(None))
+     38 Shape = Tuple[int, ...]
+---> 40 CpuDevice = jax.lib.xla_extension.CpuDevice
+     41 GpuDevice = jax.lib.xla_extension.GpuDevice
+     42 TpuDevice = jax.lib.xla_extension.TpuDevice
 
-ImportError: initialization failed
-ImportError: initialization failed
+AttributeError: module 'jaxlib.xla_extension' has no attribute 'CpuDevice'
+AttributeError: module 'jaxlib.xla_extension' has no attribute 'CpuDevice'
