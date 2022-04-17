@@ -1,0 +1,25 @@
+An error occurred while executing the following cell:
+------------------
+import os
+
+LATEXIFY = "LATEXIFY" in os.environ
+
+if LATEXIFY:
+    import sys
+
+    sys.path.append("scripts")  # Don't change to "../scripts", instead, run this nb from repo's root with ipython
+    from plot_utils import latexify, savefig
+
+    latexify(width_scale_factor=1)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [2], in <cell line: 5>()
+      6 import sys
+      8 sys.path.append("scripts")  # Don't change to "../scripts", instead, run this nb from repo's root with ipython
+----> 9 from plot_utils import latexify, savefig
+     11 latexify(width_scale_factor=1)
+
+ModuleNotFoundError: No module named 'plot_utils'
+ModuleNotFoundError: No module named 'plot_utils'

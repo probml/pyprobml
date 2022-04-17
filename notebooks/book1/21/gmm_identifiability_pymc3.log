@@ -103,89 +103,74 @@ File /usr/local/lib/python3.9/dist-packages/pandas/util/_decorators.py:311, in d
     310     )
 --> 311 return func(*args, **kwargs)
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:586, in read_csv(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)
-    571 kwds_defaults = _refine_defaults_read(
-    572     dialect,
-    573     delimiter,
+File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:680, in read_csv(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)
+    665 kwds_defaults = _refine_defaults_read(
+    666     dialect,
+    667     delimiter,
    (...)
-    582     defaults={"delimiter": ","},
-    583 )
-    584 kwds.update(kwds_defaults)
---> 586 return _read(filepath_or_buffer, kwds)
+    676     defaults={"delimiter": ","},
+    677 )
+    678 kwds.update(kwds_defaults)
+--> 680 return _read(filepath_or_buffer, kwds)
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:482, in _read(filepath_or_buffer, kwds)
-    479 _validate_names(kwds.get("names", None))
-    481 # Create the parser.
---> 482 parser = TextFileReader(filepath_or_buffer, **kwds)
-    484 if chunksize or iterator:
-    485     return parser
+File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:575, in _read(filepath_or_buffer, kwds)
+    572 _validate_names(kwds.get("names", None))
+    574 # Create the parser.
+--> 575 parser = TextFileReader(filepath_or_buffer, **kwds)
+    577 if chunksize or iterator:
+    578     return parser
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:811, in TextFileReader.__init__(self, f, engine, **kwds)
-    808 if "has_index_names" in kwds:
-    809     self.options["has_index_names"] = kwds["has_index_names"]
---> 811 self._engine = self._make_engine(self.engine)
+File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:933, in TextFileReader.__init__(self, f, engine, **kwds)
+    930     self.options["has_index_names"] = kwds["has_index_names"]
+    932 self.handles: IOHandles | None = None
+--> 933 self._engine = self._make_engine(f, self.engine)
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:1040, in TextFileReader._make_engine(self, engine)
-   1036     raise ValueError(
-   1037         f"Unknown engine: {engine} (valid options are {mapping.keys()})"
-   1038     )
-   1039 # error: Too many arguments for "ParserBase"
--> 1040 return mapping[engine](self.f, **self.options)
+File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:1217, in TextFileReader._make_engine(self, f, engine)
+   1213     mode = "rb"
+   1214 # error: No overload variant of "get_handle" matches argument types
+   1215 # "Union[str, PathLike[str], ReadCsvBuffer[bytes], ReadCsvBuffer[str]]"
+   1216 # , "str", "bool", "Any", "Any", "Any", "Any", "Any"
+-> 1217 self.handles = get_handle(  # type: ignore[call-overload]
+   1218     f,
+   1219     mode,
+   1220     encoding=self.options.get("encoding", None),
+   1221     compression=self.options.get("compression", None),
+   1222     memory_map=self.options.get("memory_map", False),
+   1223     is_text=is_text,
+   1224     errors=self.options.get("encoding_errors", "strict"),
+   1225     storage_options=self.options.get("storage_options", None),
+   1226 )
+   1227 assert self.handles is not None
+   1228 f = self.handles.handle
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/c_parser_wrapper.py:51, in CParserWrapper.__init__(self, src, **kwds)
-     48 kwds["usecols"] = self.usecols
-     50 # open handles
----> 51 self._open_handles(src, kwds)
-     52 assert self.handles is not None
-     54 # Have to pass int, would break tests using TextReader directly otherwise :(
+File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:670, in get_handle(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)
+    667     codecs.lookup_error(errors)
+    669 # open URLs
+--> 670 ioargs = _get_filepath_or_buffer(
+    671     path_or_buf,
+    672     encoding=encoding,
+    673     compression=compression,
+    674     mode=mode,
+    675     storage_options=storage_options,
+    676 )
+    678 handle = ioargs.filepath_or_buffer
+    679 handles: list[BaseBuffer]
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/base_parser.py:222, in ParserBase._open_handles(self, src, kwds)
-    218 def _open_handles(self, src: FilePathOrBuffer, kwds: dict[str, Any]) -> None:
-    219     """
-    220     Let the readers open IOHandles after they are done with their potential raises.
-    221     """
---> 222     self.handles = get_handle(
-    223         src,
-    224         "r",
-    225         encoding=kwds.get("encoding", None),
-    226         compression=kwds.get("compression", None),
-    227         memory_map=kwds.get("memory_map", False),
-    228         storage_options=kwds.get("storage_options", None),
-    229         errors=kwds.get("encoding_errors", "strict"),
-    230     )
+File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:339, in _get_filepath_or_buffer(filepath_or_buffer, encoding, compression, mode, storage_options)
+    337 # assuming storage_options is to be interpreted as headers
+    338 req_info = urllib.request.Request(filepath_or_buffer, headers=storage_options)
+--> 339 with urlopen(req_info) as req:
+    340     content_encoding = req.headers.get("Content-Encoding", None)
+    341     if content_encoding == "gzip":
+    342         # Override compression based on Content-Encoding header
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:609, in get_handle(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)
-    602     raise ValueError(
-    603         f"Invalid value for `encoding_errors` ({errors}). Please see "
-    604         + "https://docs.python.org/3/library/codecs.html#error-handlers "
-    605         + "for valid values."
-    606     )
-    608 # open URLs
---> 609 ioargs = _get_filepath_or_buffer(
-    610     path_or_buf,
-    611     encoding=encoding,
-    612     compression=compression,
-    613     mode=mode,
-    614     storage_options=storage_options,
-    615 )
-    617 handle = ioargs.filepath_or_buffer
-    618 handles: list[Buffer]
-
-File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:312, in _get_filepath_or_buffer(filepath_or_buffer, encoding, compression, mode, storage_options)
-    310 # assuming storage_options is to be interpreted as headers
-    311 req_info = urllib.request.Request(filepath_or_buffer, headers=storage_options)
---> 312 with urlopen(req_info) as req:
-    313     content_encoding = req.headers.get("Content-Encoding", None)
-    314     if content_encoding == "gzip":
-    315         # Override compression based on Content-Encoding header
-
-File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:212, in urlopen(*args, **kwargs)
-    206 """
-    207 Lazy-import wrapper for stdlib urlopen, as that imports a big chunk of
-    208 the stdlib.
-    209 """
-    210 import urllib.request
---> 212 return urllib.request.urlopen(*args, **kwargs)
+File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:239, in urlopen(*args, **kwargs)
+    233 """
+    234 Lazy-import wrapper for stdlib urlopen, as that imports a big chunk of
+    235 the stdlib.
+    236 """
+    237 import urllib.request
+--> 239 return urllib.request.urlopen(*args, **kwargs)
 
 File /usr/lib/python3.9/urllib/request.py:214, in urlopen(url, data, timeout, cafile, capath, cadefault, context)
     212 else:

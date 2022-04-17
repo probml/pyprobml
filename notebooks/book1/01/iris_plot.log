@@ -1,0 +1,92 @@
+An error occurred while executing the following cell:
+------------------
+
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import probml_utils as pml
+import seaborn as sns;
+sns.set(style="ticks", color_codes=True)
+
+try:
+    import pandas as pd
+except:
+    %pip install pandas
+    import pandas as pd
+pd.set_option('precision', 2) # 2 decimal places
+pd.set_option('display.max_rows', 20)
+pd.set_option('display.max_columns', 30)
+pd.set_option('display.width', 100) # wide windows
+
+try:
+    import sklearn
+except:
+    %pip install scikit-learn
+    import sklearn
+from sklearn.datasets import load_iris
+iris = load_iris()
+
+# Extract numpy arrays
+X = iris.data 
+y = iris.target
+
+# Convert to pandas dataframe 
+df = pd.DataFrame(data=X, columns=iris.feature_names)
+df['label'] = pd.Series(iris.target_names[y], dtype='category')
+
+# we pick a color map to match that used by decision tree graphviz 
+#cmap = ListedColormap(['#fafab0','#a0faa0', '#9898ff']) # orange, green, blue/purple
+#cmap = ListedColormap(['orange', 'green', 'purple']) 
+palette = {'setosa': 'orange', 'versicolor': 'green', 'virginica': 'purple'}
+
+g = sns.pairplot(df, vars = df.columns[0:4], hue="label", palette=palette)
+#g = sns.pairplot(df, vars = df.columns[0:4], hue="label")
+pml.savefig('iris_scatterplot_purple.pdf')
+plt.show()
+
+
+# Change colum names
+iris_df = df.copy()
+iris_df.columns =  ['sl', 'sw', 'pl', 'pw'] + ['label'] 
+
+g = sns.pairplot(iris_df, vars = iris_df.columns[0:4], hue="label")
+plt.tight_layout()
+pml.savefig('iris_pairplot.pdf')
+plt.show()
+
+
+sns.stripplot(x="label", y="sl", data=iris_df, jitter=True)
+pml.savefig('iris_sepal_length_strip_plot.pdf')
+plt.show()
+
+------------------
+
+---------------------------------------------------------------------------
+OptionError                               Traceback (most recent call last)
+Input In [1], in <cell line: 13>()
+     11     get_ipython().run_line_magic('pip', 'install pandas')
+     12     import pandas as pd
+---> 13 pd.set_option('precision', 2) # 2 decimal places
+     14 pd.set_option('display.max_rows', 20)
+     15 pd.set_option('display.max_columns', 30)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:256, in CallableDynamicDoc.__call__(self, *args, **kwds)
+    255 def __call__(self, *args, **kwds):
+--> 256     return self.__func__(*args, **kwds)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:149, in _set_option(*args, **kwargs)
+    146     raise TypeError(f'_set_option() got an unexpected keyword argument "{kwarg}"')
+    148 for k, v in zip(args[::2], args[1::2]):
+--> 149     key = _get_single_key(k, silent)
+    151     o = _get_registered_option(key)
+    152     if o and o.validator:
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:116, in _get_single_key(pat, silent)
+    114     raise OptionError(f"No such keys(s): {repr(pat)}")
+    115 if len(keys) > 1:
+--> 116     raise OptionError("Pattern matched multiple keys")
+    117 key = keys[0]
+    119 if not silent:
+
+OptionError: 'Pattern matched multiple keys'
+OptionError: 'Pattern matched multiple keys'

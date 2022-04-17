@@ -48,6 +48,20 @@ plt.show()
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
+File /usr/local/lib/python3.9/dist-packages/pandas/core/indexes/base.py:3621, in Index.get_loc(self, key, method, tolerance)
+   3620 try:
+-> 3621     return self._engine.get_loc(casted_key)
+   3622 except KeyError as err:
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_libs/index.pyx:136, in pandas._libs.index.IndexEngine.get_loc()
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_libs/index.pyx:142, in pandas._libs.index.IndexEngine.get_loc()
+
+TypeError: '(array([    1,    21,    34, ..., 69959, 69967, 69991]), slice(None, None, None))' is an invalid key
+
+During handling of the above exception, another exception occurred:
+
+InvalidIndexError                         Traceback (most recent call last)
 Input In [1], in <cell line: 33>()
      31 ndxB = np.where(y==8)[0]
      32 ndx = np.concatenate((ndxA, ndxB))
@@ -55,23 +69,29 @@ Input In [1], in <cell line: 33>()
      34 yc = y[ndx]
      35 rnd_clf.fit(Xc, yc)
 
-File /usr/local/lib/python3.9/dist-packages/pandas/core/frame.py:3458, in DataFrame.__getitem__(self, key)
-   3456 if self.columns.nlevels > 1:
-   3457     return self._getitem_multilevel(key)
--> 3458 indexer = self.columns.get_loc(key)
-   3459 if is_integer(indexer):
-   3460     indexer = [indexer]
+File /usr/local/lib/python3.9/dist-packages/pandas/core/frame.py:3505, in DataFrame.__getitem__(self, key)
+   3503 if self.columns.nlevels > 1:
+   3504     return self._getitem_multilevel(key)
+-> 3505 indexer = self.columns.get_loc(key)
+   3506 if is_integer(indexer):
+   3507     indexer = [indexer]
 
-File /usr/local/lib/python3.9/dist-packages/pandas/core/indexes/base.py:3361, in Index.get_loc(self, key, method, tolerance)
-   3359 casted_key = self._maybe_cast_indexer(key)
-   3360 try:
--> 3361     return self._engine.get_loc(casted_key)
-   3362 except KeyError as err:
-   3363     raise KeyError(key) from err
+File /usr/local/lib/python3.9/dist-packages/pandas/core/indexes/base.py:3628, in Index.get_loc(self, key, method, tolerance)
+   3623         raise KeyError(key) from err
+   3624     except TypeError:
+   3625         # If we have a listlike key, _check_indexing_error will raise
+   3626         #  InvalidIndexError. Otherwise we fall through and re-raise
+   3627         #  the TypeError.
+-> 3628         self._check_indexing_error(key)
+   3629         raise
+   3631 # GH#42269
 
-File /usr/local/lib/python3.9/dist-packages/pandas/_libs/index.pyx:76, in pandas._libs.index.IndexEngine.get_loc()
+File /usr/local/lib/python3.9/dist-packages/pandas/core/indexes/base.py:5637, in Index._check_indexing_error(self, key)
+   5633 def _check_indexing_error(self, key):
+   5634     if not is_scalar(key):
+   5635         # if key is not a scalar, directly raise an error (the code below
+   5636         # would convert to numpy arrays and raise later any way) - GH29926
+-> 5637         raise InvalidIndexError(key)
 
-File /usr/local/lib/python3.9/dist-packages/pandas/_libs/index.pyx:82, in pandas._libs.index.IndexEngine.get_loc()
-
-TypeError: '(array([    1,    21,    34, ..., 69959, 69967, 69991]), slice(None, None, None))' is an invalid key
-TypeError: '(array([    1,    21,    34, ..., 69959, 69967, 69991]), slice(None, None, None))' is an invalid key
+InvalidIndexError: (array([    1,    21,    34, ..., 69959, 69967, 69991]), slice(None, None, None))
+InvalidIndexError: (array([    1,    21,    34, ..., 69959, 69967, 69991]), slice(None, None, None))

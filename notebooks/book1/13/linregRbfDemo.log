@@ -96,10 +96,10 @@ Input In [1], in <cell line: 83>()
 ---> 83 pml.savefig("figures/rbfDemoALL.pdf", dpi=300)
      84 plt.show()
 
-File /usr/local/lib/python3.9/dist-packages/probml_utils/plotting.py:75, in savefig(f_name, fig_dir, tight_layout, tight_bbox, *args, **kwargs)
-     73     plt.savefig(fname_full, pad_inches=0.0, bbox_inches="tight", *args, **kwargs)
-     74 else:
----> 75     plt.savefig(fname_full, pad_inches=0.0, *args, **kwargs)
+File /usr/local/lib/python3.9/dist-packages/probml_utils/plotting.py:82, in savefig(f_name, tight_layout, tight_bbox, *args, **kwargs)
+     80     plt.savefig(fname_full, pad_inches=0.0, bbox_inches="tight", *args, **kwargs)
+     81 else:
+---> 82     plt.savefig(fname_full, pad_inches=0.0, *args, **kwargs)
 
 File /usr/local/lib/python3.9/dist-packages/matplotlib/pyplot.py:958, in savefig(*args, **kwargs)
     955 @_copy_docstring_and_deprecators(Figure.savefig)
@@ -171,5 +171,5 @@ File /usr/local/lib/python3.9/dist-packages/matplotlib/cbook/__init__.py:451, in
     452     opened = True
     453 elif hasattr(fname, 'seek'):
 
-FileNotFoundError: [Errno 2] No such file or directory: 'figures/figures/rbfDemoALL.pdf'
-FileNotFoundError: [Errno 2] No such file or directory: 'figures/figures/rbfDemoALL.pdf'
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/figures/rbfDemoALL.pdf.pdf'
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/figures/rbfDemoALL.pdf.pdf'
