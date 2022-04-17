@@ -1,0 +1,35 @@
+An error occurred while executing the following cell:
+------------------
+import os
+
+# If you have latex installed, then uncomment this:
+# os.environ["LATEXIFY"]="1"
+# If you don't have latex, you will get this error
+# "Failed to process string with tex because latex could not be found"
+# To unset the variable, use this:
+# del os.environ['LATEXIFY']
+
+LATEXIFY = "LATEXIFY" in os.environ
+
+if LATEXIFY:
+    print("latexifying")
+    import sys
+
+    sys.path.append("scripts")
+    #!wget https://raw.githubusercontent.com/probml/pyprobml/master/scripts/plot_utils.py
+
+    from plot_utils import latexify, savefig
+
+    latexify(width_scale_factor=4, height_scale_factor=1.5 / 2)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [2], in <cell line: 12>()
+     16 sys.path.append("scripts")
+     17 #!wget https://raw.githubusercontent.com/probml/pyprobml/master/scripts/plot_utils.py
+---> 19 from plot_utils import latexify, savefig
+     21 latexify(width_scale_factor=4, height_scale_factor=1.5 / 2)
+
+ModuleNotFoundError: No module named 'plot_utils'
+ModuleNotFoundError: No module named 'plot_utils'
