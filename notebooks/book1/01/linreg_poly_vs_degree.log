@@ -120,28 +120,7 @@ for deg in chosen_degs:
 ------------------
 
 ---------------------------------------------------------------------------
-ImportError                               Traceback (most recent call last)
-File /usr/local/lib/python3.9/dist-packages/numpy/core/__init__.py:23, in <module>
-     22 try:
----> 23     from . import multiarray
-     24 except ImportError as exc:
-
-File /usr/local/lib/python3.9/dist-packages/numpy/core/multiarray.py:10, in <module>
-      9 import functools
----> 10 from . import overrides
-     11 from . import _multiarray_umath
-
-File /usr/local/lib/python3.9/dist-packages/numpy/core/overrides.py:6, in <module>
-      4 import os
-----> 6 from numpy.core._multiarray_umath import (
-      7     add_docstring, implement_array_function, _get_implementing_args)
-      8 from numpy.compat._inspect import getargspec
-
-ImportError: /usr/local/lib/python3.9/dist-packages/numpy/core/../../numpy.libs/libopenblas64_p-r0-2f7c42d4.3.18.so: cannot read file data
-
-During handling of the above exception, another exception occurred:
-
-ImportError                               Traceback (most recent call last)
+ModuleNotFoundError                       Traceback (most recent call last)
 Input In [1], in <cell line: 5>()
       1 # Plot polynomial regression on 1d problem
       2 # Based on https://github.com/probml/pmtk3/blob/master/demos/linregPolyVsDegree.m
@@ -149,66 +128,27 @@ Input In [1], in <cell line: 5>()
       6 import matplotlib.pyplot as plt
       7 import os
 
-File /usr/local/lib/python3.9/dist-packages/numpy/__init__.py:144, in <module>
-    141 # Allow distributors to run custom init code
-    142 from . import _distributor_init
---> 144 from . import core
+File /usr/local/lib/python3.9/dist-packages/numpy/__init__.py:147, in <module>
     145 from .core import *
     146 from . import compat
+--> 147 from . import lib
+    148 # NOTE: to be revisited following future namespace cleanup.
+    149 # See gh-14454 and gh-15672 for discussion.
+    150 from .lib import *
 
-File /usr/local/lib/python3.9/dist-packages/numpy/core/__init__.py:49, in <module>
-     25     import sys
-     26     msg = """
-     27 
-     28 IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
-   (...)
-     47 """ % (sys.version_info[0], sys.version_info[1], sys.executable,
-     48         __version__, exc)
----> 49     raise ImportError(msg)
-     50 finally:
-     51     for envkey in env_added:
+File /usr/local/lib/python3.9/dist-packages/numpy/lib/__init__.py:25, in <module>
+     23 # Private submodules
+     24 from .type_check import *
+---> 25 from .index_tricks import *
+     26 from .function_base import *
+     27 from .nanfunctions import *
 
-ImportError: 
+File /usr/local/lib/python3.9/dist-packages/numpy/lib/index_tricks.py:13, in <module>
+     10 from numpy.core.numerictypes import find_common_type, issubdtype
+     12 import numpy.matrixlib as matrixlib
+---> 13 from .function_base import diff
+     14 from numpy.core.multiarray import ravel_multi_index, unravel_index
+     15 from numpy.core.overrides import set_module
 
-IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
-
-Importing the numpy C-extensions failed. This error can happen for
-many reasons, often due to issues with your setup or how NumPy was
-installed.
-
-We have compiled some common reasons and troubleshooting tips at:
-
-    https://numpy.org/devdocs/user/troubleshooting-importerror.html
-
-Please note and check the following:
-
-  * The Python version is: Python3.9 from "/usr/bin/python3"
-  * The NumPy version is: "1.22.1"
-
-and make sure that they are the versions you expect.
-Please carefully study the documentation linked above for further help.
-
-Original error was: /usr/local/lib/python3.9/dist-packages/numpy/core/../../numpy.libs/libopenblas64_p-r0-2f7c42d4.3.18.so: cannot read file data
-
-ImportError: 
-
-IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
-
-Importing the numpy C-extensions failed. This error can happen for
-many reasons, often due to issues with your setup or how NumPy was
-installed.
-
-We have compiled some common reasons and troubleshooting tips at:
-
-    https://numpy.org/devdocs/user/troubleshooting-importerror.html
-
-Please note and check the following:
-
-  * The Python version is: Python3.9 from "/usr/bin/python3"
-  * The NumPy version is: "1.22.1"
-
-and make sure that they are the versions you expect.
-Please carefully study the documentation linked above for further help.
-
-Original error was: /usr/local/lib/python3.9/dist-packages/numpy/core/../../numpy.libs/libopenblas64_p-r0-2f7c42d4.3.18.so: cannot read file data
-
+ModuleNotFoundError: No module named 'numpy.lib.function_base'
+ModuleNotFoundError: No module named 'numpy.lib.function_base'
