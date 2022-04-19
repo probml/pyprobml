@@ -6,7 +6,7 @@
 
 1. Choose a figure from [book1](https://probml.github.io/pml-book/book1.html) ([pdf](https://github.com/probml/pml-book/releases/latest/download/book1.pdf)) or [book2](https://probml.github.io/pml-book/book2.html) ([pdf](https://github.com/probml/pml2-book/releases/latest/download/pml2.pdf)) and find out its source code notebook in this repo (mostly in the `notebooks` folder).
 2. Fork the main repo and create a new branch with a meaningful name.
-3. Take [this notebook](https://github.com/probml/pyprobml/blob/master/notebooks/book1/02/discrete_prob_dist_plot.ipynb) as a reference while converting the source code to a notebook. In perticular, follow these steps:
+3. Take [this notebook](https://github.com/probml/pyprobml/blob/master/notebooks/book1/02/discrete_prob_dist_plot.ipynb) as a reference while converting the source code to a notebook. In particular, follow these steps:
     * Wrap imports in `try: except:` blocks. for example:
     ```python
     try:
@@ -33,12 +33,18 @@
     ```
 
 4. To ensure your code passes the code formatting check, `pip install pre-commit` locally and run `pre-commit install`.
-    * Install `black` for jupyter notebooks with: `pip install black[jupyter]` (bash) and `pip install 'black[jupyer]'` (zsh).
+    * Install `black` for jupyter notebooks with: `pip install black[jupyter]` (bash) and `pip install 'black[jupyter]'` (zsh).
     * `pre-commit` will automatically format your notebook as per [this config](https://github.com/probml/pyprobml/blob/master/.pre-commit-config.yaml).
 6. Follow PEP 8 naming convention.
 7. Convert the existing code to `jax`, `flax` and `distrax` wherever possible.
 8. (If applicable) In the last cell, create an interactive demo with `@interact`, `interactive` or any other tools available with `ipywidgets`. Make sure the demo works on Google colab.
 9. Please modify existing figure names by adding `_latexified` suffix and remove the `.pdf`/`.png` extension if present. e.g. `uniform_distribution.pdf` should be renamed as `uniform_distribution_latexified`.
+10. Verify that your notebook does not throw any exception when executed in a fresh python/anaconda environment with the following command (you can make use of `docker` to have a fresh environment every time):
+
+```bash
+ipython foo.ipynb
+```
+11. At the time of opening a PR, double check that only the notebook you are working on is affected.
 
 ### Generating figures and saving them locally
 * By default, figures are not saved:
