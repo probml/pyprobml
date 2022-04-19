@@ -1,1 +1,211 @@
-No such kernel named python3
+An error occurred while executing the following cell:
+------------------
+# Gaussian mixture model suign PyMC3
+# Based on https://github.com/aloctavodia/BAP/blob/master/code/Chp6/06_mixture_models.ipynb
+
+
+try:
+    import pymc3 as pm
+except:
+    %pip install pymc3
+    import pymc3 as pm
+import numpy as np
+import scipy.stats as stats
+
+try:
+    import pandas as pd
+except:
+    %pip install pandas
+    import pandas as pd
+try:
+    import theano.tensor as tt
+except:
+    %pip install theano
+    import theano.tensor as tt
+import matplotlib.pyplot as plt
+
+try:
+    import arviz as az
+except:
+    %pip install arviz
+    import arviz as az
+import probml_utils as pml
+
+np.random.seed(42)
+
+
+# url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
+# There is some error reading the abvoe file
+# Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
+# So we make a copy here
+url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
+df = pd.read_csv(url)
+obs = df["exp"]
+
+az.plot_kde(obs)
+plt.hist(obs, density=True, bins=30, alpha=0.3)
+plt.yticks([])
+pml.savefig("gmm_pymc3_data.pdf", dpi=300)
+
+# Illustrate unidentifiability
+
+clusters = 2
+with pm.Model() as model_mg:
+    p = pm.Dirichlet("p", a=np.ones(clusters))
+    means = pm.Normal("means", mu=obs.mean(), sd=10, shape=clusters)
+    sd = pm.HalfNormal("sd", sd=10)
+    y = pm.NormalMixture("y", w=p, mu=means, sd=sd, observed=obs)
+    trace_mg = pm.sample(random_seed=123, cores=1, chains=2)
+
+varnames = ["means", "p"]
+print(az.summary(trace_mg, varnames))
+
+az.plot_trace(trace_mg, varnames)
+pml.savefig("gmm_pymc3_label_switching.pdf", dpi=300)
+
+# Add constraint that mu[0] < mu[1] using a potential (penalty) function
+
+clusters = 2
+with pm.Model() as model_mgp:
+    p = pm.Dirichlet("p", a=np.ones(clusters))
+    means = pm.Normal("means", mu=np.array([0.9, 1]) * obs.mean(), sd=10, shape=clusters)
+    sd = pm.HalfNormal("sd", sd=10)
+    order_means = pm.Potential("order_means", tt.switch(means[1] - means[0] < 0, -np.inf, 0))
+    y = pm.NormalMixture("y", w=p, mu=means, sd=sd, observed=obs)
+    trace_mgp = pm.sample(1000, random_seed=123, cores=1, chains=2)
+
+varnames = ["means", "p"]
+print(az.summary(trace_mgp, varnames))
+az.plot_trace(trace_mgp, varnames)
+pml.savefig("gmm_pymc3_constrained.pdf", dpi=300)
+
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+HTTPError                                 Traceback (most recent call last)
+Input In [1], in <cell line: 40>()
+     35 # url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
+     36 # There is some error reading the abvoe file
+     37 # Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
+     38 # So we make a copy here
+     39 url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
+---> 40 df = pd.read_csv(url)
+     41 obs = df["exp"]
+     43 az.plot_kde(obs)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/util/_decorators.py:311, in deprecate_nonkeyword_arguments.<locals>.decorate.<locals>.wrapper(*args, **kwargs)
+    305 if len(args) > num_allow_args:
+    306     warnings.warn(
+    307         msg.format(arguments=arguments),
+    308         FutureWarning,
+    309         stacklevel=stacklevel,
+    310     )
+--> 311 return func(*args, **kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:680, in read_csv(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)
+    665 kwds_defaults = _refine_defaults_read(
+    666     dialect,
+    667     delimiter,
+   (...)
+    676     defaults={"delimiter": ","},
+    677 )
+    678 kwds.update(kwds_defaults)
+--> 680 return _read(filepath_or_buffer, kwds)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:575, in _read(filepath_or_buffer, kwds)
+    572 _validate_names(kwds.get("names", None))
+    574 # Create the parser.
+--> 575 parser = TextFileReader(filepath_or_buffer, **kwds)
+    577 if chunksize or iterator:
+    578     return parser
+
+File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:933, in TextFileReader.__init__(self, f, engine, **kwds)
+    930     self.options["has_index_names"] = kwds["has_index_names"]
+    932 self.handles: IOHandles | None = None
+--> 933 self._engine = self._make_engine(f, self.engine)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:1217, in TextFileReader._make_engine(self, f, engine)
+   1213     mode = "rb"
+   1214 # error: No overload variant of "get_handle" matches argument types
+   1215 # "Union[str, PathLike[str], ReadCsvBuffer[bytes], ReadCsvBuffer[str]]"
+   1216 # , "str", "bool", "Any", "Any", "Any", "Any", "Any"
+-> 1217 self.handles = get_handle(  # type: ignore[call-overload]
+   1218     f,
+   1219     mode,
+   1220     encoding=self.options.get("encoding", None),
+   1221     compression=self.options.get("compression", None),
+   1222     memory_map=self.options.get("memory_map", False),
+   1223     is_text=is_text,
+   1224     errors=self.options.get("encoding_errors", "strict"),
+   1225     storage_options=self.options.get("storage_options", None),
+   1226 )
+   1227 assert self.handles is not None
+   1228 f = self.handles.handle
+
+File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:670, in get_handle(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)
+    667     codecs.lookup_error(errors)
+    669 # open URLs
+--> 670 ioargs = _get_filepath_or_buffer(
+    671     path_or_buf,
+    672     encoding=encoding,
+    673     compression=compression,
+    674     mode=mode,
+    675     storage_options=storage_options,
+    676 )
+    678 handle = ioargs.filepath_or_buffer
+    679 handles: list[BaseBuffer]
+
+File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:339, in _get_filepath_or_buffer(filepath_or_buffer, encoding, compression, mode, storage_options)
+    337 # assuming storage_options is to be interpreted as headers
+    338 req_info = urllib.request.Request(filepath_or_buffer, headers=storage_options)
+--> 339 with urlopen(req_info) as req:
+    340     content_encoding = req.headers.get("Content-Encoding", None)
+    341     if content_encoding == "gzip":
+    342         # Override compression based on Content-Encoding header
+
+File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:239, in urlopen(*args, **kwargs)
+    233 """
+    234 Lazy-import wrapper for stdlib urlopen, as that imports a big chunk of
+    235 the stdlib.
+    236 """
+    237 import urllib.request
+--> 239 return urllib.request.urlopen(*args, **kwargs)
+
+File /usr/lib/python3.9/urllib/request.py:214, in urlopen(url, data, timeout, cafile, capath, cadefault, context)
+    212 else:
+    213     opener = _opener
+--> 214 return opener.open(url, data, timeout)
+
+File /usr/lib/python3.9/urllib/request.py:523, in OpenerDirector.open(self, fullurl, data, timeout)
+    521 for processor in self.process_response.get(protocol, []):
+    522     meth = getattr(processor, meth_name)
+--> 523     response = meth(req, response)
+    525 return response
+
+File /usr/lib/python3.9/urllib/request.py:632, in HTTPErrorProcessor.http_response(self, request, response)
+    629 # According to RFC 2616, "2xx" code indicates that the client's
+    630 # request was successfully received, understood, and accepted.
+    631 if not (200 <= code < 300):
+--> 632     response = self.parent.error(
+    633         'http', request, response, code, msg, hdrs)
+    635 return response
+
+File /usr/lib/python3.9/urllib/request.py:561, in OpenerDirector.error(self, proto, *args)
+    559 if http_err:
+    560     args = (dict, 'default', 'http_error_default') + orig_args
+--> 561     return self._call_chain(*args)
+
+File /usr/lib/python3.9/urllib/request.py:494, in OpenerDirector._call_chain(self, chain, kind, meth_name, *args)
+    492 for handler in handlers:
+    493     func = getattr(handler, meth_name)
+--> 494     result = func(*args)
+    495     if result is not None:
+    496         return result
+
+File /usr/lib/python3.9/urllib/request.py:641, in HTTPDefaultErrorHandler.http_error_default(self, req, fp, code, msg, hdrs)
+    640 def http_error_default(self, req, fp, code, msg, hdrs):
+--> 641     raise HTTPError(req.full_url, code, msg, hdrs, fp)
+
+HTTPError: HTTP Error 404: Not Found
+HTTPError: HTTP Error 404: Not Found
