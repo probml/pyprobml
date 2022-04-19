@@ -19,7 +19,7 @@
     ```
 
     * Do not wrap imports in `try: except:` blocks if a package is present in [requirements.txt](requirements.txt) or it is an inbuilt python package such as `os`, `sys`, `functools` etc.
-    * Make sure you import and use `latexify` function within `if "LATEXIFY" in os.environ:` block.
+    * Note that `latexify` function will be effective only if "LATEXIFY" is set in the environment. For more details check "Generating figures and saving them locally" section below.
     * Set appropriate height and width using the latexify function. for example: 
     ```py
     latexify(width_scale_factor=1, fig_height=1.5)  # width = 6 inch, height = 1.5 inch
