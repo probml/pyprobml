@@ -1,0 +1,28 @@
+An error occurred while executing the following cell:
+------------------
+
+# Tensorflow
+try:
+  # %tensorflow_version only exists in Colab.
+  %tensorflow_version 2.x
+except Exception:
+  pass
+import tensorflow as tf
+
+from tensorflow import keras
+
+print("tf version {}".format(tf.__version__))
+tf.config.list_physical_devices('GPU')
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [1], in <cell line: 7>()
+      5 except Exception:
+      6   pass
+----> 7 import tensorflow as tf
+      9 from tensorflow import keras
+     11 print("tf version {}".format(tf.__version__))
+
+ModuleNotFoundError: No module named 'tensorflow'
+ModuleNotFoundError: No module named 'tensorflow'

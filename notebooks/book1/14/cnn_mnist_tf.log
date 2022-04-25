@@ -1,0 +1,28 @@
+An error occurred while executing the following cell:
+------------------
+# Standard Python libraries
+from __future__ import absolute_import, division, print_function, unicode_literals
+
+import os
+import time
+import numpy as np
+import glob
+import matplotlib.pyplot as plt
+import PIL
+import imageio
+from IPython import display
+import sklearn
+from time import time
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [1], in <cell line: 10>()
+      8 import matplotlib.pyplot as plt
+      9 import PIL
+---> 10 import imageio
+     11 from IPython import display
+     12 import sklearn
+
+ModuleNotFoundError: No module named 'imageio'
+ModuleNotFoundError: No module named 'imageio'

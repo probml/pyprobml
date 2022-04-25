@@ -1,0 +1,30 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(seed=1)
+import math
+import collections
+
+import torch
+from torch import nn
+from torch.nn import functional as F
+
+!mkdir figures # for saving plots
+
+!wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py
+import d2l
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [1], in <cell line: 8>()
+      5 import math
+      6 import collections
+----> 8 import torch
+      9 from torch import nn
+     10 from torch.nn import functional as F
+
+ModuleNotFoundError: No module named 'torch'
+ModuleNotFoundError: No module named 'torch'

@@ -1,0 +1,18 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import GPy
+import matplotlib.pylab as plt
+import seaborn as sns
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [2], in <cell line: 2>()
+      1 import numpy as np
+----> 2 import GPy
+      3 import matplotlib.pylab as plt
+      4 import seaborn as sns
+
+ModuleNotFoundError: No module named 'GPy'
+ModuleNotFoundError: No module named 'GPy'

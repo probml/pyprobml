@@ -1,0 +1,90 @@
+An error occurred while executing the following cell:
+------------------
+plt.figure()
+plot_lr_vs_loss(rates, losses)
+save_fig("lrfinder-raw.pdf")
+plt.show()
+
+# https://sites.google.com/site/hardwaremonkey/blog/ewmafilterexmpleusingpandasandpython
+# x = np.linspace(0, 2 * np.pi, 100)
+# y = 2 * np.sin(x) + 0.1 * np.random.normal(x)
+x = rates
+y = np.array(losses, dtype=np.float64)
+df = pd.Series(y)
+filtered = pd.Series.ewm(df, span=10).mean()
+plt.figure()  # figsize=(10,6))
+plt.plot(x, y)
+# plt.plot(x, filtered)
+plt.gca().set_xscale("log")
+plt.xlabel("Learning rate")
+plt.ylabel("Loss")
+save_fig("lrfinder-unfiltered.pdf")
+plt.show()
+
+plt.figure()  # figsize=(10,6))
+# plt.plot(x, y)
+plt.plot(x, filtered)
+plt.gca().set_xscale("log")
+plt.xlabel("Learning rate")
+plt.ylabel("Loss")
+save_fig("lrfinder-filtered.pdf")
+plt.show()
+
+plt.figure()  # figsize=(10,6))
+plt.plot(x, y)
+plt.plot(x, filtered)
+plt.gca().set_xscale("log")
+plt.xlabel("Learning rate")
+plt.ylabel("Loss")
+save_fig("lrfinder-filtered-both.pdf")
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+Input In [9], in <cell line: 2>()
+      1 plt.figure()
+----> 2 plot_lr_vs_loss(rates, losses)
+      3 save_fig("lrfinder-raw.pdf")
+      4 plt.show()
+
+Input In [7], in plot_lr_vs_loss(rates, losses)
+     28 plt.gca().set_xscale("log")
+     29 plt.hlines(min(losses), min(rates), max(rates))
+---> 30 plt.axis([min(rates), max(rates), min(losses), (losses[0] + min(losses)) / 2])
+     31 plt.xlabel("Learning rate")
+     32 plt.ylabel("Loss")
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/pyplot.py:2361, in axis(emit, *args, **kwargs)
+   2359 @_copy_docstring_and_deprecators(Axes.axis)
+   2360 def axis(*args, emit=True, **kwargs):
+-> 2361     return gca().axis(*args, emit=emit, **kwargs)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_base.py:2092, in _AxesBase.axis(self, emit, *args, **kwargs)
+   2088     yauto = (None
+   2089              if ymin is None and ymax is None
+   2090              else False)
+   2091     self.set_xlim(xmin, xmax, emit=emit, auto=xauto)
+-> 2092     self.set_ylim(ymin, ymax, emit=emit, auto=yauto)
+   2093 if kwargs:
+   2094     raise TypeError(f"axis() got an unexpected keyword argument "
+   2095                     f"'{next(iter(kwargs))}'")
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_base.py:4018, in _AxesBase.set_ylim(self, bottom, top, emit, auto, ymin, ymax)
+   4015     top = ymax
+   4017 self._process_unit_info([("y", (bottom, top))], convert=False)
+-> 4018 bottom = self._validate_converted_limits(bottom, self.convert_yunits)
+   4019 top = self._validate_converted_limits(top, self.convert_yunits)
+   4021 if bottom is None or top is None:
+   4022     # Axes init calls set_ylim(0, 1) before get_ylim() can be called,
+   4023     # so only grab the limits if we really need them.
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_base.py:3605, in _AxesBase._validate_converted_limits(self, limit, convert)
+   3602 converted_limit = convert(limit)
+   3603 if (isinstance(converted_limit, Real)
+   3604         and not np.isfinite(converted_limit)):
+-> 3605     raise ValueError("Axis limits cannot be NaN or Inf")
+   3606 return converted_limit
+
+ValueError: Axis limits cannot be NaN or Inf
+ValueError: Axis limits cannot be NaN or Inf
