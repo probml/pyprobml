@@ -1,0 +1,43 @@
+An error occurred while executing the following cell:
+------------------
+plot_outlier_effect(save_name="robust_pdf_plot_latexified")
+------------------
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+Input In [4], in <cell line: 1>()
+----> 1 plot_outlier_effect(save_name="robust_pdf_plot_latexified")
+
+Input In [3], in plot_outlier_effect(save_name, outlier_pos, outliers, bins, samples_norm_dist, samples_graph_xaxis, range_xaxis, range_yaxis, fig, ax)
+     95     samples = norm_dist_sample
+     97     # Plot the data from normal distribution
+---> 98     ax.hist(
+     99         norm_dist_sample,
+    100         bins,
+    101         color="steelblue",
+    102         ec="steelblue",
+    103         weights=[1 / norm_dist_sample.shape[0]] * norm_dist_sample.shape[0],
+    104         rwidth=0.8,
+    105     )
+    107 # Calculate mean and standard deviation for different distributions and then
+    108 # find the PDF for each distribution
+    109 loc, scale = norm.fit(samples)
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/__init__.py:1412, in _preprocess_data.<locals>.inner(ax, data, *args, **kwargs)
+   1409 @functools.wraps(func)
+   1410 def inner(ax, *args, data=None, **kwargs):
+   1411     if data is None:
+-> 1412         return func(ax, *map(sanitize_sequence, args), **kwargs)
+   1414     bound = new_sig.bind(ax, *args, **kwargs)
+   1415     auto_label = (bound.arguments.get(label_namer)
+   1416                   or bound.kwargs.get(label_namer))
+
+File /usr/local/lib/python3.9/dist-packages/matplotlib/axes/_axes.py:6580, in Axes.hist(self, x, bins, range, density, weights, cumulative, bottom, histtype, align, orientation, rwidth, log, color, label, stacked, **kwargs)
+   6577     w = [None] * nx
+   6579 if len(w) != nx:
+-> 6580     raise ValueError('weights should have the same shape as x')
+   6582 input_empty = True
+   6583 for xi, wi in zip(x, w):
+
+ValueError: weights should have the same shape as x
+ValueError: weights should have the same shape as x
