@@ -29,31 +29,13 @@ pd.set_option("display.width", 100)  # wide windows
 ------------------
 
 ---------------------------------------------------------------------------
-OptionError                               Traceback (most recent call last)
-Input In [2], in <cell line: 23>()
-     19 sns.set(style="ticks", color_codes=True)
-     21 import pandas as pd
----> 23 pd.set_option("precision", 2)  # 2 decimal places
-     24 pd.set_option("display.max_rows", 20)
-     25 pd.set_option("display.max_columns", 30)
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [2], in <cell line: 11>()
+      9 import matplotlib.pyplot as plt
+     10 import PIL
+---> 11 import imageio
+     13 from IPython import display
+     15 import sklearn
 
-File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:256, in CallableDynamicDoc.__call__(self, *args, **kwds)
-    255 def __call__(self, *args, **kwds):
---> 256     return self.__func__(*args, **kwds)
-
-File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:149, in _set_option(*args, **kwargs)
-    146     raise TypeError(f'_set_option() got an unexpected keyword argument "{kwarg}"')
-    148 for k, v in zip(args[::2], args[1::2]):
---> 149     key = _get_single_key(k, silent)
-    151     o = _get_registered_option(key)
-    152     if o and o.validator:
-
-File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:116, in _get_single_key(pat, silent)
-    114     raise OptionError(f"No such keys(s): {repr(pat)}")
-    115 if len(keys) > 1:
---> 116     raise OptionError("Pattern matched multiple keys")
-    117 key = keys[0]
-    119 if not silent:
-
-OptionError: 'Pattern matched multiple keys'
-OptionError: 'Pattern matched multiple keys'
+ModuleNotFoundError: No module named 'imageio'
+ModuleNotFoundError: No module named 'imageio'
