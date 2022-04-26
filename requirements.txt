@@ -7,6 +7,5 @@ requests
 scipy
 seaborn
 scikit-learn
-git+https://github.com/probml/probml-utils.git
 h5py
 pandas
