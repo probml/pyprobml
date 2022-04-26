@@ -1,4 +1,4 @@
-name: Main workflow
+name: Workflow
 
 on:
   push:
@@ -9,14 +9,56 @@ on:
     - master
 
 jobs:
-  workflow:
+  check_code_quality:
     runs-on: ubuntu-latest
-    container: texlive/texlive:TL2020-historic
     steps:
-    
     - name: Clone the reference repository
       uses: actions/checkout@v2
+      
+    - name: Set up Python 3.9.12
+      uses: actions/setup-python@v2
+      with:
+        # Change this based on the python version in the texlive container
+        python-version: '3.9.12'
 
+    - name: Install dependencies
+      run: |
+        pip install black[jupyter]==22.3.0  # Change this based on .pre-commit-config.yaml
+
+    - name: Check code quality
+      run: |
+        black --check --verbose notebooks/book1/*/*.ipynb
+        black --check --verbose notebooks/book2/*/*.ipynb  
+
+  static_import_check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone the reference repository
+      uses: actions/checkout@v2
+      
+    - name: Set up Python 3.9.12
+      uses: actions/setup-python@v2
+      with:
+        # Change this based on the python version in the texlive container
+        python-version: '3.9.12'
+
+    - name: Install dependencies
+      run: |
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
+
+    - name: Check static imports
+      run: |
+        pytest -n auto -s --verbose tests/test_imports.py
+
+  execute_notebooks:
+    runs-on: ubuntu-latest
+    needs: [check_code_quality, static_import_check]
+    container: texlive/texlive:TL2020-historic
+    steps:
+    - name: Clone the reference repository
+      uses: actions/checkout@v2
+    
     - name: Setup pip
       run: |
         apt update
@@ -29,7 +71,7 @@ jobs:
         pip install -U --no-cache-dir -r requirements-dev.txt | cat
         pip install -U --no-cache-dir -r requirements.txt | cat
 
-    - name: Check code formatting of notebooks
+    - name: Check code quality (again)
       run: |
         black --check --verbose notebooks/book1/*/*.ipynb
         black --check --verbose notebooks/book2/*/*.ipynb
@@ -45,7 +87,7 @@ jobs:
         publish_dir: figures/
         publish_branch: auto_generated_figures
       if: github.event_name == 'push'  # Don't run on pull requests
-    
+  
     - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
