@@ -1,7 +1,11 @@
 An error occurred while executing the following cell:
 ------------------
 
-import probml_utils as pml
+try:
+    import probml_utils as pml
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
 #!pip install GPy
 
@@ -53,22 +57,22 @@ for i in range(len(l)):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-Input In [1], in <cell line: 7>()
-      7 try:
-----> 8     import GPy
-      9 except:
+Input In [1], in <cell line: 11>()
+     11 try:
+---> 12     import GPy
+     13 except:
 
 ModuleNotFoundError: No module named 'GPy'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-Input In [1], in <cell line: 7>()
-      9 except:
-     10     get_ipython().run_line_magic('pip', 'install GPy')
----> 11     import GPy
-     12 from scipy import linalg
-     13 import scipy.spatial.distance as spdist
+Input In [1], in <cell line: 11>()
+     13 except:
+     14     get_ipython().run_line_magic('pip', 'install GPy')
+---> 15     import GPy
+     16 from scipy import linalg
+     17 import scipy.spatial.distance as spdist
 
 ModuleNotFoundError: No module named 'GPy'
 ModuleNotFoundError: No module named 'GPy'

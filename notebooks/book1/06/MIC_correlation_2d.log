@@ -6,7 +6,12 @@ An error occurred while executing the following cell:
 from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
-from minepy import MINE
+
+try:
+    from minepy import MINE
+except:
+    %pip install minepy
+    from minepy import MINE
 
 
 rs = np.random.RandomState(seed=0)
@@ -85,12 +90,22 @@ def others(n=1000):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-Input In [2], in <cell line: 7>()
-      5 import numpy as np
-      6 import matplotlib.pyplot as plt
-----> 7 from minepy import MINE
-     10 rs = np.random.RandomState(seed=0)
-     13 def mysubplot(x, y, numRows, numCols, plotNum, xlim=(-4, 4), ylim=(-4, 4)):
+Input In [1], in <cell line: 8>()
+      8 try:
+----> 9     from minepy import MINE
+     10 except:
+
+ModuleNotFoundError: No module named 'minepy'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [1], in <cell line: 8>()
+     10 except:
+     11     get_ipython().run_line_magic('pip', 'install minepy')
+---> 12     from minepy import MINE
+     15 rs = np.random.RandomState(seed=0)
+     18 def mysubplot(x, y, numRows, numCols, plotNum, xlim=(-4, 4), ylim=(-4, 4)):
 
 ModuleNotFoundError: No module named 'minepy'
 ModuleNotFoundError: No module named 'minepy'

@@ -1,25 +1,21 @@
 An error occurred while executing the following cell:
 ------------------
-import cv2
-import jax
-import augmax
-from jax import numpy as jnp
-from jax import random as jrand
-from skimage.util import montage
+img = cv2.imread("/content/cat_dog.jpg")
+# When we load an image using Open-Cv it's opened in "BGR" format, let's change it to "RGB"
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-import tensorflow_datasets as tfds
-
-import matplotlib.pyplot as plt
-
-%matplotlib inline
+show_images([img], titles=["Cat&Dog"], num_rows=1, num_cols=1, scale=3)
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-Input In [3], in <cell line: 1>()
-----> 1 import cv2
-      2 import jax
-      3 import augmax
+error                                     Traceback (most recent call last)
+Input In [6], in <cell line: 3>()
+      1 img = cv2.imread("/content/cat_dog.jpg")
+      2 # When we load an image using Open-Cv it's opened in "BGR" format, let's change it to "RGB"
+----> 3 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+      5 show_images([img], titles=["Cat&Dog"], num_rows=1, num_cols=1, scale=3)
 
-ModuleNotFoundError: No module named 'cv2'
-ModuleNotFoundError: No module named 'cv2'
+error: OpenCV(4.5.5) /io/opencv/modules/imgproc/src/color.cpp:182: error: (-215:Assertion failed) !_src.empty() in function 'cvtColor'
+
+error: OpenCV(4.5.5) /io/opencv/modules/imgproc/src/color.cpp:182: error: (-215:Assertion failed) !_src.empty() in function 'cvtColor'
+

@@ -2,7 +2,11 @@ An error occurred while executing the following cell:
 ------------------
 !git clone https://github.com/probml/pyprobml /pyprobml &> /dev/null
 %cd -q /pyprobml/scripts
-import pyprobml_utils as pml
+try:
+    import pyprobml_utils as pml
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    import pyprobml_utils as pml
 import numpy as np
 import matplotlib.pyplot as plt
 ------------------
@@ -10,11 +14,21 @@ import matplotlib.pyplot as plt
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
 Input In [1], in <cell line: 3>()
-      1 get_ipython().system('git clone https://github.com/probml/pyprobml /pyprobml &> /dev/null')
-      2 get_ipython().run_line_magic('cd', '-q /pyprobml/scripts')
-----> 3 import pyprobml_utils as pml
-      4 import numpy as np
-      5 import matplotlib.pyplot as plt
+      3 try:
+----> 4     import pyprobml_utils as pml
+      5 except:
+
+ModuleNotFoundError: No module named 'pyprobml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [1], in <cell line: 3>()
+      5 except:
+      6     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
+----> 7     import pyprobml_utils as pml
+      8 import numpy as np
+      9 import matplotlib.pyplot as plt
 
 ModuleNotFoundError: No module named 'pyprobml_utils'
 ModuleNotFoundError: No module named 'pyprobml_utils'

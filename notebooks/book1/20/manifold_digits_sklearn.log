@@ -23,10 +23,11 @@ figdir = "figures"
 
 import os
 
-
-def savefig(fname):
-    if figdir:
-        plt.savefig(os.path.join(figdir, fname))
+try:
+    from probml_utils import savefig
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig
 
 
 from time import time
@@ -40,7 +41,7 @@ from sklearn import manifold, datasets, decomposition, ensemble, discriminant_an
 try:
     import umap  # # https://github.com/lmcinnes/umap
 except:
-    %pip install umap
+    %pip install umap-learn
     import umap  # # https://github.com/lmcinnes/umap
 
 digits = datasets.load_digits()  # n_class=6)
@@ -156,7 +157,7 @@ plt.show()
 # ----------------------------------------------------------------------
 # Locally linear embedding of the digits dataset
 print("Computing LLE embedding")
-embedder = manifold.LocallyLinearEmbedding(n_neighbors, n_components=2, method="standard")
+embedder = manifold.LocallyLinearEmbedding(n_neighbors=n_neighbors, n_components=2, method="standard")
 X_lle = embedder.fit_transform(X)
 plot_embedding(X_lle, "Locally Linear Embedding")
 savefig("manifold_digits_LLE.pdf")
@@ -165,7 +166,7 @@ plt.show()
 # ----------------------------------------------------------------------
 # Isomap projection of the digits dataset
 print("Computing Isomap projection")
-X_iso = manifold.Isomap(n_neighbors, n_components=2).fit_transform(X)
+X_iso = manifold.Isomap(n_neighbors=n_neighbors, n_components=2).fit_transform(X)
 plot_embedding(X_iso, "Isomap")
 savefig("manifold_digits_isomap.pdf")
 plt.show()
@@ -182,13 +183,51 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-AttributeError                            Traceback (most recent call last)
-Input In [1], in <cell line: 100>()
-     97 # ----------------------------------------------------------------------
-     99 print("Computing UMAP projection")
---> 100 X_umap = umap.UMAP(n_neighbors=5, min_dist=0.3, n_components=2, metric="correlation").fit_transform(X)
-    101 plot_embedding(X_umap, "UMAP projection")
-    102 savefig("manifold_digits_umap.pdf")
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [1], in <cell line: 39>()
+     39 try:
+---> 40     import umap  # # https://github.com/lmcinnes/umap
+     41 except:
 
-AttributeError: module 'umap' has no attribute 'UMAP'
-AttributeError: module 'umap' has no attribute 'UMAP'
+ModuleNotFoundError: No module named 'umap'
+
+During handling of the above exception, another exception occurred:
+
+ImportError                               Traceback (most recent call last)
+Input In [1], in <cell line: 39>()
+     41 except:
+     42     get_ipython().run_line_magic('pip', 'install umap-learn')
+---> 43     import umap  # # https://github.com/lmcinnes/umap
+     45 digits = datasets.load_digits()  # n_class=6)
+     46 X = digits.data
+
+File /usr/local/lib/python3.9/dist-packages/umap/__init__.py:2, in <module>
+      1 from warnings import warn, catch_warnings, simplefilter
+----> 2 from .umap_ import UMAP
+      4 try:
+      5     with catch_warnings():
+
+File /usr/local/lib/python3.9/dist-packages/umap/umap_.py:28, in <module>
+     26 from scipy.sparse import tril as sparse_tril, triu as sparse_triu
+     27 import scipy.sparse.csgraph
+---> 28 import numba
+     30 import umap.distances as dist
+     32 import umap.sparse as sparse
+
+File /usr/local/lib/python3.9/dist-packages/numba/__init__.py:200, in <module>
+    197     return False
+    199 _ensure_llvm()
+--> 200 _ensure_critical_deps()
+    202 # we know llvmlite is working as the above tests passed, import it now as SVML
+    203 # needs to mutate runtime options (sets the `-vector-library`).
+    204 import llvmlite
+
+File /usr/local/lib/python3.9/dist-packages/numba/__init__.py:140, in _ensure_critical_deps()
+    138     raise ImportError("Numba needs NumPy 1.18 or greater")
+    139 elif numpy_version > (1, 21):
+--> 140     raise ImportError("Numba needs NumPy 1.21 or less")
+    142 try:
+    143     import scipy
+
+ImportError: Numba needs NumPy 1.21 or less
+ImportError: Numba needs NumPy 1.21 or less

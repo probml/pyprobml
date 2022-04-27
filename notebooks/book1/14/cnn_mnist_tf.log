@@ -1,28 +1,18 @@
 An error occurred while executing the following cell:
 ------------------
-# Standard Python libraries
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-import os
-import time
-import numpy as np
-import glob
-import matplotlib.pyplot as plt
-import PIL
-import imageio
-from IPython import display
-import sklearn
-from time import time
+import pyprobml.scripts.mnist_helpers_tf as helper
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-Input In [1], in <cell line: 10>()
-      8 import matplotlib.pyplot as plt
-      9 import PIL
----> 10 import imageio
-     11 from IPython import display
-     12 import sklearn
+Input In [4], in <cell line: 1>()
+----> 1 import pyprobml.scripts.mnist_helpers_tf as helper
 
-ModuleNotFoundError: No module named 'imageio'
-ModuleNotFoundError: No module named 'imageio'
+File /__w/pyprobml/pyprobml/pyprobml/scripts/mnist_helpers_tf.py:3, in <module>
+      1 # Helper functions for DNN demos related to mnist images
+----> 3 import superimport
+      5 import tensorflow as tf
+      6 from tensorflow import keras
+
+ModuleNotFoundError: No module named 'superimport'
+ModuleNotFoundError: No module named 'superimport'

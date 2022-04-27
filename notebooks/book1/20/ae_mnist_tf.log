@@ -10,7 +10,12 @@ import glob
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import PIL
-import imageio
+
+try:
+    import imageio
+except:
+    %pip install imageio
+    import imageio
 
 from IPython import display
 
@@ -30,12 +35,12 @@ pd.set_option("display.width", 100)  # wide windows
 
 ---------------------------------------------------------------------------
 OptionError                               Traceback (most recent call last)
-Input In [2], in <cell line: 23>()
-     19 sns.set(style="ticks", color_codes=True)
-     21 import pandas as pd
----> 23 pd.set_option("precision", 2)  # 2 decimal places
-     24 pd.set_option("display.max_rows", 20)
-     25 pd.set_option("display.max_columns", 30)
+Input In [2], in <cell line: 28>()
+     24 sns.set(style="ticks", color_codes=True)
+     26 import pandas as pd
+---> 28 pd.set_option("precision", 2)  # 2 decimal places
+     29 pd.set_option("display.max_rows", 20)
+     30 pd.set_option("display.max_columns", 30)
 
 File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:256, in CallableDynamicDoc.__call__(self, *args, **kwds)
     255 def __call__(self, *args, **kwds):

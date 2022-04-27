@@ -1,32 +1,17 @@
 An error occurred while executing the following cell:
 ------------------
-
-try:
-    # %tensorflow_version only exists in Colab.
-    %tensorflow_version 2.x
-    IS_COLAB = True
-except Exception:
-    IS_COLAB = False
-
-# TensorFlow ≥2.0 is required
-import tensorflow as tf
-from tensorflow import keras
-assert tf.__version__ >= "2.0"
-
-if not tf.config.list_physical_devices('GPU'):
-    print("No GPU was detected. DNNs can be very slow without a GPU.")
-    if IS_COLAB:
-        print("Go to Runtime > Change runtime and select a GPU hardware accelerator.")
+predictions = model.predict(test_images)
+print(np.shape(predictions))
+# test_ndx = find_interesting_test_images(predictions) # re-use old inddices
+plot_interesting_test_results(predictions, test_ndx)
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-Input In [1], in <cell line: 9>()
-      6     IS_COLAB = False
-      8 # TensorFlow ≥2.0 is required
-----> 9 import tensorflow as tf
-     10 from tensorflow import keras
-     11 assert tf.__version__ >= "2.0"
+NameError                                 Traceback (most recent call last)
+Input In [10], in <cell line: 4>()
+      2 print(np.shape(predictions))
+      3 # test_ndx = find_interesting_test_images(predictions) # re-use old inddices
+----> 4 plot_interesting_test_results(predictions, test_ndx)
 
-ModuleNotFoundError: No module named 'tensorflow'
-ModuleNotFoundError: No module named 'tensorflow'
+NameError: name 'test_ndx' is not defined
+NameError: name 'test_ndx' is not defined

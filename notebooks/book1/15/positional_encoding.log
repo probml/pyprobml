@@ -7,7 +7,12 @@ np.random.seed(seed=1)
 import math
 import collections
 
-import torch
+try:
+    import torch
+except:
+    %pip install torch
+    import torch
+
 from torch import nn
 from torch.nn import functional as F
 
@@ -19,12 +24,17 @@ import d2l
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-Input In [1], in <cell line: 8>()
-      5 import math
-      6 import collections
-----> 8 import torch
-      9 from torch import nn
-     10 from torch.nn import functional as F
+Input In [1], in <cell line: 20>()
+     17 get_ipython().system('mkdir figures # for saving plots')
+     19 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
+---> 20 import d2l
 
-ModuleNotFoundError: No module named 'torch'
-ModuleNotFoundError: No module named 'torch'
+File /__w/pyprobml/pyprobml/d2l.py:6, in <module>
+      4 import numpy as np
+      5 import torch
+----> 6 import torchvision
+      7 from PIL import Image
+      8 from torch import nn
+
+ModuleNotFoundError: No module named 'torchvision'
+ModuleNotFoundError: No module named 'torchvision'

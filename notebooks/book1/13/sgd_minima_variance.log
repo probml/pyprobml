@@ -1,18 +1,34 @@
 An error occurred while executing the following cell:
 ------------------
 import numpy as np
-import GPy
+
+try:
+    import GPy
+except:
+    %pip install gpy
+    import GPy
 import matplotlib.pylab as plt
 import seaborn as sns
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-Input In [2], in <cell line: 2>()
-      1 import numpy as np
-----> 2 import GPy
-      3 import matplotlib.pylab as plt
-      4 import seaborn as sns
+Input In [1], in <cell line: 3>()
+      3 try:
+----> 4     import GPy
+      5 except:
+
+ModuleNotFoundError: No module named 'GPy'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [1], in <cell line: 3>()
+      5 except:
+      6     get_ipython().run_line_magic('pip', 'install gpy')
+----> 7     import GPy
+      8 import matplotlib.pylab as plt
+      9 import seaborn as sns
 
 ModuleNotFoundError: No module named 'GPy'
 ModuleNotFoundError: No module named 'GPy'

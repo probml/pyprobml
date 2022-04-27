@@ -38,7 +38,11 @@ try:
 except:
     %pip install scikit-learn
     from sklearn.datasets import load_iris
-import probml_utils as pml
+try:
+    import probml_utils as pml
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
 iris = load_iris()
 X = iris.data

@@ -29,7 +29,11 @@ try:
 except:
     %pip install arviz
     import arviz as az
-import probml_utils as pml
+try:
+    import probml_utils as pml
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
 np.random.seed(42)
 
@@ -84,15 +88,15 @@ plt.show()
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-Input In [1], in <cell line: 40>()
-     35 # url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
-     36 # There is some error reading the abvoe file
-     37 # Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
-     38 # So we make a copy here
-     39 url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
----> 40 df = pd.read_csv(url)
-     41 obs = df["exp"]
-     43 az.plot_kde(obs)
+Input In [1], in <cell line: 44>()
+     39 # url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
+     40 # There is some error reading the abvoe file
+     41 # Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
+     42 # So we make a copy here
+     43 url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
+---> 44 df = pd.read_csv(url)
+     45 obs = df["exp"]
+     47 az.plot_kde(obs)
 
 File /usr/local/lib/python3.9/dist-packages/pandas/util/_decorators.py:311, in deprecate_nonkeyword_arguments.<locals>.decorate.<locals>.wrapper(*args, **kwargs)
     305 if len(args) > num_allow_args:

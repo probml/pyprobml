@@ -12,24 +12,24 @@ plt.savefig("../figures/vae_mnist_conv_2d_samples.pdf")
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-Input In [13], in <cell line: 6>()
+Input In [12], in <cell line: 6>()
       2     return m2.vae.decode(z)
       5 plt.figure()
 ----> 6 imgs = get_random_samples(decoder, truncation_threshold=5, num_images_per_row=8, num_images=16)
       7 plt.imshow(imgs)
       8 plt.savefig("../figures/vae_mnist_conv_2d_samples.pdf")
 
-File /__w/pyprobml/pyprobml/lvm_plots_utils.py:82, in get_random_samples(decoder, truncation_threshold, latent_dim, num_images, num_images_per_row)
+File /usr/local/lib/python3.9/dist-packages/probml_utils/lvm_plots_utils.py:82, in get_random_samples(decoder, truncation_threshold, latent_dim, num_images, num_images_per_row)
      80 z = torch.from_numpy(values).float()
      81 z = z.to(device)
 ---> 82 imgs = rearrange(make_grid(decoder(z), num_images_per_row), 'c h w -> h w c').cpu().detach().numpy()
      83 return imgs
 
-Input In [13], in decoder(z)
+Input In [12], in decoder(z)
       1 def decoder(z):
 ----> 2     return m2.vae.decode(z)
 
-File /__w/pyprobml/pyprobml/vae_conv_mnist.py:120, in ConvVAEModule.decode(self, z)
+File /usr/local/lib/python3.9/dist-packages/probml_utils/vae_conv_mnist.py:120, in ConvVAEModule.decode(self, z)
     119 def decode(self, z):
 --> 120     z = self.decoder_linear(z)
     121     recon = z.view(z.size()[0], *self.shape_before_flattening[1:])
