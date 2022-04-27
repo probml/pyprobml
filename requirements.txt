@@ -1,3 +1,4 @@
+#add only those modules/libraries that are pre-installed in colab
 jaxlib
 jax
 jupyter
@@ -9,3 +10,4 @@ seaborn
 scikit-learn
 h5py
 pandas
+graphviz
