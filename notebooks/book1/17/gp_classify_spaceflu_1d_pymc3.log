@@ -1,8 +1,249 @@
-A cell timed out while it was being executed, after 600 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-['# Gaussian process binary classification in 1d', '# Code is based on', '# https://github.com/aloctavodia/BAP/blob/master/code/Chp7/07_Gaussian%20process.ipynb', '', '']
-...
-['az.plot_hdi(X_new[:, 0], fp, color="C2")', 'ax.set_yticks([0, 1])', 'ax.set_yticklabels(["healthy", "sick"])', 'ax.set_xlabel("age")', 'pml.savefig("gp_classify_spaceflu.pdf", dpi=300)']
--------------------
+An error occurred while executing the following cell:
+------------------
+# Gaussian process binary classification in 1d
+# Code is based on
+# https://github.com/aloctavodia/BAP/blob/master/code/Chp7/07_Gaussian%20process.ipynb
+
+
+try:
+    import pymc3 as pm
+except:
+    %pip install pymc3
+    import pymc3 as pm
+import numpy as np
+
+try:
+    import pandas as pd
+except:
+    %pip install pandas
+    import pandas as pd
+from scipy import stats
+from scipy.special import expit as logistic
+
+try:
+    import probml_utils as pml
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+import matplotlib.pyplot as plt
+
+try:
+    import arviz as az
+except:
+    %pip install arviz
+    import arviz as az
+
+try:
+    from sklearn.datasets import load_iris
+except:
+    %pip install scikit-learn
+    from sklearn.datasets import load_iris
+
+url = "https://github.com/aloctavodia/BAP/blob/master/code/data/space_flu.csv?raw=true"
+
+df_sf = pd.read_csv(url)
+age = df_sf.age.values[:, None]
+space_flu = df_sf.space_flu
+
+ax = df_sf.plot.scatter("age", "space_flu", figsize=(8, 5))
+ax.set_yticks([0, 1])
+ax.set_yticklabels(["healthy", "sick"])
+pml.savefig("space_flu.pdf", bbox_inches="tight")
+
+
+with pm.Model() as model_space_flu:
+    ℓ = pm.HalfCauchy("ℓ", 1)
+    cov = pm.gp.cov.ExpQuad(1, ℓ) + pm.gp.cov.WhiteNoise(1e-5)
+    gp = pm.gp.Latent(cov_func=cov)
+    f = gp.prior("f", X=age)
+    y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=space_flu)
+    trace_space_flu = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
+
+
+X_new = np.linspace(0, 80, 200)[:, None]
+
+with model_space_flu:
+    f_pred = gp.conditional("f_pred", X_new)
+    pred_samples = pm.sample_posterior_predictive(trace_space_flu, var_names=["f_pred"], samples=1000)
+
+_, ax = plt.subplots(figsize=(10, 6))
+
+fp = logistic(pred_samples["f_pred"])
+fp_mean = np.nanmean(fp, 0)
+
+ax.scatter(age, np.random.normal(space_flu, 0.02), marker=".", color=[f"C{ci}" for ci in space_flu])
+
+ax.plot(X_new[:, 0], fp_mean, "C2", lw=3)
+
+az.plot_hdi(X_new[:, 0], fp, color="C2")
+ax.set_yticks([0, 1])
+ax.set_yticklabels(["healthy", "sick"])
+ax.set_xlabel("age")
+pml.savefig("gp_classify_spaceflu.pdf", dpi=300)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [1], in <cell line: 6>()
+      6 try:
+----> 7     import pymc3 as pm
+      8 except:
+
+ModuleNotFoundError: No module named 'pymc3'
+
+During handling of the above exception, another exception occurred:
+
+ContextualVersionConflict                 Traceback (most recent call last)
+Input In [1], in <cell line: 6>()
+      8 except:
+      9     get_ipython().run_line_magic('pip', 'install pymc3')
+---> 10     import pymc3 as pm
+     11 import numpy as np
+     13 try:
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/__init__.py:115, in <module>
+    112 __set_compiler_flags()
+    113 _hotfix_theano_printing()
+--> 115 from pymc3 import gp, ode, sampling
+    116 from pymc3.backends import load_trace, save_trace
+    117 from pymc3.backends.tracetab import *
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/gp/__init__.py:16, in <module>
+      1 #   Copyright 2020 The PyMC Developers
+      2 #
+      3 #   Licensed under the Apache License, Version 2.0 (the "License");
+   (...)
+     12 #   See the License for the specific language governing permissions and
+     13 #   limitations under the License.
+     15 from pymc3.gp import cov, mean, util
+---> 16 from pymc3.gp.gp import TP, Latent, LatentKron, Marginal, MarginalKron, MarginalSparse
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/gp/gp.py:25, in <module>
+     21 from theano.tensor.nlinalg import eigh
+     23 import pymc3 as pm
+---> 25 from pymc3.distributions import draw_values
+     26 from pymc3.gp.cov import Constant, Covariance
+     27 from pymc3.gp.mean import Zero
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/distributions/__init__.py:15, in <module>
+      1 #   Copyright 2020 The PyMC Developers
+      2 #
+      3 #   Licensed under the Apache License, Version 2.0 (the "License");
+   (...)
+     12 #   See the License for the specific language governing permissions and
+     13 #   limitations under the License.
+---> 15 from pymc3.distributions import shape_utils, timeseries, transforms
+     16 from pymc3.distributions.bart import BART
+     17 from pymc3.distributions.bound import Bound
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/distributions/timeseries.py:21, in <module>
+     18 from scipy import stats
+     19 from theano import scan
+---> 21 from pymc3.distributions import distribution, multivariate
+     22 from pymc3.distributions.continuous import Flat, Normal, get_tau_sigma
+     23 from pymc3.distributions.shape_utils import to_tuple
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/distributions/distribution.py:45, in <module>
+     38 from theano import function
+     40 from pymc3.distributions.shape_utils import (
+     41     broadcast_dist_samples_shape,
+     42     get_broadcastable_dist_samples,
+     43     to_tuple,
+     44 )
+---> 45 from pymc3.model import (
+     46     ContextMeta,
+     47     FreeRV,
+     48     Model,
+     49     MultiObservedRV,
+     50     ObservedRV,
+     51     build_named_node_tree,
+     52 )
+     53 from pymc3.util import get_repr_for_variable, get_var_name, hash_key
+     54 from pymc3.vartypes import string_types, theano_constant
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/model.py:38, in <module>
+     34 from theano.tensor.var import TensorVariable
+     36 import pymc3 as pm
+---> 38 from pymc3.blocking import ArrayOrdering, DictToArrayBijection
+     39 from pymc3.exceptions import ImputationWarning
+     40 from pymc3.theanof import floatX, generator, gradient, hessian, inputvars
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/blocking.py:25, in <module>
+     21 import copy
+     23 import numpy as np
+---> 25 from pymc3.util import get_var_name
+     27 __all__ = ["ArrayOrdering", "DictToArrayBijection", "DictToVarBijection"]
+     29 VarMap = collections.namedtuple("VarMap", "var, slc, shp, dtyp")
+
+File /usr/local/lib/python3.9/dist-packages/pymc3/util.py:21, in <module>
+     17 import warnings
+     19 from typing import Dict, List, Tuple, Union
+---> 21 import arviz
+     22 import dill
+     23 import numpy as np
+
+File /usr/local/lib/python3.9/dist-packages/arviz/__init__.py:32, in <module>
+     26         super()._log(level, msg, *args, **kwargs)
+     29 _log = Logger("arviz")
+---> 32 from .data import *
+     33 from .plots import *
+     34 from .plots.backends import *
+
+File /usr/local/lib/python3.9/dist-packages/arviz/data/__init__.py:3, in <module>
+      1 """Code for loading and manipulating data structures."""
+      2 from .base import CoordSpec, DimSpec, dict_to_dataset, numpy_to_data_array
+----> 3 from .converters import convert_to_dataset, convert_to_inference_data
+      4 from .datasets import clear_data_home, list_datasets, load_arviz_data
+      5 from .inference_data import InferenceData, concat
+
+File /usr/local/lib/python3.9/dist-packages/arviz/data/converters.py:11, in <module>
+      9 from .io_emcee import from_emcee
+     10 from .io_numpyro import from_numpyro
+---> 11 from .io_pymc3 import from_pymc3
+     12 from .io_pyro import from_pyro
+     13 from .io_pystan import from_pystan
+
+File /usr/local/lib/python3.9/dist-packages/arviz/data/io_pymc3.py:9, in <module>
+      6 __all__ = ["from_pymc3", "from_pymc3_predictions"]
+      8 try:
+----> 9     pymc3_version = pkg_resources.get_distribution("pymc3").version
+     10     PYMC3_V4 = packaging.version.parse(pymc3_version) >= packaging.version.parse("4.0")
+     11 except pkg_resources.DistributionNotFound:
+
+File /usr/local/lib/python3.9/dist-packages/pkg_resources/__init__.py:478, in get_distribution(dist)
+    476     dist = Requirement.parse(dist)
+    477 if isinstance(dist, Requirement):
+--> 478     dist = get_provider(dist)
+    479 if not isinstance(dist, Distribution):
+    480     raise TypeError("Expected string, Requirement, or Distribution", dist)
+
+File /usr/local/lib/python3.9/dist-packages/pkg_resources/__init__.py:354, in get_provider(moduleOrReq)
+    352 """Return an IResourceProvider for the named module or requirement"""
+    353 if isinstance(moduleOrReq, Requirement):
+--> 354     return working_set.find(moduleOrReq) or require(str(moduleOrReq))[0]
+    355 try:
+    356     module = sys.modules[moduleOrReq]
+
+File /usr/local/lib/python3.9/dist-packages/pkg_resources/__init__.py:909, in WorkingSet.require(self, *requirements)
+    900 def require(self, *requirements):
+    901     """Ensure that distributions matching `requirements` are activated
+    902 
+    903     `requirements` must be a string or a (possibly-nested) sequence
+   (...)
+    907     included, even if they were already activated in this working set.
+    908     """
+--> 909     needed = self.resolve(parse_requirements(requirements))
+    911     for dist in needed:
+    912         self.add(dist)
+
+File /usr/local/lib/python3.9/dist-packages/pkg_resources/__init__.py:800, in WorkingSet.resolve(self, requirements, env, installer, replace_conflicting, extras)
+    797 if dist not in req:
+    798     # Oops, the "best" so far conflicts with a dependency
+    799     dependent_req = required_by[req]
+--> 800     raise VersionConflict(dist, req).with_context(dependent_req)
+    802 # push the new requirements onto the stack
+    803 new_requirements = dist.requires(req.extras)[::-1]
+
+ContextualVersionConflict: (scipy 1.8.0 (/usr/local/lib/python3.9/dist-packages), Requirement.parse('scipy<1.8.0,>=1.7.3'), {'pymc3'})
+ContextualVersionConflict: (scipy 1.8.0 (/usr/local/lib/python3.9/dist-packages), Requirement.parse('scipy<1.8.0,>=1.7.3'), {'pymc3'})

@@ -2,6 +2,6 @@ A cell timed out while it was being executed, after 600 seconds.
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-nsteps, lr = 50, 5e-3
-bert_train_state = train_bert(Transformer, train_iter, lr, nsteps, len(vocab))
+lr, num_epochs = 0.001, 4
+final_state = train_bert_classifier(Transformer, train_iter, test_iter, num_epochs, lr)
 -------------------

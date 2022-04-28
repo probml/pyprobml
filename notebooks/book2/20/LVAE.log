@@ -1,18 +1,57 @@
 An error occurred while executing the following cell:
 ------------------
-class TrainState(train_state.TrainState):
-    batch_stats: Any
+from tkinter.tix import Tree
+from unicodedata import name
+from absl import app
+from absl import flags
+
+try:
+    import flax.linen as nn
+except:
+    %pip install flax
+    import flax.linen as nn
+
+from flax.training import train_state, checkpoints
+import shutil
+import jax.numpy as jnp
+import jax
+from jax import random
+import numpy as np
+
+try:
+    import optax
+except:
+    %pip install optax
+    import optax
+
+try:
+    import tensorflow as tf
+except:
+    %pip install tensorflow
+    import tensorflow as tf
+
+try:
+    import tensorflow_datasets as tfds
+except:
+    %pip install tensorflow_datasets
+    import tensorflow_datasets as tfds
+
+
+import scipy.io
+import os
+import math
+from PIL import Image
+import matplotlib.pyplot as plt
+
+os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "False"
 ------------------
 
 ---------------------------------------------------------------------------
-NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_11060/1014202307.py in <module>
-----> 1 class TrainState(train_state.TrainState):
-      2     batch_stats: Any
+ModuleNotFoundError                       Traceback (most recent call last)
+Input In [3], in <cell line: 1>()
+----> 1 from tkinter.tix import Tree
+      2 from unicodedata import name
+      3 from absl import app
 
-/tmp/ipykernel_11060/1014202307.py in TrainState()
-      1 class TrainState(train_state.TrainState):
-----> 2     batch_stats: Any
-
-NameError: name 'Any' is not defined
-NameError: name 'Any' is not defined
+ModuleNotFoundError: No module named 'tkinter'
+ModuleNotFoundError: No module named 'tkinter'

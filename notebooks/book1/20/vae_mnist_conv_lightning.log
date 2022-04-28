@@ -1,35 +1,52 @@
 An error occurred while executing the following cell:
 ------------------
-m.load_state_dict(torch.load("vae-mnist-conv-latent-dim-20.ckpt"))
-m2.load_state_dict(torch.load("vae-mnist-conv-latent-dim-2.ckpt"))
+def decoder(z):
+    return m2.vae.decode(z)
+
+
+plt.figure()
+imgs = get_random_samples(decoder, truncation_threshold=5, num_images_per_row=8, num_images=16)
+plt.imshow(imgs)
+plt.savefig("../figures/vae_mnist_conv_2d_samples.pdf")
 ------------------
 
 ---------------------------------------------------------------------------
-FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_7049/1432685684.py in <module>
-----> 1 m.load_state_dict(torch.load("vae-mnist-conv-latent-dim-20.ckpt"))
-      2 m2.load_state_dict(torch.load("vae-mnist-conv-latent-dim-2.ckpt"))
+RuntimeError                              Traceback (most recent call last)
+Input In [12], in <cell line: 6>()
+      2     return m2.vae.decode(z)
+      5 plt.figure()
+----> 6 imgs = get_random_samples(decoder, truncation_threshold=5, num_images_per_row=8, num_images=16)
+      7 plt.imshow(imgs)
+      8 plt.savefig("../figures/vae_mnist_conv_2d_samples.pdf")
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/serialization.py in load(f, map_location, pickle_module, **pickle_load_args)
-    697         pickle_load_args['encoding'] = 'utf-8'
-    698 
---> 699     with _open_file_like(f, 'rb') as opened_file:
-    700         if _is_zipfile(opened_file):
-    701             # The zipfile reader is going to advance the current file position.
+File /usr/local/lib/python3.9/dist-packages/probml_utils/lvm_plots_utils.py:82, in get_random_samples(decoder, truncation_threshold, latent_dim, num_images, num_images_per_row)
+     80 z = torch.from_numpy(values).float()
+     81 z = z.to(device)
+---> 82 imgs = rearrange(make_grid(decoder(z), num_images_per_row), 'c h w -> h w c').cpu().detach().numpy()
+     83 return imgs
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/serialization.py in _open_file_like(name_or_buffer, mode)
-    229 def _open_file_like(name_or_buffer, mode):
-    230     if _is_path(name_or_buffer):
---> 231         return _open_file(name_or_buffer, mode)
-    232     else:
-    233         if 'w' in mode:
+Input In [12], in decoder(z)
+      1 def decoder(z):
+----> 2     return m2.vae.decode(z)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/serialization.py in __init__(self, name, mode)
-    210 class _open_file(_opener):
-    211     def __init__(self, name, mode):
---> 212         super(_open_file, self).__init__(open(name, mode))
-    213 
-    214     def __exit__(self, *args):
+File /usr/local/lib/python3.9/dist-packages/probml_utils/vae_conv_mnist.py:120, in ConvVAEModule.decode(self, z)
+    119 def decode(self, z):
+--> 120     z = self.decoder_linear(z)
+    121     recon = z.view(z.size()[0], *self.shape_before_flattening[1:])
+    122     for l in self.dec_t_convs:
 
-FileNotFoundError: [Errno 2] No such file or directory: 'vae-mnist-conv-latent-dim-20.ckpt'
-FileNotFoundError: [Errno 2] No such file or directory: 'vae-mnist-conv-latent-dim-20.ckpt'
+File /usr/local/lib/python3.9/dist-packages/torch/nn/modules/module.py:1110, in Module._call_impl(self, *input, **kwargs)
+   1106 # If we don't have any hooks, we want to skip the rest of the logic in
+   1107 # this function, and just call forward.
+   1108 if not (self._backward_hooks or self._forward_hooks or self._forward_pre_hooks or _global_backward_hooks
+   1109         or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1110     return forward_call(*input, **kwargs)
+   1111 # Do not call functions when jit is used
+   1112 full_backward_hooks, non_full_backward_hooks = [], []
+
+File /usr/local/lib/python3.9/dist-packages/torch/nn/modules/linear.py:103, in Linear.forward(self, input)
+    102 def forward(self, input: Tensor) -> Tensor:
+--> 103     return F.linear(input, self.weight, self.bias)
+
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (16x20 and 2x1024)
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (16x20 and 2x1024)

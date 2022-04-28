@@ -90,7 +90,7 @@ def others(n=1000):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3587/1047615509.py in <module>
+Input In [1], in <cell line: 8>()
       8 try:
 ----> 9     from minepy import MINE
      10 except:
@@ -100,12 +100,12 @@ ModuleNotFoundError: No module named 'minepy'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3587/1047615509.py in <module>
+Input In [1], in <cell line: 8>()
      10 except:
      11     get_ipython().run_line_magic('pip', 'install minepy')
 ---> 12     from minepy import MINE
-     13 
-     14 
+     15 rs = np.random.RandomState(seed=0)
+     18 def mysubplot(x, y, numRows, numCols, plotNum, xlim=(-4, 4), ylim=(-4, 4)):
 
 ModuleNotFoundError: No module named 'minepy'
 ModuleNotFoundError: No module named 'minepy'

@@ -16,12 +16,10 @@ import matplotlib.pyplot as plt
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2260/3866412800.py in <module>
+Input In [3], in <cell line: 1>()
 ----> 1 import cv2
       2 import jax
       3 import augmax
-      4 from jax import numpy as jnp
-      5 from jax import random as jrand
 
 ModuleNotFoundError: No module named 'cv2'
 ModuleNotFoundError: No module named 'cv2'

@@ -1,0 +1,64 @@
+An error occurred while executing the following cell:
+------------------
+# Standard Python libraries
+from __future__ import absolute_import, division, print_function, unicode_literals
+
+import os
+import time
+import numpy as np
+import glob
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import PIL
+
+try:
+    import imageio
+except:
+    %pip install imageio
+    import imageio
+
+from IPython import display
+
+import sklearn
+
+import seaborn as sns
+
+sns.set(style="ticks", color_codes=True)
+
+import pandas as pd
+
+pd.set_option("precision", 2)  # 2 decimal places
+pd.set_option("display.max_rows", 20)
+pd.set_option("display.max_columns", 30)
+pd.set_option("display.width", 100)  # wide windows
+------------------
+
+---------------------------------------------------------------------------
+OptionError                               Traceback (most recent call last)
+Input In [2], in <cell line: 28>()
+     24 sns.set(style="ticks", color_codes=True)
+     26 import pandas as pd
+---> 28 pd.set_option("precision", 2)  # 2 decimal places
+     29 pd.set_option("display.max_rows", 20)
+     30 pd.set_option("display.max_columns", 30)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:256, in CallableDynamicDoc.__call__(self, *args, **kwds)
+    255 def __call__(self, *args, **kwds):
+--> 256     return self.__func__(*args, **kwds)
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:149, in _set_option(*args, **kwargs)
+    146     raise TypeError(f'_set_option() got an unexpected keyword argument "{kwarg}"')
+    148 for k, v in zip(args[::2], args[1::2]):
+--> 149     key = _get_single_key(k, silent)
+    151     o = _get_registered_option(key)
+    152     if o and o.validator:
+
+File /usr/local/lib/python3.9/dist-packages/pandas/_config/config.py:116, in _get_single_key(pat, silent)
+    114     raise OptionError(f"No such keys(s): {repr(pat)}")
+    115 if len(keys) > 1:
+--> 116     raise OptionError("Pattern matched multiple keys")
+    117 key = keys[0]
+    119 if not silent:
+
+OptionError: 'Pattern matched multiple keys'
+OptionError: 'Pattern matched multiple keys'

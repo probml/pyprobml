@@ -184,8 +184,8 @@ plt.show()
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_8142/1278216273.py in <module>
-     99 
+Input In [1], in <cell line: 101>()
+     98 # ----------------------------------------------------------------------
     100 print("Computing UMAP projection")
 --> 101 X_umap = umap.UMAP(n_neighbors=5, min_dist=0.3, n_components=2, metric="correlation").fit_transform(X)
     102 plot_embedding(X_umap, "UMAP projection")

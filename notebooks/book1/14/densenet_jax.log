@@ -32,9 +32,9 @@ ModuleDef = Any
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2439/4222071250.py in <module>
+Input In [2], in <cell line: 14>()
+     11 import numpy as np  # Ordinary NumPy
      12 import optax  # Optimizers
-     13 
 ---> 14 import torchvision
      15 import torch
      16 from torch.utils import data
