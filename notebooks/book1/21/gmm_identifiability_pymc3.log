@@ -88,128 +88,124 @@ plt.show()
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-Input In [1], in <cell line: 44>()
-     39 # url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
-     40 # There is some error reading the abvoe file
-     41 # Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
+/tmp/ipykernel_3985/3310298943.py in <module>
      42 # So we make a copy here
      43 url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
 ---> 44 df = pd.read_csv(url)
      45 obs = df["exp"]
-     47 az.plot_kde(obs)
+     46 
 
-File /usr/local/lib/python3.9/dist-packages/pandas/util/_decorators.py:311, in deprecate_nonkeyword_arguments.<locals>.decorate.<locals>.wrapper(*args, **kwargs)
-    305 if len(args) > num_allow_args:
-    306     warnings.warn(
-    307         msg.format(arguments=arguments),
-    308         FutureWarning,
-    309         stacklevel=stacklevel,
-    310     )
---> 311 return func(*args, **kwargs)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/util/_decorators.py in wrapper(*args, **kwargs)
+    309                     stacklevel=stacklevel,
+    310                 )
+--> 311             return func(*args, **kwargs)
+    312 
+    313         return wrapper
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:680, in read_csv(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)
-    665 kwds_defaults = _refine_defaults_read(
-    666     dialect,
-    667     delimiter,
-   (...)
-    676     defaults={"delimiter": ","},
-    677 )
-    678 kwds.update(kwds_defaults)
---> 680 return _read(filepath_or_buffer, kwds)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/readers.py in read_csv(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)
+    584     kwds.update(kwds_defaults)
+    585 
+--> 586     return _read(filepath_or_buffer, kwds)
+    587 
+    588 
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:575, in _read(filepath_or_buffer, kwds)
-    572 _validate_names(kwds.get("names", None))
-    574 # Create the parser.
---> 575 parser = TextFileReader(filepath_or_buffer, **kwds)
-    577 if chunksize or iterator:
-    578     return parser
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/readers.py in _read(filepath_or_buffer, kwds)
+    480 
+    481     # Create the parser.
+--> 482     parser = TextFileReader(filepath_or_buffer, **kwds)
+    483 
+    484     if chunksize or iterator:
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:933, in TextFileReader.__init__(self, f, engine, **kwds)
-    930     self.options["has_index_names"] = kwds["has_index_names"]
-    932 self.handles: IOHandles | None = None
---> 933 self._engine = self._make_engine(f, self.engine)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/readers.py in __init__(self, f, engine, **kwds)
+    809             self.options["has_index_names"] = kwds["has_index_names"]
+    810 
+--> 811         self._engine = self._make_engine(self.engine)
+    812 
+    813     def close(self):
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/parsers/readers.py:1217, in TextFileReader._make_engine(self, f, engine)
-   1213     mode = "rb"
-   1214 # error: No overload variant of "get_handle" matches argument types
-   1215 # "Union[str, PathLike[str], ReadCsvBuffer[bytes], ReadCsvBuffer[str]]"
-   1216 # , "str", "bool", "Any", "Any", "Any", "Any", "Any"
--> 1217 self.handles = get_handle(  # type: ignore[call-overload]
-   1218     f,
-   1219     mode,
-   1220     encoding=self.options.get("encoding", None),
-   1221     compression=self.options.get("compression", None),
-   1222     memory_map=self.options.get("memory_map", False),
-   1223     is_text=is_text,
-   1224     errors=self.options.get("encoding_errors", "strict"),
-   1225     storage_options=self.options.get("storage_options", None),
-   1226 )
-   1227 assert self.handles is not None
-   1228 f = self.handles.handle
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/readers.py in _make_engine(self, engine)
+   1038             )
+   1039         # error: Too many arguments for "ParserBase"
+-> 1040         return mapping[engine](self.f, **self.options)  # type: ignore[call-arg]
+   1041 
+   1042     def _failover_to_python(self):
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:670, in get_handle(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)
-    667     codecs.lookup_error(errors)
-    669 # open URLs
---> 670 ioargs = _get_filepath_or_buffer(
-    671     path_or_buf,
-    672     encoding=encoding,
-    673     compression=compression,
-    674     mode=mode,
-    675     storage_options=storage_options,
-    676 )
-    678 handle = ioargs.filepath_or_buffer
-    679 handles: list[BaseBuffer]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/c_parser_wrapper.py in __init__(self, src, **kwds)
+     49 
+     50         # open handles
+---> 51         self._open_handles(src, kwds)
+     52         assert self.handles is not None
+     53 
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:339, in _get_filepath_or_buffer(filepath_or_buffer, encoding, compression, mode, storage_options)
-    337 # assuming storage_options is to be interpreted as headers
-    338 req_info = urllib.request.Request(filepath_or_buffer, headers=storage_options)
---> 339 with urlopen(req_info) as req:
-    340     content_encoding = req.headers.get("Content-Encoding", None)
-    341     if content_encoding == "gzip":
-    342         # Override compression based on Content-Encoding header
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/base_parser.py in _open_handles(self, src, kwds)
+    227             memory_map=kwds.get("memory_map", False),
+    228             storage_options=kwds.get("storage_options", None),
+--> 229             errors=kwds.get("encoding_errors", "strict"),
+    230         )
+    231 
 
-File /usr/local/lib/python3.9/dist-packages/pandas/io/common.py:239, in urlopen(*args, **kwargs)
-    233 """
-    234 Lazy-import wrapper for stdlib urlopen, as that imports a big chunk of
-    235 the stdlib.
-    236 """
-    237 import urllib.request
---> 239 return urllib.request.urlopen(*args, **kwargs)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/common.py in get_handle(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)
+    612         compression=compression,
+    613         mode=mode,
+--> 614         storage_options=storage_options,
+    615     )
+    616 
 
-File /usr/lib/python3.9/urllib/request.py:214, in urlopen(url, data, timeout, cafile, capath, cadefault, context)
-    212 else:
-    213     opener = _opener
---> 214 return opener.open(url, data, timeout)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/common.py in _get_filepath_or_buffer(filepath_or_buffer, encoding, compression, mode, storage_options)
+    310         # assuming storage_options is to be interpreted as headers
+    311         req_info = urllib.request.Request(filepath_or_buffer, headers=storage_options)
+--> 312         with urlopen(req_info) as req:
+    313             content_encoding = req.headers.get("Content-Encoding", None)
+    314             if content_encoding == "gzip":
 
-File /usr/lib/python3.9/urllib/request.py:523, in OpenerDirector.open(self, fullurl, data, timeout)
-    521 for processor in self.process_response.get(protocol, []):
-    522     meth = getattr(processor, meth_name)
---> 523     response = meth(req, response)
-    525 return response
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/common.py in urlopen(*args, **kwargs)
+    210     import urllib.request
+    211 
+--> 212     return urllib.request.urlopen(*args, **kwargs)
+    213 
+    214 
 
-File /usr/lib/python3.9/urllib/request.py:632, in HTTPErrorProcessor.http_response(self, request, response)
-    629 # According to RFC 2616, "2xx" code indicates that the client's
-    630 # request was successfully received, understood, and accepted.
-    631 if not (200 <= code < 300):
---> 632     response = self.parent.error(
-    633         'http', request, response, code, msg, hdrs)
-    635 return response
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlopen(url, data, timeout, cafile, capath, cadefault, context)
+    220     else:
+    221         opener = _opener
+--> 222     return opener.open(url, data, timeout)
+    223 
+    224 def install_opener(opener):
 
-File /usr/lib/python3.9/urllib/request.py:561, in OpenerDirector.error(self, proto, *args)
-    559 if http_err:
-    560     args = (dict, 'default', 'http_error_default') + orig_args
---> 561     return self._call_chain(*args)
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in open(self, fullurl, data, timeout)
+    529         for processor in self.process_response.get(protocol, []):
+    530             meth = getattr(processor, meth_name)
+--> 531             response = meth(req, response)
+    532 
+    533         return response
 
-File /usr/lib/python3.9/urllib/request.py:494, in OpenerDirector._call_chain(self, chain, kind, meth_name, *args)
-    492 for handler in handlers:
-    493     func = getattr(handler, meth_name)
---> 494     result = func(*args)
-    495     if result is not None:
-    496         return result
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_response(self, request, response)
+    639         if not (200 <= code < 300):
+    640             response = self.parent.error(
+--> 641                 'http', request, response, code, msg, hdrs)
+    642 
+    643         return response
 
-File /usr/lib/python3.9/urllib/request.py:641, in HTTPDefaultErrorHandler.http_error_default(self, req, fp, code, msg, hdrs)
-    640 def http_error_default(self, req, fp, code, msg, hdrs):
---> 641     raise HTTPError(req.full_url, code, msg, hdrs, fp)
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in error(self, proto, *args)
+    567         if http_err:
+    568             args = (dict, 'default', 'http_error_default') + orig_args
+--> 569             return self._call_chain(*args)
+    570 
+    571 # XXX probably also want an abstract factory that knows when it makes
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _call_chain(self, chain, kind, meth_name, *args)
+    501         for handler in handlers:
+    502             func = getattr(handler, meth_name)
+--> 503             result = func(*args)
+    504             if result is not None:
+    505                 return result
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_error_default(self, req, fp, code, msg, hdrs)
+    647 class HTTPDefaultErrorHandler(BaseHandler):
+    648     def http_error_default(self, req, fp, code, msg, hdrs):
+--> 649         raise HTTPError(req.full_url, code, msg, hdrs, fp)
+    650 
+    651 class HTTPRedirectHandler(BaseHandler):
 
 HTTPError: HTTP Error 404: Not Found
 HTTPError: HTTP Error 404: Not Found

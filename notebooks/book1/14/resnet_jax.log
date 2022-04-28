@@ -1,0 +1,42 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp  # JAX NumPy
+from jax import lax
+import matplotlib.pyplot as plt
+import math
+from IPython import display
+
+from flax import linen as nn  # The Linen API
+from flax.training import train_state  # Useful dataclass to keep train state
+
+import numpy as np  # Ordinary NumPy
+import optax  # Optimizers
+
+import torchvision
+from torch.utils import data
+from torchvision import transforms
+import tensorflow_datasets as tfds  # TFDS for MNIST
+
+import random
+import os
+import time
+from typing import Any, Callable, Sequence, Tuple
+from functools import partial
+
+rng = jax.random.PRNGKey(0)
+!mkdir figures # for saving plots
+ModuleDef = Any
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2500/727828703.py in <module>
+     12 import optax  # Optimizers
+     13 
+---> 14 import torchvision
+     15 from torch.utils import data
+     16 from torchvision import transforms
+
+ModuleNotFoundError: No module named 'torchvision'
+ModuleNotFoundError: No module named 'torchvision'
