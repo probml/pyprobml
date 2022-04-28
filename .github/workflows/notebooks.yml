@@ -15,11 +15,12 @@ jobs:
     - name: Clone the reference repository
       uses: actions/checkout@v2
       
-    - name: Set up Python 3.9.12
+    - name: Set up Python 3.7.12
       uses: actions/setup-python@v2
       with:
-        # Change this based on the python version in the texlive container
-        python-version: '3.9.12'
+        # Change this based on the python version in Google colab
+        # actions/setup-python@v2 does not have 3.7.13
+        python-version: '3.7.12'
 
     - name: Install dependencies
       run: |
@@ -36,11 +37,12 @@ jobs:
     - name: Clone the reference repository
       uses: actions/checkout@v2
       
-    - name: Set up Python 3.9.12
+    - name: Set up Python 3.7.12
       uses: actions/setup-python@v2
       with:
-        # Change this based on the python version in the texlive container
-        python-version: '3.9.12'
+        # Change this based on the python version in Google colab
+        # actions/setup-python@v2 does not have 3.7.13
+        python-version: '3.7.12'
 
     - name: Install dependencies
       run: |
@@ -53,31 +55,43 @@ jobs:
 
   execute_notebooks:
     runs-on: ubuntu-latest
-    needs: [check_code_quality, static_import_check]
+    # needs: [check_code_quality, static_import_check]
     container: texlive/texlive:TL2020-historic
     steps:
     - name: Clone the reference repository
       uses: actions/checkout@v2
     
-    - name: Setup pip
+    - name: Setup Python 3.7.13 (current colab version)
+      shell: bash
       run: |
-        apt update
-        apt install wget python3-distutils -y
-        wget https://bootstrap.pypa.io/get-pip.py
-        python3 get-pip.py
+        curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output miniconda.sh
+        mkdir /root/.conda
+        bash miniconda.sh -b
+        rm miniconda.sh
+        echo "export PATH=\"\$HOME/miniconda3/bin:\$PATH\"" >> /root/.bashrc
+        echo "source \"\$HOME/miniconda3/bin/activate\"" >> /root/.bashrc
+        source /root/.bashrc
+        conda create -n py37 python=3.7.13 -y
+        echo "conda activate py37" >> /root/.bashrc
 
     - name: Install requirements
+      shell: bash
       run: |
+        source /root/.bashrc
         pip install -U --no-cache-dir -r requirements-dev.txt | cat
         pip install -U --no-cache-dir -r requirements.txt | cat
 
     - name: Check code quality (again)
+      shell: bash
       run: |
+        source /root/.bashrc
         black --check --verbose notebooks/book1/*/*.ipynb
         black --check --verbose notebooks/book2/*/*.ipynb
 
     - name: Check notebooks for errors
+      shell: bash
       run: |
+        source /root/.bashrc
         pytest -n auto -s --verbose tests/test_notebooks.py
 
     - name: Push figures to auto_generated_figures (does not run on pull requests)

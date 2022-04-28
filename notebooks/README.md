@@ -4,7 +4,7 @@
 
 ### How to contribute?
 
-It is recommended to use Python `3.9.12` (our automated GitHub workflow uses `3.9.12` to check the code). You may use Python [virtual environment](https://docs.python.org/3/library/venv.html) or [Anaconda](https://www.anaconda.com/) or the following docker container: `texlive/texlive:TL2020-historic`.
+It is recommended to use Python `3.7.13` because our automated GitHub workflow uses `3.7.13` to check the code and currently Google colab Python version is also `3.7.13`. You may use [Anaconda](https://www.anaconda.com/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) to install a specific version of Python on your system.
 
 1. Choose a figure from [book1](https://probml.github.io/pml-book/book1.html) ([pdf](https://github.com/probml/pml-book/releases/latest/download/book1.pdf)) or [book2](https://probml.github.io/pml-book/book2.html) ([pdf](https://github.com/probml/pml2-book/releases/latest/download/pml2.pdf)) and find out its source code notebook in this repo (mostly in the `notebooks` folder).
 2. Fork the main repo and create a new branch with a meaningful name.
