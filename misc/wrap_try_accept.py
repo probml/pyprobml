@@ -490,7 +490,7 @@ def wrap_try_accept_in_notebook(notebook):
         updated_code = wrap_try_accept_in_code(code)
         if updated_code != code:
             cell["source"] = updated_code
-            # nbformat.write(nb, notebook)
+            nbformat.write(nb, notebook)
 
 
 if __name__ == "__main__":
