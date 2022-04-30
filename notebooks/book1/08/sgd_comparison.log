@@ -24,7 +24,7 @@ from google.colab import data_table
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_841/3506562474.py in <module>
+/tmp/ipykernel_836/3506562474.py in <module>
      16 from torch.utils.data import DataLoader, TensorDataset
      17 from sklearn.model_selection import train_test_split
 ---> 18 from google.colab import data_table

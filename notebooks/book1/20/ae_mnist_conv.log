@@ -44,7 +44,7 @@ except:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_10433/880497873.py in <module>
+/tmp/ipykernel_10453/880497873.py in <module>
      30     from einops import rearrange
      31 import seaborn as sns
 ---> 32 from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, plot_grid_plot

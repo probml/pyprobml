@@ -41,7 +41,7 @@ assert np.allclose(evals[0], lam, tol)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3562/433316608.py in <module>
+/tmp/ipykernel_3569/433316608.py in <module>
       1 # Illustrate the powr method for computing largest eigenvector
       2 
 ----> 3 import superimport

@@ -57,7 +57,7 @@ for i in range(len(l)):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2450/221954566.py in <module>
+/tmp/ipykernel_2444/221954566.py in <module>
      11 try:
 ---> 12     import GPy
      13 except:
@@ -67,7 +67,7 @@ ModuleNotFoundError: No module named 'GPy'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2450/221954566.py in <module>
+/tmp/ipykernel_2444/221954566.py in <module>
      13 except:
      14     get_ipython().run_line_magic('pip', 'install GPy')
 ---> 15     import GPy

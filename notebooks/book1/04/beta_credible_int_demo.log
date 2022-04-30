@@ -34,7 +34,7 @@ print("{:0.2f}--{:0.2f}".format(CI3[0], CI3[1]))  # (0.06:0.51)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_9876/1933811595.py in <module>
+/tmp/ipykernel_9894/1933811595.py in <module>
       1 # Compute 95% CI for a beta distribution
 ----> 2 import superimport
       3 

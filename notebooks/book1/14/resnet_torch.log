@@ -7,12 +7,12 @@ train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_3299/1771745465.py in <module>
+/tmp/ipykernel_3300/1771745465.py in <module>
       1 lr, num_epochs, batch_size = 0.05, 10, 256
       2 train_iter, test_iter = load_data_fashion_mnist(batch_size, resize=96)
 ----> 3 train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
-/tmp/ipykernel_3299/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
+/tmp/ipykernel_3300/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
      21             optimizer.zero_grad()
      22             X, y = X.to(device), y.to(device)
 ---> 23             y_hat = net(X)
