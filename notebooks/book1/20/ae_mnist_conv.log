@@ -3,29 +3,53 @@ An error occurred while executing the following cell:
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-import torch
+
+try:
+    import torch
+except:
+    %pip install torch
+    import torch
 import torch.nn as nn
-from torchvision.datasets import MNIST
+
+try:
+    from torchvision.datasets import MNIST
+except:
+    %pip install torchvision
+    from torchvision.datasets import MNIST
 import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
-from pytorch_lightning import LightningModule, Trainer
-from einops import rearrange
+
+try:
+    from pytorch_lightning import LightningModule, Trainer
+except:
+    %pip install pytorch_lightning
+    from pytorch_lightning import LightningModule, Trainer
+try:
+    from einops import rearrange
+except:
+    %pip install einops
+    from einops import rearrange
 import seaborn as sns
 from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, plot_grid_plot
 from torchvision.utils import make_grid
 from pytorch_lightning.utilities.seed import seed_everything
-from ae_mnist_conv import ConvAE
+
+try:
+    from ae_mnist_conv import ConvAE
+except:
+    %pip install ae_mnist_conv
+    from ae_mnist_conv import ConvAE
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_7619/3677435331.py in <module>
-     11 from einops import rearrange
-     12 import seaborn as sns
----> 13 from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, plot_grid_plot
-     14 from torchvision.utils import make_grid
-     15 from pytorch_lightning.utilities.seed import seed_everything
+/tmp/ipykernel_10433/880497873.py in <module>
+     30     from einops import rearrange
+     31 import seaborn as sns
+---> 32 from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, plot_grid_plot
+     33 from torchvision.utils import make_grid
+     34 from pytorch_lightning.utilities.seed import seed_everything
 
 ModuleNotFoundError: No module named 'lvm_plots_utils'
 ModuleNotFoundError: No module named 'lvm_plots_utils'

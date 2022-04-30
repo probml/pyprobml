@@ -1,42 +1,8 @@
-An error occurred while executing the following cell:
-------------------
-import jax
-import jax.numpy as jnp  # JAX NumPy
-from jax import lax
-import matplotlib.pyplot as plt
-import math
-from IPython import display
-
-from flax import linen as nn  # The Linen API
-from flax.training import train_state  # Useful dataclass to keep train state
-
-import numpy as np  # Ordinary NumPy
-import optax  # Optimizers
-
-import torchvision
-from torch.utils import data
-from torchvision import transforms
-import tensorflow_datasets as tfds  # TFDS for MNIST
-
-import random
-import os
-import time
-from typing import Any, Callable, Sequence, Tuple
-from functools import partial
-
-rng = jax.random.PRNGKey(0)
-!mkdir figures # for saving plots
-ModuleDef = Any
-------------------
-
----------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2874/727828703.py in <module>
-     15 from torch.utils import data
-     16 from torchvision import transforms
----> 17 import tensorflow_datasets as tfds  # TFDS for MNIST
-     18 
-     19 import random
-
-ModuleNotFoundError: No module named 'tensorflow_datasets'
-ModuleNotFoundError: No module named 'tensorflow_datasets'
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['animator = Animator(xlabel="epoch", xlim=[1, num_epochs], legend=["train loss", "train acc", "test acc"])', '', 'for epoch in range(num_epochs):', '', '    batch_metrics = []']
+...
+['', '    print(', '        "epoch: %d, loss: %.4f, train_accuracy: %.2f, test_accuracy: %.2f"', '        % (epoch, epoch_metrics_np["loss"], epoch_metrics_np["accuracy"] * 100, acc * 100)', '    )']
+-------------------

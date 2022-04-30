@@ -50,7 +50,7 @@ assert np.allclose(C, Sigma, 1e-0)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2619/3702926086.py in <module>
+/tmp/ipykernel_2622/3702926086.py in <module>
 ----> 1 import superimport
       2 
       3 import numpy as np

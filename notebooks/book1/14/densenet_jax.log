@@ -1,43 +1,110 @@
 An error occurred while executing the following cell:
 ------------------
-import jax
-import jax.numpy as jnp  # JAX NumPy
-from jax import lax
-import matplotlib.pyplot as plt
-import math
-from IPython import display
+timer = Timer()
+animator = Animator(xlabel="epoch", xlim=[1, num_epochs], legend=["train loss", "train acc", "test acc"])
+num_batches = len(train_iter)
+device = torch.device(f"cuda:{0}")
 
-from flax import linen as nn  # The Linen API
-from flax.training import train_state  # Useful dataclass to keep train state
+for epoch in range(num_epochs):
+    # Sum of training loss, sum of training accuracy, no. of examples
+    metric = Accumulator(3)
+    for i, (X, y) in enumerate(train_iter):
+        timer.start()
+        batch = {}
+        batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
+        batch["label"] = jnp.float32(y)
+        state, metrics = train_step(state, batch)
+        metric.add(metrics["loss"] * X.shape[0], metrics["numcorrect"], X.shape[0])
+        timer.stop()
+        train_l = metric[0] / metric[2]
+        train_acc = metric[1] / metric[2]
+        if (i + 1) % (num_batches // 5) == 0 or i == num_batches - 1:
+            animator.add(epoch + (i + 1) / num_batches, (train_l, train_acc, None))
 
-import numpy as np  # Ordinary NumPy
-import optax  # Optimizers
+    test_acc = eval_model(state, test_iter)
+    animator.add(epoch + 1, (None, None, test_acc))
 
-import torchvision
-import torch
-from torch.utils import data
-from torchvision import transforms
-import tensorflow_datasets as tfds  # TFDS for MNIST
 
-import random
-import os
-import time
-from typing import Any, Callable, Sequence, Tuple
-from functools import partial
-
-rng = jax.random.PRNGKey(0)
-!mkdir figures # for saving plots
-ModuleDef = Any
+print(f"{metric[2] * num_epochs / timer.sum():.1f} examples/sec " f"on {str(device)}")
+print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3f}")
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2731/4222071250.py in <module>
-     16 from torch.utils import data
-     17 from torchvision import transforms
----> 18 import tensorflow_datasets as tfds  # TFDS for MNIST
-     19 
-     20 import random
+RuntimeError                              Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in _try_get_data(self, timeout)
+   1010         try:
+-> 1011             data = self._data_queue.get(timeout=timeout)
+   1012             return (True, data)
 
-ModuleNotFoundError: No module named 'tensorflow_datasets'
-ModuleNotFoundError: No module named 'tensorflow_datasets'
+~/miniconda3/envs/py37/lib/python3.7/multiprocessing/queues.py in get(self, block, timeout)
+    103                     timeout = deadline - time.monotonic()
+--> 104                     if not self._poll(timeout):
+    105                         raise Empty
+
+~/miniconda3/envs/py37/lib/python3.7/multiprocessing/connection.py in poll(self, timeout)
+    256         self._check_readable()
+--> 257         return self._poll(timeout)
+    258 
+
+~/miniconda3/envs/py37/lib/python3.7/multiprocessing/connection.py in _poll(self, timeout)
+    413     def _poll(self, timeout):
+--> 414         r = wait([self], timeout)
+    415         return bool(r)
+
+~/miniconda3/envs/py37/lib/python3.7/multiprocessing/connection.py in wait(object_list, timeout)
+    920             while True:
+--> 921                 ready = selector.select(timeout)
+    922                 if ready:
+
+~/miniconda3/envs/py37/lib/python3.7/selectors.py in select(self, timeout)
+    414         try:
+--> 415             fd_event_list = self._selector.poll(timeout)
+    416         except InterruptedError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
+     65         # Python can still get and update the process status successfully.
+---> 66         _error_if_any_worker_fails()
+     67         if previous_handler is not None:
+
+RuntimeError: DataLoader worker (pid 4001) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+
+The above exception was the direct cause of the following exception:
+
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_3858/1115125.py in <module>
+      7     # Sum of training loss, sum of training accuracy, no. of examples
+      8     metric = Accumulator(3)
+----> 9     for i, (X, y) in enumerate(train_iter):
+     10         timer.start()
+     11         batch = {}
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in __next__(self)
+    528             if self._sampler_iter is None:
+    529                 self._reset()
+--> 530             data = self._next_data()
+    531             self._num_yielded += 1
+    532             if self._dataset_kind == _DatasetKind.Iterable and \
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in _next_data(self)
+   1205 
+   1206             assert not self._shutdown and self._tasks_outstanding > 0
+-> 1207             idx, data = self._get_data()
+   1208             self._tasks_outstanding -= 1
+   1209             if self._dataset_kind == _DatasetKind.Iterable:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in _get_data(self)
+   1171         else:
+   1172             while True:
+-> 1173                 success, data = self._try_get_data()
+   1174                 if success:
+   1175                     return data
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in _try_get_data(self, timeout)
+   1022             if len(failed_workers) > 0:
+   1023                 pids_str = ', '.join(str(w.pid) for w in failed_workers)
+-> 1024                 raise RuntimeError('DataLoader worker (pid(s) {}) exited unexpectedly'.format(pids_str)) from e
+   1025             if isinstance(e, queue.Empty):
+   1026                 return (False, None)
+
+RuntimeError: DataLoader worker (pid(s) 4001) exited unexpectedly
+RuntimeError: DataLoader worker (pid(s) 4001) exited unexpectedly

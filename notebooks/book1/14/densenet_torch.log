@@ -1,0 +1,91 @@
+An error occurred while executing the following cell:
+------------------
+lr, num_epochs, batch_size = 0.1, 10, 256
+train_iter, test_iter = load_data_fashion_mnist(batch_size, resize=96)
+train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
+------------------
+
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in _try_get_data(self, timeout)
+   1010         try:
+-> 1011             data = self._data_queue.get(timeout=timeout)
+   1012             return (True, data)
+
+~/miniconda3/envs/py37/lib/python3.7/multiprocessing/queues.py in get(self, block, timeout)
+    103                     timeout = deadline - time.monotonic()
+--> 104                     if not self._poll(timeout):
+    105                         raise Empty
+
+~/miniconda3/envs/py37/lib/python3.7/multiprocessing/connection.py in poll(self, timeout)
+    256         self._check_readable()
+--> 257         return self._poll(timeout)
+    258 
+
+~/miniconda3/envs/py37/lib/python3.7/multiprocessing/connection.py in _poll(self, timeout)
+    413     def _poll(self, timeout):
+--> 414         r = wait([self], timeout)
+    415         return bool(r)
+
+~/miniconda3/envs/py37/lib/python3.7/multiprocessing/connection.py in wait(object_list, timeout)
+    920             while True:
+--> 921                 ready = selector.select(timeout)
+    922                 if ready:
+
+~/miniconda3/envs/py37/lib/python3.7/selectors.py in select(self, timeout)
+    414         try:
+--> 415             fd_event_list = self._selector.poll(timeout)
+    416         except InterruptedError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
+     65         # Python can still get and update the process status successfully.
+---> 66         _error_if_any_worker_fails()
+     67         if previous_handler is not None:
+
+RuntimeError: DataLoader worker (pid 3838) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+
+The above exception was the direct cause of the following exception:
+
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_3810/4170259555.py in <module>
+      1 lr, num_epochs, batch_size = 0.1, 10, 256
+      2 train_iter, test_iter = load_data_fashion_mnist(batch_size, resize=96)
+----> 3 train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
+
+/tmp/ipykernel_3810/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
+     17         metric = Accumulator(3)
+     18         net.train()
+---> 19         for i, (X, y) in enumerate(train_iter):
+     20             timer.start()
+     21             optimizer.zero_grad()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in __next__(self)
+    528             if self._sampler_iter is None:
+    529                 self._reset()
+--> 530             data = self._next_data()
+    531             self._num_yielded += 1
+    532             if self._dataset_kind == _DatasetKind.Iterable and \
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in _next_data(self)
+   1205 
+   1206             assert not self._shutdown and self._tasks_outstanding > 0
+-> 1207             idx, data = self._get_data()
+   1208             self._tasks_outstanding -= 1
+   1209             if self._dataset_kind == _DatasetKind.Iterable:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in _get_data(self)
+   1171         else:
+   1172             while True:
+-> 1173                 success, data = self._try_get_data()
+   1174                 if success:
+   1175                     return data
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py in _try_get_data(self, timeout)
+   1022             if len(failed_workers) > 0:
+   1023                 pids_str = ', '.join(str(w.pid) for w in failed_workers)
+-> 1024                 raise RuntimeError('DataLoader worker (pid(s) {}) exited unexpectedly'.format(pids_str)) from e
+   1025             if isinstance(e, queue.Empty):
+   1026                 return (False, None)
+
+RuntimeError: DataLoader worker (pid(s) 3838) exited unexpectedly
+RuntimeError: DataLoader worker (pid(s) 3838) exited unexpectedly

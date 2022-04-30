@@ -169,7 +169,7 @@ scaling                  current                                remaining
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4625/3323042386.py in <module>
+/tmp/ipykernel_3581/3323042386.py in <module>
       3 # https://docs.scipy.org/doc/numpy/reference/generated/numpy.einsum.html
       4 
 ----> 5 import superimport
