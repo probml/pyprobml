@@ -90,7 +90,7 @@ def others(n=1000):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2509/1047615509.py in <module>
+/tmp/ipykernel_4791/1047615509.py in <module>
       8 try:
 ----> 9     from minepy import MINE
      10 except:
@@ -100,7 +100,7 @@ ModuleNotFoundError: No module named 'minepy'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2509/1047615509.py in <module>
+/tmp/ipykernel_4791/1047615509.py in <module>
      10 except:
      11     get_ipython().run_line_magic('pip', 'install minepy')
 ---> 12     from minepy import MINE

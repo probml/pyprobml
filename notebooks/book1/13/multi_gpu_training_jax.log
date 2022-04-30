@@ -19,7 +19,7 @@ from typing import Tuple
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3118/3967664855.py in <module>
+/tmp/ipykernel_3757/3967664855.py in <module>
       9 from flax.training import train_state  # Useful dataclass to keep train state
      10 import optax  # Optimizers
 ---> 11 import tensorflow_datasets as tfds  # TFDS for Fashion MNIST

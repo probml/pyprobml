@@ -20,7 +20,7 @@ from ae_mnist_conv import ConvAE
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_7101/3677435331.py in <module>
+/tmp/ipykernel_7619/3677435331.py in <module>
      11 from einops import rearrange
      12 import seaborn as sns
 ---> 13 from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, plot_grid_plot

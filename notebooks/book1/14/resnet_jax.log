@@ -31,12 +31,12 @@ ModuleDef = Any
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4032/727828703.py in <module>
-     12 import optax  # Optimizers
-     13 
----> 14 import torchvision
+/tmp/ipykernel_2874/727828703.py in <module>
      15 from torch.utils import data
      16 from torchvision import transforms
+---> 17 import tensorflow_datasets as tfds  # TFDS for MNIST
+     18 
+     19 import random
 
-ModuleNotFoundError: No module named 'torchvision'
-ModuleNotFoundError: No module named 'torchvision'
+ModuleNotFoundError: No module named 'tensorflow_datasets'
+ModuleNotFoundError: No module named 'tensorflow_datasets'

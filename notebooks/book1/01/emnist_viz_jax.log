@@ -16,12 +16,12 @@ from bokeh.plotting import figure
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3204/590161979.py in <module>
-----> 1 import torchvision
-      2 from torchvision import datasets
-      3 from torchvision import transforms
-      4 
-      5 import numpy as np
+/tmp/ipykernel_3843/590161979.py in <module>
+      8 import itertools
+      9 
+---> 10 from bokeh.io import output_notebook, show
+     11 from bokeh.layouts import gridplot
+     12 from bokeh.plotting import figure
 
-ModuleNotFoundError: No module named 'torchvision'
-ModuleNotFoundError: No module named 'torchvision'
+ModuleNotFoundError: No module named 'bokeh'
+ModuleNotFoundError: No module named 'bokeh'

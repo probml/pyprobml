@@ -16,12 +16,12 @@ import matplotlib.pyplot as plt
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2364/3866412800.py in <module>
-----> 1 import cv2
-      2 import jax
-      3 import augmax
-      4 from jax import numpy as jnp
-      5 from jax import random as jrand
+/tmp/ipykernel_4644/3866412800.py in <module>
+      6 from skimage.util import montage
+      7 
+----> 8 import tensorflow_datasets as tfds
+      9 
+     10 import matplotlib.pyplot as plt
 
-ModuleNotFoundError: No module named 'cv2'
-ModuleNotFoundError: No module named 'cv2'
+ModuleNotFoundError: No module named 'tensorflow_datasets'
+ModuleNotFoundError: No module named 'tensorflow_datasets'

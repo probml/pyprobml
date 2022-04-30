@@ -5,7 +5,7 @@ import pyprobml.scripts.mnist_helpers_tf as helper
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2656/2176068754.py in <module>
+/tmp/ipykernel_4939/2176068754.py in <module>
 ----> 1 import pyprobml.scripts.mnist_helpers_tf as helper
 
 /__w/pyprobml/pyprobml/pyprobml/scripts/mnist_helpers_tf.py in <module>
