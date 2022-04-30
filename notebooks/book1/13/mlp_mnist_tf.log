@@ -8,7 +8,7 @@ plot_interesting_test_results(predictions, test_ndx)
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-Input In [10], in <cell line: 4>()
+/tmp/ipykernel_2786/531114775.py in <module>
       2 print(np.shape(predictions))
       3 # test_ndx = find_interesting_test_images(predictions) # re-use old inddices
 ----> 4 plot_interesting_test_results(predictions, test_ndx)

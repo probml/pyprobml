@@ -17,7 +17,7 @@ from skimage.util import montage
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-Input In [3], in <cell line: 3>()
+/tmp/ipykernel_2431/3909119289.py in <module>
       1 import os
       2 import sys
 ----> 3 import cv2

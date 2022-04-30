@@ -23,12 +23,12 @@ rng = jax.random.PRNGKey(0)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-Input In [2], in <cell line: 12>()
+/tmp/ipykernel_4006/663768817.py in <module>
      10 import numpy as np  # Ordinary NumPy
      11 import optax  # Optimizers
 ---> 12 import tensorflow_datasets as tfds  # TFDS for MNIST
+     13 
      14 import random
-     15 import os
 
 ModuleNotFoundError: No module named 'tensorflow_datasets'
 ModuleNotFoundError: No module named 'tensorflow_datasets'
