@@ -1,43 +1,6 @@
 An error occurred while executing the following cell:
 ------------------
-dot = graphviz.Digraph(format="pdf")
-
-
-# superscripts = ['1', 'T']
-superscripts = ["1", "J"]
-
-train_subscript, test_subscript = "n", "m"
-subscripts = [train_subscript, test_subscript]
-
-# subgraph_labels = ['Train', 'Test']
-subgraph_labels = ["Train", "Valid"]
-subgraph_colors = ["/set34/4", "/paired3/2"]
-
-edge_color = "lightsteelblue4"
-fontcolor = "grey17"
-hid_color, hid_fill_color = "/accent3/2", "lavender"
-obs_color, obs_fill_color = "/paired3/3", "/pastel19/3"
-
-param, hidden, observable = "Theta", "Y", "X"
-
-dot.node("phi", "<&Phi;>", color="white", fontcolor=fontcolor)
-
-for i, subscript in enumerate(superscripts):
-    create_node(dot, param, subscript, color="white", fontcolor=fontcolor, is_greek_letter=True)
-    dot.edge("phi", f"{param}{subscript}", color=edge_color)
-
-for i, superscript in enumerate(superscripts):
-    subgraph_labels = [f"Train {superscript}", f"Valid {superscript}"]
-    plot_cluster(dot, subscripts, superscript, subgraph_labels, subgraph_colors)
-
-    if i == 0:
-        dot.node(f"blank{i}", "...", color="white")
-        dot.edge(f"Theta{superscript}", f"blank{i}", style="invis")
-
-file_name = "hbayes-maml"
-dot.render(file_name, view=True)
-
-dot
+out.render()
 ------------------
 
 ---------------------------------------------------------------------------
@@ -67,12 +30,8 @@ FileNotFoundError: [Errno 2] No such file or directory: PosixPath('dot'): PosixP
 The above exception was the direct cause of the following exception:
 
 ExecutableNotFound                        Traceback (most recent call last)
-/tmp/ipykernel_1444/2890680977.py in <module>
-     34 
-     35 file_name = "hbayes-maml"
----> 36 dot.render(file_name, view=True)
-     37 
-     38 dot
+/tmp/ipykernel_1621/3088041286.py in <module>
+----> 1 out.render()
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/_tools.py in wrapper(*args, **kwargs)
     169                               category=category)
