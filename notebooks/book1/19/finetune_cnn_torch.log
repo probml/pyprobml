@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 np.random.seed(seed=1)
 import math
-import collections
+import os
 
 try:
     import torch
@@ -15,6 +15,12 @@ except:
 from torch import nn
 from torch.nn import functional as F
 
+try:
+    import torchvision
+except:
+    %pip install torchvision
+    import torchvision
+
 !mkdir figures # for saving plots
 
 !wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py
@@ -23,10 +29,10 @@ import d2l
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1438/2252058899.py in <module>
-     17 
-     18 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
----> 19 import d2l
+/tmp/ipykernel_1324/3414885089.py in <module>
+     23 
+     24 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
+---> 25 import d2l
 
 ModuleNotFoundError: No module named 'd2l'
 ModuleNotFoundError: No module named 'd2l'
