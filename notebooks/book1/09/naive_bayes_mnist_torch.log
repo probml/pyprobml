@@ -1,0 +1,43 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(seed=1)
+import math
+import collections
+import os
+import random
+
+import json
+import multiprocessing
+
+try:
+    import torch
+except:
+    %pip install torch
+    import torch
+from torch import nn
+from torch.nn import functional as F
+
+try:
+    import torchvision
+except:
+    %pip install torchvision
+    import torchvision
+
+!mkdir figures # for saving plots
+
+!wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py
+import d2l
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_1518/982057692.py in <module>
+     28 
+     29 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
+---> 30 import d2l
+
+ModuleNotFoundError: No module named 'd2l'
+ModuleNotFoundError: No module named 'd2l'
