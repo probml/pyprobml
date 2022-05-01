@@ -1,7 +1,8 @@
 import pytest
 import os
 import re
-from glob import glob
+import subprocess
+import warnings
 from time import time
 import shutil
 from testbook import testbook
@@ -13,9 +14,16 @@ os.environ["FIG_DIR"] = "figures"
 os.environ["LATEXIFY"] = ""  # To enable latexify code
 
 # Load notebooks
-notebooks1 = glob("notebooks/book1/*/*.ipynb")
-notebooks2 = glob("notebooks/book2/*/*.ipynb")
-notebooks = [notebook for i, notebook in enumerate(sorted(notebooks1 + notebooks2))
+cmd = "git ls-files 'notebooks/**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {}"
+notebooks_raw = subprocess.run(cmd, check=True, shell=True, capture_output=True, text=True)
+if notebooks_raw.stderr:
+    warnings.warn(notebooks_raw.stderr)
+timestamped_notebooks = []
+for entry in notebooks_raw.stdout.split("\n"):
+    if entry:
+        timestamped_notebooks.append(entry.split(" "))
+timestamped_notebooks.sort(reverse=True)    # execute newer notebooks first
+notebooks = [notebook for i, (_, notebook) in enumerate(timestamped_notebooks)
         if i % 20 == int(os.environ['PYPROBML_GA_RUNNER_ID'])]
 
 # To make subprocess stdout human readable
