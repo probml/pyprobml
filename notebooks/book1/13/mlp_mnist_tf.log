@@ -1,0 +1,17 @@
+An error occurred while executing the following cell:
+------------------
+predictions = model.predict(test_images)
+print(np.shape(predictions))
+# test_ndx = find_interesting_test_images(predictions) # re-use old inddices
+plot_interesting_test_results(predictions, test_ndx)
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_1501/531114775.py in <module>
+      2 print(np.shape(predictions))
+      3 # test_ndx = find_interesting_test_images(predictions) # re-use old inddices
+----> 4 plot_interesting_test_results(predictions, test_ndx)
+
+NameError: name 'test_ndx' is not defined
+NameError: name 'test_ndx' is not defined
