@@ -62,7 +62,8 @@ jobs:
       PYPROBML_GA_RUNNER_ID: ${{ matrix.runner_id }}
 
     runs-on: ubuntu-latest
-    # needs: [check_code_quality, static_import_check]
+    if: ${{ always() }}
+    needs: [check_code_quality, static_import_check]
     container: texlive/texlive:TL2020-historic
 
     steps:
