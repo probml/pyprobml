@@ -2,7 +2,6 @@ An error occurred while executing the following cell:
 ------------------
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import math
 from IPython import display
 
@@ -20,7 +19,6 @@ import re
 import random
 import os
 import requests
-import zipfile
 import hashlib
 import time
 
@@ -31,12 +29,12 @@ torch.manual_seed(1)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1403/4024638077.py in <module>
-     10     get_ipython().run_line_magic('pip', 'install torch')
-     11     import torch
----> 12 from torch import nn
-     13 from torch.nn import functional as F
-     14 from torch.utils import data
+/tmp/ipykernel_1431/4042155353.py in <module>
+      9     get_ipython().run_line_magic('pip', 'install torch')
+     10     import torch
+---> 11 from torch import nn
+     12 from torch.nn import functional as F
+     13 from torch.utils import data
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/__init__.py in <module>
 ----> 1 from .modules import *  # noqa: F403
