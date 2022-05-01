@@ -1,19 +1,24 @@
 An error occurred while executing the following cell:
 ------------------
+import os
+import sys
+
 try:
     import cv2
 except:
     %pip install cv2
     import cv2
-import jax
+import glob
 
 try:
-    import augmax
+    import tqdm
 except:
-    %pip install git+https://github.com/khdlr/augmax.git -q
-    import augmax
-from jax import numpy as jnp
-from jax import random as jrand
+    %pip install tqdm
+    import tqdm
+import shutil
+from typing import Any
+from IPython import display
+import matplotlib.pyplot as plt
 
 try:
     from skimage.util import montage
@@ -21,35 +26,27 @@ except:
     %pip install skimage
     from skimage.util import montage
 
-try:
-    import tensorflow_datasets as tfds
-except:
-    %pip install tensorflow_datasets
-    import tensorflow_datasets as tfds
-
-import matplotlib.pyplot as plt
-
 %matplotlib inline
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1467/3981733033.py in <module>
-      1 try:
-----> 2     import cv2
-      3 except:
+/tmp/ipykernel_2107/1237667524.py in <module>
+      4 try:
+----> 5     import cv2
+      6 except:
 
 ModuleNotFoundError: No module named 'cv2'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1467/3981733033.py in <module>
-      3 except:
-      4     get_ipython().run_line_magic('pip', 'install cv2')
-----> 5     import cv2
-      6 import jax
-      7 
+/tmp/ipykernel_2107/1237667524.py in <module>
+      6 except:
+      7     get_ipython().run_line_magic('pip', 'install cv2')
+----> 8     import cv2
+      9 import glob
+     10 
 
 ModuleNotFoundError: No module named 'cv2'
 ModuleNotFoundError: No module named 'cv2'
