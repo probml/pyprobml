@@ -15,7 +15,8 @@ os.environ["LATEXIFY"] = ""  # To enable latexify code
 # Load notebooks
 notebooks1 = glob("notebooks/book1/*/*.ipynb")
 notebooks2 = glob("notebooks/book2/*/*.ipynb")
-notebooks = notebooks1 + notebooks2
+notebooks = [notebook for i, notebook in enumerate(sorted(notebooks1 + notebooks2))
+        if i % 20 == int(os.environ['PYPROBML_GA_RUNNER_ID'])]
 
 # To make subprocess stdout human readable
 # https://stackoverflow.com/a/38662876
