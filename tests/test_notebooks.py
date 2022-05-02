@@ -27,7 +27,7 @@ notebooks = [
     notebook
     for i, (_, notebook) in enumerate(timestamped_notebooks)
     if i % 20 == int(os.environ["PYPROBML_GA_RUNNER_ID"])
-][:1]
+]
 
 # To make subprocess stdout human readable
 # https://stackoverflow.com/a/38662876
