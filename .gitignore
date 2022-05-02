@@ -105,3 +105,7 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# GitHub Actions
+workflow_testing_indicator*
+auto_generated_figures*
