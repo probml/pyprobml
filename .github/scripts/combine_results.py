@@ -13,7 +13,7 @@ for folder in FOLDERS:
         os.system("rm -rf " + folder)
     os.makedirs(folder)
 
-repo = "https://github.com/patel-zeel/pyprobml.git"
+repo = "https://github.com/probml/pyprobml.git"
 for job in range(n_jobs):
     for folder in FOLDERS:
         branch = f"{folder}_{job}"

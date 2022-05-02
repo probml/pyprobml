@@ -2,7 +2,7 @@ import os
 from glob import glob
 
 statuses = glob("workflow_testing_indicator/notebooks/*/*/*.png")
-user = "patel-zeel"
+user = "probml"
 base_url = f"https://github.com/{user}/pyprobml/tree/"
 get_url = lambda x: f'<img width="20" alt="image" src=https://raw.githubusercontent.com/{user}/pyprobml/{x}>'
 get_nb_url = lambda x: os.path.join(base_url, "master", x.split("/", 1)[-1].replace(".png", ".ipynb"))
