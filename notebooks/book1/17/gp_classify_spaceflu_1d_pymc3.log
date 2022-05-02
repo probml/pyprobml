@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['# Gaussian process binary classification in 1d', '# Code is based on', '# https://github.com/aloctavodia/BAP/blob/master/code/Chp7/07_Gaussian%20process.ipynb', '', '']
+...
+['az.plot_hdi(X_new[:, 0], fp, color="C2")', 'ax.set_yticks([0, 1])', 'ax.set_yticklabels(["healthy", "sick"])', 'ax.set_xlabel("age")', 'pml.savefig("gp_classify_spaceflu.pdf", dpi=300)']
+-------------------

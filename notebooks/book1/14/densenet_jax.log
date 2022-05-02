@@ -1,0 +1,96 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp  # JAX NumPy
+from jax import lax
+import matplotlib.pyplot as plt
+import math
+from IPython import display
+
+try:
+    from flax import linen as nn  # The Linen API
+except:
+    %pip install flax
+    from flax import linen as nn  # The Linen API
+from flax.training import train_state  # Useful dataclass to keep train state
+
+import numpy as np  # Ordinary NumPy
+
+try:
+    import optax  # Optimizers
+except:
+    %pip install optax
+    import optax  # Optimizers
+
+try:
+    import torchvision
+except:
+    %pip install torchvision
+    import torchvision
+try:
+    import torch
+except:
+    %pip install torch
+    import torch
+from torch.utils import data
+from torchvision import transforms
+
+try:
+    import tensorflow_datasets as tfds  # TFDS for MNIST
+except:
+    %pip install tensorflow_datasets
+    import tensorflow_datasets as tfds  # TFDS for MNIST
+
+import random
+import os
+import time
+from typing import Any, Callable, Sequence, Tuple
+from functools import partial
+
+rng = jax.random.PRNGKey(0)
+!mkdir figures # for saving plots
+ModuleDef = Any
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_1418/2619430708.py in <module>
+     36 try:
+---> 37     import tensorflow_datasets as tfds  # TFDS for MNIST
+     38 except:
+
+ModuleNotFoundError: No module named 'tensorflow_datasets'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_1418/2619430708.py in <module>
+     38 except:
+     39     get_ipython().run_line_magic('pip', 'install tensorflow_datasets')
+---> 40     import tensorflow_datasets as tfds  # TFDS for MNIST
+     41 
+     42 import random
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/__init__.py in <module>
+     41 # needs to happen before anything else, since the imports below will try to
+     42 # import tensorflow, too.
+---> 43 from tensorflow_datasets.core import tf_compat
+     44 tf_compat.ensure_tf_install()
+     45 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/__init__.py in <module>
+     20 from tensorflow_datasets.core import tf_compat
+     21 
+---> 22 tf_compat.ensure_tf_install()
+     23 
+     24 # pylint:disable=g-import-not-at-top
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/tf_compat.py in ensure_tf_install()
+     46 
+     47   try:
+---> 48     import tensorflow as tf  # pylint: disable=import-outside-toplevel
+     49   except ImportError:
+     50     # Print more informative error message, then reraise.
+
+ModuleNotFoundError: No module named 'tensorflow'
+ModuleNotFoundError: No module named 'tensorflow'

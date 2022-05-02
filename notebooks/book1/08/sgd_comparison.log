@@ -1,0 +1,88 @@
+An error occurred while executing the following cell:
+------------------
+# Import Libraries
+try:
+    import sls
+except:
+    %pip install -q git+https://github.com/IssamLaradji/sls.git
+    import sls
+
+try:
+    import sps
+except:
+    %pip install -q git+https://github.com/IssamLaradji/sps.git
+    import sps
+
+try:
+    import adasls
+except:
+    %pip install -q git+https://github.com/IssamLaradji/ada_sls.git
+    import adasls
+
+import pandas as pd
+import os
+import shutil
+import copy
+import pprint
+
+try:
+    import torch
+except:
+    %pip install torch
+    import torch
+import numpy as np
+
+try:
+    import torchvision
+except:
+    %pip install torchvision
+    import torchvision
+try:
+    import tqdm.notebook as tqdm
+except:
+    %pip install tqdm
+    import tqdm.notebook as tqdm
+import sklearn
+
+import torch.nn.functional as F
+
+
+from sklearn import preprocessing
+from sklearn.datasets import load_iris
+
+try:
+    from haven import haven_results as hr
+except:
+    %pip install haven
+    from haven import haven_results as hr
+from haven import haven_utils as hu
+from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.model_selection import train_test_split
+
+from google.colab import data_table
+
+# from torchnlp.datasets.imdb import imdb_dataset
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_1564/2468609709.py in <module>
+     51 try:
+---> 52     from haven import haven_results as hr
+     53 except:
+
+ModuleNotFoundError: No module named 'haven'
+
+During handling of the above exception, another exception occurred:
+
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_1564/2468609709.py in <module>
+     53 except:
+     54     get_ipython().run_line_magic('pip', 'install haven')
+---> 55     from haven import haven_results as hr
+     56 from haven import haven_utils as hu
+     57 from torch import nn
+
+ImportError: cannot import name 'haven_results' from 'haven' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/haven/__init__.py)
+ImportError: cannot import name 'haven_results' from 'haven' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/haven/__init__.py)

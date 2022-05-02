@@ -1,0 +1,52 @@
+An error occurred while executing the following cell:
+------------------
+import os
+import sys
+
+try:
+    import cv2
+except:
+    %pip install cv2
+    import cv2
+import glob
+
+try:
+    import tqdm
+except:
+    %pip install tqdm
+    import tqdm
+import shutil
+from typing import Any
+from IPython import display
+import matplotlib.pyplot as plt
+
+try:
+    from skimage.util import montage
+except:
+    %pip install skimage
+    from skimage.util import montage
+
+%matplotlib inline
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2112/1237667524.py in <module>
+      4 try:
+----> 5     import cv2
+      6 except:
+
+ModuleNotFoundError: No module named 'cv2'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2112/1237667524.py in <module>
+      6 except:
+      7     get_ipython().run_line_magic('pip', 'install cv2')
+----> 8     import cv2
+      9 import glob
+     10 
+
+ModuleNotFoundError: No module named 'cv2'
+ModuleNotFoundError: No module named 'cv2'
