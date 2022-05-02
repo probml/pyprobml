@@ -118,3 +118,32 @@ jobs:
         publish_dir: test_results/
         publish_branch: workflow_testing_indicator_${{ matrix.runner_id }}
       if: always() && github.event_name == 'push'  # Don't run on pull requests
+
+  combine_and_publish_results:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [execute_notebooks]
+    steps:
+    - name: Clone the reference repository
+      uses: actions/checkout@v2
+
+    - name: Combine and publish results
+      run: |
+        python .github/workflows/scripts/combine_results.py
+        python .github/workflows/scripts/create_dashboard.py
+
+    - name: Push figures to auto_generated_figures (does not run on pull requests)
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: auto_generated_figures/
+        publish_branch: auto_generated_figures
+      if: github.event_name == 'push'  # Don't run on pull requests
+      
+    - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: workflow_testing_indicator/
+        publish_branch: workflow_testing_indicator
+      if: always() && github.event_name == 'push'  # Don't run on pull requests
