@@ -1,7 +1,5 @@
 An error occurred while executing the following cell:
 ------------------
-import superimport
-
 import numpy as np
 from numpy import linalg as la
 import matplotlib
@@ -126,13 +124,27 @@ if __name__ == "__main__":
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1605/964608675.py in <module>
-----> 1 import superimport
-      2 
-      3 import numpy as np
-      4 from numpy import linalg as la
-      5 import matplotlib
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_1609/4266977255.py in <module>
+      4 
+      5 matplotlib.use("TKAgg")
+----> 6 import matplotlib.pyplot as plt
+      7 from matplotlib.widgets import Slider
+      8 
 
-ModuleNotFoundError: No module named 'superimport'
-ModuleNotFoundError: No module named 'superimport'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in <module>
+   2228     dict.__setitem__(rcParams, "backend", rcsetup._auto_backend_sentinel)
+   2229 # Set up the backend.
+-> 2230 switch_backend(rcParams["backend"])
+   2231 
+   2232 # Just to be safe.  Interactive mode can be turned on without
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in switch_backend(newbackend)
+    276                 "Cannot load backend {!r} which requires the {!r} interactive "
+    277                 "framework, as {!r} is currently running".format(
+--> 278                     newbackend, required_framework, current_framework))
+    279 
+    280     _log.debug("Loaded backend %s version %s.",
+
+ImportError: Cannot load backend 'TkAgg' which requires the 'tk' interactive framework, as 'headless' is currently running
+ImportError: Cannot load backend 'TkAgg' which requires the 'tk' interactive framework, as 'headless' is currently running
