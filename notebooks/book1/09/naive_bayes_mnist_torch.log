@@ -33,41 +33,11 @@ import d2l
 ------------------
 
 ---------------------------------------------------------------------------
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_1501/982057692.py in <module>
-     16     get_ipython().run_line_magic('pip', 'install torch')
-     17     import torch
----> 18 from torch import nn
-     19 from torch.nn import functional as F
-     20 
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_1499/982057692.py in <module>
+     28 
+     29 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
+---> 30 import d2l
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/__init__.py in <module>
-----> 1 from .modules import *  # noqa: F403
-      2 from .parameter import Parameter, UninitializedParameter, UninitializedBuffer
-      3 from .parallel import DataParallel
-      4 from . import init
-      5 from . import utils
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/__init__.py in <module>
-----> 1 from .module import Module
-      2 from .linear import Identity, Linear, Bilinear, LazyLinear
-      3 from .conv import Conv1d, Conv2d, Conv3d, \
-      4     ConvTranspose1d, ConvTranspose2d, ConvTranspose3d, \
-      5     LazyConv1d, LazyConv2d, LazyConv3d, LazyConvTranspose1d, LazyConvTranspose2d, LazyConvTranspose3d
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/module.py in <module>
-      5 
-      6 import torch
-----> 7 from ..parameter import Parameter
-      8 import torch.utils.hooks as hooks
-      9 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/parameter.py in <module>
-      1 import torch
-----> 2 from torch._C import _disabled_torch_function_impl
-      3 from collections import OrderedDict
-      4 
-      5 
-
-ImportError: cannot import name '_disabled_torch_function_impl' from 'torch._C' (unknown location)
-ImportError: cannot import name '_disabled_torch_function_impl' from 'torch._C' (unknown location)
+ModuleNotFoundError: No module named 'd2l'
+ModuleNotFoundError: No module named 'd2l'
