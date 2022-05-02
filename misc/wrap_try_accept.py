@@ -455,6 +455,7 @@ def wrap_line_with_try_accept(line, module):
         "PIL": "pillow",
         "tensorflow_probability": "tensorflow-probability",
         "sklearn": "scikit-learn",
+        "pl_bolts": "lightning-bolts",
     }
     f"""
     check if import {module} is in given line: {line}
@@ -483,11 +484,20 @@ def wrap_try_accept_in_code(code):
     return code
 
 
-def wrap_try_accept_in_notebook(notebook):
+def remove_superimport(code):
+    lines = code.split("\n")
+    updated_code = "\n".join(list(map(lambda line: line.replace("import superimport", ""), lines)))
+    return updated_code
+
+
+def apply_fun_to_notebook(notebook, fun):
+    """
+    fun should take one argument: code
+    """
     nb = nbformat.read(notebook, as_version=4)
     for cell in nb.cells:
         code = cell["source"]
-        updated_code = wrap_try_accept_in_code(code)
+        updated_code = fun(code)
         if updated_code != code:
             cell["source"] = updated_code
             nbformat.write(nb, notebook)
@@ -500,4 +510,5 @@ if __name__ == "__main__":
     notebooks = notebooks1 + notebooks2
     for notebook in notebooks:
         print(f"******* {notebook} *******")
-        wrap_try_accept_in_notebook(notebook)
+        apply_fun_to_notebook(notebook, remove_superimport)
+        apply_fun_to_notebook(notebook, wrap_try_accept_in_code)
