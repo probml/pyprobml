@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['# Gaussian process binary classification in 1d', '# Code is based on', '# https://github.com/aloctavodia/BAP/blob/master/code/Chp7/07_Gaussian%20process.ipynb', '', '']
+...
+['ax.set_xlabel("sepal_length")', 'ax.set_ylabel("θ", rotation=0)', 'pml.savefig("gp_classify_iris2.pdf", dpi=300)', '', 'plt.show()']
+-------------------
