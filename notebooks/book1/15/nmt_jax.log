@@ -1,0 +1,50 @@
+An error occurred while executing the following cell:
+------------------
+encoder = Seq2SeqEncoder(vocab_size=10, embed_size=8, num_hiddens=16, num_layers=2)
+batch_size = 4
+num_steps = 7
+X = jnp.zeros((batch_size, num_steps), dtype=jnp.int32)
+encoder_params = encoder.init(rng, X)
+state, output = encoder.apply(encoder_params, X)
+print(output.shape)
+print(state.shape)
+------------------
+
+---------------------------------------------------------------------------
+AssertionError                            Traceback (most recent call last)
+/tmp/ipykernel_1476/4230901318.py in <module>
+      3 num_steps = 7
+      4 X = jnp.zeros((batch_size, num_steps), dtype=jnp.int32)
+----> 5 encoder_params = encoder.init(rng, X)
+      6 state, output = encoder.apply(encoder_params, X)
+      7 print(output.shape)
+
+    [... skipping hidden 11 frame]
+
+/tmp/ipykernel_1476/1752567449.py in __call__(self, X, deterministic, *args)
+     16         rnn = GRU(num_layers=self.num_layers, dropout_rate=self.dropout_rate, deterministic=deterministic)
+     17         state = rnn.initialize_carry(jax.random.PRNGKey(0), (X.shape[1],), self.num_hiddens)
+---> 18         state, output = rnn(state, X)
+     19         # `state` shape: (`num_layers`, `batch_size`, `num_hiddens`)
+     20         # `output` shape: (`num_steps`, `batch_size`, `num_hiddens`)
+
+    [... skipping hidden 4 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/core/axes_scan.py in scan_fn(broadcast_in, init, *args)
+    133         lu.wrap_init(broadcast_body), in_tree)
+    134     in_pvals = list(map(pe.PartialVal.unknown, in_avals))
+--> 135     _, out_pvals, _ = pe.trace_to_jaxpr(f_flat, in_pvals)
+    136 
+    137     out_flat = []
+
+    [... skipping hidden 4 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/interpreters/partial_eval.py in tracers_to_jaxpr(in_tracers, out_tracers)
+    744       t_to_var[id(t)] = recipe
+    745     elif recipe is None:
+--> 746       assert False
+    747     else:
+    748       raise TypeError(recipe)
+
+AssertionError: 
+AssertionError: 

@@ -31,7 +31,7 @@ except:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2112/1237667524.py in <module>
+/tmp/ipykernel_1892/1237667524.py in <module>
       4 try:
 ----> 5     import cv2
       6 except:
@@ -41,7 +41,7 @@ ModuleNotFoundError: No module named 'cv2'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2112/1237667524.py in <module>
+/tmp/ipykernel_1892/1237667524.py in <module>
       6 except:
       7     get_ipython().run_line_magic('pip', 'install cv2')
 ----> 8     import cv2
