@@ -14,7 +14,7 @@ os.environ["FIG_DIR"] = "figures"
 os.environ["LATEXIFY"] = ""  # To enable latexify code
 
 # Load notebooks
-cmd = "git ls-files 'notebooks/**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {}"
+cmd = "git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {}"
 notebooks_raw = subprocess.run(cmd, check=True, shell=True, capture_output=True, text=True)
 if notebooks_raw.stderr:
     warnings.warn(notebooks_raw.stderr)
