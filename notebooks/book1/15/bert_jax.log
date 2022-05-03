@@ -53,7 +53,7 @@ ModuleDef = Any
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1428/569675086.py in <module>
+/tmp/ipykernel_1424/569675086.py in <module>
      16     get_ipython().run_line_magic('pip', 'install torch')
      17     import torch
 ---> 18 from torch.utils import data  # For data
