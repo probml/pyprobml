@@ -34,7 +34,7 @@ import d2l
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1495/982057692.py in <module>
+/tmp/ipykernel_1502/982057692.py in <module>
      28 
      29 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
 ---> 30 import d2l
