@@ -1,8 +1,8 @@
 An error occurred while executing the following cell:
 ------------------
 random.seed(0)
-lstm_layer = LSTM()
-model = RNNModel(rnn=lstm_layer, vocab_size=len(vocab), num_hiddens=num_hiddens)
+gru_layer = GRU()
+model = RNNModel(rnn=gru_layer, vocab_size=len(vocab), num_hiddens=num_hiddens)
 initial_state = model.begin_state(batch_size)
 params = model.init(rng, initial_state, jnp.ones([batch_size, num_steps]))
 params = train(model, params, train_iter, vocab, lr, num_epochs)
@@ -10,15 +10,15 @@ params = train(model, params, train_iter, vocab, lr, num_epochs)
 
 ---------------------------------------------------------------------------
 AssertionError                            Traceback (most recent call last)
-/tmp/ipykernel_1309/3226868051.py in <module>
-      3 model = RNNModel(rnn=lstm_layer, vocab_size=len(vocab), num_hiddens=num_hiddens)
+/tmp/ipykernel_1492/3770682158.py in <module>
+      3 model = RNNModel(rnn=gru_layer, vocab_size=len(vocab), num_hiddens=num_hiddens)
       4 initial_state = model.begin_state(batch_size)
 ----> 5 params = model.init(rng, initial_state, jnp.ones([batch_size, num_steps]))
       6 params = train(model, params, train_iter, vocab, lr, num_epochs)
 
     [... skipping hidden 11 frame]
 
-/tmp/ipykernel_1309/1852396232.py in __call__(self, state, inputs)
+/tmp/ipykernel_1492/426250658.py in __call__(self, state, inputs)
      18     def __call__(self, state, inputs):
      19         X = jax.nn.one_hot(inputs.T, num_classes=self.vocab_size)
 ---> 20         state, Y = self.rnn(state, X)

@@ -42,14 +42,14 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-/tmp/ipykernel_1737/302482964.py in <module>
+/tmp/ipykernel_1725/302482964.py in <module>
       1 plt.figure()
 ----> 2 plot_lr_vs_loss(rates, losses)
       3 save_fig("lrfinder-raw.pdf")
       4 plt.show()
       5 
 
-/tmp/ipykernel_1737/118368236.py in plot_lr_vs_loss(rates, losses)
+/tmp/ipykernel_1725/118368236.py in plot_lr_vs_loss(rates, losses)
      28     plt.gca().set_xscale("log")
      29     plt.hlines(min(losses), min(rates), max(rates))
 ---> 30     plt.axis([min(rates), max(rates), min(losses), (losses[0] + min(losses)) / 2])
@@ -57,32 +57,32 @@ ValueError                                Traceback (most recent call last)
      32     plt.ylabel("Loss")
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in axis(emit, *args, **kwargs)
-   2359 @_copy_docstring_and_deprecators(Axes.axis)
-   2360 def axis(*args, emit=True, **kwargs):
--> 2361     return gca().axis(*args, emit=emit, **kwargs)
-   2362 
-   2363 
+   2371 @_copy_docstring_and_deprecators(Axes.axis)
+   2372 def axis(*args, emit=True, **kwargs):
+-> 2373     return gca().axis(*args, emit=emit, **kwargs)
+   2374 
+   2375 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/axes/_base.py in axis(self, emit, *args, **kwargs)
-   2090                      else False)
-   2091             self.set_xlim(xmin, xmax, emit=emit, auto=xauto)
--> 2092             self.set_ylim(ymin, ymax, emit=emit, auto=yauto)
-   2093         if kwargs:
-   2094             raise TypeError(f"axis() got an unexpected keyword argument "
+   2095                      else False)
+   2096             self.set_xlim(xmin, xmax, emit=emit, auto=xauto)
+-> 2097             self.set_ylim(ymin, ymax, emit=emit, auto=yauto)
+   2098         if kwargs:
+   2099             raise TypeError(f"axis() got an unexpected keyword argument "
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/axes/_base.py in set_ylim(self, bottom, top, emit, auto, ymin, ymax)
-   4016 
-   4017         self._process_unit_info([("y", (bottom, top))], convert=False)
--> 4018         bottom = self._validate_converted_limits(bottom, self.convert_yunits)
-   4019         top = self._validate_converted_limits(top, self.convert_yunits)
-   4020 
+   4025 
+   4026         self._process_unit_info([("y", (bottom, top))], convert=False)
+-> 4027         bottom = self._validate_converted_limits(bottom, self.convert_yunits)
+   4028         top = self._validate_converted_limits(top, self.convert_yunits)
+   4029 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/axes/_base.py in _validate_converted_limits(self, limit, convert)
-   3603             if (isinstance(converted_limit, Real)
-   3604                     and not np.isfinite(converted_limit)):
--> 3605                 raise ValueError("Axis limits cannot be NaN or Inf")
-   3606             return converted_limit
-   3607 
+   3612             if (isinstance(converted_limit, Real)
+   3613                     and not np.isfinite(converted_limit)):
+-> 3614                 raise ValueError("Axis limits cannot be NaN or Inf")
+   3615             return converted_limit
+   3616 
 
 ValueError: Axis limits cannot be NaN or Inf
 ValueError: Axis limits cannot be NaN or Inf
