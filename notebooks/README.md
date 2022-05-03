@@ -13,7 +13,7 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
     ```python
     try:
         import tensorflow as tf
-    except:
+    except ModuleNotFoundError:
         %pip install tensorflow
         import tensorflow as tf
 
