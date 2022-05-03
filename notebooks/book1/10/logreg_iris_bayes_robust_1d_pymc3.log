@@ -1,8 +1,0 @@
-A cell timed out while it was being executed, after 600 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-['# Robust Bayesian Binary logistic regression in 1d for iris flowers', '', '# Code is based on', '# https://github.com/aloctavodia/BAP/blob/master/code/Chp4/04_Generalizing_linear_models.ipynb', '']
-...
-['trace = infer_nonrobust_model()', 'make_plot(trace)', 'pml.savefig("logreg_iris_bayes_nonrobust_1d.pdf", dpi=300)', '', 'plt.show()']
--------------------

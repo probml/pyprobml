@@ -33,7 +33,7 @@ from typing import Tuple
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1862/1424429087.py in <module>
+/tmp/ipykernel_1873/1424429087.py in <module>
      21 try:
 ---> 22     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
      23 except:
@@ -43,7 +43,7 @@ ModuleNotFoundError: No module named 'tensorflow_datasets'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1862/1424429087.py in <module>
+/tmp/ipykernel_1873/1424429087.py in <module>
      23 except:
      24     get_ipython().run_line_magic('pip', 'install tensorflow_datasets')
 ---> 25     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
