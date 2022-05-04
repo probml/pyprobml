@@ -1,7 +1,7 @@
 # How to Contribute
-Kevin Murphy and Mahmoud Soliman. 
+Kevin Murphy, Mahmoud Soliman and Zeel B Patel.
 
-**Last updated: 2022-03-10.**
+**Last updated: 2022-05-03.**
 
 
 We'd love to accept your patches and contributions to this project.
@@ -15,53 +15,9 @@ Contributions to this project means that the contributors agree to releasing the
 ## Coding guidelines
 
 - Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules). In particular, follow [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#function-and-variable-names).
-- See [this list of python tutorials](https://github.com/probml/probml-notebooks/blob/main/markdown/python_tutorials.md) for more guidelines.
-- Use [JAX](https://github.com/probml/probml-notebooks/blob/main/markdown/jax_tutorials.md)  instead of numpy/scipy.
+- See [this list of python tutorials](https://github.com/probml/pyprobml/blob/master/tutorials/python_tutorials.md) for more guidelines.
+- Use [JAX](https://github.com/probml/pyprobml/blob/master/tutorials/jax_tutorials.md) instead of numpy/scipy.
 - If you need to use a neural network, use [Flax](https://github.com/google/flax) instead of PyTorch/TF.
-- In general it is best to write your code as a series of files, but **you should check that they can be run inside of [Google Colab](https://github.com/probml/probml-notebooks/blob/main/notebooks/colab_intro.ipynb)**, after installing necessary packages. 
-Here is an example notebook to test your code (note that the main code lives in external files, we just use Colab (GPU mode) to run it from inside
-a cell.)
-```
-# get your code
-!git clone my_repo # link to your repo
-
-# install common dependencies that are not already in colab
-%%capture
-%pip install --upgrade --user pip
-%pip install --upgrade --user tensorflow tensorflow_probability
-%pip install git+git://github.com/deepmind/optax.git
-%pip install --upgrade git+https://github.com/google/flax.git
-%pip install git+git://github.com/blackjax-devs/blackjax.git
-%pip install git+git://github.com/deepmind/distrax.git
-%pip install superimport  einops arviz
-
-
-# get code for the book
-!git clone https://github.com/probml/pyprobml
-%pip install git+git://github.com/probml/jsl
-
-# Test your code
-%run my_repo/main.py
-```
-- If you want to check in a notebook,  open a PR on https://github.com/probml/probml-notebooks.
-- A typical set of imports will look like this:
-```
-import numpy as np
-import matplotlib.pyplot as plt
-import jax
-import jax.numpy as jnp
-import sklearn
-import flax
-import flax.linen as nn
-import einops
-import tensorflow_probability.substrates.jax as tfp
-tfd = tfp.distributions
-from functools import partial
-import tensorflow_datasets as tfds
-import typing
-import chex
-import optax
-```
 
 ## Github guidelines
 
