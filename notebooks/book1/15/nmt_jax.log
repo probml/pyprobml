@@ -12,7 +12,7 @@ print(state.shape)
 
 ---------------------------------------------------------------------------
 AssertionError                            Traceback (most recent call last)
-/tmp/ipykernel_1489/4230901318.py in <module>
+/tmp/ipykernel_1490/4230901318.py in <module>
       3 num_steps = 7
       4 X = jnp.zeros((batch_size, num_steps), dtype=jnp.int32)
 ----> 5 encoder_params = encoder.init(rng, X)
@@ -21,7 +21,7 @@ AssertionError                            Traceback (most recent call last)
 
     [... skipping hidden 11 frame]
 
-/tmp/ipykernel_1489/1752567449.py in __call__(self, X, deterministic, *args)
+/tmp/ipykernel_1490/1752567449.py in __call__(self, X, deterministic, *args)
      16         rnn = GRU(num_layers=self.num_layers, dropout_rate=self.dropout_rate, deterministic=deterministic)
      17         state = rnn.initialize_carry(jax.random.PRNGKey(0), (X.shape[1],), self.num_hiddens)
 ---> 18         state, output = rnn(state, X)
