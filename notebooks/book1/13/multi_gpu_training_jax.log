@@ -9,7 +9,7 @@ import jax.numpy as jnp  # JAX NumPy
 
 try:
     import flax
-except:
+except ModuleNotFoundError:
     %pip install flax
     import flax
 from flax import linen as nn  # The Linen API
@@ -17,12 +17,12 @@ from flax.training import train_state  # Useful dataclass to keep train state
 
 try:
     import optax  # Optimizers
-except:
+except ModuleNotFoundError:
     %pip install optax
     import optax  # Optimizers
 try:
     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
-except:
+except ModuleNotFoundError:
     %pip install tensorflow_datasets
     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
 
@@ -33,18 +33,18 @@ from typing import Tuple
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1881/1424429087.py in <module>
+/tmp/ipykernel_1881/1101873222.py in <module>
      21 try:
 ---> 22     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
-     23 except:
+     23 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'tensorflow_datasets'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1881/1424429087.py in <module>
-     23 except:
+/tmp/ipykernel_1881/1101873222.py in <module>
+     23 except ModuleNotFoundError:
      24     get_ipython().run_line_magic('pip', 'install tensorflow_datasets')
 ---> 25     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
      26 
