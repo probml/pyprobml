@@ -125,12 +125,12 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_1765/4266977255.py in <module>
+/tmp/ipykernel_1753/4266977255.py in <module>
     119 
     120 if __name__ == "__main__":
 --> 121     main()
 
-/tmp/ipykernel_1765/4266977255.py in main()
+/tmp/ipykernel_1753/4266977255.py in main()
     102     X0, Y0, Y = LinearRegressionOn2DPoints(params["points"])
     103 
 --> 104     (points_plot,) = plt.plot(X0, Y0, "o")
