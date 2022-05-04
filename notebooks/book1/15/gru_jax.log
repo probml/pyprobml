@@ -10,7 +10,7 @@ params = train(model, params, train_iter, vocab, lr, num_epochs)
 
 ---------------------------------------------------------------------------
 AssertionError                            Traceback (most recent call last)
-/tmp/ipykernel_1509/3770682158.py in <module>
+/tmp/ipykernel_1526/3770682158.py in <module>
       3 model = RNNModel(rnn=gru_layer, vocab_size=len(vocab), num_hiddens=num_hiddens)
       4 initial_state = model.begin_state(batch_size)
 ----> 5 params = model.init(rng, initial_state, jnp.ones([batch_size, num_steps]))
@@ -18,7 +18,7 @@ AssertionError                            Traceback (most recent call last)
 
     [... skipping hidden 11 frame]
 
-/tmp/ipykernel_1509/426250658.py in __call__(self, state, inputs)
+/tmp/ipykernel_1526/426250658.py in __call__(self, state, inputs)
      18     def __call__(self, state, inputs):
      19         X = jax.nn.one_hot(inputs.T, num_classes=self.vocab_size)
 ---> 20         state, Y = self.rnn(state, X)

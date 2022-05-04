@@ -1,11 +1,47 @@
-A cell timed out while it was being executed, after 600 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
+An error occurred while executing the following cell:
+------------------
 random.seed(0)
-vocab_size, num_hiddens = len(vocab), 256
-num_epochs, lr = 500, 1
-model = RNNModelScratch(len(vocab), num_hiddens, get_lstm_params, init_lstm_state, lstm)
-params = model.init_params(rng)
+lstm_layer = LSTM()
+model = RNNModel(rnn=lstm_layer, vocab_size=len(vocab), num_hiddens=num_hiddens)
+initial_state = model.begin_state(batch_size)
+params = model.init(rng, initial_state, jnp.ones([batch_size, num_steps]))
 params = train(model, params, train_iter, vocab, lr, num_epochs)
--------------------
+------------------
+
+---------------------------------------------------------------------------
+AssertionError                            Traceback (most recent call last)
+/tmp/ipykernel_1324/3226868051.py in <module>
+      3 model = RNNModel(rnn=lstm_layer, vocab_size=len(vocab), num_hiddens=num_hiddens)
+      4 initial_state = model.begin_state(batch_size)
+----> 5 params = model.init(rng, initial_state, jnp.ones([batch_size, num_steps]))
+      6 params = train(model, params, train_iter, vocab, lr, num_epochs)
+
+    [... skipping hidden 11 frame]
+
+/tmp/ipykernel_1324/1852396232.py in __call__(self, state, inputs)
+     18     def __call__(self, state, inputs):
+     19         X = jax.nn.one_hot(inputs.T, num_classes=self.vocab_size)
+---> 20         state, Y = self.rnn(state, X)
+     21         output = nn.Dense(self.vocab_size)(Y)
+     22         return output, state
+
+    [... skipping hidden 4 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/core/axes_scan.py in scan_fn(broadcast_in, init, *args)
+    133         lu.wrap_init(broadcast_body), in_tree)
+    134     in_pvals = list(map(pe.PartialVal.unknown, in_avals))
+--> 135     _, out_pvals, _ = pe.trace_to_jaxpr(f_flat, in_pvals)
+    136 
+    137     out_flat = []
+
+    [... skipping hidden 4 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/interpreters/partial_eval.py in tracers_to_jaxpr(in_tracers, out_tracers)
+    744       t_to_var[id(t)] = recipe
+    745     elif recipe is None:
+--> 746       assert False
+    747     else:
+    748       raise TypeError(recipe)
+
+AssertionError: 
+AssertionError: 

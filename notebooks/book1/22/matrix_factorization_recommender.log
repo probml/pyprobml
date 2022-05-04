@@ -11,7 +11,7 @@ movies_list = [
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_1236/489355359.py in <module>
+/tmp/ipykernel_1243/489355359.py in <module>
       1 ratings_list = [
 ----> 2     [int(x) for x in i.strip().split("::")] for i in open(os.path.join(folder, "ratings.dat"), "r").readlines()
       3 ]
