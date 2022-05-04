@@ -29,8 +29,6 @@ with open("workflow_testing_indicator/README.md", "w") as f:
         job = status.split("/", 2)[-1].split(".")[0]
         url = get_url(status)
         url_to_nb = get_nb_url(status)
-        print(url)
-        print(url_to_nb)
         if os.path.exists(status.replace(".png", ".log")):
             log = os.path.join(base_url, status.replace(".png", ".log"))
             log_counter += 1
@@ -41,5 +39,6 @@ with open("workflow_testing_indicator/README.md", "w") as f:
     f.write(f"\n")
     f.write(f"## Summary\n")
     f.write(f"\n")
-    f.write(f"In total, {file_counter} jobs were tested.\n")
-    f.write(f"{log_counter} jobs failed.\n")
+    final_log = f"In total, {file_counter} jobs were tested.\n{log_counter} jobs failed.\n"
+    f.write(final_log)
+    print(final_log)
