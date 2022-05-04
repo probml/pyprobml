@@ -3,7 +3,7 @@ An error occurred while executing the following cell:
 
 try:
     import probml_utils as pml
-except:
+except ModuleNotFoundError:
     %pip install git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 
@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 try:
     import GPy
-except:
+except ModuleNotFoundError:
     %pip install GPy
     import GPy
 from scipy import linalg
@@ -57,18 +57,18 @@ for i in range(len(l)):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1439/221954566.py in <module>
+/tmp/ipykernel_1439/133267120.py in <module>
      11 try:
 ---> 12     import GPy
-     13 except:
+     13 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'GPy'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1439/221954566.py in <module>
-     13 except:
+/tmp/ipykernel_1439/133267120.py in <module>
+     13 except ModuleNotFoundError:
      14     get_ipython().run_line_magic('pip', 'install GPy')
 ---> 15     import GPy
      16 from scipy import linalg
