@@ -67,7 +67,7 @@ from google.colab import data_table
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1581/2638401174.py in <module>
+/tmp/ipykernel_1579/2638401174.py in <module>
      51 try:
 ---> 52     from haven import haven_results as hr
      53 except ModuleNotFoundError:
@@ -77,7 +77,7 @@ ModuleNotFoundError: No module named 'haven'
 During handling of the above exception, another exception occurred:
 
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_1581/2638401174.py in <module>
+/tmp/ipykernel_1579/2638401174.py in <module>
      53 except ModuleNotFoundError:
      54     get_ipython().run_line_magic('pip', 'install haven')
 ---> 55     from haven import haven_results as hr
