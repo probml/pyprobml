@@ -464,7 +464,7 @@ def wrap_line_with_try_accept(line, module):
     line = line.rstrip()
     if module in transformed_modules:
         module = transformed_modules[module]
-    try_except_line = f"try:\n    {line}\nexcept:\n    %pip install {module}\n    {line}"
+    try_except_line = f"try:\n    {line}\nexcept ModuleNotFoundError:\n    %pip install {module}\n    {line}"
     return try_except_line
 
 

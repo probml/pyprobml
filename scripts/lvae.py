@@ -382,7 +382,7 @@ def main(argv):
   del argv
   try:
     shutil.rmtree('{}_results'.format(FLAGS.dataset_name))
-  except FileNotFoundError:
+  except:
     print("Results Folder Not Found")
   os.mkdir('{}_results'.format(FLAGS.dataset_name))
   os.mkdir('{}_results/reconstruction'.format(FLAGS.dataset_name))
@@ -390,8 +390,8 @@ def main(argv):
 
   try:
     os.mkdir('{}_ckpts'.format(FLAGS.dataset_name))
-  except FileExistsError:
-    print("Checkpoint Folder Already Exists")
+  except:
+    print("Checkpoint Folder Already Found")
   CKPT_DIR = '{}_ckpts'.format(FLAGS.dataset_name)
 
   # Make sure tf does not allocate gpu memory.
