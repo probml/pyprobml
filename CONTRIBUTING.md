@@ -1,5 +1,5 @@
 # How to Contribute
-Kevin Murphy and Mahmoud Soliman. 
+Kevin Murphy, Mahmoud Soliman and Zeel B Patel.
 
 **Last updated: 2022-05-03.**
 

@@ -13,7 +13,7 @@ This is work in progress, so expect rough edges!
 The notebooks needed to make all the figures are available at the following locations.
 
 * [Volume 1 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book1)
-* [Volume 2 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book1). (Note: volume 2 is not finished yet.)
+* [Volume 2 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book2). (Note: volume 2 is not finished yet.)
 
 Notebooks are saved in chapter-wise folders. For example, a notebook for figure 2.3 is saved in the folder `notebooks/book1/02/`.
 
@@ -45,21 +45,9 @@ Download [requirements.txt](https://github.com/probml/pyprobml/blob/master/requi
 pip install -r requirements.txt
 ```
 
-## Running scripts for vol 2
-
-Some demos for vol 2 use [JSL (Jax State-space Library)](https://github.com/probml/JSL).
-This requires extra packages, see [these installation instructions](https://github.com/probml/JSL#installation).
-Then you can run the pyprobml version of the JSL demos like this
-
-```
-%run pyprobml/scripts/kf_tracking_demo.py # colab
-python3 pyprobml/scripts/kf_tracking_demo.py # locally
-```
-
-
 ## GCP, TPUs, and all that
 
-When you want more power or control than colab gives you, you should get a Google Cloud Platform (GCP) account, and get access to a TPU VM. You can then use this as a virtual desktop which you can access via ssh from inside VScode. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/probml-notebooks/blob/main/markdown/colab_gcp_tpu_tutorial.md) with more information.
+When you want more power or control than colab gives you, you should get a Google Cloud Platform (GCP) account, and get access to a TPU VM. You can then use this as a virtual desktop which you can access via ssh from inside VScode. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/pyprobml/blob/master/tutorials/colab_gcp_tpu_tutorial.md) with more information.
 
 
 ## How to contribute
