@@ -1,0 +1,72 @@
+An error occurred while executing the following cell:
+------------------
+out.render()
+------------------
+
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/backend/execute.py in run_check(cmd, input_lines, encoding, quiet, **kwargs)
+     80         else:
+---> 81             proc = subprocess.run(cmd, **kwargs)
+     82     except OSError as e:
+
+~/miniconda3/envs/py37/lib/python3.7/subprocess.py in run(input, capture_output, timeout, check, *popenargs, **kwargs)
+    487 
+--> 488     with Popen(*popenargs, **kwargs) as process:
+    489         try:
+
+~/miniconda3/envs/py37/lib/python3.7/subprocess.py in __init__(self, args, bufsize, executable, stdin, stdout, stderr, preexec_fn, close_fds, shell, cwd, env, universal_newlines, startupinfo, creationflags, restore_signals, start_new_session, pass_fds, encoding, errors, text)
+    799                                 errread, errwrite,
+--> 800                                 restore_signals, start_new_session)
+    801         except:
+
+~/miniconda3/envs/py37/lib/python3.7/subprocess.py in _execute_child(self, args, executable, preexec_fn, close_fds, pass_fds, cwd, env, startupinfo, creationflags, shell, p2cread, p2cwrite, c2pread, c2pwrite, errread, errwrite, restore_signals, start_new_session)
+   1550                             err_msg += ': ' + repr(err_filename)
+-> 1551                     raise child_exception_type(errno_num, err_msg, err_filename)
+   1552                 raise child_exception_type(err_msg)
+
+FileNotFoundError: [Errno 2] No such file or directory: PosixPath('dot'): PosixPath('dot')
+
+The above exception was the direct cause of the following exception:
+
+ExecutableNotFound                        Traceback (most recent call last)
+/tmp/ipykernel_1774/3088041286.py in <module>
+----> 1 out.render()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/_tools.py in wrapper(*args, **kwargs)
+    169                               category=category)
+    170 
+--> 171             return func(*args, **kwargs)
+    172 
+    173         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/rendering.py in render(self, filename, directory, view, cleanup, format, renderer, formatter, neato_no_op, quiet, quiet_view, outfile, engine, raise_if_result_exists, overwrite_source)
+    120         args.append(filepath)
+    121 
+--> 122         rendered = self._render(*args, **kwargs)
+    123 
+    124         if cleanup:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/_tools.py in wrapper(*args, **kwargs)
+    169                               category=category)
+    170 
+--> 171             return func(*args, **kwargs)
+    172 
+    173         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/backend/rendering.py in render(engine, format, filepath, renderer, formatter, neato_no_op, quiet, outfile, raise_if_result_exists, overwrite_filepath)
+    325                       cwd=filepath.parent if filepath.parent.parts else None,
+    326                       quiet=quiet,
+--> 327                       capture_output=True)
+    328 
+    329     return os.fspath(outfile)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/backend/execute.py in run_check(cmd, input_lines, encoding, quiet, **kwargs)
+     82     except OSError as e:
+     83         if e.errno == errno.ENOENT:
+---> 84             raise ExecutableNotFound(cmd) from e
+     85         raise
+     86 
+
+ExecutableNotFound: failed to execute PosixPath('dot'), make sure the Graphviz executables are on your systems' PATH
+ExecutableNotFound: failed to execute PosixPath('dot'), make sure the Graphviz executables are on your systems' PATH
