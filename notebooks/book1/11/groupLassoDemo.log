@@ -34,19 +34,19 @@ import scipy.linalg
 
 try:
     from group_lasso import GroupLasso
-except:
+except ModuleNotFoundError:
     %pip install group_lasso
     from group_lasso import GroupLasso
 try:
     from sklearn import linear_model
-except:
+except ModuleNotFoundError:
     %pip install scikit-learn
     from sklearn import linear_model
 from sklearn.metrics import mean_squared_error
 
 try:
     import spams
-except:
+except ModuleNotFoundError:
     %pip install spams
     import spams
 from scipy.linalg import lstsq
@@ -194,18 +194,18 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1522/1335371380.py in <module>
+/tmp/ipykernel_1527/2945071769.py in <module>
      45 try:
 ---> 46     import spams
-     47 except:
+     47 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'spams'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1522/1335371380.py in <module>
-     47 except:
+/tmp/ipykernel_1527/2945071769.py in <module>
+     47 except ModuleNotFoundError:
      48     get_ipython().run_line_magic('pip', 'install spams')
 ---> 49     import spams
      50 from scipy.linalg import lstsq
