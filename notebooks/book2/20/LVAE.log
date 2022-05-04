@@ -7,7 +7,7 @@ from absl import flags
 
 try:
     import flax.linen as nn
-except:
+except ModuleNotFoundError:
     %pip install flax
     import flax.linen as nn
 
@@ -20,19 +20,19 @@ import numpy as np
 
 try:
     import optax
-except:
+except ModuleNotFoundError:
     %pip install optax
     import optax
 
 try:
     import tensorflow as tf
-except:
+except ModuleNotFoundError:
     %pip install tensorflow
     import tensorflow as tf
 
 try:
     import tensorflow_datasets as tfds
-except:
+except ModuleNotFoundError:
     %pip install tensorflow_datasets
     import tensorflow_datasets as tfds
 
@@ -48,7 +48,7 @@ os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "False"
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1239/616479676.py in <module>
+/tmp/ipykernel_1243/1362784568.py in <module>
      10     import flax.linen as nn
      11 
 ---> 12 from flax.training import train_state, checkpoints
