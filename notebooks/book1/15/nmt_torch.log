@@ -31,7 +31,7 @@ torch.manual_seed(1)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1404/4024638077.py in <module>
+/tmp/ipykernel_1414/4024638077.py in <module>
      10     get_ipython().run_line_magic('pip', 'install torch')
      11     import torch
 ---> 12 from torch import nn
