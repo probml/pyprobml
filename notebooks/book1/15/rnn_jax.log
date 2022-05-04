@@ -8,7 +8,7 @@ Y.shape, state_new.shape
 
 ---------------------------------------------------------------------------
 AssertionError                            Traceback (most recent call last)
-/tmp/ipykernel_1488/2267188814.py in <module>
+/tmp/ipykernel_1493/2267188814.py in <module>
       1 X = jax.random.normal(rng, shape=(num_steps, batch_size, len(vocab)))
 ----> 2 params = rnn_layer.init(rng, state, X)
       3 state_new, Y = rnn_layer.apply(params, state, X)
