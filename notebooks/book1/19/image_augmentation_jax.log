@@ -2,14 +2,14 @@ An error occurred while executing the following cell:
 ------------------
 try:
     import cv2
-except:
+except ModuleNotFoundError:
     %pip install cv2
     import cv2
 import jax
 
 try:
     import augmax
-except:
+except ModuleNotFoundError:
     %pip install git+https://github.com/khdlr/augmax.git -q
     import augmax
 from jax import numpy as jnp
@@ -17,13 +17,13 @@ from jax import random as jrand
 
 try:
     from skimage.util import montage
-except:
+except ModuleNotFoundError:
     %pip install skimage
     from skimage.util import montage
 
 try:
     import tensorflow_datasets as tfds
-except:
+except ModuleNotFoundError:
     %pip install tensorflow_datasets
     import tensorflow_datasets as tfds
 
@@ -34,18 +34,18 @@ import matplotlib.pyplot as plt
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1481/3981733033.py in <module>
+/tmp/ipykernel_1466/1515292083.py in <module>
       1 try:
 ----> 2     import cv2
-      3 except:
+      3 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'cv2'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1481/3981733033.py in <module>
-      3 except:
+/tmp/ipykernel_1466/1515292083.py in <module>
+      3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install cv2')
 ----> 5     import cv2
       6 import jax

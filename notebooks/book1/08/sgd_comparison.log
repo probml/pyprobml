@@ -3,19 +3,19 @@ An error occurred while executing the following cell:
 # Import Libraries
 try:
     import sls
-except:
+except ModuleNotFoundError:
     %pip install -q git+https://github.com/IssamLaradji/sls.git
     import sls
 
 try:
     import sps
-except:
+except ModuleNotFoundError:
     %pip install -q git+https://github.com/IssamLaradji/sps.git
     import sps
 
 try:
     import adasls
-except:
+except ModuleNotFoundError:
     %pip install -q git+https://github.com/IssamLaradji/ada_sls.git
     import adasls
 
@@ -27,19 +27,19 @@ import pprint
 
 try:
     import torch
-except:
+except ModuleNotFoundError:
     %pip install torch
     import torch
 import numpy as np
 
 try:
     import torchvision
-except:
+except ModuleNotFoundError:
     %pip install torchvision
     import torchvision
 try:
     import tqdm.notebook as tqdm
-except:
+except ModuleNotFoundError:
     %pip install tqdm
     import tqdm.notebook as tqdm
 import sklearn
@@ -52,7 +52,7 @@ from sklearn.datasets import load_iris
 
 try:
     from haven import haven_results as hr
-except:
+except ModuleNotFoundError:
     %pip install haven
     from haven import haven_results as hr
 from haven import haven_utils as hu
@@ -67,18 +67,18 @@ from google.colab import data_table
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1573/2468609709.py in <module>
+/tmp/ipykernel_1581/2638401174.py in <module>
      51 try:
 ---> 52     from haven import haven_results as hr
-     53 except:
+     53 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'haven'
 
 During handling of the above exception, another exception occurred:
 
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_1573/2468609709.py in <module>
-     53 except:
+/tmp/ipykernel_1581/2638401174.py in <module>
+     53 except ModuleNotFoundError:
      54     get_ipython().run_line_magic('pip', 'install haven')
 ---> 55     from haven import haven_results as hr
      56 from haven import haven_utils as hu

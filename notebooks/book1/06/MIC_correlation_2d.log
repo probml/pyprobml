@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 try:
     from minepy import MINE
-except:
+except ModuleNotFoundError:
     %pip install minepy
     from minepy import MINE
 
@@ -90,18 +90,18 @@ def others(n=1000):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1572/1047615509.py in <module>
+/tmp/ipykernel_1578/3213218796.py in <module>
       8 try:
 ----> 9     from minepy import MINE
-     10 except:
+     10 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'minepy'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1572/1047615509.py in <module>
-     10 except:
+/tmp/ipykernel_1578/3213218796.py in <module>
+     10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install minepy')
 ---> 12     from minepy import MINE
      13 

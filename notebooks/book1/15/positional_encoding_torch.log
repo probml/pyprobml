@@ -9,7 +9,7 @@ import collections
 
 try:
     import torch
-except:
+except ModuleNotFoundError:
     %pip install torch
     import torch
 from torch import nn
@@ -23,7 +23,7 @@ import d2l
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1462/2252058899.py in <module>
+/tmp/ipykernel_1458/3140820900.py in <module>
      17 
      18 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
 ---> 19 import d2l

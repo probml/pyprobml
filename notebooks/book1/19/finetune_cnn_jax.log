@@ -5,14 +5,14 @@ import sys
 
 try:
     import cv2
-except:
+except ModuleNotFoundError:
     %pip install cv2
     import cv2
 import glob
 
 try:
     import tqdm
-except:
+except ModuleNotFoundError:
     %pip install tqdm
     import tqdm
 import shutil
@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 try:
     from skimage.util import montage
-except:
+except ModuleNotFoundError:
     %pip install skimage
     from skimage.util import montage
 
@@ -31,18 +31,18 @@ except:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1904/1237667524.py in <module>
+/tmp/ipykernel_1906/2838030509.py in <module>
       4 try:
 ----> 5     import cv2
-      6 except:
+      6 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'cv2'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1904/1237667524.py in <module>
-      6 except:
+/tmp/ipykernel_1906/2838030509.py in <module>
+      6 except ModuleNotFoundError:
       7     get_ipython().run_line_magic('pip', 'install cv2')
 ----> 8     import cv2
       9 import glob

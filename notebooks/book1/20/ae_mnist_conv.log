@@ -6,14 +6,14 @@ import numpy as np
 
 try:
     import torch
-except:
+except ModuleNotFoundError:
     %pip install torch
     import torch
 import torch.nn as nn
 
 try:
     from torchvision.datasets import MNIST
-except:
+except ModuleNotFoundError:
     %pip install torchvision
     from torchvision.datasets import MNIST
 import torch.nn.functional as F
@@ -22,12 +22,12 @@ from torch.utils.data import DataLoader
 
 try:
     from pytorch_lightning import LightningModule, Trainer
-except:
+except ModuleNotFoundError:
     %pip install pytorch_lightning
     from pytorch_lightning import LightningModule, Trainer
 try:
     from einops import rearrange
-except:
+except ModuleNotFoundError:
     %pip install einops
     from einops import rearrange
 import seaborn as sns
@@ -37,14 +37,14 @@ from pytorch_lightning.utilities.seed import seed_everything
 
 try:
     from ae_mnist_conv import ConvAE
-except:
+except ModuleNotFoundError:
     %pip install ae_mnist_conv
     from ae_mnist_conv import ConvAE
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1383/880497873.py in <module>
+/tmp/ipykernel_1381/1936047974.py in <module>
      30     from einops import rearrange
      31 import seaborn as sns
 ---> 32 from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, plot_grid_plot

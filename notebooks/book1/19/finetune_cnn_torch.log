@@ -9,7 +9,7 @@ import os
 
 try:
     import torch
-except:
+except ModuleNotFoundError:
     %pip install torch
     import torch
 from torch import nn
@@ -17,7 +17,7 @@ from torch.nn import functional as F
 
 try:
     import torchvision
-except:
+except ModuleNotFoundError:
     %pip install torchvision
     import torchvision
 
@@ -29,7 +29,7 @@ import d2l
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1329/3414885089.py in <module>
+/tmp/ipykernel_1338/1666606611.py in <module>
      23 
      24 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
 ---> 25 import d2l

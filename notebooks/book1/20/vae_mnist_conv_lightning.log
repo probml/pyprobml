@@ -6,7 +6,7 @@ m2.load_state_dict(torch.load("vae-mnist-conv-latent-dim-2.ckpt"))
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_1242/1432685684.py in <module>
+/tmp/ipykernel_1240/1432685684.py in <module>
 ----> 1 m.load_state_dict(torch.load("vae-mnist-conv-latent-dim-20.ckpt"))
       2 m2.load_state_dict(torch.load("vae-mnist-conv-latent-dim-2.ckpt"))
 

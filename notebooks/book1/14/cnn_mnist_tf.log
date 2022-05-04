@@ -2,17 +2,17 @@ An error occurred while executing the following cell:
 ------------------
 try:
     import pyprobml.scripts.mnist_helpers_tf as helper
-except:
+except ModuleNotFoundError:
     %pip install pyprobml
     import pyprobml.scripts.mnist_helpers_tf as helper
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1716/4046667801.py in <module>
+/tmp/ipykernel_1722/4284005111.py in <module>
       1 try:
 ----> 2     import pyprobml.scripts.mnist_helpers_tf as helper
-      3 except:
+      3 except ModuleNotFoundError:
 
 /__w/pyprobml/pyprobml/pyprobml/scripts/mnist_helpers_tf.py in <module>
       2 
@@ -24,8 +24,8 @@ ModuleNotFoundError: No module named 'superimport'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1716/4046667801.py in <module>
-      3 except:
+/tmp/ipykernel_1722/4284005111.py in <module>
+      3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install pyprobml')
 ----> 5     import pyprobml.scripts.mnist_helpers_tf as helper
 

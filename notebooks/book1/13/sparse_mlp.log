@@ -4,7 +4,7 @@ An error occurred while executing the following cell:
 %cd -q /pyprobml/scripts
 try:
     import pyprobml_utils as pml
-except:
+except ModuleNotFoundError:
     %pip install git+https://github.com/probml/probml-utils.git
     import pyprobml_utils as pml
 import numpy as np
@@ -13,18 +13,18 @@ import matplotlib.pyplot as plt
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1462/2168692777.py in <module>
+/tmp/ipykernel_1462/142067606.py in <module>
       3 try:
 ----> 4     import pyprobml_utils as pml
-      5 except:
+      5 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'pyprobml_utils'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1462/2168692777.py in <module>
-      5 except:
+/tmp/ipykernel_1462/142067606.py in <module>
+      5 except ModuleNotFoundError:
       6     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
 ----> 7     import pyprobml_utils as pml
       8 import numpy as np
