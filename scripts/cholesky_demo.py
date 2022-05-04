@@ -7,7 +7,7 @@ def isposdef(A):
     try:
         _ = np.linalg.cholesky(A)
         return True
-    except:
+    except np.linalg.LinAlgError:
         return False
     
 # test
