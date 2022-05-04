@@ -13,7 +13,7 @@ import seaborn as sns
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1918/3229858813.py in <module>
+/tmp/ipykernel_1852/3229858813.py in <module>
       3 try:
 ----> 4     import GPy
       5 except ModuleNotFoundError:
@@ -23,7 +23,7 @@ ModuleNotFoundError: No module named 'GPy'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1918/3229858813.py in <module>
+/tmp/ipykernel_1852/3229858813.py in <module>
       5 except ModuleNotFoundError:
       6     get_ipython().run_line_magic('pip', 'install gpy')
 ----> 7     import GPy
