@@ -16,7 +16,7 @@ def get_try_except_probml_utils_line(line):
     line = line.rstrip()
     if not line.startswith(" ") and "probml_utils" in line and "import" in line:
         try_except_line = (
-            f"try:\n    {line}\nexcept:\n    %pip install git+https://github.com/probml/probml-utils.git\n    {line}"
+            f"try:\n    {line}\nexcept ModuleNotFoundError:\n    %pip install git+https://github.com/probml/probml-utils.git\n    {line}"
         )
         return try_except_line
     return 0
