@@ -1,8 +1,0 @@
-A cell timed out while it was being executed, after 600 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-['# Illustrate benefits of centering data', '# for reducing correlation between slope and intercept for 1d regression', '', '# Based on', '# https://github.com/aloctavodia/BAP/blob/master/code/Chp3/03_Modeling%20with%20Linear%20Regressions.ipynb']
-...
-['', '', 'az.plot_pair(trace_g_centered, var_names=["w0", "w1"], plot_kwargs={"alpha": 0.1})', 'pml.savefig("linreg_2d_bayes_post_centered_data.pdf")', 'plt.show()']
--------------------

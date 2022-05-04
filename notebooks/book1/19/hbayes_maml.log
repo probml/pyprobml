@@ -67,7 +67,7 @@ FileNotFoundError: [Errno 2] No such file or directory: PosixPath('dot'): PosixP
 The above exception was the direct cause of the following exception:
 
 ExecutableNotFound                        Traceback (most recent call last)
-/tmp/ipykernel_1475/2890680977.py in <module>
+/tmp/ipykernel_1485/2890680977.py in <module>
      34 
      35 file_name = "hbayes-maml"
 ---> 36 dot.render(file_name, view=True)
