@@ -30,7 +30,7 @@ FileNotFoundError: [Errno 2] No such file or directory: PosixPath('dot'): PosixP
 The above exception was the direct cause of the following exception:
 
 ExecutableNotFound                        Traceback (most recent call last)
-/tmp/ipykernel_1771/3088041286.py in <module>
+/tmp/ipykernel_1766/3088041286.py in <module>
 ----> 1 out.render()
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/_tools.py in wrapper(*args, **kwargs)
