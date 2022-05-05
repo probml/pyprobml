@@ -54,7 +54,7 @@ ModuleDef = Any
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1437/750435947.py in <module>
+/tmp/ipykernel_1329/750435947.py in <module>
      36 try:
 ---> 37     import tensorflow_datasets as tfds  # TFDS for MNIST
      38 except ModuleNotFoundError:
@@ -64,7 +64,7 @@ ModuleNotFoundError: No module named 'tensorflow_datasets'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1437/750435947.py in <module>
+/tmp/ipykernel_1329/750435947.py in <module>
      38 except ModuleNotFoundError:
      39     get_ipython().run_line_magic('pip', 'install tensorflow_datasets')
 ---> 40     import tensorflow_datasets as tfds  # TFDS for MNIST
