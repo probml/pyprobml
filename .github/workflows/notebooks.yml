@@ -48,6 +48,7 @@ jobs:
       run: |
         pip install -U --no-cache-dir -r requirements-dev.txt | cat
         pip install -U --no-cache-dir -r requirements.txt | cat
+        xargs -a requirements-bash.txt apt-get install
 
     - name: Check static imports
       run: |
