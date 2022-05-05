@@ -415,9 +415,7 @@ def set_installed_packages(installed_modules=None):
 
 def get_installed_modules(installed_packages=INSTALLED_MODULES):
     # Special cases
-    special_modules = set(
-        ["mpl_toolkits", "itertools", "time", "sys", "d2l", "augmax", "lvm_plots_utils", "vae_conv_mnist"]
-    )
+    special_modules = set(["mpl_toolkits", "itertools", "time", "sys", "d2l", "augmax"])
     return special_modules.union(installed_packages)
 
 
@@ -456,6 +454,9 @@ def wrap_line_with_try_accept(line, module):
         "tensorflow_probability": "tensorflow-probability",
         "sklearn": "scikit-learn",
         "pl_bolts": "lightning-bolts",
+        "skimage": "scikit-image",
+        "cv2": "opencv-python",
+        "tensorflow_datasets": "tensorflow tensorflow_datasets",
     }
     f"""
     check if import {module} is in given line: {line}
