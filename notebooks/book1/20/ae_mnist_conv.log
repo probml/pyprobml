@@ -44,12 +44,29 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1378/1936047974.py in <module>
-     30     from einops import rearrange
-     31 import seaborn as sns
----> 32 from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, plot_grid_plot
-     33 from torchvision.utils import make_grid
-     34 from pytorch_lightning.utilities.seed import seed_everything
+/tmp/ipykernel_1383/1936047974.py in <module>
+      5 try:
+----> 6     import torch
+      7 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'lvm_plots_utils'
-ModuleNotFoundError: No module named 'lvm_plots_utils'
+ModuleNotFoundError: No module named 'torch'
+
+During handling of the above exception, another exception occurred:
+
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_1383/1936047974.py in <module>
+      7 except ModuleNotFoundError:
+      8     get_ipython().run_line_magic('pip', 'install torch')
+----> 9     import torch
+     10 import torch.nn as nn
+     11 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/__init__.py in <module>
+    197     if USE_GLOBAL_DEPS:
+    198         _load_global_deps()
+--> 199     from torch._C import *  # noqa: F403
+    200 
+    201 # Appease the type checker; ordinarily this binding is inserted by the
+
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data

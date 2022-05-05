@@ -48,7 +48,7 @@ os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "False"
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1242/1362784568.py in <module>
+/tmp/ipykernel_1243/1362784568.py in <module>
      10     import flax.linen as nn
      11 
 ---> 12 from flax.training import train_state, checkpoints
@@ -58,7 +58,7 @@ ModuleNotFoundError                       Traceback (most recent call last)
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/training/checkpoints.py in <module>
      29 from flax import errors
      30 from flax import serialization
----> 31 from tensorflow.io import gfile
+---> 31 from tensorflow.io import gfile  # pytype: disable=import-error
      32 
      33 
 

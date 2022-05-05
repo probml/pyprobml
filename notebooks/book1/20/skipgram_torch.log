@@ -1,0 +1,7 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+lr, num_epochs = 0.01, 5
+train(net, data_iter, lr, num_epochs)
+-------------------

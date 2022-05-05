@@ -34,7 +34,7 @@ import matplotlib.pyplot as plt
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1470/1515292083.py in <module>
+/tmp/ipykernel_1479/1515292083.py in <module>
       1 try:
 ----> 2     import cv2
       3 except ModuleNotFoundError:
@@ -44,7 +44,7 @@ ModuleNotFoundError: No module named 'cv2'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1470/1515292083.py in <module>
+/tmp/ipykernel_1479/1515292083.py in <module>
       3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install cv2')
 ----> 5     import cv2
