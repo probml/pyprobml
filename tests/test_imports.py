@@ -16,7 +16,18 @@ all_modules = set(map(lambda x: x[1], list(pkgutil.iter_modules())))
 
 # Special cases
 special_modules = set(
-    ["mpl_toolkits", "itertools", "time", "sys", "d2l", "augmax", "lvm_plots_utils", "vae_conv_mnist", "google"]
+    [
+        "mpl_toolkits",
+        "itertools",
+        "time",
+        "sys",
+        "d2l",
+        "augmax",
+        "lvm_plots_utils",
+        "vae_conv_mnist",
+        "google",
+        "ae_mnist_conv",
+    ]
 )
 all_modules = all_modules.union(special_modules)
 
