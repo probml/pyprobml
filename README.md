@@ -17,11 +17,13 @@ The notebooks needed to make all the figures are available at the following loca
 
 Notebooks are saved in chapter-wise folders. For example, a notebook for figure 2.3 is saved in the folder `notebooks/book1/02/`.
 
-In addition to the figure notebooks, there are a series of manually created notebooks, which create additional figures, and provide supplementary material for the book. These are stored in the [`misc` folder](https://github.com/probml/pyprobml/tree/master/notebooks/misc).
+In addition to the figure notebooks, there are a series of notebooks which provide supplementary material for the book. These are stored in the [`misc` folder](https://github.com/probml/pyprobml/tree/master/notebooks/misc).
 
 ### Running notebooks in colab
 
-[Colab](https://colab.research.google.com/notebooks/intro.ipynb) has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have a created a [intro to colab](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/colab_intro.ipynb) notebook with more details. To run the notebooks on colab in any browser, you can go to a particular notebook on GitHub and change the domain from `github.com` to `githubtocolab.com` as suggeted [here](https://stackoverflow.com/a/67344477/13330701). If you are using Google Chrome browser, you can use ["Open in Colab" Chrome extension](https://chrome.google.com/webstore/detail/open-in-colab/iogfkhleblhcpcekbiedikdehleodpjo) to do the same with a single click.
+[Colab](https://colab.research.google.com/notebooks/intro.ipynb) has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have a created a 
+[colab intro](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/misc/colab_intro.ipynb)
+notebook with more details. To run the notebooks on colab in any browser, you can go to a particular notebook on GitHub and change the domain from `github.com` to `githubtocolab.com` as suggeted [here](https://stackoverflow.com/a/67344477/13330701). If you are using Google Chrome browser, you can use ["Open in Colab" Chrome extension](https://chrome.google.com/webstore/detail/open-in-colab/iogfkhleblhcpcekbiedikdehleodpjo) to do the same with a single click.
 
 ## Running the noteboks locally 
 
@@ -59,10 +61,12 @@ See [this guide](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md)
 
 [![Stargazers over time](https://starchart.cc/probml/pyprobml.svg)](https://starchart.cc/probml/pyprobml)
 
-## GSOC 2021
+## GSOC 
 
-For a summary of some of the contributions to this codebase during Google Summer of Code 2021,
+For a summary of some of the contributions to this codebase during Google Summer of Code (GSOC) 2021,
 see [this link](https://probml.github.io/pml-book/gsoc2021.html).
+Stay tuned for GSOC 2022.
+
 
 
 
