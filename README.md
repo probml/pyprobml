@@ -10,94 +10,49 @@ This is work in progress, so expect rough edges!
 
 ## Running the notebooks
 
-The scripts needed to make all the figures for each chapter are automatically combined together into a series of Jupyter notebooks, one per chapter.
-* [Volume 1 figure notebooks](https://github.com/probml/pml-book/tree/main/pml1/)
-* [Volume 2 figure notebooks](https://github.com/probml/pml-book/tree/main/pml2). (Note: volume 2 is not finished yet.)
+The notebooks needed to make all the figures are available at the following locations.
 
-In addition to the automatically generated notebooks, there are a series of manually created notebooks, which create additional figures, and provide supplementary material for the book. These are stored in the [notebooks repo](https://github.com/probml/probml-notebooks), since they can be quite large. Some of these notebooks use the scripts mentioned above, but others are independent of the book content.
+* [Volume 1 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book1)
+* [Volume 2 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book2). (Note: volume 2 is not finished yet.)
 
-The easiest way to run these notebooks is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). This has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have a created a [intro to colab](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/colab_intro.ipynb) notebook with more details.
+Notebooks are saved in chapter-wise folders. For example, a notebook for figure 2.3 is saved in the folder `notebooks/book1/02/`.
 
+In addition to the figure notebooks, there are a series of manually created notebooks, which create additional figures, and provide supplementary material for the book. These are stored in the [`misc` folder](https://github.com/probml/pyprobml/tree/master/notebooks/misc).
 
-## Running scripts in colab
+### Running notebooks in colab
 
-The easiest way to run individual scripts is inside [Colab](https://colab.research.google.com/notebooks/intro.ipynb). 
-Just cut and paste this into a code cell:
-```py
-%pip install superimport 
-!git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
-```
-Note: The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
-library will automatically install packages for any file which contains the line `import superimport'.
+[Colab](https://colab.research.google.com/notebooks/intro.ipynb) has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have a created a [intro to colab](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/colab_intro.ipynb) notebook with more details. To run the notebooks on colab in any browser, you can go to a particular notebook on GitHub and change the domain from `github.com` to `githubtocolab.com` as suggeted [here](https://stackoverflow.com/a/67344477/13330701). If you are using Google Chrome browser, you can use ["Open in Colab" Chrome extension](https://chrome.google.com/webstore/detail/open-in-colab/iogfkhleblhcpcekbiedikdehleodpjo) to do the same with a single click.
 
-Then run a script from a cell like this:
-```py
-%run pyprobml/scripts/softmax_plot.py
-```
-
-
-To edit a file locally and then run it, follow the example below.
-```py
-# Make sure local changes to file are detected by runtime
-%load_ext autoreload
-%autoreload 2
-
-file = 'pyprobml/scripts/softmax_plot.py' # change this filename as needed
-from google.colab import files
-files.view(file) # open editor
-
-%run $file
-```
-
-To download and run code from github, follow the example below.
-(Note the `raw` in the URL.)
-```py
-!wget -q https://raw.githubusercontent.com/probml/pyprobml/master/scripts/softmax_plot.py
-%run softmax_plot.py
-```
-
-## Running the scripts locally 
+## Running the noteboks locally 
 
 We assume you have already installed [JAX](https://github.com/google/jax#installation) and
 [Tensorflow](https://www.tensorflow.org/install) and [Torch](https://pytorch.org/),
 since the details on how to do this depend on whether you have a CPU, GPU, etc.
 
-For the remaining python packages, do this:
+You can use any of the following options to install the other requirements.
+
+* Option 1
+
 ```bash
-pip install superimport 
-git clone --depth 1 https://github.com/probml/pyprobml  &> /dev/null # THIS CODEBASE
+pip install -r https://raw.githubusercontent.com/probml/pyprobml/master/requirements.txt
 ```
 
-Note: The [superimport](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/Superimport.ipynb)
-library will automatically install packages for any file which contains the line `import superimport'. 
+* Option 2
 
+Download [requirements.txt](https://github.com/probml/pyprobml/blob/master/requirements.txt) locally to your path and run
 
-To manually execute an individual script from the command line,
-follow this example:
 ```bash
-python3 pyprobml/scripts/softmax_plot.py 
+pip install -r requirements.txt
 ```
-This will  run the script, plot a figure, and save the result to the `pyprobml/figures` directory.
-
-## Running scripts for vol 2
-
-Some demos for vol 2 use [JSL (Jax State-space Library)](https://github.com/probml/JSL).
-This requires extra packages, see [these installation instructions](https://github.com/probml/JSL#installation).
-Then you can run the pyprobml version of the JSL demos like this
-```
-%run pyprobml/scripts/kf_tracking_demo.py # colab
-python3 pyprobml/scripts/kf_tracking_demo.py # locally
-```
-
 
 ## GCP, TPUs, and all that
 
-When you want more power or control than colab gives you, you should get a Google Cloud Platform (GCP) account, and get access to a TPU VM. You can then use this as a virtual desktop which you can access via ssh from inside VScode. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/probml-notebooks/blob/main/markdown/colab_gcp_tpu_tutorial.md) with more information.
+When you want more power or control than colab gives you, you should get a Google Cloud Platform (GCP) account, and get access to a TPU VM. You can then use this as a virtual desktop which you can access via ssh from inside VScode. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/pyprobml/blob/master/tutorials/colab_gcp_tpu_tutorial.md) with more information.
 
 
 ## How to contribute
 
-See [this guide](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) for how to contribute code.
+See [this guide](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) for how to contribute code. Please follow [these guidelines](https://github.com/probml/pyprobml/blob/master/notebooks/README.md) to contribute new notebooks to the notebooks directory.
 
 
 ## Metrics
