@@ -1,52 +1,30 @@
 An error occurred while executing the following cell:
 ------------------
-import os
-import sys
+example_x, example_y = train_dl.__getitem__(0)
 
-try:
-    import cv2
-except ModuleNotFoundError:
-    %pip install cv2
-    import cv2
-import glob
-
-try:
-    import tqdm
-except ModuleNotFoundError:
-    %pip install tqdm
-    import tqdm
-import shutil
-from typing import Any
-from IPython import display
-import matplotlib.pyplot as plt
-
-try:
-    from skimage.util import montage
-except ModuleNotFoundError:
-    %pip install skimage
-    from skimage.util import montage
-
-%matplotlib inline
+viewable_imgs = example_x[:32]
+viewable_imgs = (viewable_imgs - viewable_imgs.min()) / (viewable_imgs.max() - viewable_imgs.min())
+viewable_imgs = viewable_imgs * 255.0
+viewable_imgs = viewable_imgs.astype(jnp.uint8)
+plt.imshow(montage(viewable_imgs, multichannel=True, grid_shape=(4, 8)))
+plt.show();
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1986/2838030509.py in <module>
-      4 try:
-----> 5     import cv2
-      6 except ModuleNotFoundError:
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_2904/3801382653.py in <module>
+----> 1 example_x, example_y = train_dl.__getitem__(0)
+      2 
+      3 viewable_imgs = example_x[:32]
+      4 viewable_imgs = (viewable_imgs - viewable_imgs.min()) / (viewable_imgs.max() - viewable_imgs.min())
+      5 viewable_imgs = viewable_imgs * 255.0
 
-ModuleNotFoundError: No module named 'cv2'
+/tmp/ipykernel_2904/821885116.py in __getitem__(self, ix)
+     40     def __getitem__(self, ix):
+     41         X, Y = [], []
+---> 42         hdl = os.listdir(self.hot_dogs_list)[ix * self.batch_size : (ix + 1) * self.batch_size]
+     43         nhdl = os.listdir(self.non_hot_dogs_list)[ix * self.batch_size : (ix + 1) * self.batch_size]
+     44 
 
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1986/2838030509.py in <module>
-      6 except ModuleNotFoundError:
-      7     get_ipython().run_line_magic('pip', 'install cv2')
-----> 8     import cv2
-      9 import glob
-     10 
-
-ModuleNotFoundError: No module named 'cv2'
-ModuleNotFoundError: No module named 'cv2'
+FileNotFoundError: [Errno 2] No such file or directory: '/content/hotdog/train/hotdog'
+FileNotFoundError: [Errno 2] No such file or directory: '/content/hotdog/train/hotdog'
