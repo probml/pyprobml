@@ -1,0 +1,25 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(seed=1)
+import math
+import collections
+
+import torch
+from torch import nn
+from torch.nn import functional as F
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2514/1691499538.py in <module>
+      6 import collections
+      7 
+----> 8 import torch
+      9 from torch import nn
+     10 from torch.nn import functional as F
+
+ModuleNotFoundError: No module named 'torch'
+ModuleNotFoundError: No module named 'torch'
