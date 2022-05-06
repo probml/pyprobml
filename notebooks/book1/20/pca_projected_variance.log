@@ -1,23 +1,88 @@
 An error occurred while executing the following cell:
 ------------------
-imgs, _ = batch
-imgs = imgs[:16]
+# pca 1d : visualize variacnce of projecton
+# Code is based on chapter 8 of
+# https://github.com/ageron/handson-ml2
 
-fig, axs = plt.subplots(2, 1)
-axs[0].imshow(rearrange(make_grid(imgs), "c h w -> h w c"))
-imgs = imgs.to(device=device)
-axs[1].imshow(rearrange(make_grid(m.vae(imgs)[0].cpu()), "c h w -> h w c"))
-plt.savefig("../figures/vae_mnist_conv_20d_rec.pdf")
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+try:
+    from sklearn.decomposition import PCA
+except ModuleNotFoundError:
+    %pip install scikit-learn
+    from sklearn.decomposition import PCA
+
+angle = np.pi / 5
+stretch = 5
+m = 200
+
+np.random.seed(3)
+X = np.random.randn(m, 2) / 10
+X = X.dot(np.array([[stretch, 0], [0, 1]]))  # stretch
+X = X.dot([[np.cos(angle), np.sin(angle)], [-np.sin(angle), np.cos(angle)]])  # rotate
+
+u1 = np.array([np.cos(angle), np.sin(angle)])
+u2 = np.array([np.cos(angle - 2 * np.pi / 6), np.sin(angle - 2 * np.pi / 6)])
+u3 = np.array([np.cos(angle - np.pi / 2), np.sin(angle - np.pi / 2)])
+
+X_proj1 = X.dot(u1.reshape(-1, 1))
+X_proj2 = X.dot(u2.reshape(-1, 1))
+X_proj3 = X.dot(u3.reshape(-1, 1))
+
+plt.figure(figsize=(8, 4))
+plt.subplot2grid((3, 2), (0, 0), rowspan=3)
+plt.plot([-1.4, 1.4], [-1.4 * u1[1] / u1[0], 1.4 * u1[1] / u1[0]], "k-", linewidth=1)
+plt.plot([-1.4, 1.4], [-1.4 * u2[1] / u2[0], 1.4 * u2[1] / u2[0]], "k--", linewidth=1)
+plt.plot([-1.4, 1.4], [-1.4 * u3[1] / u3[0], 1.4 * u3[1] / u3[0]], "k:", linewidth=2)
+plt.plot(X[:, 0], X[:, 1], "bo", alpha=0.5)
+plt.axis([-1.4, 1.4, -1.4, 1.4])
+plt.arrow(0, 0, u1[0], u1[1], head_width=0.1, linewidth=5, length_includes_head=True, head_length=0.1, fc="k", ec="k")
+plt.arrow(0, 0, u3[0], u3[1], head_width=0.1, linewidth=5, length_includes_head=True, head_length=0.1, fc="k", ec="k")
+plt.text(u1[0] + 0.1, u1[1] - 0.05, r"$v_1$", fontsize=22)
+plt.text(u2[0] + 0.1, u2[1], r"$v'$", fontsize=22)  # KPM
+plt.text(u3[0] + 0.1, u3[1], r"$v_2$", fontsize=22)
+plt.xlabel("$x_1$", fontsize=18)
+plt.ylabel("$x_2$", fontsize=18, rotation=0)
+plt.grid(True)
+
+plt.subplot2grid((3, 2), (0, 1))
+plt.plot([-2, 2], [0, 0], "k-", linewidth=1)
+plt.plot(X_proj1[:, 0], np.zeros(m), "bo", alpha=0.3)
+plt.gca().get_yaxis().set_ticks([])
+plt.gca().get_xaxis().set_ticklabels([])
+plt.axis([-2, 2, -1, 1])
+plt.grid(True)
+
+plt.subplot2grid((3, 2), (1, 1))
+plt.plot([-2, 2], [0, 0], "k--", linewidth=1)
+plt.plot(X_proj2[:, 0], np.zeros(m), "bo", alpha=0.3)
+plt.gca().get_yaxis().set_ticks([])
+plt.gca().get_xaxis().set_ticklabels([])
+plt.axis([-2, 2, -1, 1])
+plt.grid(True)
+
+plt.subplot2grid((3, 2), (2, 1))
+plt.plot([-2, 2], [0, 0], "k:", linewidth=2)
+plt.plot(X_proj3[:, 0], np.zeros(m), "bo", alpha=0.3)
+plt.gca().get_yaxis().set_ticks([])
+plt.axis([-2, 2, -1, 1])
+plt.xlabel("$z_1$", fontsize=18)
+plt.grid(True)
+
+plt.tight_layout()
+plt.savefig("figures/pca_projected_variance.pdf", dpi=300)
 plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2190/3310386611.py in <module>
-      6 imgs = imgs.to(device=device)
-      7 axs[1].imshow(rearrange(make_grid(m.vae(imgs)[0].cpu()), "c h w -> h w c"))
-----> 8 plt.savefig("../figures/vae_mnist_conv_20d_rec.pdf")
-      9 plt.show()
+/tmp/ipykernel_2203/2986929776.py in <module>
+     71 
+     72 plt.tight_layout()
+---> 73 plt.savefig("figures/pca_projected_variance.pdf", dpi=300)
+     74 plt.show()
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in savefig(*args, **kwargs)
     977 def savefig(*args, **kwargs):
@@ -75,5 +140,5 @@ FileNotFoundError                         Traceback (most recent call last)
     452         opened = True
     453     elif hasattr(fname, 'seek'):
 
-FileNotFoundError: [Errno 2] No such file or directory: '../figures/vae_mnist_conv_20d_rec.pdf'
-FileNotFoundError: [Errno 2] No such file or directory: '../figures/vae_mnist_conv_20d_rec.pdf'
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/pca_projected_variance.pdf'
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/pca_projected_variance.pdf'
