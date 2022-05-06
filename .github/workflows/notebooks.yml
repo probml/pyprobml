@@ -105,7 +105,7 @@ jobs:
         path: |
           /root/.keras/datasets
           /root/tensorflow_datasets
-          ${{ GITHUB_WORKSPACE }}/data
+          ${{ github.workspace }}/data
         key: datasets
 
     - name: Check notebooks for errors
