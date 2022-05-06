@@ -13,7 +13,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2182/3310386611.py in <module>
+/tmp/ipykernel_2195/3310386611.py in <module>
       6 imgs = imgs.to(device=device)
       7 axs[1].imshow(rearrange(make_grid(m.vae(imgs)[0].cpu()), "c h w -> h w c"))
 ----> 8 plt.savefig("../figures/vae_mnist_conv_20d_rec.pdf")
