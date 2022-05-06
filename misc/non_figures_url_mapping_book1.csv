@@ -40,6 +40,7 @@ polyfitRidgeCV,https://colab.research.google.com/github/probml/pyprobml/blob/mas
 beta_binom_approx_post_pymc3,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/beta_binom_approx_post_pymc3.ipynb
 iris_cov_mat,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/iris_cov_mat.ipynb
 samplingDistributionGaussianShrinkage,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/samplingDistributionGaussianShrinkage.ipynb
+laplace_approx_beta_binom_jax,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/laplace_approx_beta_binom_jax.ipynb
 dirichlet_3d_triangle_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/dirichlet_3d_triangle_plot.ipynb
 shrinkcov_plots,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/shrinkcov_plots.ipynb
 beta_credible_int_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/beta_credible_int_demo.ipynb
@@ -153,11 +154,13 @@ iris_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/n
 linreg_2d_surface_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/linreg_2d_surface_demo.ipynb
 text_preproc_jax,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/text_preproc_jax.ipynb
 fashion_viz_tf,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/fashion_viz_tf.ipynb
+emnist_viz_torch,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/emnist_viz_torch.ipynb
 tfidf_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/tfidf_demo.ipynb
 emnist_viz_jax,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/emnist_viz_jax.ipynb
 mnist_viz_tf,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/mnist_viz_tf.ipynb
 iris_pca,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/iris_pca.ipynb
 linreg_residuals_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/linreg_residuals_plot.ipynb
+text_preproc_torch,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/text_preproc_torch.ipynb
 iris_kmeans,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/iris_kmeans.ipynb
 fig_1_12,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/fig_1_12.ipynb
 fig_1_13,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/fig_1_13.ipynb
@@ -173,8 +176,10 @@ conv2d_jax,https://colab.research.google.com/github/probml/pyprobml/blob/master/
 cnn_mnist_tf,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/cnn_mnist_tf.ipynb
 cifar10_cnn_lightning,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/cifar10_cnn_lightning.ipynb
 densenet_jax,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/densenet_jax.ipynb
+transposed_conv_torch,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/transposed_conv_torch.ipynb
 lenet_jax,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/lenet_jax.ipynb
 lenet_torch,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/lenet_torch.ipynb
+layer_norm_torch,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/layer_norm_torch.ipynb
 batchnorm_torch,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/batchnorm_torch.ipynb
 densenet_torch,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/densenet_torch.ipynb
 resnet_torch,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/resnet_torch.ipynb
