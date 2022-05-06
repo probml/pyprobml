@@ -23,10 +23,17 @@ import d2l
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_1456/3140820900.py in <module>
+/tmp/ipykernel_2403/3140820900.py in <module>
      17 
      18 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
 ---> 19 import d2l
 
-ModuleNotFoundError: No module named 'd2l'
-ModuleNotFoundError: No module named 'd2l'
+/__w/pyprobml/pyprobml/d2l.py in <module>
+      4 import numpy as np
+      5 import torch
+----> 6 import torchvision
+      7 from PIL import Image
+      8 from torch import nn
+
+ModuleNotFoundError: No module named 'torchvision'
+ModuleNotFoundError: No module named 'torchvision'
