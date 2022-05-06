@@ -89,7 +89,7 @@ jobs:
         source /root/.bashrc
         pip install -U --no-cache-dir -r requirements-dev.txt | cat
         pip install -U --no-cache-dir -r requirements.txt | cat
-        apt update && xargs -a requirements-bash.txt apt install
+        apt update && xargs -a requirements-bash.txt apt install -y
 
     - name: Check code quality (again)
       shell: bash
