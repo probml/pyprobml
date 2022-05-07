@@ -85,7 +85,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2241/2218669728.py in <module>
+/tmp/ipykernel_2258/2218669728.py in <module>
      69 plot_decision_boundary(rf_clf, X, y)
      70 plt.title("Random forest of {} trees, test accuracy={:0.2f}".format(bag_size, rf_acc))
 ---> 71 plt.savefig("figures/rf_bag_size{}.pdf".format(bag_size), dpi=300)
