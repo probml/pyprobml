@@ -98,6 +98,16 @@ jobs:
         black --check --verbose notebooks/book1/*/*.ipynb
         black --check --verbose notebooks/book2/*/*.ipynb
 
+    - name: Cache datasets
+      id: cache-datasets
+      uses: actions/cache@v3
+      with:
+        path: |
+          /root/.keras/datasets
+          /root/tensorflow_datasets
+          ${{ github.workspace }}/data
+        key: datasets
+
     - name: Check notebooks for errors
       shell: bash
       run: |
