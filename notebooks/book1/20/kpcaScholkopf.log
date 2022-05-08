@@ -84,7 +84,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2226/2152761477.py in <module>
+/tmp/ipykernel_2215/2152761477.py in <module>
      77     axi.plot(patterns[:, 0], patterns[:, 1], "r.")
      78     axi.text(-0.5, 1.60, f"Eigenvalue={evals[i]:.3f}")
 ---> 79 fig.savefig("figures/kpcaScholkopf.pdf", dpi=300)
