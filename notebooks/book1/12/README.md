@@ -1,7 +1,7 @@
 
 # Chapter 12: Generalized linear models
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

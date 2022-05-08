@@ -1,7 +1,7 @@
 
 # Chapter 10: Logistic regression
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

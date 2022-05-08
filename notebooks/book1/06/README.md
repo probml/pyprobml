@@ -1,7 +1,7 @@
 
 # Chapter 6: Information theory
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

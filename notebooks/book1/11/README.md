@@ -1,7 +1,7 @@
 
 # Chapter 11: Linear regression
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

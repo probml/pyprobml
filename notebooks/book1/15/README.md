@@ -1,7 +1,7 @@
 
 # Chapter 15: Neural networks for sequences
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

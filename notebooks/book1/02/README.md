@@ -1,7 +1,7 @@
 
 # Chapter 2: Probability: univariate models
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

@@ -1,7 +1,7 @@
 
 # Chapter 3: Probability: multivariate models
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

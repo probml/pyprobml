@@ -1,7 +1,7 @@
 
 # Chapter 16: Exemplar-based methods
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

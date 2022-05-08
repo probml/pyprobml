@@ -1,7 +1,7 @@
 
 # Chapter 1: Introduction
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

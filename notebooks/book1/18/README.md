@@ -1,7 +1,7 @@
 
 # Chapter 18: Trees
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

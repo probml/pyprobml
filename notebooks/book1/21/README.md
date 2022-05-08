@@ -1,7 +1,7 @@
 
 # Chapter 21: Clustering
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

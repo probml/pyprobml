@@ -1,7 +1,7 @@
 
 # Chapter 14: Neural networks for images
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

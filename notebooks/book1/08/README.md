@@ -1,7 +1,7 @@
 
 # Chapter 8: Optimization
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

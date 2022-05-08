@@ -1,7 +1,7 @@
 
 # Chapter 9: Linear discriminant analysis
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

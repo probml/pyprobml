@@ -1,7 +1,7 @@
 
 # Chapter 22: Recommender systems
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

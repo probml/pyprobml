@@ -1,7 +1,7 @@
 
 # Chapter 7: Linear algebra
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

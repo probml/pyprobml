@@ -1,7 +1,7 @@
 
 # Chapter 5: Decision theory
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

@@ -1,7 +1,7 @@
 
 # Chapter 4: Statistics
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

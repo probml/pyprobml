@@ -1,7 +1,7 @@
 
 # Chapter 17: Kernel methods
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

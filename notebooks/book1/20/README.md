@@ -1,7 +1,7 @@
 
 # Chapter 20: Dimensionality reduction
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

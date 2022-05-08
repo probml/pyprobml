@@ -1,7 +1,7 @@
 
 # Chapter 19: Learning with fewer labeled examples
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|

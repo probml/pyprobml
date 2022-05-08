@@ -1,7 +1,7 @@
 
 # Chapter 13: Neural networks for unstructured data
 
-## Notebooks
+## Figures
 
 |Figure No. | Notebook | Figure |
 |--|--|--|
