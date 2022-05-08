@@ -103,7 +103,7 @@ HTTPError: HTTP Error 503: Service Unavailable
 During handling of the above exception, another exception occurred:
 
 Exception                                 Traceback (most recent call last)
-/tmp/ipykernel_2818/2166846408.py in <module>
+/tmp/ipykernel_2970/2166846408.py in <module>
      30 data = keras.datasets.cifar10
      31 
 ---> 32 (train_images, train_labels), (test_images, test_labels) = data.load_data()
