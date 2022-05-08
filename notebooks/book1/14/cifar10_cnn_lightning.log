@@ -46,7 +46,7 @@ classes = ("plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship"
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-/tmp/ipykernel_2639/1707222892.py in <module>
+/tmp/ipykernel_2638/1707222892.py in <module>
      37 
      38 
 ---> 39 dm.prepare_data()  # force download now
