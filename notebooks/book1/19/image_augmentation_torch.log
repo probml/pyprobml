@@ -6,7 +6,7 @@ d2l.show_images([all_images[i][0] for i in range(32)], 4, 8, scale=0.8);
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-/tmp/ipykernel_2438/3273091466.py in <module>
+/tmp/ipykernel_2440/3273091466.py in <module>
 ----> 1 all_images = torchvision.datasets.CIFAR10(train=True, root="../data", download=True)
       2 d2l.show_images([all_images[i][0] for i in range(32)], 4, 8, scale=0.8);
 
