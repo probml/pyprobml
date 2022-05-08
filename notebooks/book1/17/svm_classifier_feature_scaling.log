@@ -76,7 +76,7 @@ plt.savefig("figures/svm_classifier_feature_scaling.pdf", dpi=300)
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2276/100136738.py in <module>
+/tmp/ipykernel_2282/100136738.py in <module>
      70 plt.axis([-2, 2, -2, 2])
      71 
 ---> 72 plt.savefig("figures/svm_classifier_feature_scaling.pdf", dpi=300)
