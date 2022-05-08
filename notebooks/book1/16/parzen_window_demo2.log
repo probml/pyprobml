@@ -85,12 +85,12 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2264/255735360.py in <module>
+/tmp/ipykernel_2265/255735360.py in <module>
      79 
      80 if __name__ == "__main__":
 ---> 81     main()
 
-/tmp/ipykernel_2264/255735360.py in main()
+/tmp/ipykernel_2265/255735360.py in main()
      74 
      75     plt.tight_layout()
 ---> 76     plt.savefig("figures/parzen_window2.pdf", dpi=300)
