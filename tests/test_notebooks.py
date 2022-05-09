@@ -12,6 +12,7 @@ TIMEOUT = 600  # seconds
 TEST_DIR = "test_results"
 os.environ["FIG_DIR"] = "figures"
 os.environ["LATEXIFY"] = ""  # To enable latexify code
+os.environ["DUAL_SAVE"] = ""  # To save both .pdf and .png
 
 # Load notebooks
 cmd = "git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {}"
