@@ -164,7 +164,7 @@ for model in kmeans_per_k:
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2224/1780492892.py in <module>
+/tmp/ipykernel_2223/1780492892.py in <module>
      65 # plt.axis([1, 8.5, 0, 1300])
      66 plt.tight_layout()
 ---> 67 plt.savefig("figures/kmeans_distortion_vs_k.pdf", dpi=300)
