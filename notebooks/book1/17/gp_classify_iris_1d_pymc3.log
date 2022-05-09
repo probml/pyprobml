@@ -161,7 +161,7 @@ KeyError: f_pred ~ MvNormal
 During handling of the above exception, another exception occurred:
 
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_2259/931036016.py in <module>
+/tmp/ipykernel_2264/931036016.py in <module>
      84     with model_iris:
      85         f_pred = gp.conditional("f_pred", X_new)
 ---> 86         pred_samples = pm.sample_posterior_predictive(trace_iris, var_names=[f_pred], samples=1000)
