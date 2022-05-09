@@ -3,7 +3,7 @@ An error occurred while executing the following cell:
 Source of this notebook is here:  https://github.com/probml/pyprobml/blob/master/notebooks/book2/17/gprDemoArd.ipynb
 ------------------
 
-  File "/tmp/ipykernel_3403/1331271049.py", line 1
+  File "/tmp/ipykernel_3420/1331271049.py", line 1
     Source of this notebook is here:  https://github.com/probml/pyprobml/blob/master/notebooks/book2/17/gprDemoArd.ipynb
             ^
 SyntaxError: invalid syntax
