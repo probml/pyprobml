@@ -1,28 +1,39 @@
 An error occurred while executing the following cell:
 ------------------
-all_images = torchvision.datasets.CIFAR10(train=True, root="../data", download=True)
-d2l.show_images([all_images[i][0] for i in range(32)], 4, 8, scale=0.8);
+transform = transforms.Compose(
+    [lambda img: torchvision.transforms.functional.rotate(img, 90), transforms.ToTensor(), jnp.array]
+)
+
+training_data = datasets.EMNIST(root="~/data", split="byclass", download=True, transform=transform)
 ------------------
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-/tmp/ipykernel_2440/3273091466.py in <module>
-----> 1 all_images = torchvision.datasets.CIFAR10(train=True, root="../data", download=True)
-      2 d2l.show_images([all_images[i][0] for i in range(32)], 4, 8, scale=0.8);
+/tmp/ipykernel_2941/3159456905.py in <module>
+      3 )
+      4 
+----> 5 training_data = datasets.EMNIST(root="~/data", split="byclass", download=True, transform=transform)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/cifar.py in __init__(self, root, train, transform, target_transform, download)
-     63 
-     64         if download:
----> 65             self.download()
-     66 
-     67         if not self._check_integrity():
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/mnist.py in __init__(self, root, split, **kwargs)
+    295         self.training_file = self._training_file(split)
+    296         self.test_file = self._test_file(split)
+--> 297         super().__init__(root, **kwargs)
+    298         self.classes = self.classes_split_dict[self.split]
+    299 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/cifar.py in download(self)
-    139             print("Files already downloaded and verified")
-    140             return
---> 141         download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
-    142 
-    143     def extra_repr(self) -> str:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/mnist.py in __init__(self, root, train, transform, target_transform, download)
+     97 
+     98         if download:
+---> 99             self.download()
+    100 
+    101         if not self._check_exists():
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/mnist.py in download(self)
+    332         os.makedirs(self.raw_folder, exist_ok=True)
+    333 
+--> 334         download_and_extract_archive(self.url, download_root=self.raw_folder, md5=self.md5)
+    335         gzip_folder = os.path.join(self.raw_folder, "gzip")
+    336         for gzip_file in os.listdir(gzip_folder):
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/utils.py in download_and_extract_archive(url, download_root, extract_root, filename, md5, remove_finished)
     428         filename = os.path.basename(url)

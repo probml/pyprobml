@@ -112,14 +112,14 @@ for ei, exp_dict in enumerate(pbar):
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_2544/3587634207.py in <module>
+/tmp/ipykernel_2562/3587634207.py in <module>
     103 for ei, exp_dict in enumerate(pbar):
     104     pbar.set_description(f"Running Exp {ei+1}/{len(exp_list)} ")
 --> 105     trainval(exp_dict)
     106 
     107     # Update progress bar
 
-/tmp/ipykernel_2544/3587634207.py in trainval(exp_dict)
+/tmp/ipykernel_2562/3587634207.py in trainval(exp_dict)
      13 
      14     # print exp dict
 ---> 15     savedir = f"{savedir_base}/{hu.hash_dict(exp_dict)}"
