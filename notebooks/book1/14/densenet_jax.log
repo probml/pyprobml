@@ -30,18 +30,8 @@ print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3
 ------------------
 
 ---------------------------------------------------------------------------
-AttributeError                            Traceback (most recent call last)
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dtypes.py in is_weakly_typed(x)
-    337   try:
---> 338     return x.aval.weak_type
-    339   except AttributeError:
-
-AttributeError: 'numpy.ndarray' object has no attribute 'aval'
-
-During handling of the above exception, another exception occurred:
-
-RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_2398/1115125.py in <module>
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_2412/1115125.py in <module>
      12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
      13         batch["label"] = jnp.float32(y)
 ---> 14         state, metrics = train_step(state, batch)
@@ -50,7 +40,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_2398/1580938479.py in train_step(state, batch)
+/tmp/ipykernel_2412/1580938479.py in train_step(state, batch)
      13 
      14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
 ---> 15     aux, grads = grad_fn(state.params)
@@ -59,7 +49,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 8 frame]
 
-/tmp/ipykernel_2398/1580938479.py in loss_fn(params)
+/tmp/ipykernel_2412/1580938479.py in loss_fn(params)
       5     def loss_fn(params):
       6         logits, new_model_state = state.apply_fn(
 ----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
@@ -68,7 +58,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_2398/2176403876.py in __call__(self, x, train)
+/tmp/ipykernel_2412/2176403876.py in __call__(self, x, train)
      21             # A transition layer that halves the number of channels is added between the dense blocks.
      22             if i != len(num_convs_in_dense_blocks) - 1:
 ---> 23                 x = TransitionBlock(num_channels // 2, norm)(x)
@@ -77,7 +67,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_2398/585409295.py in __call__(self, x)
+/tmp/ipykernel_2412/585409295.py in __call__(self, x)
       7         x = self.norm()(x)
       8         x = nn.relu(x)
 ----> 9         x = nn.Conv(self.filters, (1, 1), padding=[(0, 0), (0, 0)], dtype=jnp.float32)(x)
@@ -112,20 +102,70 @@ RuntimeError                              Traceback (most recent call last)
     [... skipping hidden 7 frame]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _truncated_normal(key, lower, upper, shape, dtype)
-    677   return jnp.clip(
-    678       out,
---> 679       lax.nextafter(lax.stop_gradient(lower), np.array(np.inf, dtype=dtype)),
-    680       lax.nextafter(lax.stop_gradient(upper), np.array(-np.inf, dtype=dtype)))
-    681 
+    671   if not jnp.issubdtype(dtype, np.floating):
+    672     raise TypeError("truncated_normal only accepts floating point dtypes.")
+--> 673   u = uniform(key, shape, dtype, minval=a, maxval=b)
+    674   out = sqrt2 * lax.erf_inv(u)
+    675   # Clamp the value to the open interval (lower, upper) to make sure that
 
-    [... skipping hidden 11 frame]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in uniform(key, shape, dtype, minval, maxval)
+    235   dtype = dtypes.canonicalize_dtype(dtype)
+    236   shape = core.as_named_shape(shape)
+--> 237   return _uniform(key, shape, dtype, minval, maxval)  # type: ignore
+    238 
+    239 @partial(jit, static_argnums=(1, 2), inline=True)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
-     64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
-     65         # Python can still get and update the process status successfully.
----> 66         _error_if_any_worker_fails()
-     67         if previous_handler is not None:
-     68             assert callable(previous_handler)
+    [... skipping hidden 7 frame]
 
-RuntimeError: DataLoader worker (pid 2760) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 2760) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _uniform(key, shape, dtype, minval, maxval)
+    263       lax.shift_right_logical(bits, np.array(nbits - nmant, lax.dtype(bits))),
+    264       np.array(1., dtype).view(UINT_DTYPES[nbits]))
+--> 265   floats = lax.bitcast_convert_type(float_bits, dtype) - np.array(1., dtype)
+    266   return lax.max(
+    267       minval,
+
+    [... skipping hidden 1 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/lax_numpy.py in deferring_binary_op(self, other)
+   4553     if not isinstance(other, _accepted_binop_types):
+   4554       return NotImplemented
+-> 4555     return binary_op(self, other)
+   4556   return deferring_binary_op
+   4557 
+
+    [... skipping hidden 7 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/ufuncs.py in <lambda>(x1, x2)
+     73     fn = lambda x1, x2: lax_fn(*_promote_args_inexact(numpy_fn.__name__, x1, x2))
+     74   else:
+---> 75     fn = lambda x1, x2: lax_fn(*_promote_args(numpy_fn.__name__, x1, x2))
+     76   fn = jit(fn, inline=True)
+     77   if lax_doc:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/util.py in _promote_args(fun_name, *args)
+    316   _check_arraylike(fun_name, *args)
+    317   _check_no_float0s(fun_name, *args)
+--> 318   return _promote_shapes(fun_name, *_promote_dtypes(*args))
+    319 
+    320 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/util.py in _promote_dtypes(*args)
+    253     to_dtype, weak_type = dtypes._lattice_result_type(*args)
+    254     to_dtype = dtypes.canonicalize_dtype(to_dtype)
+--> 255     return [lax_internal._convert_element_type(x, to_dtype, weak_type) for x in args]
+    256 
+    257 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/util.py in <listcomp>(.0)
+    253     to_dtype, weak_type = dtypes._lattice_result_type(*args)
+    254     to_dtype = dtypes.canonicalize_dtype(to_dtype)
+--> 255     return [lax_internal._convert_element_type(x, to_dtype, weak_type) for x in args]
+    256 
+    257 
+
+    [... skipping hidden 2 frame]
+
+<__array_function__ internals> in result_type(*args, **kwargs)
+
+TypeError: Cannot interpret 'Traced<ShapedArray(float32[1,1,192,96])>with<DynamicJaxprTrace(level=3/4)>' as a data type
+TypeError: Cannot interpret 'Traced<ShapedArray(float32[1,1,192,96])>with<DynamicJaxprTrace(level=3/4)>' as a data type
