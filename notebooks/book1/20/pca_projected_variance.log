@@ -78,7 +78,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2229/2986929776.py in <module>
+/tmp/ipykernel_2226/2986929776.py in <module>
      71 
      72 plt.tight_layout()
 ---> 73 plt.savefig("figures/pca_projected_variance.pdf", dpi=300)
