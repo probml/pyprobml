@@ -102,7 +102,7 @@ fig.savefig("figures/PCAvariance.png")
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2229/317731621.py in <module>
+/tmp/ipykernel_2223/317731621.py in <module>
      28     axs[r, c].axis('off')
      29 
 ---> 30 fig.savefig("figures/PcaTrainFaceImages.png")
