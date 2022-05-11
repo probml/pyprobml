@@ -35,7 +35,6 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
     ```
 
 4. To ensure your code passes the code formatting check, `pip install pre-commit` locally and run `pre-commit install`.
-    * Install `black` for jupyter notebooks with: `pip install black[jupyter]` (bash) and `pip install 'black[jupyter]'` (zsh).
     * `pre-commit` will automatically format your notebook as per [this config](https://github.com/probml/pyprobml/blob/master/.pre-commit-config.yaml).
 6. Follow PEP 8 naming convention.
 7. Convert the existing code to `jax`, `flax` and `distrax` wherever possible.
@@ -62,6 +61,12 @@ ipython foo.ipynb
 ```py
 export FIG_DIR=/path/to/figures/directory
 export LATEXIFY=1
+ipython foo.ipynb
+```
+* To save figures in both `.pdf` and `.png` formats:
+```py
+export FIG_DIR=/path/to/figures/directory
+export DUAL_SAVE=1
 ipython foo.ipynb
 ```
 
