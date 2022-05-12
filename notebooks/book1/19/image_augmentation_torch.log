@@ -1,64 +1,14 @@
 An error occurred while executing the following cell:
 ------------------
-if DATA_AUG_TYPE == "rnd":
-    # https://pytorch-lightning.readthedocs.io/en/latest/notebooks/lightning_examples/cifar10-baseline.html#
-    train_transforms = torchvision.transforms.Compose(
-        [
-            torchvision.transforms.RandomCrop(32, padding=4),
-            torchvision.transforms.RandomHorizontalFlip(),
-            torchvision.transforms.ToTensor(),
-            cifar10_normalization(),
-        ]
-    )
-else:
-    # https://github.com/PyTorchLightning/Lightning-Bolts/blob/master/pl_bolts/datamodules/cifar10_datamodule.py#L115
-    train_transforms = torchvision.transforms.Compose(
-        [
-            torchvision.transforms.ToTensor(),
-            cifar10_normalization(),
-        ]
-    )
-
-
-test_transforms = torchvision.transforms.Compose(
-    [
-        torchvision.transforms.ToTensor(),
-        cifar10_normalization(),
-    ]
-)
-
-
-dm = CIFAR10DataModule(
-    data_dir=PATH_DATASETS,
-    batch_size=BATCH_SIZE,
-    num_workers=NUM_WORKERS,
-    train_transforms=train_transforms,
-    test_transforms=test_transforms,
-    val_transforms=test_transforms,
-)
-
-
-dm.prepare_data()  # force download now
-dm.setup(stage="fit")  # force make data loaders now
-
-classes = ("plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck")
+all_images = torchvision.datasets.CIFAR10(train=True, root="../data", download=True)
+d2l.show_images([all_images[i][0] for i in range(32)], 4, 8, scale=0.8);
 ------------------
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-/tmp/ipykernel_3670/1707222892.py in <module>
-     37 
-     38 
----> 39 dm.prepare_data()  # force download now
-     40 dm.setup(stage="fit")  # force make data loaders now
-     41 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pl_bolts/datamodules/vision_datamodule.py in prepare_data(self, *args, **kwargs)
-     59     def prepare_data(self, *args: Any, **kwargs: Any) -> None:
-     60         """Saves files to data_dir."""
----> 61         self.dataset_cls(self.data_dir, train=True, download=True)
-     62         self.dataset_cls(self.data_dir, train=False, download=True)
-     63 
+/tmp/ipykernel_2298/3273091466.py in <module>
+----> 1 all_images = torchvision.datasets.CIFAR10(train=True, root="../data", download=True)
+      2 d2l.show_images([all_images[i][0] for i in range(32)], 4, 8, scale=0.8);
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/cifar.py in __init__(self, root, train, transform, target_transform, download)
      63 
