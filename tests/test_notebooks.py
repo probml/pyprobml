@@ -24,11 +24,20 @@ for entry in notebooks_raw.stdout.split("\n"):
     if entry:
         timestamped_notebooks.append(entry.split(" "))
 timestamped_notebooks.sort(reverse=True)  # execute newer notebooks first
-notebooks = [
-    notebook
-    for i, (_, notebook) in enumerate(timestamped_notebooks)
-    if i % 20 == int(os.environ["PYPROBML_GA_RUNNER_ID"])
-]
+if "PYPROBML_GA_RUNNER_ID" in os.environ:
+    # we are in execute_all_notebooks
+    notebooks = [
+        notebook
+        for i, (_, notebook) in enumerate(timestamped_notebooks)
+        if i % 20 == int(os.environ["PYPROBML_GA_RUNNER_ID"])
+    ]
+else:
+    # we are in execute_latest_notebooks
+    notebooks = []
+    oldest_ts, _ = timestamped_notebooks[-1]
+    for (ts, notebook) in enumerate(timestamped_notebooks):
+        if ts > oldest_ts:
+            notebooks.append(notebooks)
 
 # To make subprocess stdout human readable
 # https://stackoverflow.com/a/38662876
