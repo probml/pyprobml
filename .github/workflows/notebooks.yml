@@ -63,7 +63,12 @@ jobs:
     - name: Clone the reference repository
       uses: actions/checkout@v3
       with:
-        fetch-depth: 1  # test notebooks touched in the last commit
+        fetch-depth: 2  # fetch latest 2 commits to see which notebooks were touched by the last commit
+
+    - name: Display notebook modification time
+      shell: bash
+      run: |
+        git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {} | sort -r
 
     - name: Setup Python 3.7.13 (current colab version)
       shell: bash
