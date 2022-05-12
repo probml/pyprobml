@@ -58,7 +58,7 @@ from ae_mnist_conv import ConvAE
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2372/3892019423.py in <module>
+/tmp/ipykernel_2236/3892019423.py in <module>
      33 try:
 ---> 34     from probml_utils.lvm_plots_utils import (
      35         get_random_samples,
@@ -73,7 +73,7 @@ ModuleNotFoundError: No module named 'umap'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2372/3892019423.py in <module>
+/tmp/ipykernel_2236/3892019423.py in <module>
      41 except:
      42     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
 ---> 43     from probml_utils.lvm_plots_utils import (
