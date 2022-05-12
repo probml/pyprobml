@@ -408,11 +408,6 @@ INSTALLED_MODULES = {
 }
 
 
-def set_installed_packages(installed_modules=None):
-    if installed_modules:
-        INSTALLED_MODULES = installed_modules
-
-
 def get_installed_modules(installed_packages=INSTALLED_MODULES):
     # Special cases
     special_modules = set(["mpl_toolkits", "itertools", "time", "sys", "d2l", "augmax"])
