@@ -1,0 +1,54 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install optax
+    import optax
+
+
+@jax.jit
+@jax.value_and_grad
+def loss(theta):
+    return -build_gp(theta).condition(y)
+
+
+opt = optax.sgd(learning_rate=3e-4)
+opt_state = opt.init(params)
+for i in range(1000):
+    loss_val, grads = loss(params)
+    updates, opt_state = opt.update(grads, opt_state)
+    params = optax.apply_updates(params, updates)
+
+opt_gp = build_gp(params)
+tau = np.linspace(0, 5, 500)
+plt.plot(tau, true_gp.kernel(tau[:1], tau)[0], "--k", label="true kernel")
+plt.plot(tau, opt_gp.kernel(tau[:1], tau)[0], label="inferred kernel")
+plt.legend()
+plt.xlabel(r"$\tau$")
+plt.ylabel(r"$k(\tau)$")
+_ = plt.xlim(tau.min(), tau.max())
+
+plt.savefig("gp-spectral-mixture-learned-kernel.pdf")
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_3456/1906911305.py in <module>
+     15 opt_state = opt.init(params)
+     16 for i in range(1000):
+---> 17     loss_val, grads = loss(params)
+     18     updates, opt_state = opt.update(grads, opt_state)
+     19     params = optax.apply_updates(params, updates)
+
+    [... skipping hidden 22 frame]
+
+/tmp/ipykernel_3456/1906911305.py in loss(theta)
+      9 @jax.value_and_grad
+     10 def loss(theta):
+---> 11     return -build_gp(theta).condition(y)
+     12 
+     13 
+
+TypeError: bad operand type for unary -: 'ConditionResult'
+TypeError: bad operand type for unary -: 'ConditionResult'

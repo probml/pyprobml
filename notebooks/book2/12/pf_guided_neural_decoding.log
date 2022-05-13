@@ -1,0 +1,24 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import particles
+except ModuleNotFoundError:
+    %pip install particles
+    import particles
+import particles.state_space_models as ssm
+import particles.distributions as dists
+
+
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3574/3855912381.py in <module>
+      4     get_ipython().run_line_magic('pip', 'install particles')
+      5     import particles
+----> 6 import particles.state_space_models as ssm
+      7 import particles.distributions as dists
+      8 
+
+ModuleNotFoundError: No module named 'particles.state_space_models'
+ModuleNotFoundError: No module named 'particles.state_space_models'

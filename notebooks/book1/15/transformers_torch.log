@@ -1,0 +1,7 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+lr, num_epochs, device = 0.005, 200, try_gpu()
+train_seq2seq(net, train_iter, lr, num_epochs, tgt_vocab, device)
+-------------------
