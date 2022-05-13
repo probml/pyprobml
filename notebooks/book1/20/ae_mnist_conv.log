@@ -1,0 +1,91 @@
+An error occurred while executing the following cell:
+------------------
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install torch
+    import torch
+import torch.nn as nn
+
+try:
+    from torchvision.datasets import MNIST
+except ModuleNotFoundError:
+    %pip install torchvision
+    from torchvision.datasets import MNIST
+import torch.nn.functional as F
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
+
+try:
+    from pytorch_lightning import LightningModule, Trainer
+except ModuleNotFoundError:
+    %pip install pytorch_lightning
+    from pytorch_lightning import LightningModule, Trainer
+try:
+    from einops import rearrange
+except ModuleNotFoundError:
+    %pip install einops
+    from einops import rearrange
+import seaborn as sns
+
+try:
+    from probml_utils.lvm_plots_utils import (
+        get_random_samples,
+        get_grid_samples,
+        plot_scatter_plot,
+        get_imrange,
+        plot_grid_plot,
+    )
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils.lvm_plots_utils import (
+        get_random_samples,
+        get_grid_samples,
+        plot_scatter_plot,
+        get_imrange,
+        plot_grid_plot,
+    )
+
+
+from torchvision.utils import make_grid
+from pytorch_lightning.utilities.seed import seed_everything
+from ae_mnist_conv import ConvAE
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2905/3892019423.py in <module>
+     33 try:
+---> 34     from probml_utils.lvm_plots_utils import (
+     35         get_random_samples,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/lvm_plots_utils.py in <module>
+----> 1 import umap
+      2 from typing import Callable, Tuple
+      3 import torch
+
+ModuleNotFoundError: No module named 'umap'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2905/3892019423.py in <module>
+     41 except:
+     42     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
+---> 43     from probml_utils.lvm_plots_utils import (
+     44         get_random_samples,
+     45         get_grid_samples,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/lvm_plots_utils.py in <module>
+----> 1 import umap
+      2 from typing import Callable, Tuple
+      3 import torch
+      4 import numpy as np
+      5 import matplotlib
+
+ModuleNotFoundError: No module named 'umap'
+ModuleNotFoundError: No module named 'umap'

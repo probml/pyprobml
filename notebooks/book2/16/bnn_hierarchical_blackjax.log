@@ -1,0 +1,68 @@
+An error occurred while executing the following cell:
+------------------
+from warnings import filterwarnings
+
+import jax
+from jax import vmap, jit
+import jax.numpy as jnp
+from jax.random import PRNGKey, split, normal
+import jax.random as random
+import numpy as np
+
+try:
+    import blackjax.nuts as nuts
+except ModuleNotFoundError:
+    %pip install blackjax
+    import blackjax.nuts as nuts
+import blackjax.stan_warmup as stan_warmup
+
+try:
+    import distrax
+except ModuleNotFoundError:
+    %pip install distrax
+    import distrax
+try:
+    import tensorflow_probability.substrates.jax.distributions as tfd
+except ModuleNotFoundError:
+    %pip install tensorflow-probability
+    import tensorflow_probability.substrates.jax.distributions as tfd
+
+import sklearn
+from sklearn import datasets
+from sklearn.preprocessing import scale
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_moons
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from functools import partial
+
+filterwarnings("ignore")
+sns.set_style("white")
+
+cmap = sns.diverging_palette(250, 12, s=85, l=25, as_cmap=True)
+cmap_uncertainty = sns.cubehelix_palette(light=1, as_cmap=True)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2783/3855291776.py in <module>
+     10 try:
+---> 11     import blackjax.nuts as nuts
+     12 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'blackjax.nuts'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2783/3855291776.py in <module>
+     12 except ModuleNotFoundError:
+     13     get_ipython().run_line_magic('pip', 'install blackjax')
+---> 14     import blackjax.nuts as nuts
+     15 import blackjax.stan_warmup as stan_warmup
+     16 
+
+ModuleNotFoundError: No module named 'blackjax.nuts'
+ModuleNotFoundError: No module named 'blackjax.nuts'

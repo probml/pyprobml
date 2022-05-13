@@ -1,0 +1,111 @@
+An error occurred while executing the following cell:
+------------------
+
+import numpy as np
+try:
+    import pandas as pd
+except ModuleNotFoundError:
+    %pip install pandas
+    import pandas as pd
+import matplotlib.pyplot as plt
+try:
+    from sklearn.decomposition import PCA
+except ModuleNotFoundError:
+    %pip install scikit-learn
+    from sklearn.decomposition import PCA
+from pathlib import Path
+
+import os
+import scipy.io
+
+# Get Data
+data_dir = Path('.').absolute().parent / 'data' / 'heightWeight'
+data = scipy.io.loadmat(data_dir / "heightWeight.mat")['heightWeightData']
+data = pd.DataFrame(data).rename(columns = {0:'gender', 1: 'height', 2: 'weight'})
+
+# Function for plotting categorical scatter plot with 1D PCA line
+def make_pca_plot(data):
+
+    pca = PCA(1)
+    X_reconstr = pca.inverse_transform(pca.fit_transform(data[['height','weight']].values))
+    X_reconstr = np.sort(X_reconstr,axis=0)
+    
+    fig, ax = plt.subplots(figsize=(6, 6))
+
+    for i, (name, group) in enumerate(data.groupby('gender')):
+        color = 'red' if i==1 else 'blue'
+        marker = 'o' if i==1 else 'x'
+        fc = 'none' if i==1 else 'blue'
+        ax.scatter(x=group['height'], y=group['weight'], color=color, marker=marker, facecolor=fc, s=100)
+        ax.set_ylabel('weight')
+        ax.set_xlabel('height')
+        ax.plot(X_reconstr[:,0], X_reconstr[:,1], color='black',linewidth=2)
+        
+    return fig, ax
+
+# Save figure function
+figdir = "figures"
+def savefig(fname): 
+    plt.savefig(os.path.join(figdir, fname))
+    
+# Create and save figures
+fig, ax = make_pca_plot(data)
+ax.set_title('heightWeightPCA')
+savefig('heightWeightPCA.pdf')
+
+data_std = (data - data.mean())/data.std()
+fig, ax = make_pca_plot(data_std)
+ax.set_title('heightWeightPCAstnd')
+savefig('heightWeightPCAstnd.pdf')
+
+------------------
+
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/mio.py in _open_file(file_like, appendmat, mode)
+     38     try:
+---> 39         return open(file_like, mode), True
+     40     except IOError as e:
+
+FileNotFoundError: [Errno 2] No such file or directory: '/__w/pyprobml/data/heightWeight/heightWeight.mat'
+
+The above exception was the direct cause of the following exception:
+
+OSError                                   Traceback (most recent call last)
+/tmp/ipykernel_3899/1323480122.py in <module>
+     18 # Get Data
+     19 data_dir = Path('.').absolute().parent / 'data' / 'heightWeight'
+---> 20 data = scipy.io.loadmat(data_dir / "heightWeight.mat")['heightWeightData']
+     21 data = pd.DataFrame(data).rename(columns = {0:'gender', 1: 'height', 2: 'weight'})
+     22 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/mio.py in loadmat(file_name, mdict, appendmat, **kwargs)
+    222     """
+    223     variable_names = kwargs.pop('variable_names', None)
+--> 224     with _open_file_context(file_name, appendmat) as f:
+    225         MR, _ = mat_reader_factory(f, **kwargs)
+    226         matfile_dict = MR.get_variables(variable_names)
+
+~/miniconda3/envs/py37/lib/python3.7/contextlib.py in __enter__(self)
+    110         del self.args, self.kwds, self.func
+    111         try:
+--> 112             return next(self.gen)
+    113         except StopIteration:
+    114             raise RuntimeError("generator didn't yield") from None
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/mio.py in _open_file_context(file_like, appendmat, mode)
+     15 @contextmanager
+     16 def _open_file_context(file_like, appendmat, mode='rb'):
+---> 17     f, opened = _open_file(file_like, appendmat, mode)
+     18     try:
+     19         yield f
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/mio.py in _open_file(file_like, appendmat, mode)
+     47             raise IOError(
+     48                 'Reader needs file name or open file-like object'
+---> 49             ) from e
+     50 
+     51 
+
+OSError: Reader needs file name or open file-like object
+OSError: Reader needs file name or open file-like object
