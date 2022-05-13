@@ -1,0 +1,28 @@
+An error occurred while executing the following cell:
+------------------
+obj(theta_init, t, y)
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_2630/1633541497.py in <module>
+----> 1 obj(theta_init, t, y)
+
+    [... skipping hidden 22 frame]
+
+/tmp/ipykernel_2630/2835329692.py in neg_log_likelihood(theta, X, y)
+     33 
+     34 def neg_log_likelihood(theta, X, y):
+---> 35     gp = build_gp(theta, X)
+     36     return -gp.condition(y)
+     37 
+
+/tmp/ipykernel_2630/2835329692.py in build_gp(theta, X)
+     21         theta[2] ** 2
+     22         * kernels.ExpSquared(theta[3])
+---> 23         * kernels.ExpSineSquared(period=theta[4], gamma=theta[5])
+     24     )
+     25     k3 = theta[6] ** 2 * kernels.RationalQuadratic(
+
+TypeError: __init__() got an unexpected keyword argument 'period'
+TypeError: __init__() got an unexpected keyword argument 'period'

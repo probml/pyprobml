@@ -1,0 +1,46 @@
+An error occurred while executing the following cell:
+------------------
+state = train_loop(jax.random.PRNGKey(seed=42), train_step, 10000)
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_2902/3897450956.py in <module>
+----> 1 state = train_loop(jax.random.PRNGKey(seed=42), train_step, 10000)
+
+/tmp/ipykernel_2902/1069251292.py in train_loop(key, train_step, nsteps)
+      7         x = sample_batch(size=128)
+      8         key, subkey = jax.random.split(key)
+----> 9         state, loss = train_step(state, x, subkey)
+     10         loss_history.append(loss.item())
+     11 
+
+    [... skipping hidden 14 frame]
+
+/tmp/ipykernel_2902/1043702092.py in train_step(state, batch, key)
+      2 def train_step(state, batch, key):
+      3     """Train for a single step."""
+----> 4     loss = compute_loss(state.params, batch)
+      5     grads = jax.grad(compute_loss, argnums=0)(state.params, batch)
+      6     state = state.apply_gradients(grads=grads)
+
+    [... skipping hidden 7 frame]
+
+/tmp/ipykernel_2902/349170298.py in compute_loss(params, inputs)
+      5 
+      6     # we use jax.vmap to vectorize jacobian function along batch dimension
+----> 7     batch_jacobian = jax.vmap(partial(jacobian, {"params": params}))(inputs)  # [batch, dim, dim]
+      8 
+      9     trace_jacobian = jnp.trace(batch_jacobian, axis1=1, axis2=2)
+
+    [... skipping hidden 15 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/module.py in _call_wrapped_method(self, fun, args, kwargs)
+    646     _context.module_stack.append(self)
+    647     try:
+--> 648       y = fun(self, *args, **kwargs)
+    649       if _context.capture_stack:
+    650         filter_fn = _context.capture_stack[-1]
+
+TypeError: __call__() takes 2 positional arguments but 3 were given
+TypeError: __call__() takes 2 positional arguments but 3 were given
