@@ -11,38 +11,32 @@ except ModuleNotFoundError:
     %pip install pyprobml_utils
     import pyprobml_utils as pml
 
-from scipy.stats import gaussian_kde
-from scipy.stats import norm
-np.random.seed(42)
+np.random.seed(0)
+N = 5000
+r = 2
+xs = np.random.uniform(low=-r, high=r, size=N)
+ys = np.random.uniform(low=-r, high=r, size=N)
+rs = xs ** 2 + ys ** 2
+inside = (rs <= r**2)
+samples = 4*(r**2)*inside
+Ihat = np.mean(samples)
+pi_estimate = Ihat/(r**2)
+se = np.sqrt(np.var(samples)/N)
+print(('the estimated pi = %f' % pi_estimate))
+print(('the standard pi = %f' % np.pi))
+print(('stderr = %f' % se))
 
-x = np.arange(0.5, 2.5, 0.01)
-for size in [10, 100, 1000]:
-    samples = norm.rvs(loc=1.5, scale=0.5, size=size)
-    y = norm.pdf(x, loc=1.5, scale=0.5)
-
-    plt.figure()
-    #plt.hist(samples, normed=True, rwidth=0.8)
-    plt.hist(samples, density=True, rwidth=0.8)
-    plt.plot(x, y, 'r')
-    plt.xlim(0, 3)
-    plt.title('n_samples = %d' % size)
-    save_fig('mcAccuracyDemoHist%d.pdf' % size)
-
-    kde = gaussian_kde(samples)
-    y_estimate = kde(x)
-    plt.figure()
-    plt.plot(x, y, 'r', label='true pdf')
-    plt.plot(x, y_estimate, 'b--', label='estimated pdf')
-    plt.legend()
-    plt.title('n_samples = %d' % size)
-    pml.savefig('mcAccuracyDemoKde%d.pdf' % size)
+plt.figure(figsize=(5, 5))
+plt.plot(xs[inside], ys[inside], 'bo')
+plt.plot(xs[~inside], ys[~inside], 'rD')
+pml.savefig('mcEstimatePi.pdf')
 plt.show()
 
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2763/4033161307.py in <module>
+/tmp/ipykernel_2816/1930922059.py in <module>
       4 try:
 ----> 5     import pyprobml_utils as pml
       6 except ModuleNotFoundError:
@@ -52,12 +46,12 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2763/4033161307.py in <module>
+/tmp/ipykernel_2816/1930922059.py in <module>
       6 except ModuleNotFoundError:
       7     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ----> 8     import pyprobml_utils as pml
       9 
-     10 from scipy.stats import gaussian_kde
+     10 np.random.seed(0)
 
 ModuleNotFoundError: No module named 'pyprobml_utils'
 ModuleNotFoundError: No module named 'pyprobml_utils'

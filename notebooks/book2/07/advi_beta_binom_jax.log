@@ -1,0 +1,121 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import jax
+except ModuleNotFoundError:
+    %pip install -qqq jax jaxlib
+    import jax
+
+import jax.numpy as jnp
+from jax import lax
+
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qqq tensorflow_probability
+    from tensorflow_probability.substrates import jax as tfp
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qqq optax
+    import optax
+
+try:
+    from rich import print
+except ModuleNotFoundError:
+    %pip install -qqq rich
+    from rich import print
+
+try:
+    from tqdm import trange
+except:
+    %pip install -qqq tqdm
+    from tqdm import trange
+
+
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+import warnings
+
+warnings.filterwarnings("ignore")
+dist = tfp.distributions
+
+plt.rc("font", size=10)  # controls default text sizes
+plt.rc("axes", labelsize=12)  # fontsize of the x and y labels
+plt.rc("legend", fontsize=12)  # legend fontsize
+plt.rc("figure", titlesize=15)  # fontsize of the figure title
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+     51 try:
+---> 52   import jaxlib as jaxlib
+     53 except ModuleNotFoundError as err:
+
+ModuleNotFoundError: No module named 'jaxlib'
+
+The above exception was the direct cause of the following exception:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2862/626389752.py in <module>
+      1 try:
+----> 2     import jax
+      3 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+     34 # to make sure a later import doesn't overwrite the class.
+---> 35 from jax import config as _config_module
+     36 del _config_module
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/config.py in <module>
+     16 
+---> 17 from jax._src.config import config
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in <module>
+     26 
+---> 27 from jax._src import lib
+     28 from jax._src.lib import jax_jit
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+     56     'https://github.com/google/jax#installation for installation instructions.'
+---> 57     ) from err
+     58 
+
+ModuleNotFoundError: jax requires jaxlib to be installed. See https://github.com/google/jax#installation for installation instructions.
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_2862/626389752.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qqq jax jaxlib')
+----> 5     import jax
+      6 
+      7 import jax.numpy as jnp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+     56 )
+     57 from .core import eval_context as ensure_compile_time_eval
+---> 58 from jax._src.api import (
+     59   ad,  # TODO(phawkins): update users to avoid this.
+     60   block_until_ready,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/api.py in <module>
+     59     rebase_donate_argnums, _ensure_index, _ensure_index_tuple,
+     60     shaped_abstractify, _ensure_str_tuple, argnames_partial_except)
+---> 61 from jax._src.lax import lax as lax_internal
+     62 from jax._src.lib import jax_jit
+     63 from jax._src.lib import xla_bridge as xb
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lax/lax.py in <module>
+   1651 tan_p = standard_unop(_float | _complex, 'tan')
+   1652 ad.defjvp2(tan_p, lambda g, ans, x: mul(g, _const(x, 1) + square(ans)))
+-> 1653 if jax._src.lib.mlir_api_version >= 11:
+   1654   mlir.register_lowering(tan_p, partial(_nary_lower_mhlo, chlo.TanOp))
+   1655 else:
+
+AttributeError: module 'jax' has no attribute '_src'
+AttributeError: module 'jax' has no attribute '_src'
