@@ -5,10 +5,10 @@ state = train_loop(jax.random.PRNGKey(seed=42), train_step, 10000)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2910/3897450956.py in <module>
+/tmp/ipykernel_2902/3897450956.py in <module>
 ----> 1 state = train_loop(jax.random.PRNGKey(seed=42), train_step, 10000)
 
-/tmp/ipykernel_2910/1069251292.py in train_loop(key, train_step, nsteps)
+/tmp/ipykernel_2902/1069251292.py in train_loop(key, train_step, nsteps)
       7         x = sample_batch(size=128)
       8         key, subkey = jax.random.split(key)
 ----> 9         state, loss = train_step(state, x, subkey)
@@ -17,7 +17,7 @@ TypeError                                 Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_2910/1043702092.py in train_step(state, batch, key)
+/tmp/ipykernel_2902/1043702092.py in train_step(state, batch, key)
       2 def train_step(state, batch, key):
       3     """Train for a single step."""
 ----> 4     loss = compute_loss(state.params, batch)
@@ -26,7 +26,7 @@ TypeError                                 Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_2910/349170298.py in compute_loss(params, inputs)
+/tmp/ipykernel_2902/349170298.py in compute_loss(params, inputs)
       5 
       6     # we use jax.vmap to vectorize jacobian function along batch dimension
 ----> 7     batch_jacobian = jax.vmap(partial(jacobian, {"params": params}))(inputs)  # [batch, dim, dim]

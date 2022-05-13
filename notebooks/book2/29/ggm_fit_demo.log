@@ -1,0 +1,57 @@
+An error occurred while executing the following cell:
+------------------
+# This file show a demo of showing that MLE(precision matrix) of a ggm
+# satisfies the constraints mentioned in the GGM section of the book.
+
+
+import numpy as np
+
+try:
+    from ggm_fit_htf import ggm_fit_htf
+except ModuleNotFoundError:
+    %pip install ggm_fit_htf
+    from ggm_fit_htf import ggm_fit_htf
+
+G = np.array([0.0, 1.0, 0.0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0]).reshape((4, 4))
+
+S = np.array([10.0, 1.0, 5.0, 4.0, 1.0, 10.0, 2.0, 6.0, 5.0, 2.0, 10.0, 3.0, 4.0, 6.0, 3.0, 10]).reshape((4, 4))
+
+max_iter = 30
+
+
+prec_mat = ggm_fit_htf(S, G, max_iter)
+sigma = np.linalg.inv(prec_mat)
+
+guide_sigma = np.array([10.0, 1.0, 1.31, 4, 1.0, 10.0, 2.0, 0.87, 1.31, 2.0, 10.0, 3, 4.0, 0.87, 3.0, 10.0]).reshape(
+    4, 4
+)
+
+guide_prec_mat = np.array(
+    [0.12, -0.01, 0, -0.05, -0.01, 0.11, -0.02, 0.0, 0, -0.02, 0.11, -0.03, -0.05, 0, -0.03, 0.13]
+).reshape(4, 4)
+
+assert np.all(sigma - guide_sigma < 1e-2)
+assert np.all(prec_mat - guide_prec_mat < 1e-2)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2947/3897714045.py in <module>
+      7 try:
+----> 8     from ggm_fit_htf import ggm_fit_htf
+      9 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'ggm_fit_htf'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2947/3897714045.py in <module>
+      9 except ModuleNotFoundError:
+     10     get_ipython().run_line_magic('pip', 'install ggm_fit_htf')
+---> 11     from ggm_fit_htf import ggm_fit_htf
+     12 
+     13 G = np.array([0.0, 1.0, 0.0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0]).reshape((4, 4))
+
+ModuleNotFoundError: No module named 'ggm_fit_htf'
+ModuleNotFoundError: No module named 'ggm_fit_htf'
