@@ -1,0 +1,93 @@
+An error occurred while executing the following cell:
+------------------
+dot = graphviz.Digraph(format="pdf")
+
+
+superscripts = ["1", "T"]
+
+train_subscript, test_subscript = "n", "m"
+subscripts = [train_subscript, test_subscript]
+
+subgraph_labels = ["Train", "Test"]
+subgraph_colors = ["/set34/4", "/paired3/2"]
+
+edge_color = "lightsteelblue4"
+fontcolor = "grey17"
+hid_color, hid_fill_color = "/accent3/2", "lavender"
+obs_color, obs_fill_color = "/paired3/3", "/pastel19/3"
+
+param, hidden, observable = "Theta", "Y", "X"
+
+dot.node("phi", "<&Phi;>", color="white", fontcolor=fontcolor)
+
+for i, subscript in enumerate(superscripts):
+    create_node(dot, param, subscript, color="white", fontcolor=fontcolor, is_greek_letter=True)
+    dot.edge("phi", f"{param}{subscript}", color=edge_color)
+
+for i, superscript in enumerate(superscripts):
+    subgraph_labels = [f"Train {superscript}", f"Test {superscript}"]
+    plot_cluster(dot, subscripts, superscript, subgraph_labels, subgraph_colors)
+
+    if i == 0:
+        dot.node(f"blank{i}", "...", color="white")
+        dot.edge(f"Theta{superscript}", f"blank{i}", style="invis")
+
+file_name = "hbayes-multi-task"
+dot.render(file_name, view=True)
+
+dot
+------------------
+
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_2828/1896722845.py in <module>
+     32 
+     33 file_name = "hbayes-multi-task"
+---> 34 dot.render(file_name, view=True)
+     35 
+     36 dot
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/_tools.py in wrapper(*args, **kwargs)
+    169                               category=category)
+    170 
+--> 171             return func(*args, **kwargs)
+    172 
+    173         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/rendering.py in render(self, filename, directory, view, cleanup, format, renderer, formatter, neato_no_op, quiet, quiet_view, outfile, engine, raise_if_result_exists, overwrite_source)
+    127 
+    128         if quiet_view or view:
+--> 129             self._view(rendered, format=self._format, quiet=quiet_view)
+    130 
+    131         return rendered
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/rendering.py in _view(self, filepath, format, quiet)
+    146                                f' support for {format!r}'
+    147                                f' on {backend.viewing.PLATFORM!r} platform')
+--> 148         view_method(filepath, quiet=quiet)
+    149 
+    150     @_tools.deprecate_positional_args(supported_number=2)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/backend/viewing.py in view_unixoid(filepath, quiet)
+     59     log.debug('view: %r', cmd)
+     60     kwargs = {'stderr': subprocess.DEVNULL} if quiet else {}
+---> 61     subprocess.Popen(cmd, **kwargs)
+     62 
+     63 
+
+~/miniconda3/envs/py37/lib/python3.7/subprocess.py in __init__(self, args, bufsize, executable, stdin, stdout, stderr, preexec_fn, close_fds, shell, cwd, env, universal_newlines, startupinfo, creationflags, restore_signals, start_new_session, pass_fds, encoding, errors, text)
+    798                                 c2pread, c2pwrite,
+    799                                 errread, errwrite,
+--> 800                                 restore_signals, start_new_session)
+    801         except:
+    802             # Cleanup if the child failed starting.
+
+~/miniconda3/envs/py37/lib/python3.7/subprocess.py in _execute_child(self, args, executable, preexec_fn, close_fds, pass_fds, cwd, env, startupinfo, creationflags, shell, p2cread, p2cwrite, c2pread, c2pwrite, errread, errwrite, restore_signals, start_new_session)
+   1549                         if errno_num == errno.ENOENT:
+   1550                             err_msg += ': ' + repr(err_filename)
+-> 1551                     raise child_exception_type(errno_num, err_msg, err_filename)
+   1552                 raise child_exception_type(err_msg)
+   1553 
+
+FileNotFoundError: [Errno 2] No such file or directory: 'xdg-open': 'xdg-open'
+FileNotFoundError: [Errno 2] No such file or directory: 'xdg-open': 'xdg-open'
