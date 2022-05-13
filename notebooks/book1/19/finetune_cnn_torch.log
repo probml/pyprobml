@@ -1,0 +1,24 @@
+An error occurred while executing the following cell:
+------------------
+train_fine_tuning(finetune_net, 5e-5)
+------------------
+
+---------------------------------------------------------------------------
+IndexError                                Traceback (most recent call last)
+/tmp/ipykernel_3131/2961865800.py in <module>
+----> 1 train_fine_tuning(finetune_net, 5e-5)
+
+/tmp/ipykernel_3131/2439772.py in train_fine_tuning(net, learning_rate, batch_size, num_epochs, param_group)
+     19     else:
+     20         trainer = torch.optim.SGD(net.parameters(), lr=learning_rate, weight_decay=0.001)
+---> 21     train(net, train_iter, test_iter, loss, trainer, num_epochs, devices)
+
+/tmp/ipykernel_3131/1256513533.py in train(net, train_iter, test_iter, loss, trainer, num_epochs, devices)
+     19     )
+     20     # net = nn.DataParallel(net, device_ids=devices).to(devices[0])
+---> 21     net = net.to(devices[0])
+     22     for epoch in range(num_epochs):
+     23         # Store training_loss, training_accuracy, num_examples, num_features
+
+IndexError: list index out of range
+IndexError: list index out of range
