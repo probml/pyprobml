@@ -1,0 +1,34 @@
+An error occurred while executing the following cell:
+------------------
+!git clone https://github.com/probml/pyprobml /pyprobml &> /dev/null
+%cd -q /pyprobml/scripts
+try:
+    import pyprobml_utils as pml
+except ModuleNotFoundError:
+    %pip install git+https://github.com/probml/probml-utils.git
+    import pyprobml_utils as pml
+import numpy as np
+import matplotlib.pyplot as plt
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3423/142067606.py in <module>
+      3 try:
+----> 4     import pyprobml_utils as pml
+      5 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'pyprobml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3423/142067606.py in <module>
+      5 except ModuleNotFoundError:
+      6     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
+----> 7     import pyprobml_utils as pml
+      8 import numpy as np
+      9 import matplotlib.pyplot as plt
+
+ModuleNotFoundError: No module named 'pyprobml_utils'
+ModuleNotFoundError: No module named 'pyprobml_utils'
