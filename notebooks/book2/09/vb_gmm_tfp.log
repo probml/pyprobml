@@ -1,0 +1,39 @@
+An error occurred while executing the following cell:
+------------------
+def trainable_point_estimate(initial_loc, initial_scale, event_ndims, validate_args):
+    return tfd.Independent(
+        tfd.Deterministic(tf.Variable(initial_loc), validate_args=validate_args), reinterpreted_batch_ndims=event_ndims
+    )
+
+
+point_mass_posterior = tfp.experimental.vi.build_factored_surrogate_posterior(
+    pinned.event_shape,
+    bijector=pinned.experimental_default_event_space_bijector(),
+    trainable_distribution_fn=trainable_point_estimate,
+)
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_4259/3173641128.py in <module>
+      8     pinned.event_shape,
+      9     bijector=pinned.experimental_default_event_space_bijector(),
+---> 10     trainable_distribution_fn=trainable_point_estimate,
+     11 )
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/trainable_state_util.py in build_stateful_trainable(seed, *args, **kwargs)
+    327   def build_stateful_trainable(*args, seed=None, **kwargs):
+    328     g = functools.partial(generator, *args, **kwargs)
+--> 329     params = _initialize_parameters(g, seed=seed)
+    330     params_as_variables = []
+    331     for name, value in params._asdict().items():
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/trainable_state_util.py in _initialize_parameters(generator, seed)
+    209       parameter values returned from the yielded callables.
+    210   """
+--> 211   gen = generator()
+    212   if not isinstance(gen, types.GeneratorType):
+    213     raise ValueError('Expected generator but saw function: {}. A generator '
+
+TypeError: _factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
+TypeError: _factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
