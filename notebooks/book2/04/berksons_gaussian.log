@@ -89,7 +89,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2841/666466588.py in <module>
+/tmp/ipykernel_2863/666466588.py in <module>
       8 try:
 ----> 9     import pyprobml_utils as pml
      10 except ModuleNotFoundError:
@@ -99,7 +99,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2841/666466588.py in <module>
+/tmp/ipykernel_2863/666466588.py in <module>
      10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ---> 12     import pyprobml_utils as pml

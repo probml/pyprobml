@@ -56,7 +56,7 @@ plot_var_em_bound(x, y1, lower_bound, "varEMbound2")
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2792/497089423.py in <module>
+/tmp/ipykernel_2794/497089423.py in <module>
       9 try:
 ---> 10     import pyprobml_utils as pml
      11 except ModuleNotFoundError:
@@ -66,7 +66,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2792/497089423.py in <module>
+/tmp/ipykernel_2794/497089423.py in <module>
      11 except ModuleNotFoundError:
      12     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ---> 13     import pyprobml_utils as pml

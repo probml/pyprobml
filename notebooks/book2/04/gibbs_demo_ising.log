@@ -80,7 +80,7 @@ for t, J in enumerate(Jvals):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2669/3574284.py in <module>
+/tmp/ipykernel_2667/3574284.py in <module>
      17 try:
 ---> 18     import pyprobml_utils as pml
      19 except ModuleNotFoundError:
@@ -90,7 +90,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2669/3574284.py in <module>
+/tmp/ipykernel_2667/3574284.py in <module>
      19 except ModuleNotFoundError:
      20     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ---> 21     import pyprobml_utils as pml
