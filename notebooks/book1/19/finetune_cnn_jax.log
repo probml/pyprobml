@@ -1,0 +1,30 @@
+An error occurred while executing the following cell:
+------------------
+example_x, example_y = train_dl.__getitem__(0)
+
+viewable_imgs = example_x[:32]
+viewable_imgs = (viewable_imgs - viewable_imgs.min()) / (viewable_imgs.max() - viewable_imgs.min())
+viewable_imgs = viewable_imgs * 255.0
+viewable_imgs = viewable_imgs.astype(jnp.uint8)
+plt.imshow(montage(viewable_imgs, multichannel=True, grid_shape=(4, 8)))
+plt.show();
+------------------
+
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_3735/3801382653.py in <module>
+----> 1 example_x, example_y = train_dl.__getitem__(0)
+      2 
+      3 viewable_imgs = example_x[:32]
+      4 viewable_imgs = (viewable_imgs - viewable_imgs.min()) / (viewable_imgs.max() - viewable_imgs.min())
+      5 viewable_imgs = viewable_imgs * 255.0
+
+/tmp/ipykernel_3735/821885116.py in __getitem__(self, ix)
+     40     def __getitem__(self, ix):
+     41         X, Y = [], []
+---> 42         hdl = os.listdir(self.hot_dogs_list)[ix * self.batch_size : (ix + 1) * self.batch_size]
+     43         nhdl = os.listdir(self.non_hot_dogs_list)[ix * self.batch_size : (ix + 1) * self.batch_size]
+     44 
+
+FileNotFoundError: [Errno 2] No such file or directory: '/content/hotdog/train/hotdog'
+FileNotFoundError: [Errno 2] No such file or directory: '/content/hotdog/train/hotdog'
