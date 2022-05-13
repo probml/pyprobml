@@ -1,0 +1,19 @@
+An error occurred while executing the following cell:
+------------------
+gibbs_sampler(key, 1, niter=2)
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_2898/1903917795.py in <module>
+----> 1 gibbs_sampler(key, 1, niter=2)
+
+/tmp/ipykernel_2898/3129064784.py in gibbs_sampler(key, jvalue, niter)
+     37         return state_mat
+     38 
+---> 39     for iter in tqdm(range(niter)):
+     40         key, key2 = random.split(key2)
+     41         state_mat = state_update(key, state_mat, mask, inverse_mask)
+
+NameError: name 'tqdm' is not defined
+NameError: name 'tqdm' is not defined

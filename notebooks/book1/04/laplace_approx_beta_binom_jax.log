@@ -1,0 +1,137 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    from probml_utils import latexify, savefig
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig
+
+import jax
+import jax.numpy as jnp
+from jax import lax
+
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qqq tensorflow_probability
+    from tensorflow_probability.substrates import jax as tfp
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qqq optax
+    import optax
+
+try:
+    from rich import print
+except ModuleNotFoundError:
+    %pip install -qqq rich
+    from rich import print
+
+try:
+    from tqdm import trange
+except:
+    %pip install -qqq tqdm
+    from tqdm import trange
+
+
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+import warnings
+
+warnings.filterwarnings("ignore")
+dist = tfp.distributions
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_2960/2771991078.py in <module>
+     40 
+     41 warnings.filterwarnings("ignore")
+---> 42 dist = tfp.distributions
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in __getattr__(self, item)
+     55 
+     56   def __getattr__(self, item):
+---> 57     module = self._load()
+     58     return getattr(module, item)
+     59 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in _load(self)
+     42       self._on_first_access = None
+     43     # Import the target module and insert it into the parent's namespace
+---> 44     module = importlib.import_module(self.__name__)
+     45     if self._parent_module_globals is not None:
+     46       self._parent_module_globals[self._local_name] = module
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/__init__.py in import_module(name, package)
+    125                 break
+    126             level += 1
+--> 127     return _bootstrap._gcd_import(name[level:], package, level)
+    128 
+    129 
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _gcd_import(name, package, level)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load_unlocked(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _load_unlocked(spec)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in exec_module(self, module)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _call_with_frames_removed(f, *args, **kwds)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
+     43 from tensorflow_probability.python.version import __version__
+     44 # from tensorflow_probability.substrates.jax.google import staging  # DisableOnExport  # pylint:disable=line-too-long
+---> 45 from tensorflow_probability.substrates.jax import bijectors
+     46 from tensorflow_probability.substrates.jax import distributions
+     47 from tensorflow_probability.substrates.jax import experimental
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/__init__.py in <module>
+     21 # pylint: disable=unused-import,wildcard-import,line-too-long,g-importing-member
+     22 
+---> 23 from tensorflow_probability.substrates.jax.bijectors.absolute_value import AbsoluteValue
+     24 from tensorflow_probability.substrates.jax.bijectors.ascending import Ascending
+     25 # from tensorflow_probability.substrates.jax.bijectors.batch_normalization import BatchNormalization
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/absolute_value.py in <module>
+     19 from __future__ import print_function
+     20 
+---> 21 from tensorflow_probability.python.internal.backend.jax.compat import v2 as tf
+     22 
+     23 from tensorflow_probability.substrates.jax.bijectors import bijector
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/__init__.py in <module>
+     21 from tensorflow_probability.python.internal.backend.jax import __internal__
+     22 from tensorflow_probability.python.internal.backend.jax import bitwise
+---> 23 from tensorflow_probability.python.internal.backend.jax import compat
+     24 from tensorflow_probability.python.internal.backend.jax import config
+     25 from tensorflow_probability.python.internal.backend.jax import debugging
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/compat.py in <module>
+     19 from __future__ import print_function
+     20 
+---> 21 from tensorflow_probability.python.internal.backend.jax import v1
+     22 from tensorflow_probability.python.internal.backend.jax import v2
+     23 from tensorflow_probability.python.internal.backend.jax.gen.tensor_shape import dimension_value
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/v1.py in <module>
+     32 from tensorflow_probability.python.internal.backend.jax.ops import name_scope
+     33 from tensorflow_probability.python.internal.backend.jax.ops import Variable
+---> 34 from tensorflow_probability.python.internal.backend.jax.random_generators import set_seed
+     35 from tensorflow_probability.python.internal.backend.jax.tensor_array_ops import TensorArray
+     36 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/random_generators.py in <module>
+    165   from jax import lax  # pylint: disable=g-import-not-at-top
+    166   from jax import random  # pylint: disable=g-import-not-at-top
+--> 167   from jax.util import partial  # pylint: disable=g-import-not-at-top
+    168 
+    169   # Jitting the implementation because
+
+ImportError: cannot import name 'partial' from 'jax.util' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/util.py)
+ImportError: cannot import name 'partial' from 'jax.util' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/util.py)
