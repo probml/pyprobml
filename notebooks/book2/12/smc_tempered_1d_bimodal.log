@@ -1,0 +1,42 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+from jax.scipy.stats import multivariate_normal
+
+jax.config.update("jax_platform_name", "cpu")
+
+try:
+    from blackjax.hmc import kernel as hmc_kernel
+except ModuleNotFoundError:
+    %pip install blackjax
+    from blackjax.hmc import kernel as hmc_kernel
+from blackjax.hmc import new_state as hmc_state
+from blackjax.inference.smc.resampling import systematic
+from blackjax.nuts import kernel as nuts_kernel
+from blackjax.nuts import new_state as nuts_state
+from blackjax.tempered_smc import TemperedSMCState, adaptive_tempered_smc
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2939/409918071.py in <module>
+      8 try:
+----> 9     from blackjax.hmc import kernel as hmc_kernel
+     10 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'blackjax.hmc'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2939/409918071.py in <module>
+     10 except ModuleNotFoundError:
+     11     get_ipython().run_line_magic('pip', 'install blackjax')
+---> 12     from blackjax.hmc import kernel as hmc_kernel
+     13 from blackjax.hmc import new_state as hmc_state
+     14 from blackjax.inference.smc.resampling import systematic
+
+ModuleNotFoundError: No module named 'blackjax.hmc'
+ModuleNotFoundError: No module named 'blackjax.hmc'

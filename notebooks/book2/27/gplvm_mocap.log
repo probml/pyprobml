@@ -1,0 +1,51 @@
+An error occurred while executing the following cell:
+------------------
+subject = "16"
+motion = ["02", "21"]
+data = pods.datasets.cmu_mocap(subject, motion)
+------------------
+
+---------------------------------------------------------------------------
+StdinNotImplementedError                  Traceback (most recent call last)
+/tmp/ipykernel_3291/1995362234.py in <module>
+      1 subject = "16"
+      2 motion = ["02", "21"]
+----> 3 data = pods.datasets.cmu_mocap(subject, motion)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pods/datasets.py in cmu_mocap(subject, train_motions, test_motions, sample_every, data_set)
+   2351     access.data_resources[data_set]["urls"] = resource["urls"]
+   2352     if resource["urls"]:
+-> 2353         access.download_data(data_set)
+   2354     skel = mocap.acclaim_skeleton(os.path.join(subject_dir, subject + ".asf"))
+   2355 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pods/access.py in download_data(dataset_name, prompt)
+    203 
+    204     dr = data_resources[dataset_name]
+--> 205     if not authorize_download(dataset_name, prompt=prompt):
+    206         raise Exception("Permission to download data set denied.")
+    207 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pods/access.py in authorize_download(dataset_name, prompt)
+    311             print(dr["license"])
+    312             print("")
+--> 313         return prompt("Do you wish to proceed with the download? [yes/no]")
+    314 
+    315 def pmlr_proceedings_list(data_set):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pods/access.py in prompt_stdin(prompt)
+     50         print(prompt)
+     51         if sys.version_info >= (3, 0):
+---> 52             choice = input().lower()
+     53         else:
+     54             choice = raw_input().lower()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in raw_input(self, prompt)
+   1157         if not self._allow_stdin:
+   1158             raise StdinNotImplementedError(
+-> 1159                 "raw_input was called, but this frontend does not support input requests."
+   1160             )
+   1161         return self._input_request(
+
+StdinNotImplementedError: raw_input was called, but this frontend does not support input requests.
+StdinNotImplementedError: raw_input was called, but this frontend does not support input requests.
