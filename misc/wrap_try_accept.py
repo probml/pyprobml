@@ -485,7 +485,12 @@ def remove_superimport(code):
     updated_code = "\n".join(list(map(lambda line: line.replace("import superimport", ""), lines)))
     return updated_code
 
-
+def remove_pyprobml(code):
+    code = code.replace("from pyprobml_utils import save_fig", "from probml_utils import savefig")
+    code = code.replace("%pip install pyprobml_utils", "%pip install git+https://github.com/probml/probml-utils.git")
+    code = code.replace("import pyprobml_utils as pml", "import probml_utils as pml")
+    return code
+    
 def apply_fun_to_notebook(notebook, fun):
     """
     fun should take one argument: code
