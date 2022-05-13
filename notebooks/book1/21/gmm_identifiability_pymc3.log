@@ -1,0 +1,211 @@
+An error occurred while executing the following cell:
+------------------
+# Gaussian mixture model suign PyMC3
+# Based on https://github.com/aloctavodia/BAP/blob/master/code/Chp6/06_mixture_models.ipynb
+
+
+try:
+    import pymc3 as pm
+except ModuleNotFoundError:
+    %pip install pymc3
+    import pymc3 as pm
+import numpy as np
+import scipy.stats as stats
+
+try:
+    import pandas as pd
+except ModuleNotFoundError:
+    %pip install pandas
+    import pandas as pd
+try:
+    import theano.tensor as tt
+except ModuleNotFoundError:
+    %pip install theano
+    import theano.tensor as tt
+import matplotlib.pyplot as plt
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install arviz
+    import arviz as az
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+np.random.seed(42)
+
+
+# url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
+# There is some error reading the abvoe file
+# Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
+# So we make a copy here
+url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
+df = pd.read_csv(url)
+obs = df["exp"]
+
+az.plot_kde(obs)
+plt.hist(obs, density=True, bins=30, alpha=0.3)
+plt.yticks([])
+pml.savefig("gmm_pymc3_data.pdf", dpi=300)
+
+# Illustrate unidentifiability
+
+clusters = 2
+with pm.Model() as model_mg:
+    p = pm.Dirichlet("p", a=np.ones(clusters))
+    means = pm.Normal("means", mu=obs.mean(), sd=10, shape=clusters)
+    sd = pm.HalfNormal("sd", sd=10)
+    y = pm.NormalMixture("y", w=p, mu=means, sd=sd, observed=obs)
+    trace_mg = pm.sample(random_seed=123, cores=1, chains=2)
+
+varnames = ["means", "p"]
+print(az.summary(trace_mg, varnames))
+
+az.plot_trace(trace_mg, varnames)
+pml.savefig("gmm_pymc3_label_switching.pdf", dpi=300)
+
+# Add constraint that mu[0] < mu[1] using a potential (penalty) function
+
+clusters = 2
+with pm.Model() as model_mgp:
+    p = pm.Dirichlet("p", a=np.ones(clusters))
+    means = pm.Normal("means", mu=np.array([0.9, 1]) * obs.mean(), sd=10, shape=clusters)
+    sd = pm.HalfNormal("sd", sd=10)
+    order_means = pm.Potential("order_means", tt.switch(means[1] - means[0] < 0, -np.inf, 0))
+    y = pm.NormalMixture("y", w=p, mu=means, sd=sd, observed=obs)
+    trace_mgp = pm.sample(1000, random_seed=123, cores=1, chains=2)
+
+varnames = ["means", "p"]
+print(az.summary(trace_mgp, varnames))
+az.plot_trace(trace_mgp, varnames)
+pml.savefig("gmm_pymc3_constrained.pdf", dpi=300)
+
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+HTTPError                                 Traceback (most recent call last)
+/tmp/ipykernel_2951/1818234667.py in <module>
+     42 # So we make a copy here
+     43 url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
+---> 44 df = pd.read_csv(url)
+     45 obs = df["exp"]
+     46 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/util/_decorators.py in wrapper(*args, **kwargs)
+    309                     stacklevel=stacklevel,
+    310                 )
+--> 311             return func(*args, **kwargs)
+    312 
+    313         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/readers.py in read_csv(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)
+    584     kwds.update(kwds_defaults)
+    585 
+--> 586     return _read(filepath_or_buffer, kwds)
+    587 
+    588 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/readers.py in _read(filepath_or_buffer, kwds)
+    480 
+    481     # Create the parser.
+--> 482     parser = TextFileReader(filepath_or_buffer, **kwds)
+    483 
+    484     if chunksize or iterator:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/readers.py in __init__(self, f, engine, **kwds)
+    809             self.options["has_index_names"] = kwds["has_index_names"]
+    810 
+--> 811         self._engine = self._make_engine(self.engine)
+    812 
+    813     def close(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/readers.py in _make_engine(self, engine)
+   1038             )
+   1039         # error: Too many arguments for "ParserBase"
+-> 1040         return mapping[engine](self.f, **self.options)  # type: ignore[call-arg]
+   1041 
+   1042     def _failover_to_python(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/c_parser_wrapper.py in __init__(self, src, **kwds)
+     49 
+     50         # open handles
+---> 51         self._open_handles(src, kwds)
+     52         assert self.handles is not None
+     53 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/parsers/base_parser.py in _open_handles(self, src, kwds)
+    227             memory_map=kwds.get("memory_map", False),
+    228             storage_options=kwds.get("storage_options", None),
+--> 229             errors=kwds.get("encoding_errors", "strict"),
+    230         )
+    231 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/common.py in get_handle(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)
+    612         compression=compression,
+    613         mode=mode,
+--> 614         storage_options=storage_options,
+    615     )
+    616 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/common.py in _get_filepath_or_buffer(filepath_or_buffer, encoding, compression, mode, storage_options)
+    310         # assuming storage_options is to be interpreted as headers
+    311         req_info = urllib.request.Request(filepath_or_buffer, headers=storage_options)
+--> 312         with urlopen(req_info) as req:
+    313             content_encoding = req.headers.get("Content-Encoding", None)
+    314             if content_encoding == "gzip":
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/io/common.py in urlopen(*args, **kwargs)
+    210     import urllib.request
+    211 
+--> 212     return urllib.request.urlopen(*args, **kwargs)
+    213 
+    214 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlopen(url, data, timeout, cafile, capath, cadefault, context)
+    220     else:
+    221         opener = _opener
+--> 222     return opener.open(url, data, timeout)
+    223 
+    224 def install_opener(opener):
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in open(self, fullurl, data, timeout)
+    529         for processor in self.process_response.get(protocol, []):
+    530             meth = getattr(processor, meth_name)
+--> 531             response = meth(req, response)
+    532 
+    533         return response
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_response(self, request, response)
+    639         if not (200 <= code < 300):
+    640             response = self.parent.error(
+--> 641                 'http', request, response, code, msg, hdrs)
+    642 
+    643         return response
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in error(self, proto, *args)
+    567         if http_err:
+    568             args = (dict, 'default', 'http_error_default') + orig_args
+--> 569             return self._call_chain(*args)
+    570 
+    571 # XXX probably also want an abstract factory that knows when it makes
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _call_chain(self, chain, kind, meth_name, *args)
+    501         for handler in handlers:
+    502             func = getattr(handler, meth_name)
+--> 503             result = func(*args)
+    504             if result is not None:
+    505                 return result
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_error_default(self, req, fp, code, msg, hdrs)
+    647 class HTTPDefaultErrorHandler(BaseHandler):
+    648     def http_error_default(self, req, fp, code, msg, hdrs):
+--> 649         raise HTTPError(req.full_url, code, msg, hdrs, fp)
+    650 
+    651 class HTTPRedirectHandler(BaseHandler):
+
+HTTPError: HTTP Error 404: Not Found
+HTTPError: HTTP Error 404: Not Found
