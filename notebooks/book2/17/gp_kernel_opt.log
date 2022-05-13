@@ -1,0 +1,40 @@
+An error occurred while executing the following cell:
+------------------
+model = GPModule()
+params = model.init(jax.random.PRNGKey(0), x, y, x_test)
+tx = optax.sgd(learning_rate=3e-3)
+opt_state = tx.init(params)
+loss_grad_fn = jax.jit(jax.value_and_grad(loss))
+
+losses = []
+for i in range(1001):
+    loss_val, grads = loss_grad_fn(params)
+    losses.append(loss_val)
+    updates, opt_state = tx.update(grads, opt_state)
+    params = optax.apply_updates(params, updates)
+
+plt.plot(losses)
+plt.ylabel("negative log likelihood")
+_ = plt.xlabel("step number")
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_2795/3357705884.py in <module>
+      1 model = GPModule()
+----> 2 params = model.init(jax.random.PRNGKey(0), x, y, x_test)
+      3 tx = optax.sgd(learning_rate=3e-3)
+      4 opt_state = tx.init(params)
+      5 loss_grad_fn = jax.jit(jax.value_and_grad(loss))
+
+    [... skipping hidden 11 frame]
+
+/tmp/ipykernel_2795/221699158.py in __call__(self, x, y, t)
+     48         )
+     49 
+---> 50         loss = -gp.condition(y)
+     51         pred = gp.predict(y, t)
+     52 
+
+TypeError: bad operand type for unary -: 'ConditionResult'
+TypeError: bad operand type for unary -: 'ConditionResult'
