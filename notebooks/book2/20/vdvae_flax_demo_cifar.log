@@ -1,0 +1,30 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    from google.colab import auth
+except ModuleNotFoundError:
+    %pip install google
+    from google.colab import auth
+auth.authenticate_user()
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3508/1036561085.py in <module>
+      1 try:
+----> 2     from google.colab import auth
+      3 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'google.colab'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3508/1036561085.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install google')
+----> 5     from google.colab import auth
+      6 auth.authenticate_user()
+
+ModuleNotFoundError: No module named 'google.colab'
+ModuleNotFoundError: No module named 'google.colab'

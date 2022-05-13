@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+key, _ = jax.random.split(jax.random.PRNGKey(42))
+
+train(key, data, 23, 0.03)
+-------------------
