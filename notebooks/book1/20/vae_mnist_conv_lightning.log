@@ -1,0 +1,79 @@
+An error occurred while executing the following cell:
+------------------
+imgs, _ = batch
+imgs = imgs[:16]
+
+fig, axs = plt.subplots(2, 1)
+axs[0].imshow(rearrange(make_grid(imgs), "c h w -> h w c"))
+imgs = imgs.to(device=device)
+axs[1].imshow(rearrange(make_grid(m.vae(imgs)[0].cpu()), "c h w -> h w c"))
+plt.savefig("../figures/vae_mnist_conv_20d_rec.pdf")
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_3161/3310386611.py in <module>
+      6 imgs = imgs.to(device=device)
+      7 axs[1].imshow(rearrange(make_grid(m.vae(imgs)[0].cpu()), "c h w -> h w c"))
+----> 8 plt.savefig("../figures/vae_mnist_conv_20d_rec.pdf")
+      9 plt.show()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in savefig(*args, **kwargs)
+    977 def savefig(*args, **kwargs):
+    978     fig = gcf()
+--> 979     res = fig.savefig(*args, **kwargs)
+    980     fig.canvas.draw_idle()   # need this if 'transparent=True' to reset colors
+    981     return res
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/figure.py in savefig(self, fname, transparent, **kwargs)
+   3044                         ax.patch._cm_set(facecolor='none', edgecolor='none'))
+   3045 
+-> 3046             self.canvas.print_figure(fname, **kwargs)
+   3047 
+   3048     def ginput(self, n=1, timeout=30, show_clicks=True,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backend_bases.py in print_figure(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)
+   2323                         orientation=orientation,
+   2324                         bbox_inches_restore=_bbox_inches_restore,
+-> 2325                         **kwargs)
+   2326             finally:
+   2327                 if bbox_inches and restore_bbox:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backend_bases.py in wrapper(*args, **kwargs)
+   1646             kwargs.pop(arg)
+   1647 
+-> 1648         return func(*args, **kwargs)
+   1649 
+   1650     return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/_api/deprecation.py in wrapper(*inner_args, **inner_kwargs)
+    387             # Early return in the simple, non-deprecated case (much faster than
+    388             # calling bind()).
+--> 389             return func(*inner_args, **inner_kwargs)
+    390         arguments = signature.bind(*inner_args, **inner_kwargs).arguments
+    391         if is_varargs and arguments.get(name):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backends/backend_pdf.py in print_pdf(self, filename, dpi, bbox_inches_restore, metadata)
+   2781             file = filename._file
+   2782         else:
+-> 2783             file = PdfFile(filename, metadata=metadata)
+   2784         try:
+   2785             file.newPage(width, height)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backends/backend_pdf.py in __init__(self, filename, metadata)
+    652         self.original_file_like = None
+    653         self.tell_base = 0
+--> 654         fh, opened = cbook.to_filehandle(filename, "wb", return_opened=True)
+    655         if not opened:
+    656             try:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/cbook/__init__.py in to_filehandle(fname, flag, return_opened, encoding)
+    449             fh = bz2.BZ2File(fname, flag)
+    450         else:
+--> 451             fh = open(fname, flag, encoding=encoding)
+    452         opened = True
+    453     elif hasattr(fname, 'seek'):
+
+FileNotFoundError: [Errno 2] No such file or directory: '../figures/vae_mnist_conv_20d_rec.pdf'
+FileNotFoundError: [Errno 2] No such file or directory: '../figures/vae_mnist_conv_20d_rec.pdf'

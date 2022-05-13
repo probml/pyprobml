@@ -1,0 +1,59 @@
+An error occurred while executing the following cell:
+------------------
+%cd /content/GANJax
+
+import os
+
+try:
+    import cv2
+except ModuleNotFoundError:
+    %pip install opencv-python
+    import cv2
+import matplotlib.pyplot as plt
+
+from jax import numpy as jnp, random
+
+try:
+    from gan.progan import ProGAN as GAN
+except ModuleNotFoundError:
+    %pip install gan
+    from gan.progan import ProGAN as GAN
+try:
+    from utils.save_and_load import save_gan
+except ModuleNotFoundError:
+    %pip install utils
+    from utils.save_and_load import save_gan
+
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install tensorflow
+    import tensorflow as tf
+from gan.dcgan import DCGAN as GAN
+from utils.data import load_images_celeba_64
+
+print(tf.__version__)
+print("DEVICES VISIBLE BY TF - ", tf.config.list_physical_devices())
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3029/3066255570.py in <module>
+     14 try:
+---> 15     from gan.progan import ProGAN as GAN
+     16 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'gan.progan'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3029/3066255570.py in <module>
+     16 except ModuleNotFoundError:
+     17     get_ipython().run_line_magic('pip', 'install gan')
+---> 18     from gan.progan import ProGAN as GAN
+     19 try:
+     20     from utils.save_and_load import save_gan
+
+ModuleNotFoundError: No module named 'gan.progan'
+ModuleNotFoundError: No module named 'gan.progan'
