@@ -58,29 +58,34 @@ from ae_mnist_conv import ConvAE
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2736/3892019423.py in <module>
-      5 try:
-----> 6     import torch
-      7 except ModuleNotFoundError:
+/tmp/ipykernel_2905/3892019423.py in <module>
+     33 try:
+---> 34     from probml_utils.lvm_plots_utils import (
+     35         get_random_samples,
 
-ModuleNotFoundError: No module named 'torch'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/lvm_plots_utils.py in <module>
+----> 1 import umap
+      2 from typing import Callable, Tuple
+      3 import torch
+
+ModuleNotFoundError: No module named 'umap'
 
 During handling of the above exception, another exception occurred:
 
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_2736/3892019423.py in <module>
-      7 except ModuleNotFoundError:
-      8     get_ipython().run_line_magic('pip', 'install torch')
-----> 9     import torch
-     10 import torch.nn as nn
-     11 
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2905/3892019423.py in <module>
+     41 except:
+     42     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
+---> 43     from probml_utils.lvm_plots_utils import (
+     44         get_random_samples,
+     45         get_grid_samples,
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/__init__.py in <module>
-    197     if USE_GLOBAL_DEPS:
-    198         _load_global_deps()
---> 199     from torch._C import *  # noqa: F403
-    200 
-    201 # Appease the type checker; ordinarily this binding is inserted by the
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/lvm_plots_utils.py in <module>
+----> 1 import umap
+      2 from typing import Callable, Tuple
+      3 import torch
+      4 import numpy as np
+      5 import matplotlib
 
-ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
-ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
+ModuleNotFoundError: No module named 'umap'
+ModuleNotFoundError: No module named 'umap'

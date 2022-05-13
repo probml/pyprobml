@@ -6,10 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
 from scipy.stats import gaussian_kde
 from scipy.stats import norm
@@ -41,23 +41,13 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2762/4033161307.py in <module>
-      4 try:
-----> 5     import pyprobml_utils as pml
-      6 except ModuleNotFoundError:
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_2559/1127904147.py in <module>
+     23     plt.xlim(0, 3)
+     24     plt.title('n_samples = %d' % size)
+---> 25     save_fig('mcAccuracyDemoHist%d.pdf' % size)
+     26 
+     27     kde = gaussian_kde(samples)
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2762/4033161307.py in <module>
-      6 except ModuleNotFoundError:
-      7     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
-----> 8     import pyprobml_utils as pml
-      9 
-     10 from scipy.stats import gaussian_kde
-
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+NameError: name 'save_fig' is not defined
+NameError: name 'save_fig' is not defined

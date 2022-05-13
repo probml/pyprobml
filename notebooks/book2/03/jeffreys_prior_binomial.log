@@ -8,10 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
 θ = np.linspace(0, 1, 100)
 κ = θ / (1 - θ)
@@ -44,23 +44,11 @@ pml.save_fig("jeffreys_priors.pdf", dpi=300)
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2790/3541218750.py in <module>
-      8 try:
-----> 9     import pyprobml_utils as pml
-     10 except ModuleNotFoundError:
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_3009/845879054.py in <module>
+     39 plt.subplots_adjust(wspace=0.4, hspace=0.4)
+     40 plt.tight_layout()
+---> 41 pml.save_fig("jeffreys_priors.pdf", dpi=300)
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2790/3541218750.py in <module>
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
----> 12     import pyprobml_utils as pml
-     13 
-     14 θ = np.linspace(0, 1, 100)
-
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+AttributeError: module 'probml_utils' has no attribute 'save_fig'
+AttributeError: module 'probml_utils' has no attribute 'save_fig'

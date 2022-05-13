@@ -1,0 +1,31 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import flax
+except ModuleNotFoundError:
+    %pip install flax
+    import flax
+import jax
+from flax import linen as nn
+import matplotlib.pyplot as plt
+
+!wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py
+import d2l
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3170/2636061381.py in <module>
+      9 
+     10 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
+---> 11 import d2l
+
+/__w/pyprobml/pyprobml/d2l.py in <module>
+      3 
+      4 import numpy as np
+----> 5 import torch
+      6 import torchvision
+      7 from PIL import Image
+
+ModuleNotFoundError: No module named 'torch'
+ModuleNotFoundError: No module named 'torch'

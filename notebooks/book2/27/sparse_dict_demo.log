@@ -20,10 +20,10 @@ except ModuleNotFoundError:
 from sklearn.decomposition import TruncatedSVD
 
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
 import matplotlib.pyplot as plt
 from PIL import Image
@@ -93,7 +93,7 @@ for m in methods:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2547/3099049803.py in <module>
+/tmp/ipykernel_2569/310192599.py in <module>
      13 try:
 ---> 14     from spams import trainDL, nmf, displayPatches, im2col_sliding
      15 except ModuleNotFoundError:
@@ -103,7 +103,7 @@ ModuleNotFoundError: No module named 'spams'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2547/3099049803.py in <module>
+/tmp/ipykernel_2569/310192599.py in <module>
      15 except ModuleNotFoundError:
      16     get_ipython().run_line_magic('pip', 'install spams')
 ---> 17     from spams import trainDL, nmf, displayPatches, im2col_sliding

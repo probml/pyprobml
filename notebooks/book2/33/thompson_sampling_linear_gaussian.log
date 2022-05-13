@@ -16,10 +16,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 import jax.numpy as jnp
 import pandas as pd
 from jax import random
@@ -214,23 +214,13 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2550/3073107553.py in <module>
-     16 try:
----> 17     import pyprobml_utils as pml
-     18 except ModuleNotFoundError:
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_2565/814404278.py in <module>
+     23 from jax import random
+     24 from functools import partial
+---> 25 from jax.ops import index_update
+     26 from jax.nn import one_hot
+     27 
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2550/3073107553.py in <module>
-     18 except ModuleNotFoundError:
-     19     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
----> 20     import pyprobml_utils as pml
-     21 import jax.numpy as jnp
-     22 import pandas as pd
-
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+ImportError: cannot import name 'index_update' from 'jax.ops' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/ops/__init__.py)
+ImportError: cannot import name 'index_update' from 'jax.ops' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/ops/__init__.py)

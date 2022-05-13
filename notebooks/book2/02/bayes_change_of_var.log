@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 import os
 try:
-    from pyprobml_utils import save_fig
+    from probml_utils import savefig
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    from pyprobml_utils import save_fig
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig
 
 # Ensure stochastic reproducibility.
 np.random.seed(42)
@@ -56,23 +56,13 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2889/1100081197.py in <module>
-     11 try:
----> 12     from pyprobml_utils import save_fig
-     13 except ModuleNotFoundError:
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_3418/637662742.py in <module>
+     48 
+     49 ## Save the figure.
+---> 50 save_fig('bayesChangeOfVar.pdf')
+     51 plt.show()
+     52 
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2889/1100081197.py in <module>
-     13 except ModuleNotFoundError:
-     14     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
----> 15     from pyprobml_utils import save_fig
-     16 
-     17 # Ensure stochastic reproducibility.
-
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+NameError: name 'save_fig' is not defined
+NameError: name 'save_fig' is not defined

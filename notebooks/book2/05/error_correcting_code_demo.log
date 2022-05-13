@@ -9,10 +9,10 @@ An error occurred while executing the following cell:
 
 
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 try:
     import pgmpy_utils as pgm
 except ModuleNotFoundError:
@@ -85,22 +85,22 @@ pgm.visualize_model(model)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2672/4280930824.py in <module>
-      9 try:
----> 10     import pyprobml_utils as pml
-     11 except ModuleNotFoundError:
+/tmp/ipykernel_2742/984790945.py in <module>
+     14 try:
+---> 15     import pgmpy_utils as pgm
+     16 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
+ModuleNotFoundError: No module named 'pgmpy_utils'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2672/4280930824.py in <module>
-     11 except ModuleNotFoundError:
-     12     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
----> 13     import pyprobml_utils as pml
-     14 try:
-     15     import pgmpy_utils as pgm
+/tmp/ipykernel_2742/984790945.py in <module>
+     16 except ModuleNotFoundError:
+     17     get_ipython().run_line_magic('pip', 'install pgmpy_utils')
+---> 18     import pgmpy_utils as pgm
+     19 try:
+     20     from pgmpy.models import BayesianModel
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+ModuleNotFoundError: No module named 'pgmpy_utils'
+ModuleNotFoundError: No module named 'pgmpy_utils'

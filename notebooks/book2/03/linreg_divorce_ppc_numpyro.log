@@ -9,10 +9,10 @@ An error occurred while executing the following cell:
 
 
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
    
 import numpy as np
 np.set_printoptions(precision=3)
@@ -131,22 +131,64 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2764/1979337998.py in <module>
-      7 try:
-----> 8     import pyprobml_utils as pml
-      9 except ModuleNotFoundError:
+/tmp/ipykernel_2765/2911436241.py in <module>
+     31 try:
+---> 32     import numpyro
+     33 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
+ModuleNotFoundError: No module named 'numpyro'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2764/1979337998.py in <module>
-      9 except ModuleNotFoundError:
-     10     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
----> 11     import pyprobml_utils as pml
-     12 
-     13 import numpy as np
+/tmp/ipykernel_2765/2911436241.py in <module>
+     33 except ModuleNotFoundError:
+     34     get_ipython().run_line_magic('pip', 'install numpyro')
+---> 35     import numpyro
+     36 import numpyro.distributions as dist
+     37 from numpyro.distributions import constraints
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/__init__.py in <module>
+      4 import logging
+      5 
+----> 6 from numpyro import compat, diagnostics, distributions, handlers, infer, ops, optim
+      7 from numpyro.contrib.render import render_model
+      8 from numpyro.distributions.distribution import enable_validation, validation_enabled
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/__init__.py in <module>
+      2 # SPDX-License-Identifier: Apache-2.0
+      3 
+----> 4 from numpyro.distributions.conjugate import (
+      5     BetaBinomial,
+      6     DirichletMultinomial,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/conjugate.py in <module>
+      7 
+      8 from numpyro.distributions import constraints
+----> 9 from numpyro.distributions.continuous import Beta, Dirichlet, Gamma
+     10 from numpyro.distributions.discrete import (
+     11     BinomialProbs,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/continuous.py in <module>
+     46 
+     47 from numpyro.distributions import constraints
+---> 48 from numpyro.distributions.discrete import _to_logits_bernoulli
+     49 from numpyro.distributions.distribution import Distribution, TransformedDistribution
+     50 from numpyro.distributions.transforms import (
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/discrete.py in <module>
+     35 from jax.scipy.special import expit, gammaincc, gammaln, logsumexp, xlog1py, xlogy
+     36 
+---> 37 from numpyro.distributions import constraints, transforms
+     38 from numpyro.distributions.distribution import Distribution
+     39 from numpyro.distributions.util import (
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/transforms.py in <module>
+      9 
+     10 from jax import lax, vmap
+---> 11 from jax.flatten_util import ravel_pytree
+     12 from jax.nn import log_sigmoid, softplus
+     13 import jax.numpy as jnp
+
+ModuleNotFoundError: No module named 'jax.flatten_util'
+ModuleNotFoundError: No module named 'jax.flatten_util'

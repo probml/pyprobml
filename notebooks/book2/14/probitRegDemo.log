@@ -11,10 +11,10 @@ import jax.numpy as jnp
 import jax.scipy.stats.norm as jnorm
 from jax import grad
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 try:
     from statsmodels.discrete.discrete_model import Probit
 except ModuleNotFoundError:
@@ -176,23 +176,12 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2587/983708565.py in <module>
-      9 try:
----> 10     import pyprobml_utils as pml
-     11 except ModuleNotFoundError:
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_2563/3800833945.py in <module>
+    167 plt.ylabel('logpost')
+    168 plt.xlabel('iter')
+--> 169 pml.save_fig('../figures/probitRegDemoNLL.pdf')
+    170 plt.show()
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2587/983708565.py in <module>
-     11 except ModuleNotFoundError:
-     12     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
----> 13     import pyprobml_utils as pml
-     14 try:
-     15     from statsmodels.discrete.discrete_model import Probit
-
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+AttributeError: module 'probml_utils' has no attribute 'save_fig'
+AttributeError: module 'probml_utils' has no attribute 'save_fig'

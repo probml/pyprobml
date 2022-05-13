@@ -19,10 +19,10 @@ from scipy.stats import norm
 from numpy.random import rand, randn
 
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
 
 def plot_gmm_3d_trace(trace_hist, π, μ, σ, title, xmin, xmax, ax, h=1, n_eval=500):
@@ -133,23 +133,27 @@ if __name__ == "__main__":
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2932/1152058330.py in <module>
-     19 try:
----> 20     import pyprobml_utils as pml
-     21 except ModuleNotFoundError:
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_2564/1259337586.py in <module>
+    125 
+    126     np.random.seed(314)
+--> 127     sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax)
+    128     for τ in τ_values:
+    129         sample_plot_mh(x0, τ, π, μ, σ, n_iterations, xmin, xmax)
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
+/tmp/ipykernel_2564/1259337586.py in sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax)
+     89     pml.style3d(axs, 1.5, 1, 0.8)
+     90     plt.subplots_adjust(left=0.001, bottom=0.208, right=0.7)
+---> 91     pml.savefig("gibbs_trace.pdf", pad_inches=0, bbox_inches="tight")
+     92 
+     93     fig, axs = plt.subplots()
 
-During handling of the above exception, another exception occurred:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/plotting.py in savefig(f_name, tight_layout, tight_bbox, *args, **kwargs)
+     97         plt.savefig(fname_full, pad_inches=0.0, bbox_inches="tight", *args, **kwargs)
+     98     else:
+---> 99         plt.savefig(fname_full, pad_inches=0.0, *args, **kwargs)
+    100 
+    101     if "DUAL_SAVE" in os.environ:
 
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2932/1152058330.py in <module>
-     21 except ModuleNotFoundError:
-     22     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
----> 23     import pyprobml_utils as pml
-     24 
-     25 
-
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+TypeError: savefig() got multiple values for keyword argument 'pad_inches'
+TypeError: savefig() got multiple values for keyword argument 'pad_inches'

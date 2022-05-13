@@ -6,10 +6,10 @@ An error occurred while executing the following cell:
 
 
 try:
-    import pyprobml_utils as pml
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install pyprobml_utils
-    import pyprobml_utils as pml
+    %pip install git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 try:
     import gauss_utils as gauss
 except ModuleNotFoundError:
@@ -88,22 +88,22 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2765/2590888527.py in <module>
-      6 try:
-----> 7     import pyprobml_utils as pml
-      8 except ModuleNotFoundError:
+/tmp/ipykernel_2766/3462276092.py in <module>
+     11 try:
+---> 12     import gauss_utils as gauss
+     13 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
+ModuleNotFoundError: No module named 'gauss_utils'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2765/2590888527.py in <module>
-      8 except ModuleNotFoundError:
-      9     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
----> 10     import pyprobml_utils as pml
-     11 try:
-     12     import gauss_utils as gauss
+/tmp/ipykernel_2766/3462276092.py in <module>
+     13 except ModuleNotFoundError:
+     14     get_ipython().run_line_magic('pip', 'install gauss_utils')
+---> 15     import gauss_utils as gauss
+     16 
+     17 import numpy as np
 
-ModuleNotFoundError: No module named 'pyprobml_utils'
-ModuleNotFoundError: No module named 'pyprobml_utils'
+ModuleNotFoundError: No module named 'gauss_utils'
+ModuleNotFoundError: No module named 'gauss_utils'
