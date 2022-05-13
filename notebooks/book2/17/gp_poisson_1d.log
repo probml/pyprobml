@@ -1,0 +1,99 @@
+An error occurred while executing the following cell:
+------------------
+def guide(x, y=None):
+    numpyro.param("mean", jnp.zeros(()))
+    numpyro.param("sigma", jnp.ones(()), constraint=dist.constraints.positive)
+    numpyro.param("rho", 2 * jnp.ones(()), constraint=dist.constraints.positive)
+    mu = numpyro.param("log_rate_mu", jnp.zeros_like(x) if y is None else jnp.log(y + 1))
+    sigma = numpyro.param(
+        "log_rate_sigma",
+        jnp.ones_like(x),
+        constraint=dist.constraints.positive,
+    )
+    numpyro.sample("log_rate", dist.Normal(mu, sigma))
+
+
+optim = numpyro.optim.Adam(0.01)
+svi = numpyro.infer.SVI(model, guide, optim, numpyro.infer.Trace_ELBO(10))
+results = svi.run(jax.random.PRNGKey(55873), 3000, x, y=y, progress_bar=False)
+------------------
+
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_2621/2265157179.py in <module>
+     14 optim = numpyro.optim.Adam(0.01)
+     15 svi = numpyro.infer.SVI(model, guide, optim, numpyro.infer.Trace_ELBO(10))
+---> 16 results = svi.run(jax.random.PRNGKey(55873), 3000, x, y=y, progress_bar=False)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/svi.py in run(self, rng_key, num_steps, progress_bar, stable_update, init_state, *args, **kwargs)
+    340 
+    341         if init_state is None:
+--> 342             svi_state = self.init(rng_key, *args, **kwargs)
+    343         else:
+    344             svi_state = init_state
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/svi.py in init(self, rng_key, *args, **kwargs)
+    180         guide_trace = trace(guide_init).get_trace(*args, **kwargs, **self.static_kwargs)
+    181         model_trace = trace(replay(model_init, guide_trace)).get_trace(
+--> 182             *args, **kwargs, **self.static_kwargs
+    183         )
+    184         params = {}
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/handlers.py in get_trace(self, *args, **kwargs)
+    169         :return: `OrderedDict` containing the execution trace.
+    170         """
+--> 171         self(*args, **kwargs)
+    172         return self.trace
+    173 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in __call__(self, *args, **kwargs)
+    103             return self
+    104         with self:
+--> 105             return self.fn(*args, **kwargs)
+    106 
+    107 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in __call__(self, *args, **kwargs)
+    103             return self
+    104         with self:
+--> 105             return self.fn(*args, **kwargs)
+    106 
+    107 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in __call__(self, *args, **kwargs)
+    103             return self
+    104         with self:
+--> 105             return self.fn(*args, **kwargs)
+    106 
+    107 
+
+/tmp/ipykernel_2621/4149573947.py in model(x, y)
+     23 def model(x, y=None):
+     24     # The parameters of the GP model
+---> 25     mean = numpyro.sample("mean", dist.Normal(0.0, 2.0))
+     26     sigma = numpyro.sample("sigma", dist.HalfNormal(3.0))
+     27     rho = numpyro.sample("rho", dist.HalfNormal(10.0))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in sample(name, fn, obs, rng_key, sample_shape, infer, obs_mask)
+    217 
+    218     # ...and use apply_stack to send it to the Messengers
+--> 219     msg = apply_stack(initial_msg)
+    220     return msg["value"]
+    221 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in apply_stack(msg)
+     45     pointer = 0
+     46     for pointer, handler in enumerate(reversed(_PYRO_STACK)):
+---> 47         handler.process_message(msg)
+     48         # When a Messenger sets the "stop" field of a message,
+     49         # it prevents any Messengers above it on the stack from being applied.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/handlers.py in process_message(self, msg)
+    221                     return None
+    222                 if guide_msg["type"] != "sample" or guide_msg["is_observed"]:
+--> 223                     raise RuntimeError(f"Site {name} must be sampled in trace.")
+    224                 msg["value"] = guide_msg["value"]
+    225                 msg["infer"] = guide_msg["infer"]
+
+RuntimeError: Site mean must be sampled in trace.
+RuntimeError: Site mean must be sampled in trace.
