@@ -1,0 +1,130 @@
+An error occurred while executing the following cell:
+------------------
+# Create main save directory
+savedir_base = "results"
+if os.path.exists(savedir_base):
+    shutil.rmtree(savedir_base)
+
+
+def trainval(exp_dict):
+    # set seed
+    seed = 5 + exp_dict["run"]
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+
+    # print exp dict
+    savedir = f"{savedir_base}/{hu.hash_dict(exp_dict)}"
+    hu.save_json(os.path.join(savedir, "exp_dict.json"), exp_dict)
+
+    # Get datasets
+    train_set = get_dataset(exp_dict["dataset"], split="train")
+    val_set = get_dataset(exp_dict["dataset"], split="val")
+
+    # sample n_max examples
+    n_max = exp_dict["dataset"]["n_max"]
+
+    if n_max == -1 or n_max >= len(train_set):
+        ind_list = np.arange(len(train_set))
+        n_max = len(train_set)
+    else:
+        ind_list = np.random.choice(len(train_set), n_max, replace=False)
+
+    train_set = torch.utils.data.Subset(train_set, ind_list)
+
+    # choose full or mini-batch
+    batch_size = exp_dict["opt"]["batch_size"]
+    if batch_size < 0:
+        batch_size = n_max
+    batch_size = min(batch_size, len(train_set))
+
+    print(
+        f'Dataset: {exp_dict["dataset"]["name"]} ({len(train_set)}) '
+        f'- Model: {exp_dict["model"]["name"]} - '
+        f'Opt: {exp_dict["opt"]["name"]} ({batch_size})'
+    )
+
+    # get loader
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, drop_last=True)
+
+    # Load model and optimizer
+    model = get_model(exp_dict["model"], train_set.dataset)
+    opt = get_optimizer(exp_dict["opt"], model, train_set.dataset, batch_size)
+
+    score_list = []
+    # start training and validating
+    ebar = tqdm.tqdm(range(exp_dict["epochs"]), leave=False)
+
+    model.n_calls = 0.0
+    for e in ebar:
+        # Compute Metrics on Validation and Training Set
+        val_dict = model.compute_metrics(val_set)
+        train_dict = model.compute_metrics(train_set)
+
+        # Train a single epoch
+
+        for batch in train_loader:
+            # get batch
+            Xi, yi = batch
+
+            # define closure
+            def closure():
+                loss = model.compute_loss(Xi, yi)
+                if exp_dict["opt"]["name"] not in ["adasls", "sls"]:
+                    loss.backward()
+                model.n_calls += Xi.shape[0]
+                # print(Xi.shape[0])
+
+                return loss
+
+            # update parameters
+            opt.zero_grad()
+            loss = opt.step(closure=closure)
+
+        # Update and save metrics
+        score_dict = {}
+        score_dict["epoch"] = e
+        score_dict["val_score"] = val_dict["score"]
+        score_dict["val_loss"] = val_dict["loss"]
+        score_dict["train_loss"] = train_dict["loss"]
+        score_dict["n_train"] = len(train_set)
+        score_dict["step_size"] = opt.state.get("step_size", {})
+
+        n_iters = len(train_loader) * (e + 1)
+        score_dict["n_calls"] = int(model.n_calls)
+        score_list += [score_dict]
+
+        # Save metrics
+        hu.save_pkl(os.path.join(savedir, "score_list.pkl"), score_list)
+        ebar.update(1)
+        ebar.set_description(f'Training Loss {train_dict["loss"]:.3f}')
+
+
+# Run each experiment and save their results
+pbar = tqdm.tqdm(exp_list)
+for ei, exp_dict in enumerate(pbar):
+    pbar.set_description(f"Running Exp {ei+1}/{len(exp_list)} ")
+    trainval(exp_dict)
+
+    # Update progress bar
+    pbar.update(1)
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_2825/3587634207.py in <module>
+    103 for ei, exp_dict in enumerate(pbar):
+    104     pbar.set_description(f"Running Exp {ei+1}/{len(exp_list)} ")
+--> 105     trainval(exp_dict)
+    106 
+    107     # Update progress bar
+
+/tmp/ipykernel_2825/3587634207.py in trainval(exp_dict)
+     13 
+     14     # print exp dict
+---> 15     savedir = f"{savedir_base}/{hu.hash_dict(exp_dict)}"
+     16     hu.save_json(os.path.join(savedir, "exp_dict.json"), exp_dict)
+     17 
+
+NameError: name 'hu' is not defined
+NameError: name 'hu' is not defined

@@ -1,0 +1,31 @@
+An error occurred while executing the following cell:
+------------------
+
+!pip install  git+git://github.com/lindermanlab/ssm-jax-refactor.git
+
+try:
+    import ssm
+except ModuleNotFoundError:
+    %pip install ssm
+    import ssm
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2717/80757758.py in <module>
+      3 try:
+----> 4     import ssm
+      5 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'ssm'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2717/80757758.py in <module>
+      5 except ModuleNotFoundError:
+      6     get_ipython().run_line_magic('pip', 'install ssm')
+----> 7     import ssm
+
+ModuleNotFoundError: No module named 'ssm'
+ModuleNotFoundError: No module named 'ssm'
