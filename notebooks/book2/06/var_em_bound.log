@@ -1,0 +1,77 @@
+An error occurred while executing the following cell:
+------------------
+# Illustration of possible behaviors of variational EM
+# Author : Aleyna Kara
+# This file is generated from varEMbound.m
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+try:
+    import pyprobml_utils as pml
+except ModuleNotFoundError:
+    %pip install pyprobml_utils
+    import pyprobml_utils as pml
+
+
+def logist(x, k):
+    return 1 / (1 + np.exp(-k * x))
+
+
+def logist_gauss(x, k, mu, sigma):
+    return 1 / (1 + np.exp(-k * x)) + (1 / (2 * np.pi * sigma)) * np.exp(-((x - mu) ** 2) / (sigma**2))
+
+
+def plot_var_em_bound(x, true_log_ll, lower_bound, title):
+
+    plt.plot(x, true_log_ll, "-b", linewidth=3)
+    plt.text(2.5, y1[-1] + 0.02, "true log-likelihood", fontweight="bold")
+
+    plt.plot(x, lower_bound, ":r", linewidth=3)
+    plt.text(2.8, 0.9, "lower bound", fontweight="bold")
+
+    plt.xlim([0, 4])
+    plt.ylim([0.5, np.max(y1) + 0.05])
+    plt.xlabel("training time", fontweight="bold")
+    plt.xticks([])
+    plt.yticks([])
+    pml.savefig(f"{title}.pdf", dpi=300)
+    plt.show()
+
+
+n = 41
+x = np.linspace(0, 4, n)
+k, mu, sigma = 2, 1, 0.9
+
+y1 = logist(x, k)
+lower_bound = logist(x, 1)
+
+plot_var_em_bound(x, y1, lower_bound, "varEMbound1")
+
+y1 = logist_gauss(x, k, mu, sigma)
+
+plot_var_em_bound(x, y1, lower_bound, "varEMbound2")
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2793/497089423.py in <module>
+      9 try:
+---> 10     import pyprobml_utils as pml
+     11 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'pyprobml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2793/497089423.py in <module>
+     11 except ModuleNotFoundError:
+     12     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
+---> 13     import pyprobml_utils as pml
+     14 
+     15 
+
+ModuleNotFoundError: No module named 'pyprobml_utils'
+ModuleNotFoundError: No module named 'pyprobml_utils'

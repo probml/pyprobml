@@ -56,72 +56,75 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-HTTPError                                 Traceback (most recent call last)
-~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/data_utils.py in get_file(fname, origin, untar, md5_hash, file_hash, cache_subdir, hash_algorithm, extract, archive_format, cache_dir)
-    276       try:
---> 277         urlretrieve(origin, fpath, dl_progress)
-    278       except urllib.error.HTTPError as e:
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_2778/3913712510.py in <module>
+     50     y = train_labels[i][0]
+     51     plt.xlabel(class_names[y])
+---> 52 savefig("cifar10-data.pdf")
+     53 plt.show()
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/data_utils.py in urlretrieve(url, filename, reporthook, data)
-     81 
----> 82     response = urlopen(url, data)
-     83     with open(filename, 'wb') as fd:
+/tmp/ipykernel_2778/3913712510.py in savefig(fname)
+     21 
+     22 def savefig(fname):
+---> 23     plt.savefig(os.path.join(figdir, fname))
+     24 
+     25 
 
-~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlopen(url, data, timeout, cafile, capath, cadefault, context)
-    221         opener = _opener
---> 222     return opener.open(url, data, timeout)
-    223 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in savefig(*args, **kwargs)
+    977 def savefig(*args, **kwargs):
+    978     fig = gcf()
+--> 979     res = fig.savefig(*args, **kwargs)
+    980     fig.canvas.draw_idle()   # need this if 'transparent=True' to reset colors
+    981     return res
 
-~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in open(self, fullurl, data, timeout)
-    530             meth = getattr(processor, meth_name)
---> 531             response = meth(req, response)
-    532 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/figure.py in savefig(self, fname, transparent, **kwargs)
+   3044                         ax.patch._cm_set(facecolor='none', edgecolor='none'))
+   3045 
+-> 3046             self.canvas.print_figure(fname, **kwargs)
+   3047 
+   3048     def ginput(self, n=1, timeout=30, show_clicks=True,
 
-~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_response(self, request, response)
-    640             response = self.parent.error(
---> 641                 'http', request, response, code, msg, hdrs)
-    642 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backend_bases.py in print_figure(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)
+   2323                         orientation=orientation,
+   2324                         bbox_inches_restore=_bbox_inches_restore,
+-> 2325                         **kwargs)
+   2326             finally:
+   2327                 if bbox_inches and restore_bbox:
 
-~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in error(self, proto, *args)
-    568             args = (dict, 'default', 'http_error_default') + orig_args
---> 569             return self._call_chain(*args)
-    570 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backend_bases.py in wrapper(*args, **kwargs)
+   1646             kwargs.pop(arg)
+   1647 
+-> 1648         return func(*args, **kwargs)
+   1649 
+   1650     return wrapper
 
-~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _call_chain(self, chain, kind, meth_name, *args)
-    502             func = getattr(handler, meth_name)
---> 503             result = func(*args)
-    504             if result is not None:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/_api/deprecation.py in wrapper(*inner_args, **inner_kwargs)
+    387             # Early return in the simple, non-deprecated case (much faster than
+    388             # calling bind()).
+--> 389             return func(*inner_args, **inner_kwargs)
+    390         arguments = signature.bind(*inner_args, **inner_kwargs).arguments
+    391         if is_varargs and arguments.get(name):
 
-~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_error_default(self, req, fp, code, msg, hdrs)
-    648     def http_error_default(self, req, fp, code, msg, hdrs):
---> 649         raise HTTPError(req.full_url, code, msg, hdrs, fp)
-    650 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backends/backend_pdf.py in print_pdf(self, filename, dpi, bbox_inches_restore, metadata)
+   2781             file = filename._file
+   2782         else:
+-> 2783             file = PdfFile(filename, metadata=metadata)
+   2784         try:
+   2785             file.newPage(width, height)
 
-HTTPError: HTTP Error 500: Internal Server Error
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backends/backend_pdf.py in __init__(self, filename, metadata)
+    652         self.original_file_like = None
+    653         self.tell_base = 0
+--> 654         fh, opened = cbook.to_filehandle(filename, "wb", return_opened=True)
+    655         if not opened:
+    656             try:
 
-During handling of the above exception, another exception occurred:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/cbook/__init__.py in to_filehandle(fname, flag, return_opened, encoding)
+    449             fh = bz2.BZ2File(fname, flag)
+    450         else:
+--> 451             fh = open(fname, flag, encoding=encoding)
+    452         opened = True
+    453     elif hasattr(fname, 'seek'):
 
-Exception                                 Traceback (most recent call last)
-/tmp/ipykernel_2234/3913712510.py in <module>
-     29 data = keras.datasets.cifar10
-     30 
----> 31 (train_images, train_labels), (test_images, test_labels) = data.load_data()
-     32 
-     33 # print(np.shape(train_images))
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/datasets/cifar10.py in load_data()
-     82       untar=True,
-     83       file_hash=
----> 84       '6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce')
-     85 
-     86   num_train_samples = 50000
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/data_utils.py in get_file(fname, origin, untar, md5_hash, file_hash, cache_subdir, hash_algorithm, extract, archive_format, cache_dir)
-    277         urlretrieve(origin, fpath, dl_progress)
-    278       except urllib.error.HTTPError as e:
---> 279         raise Exception(error_msg.format(origin, e.code, e.msg))
-    280       except urllib.error.URLError as e:
-    281         raise Exception(error_msg.format(origin, e.errno, e.reason))
-
-Exception: URL fetch failure on https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz: 500 -- Internal Server Error
-Exception: URL fetch failure on https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz: 500 -- Internal Server Error
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/cifar10-data.pdf'
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/cifar10-data.pdf'

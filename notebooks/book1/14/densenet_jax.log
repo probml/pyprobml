@@ -31,7 +31,7 @@ print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_2240/1115125.py in <module>
+/tmp/ipykernel_2835/1115125.py in <module>
      12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
      13         batch["label"] = jnp.float32(y)
 ---> 14         state, metrics = train_step(state, batch)
@@ -40,7 +40,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_2240/1580938479.py in train_step(state, batch)
+/tmp/ipykernel_2835/1580938479.py in train_step(state, batch)
      13 
      14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
 ---> 15     aux, grads = grad_fn(state.params)
@@ -49,7 +49,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 8 frame]
 
-/tmp/ipykernel_2240/1580938479.py in loss_fn(params)
+/tmp/ipykernel_2835/1580938479.py in loss_fn(params)
       5     def loss_fn(params):
       6         logits, new_model_state = state.apply_fn(
 ----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
@@ -58,7 +58,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_2240/2176403876.py in __call__(self, x, train)
+/tmp/ipykernel_2835/2176403876.py in __call__(self, x, train)
      21             # A transition layer that halves the number of channels is added between the dense blocks.
      22             if i != len(num_convs_in_dense_blocks) - 1:
 ---> 23                 x = TransitionBlock(num_channels // 2, norm)(x)
@@ -67,37 +67,78 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_2240/585409295.py in __call__(self, x)
-      5     @nn.compact
-      6     def __call__(self, x):
-----> 7         x = self.norm()(x)
+/tmp/ipykernel_2835/585409295.py in __call__(self, x)
+      7         x = self.norm()(x)
       8         x = nn.relu(x)
-      9         x = nn.Conv(self.filters, (1, 1), padding=[(0, 0), (0, 0)], dtype=jnp.float32)(x)
+----> 9         x = nn.Conv(self.filters, (1, 1), padding=[(0, 0), (0, 0)], dtype=jnp.float32)(x)
+     10         x = nn.avg_pool(x, (2, 2), (2, 2), padding=[(0, 0), (0, 0)])
+     11         return x
 
     [... skipping hidden 3 frame]
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in __call__(self, x, use_running_average)
-    261         self.dtype, self.param_dtype, self.epsilon,
-    262         self.use_bias, self.use_scale,
---> 263         self.bias_init, self.scale_init)
-    264 
-    265 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/linear.py in __call__(self, inputs)
+    383 
+    384     kernel = self.param('kernel', self.kernel_init, kernel_shape,
+--> 385                         self.param_dtype)
+    386     kernel = jnp.asarray(kernel, self.dtype)
+    387 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in _normalize(mdl, x, mean, var, reduction_axes, feature_axes, dtype, param_dtype, epsilon, use_bias, use_scale, bias_init, scale_init)
-    137   if use_bias:
-    138     bias = mdl.param('bias', bias_init, reduced_feature_shape,
---> 139                      param_dtype).reshape(feature_shape)
-    140     y += bias
-    141   return jnp.asarray(y, dtype)
+    [... skipping hidden 10 frame]
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/lax_numpy.py in _reshape(a, order, *args)
-    745   newshape = _compute_newshape(a, args[0] if len(args) == 1 else args)
-    746   if order == "C":
---> 747     return lax.reshape(a, newshape, None)
-    748   elif order == "F":
-    749     dims = np.arange(ndim(a))[::-1]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/nn/initializers.py in init(key, shape, dtype)
+    229         # constant is stddev of standard normal truncated to (-2, 2)
+    230         stddev = jnp.sqrt(variance) / jnp.array(.87962566103423978, dtype)
+--> 231         return random.truncated_normal(key, -2, 2, shape, dtype) * stddev
+    232       else:
+    233         # constant is stddev of complex standard normal truncated to 2
 
-    [... skipping hidden 11 frame]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in truncated_normal(key, lower, upper, shape, dtype)
+    655   if shape is not None:
+    656     shape = core.as_named_shape(shape)
+--> 657   return _truncated_normal(key, lower, upper, shape, dtype)  # type: ignore
+    658 
+    659 @partial(jit, static_argnums=(3, 4), inline=True)
+
+    [... skipping hidden 7 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _truncated_normal(key, lower, upper, shape, dtype)
+    667   lower = lax.convert_element_type(lower, dtype)
+    668   upper = lax.convert_element_type(upper, dtype)
+--> 669   a = lax.erf(lower / sqrt2)
+    670   b = lax.erf(upper / sqrt2)
+    671   if not jnp.issubdtype(dtype, np.floating):
+
+    [... skipping hidden 1 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/lax_numpy.py in deferring_binary_op(self, other)
+   4553     if not isinstance(other, _accepted_binop_types):
+   4554       return NotImplemented
+-> 4555     return binary_op(self, other)
+   4556   return deferring_binary_op
+   4557 
+
+    [... skipping hidden 7 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/ufuncs.py in true_divide(x1, x2)
+    237 @partial(jit, inline=True)
+    238 def true_divide(x1, x2):
+--> 239   x1, x2 = _promote_args_inexact("true_divide", x1, x2)
+    240   return lax.div(x1, x2)
+    241 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/util.py in _promote_args_inexact(fun_name, *args)
+    323 
+    324   Promotes non-inexact types to an inexact type."""
+--> 325   _check_arraylike(fun_name, *args)
+    326   _check_no_float0s(fun_name, *args)
+    327   return _promote_shapes(fun_name, *_promote_dtypes_inexact(*args))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/util.py in _check_arraylike(fun_name, *args)
+    292   """Check if all args fit JAX's definition of arraylike."""
+    293   assert isinstance(fun_name, str), f"fun_name must be a string. Got {fun_name}"
+--> 294   if any(not _arraylike(arg) for arg in args):
+    295     pos, arg = next((i, arg) for i, arg in enumerate(args)
+    296                     if not _arraylike(arg))
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -106,5 +147,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 2576) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 2576) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 3149) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 3149) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
