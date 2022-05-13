@@ -1,0 +1,66 @@
+An error occurred while executing the following cell:
+------------------
+from tkinter.tix import Tree
+from unicodedata import name
+from absl import app
+from absl import flags
+
+try:
+    import flax.linen as nn
+except ModuleNotFoundError:
+    %pip install flax
+    import flax.linen as nn
+
+from flax.training import train_state, checkpoints
+import shutil
+import jax.numpy as jnp
+import jax
+from jax import random
+import numpy as np
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install optax
+    import optax
+
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install tensorflow
+    import tensorflow as tf
+
+try:
+    import tensorflow_datasets as tfds
+except ModuleNotFoundError:
+    %pip install tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds
+
+
+import scipy.io
+import os
+import math
+from PIL import Image
+import matplotlib.pyplot as plt
+
+os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "False"
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2608/3116938674.py in <module>
+     10     import flax.linen as nn
+     11 
+---> 12 from flax.training import train_state, checkpoints
+     13 import shutil
+     14 import jax.numpy as jnp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/training/checkpoints.py in <module>
+     29 from flax import errors
+     30 from flax import serialization
+---> 31 from tensorflow.io import gfile  # pytype: disable=import-error
+     32 
+     33 
+
+ModuleNotFoundError: No module named 'tensorflow'
+ModuleNotFoundError: No module named 'tensorflow'

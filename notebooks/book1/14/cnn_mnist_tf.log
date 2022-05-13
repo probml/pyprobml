@@ -1,0 +1,40 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import pyprobml.scripts.mnist_helpers_tf as helper
+except ModuleNotFoundError:
+    %pip install pyprobml
+    import pyprobml.scripts.mnist_helpers_tf as helper
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3141/4284005111.py in <module>
+      1 try:
+----> 2     import pyprobml.scripts.mnist_helpers_tf as helper
+      3 except ModuleNotFoundError:
+
+/__w/pyprobml/pyprobml/pyprobml/scripts/mnist_helpers_tf.py in <module>
+      2 
+----> 3 import superimport
+      4 
+
+ModuleNotFoundError: No module named 'superimport'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3141/4284005111.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install pyprobml')
+----> 5     import pyprobml.scripts.mnist_helpers_tf as helper
+
+/__w/pyprobml/pyprobml/pyprobml/scripts/mnist_helpers_tf.py in <module>
+      1 # Helper functions for DNN demos related to mnist images
+      2 
+----> 3 import superimport
+      4 
+      5 import tensorflow as tf
+
+ModuleNotFoundError: No module named 'superimport'
+ModuleNotFoundError: No module named 'superimport'
