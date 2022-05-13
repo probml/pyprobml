@@ -65,7 +65,7 @@ plot_posterior(
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4198/4147677972.py in <module>
+/tmp/ipykernel_2903/4147677972.py in <module>
       6 try:
 ----> 7     import pyprobml_utils as pml
       8 except ModuleNotFoundError:
@@ -75,7 +75,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4198/4147677972.py in <module>
+/tmp/ipykernel_2903/4147677972.py in <module>
       8 except ModuleNotFoundError:
       9     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ---> 10     import pyprobml_utils as pml

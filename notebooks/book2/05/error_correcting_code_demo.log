@@ -85,7 +85,7 @@ pgm.visualize_model(model)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2674/4280930824.py in <module>
+/tmp/ipykernel_2672/4280930824.py in <module>
       9 try:
 ---> 10     import pyprobml_utils as pml
      11 except ModuleNotFoundError:
@@ -95,7 +95,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2674/4280930824.py in <module>
+/tmp/ipykernel_2672/4280930824.py in <module>
      11 except ModuleNotFoundError:
      12     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ---> 13     import pyprobml_utils as pml

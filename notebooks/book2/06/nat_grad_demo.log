@@ -112,7 +112,7 @@ make_convergence_plots()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2902/3537245024.py in <module>
+/tmp/ipykernel_2906/3537245024.py in <module>
       4 try:
 ----> 5     import pyprobml_utils as pml
       6 except ModuleNotFoundError:
@@ -122,7 +122,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2902/3537245024.py in <module>
+/tmp/ipykernel_2906/3537245024.py in <module>
       6 except ModuleNotFoundError:
       7     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ----> 8     import pyprobml_utils as pml

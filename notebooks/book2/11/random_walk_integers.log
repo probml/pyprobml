@@ -55,7 +55,7 @@ for i in range(2):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4170/1810210111.py in <module>
+/tmp/ipykernel_4742/1810210111.py in <module>
       1 try:
 ----> 2     import pyprobml_utils as pml
       3 except ModuleNotFoundError:
@@ -65,7 +65,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4170/1810210111.py in <module>
+/tmp/ipykernel_4742/1810210111.py in <module>
       3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ----> 5     import pyprobml_utils as pml

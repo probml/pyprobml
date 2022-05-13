@@ -80,7 +80,7 @@ for trial, seed in enumerate(seeds):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2540/4242458463.py in <module>
+/tmp/ipykernel_2547/4242458463.py in <module>
       5 try:
 ----> 6     import pyprobml_utils as pml
       7 except ModuleNotFoundError:
@@ -90,7 +90,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2540/4242458463.py in <module>
+/tmp/ipykernel_2547/4242458463.py in <module>
       7 except ModuleNotFoundError:
       8     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ----> 9     import pyprobml_utils as pml

@@ -57,13 +57,13 @@ plt.show()
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2778/3913712510.py in <module>
+/tmp/ipykernel_2777/3913712510.py in <module>
      50     y = train_labels[i][0]
      51     plt.xlabel(class_names[y])
 ---> 52 savefig("cifar10-data.pdf")
      53 plt.show()
 
-/tmp/ipykernel_2778/3913712510.py in savefig(fname)
+/tmp/ipykernel_2777/3913712510.py in savefig(fname)
      21 
      22 def savefig(fname):
 ---> 23     plt.savefig(os.path.join(figdir, fname))

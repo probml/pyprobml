@@ -91,7 +91,7 @@ pml.savefig("funnel_plot_reparam.pdf")
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2867/1502536744.py in <module>
+/tmp/ipykernel_2862/1502536744.py in <module>
       6 try:
 ----> 7     import pyprobml_utils as pml
       8 except ModuleNotFoundError:
@@ -101,7 +101,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2867/1502536744.py in <module>
+/tmp/ipykernel_2862/1502536744.py in <module>
       8 except ModuleNotFoundError:
       9     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ---> 10     import pyprobml_utils as pml

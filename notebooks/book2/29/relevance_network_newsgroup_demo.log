@@ -149,7 +149,7 @@ p2.write_png("../figures/relevance_network.png")
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2553/3861500520.py in <module>
+/tmp/ipykernel_2551/3861500520.py in <module>
      34 try:
 ---> 35     import pyprobml_utils as pml
      36 except ModuleNotFoundError:
@@ -159,7 +159,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2553/3861500520.py in <module>
+/tmp/ipykernel_2551/3861500520.py in <module>
      36 except ModuleNotFoundError:
      37     get_ipython().run_line_magic('pip', 'install pyprobml_utils')
 ---> 38     import pyprobml_utils as pml

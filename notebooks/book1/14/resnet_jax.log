@@ -53,7 +53,7 @@ ModuleDef = Any
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_2735/581899263.py in <module>
+/tmp/ipykernel_2734/581899263.py in <module>
      34 
      35 try:
 ---> 36     import tensorflow_datasets as tfds  # TFDS for MNIST
