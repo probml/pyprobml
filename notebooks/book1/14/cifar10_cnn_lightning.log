@@ -1,0 +1,51 @@
+An error occurred while executing the following cell:
+------------------
+# Fast debug
+trainer = Trainer(
+    progress_bar_refresh_rate=10,
+    max_epochs=1,
+    tpu_cores=AVAIL_TPUS,
+    gpus=NUM_GPUS,
+)
+trainer.fit(model, datamodule=dm)
+------------------
+
+---------------------------------------------------------------------------
+MisconfigurationException                 Traceback (most recent call last)
+/tmp/ipykernel_3615/3004781518.py in <module>
+      4     max_epochs=1,
+      5     tpu_cores=AVAIL_TPUS,
+----> 6     gpus=NUM_GPUS,
+      7 )
+      8 trainer.fit(model, datamodule=dm)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/utilities/argparse.py in insert_env_defaults(self, *args, **kwargs)
+    337 
+    338         # all args were already moved to kwargs
+--> 339         return fn(self, **kwargs)
+    340 
+    341     return cast(_T, insert_env_defaults)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py in __init__(self, logger, checkpoint_callback, enable_checkpointing, callbacks, default_root_dir, gradient_clip_val, gradient_clip_algorithm, process_position, num_nodes, num_processes, devices, gpus, auto_select_gpus, tpu_cores, ipus, log_gpu_memory, progress_bar_refresh_rate, enable_progress_bar, overfit_batches, track_grad_norm, check_val_every_n_epoch, fast_dev_run, accumulate_grad_batches, max_epochs, min_epochs, max_steps, min_steps, max_time, limit_train_batches, limit_val_batches, limit_test_batches, limit_predict_batches, val_check_interval, flush_logs_every_n_steps, log_every_n_steps, accelerator, strategy, sync_batchnorm, precision, enable_model_summary, weights_summary, weights_save_path, num_sanity_val_steps, resume_from_checkpoint, profiler, benchmark, deterministic, reload_dataloaders_every_n_epochs, auto_lr_find, replace_sampler_ddp, detect_anomaly, auto_scale_batch_size, prepare_data_per_node, plugins, amp_backend, amp_level, move_metrics_to_cpu, multiple_trainloader_mode, stochastic_weight_avg, terminate_on_nan)
+    498             amp_type=amp_backend,
+    499             amp_level=amp_level,
+--> 500             plugins=plugins,
+    501         )
+    502         self._logger_connector = LoggerConnector(self, log_gpu_memory)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py in __init__(self, devices, num_nodes, accelerator, strategy, plugins, precision, amp_type, amp_level, sync_batchnorm, benchmark, replace_sampler_ddp, deterministic, auto_select_gpus, num_processes, tpu_cores, ipus, gpus)
+    194         if self._accelerator_flag == "auto" or self._accelerator_flag is None:
+    195             self._accelerator_flag = self._choose_accelerator()
+--> 196         self._set_parallel_devices_and_init_accelerator()
+    197 
+    198         # 3. Instantiate ClusterEnvironment
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py in _set_parallel_devices_and_init_accelerator(self)
+    513             ]
+    514             raise MisconfigurationException(
+--> 515                 f"{self.accelerator.__class__.__qualname__} can not run on your system"
+    516                 " since the accelerator is not available. The following accelerator(s)"
+    517                 " is available and can be passed into `accelerator` argument of"
+
+MisconfigurationException: GPUAccelerator can not run on your system since the accelerator is not available. The following accelerator(s) is available and can be passed into `accelerator` argument of `Trainer`: ['cpu'].
+MisconfigurationException: GPUAccelerator can not run on your system since the accelerator is not available. The following accelerator(s) is available and can be passed into `accelerator` argument of `Trainer`: ['cpu'].

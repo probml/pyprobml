@@ -1,0 +1,73 @@
+An error occurred while executing the following cell:
+------------------
+
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install torch
+    import torch
+import warnings
+import matplotlib.pyplot as plt
+try:
+    import torchvision.transforms as transforms
+except ModuleNotFoundError:
+    %pip install torchvision
+    import torchvision.transforms as transforms
+try:
+    from download_celeba import celeba_dataloader
+except ModuleNotFoundError:
+    %pip install download_celeba
+    from download_celeba import celeba_dataloader
+try:
+    from assembler import get_config, assembler
+except ModuleNotFoundError:
+    %pip install assembler
+    from assembler import get_config, assembler
+try:
+    from utils.plot import plot_reconstruction, plot_samples
+except ModuleNotFoundError:
+    %pip install utils
+    from utils.plot import plot_reconstruction, plot_samples
+from utils.interpolation import vector_of_interest, get_imrange
+
+warnings.filterwarnings('ignore')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+def make_model(model_name, use_gpu=False):
+  fname = f"./configs/{model_name}.yaml"
+  config = get_config(fname)
+  vae = assembler(config, "inference")
+  if use_gpu: vae = vae.to("cuda")
+  return vae
+
+def make_and_load_models(model_names: list, use_gpu=False):
+  vaes = []
+  for model_name in model_names:
+    vae = make_model(model_name, use_gpu)
+    vae.load_model()
+    vaes.append(vae)
+  return vaes 
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2908/1795176899.py in <module>
+     18 try:
+---> 19     from assembler import get_config, assembler
+     20 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'assembler'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2908/1795176899.py in <module>
+     20 except ModuleNotFoundError:
+     21     get_ipython().run_line_magic('pip', 'install assembler')
+---> 22     from assembler import get_config, assembler
+     23 try:
+     24     from utils.plot import plot_reconstruction, plot_samples
+
+ModuleNotFoundError: No module named 'assembler'
+ModuleNotFoundError: No module named 'assembler'
