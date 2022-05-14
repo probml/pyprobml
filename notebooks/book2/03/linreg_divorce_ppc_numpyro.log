@@ -130,65 +130,13 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2765/2911436241.py in <module>
-     31 try:
----> 32     import numpyro
-     33 except ModuleNotFoundError:
+ValueError                                Traceback (most recent call last)
+/tmp/ipykernel_2756/2911436241.py in <module>
+     76 m5_3 = AutoLaplaceApproximation(model)
+     77 svi = SVI(model, m5_3, optim.Adam(1), Trace_ELBO(), M=d.M.values, A=d.A.values, D=d.D.values)
+---> 78 p5_3, losses = svi.run(random.PRNGKey(0), 1000)
+     79 post = m5_3.sample_posterior(random.PRNGKey(1), p5_3, (1000,))
+     80 
 
-ModuleNotFoundError: No module named 'numpyro'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2765/2911436241.py in <module>
-     33 except ModuleNotFoundError:
-     34     get_ipython().run_line_magic('pip', 'install numpyro')
----> 35     import numpyro
-     36 import numpyro.distributions as dist
-     37 from numpyro.distributions import constraints
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/__init__.py in <module>
-      4 import logging
-      5 
-----> 6 from numpyro import compat, diagnostics, distributions, handlers, infer, ops, optim
-      7 from numpyro.contrib.render import render_model
-      8 from numpyro.distributions.distribution import enable_validation, validation_enabled
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/__init__.py in <module>
-      2 # SPDX-License-Identifier: Apache-2.0
-      3 
-----> 4 from numpyro.distributions.conjugate import (
-      5     BetaBinomial,
-      6     DirichletMultinomial,
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/conjugate.py in <module>
-      7 
-      8 from numpyro.distributions import constraints
-----> 9 from numpyro.distributions.continuous import Beta, Dirichlet, Gamma
-     10 from numpyro.distributions.discrete import (
-     11     BinomialProbs,
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/continuous.py in <module>
-     46 
-     47 from numpyro.distributions import constraints
----> 48 from numpyro.distributions.discrete import _to_logits_bernoulli
-     49 from numpyro.distributions.distribution import Distribution, TransformedDistribution
-     50 from numpyro.distributions.transforms import (
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/discrete.py in <module>
-     35 from jax.scipy.special import expit, gammaincc, gammaln, logsumexp, xlog1py, xlogy
-     36 
----> 37 from numpyro.distributions import constraints, transforms
-     38 from numpyro.distributions.distribution import Distribution
-     39 from numpyro.distributions.util import (
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/transforms.py in <module>
-      9 
-     10 from jax import lax, vmap
----> 11 from jax.flatten_util import ravel_pytree
-     12 from jax.nn import log_sigmoid, softplus
-     13 import jax.numpy as jnp
-
-ModuleNotFoundError: No module named 'jax.flatten_util'
-ModuleNotFoundError: No module named 'jax.flatten_util'
+ValueError: too many values to unpack (expected 2)
+ValueError: too many values to unpack (expected 2)

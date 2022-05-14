@@ -45,7 +45,7 @@ pml.save_fig("jeffreys_priors.pdf", dpi=300)
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_3009/845879054.py in <module>
+/tmp/ipykernel_2873/845879054.py in <module>
      39 plt.subplots_adjust(wspace=0.4, hspace=0.4)
      40 plt.tight_layout()
 ---> 41 pml.save_fig("jeffreys_priors.pdf", dpi=300)

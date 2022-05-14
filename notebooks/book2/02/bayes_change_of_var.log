@@ -57,7 +57,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3418/637662742.py in <module>
+/tmp/ipykernel_3485/637662742.py in <module>
      48 
      49 ## Save the figure.
 ---> 50 save_fig('bayesChangeOfVar.pdf')

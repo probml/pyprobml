@@ -159,7 +159,7 @@ p.write_png("../figures/tree_structure.png")
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2562/2475716636.py in <module>
+/tmp/ipykernel_2563/2475716636.py in <module>
     137 ]
     138 
 --> 139 count_vect = CountVectorizer(newsgroups_train.data, vocabulary=list_of_words)

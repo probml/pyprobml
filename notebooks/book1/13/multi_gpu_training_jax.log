@@ -32,8 +32,8 @@ from typing import Tuple
 ------------------
 
 ---------------------------------------------------------------------------
-OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_2974/540076540.py in <module>
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_2976/540076540.py in <module>
      20     import optax  # Optimizers
      21 try:
 ---> 22     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
@@ -75,24 +75,5 @@ OSError                                   Traceback (most recent call last)
      37 from tensorflow.python.eager import context
      38 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/pywrap_tensorflow.py in <module>
-     22 
-     23 # Perform pre-load sanity checks in order to produce a more actionable error.
----> 24 self_check.preload_check()
-     25 
-     26 # pylint: disable=wildcard-import,g-import-not-at-top,unused-import,line-too-long
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/platform/self_check.py in preload_check()
-     63     cpu_feature_guard_library = os.path.join(
-     64         os.path.dirname(__file__), "../../core/platform/_cpu_feature_guard.so")
----> 65     ctypes.CDLL(cpu_feature_guard_library)
-
-~/miniconda3/envs/py37/lib/python3.7/ctypes/__init__.py in __init__(self, name, mode, handle, use_errno, use_last_error)
-    362 
-    363         if handle is None:
---> 364             self._handle = _dlopen(self._name, mode)
-    365         else:
-    366             self._handle = handle
-
-OSError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/platform/../../core/platform/_cpu_feature_guard.so: cannot open shared object file: No such file or directory
-OSError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/platform/../../core/platform/_cpu_feature_guard.so: cannot open shared object file: No such file or directory
+ImportError: cannot import name 'pywrap_tensorflow' from 'tensorflow.python' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py)
+ImportError: cannot import name 'pywrap_tensorflow' from 'tensorflow.python' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py)

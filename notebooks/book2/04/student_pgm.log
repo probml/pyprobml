@@ -10,7 +10,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2746/1378893034.py in <module>
+/tmp/ipykernel_2752/1378893034.py in <module>
       1 try:
 ----> 2     from google.colab import files
       3 except ModuleNotFoundError:
@@ -20,7 +20,7 @@ ModuleNotFoundError: No module named 'google.colab'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2746/1378893034.py in <module>
+/tmp/ipykernel_2752/1378893034.py in <module>
       3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install google')
 ----> 5     from google.colab import files
