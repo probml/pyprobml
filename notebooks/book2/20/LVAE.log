@@ -1,0 +1,18 @@
+An error occurred while executing the following cell:
+------------------
+class TrainState(train_state.TrainState):
+    batch_stats: Any
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_3526/1014202307.py in <module>
+----> 1 class TrainState(train_state.TrainState):
+      2     batch_stats: Any
+
+/tmp/ipykernel_3526/1014202307.py in TrainState()
+      1 class TrainState(train_state.TrainState):
+----> 2     batch_stats: Any
+
+NameError: name 'Any' is not defined
+NameError: name 'Any' is not defined
