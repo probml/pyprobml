@@ -1,5 +1,7 @@
 import os
 from glob import glob
+import argparse
+
 parser = argparse.ArgumentParser(description="delete firestore")
 parser.add_argument("-user_name", "--user_name", type=str, help="")
 args = parser.parse_args()

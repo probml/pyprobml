@@ -1,3 +1,8 @@
+'''
+command usage:
+python3 misc/book2/create_dummy_notebook.py --lof=misc/book2.lof --book_no=2
+'''
+
 import argparse
 from email.policy import default
 from random import choices
@@ -32,13 +37,29 @@ def find_multinotebooks():
     fig_no_urls_mapping = figure_url_mapping_from_lof(args.lof, "", book_no=book_no)
     more_than_one = 0
     multi_notebooks = {}
-    for each in fig_no_urls_mapping:
-        if "fig_" in fig_no_urls_mapping[each]:
-            print(fig_no_urls_mapping[each])
-            multi_notebooks[each] = fig_no_urls_mapping[each]
+    for fig_no in fig_no_urls_mapping:
+        if "fig_" in fig_no_urls_mapping[fig_no]:
+            print(fig_no_urls_mapping[fig_no])
+            multi_notebooks[fig_no] = fig_no_urls_mapping[fig_no]
             more_than_one += 1
     print(f"{more_than_one} notebooks have more than one figure")
     return multi_notebooks
+
+def delete_existing_multinotebooks():
+    '''
+    delete existing notebooks
+    '''
+    multi_notebooks = find_multinotebooks()
+    for fig_no in multi_notebooks:
+        # make relative path for new dummy notebook
+        chapter_no = int(fig_no.split(".")[0])
+        dummpy_notebook = make_dummy_notebook_name(fig_no)
+        fig_path = os.path.join(nb_path, f"book{book_no}/{chapter_no:02d}", dummpy_notebook)
+        if os.path.exists(fig_path):
+            os.remove(fig_path)
+            print(f"{fig_path} deleted")
+
+    print(f"{len(multi_notebooks)} notebooks deleted")
 
 def preprocess_caption(captions):
     # create mapping of fig_no to list of script_name
@@ -121,7 +142,11 @@ def create_multi_notebooks(cleaned_captions, relative_path = nb_path):
     print(f"\n{cnt} notebooks written!")
 
 
+
 if __name__ == "__main__":
+    #delete existing multinotebooks
+    delete_existing_multinotebooks()
+
     # parse lof file
     soup = TexSoup(parse_lof(lof_file))
 
