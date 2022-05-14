@@ -1,9 +1,0 @@
-A cell timed out while it was being executed, after 600 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-vocab_size, num_hiddens, device = len(vocab), 256, try_gpu()
-num_epochs, lr = 500, 1
-model = RNNModelScratch(len(vocab), num_hiddens, device, get_lstm_params, init_lstm_state, lstm)
-train(model, train_iter, vocab, lr, num_epochs, device)
--------------------
