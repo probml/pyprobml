@@ -1,0 +1,57 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(seed=1)
+import math
+
+import os
+import random
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install torch
+    import torch
+from torch import nn
+from torch.nn import functional as F
+
+import requests
+import zipfile
+import hashlib
+import collections
+from IPython import display
+import time
+
+!mkdir figures # for saving plots
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3082/869130201.py in <module>
+     10 try:
+---> 11     import torch
+     12 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'torch'
+
+During handling of the above exception, another exception occurred:
+
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_3082/869130201.py in <module>
+     12 except ModuleNotFoundError:
+     13     get_ipython().run_line_magic('pip', 'install torch')
+---> 14     import torch
+     15 from torch import nn
+     16 from torch.nn import functional as F
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/__init__.py in <module>
+    197     if USE_GLOBAL_DEPS:
+    198         _load_global_deps()
+--> 199     from torch._C import *  # noqa: F403
+    200 
+    201 # Appease the type checker; ordinarily this binding is inserted by the
+
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
