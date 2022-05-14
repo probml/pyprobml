@@ -203,7 +203,7 @@ jobs:
 
     - name: Combine and publish results
       run: |
-        python .github/scripts/combine_results.py
+        python .github/scripts/combine_results.py --user_name ${{ github.actor }}
         python .github/scripts/create_dashboard.py
 
     - name: Push figures to auto_generated_figures (does not run on pull requests)
