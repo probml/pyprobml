@@ -1,0 +1,110 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp  # JAX NumPy
+from jax import lax
+import matplotlib.pyplot as plt
+import math
+from IPython import display
+
+try:
+    from flax import linen as nn  # The Linen API
+except ModuleNotFoundError:
+    %pip install flax
+    from flax import linen as nn  # The Linen API
+from flax.training import train_state  # Useful dataclass to keep train state
+
+import numpy as np  # Ordinary NumPy
+
+try:
+    import optax  # Optimizers
+except ModuleNotFoundError:
+    %pip install optax
+    import optax  # Optimizers
+
+try:
+    import torchvision
+except ModuleNotFoundError:
+    %pip install torchvision
+    import torchvision
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install torch
+    import torch
+from torch.utils import data
+from torchvision import transforms
+
+try:
+    import tensorflow_datasets as tfds  # TFDS for MNIST
+except ModuleNotFoundError:
+    %pip install tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds  # TFDS for MNIST
+
+import random
+import os
+import time
+from typing import Any, Callable, Sequence, Tuple
+from functools import partial
+
+rng = jax.random.PRNGKey(0)
+!mkdir figures # for saving plots
+ModuleDef = Any
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2975/19450087.py in <module>
+     23 try:
+---> 24     import torchvision
+     25 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'torchvision'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_2975/19450087.py in <module>
+     25 except ModuleNotFoundError:
+     26     get_ipython().run_line_magic('pip', 'install torchvision')
+---> 27     import torchvision
+     28 try:
+     29     import torch
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/__init__.py in <module>
+      3 
+      4 import torch
+----> 5 from torchvision import datasets
+      6 from torchvision import io
+      7 from torchvision import models
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/__init__.py in <module>
+----> 1 from ._optical_flow import KittiFlow, Sintel, FlyingChairs, FlyingThings3D, HD1K
+      2 from .caltech import Caltech101, Caltech256
+      3 from .celeba import CelebA
+      4 from .cifar import CIFAR10, CIFAR100
+      5 from .cityscapes import Cityscapes
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/_optical_flow.py in <module>
+     10 from PIL import Image
+     11 
+---> 12 from ..io.image import _read_png_16
+     13 from .utils import verify_str_arg
+     14 from .vision import VisionDataset
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/io/__init__.py in <module>
+      3 import torch
+      4 
+----> 5 from ..utils import _log_api_usage_once
+      6 
+      7 try:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/utils.py in <module>
+     19 
+     20 
+---> 21 @torch.no_grad()
+     22 def make_grid(
+     23     tensor: Union[torch.Tensor, List[torch.Tensor]],
+
+AttributeError: module 'torch' has no attribute 'no_grad'
+AttributeError: module 'torch' has no attribute 'no_grad'
