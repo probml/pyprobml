@@ -26,7 +26,7 @@ dot.view()
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_4013/4071889664.py in <module>
+/tmp/ipykernel_4014/4071889664.py in <module>
      20 
      21 dot.edge("42", "50", style="invis")
 ---> 22 dot.view()

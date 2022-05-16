@@ -123,7 +123,7 @@ for t in range(ntrials):
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_2560/3062234852.py in <module>
+/tmp/ipykernel_2563/3062234852.py in <module>
     113         plt.title(ttl, fontsize=18)
     114     plt.show()
 --> 115     pml.save_fig(f'mlpPriors-{t}.pdf', dpi=300)
