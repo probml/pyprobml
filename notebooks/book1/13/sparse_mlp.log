@@ -1,0 +1,89 @@
+An error occurred while executing the following cell:
+------------------
+dot = Digraph(
+    name="Neural Network",
+    format="png",
+    graph_attr={"ordering": "out"},
+    node_attr={"shape": "circle", "color": "black", "fillcolor": "#FFFFE0", "style": "filled"},
+)
+
+dot.node("00", "<x<SUB>0</SUB>>")
+dot.node("01", "<x<SUB>1</SUB>>")
+for i in range(len(w)):
+    for j in range(w[i].shape[1]):
+        subscript = "{}{}".format(i + 1, j)
+        dot.node(subscript, "<h<SUB>{}</SUB>>".format(subscript))
+        for k in range(w[i].shape[0]):
+            origin = "{}{}".format(i, k)
+            if np.abs(w[i][k, j]) > 1e-4:
+                dot.edge(origin, subscript)
+            else:
+                dot.edge(origin, subscript, style="invis")
+
+dot.edge("42", "50", style="invis")
+dot.view()
+------------------
+
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_4014/4071889664.py in <module>
+     20 
+     21 dot.edge("42", "50", style="invis")
+---> 22 dot.view()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/_tools.py in wrapper(*args, **kwargs)
+    169                               category=category)
+    170 
+--> 171             return func(*args, **kwargs)
+    172 
+    173         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/rendering.py in view(self, filename, directory, cleanup, quiet, quiet_view)
+    184         """
+    185         return self.render(filename=filename, directory=directory, view=True,
+--> 186                            cleanup=cleanup, quiet=quiet, quiet_view=quiet_view)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/_tools.py in wrapper(*args, **kwargs)
+    169                               category=category)
+    170 
+--> 171             return func(*args, **kwargs)
+    172 
+    173         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/rendering.py in render(self, filename, directory, view, cleanup, format, renderer, formatter, neato_no_op, quiet, quiet_view, outfile, engine, raise_if_result_exists, overwrite_source)
+    127 
+    128         if quiet_view or view:
+--> 129             self._view(rendered, format=self._format, quiet=quiet_view)
+    130 
+    131         return rendered
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/rendering.py in _view(self, filepath, format, quiet)
+    146                                f' support for {format!r}'
+    147                                f' on {backend.viewing.PLATFORM!r} platform')
+--> 148         view_method(filepath, quiet=quiet)
+    149 
+    150     @_tools.deprecate_positional_args(supported_number=2)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/backend/viewing.py in view_unixoid(filepath, quiet)
+     59     log.debug('view: %r', cmd)
+     60     kwargs = {'stderr': subprocess.DEVNULL} if quiet else {}
+---> 61     subprocess.Popen(cmd, **kwargs)
+     62 
+     63 
+
+~/miniconda3/envs/py37/lib/python3.7/subprocess.py in __init__(self, args, bufsize, executable, stdin, stdout, stderr, preexec_fn, close_fds, shell, cwd, env, universal_newlines, startupinfo, creationflags, restore_signals, start_new_session, pass_fds, encoding, errors, text)
+    798                                 c2pread, c2pwrite,
+    799                                 errread, errwrite,
+--> 800                                 restore_signals, start_new_session)
+    801         except:
+    802             # Cleanup if the child failed starting.
+
+~/miniconda3/envs/py37/lib/python3.7/subprocess.py in _execute_child(self, args, executable, preexec_fn, close_fds, pass_fds, cwd, env, startupinfo, creationflags, shell, p2cread, p2cwrite, c2pread, c2pwrite, errread, errwrite, restore_signals, start_new_session)
+   1549                         if errno_num == errno.ENOENT:
+   1550                             err_msg += ': ' + repr(err_filename)
+-> 1551                     raise child_exception_type(errno_num, err_msg, err_filename)
+   1552                 raise child_exception_type(err_msg)
+   1553 
+
+FileNotFoundError: [Errno 2] No such file or directory: 'xdg-open': 'xdg-open'
+FileNotFoundError: [Errno 2] No such file or directory: 'xdg-open': 'xdg-open'
