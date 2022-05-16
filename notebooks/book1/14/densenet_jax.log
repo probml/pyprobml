@@ -54,7 +54,7 @@ ModuleDef = Any
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2977/19450087.py in <module>
+/tmp/ipykernel_2976/19450087.py in <module>
      23 try:
 ---> 24     import torchvision
      25 except ModuleNotFoundError:
@@ -64,7 +64,7 @@ ModuleNotFoundError: No module named 'torchvision'
 During handling of the above exception, another exception occurred:
 
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_2977/19450087.py in <module>
+/tmp/ipykernel_2976/19450087.py in <module>
      25 except ModuleNotFoundError:
      26     get_ipython().run_line_magic('pip', 'install torchvision')
 ---> 27     import torchvision
