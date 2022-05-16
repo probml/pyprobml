@@ -12,6 +12,7 @@ TIMEOUT = 600  # seconds
 TEST_DIR = "test_results"
 os.environ["FIG_DIR"] = "figures"
 os.environ["LATEXIFY"] = ""  # To enable latexify code
+os.environ["DUAL_SAVE"] = ""  # To save both .pdf and .png
 
 # Load notebooks
 cmd = "git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {}"
@@ -21,13 +22,23 @@ if notebooks_raw.stderr:
 timestamped_notebooks = []
 for entry in notebooks_raw.stdout.split("\n"):
     if entry:
-        timestamped_notebooks.append(entry.split(" "))
+        ts, notebook = entry.split(" ")
+        timestamped_notebooks.append((int(ts), notebook))
 timestamped_notebooks.sort(reverse=True)  # execute newer notebooks first
-notebooks = [
-    notebook
-    for i, (_, notebook) in enumerate(timestamped_notebooks)
-    if i % 20 == int(os.environ["PYPROBML_GA_RUNNER_ID"])
-]
+if "PYPROBML_GA_RUNNER_ID" in os.environ:
+    # we are in execute_all_notebooks
+    notebooks = [
+        notebook
+        for i, (_, notebook) in enumerate(timestamped_notebooks)
+        if i % 20 == int(os.environ["PYPROBML_GA_RUNNER_ID"])
+    ]
+else:
+    # we are in execute_latest_notebooks
+    notebooks = []
+    oldest_ts, _ = timestamped_notebooks[-1]
+    for ts, notebook in timestamped_notebooks:
+        if ts > oldest_ts:
+            notebooks.append(notebook)
 
 # To make subprocess stdout human readable
 # https://stackoverflow.com/a/38662876

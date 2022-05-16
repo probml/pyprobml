@@ -53,7 +53,68 @@ jobs:
       run: |
         pytest -n auto -s --verbose tests/test_imports.py
 
-  execute_notebooks:
+  execute_latest_notebooks:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [check_code_quality, static_import_check]
+    container: texlive/texlive:TL2020-historic
+
+    steps:
+    - name: Clone the reference repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2  # fetch latest 2 commits to see which notebooks were touched by the last commit
+
+    - name: Display notebook modification time
+      shell: bash
+      run: |
+        git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {} | sort -r
+
+    - name: Setup Python 3.7.13 (current colab version)
+      shell: bash
+      run: |
+        curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output miniconda.sh
+        mkdir /root/.conda
+        bash miniconda.sh -b
+        rm miniconda.sh
+        echo "export PATH=\"\$HOME/miniconda3/bin:\$PATH\"" >> /root/.bashrc
+        echo "source \"\$HOME/miniconda3/bin/activate\"" >> /root/.bashrc
+        source /root/.bashrc
+        conda create -n py37 python=3.7.13 -y
+        echo "conda activate py37" >> /root/.bashrc
+
+    - name: Install requirements
+      shell: bash
+      run: |
+        source /root/.bashrc
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
+        apt update && xargs -a requirements-bash.txt apt install -y
+
+    - name: Check code quality (again)
+      shell: bash
+      run: |
+        source /root/.bashrc
+        black --check --verbose notebooks/book1/*/*.ipynb
+        black --check --verbose notebooks/book2/*/*.ipynb
+
+    - name: Cache datasets
+      id: cache-datasets
+      uses: actions/cache@v3
+      with:
+        path: |
+          /root/.keras/datasets
+          /root/tensorflow_datasets
+          ${{ github.workspace }}/data
+        key: datasets
+
+    - name: Check notebooks for errors
+      shell: bash
+      run: |
+        source /root/.bashrc
+        pytest -n auto -s --verbose tests/test_notebooks.py
+
+  execute_all_notebooks:
     strategy:
       fail-fast: false
       matrix:
@@ -63,12 +124,14 @@ jobs:
 
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [check_code_quality, static_import_check]
+    needs: [execute_latest_notebooks]
     container: texlive/texlive:TL2020-historic
 
     steps:
     - name: Clone the reference repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     
     - name: Setup Python 3.7.13 (current colab version)
       shell: bash
@@ -98,6 +161,16 @@ jobs:
         black --check --verbose notebooks/book1/*/*.ipynb
         black --check --verbose notebooks/book2/*/*.ipynb
 
+    - name: Cache datasets
+      id: cache-datasets
+      uses: actions/cache@v3
+      with:
+        path: |
+          /root/.keras/datasets
+          /root/tensorflow_datasets
+          ${{ github.workspace }}/data
+        key: datasets
+
     - name: Check notebooks for errors
       shell: bash
       run: |
@@ -110,7 +183,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: figures/
         publish_branch: auto_generated_figures_${{ matrix.runner_id }}
-      if: github.event_name == 'push'  # Don't run on pull requests
+      if: always() && github.event_name == 'push'  # Don't run on pull requests
       
     - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
       uses: peaceiris/actions-gh-pages@v3.6.1
@@ -123,7 +196,7 @@ jobs:
   combine_and_publish_results:
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [execute_notebooks]
+    needs: [execute_all_notebooks]
     steps:
     - name: Clone the reference repository
       uses: actions/checkout@v2

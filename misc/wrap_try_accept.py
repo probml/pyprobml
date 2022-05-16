@@ -408,11 +408,6 @@ INSTALLED_MODULES = {
 }
 
 
-def set_installed_packages(installed_modules=None):
-    if installed_modules:
-        INSTALLED_MODULES = installed_modules
-
-
 def get_installed_modules(installed_packages=INSTALLED_MODULES):
     # Special cases
     special_modules = set(["mpl_toolkits", "itertools", "time", "sys", "d2l", "augmax"])
@@ -490,7 +485,12 @@ def remove_superimport(code):
     updated_code = "\n".join(list(map(lambda line: line.replace("import superimport", ""), lines)))
     return updated_code
 
-
+def remove_pyprobml(code):
+    code = code.replace("from pyprobml_utils import save_fig", "from probml_utils import savefig")
+    code = code.replace("%pip install pyprobml_utils", "%pip install git+https://github.com/probml/probml-utils.git")
+    code = code.replace("import pyprobml_utils as pml", "import probml_utils as pml")
+    return code
+    
 def apply_fun_to_notebook(notebook, fun):
     """
     fun should take one argument: code
