@@ -74,7 +74,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_2777/4138650780.py in <module>
+/tmp/ipykernel_2761/4138650780.py in <module>
      67 plt.xlabel(r"$\sigma^2$")
      68 plt.legend(loc="upper right")
 ---> 69 save_fig("gaussSeqUpdateSigma1D.pdf")

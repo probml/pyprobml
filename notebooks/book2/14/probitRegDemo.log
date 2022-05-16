@@ -177,7 +177,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_2571/3800833945.py in <module>
+/tmp/ipykernel_2567/3800833945.py in <module>
     167 plt.ylabel('logpost')
     168 plt.xlabel('iter')
 --> 169 pml.save_fig('../figures/probitRegDemoNLL.pdf')
