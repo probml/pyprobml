@@ -1,0 +1,7 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+train = train_procedure_builder(LeNetBN)
+state = train(train_ds, test_ds, num_epochs, batch_size, learning_rate)
+-------------------
