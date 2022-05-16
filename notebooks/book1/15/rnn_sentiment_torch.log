@@ -1,9 +1,0 @@
-A cell timed out while it was being executed, after 600 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-lr, num_epochs = 0.01, 3
-trainer = torch.optim.Adam(net.parameters(), lr=lr)
-loss = nn.CrossEntropyLoss(reduction="none")
-train(net, train_iter, test_iter, loss, trainer, num_epochs, devices)
--------------------
