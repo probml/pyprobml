@@ -1,13 +1,21 @@
 An error occurred while executing the following cell:
 ------------------
-try:
-    import flax
-except ModuleNotFoundError:
-    %pip install flax
-    import flax
-import jax
-from flax import linen as nn
+import numpy as np
 import matplotlib.pyplot as plt
+
+np.random.seed(seed=1)
+import math
+import collections
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install torch
+    import torch
+from torch import nn
+from torch.nn import functional as F
+
+!mkdir figures # for saving plots
 
 !wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py
 import d2l
@@ -15,10 +23,10 @@ import d2l
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3556/2636061381.py in <module>
-      9 
-     10 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
----> 11 import d2l
+/tmp/ipykernel_3065/3140820900.py in <module>
+     17 
+     18 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
+---> 19 import d2l
 
 /__w/pyprobml/pyprobml/d2l.py in <module>
       4 import numpy as np
