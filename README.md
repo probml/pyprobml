@@ -4,20 +4,21 @@
 
 
 Python 3 code to reproduce the figures in the book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
-This is work in progress, so expect rough edges!
-(Some demos use code from our companion [JAX State Space Library](https://github.com/probml/JSL).)
- 
+This is work in progress, so expect rough edges.
+
+See also [probml-utils](https://github.com/probml/probml-utils) for some utility code,
+and  [JSL](https://github.com/probml/JSL) for some code for state-space models.) 
 
 ## Running the notebooks
 
 The notebooks needed to make all the figures are available at the following locations.
 
 * [Volume 1 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book1)
-* [Volume 2 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book2). (Note: volume 2 is not finished yet.)
+* [Volume 2 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book2). 
 
-Notebooks are saved in chapter-wise folders. For example, a notebook for figure 2.3 is saved in the folder `notebooks/book1/02/`.
+Notebooks are saved in chapter-wise folders. For example, a notebook for figure 2.3 from book 1 is saved in the folder `notebooks/book1/02/`.
 
-In addition to the figure notebooks, there are a series of notebooks which provide supplementary material for the book. These are stored in the [`misc` folder](https://github.com/probml/pyprobml/tree/master/notebooks/misc).
+In addition to the figure notebooks, there are a series of notebooks which provide supplementary material for the book. These are stored in the [`notebooks/misc` folder](https://github.com/probml/pyprobml/tree/master/notebooks/misc).
 
 ### Running notebooks in colab
 
@@ -49,7 +50,7 @@ pip install -r requirements.txt
 
 ## GCP, TPUs, and all that
 
-When you want more power or control than colab gives you, you should get a Google Cloud Platform (GCP) account, and get access to a TPU VM. You can then use this as a virtual desktop which you can access via ssh from inside VScode. We have created [various tutorials on Colab, GCP and TPUs](https://github.com/probml/pyprobml/blob/master/tutorials/colab_gcp_tpu_tutorial.md) with more information.
+When you want more power or control than colab gives you, you should get a Google Cloud Platform (GCP) account, and get access to a TPU VM. You can then use this as a virtual desktop which you can access via ssh from inside VScode. We have created [a short tutorial on Colab, GCP and TPUs](https://github.com/probml/pyprobml/blob/master/tutorials/colab_gcp_tpu_tutorial.md) with more information.
 
 
 ## How to contribute
