@@ -12,6 +12,7 @@ def postprocessing(code):
     code = code.replace("import pgmpy_utils as pgm","import probml_utils.pgmpy_utils as pgm")
     code = code.replace("%pip install pgmpy_utils", "%pip install git+https://github.com/probml/probml-utils.git pgmpy")
     return code
+
 if __name__ == "__main__":
     notebooks = glob("notebooks/book2/*/*.ipynb")
     for notebook in notebooks:
