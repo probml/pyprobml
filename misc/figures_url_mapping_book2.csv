@@ -40,10 +40,10 @@ key,url
 7.3,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/07/advi_beta_binom_jax.ipynb
 7.4,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/07/hmc_beta_binom_blackjax.ipynb
 8.2,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/hmm_casino.ipynb
-8.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/kf_tracking.ipynb
+8.6,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/kf_tracking.ipynb
+8.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/discretized_ssm.ipynb
 8.8,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/discretized_ssm.ipynb
-8.9,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/discretized_ssm.ipynb
-8.12,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/gauss-bp-1d-line.ipynb
+8.11,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/gauss-bp-1d-line.ipynb
 9.3,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/09/ising_image_denoise_demo.ipynb
 9.5,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/09/unigauss_vb_demo.ipynb
 9.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/09/variational_mixture_gaussians_demo.ipynb
