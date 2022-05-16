@@ -1,7 +1,7 @@
-'''
+"""
 command usage:
 python3 misc/book2/create_dummy_notebook.py --lof=misc/book2.lof --book_no=2
-'''
+"""
 
 import argparse
 from email.policy import default
@@ -11,30 +11,33 @@ import regex as re
 import os
 import nbformat as nbf
 import pandas as pd
+from glob import glob
 from probml_utils.url_utils import (
-        extract_scripts_name_from_caption,
-        make_url_from_fig_no_and_script_name,
-        figure_url_mapping_from_lof,
-    )
+    extract_scripts_name_from_caption,
+    make_url_from_fig_no_and_script_name,
+    figure_url_mapping_from_lof,
+)
 
 parser = argparse.ArgumentParser(description="create dummy notebook")
 parser.add_argument("-lof", "--lof", type=str, help="")
-parser.add_argument("-book_no", "--book_no", type=int, default=2, choices=[1,2], help="")
+parser.add_argument("-book_no", "--book_no", type=int, default=2, choices=[1, 2], help="")
 parser.add_argument("-nb_path", "--nb_path", type=str, default="notebooks/", help="")
 
 args = parser.parse_args()
 
-lof_file = args.lof
+lof_file = str(args.lof)
 book_no = args.book_no
 nb_path = args.nb_path
+
 
 def convert_to_ipynb(file):
     if ".py" in file:
         return file[:-3] + ".ipynb"
     return file
 
+
 def find_multinotebooks():
-    fig_no_urls_mapping = figure_url_mapping_from_lof(args.lof, "", book_no=book_no)
+    fig_no_urls_mapping = figure_url_mapping_from_lof(lof_file, "", book_no=book_no)
     more_than_one = 0
     multi_notebooks = {}
     for fig_no in fig_no_urls_mapping:
@@ -45,21 +48,21 @@ def find_multinotebooks():
     print(f"{more_than_one} notebooks have more than one figure")
     return multi_notebooks
 
-def delete_existing_multinotebooks():
-    '''
-    delete existing notebooks
-    '''
-    multi_notebooks = find_multinotebooks()
-    for fig_no in multi_notebooks:
-        # make relative path for new dummy notebook
-        chapter_no = int(fig_no.split(".")[0])
-        dummpy_notebook = make_dummy_notebook_name(fig_no)
-        fig_path = os.path.join(nb_path, f"book{book_no}/{chapter_no:02d}", dummpy_notebook)
-        if os.path.exists(fig_path):
-            os.remove(fig_path)
-            print(f"{fig_path} deleted")
 
-    print(f"{len(multi_notebooks)} notebooks deleted")
+def delete_existing_multinotebooks():
+    """
+    delete existing notebooks
+    """
+    notebooks = glob(f"notebooks/book{book_no}/*/*.ipynb")
+    cnt = 0
+    for notebook in notebooks:
+        if "fig_" in notebook.split("/")[-1]:
+            os.remove(notebook)
+            print(f"{notebook} deleted!")
+            cnt += 1
+
+    print(f"{cnt} notebooks deleted")
+
 
 def preprocess_caption(captions):
     # create mapping of fig_no to list of script_name
@@ -101,16 +104,18 @@ def preprocess_caption(captions):
             caption = caption.replace(link, original_url)
 
         caption = re.findall(r"{\d+.\d+}{(.*)}", caption)[0].strip()  # extract caption from {4.13}{caption}
-        
+
         # print(fig_no, caption, end="\n\n")
         cleaned_caption[fig_no] = caption
 
     return cleaned_caption
 
+
 def parse_lof(lof_file):
     with open(lof_file) as fp:
         LoF_File_Contents = fp.read()
     return LoF_File_Contents
+
 
 def make_dummy_notebook_name(fig_no):
     """
@@ -118,17 +123,18 @@ def make_dummy_notebook_name(fig_no):
     """
     return f"fig_{fig_no.replace('.','_')}.ipynb"
 
-def create_multi_notebooks(cleaned_captions, relative_path = nb_path):
-    '''
+
+def create_multi_notebooks(cleaned_captions, relative_path=nb_path):
+    """
     create new notebook and add caption to it
-    '''
+    """
     # https://stackoverflow.com/questions/38193878/how-to-create-modify-a-jupyter-notebook-from-code-python
     cnt = 0
     for fig_no in cleaned_captions:
 
         # make relative path for new dummy notebook
         chapter_no = int(fig_no.split(".")[0])
-        
+
         dummpy_notebook = make_dummy_notebook_name(fig_no)
         fig_path = os.path.join(relative_path, f"book{book_no}/{chapter_no:02d}", dummpy_notebook)
         print(fig_path.split("/")[-1], end="\n")
@@ -142,10 +148,12 @@ def create_multi_notebooks(cleaned_captions, relative_path = nb_path):
     print(f"\n{cnt} notebooks written!")
 
 
-
 if __name__ == "__main__":
-    #delete existing multinotebooks
+    # delete existing multinotebooks
     delete_existing_multinotebooks()
+
+    # find multinotebooks
+    print(find_multinotebooks())
 
     # parse lof file
     soup = TexSoup(parse_lof(lof_file))
@@ -154,4 +162,4 @@ if __name__ == "__main__":
     cleaned_captions = preprocess_caption(soup.find_all("numberline"))
 
     # create multinoteboos and write caption
-    create_multi_notebooks(cleaned_captions) 
+    create_multi_notebooks(cleaned_captions)
