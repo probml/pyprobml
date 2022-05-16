@@ -2,4 +2,4 @@ black[jupyter]==22.3.0
 pytest
 pytest-timeout
 pytest-xdist
-testbook[dev]
+testbook
