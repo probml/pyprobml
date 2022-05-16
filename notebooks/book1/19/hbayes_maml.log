@@ -3,12 +3,14 @@ An error occurred while executing the following cell:
 dot = graphviz.Digraph(format="pdf")
 
 
-superscripts = ["1", "T"]
+# superscripts = ['1', 'T']
+superscripts = ["1", "J"]
 
 train_subscript, test_subscript = "n", "m"
 subscripts = [train_subscript, test_subscript]
 
-subgraph_labels = ["Train", "Test"]
+# subgraph_labels = ['Train', 'Test']
+subgraph_labels = ["Train", "Valid"]
 subgraph_colors = ["/set34/4", "/paired3/2"]
 
 edge_color = "lightsteelblue4"
@@ -25,14 +27,14 @@ for i, subscript in enumerate(superscripts):
     dot.edge("phi", f"{param}{subscript}", color=edge_color)
 
 for i, superscript in enumerate(superscripts):
-    subgraph_labels = [f"Train {superscript}", f"Test {superscript}"]
+    subgraph_labels = [f"Train {superscript}", f"Valid {superscript}"]
     plot_cluster(dot, subscripts, superscript, subgraph_labels, subgraph_colors)
 
     if i == 0:
         dot.node(f"blank{i}", "...", color="white")
         dot.edge(f"Theta{superscript}", f"blank{i}", style="invis")
 
-file_name = "hbayes-multi-task"
+file_name = "hbayes-maml"
 dot.render(file_name, view=True)
 
 dot
@@ -40,12 +42,12 @@ dot
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_3234/1896722845.py in <module>
-     32 
-     33 file_name = "hbayes-multi-task"
----> 34 dot.render(file_name, view=True)
-     35 
-     36 dot
+/tmp/ipykernel_3636/2890680977.py in <module>
+     34 
+     35 file_name = "hbayes-maml"
+---> 36 dot.render(file_name, view=True)
+     37 
+     38 dot
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/graphviz/_tools.py in wrapper(*args, **kwargs)
     169                               category=category)
