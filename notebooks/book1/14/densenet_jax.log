@@ -1,112 +1,89 @@
 An error occurred while executing the following cell:
 ------------------
-timer = Timer()
-animator = Animator(xlabel="epoch", xlim=[1, num_epochs], legend=["train loss", "train acc", "test acc"])
-num_batches = len(train_iter)
-device = torch.device(f"cuda:{0}")
+import jax
+import jax.numpy as jnp  # JAX NumPy
+from jax import lax
+import matplotlib.pyplot as plt
+import math
+from IPython import display
 
-for epoch in range(num_epochs):
-    # Sum of training loss, sum of training accuracy, no. of examples
-    metric = Accumulator(3)
-    for i, (X, y) in enumerate(train_iter):
-        timer.start()
-        batch = {}
-        batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
-        batch["label"] = jnp.float32(y)
-        state, metrics = train_step(state, batch)
-        metric.add(metrics["loss"] * X.shape[0], metrics["numcorrect"], X.shape[0])
-        timer.stop()
-        train_l = metric[0] / metric[2]
-        train_acc = metric[1] / metric[2]
-        if (i + 1) % (num_batches // 5) == 0 or i == num_batches - 1:
-            animator.add(epoch + (i + 1) / num_batches, (train_l, train_acc, None))
+try:
+    from flax import linen as nn  # The Linen API
+except ModuleNotFoundError:
+    %pip install flax
+    from flax import linen as nn  # The Linen API
+from flax.training import train_state  # Useful dataclass to keep train state
 
-    test_acc = eval_model(state, test_iter)
-    animator.add(epoch + 1, (None, None, test_acc))
+import numpy as np  # Ordinary NumPy
 
+try:
+    import optax  # Optimizers
+except ModuleNotFoundError:
+    %pip install optax
+    import optax  # Optimizers
 
-print(f"{metric[2] * num_epochs / timer.sum():.1f} examples/sec " f"on {str(device)}")
-print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3f}")
+try:
+    import torchvision
+except ModuleNotFoundError:
+    %pip install torchvision
+    import torchvision
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install torch
+    import torch
+from torch.utils import data
+from torchvision import transforms
+
+try:
+    import tensorflow_datasets as tfds  # TFDS for MNIST
+except ModuleNotFoundError:
+    %pip install tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds  # TFDS for MNIST
+
+import random
+import os
+import time
+from typing import Any, Callable, Sequence, Tuple
+from functools import partial
+
+rng = jax.random.PRNGKey(0)
+!mkdir figures # for saving plots
+ModuleDef = Any
 ------------------
 
 ---------------------------------------------------------------------------
-RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_2964/1115125.py in <module>
-     12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
-     13         batch["label"] = jnp.float32(y)
----> 14         state, metrics = train_step(state, batch)
-     15         metric.add(metrics["loss"] * X.shape[0], metrics["numcorrect"], X.shape[0])
-     16         timer.stop()
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2949/19450087.py in <module>
+     23 try:
+---> 24     import torchvision
+     25 except ModuleNotFoundError:
 
-    [... skipping hidden 14 frame]
+ModuleNotFoundError: No module named 'torchvision'
 
-/tmp/ipykernel_2964/1580938479.py in train_step(state, batch)
-     13 
-     14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
----> 15     aux, grads = grad_fn(state.params)
-     16     # grads = lax.pmean(grads, axis_name='batch')
-     17 
+During handling of the above exception, another exception occurred:
 
-    [... skipping hidden 8 frame]
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_2949/19450087.py in <module>
+     25 except ModuleNotFoundError:
+     26     get_ipython().run_line_magic('pip', 'install torchvision')
+---> 27     import torchvision
+     28 try:
+     29     import torch
 
-/tmp/ipykernel_2964/1580938479.py in loss_fn(params)
-      5     def loss_fn(params):
-      6         logits, new_model_state = state.apply_fn(
-----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
-      8         )
-      9         one_hot = jax.nn.one_hot(batch["label"], num_classes=10)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/__init__.py in <module>
+      2 import warnings
+      3 
+----> 4 import torch
+      5 from torchvision import datasets
+      6 from torchvision import io
 
-    [... skipping hidden 7 frame]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/__init__.py in <module>
+    197     if USE_GLOBAL_DEPS:
+    198         _load_global_deps()
+--> 199     from torch._C import *  # noqa: F403
+    200 
+    201 # Appease the type checker; ordinarily this binding is inserted by the
 
-/tmp/ipykernel_2964/2176403876.py in __call__(self, x, train)
-     16 
-     17         for i, num_convs in enumerate(num_convs_in_dense_blocks):
----> 18             x = DenseBlock(growth_rate, num_convs, norm)(x)
-     19             # This is the number of output channels in the previous dense block
-     20             num_channels += num_convs * growth_rate
-
-    [... skipping hidden 3 frame]
-
-/tmp/ipykernel_2964/502619999.py in __call__(self, x)
-      8 
-      9         for _ in range(self.num_convs):
----> 10             y = ConvBlock(self.filters, self.norm)(x)
-     11             # Concatenate the input and output of each block on the channel dimension.
-     12             x = jnp.concatenate(arrays=[x, y], axis=-1)
-
-    [... skipping hidden 3 frame]
-
-/tmp/ipykernel_2964/3760988665.py in __call__(self, x)
-      5     @nn.compact
-      6     def __call__(self, x):
-----> 7         x = self.norm()(x)
-      8         x = nn.relu(x)
-      9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
-
-    [... skipping hidden 3 frame]
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in __call__(self, x, use_running_average)
-    261         self.dtype, self.param_dtype, self.epsilon,
-    262         self.use_bias, self.use_scale,
---> 263         self.bias_init, self.scale_init)
-    264 
-    265 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in _normalize(mdl, x, mean, var, reduction_axes, feature_axes, dtype, param_dtype, epsilon, use_bias, use_scale, bias_init, scale_init)
-    129     reduced_feature_shape.append(x.shape[ax])
-    130   y = x - mean
---> 131   mul = lax.rsqrt(var + epsilon)
-    132   if use_scale:
-    133     scale = mdl.param('scale', scale_init, reduced_feature_shape,
-
-    [... skipping hidden 17 frame]
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
-     64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
-     65         # Python can still get and update the process status successfully.
----> 66         _error_if_any_worker_fails()
-     67         if previous_handler is not None:
-     68             assert callable(previous_handler)
-
-RuntimeError: DataLoader worker (pid 3189) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 3189) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
