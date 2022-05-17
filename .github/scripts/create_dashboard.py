@@ -1,8 +1,14 @@
 import os
 from glob import glob
+import argparse
+
+parser = argparse.ArgumentParser(description="delete firestore")
+parser.add_argument("-user_name", "--user_name", type=str, help="")
+args = parser.parse_args()
 
 statuses = glob("workflow_testing_indicator/notebooks/*/*/*.png")
-user = "probml"
+user = args.user_name
+
 base_url = f"https://github.com/{user}/pyprobml/tree/"
 get_url = lambda x: f'<img width="20" alt="image" src=https://raw.githubusercontent.com/{user}/pyprobml/{x}>'
 get_nb_url = lambda x: os.path.join(base_url, "master", x.split("/", 1)[-1].replace(".png", ".ipynb"))
