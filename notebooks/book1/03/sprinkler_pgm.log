@@ -16,7 +16,7 @@ import pandas as pd
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3241/811423201.py in <module>
+/tmp/ipykernel_3236/811423201.py in <module>
       6 try:
 ----> 7     import pgmpy
       8 except ModuleNotFoundError:
@@ -26,7 +26,7 @@ ModuleNotFoundError: No module named 'pgmpy'
 During handling of the above exception, another exception occurred:
 
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_3241/811423201.py in <module>
+/tmp/ipykernel_3236/811423201.py in <module>
       8 except ModuleNotFoundError:
       9     get_ipython().run_line_magic('pip', 'install pgmpy')
 ---> 10     import pgmpy
