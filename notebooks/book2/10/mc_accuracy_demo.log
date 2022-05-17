@@ -26,7 +26,7 @@ for size in [10, 100, 1000]:
     plt.plot(x, y, 'r')
     plt.xlim(0, 3)
     plt.title('n_samples = %d' % size)
-    save_fig('mcAccuracyDemoHist%d.pdf' % size)
+    savefig('mcAccuracyDemoHist%d.pdf' % size)
 
     kde = gaussian_kde(samples)
     y_estimate = kde(x)
@@ -42,12 +42,12 @@ plt.show()
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3412/1127904147.py in <module>
+/tmp/ipykernel_2577/2605578442.py in <module>
      23     plt.xlim(0, 3)
      24     plt.title('n_samples = %d' % size)
----> 25     save_fig('mcAccuracyDemoHist%d.pdf' % size)
+---> 25     savefig('mcAccuracyDemoHist%d.pdf' % size)
      26 
      27     kde = gaussian_kde(samples)
 
-NameError: name 'save_fig' is not defined
-NameError: name 'save_fig' is not defined
+NameError: name 'savefig' is not defined
+NameError: name 'savefig' is not defined

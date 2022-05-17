@@ -4,5 +4,5 @@ Here is a preview of the cell contents:
 -------------------
 key, _ = jax.random.split(jax.random.PRNGKey(42))
 
-train(key, data, 23, 0.03)
+train(key, data, 80, 3e-4)
 -------------------

@@ -72,7 +72,7 @@ fig = plot_performance(x_miss, x_full, x_impute_oracle)
 fig.suptitle("Imputation with true parameters")
 fig.tight_layout()
 fig.subplots_adjust(top=0.85)
-pml.save_fig('gauss_impute_scatter_truth.pdf')
+pml.savefig('gauss_impute_scatter_truth.pdf')
 plt.show()
 
 
@@ -80,7 +80,7 @@ fig = plot_performance(x_miss, x_full, x_impute_em)
 fig.suptitle("Imputation with EM estimated parameters")
 fig.tight_layout()
 fig.subplots_adjust(top=0.85)
-pml.save_fig('gauss_impute_scatter_em.pdf')
+pml.savefig('gauss_impute_scatter_em.pdf')
 plt.show()
 
 
@@ -88,7 +88,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2780/3462276092.py in <module>
+/tmp/ipykernel_2575/3931782091.py in <module>
      11 try:
 ---> 12     import gauss_utils as gauss
      13 except ModuleNotFoundError:
@@ -98,7 +98,7 @@ ModuleNotFoundError: No module named 'gauss_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2780/3462276092.py in <module>
+/tmp/ipykernel_2575/3931782091.py in <module>
      13 except ModuleNotFoundError:
      14     get_ipython().run_line_magic('pip', 'install gauss_utils')
 ---> 15     import gauss_utils as gauss

@@ -23,29 +23,17 @@ import d2l
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3103/3140820900.py in <module>
-      8 try:
-----> 9     import torch
-     10 except ModuleNotFoundError:
+/tmp/ipykernel_3164/3140820900.py in <module>
+     17 
+     18 get_ipython().system('wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py')
+---> 19 import d2l
 
-ModuleNotFoundError: No module named 'torch'
+/__w/pyprobml/pyprobml/d2l.py in <module>
+      4 import numpy as np
+      5 import torch
+----> 6 import torchvision
+      7 from PIL import Image
+      8 from torch import nn
 
-During handling of the above exception, another exception occurred:
-
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3103/3140820900.py in <module>
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install torch')
----> 12     import torch
-     13 from torch import nn
-     14 from torch.nn import functional as F
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/__init__.py in <module>
-    197     if USE_GLOBAL_DEPS:
-    198         _load_global_deps()
---> 199     from torch._C import *  # noqa: F403
-    200 
-    201 # Appease the type checker; ordinarily this binding is inserted by the
-
-ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
-ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
+ModuleNotFoundError: No module named 'torchvision'
+ModuleNotFoundError: No module named 'torchvision'

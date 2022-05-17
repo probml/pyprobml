@@ -32,7 +32,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 figdir = "../figures"
-def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+def savefig(fname): plt.savefig(os.path.join(figdir, fname))
 
 # Random seed
 np.random.seed(12345)
@@ -49,7 +49,7 @@ X[2000:, :] += [-2, 4]
 plt.figure()
 plt.plot(X[:, 0], X[:, 1], '.')
 plt.axis('equal')
-save_fig('svi_gmm_2d_data.pdf')
+savefig('svi_gmm_2d_data.pdf')
 plt.show()
 
 # Make a TensorFlow Dataset from that data
@@ -77,7 +77,7 @@ plt.imshow(np.exp(Z),
            origin='lower')
 cbar = plt.colorbar()
 cbar.ax.set_ylabel('Likelihood')
-save_fig('svi_gmm_2d_fit.pdf')
+savefig('svi_gmm_2d_fit.pdf')
 plt.show()
 
 
@@ -90,7 +90,7 @@ plt.figure()
 sns.kdeplot(means[:, 0, 0].numpy(),
             means[:, 0, 1].numpy(),
             n_levels=10)
-save_fig('svi_gmm_2d_post_mean_comp0.pdf')
+savefig('svi_gmm_2d_post_mean_comp0.pdf')
 plt.show()
 
 
@@ -98,7 +98,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2864/2242263597.py in <module>
+/tmp/ipykernel_2568/1760317010.py in <module>
      22 try:
 ---> 23     import svi_gmm_model_tfp as GMM
      24 except ModuleNotFoundError:
@@ -108,7 +108,7 @@ ModuleNotFoundError: No module named 'svi_gmm_model_tfp'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2864/2242263597.py in <module>
+/tmp/ipykernel_2568/1760317010.py in <module>
      24 except ModuleNotFoundError:
      25     get_ipython().run_line_magic('pip', 'install svi_gmm_model_tfp')
 ---> 26     import svi_gmm_model_tfp as GMM
