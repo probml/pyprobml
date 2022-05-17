@@ -2,15 +2,18 @@ import os
 from glob import glob
 import argparse
 
-parser = argparse.ArgumentParser(description="delete firestore")
+parser = argparse.ArgumentParser(description="create dashboard")
 parser.add_argument("-user_name", "--user_name", type=str, help="")
 args = parser.parse_args()
 
 statuses = glob("workflow_testing_indicator/notebooks/*/*/*.png")
-user = args.user_name
+print(f"**** {len(statuses)} statuses found ****")
 
-base_url = f"https://github.com/{user}/pyprobml/tree/"
-get_url = lambda x: f'<img width="20" alt="image" src=https://raw.githubusercontent.com/{user}/pyprobml/{x}>'
+user, repo = args.user_name.split("/")
+print(f"\n**** creating dashboard on {user}/{repo} *********\n")
+
+base_url = f"https://github.com/{user}/{repo}/tree/"
+get_url = lambda x: f'<img width="20" alt="image" src=https://raw.githubusercontent.com/{user}/{repo}/{x}>'
 get_nb_url = lambda x: os.path.join(base_url, "master", x.split("/", 1)[-1].replace(".png", ".ipynb"))
 
 # sort statuses
