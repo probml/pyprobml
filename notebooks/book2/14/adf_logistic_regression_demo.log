@@ -188,22 +188,129 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2619/673417878.py in <module>
-     19 try:
----> 20     import probml_utils as pml
-     21 except ModuleNotFoundError:
+/tmp/ipykernel_2621/673417878.py in <module>
+     27 try:
+---> 28     from jax_cosmo.scipy import integrate
+     29 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'jax_cosmo'
 
 During handling of the above exception, another exception occurred:
 
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2619/673417878.py in <module>
-     21 except ModuleNotFoundError:
-     22     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
----> 23     import probml_utils as pml
-     24 from jax import random
-     25 from jax.scipy.stats import norm
+AttributeError                            Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _dep_map(self)
+   3023         try:
+-> 3024             return self.__dep_map
+   3025         except AttributeError:
 
-ModuleNotFoundError: No module named 'probml_utils'
-ModuleNotFoundError: No module named 'probml_utils'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in __getattr__(self, attr)
+   2820         if attr.startswith('_'):
+-> 2821             raise AttributeError(attr)
+   2822         return getattr(self._provider, attr)
+
+AttributeError: _DistInfoDistribution__dep_map
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _parsed_pkg_info(self)
+   3014         try:
+-> 3015             return self._pkg_info
+   3016         except AttributeError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in __getattr__(self, attr)
+   2820         if attr.startswith('_'):
+-> 2821             raise AttributeError(attr)
+   2822         return getattr(self._provider, attr)
+
+AttributeError: _pkg_info
+
+During handling of the above exception, another exception occurred:
+
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_2621/673417878.py in <module>
+     29 except ModuleNotFoundError:
+     30     get_ipython().run_line_magic('pip', 'install jax_cosmo')
+---> 31     from jax_cosmo.scipy import integrate
+     32 from functools import partial
+     33 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax_cosmo/__init__.py in <module>
+      4 
+      5 try:
+----> 6     __version__ = get_distribution(__name__).version
+      7 except DistributionNotFound:
+      8     # package is not installed
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_distribution(dist)
+    475         dist = Requirement.parse(dist)
+    476     if isinstance(dist, Requirement):
+--> 477         dist = get_provider(dist)
+    478     if not isinstance(dist, Distribution):
+    479         raise TypeError("Expected string, Requirement, or Distribution", dist)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_provider(moduleOrReq)
+    351     """Return an IResourceProvider for the named module or requirement"""
+    352     if isinstance(moduleOrReq, Requirement):
+--> 353         return working_set.find(moduleOrReq) or require(str(moduleOrReq))[0]
+    354     try:
+    355         module = sys.modules[moduleOrReq]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in require(self, *requirements)
+    895         included, even if they were already activated in this working set.
+    896         """
+--> 897         needed = self.resolve(parse_requirements(requirements))
+    898 
+    899         for dist in needed:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in resolve(self, requirements, env, installer, replace_conflicting, extras)
+    789 
+    790             # push the new requirements onto the stack
+--> 791             new_requirements = dist.requires(req.extras)[::-1]
+    792             requirements.extend(new_requirements)
+    793 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in requires(self, extras)
+   2740     def requires(self, extras=()):
+   2741         """List of Requirements needed for this distro if `extras` are used"""
+-> 2742         dm = self._dep_map
+   2743         deps = []
+   2744         deps.extend(dm.get(None, ()))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _dep_map(self)
+   3024             return self.__dep_map
+   3025         except AttributeError:
+-> 3026             self.__dep_map = self._compute_dependencies()
+   3027             return self.__dep_map
+   3028 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _compute_dependencies(self)
+   3033         reqs = []
+   3034         # Including any condition expressions
+-> 3035         for req in self._parsed_pkg_info.get_all('Requires-Dist') or []:
+   3036             reqs.extend(parse_requirements(req))
+   3037 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _parsed_pkg_info(self)
+   3015             return self._pkg_info
+   3016         except AttributeError:
+-> 3017             metadata = self.get_metadata(self.PKG_INFO)
+   3018             self._pkg_info = email.parser.Parser().parsestr(metadata)
+   3019             return self._pkg_info
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_metadata(self, name)
+   1416             return ""
+   1417         path = self._get_metadata_path(name)
+-> 1418         value = self._get(path)
+   1419         try:
+   1420             return value.decode('utf-8')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _get(self, path)
+   1620 
+   1621     def _get(self, path):
+-> 1622         with open(path, 'rb') as stream:
+   1623             return stream.read()
+   1624 
+
+FileNotFoundError: [Errno 2] No such file or directory: '/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/flatbuffers-2.0.dist-info/METADATA'
+FileNotFoundError: [Errno 2] No such file or directory: '/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/flatbuffers-2.0.dist-info/METADATA'
