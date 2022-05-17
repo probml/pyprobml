@@ -2,7 +2,7 @@ A cell timed out while it was being executed, after 600 seconds.
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-key, _ = jax.random.split(jax.random.PRNGKey(42))
-
-train(key, data, 80, 3e-4)
+lr, num_epochs, batch_size = 1.0, 10, 256
+train_iter, test_iter = load_data_fashion_mnist(batch_size)
+train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 -------------------

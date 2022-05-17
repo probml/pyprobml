@@ -58,34 +58,17 @@ from ae_mnist_conv import ConvAE
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3898/3892019423.py in <module>
-     33 try:
----> 34     from probml_utils.lvm_plots_utils import (
-     35         get_random_samples,
+/tmp/ipykernel_3893/3892019423.py in <module>
+     52 from torchvision.utils import make_grid
+     53 from pytorch_lightning.utilities.seed import seed_everything
+---> 54 from ae_mnist_conv import ConvAE
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/lvm_plots_utils.py in <module>
-----> 1 import umap
-      2 from typing import Callable, Tuple
-      3 import torch
-
-ModuleNotFoundError: No module named 'umap'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3898/3892019423.py in <module>
-     41 except:
-     42     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
----> 43     from probml_utils.lvm_plots_utils import (
-     44         get_random_samples,
-     45         get_grid_samples,
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/lvm_plots_utils.py in <module>
-----> 1 import umap
-      2 from typing import Callable, Tuple
+/__w/pyprobml/pyprobml/ae_mnist_conv.py in <module>
+----> 1 import superimport
+      2 
       3 import torch
       4 import numpy as np
-      5 import matplotlib
+      5 import torch.nn as nn
 
-ModuleNotFoundError: No module named 'umap'
-ModuleNotFoundError: No module named 'umap'
+ModuleNotFoundError: No module named 'superimport'
+ModuleNotFoundError: No module named 'superimport'

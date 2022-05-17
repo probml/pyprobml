@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4777/873951750.py in <module>
+/tmp/ipykernel_4741/873951750.py in <module>
      13     from probml_utils.mix_bernoulli_lib import BMM
      14 
 ---> 15 from probml_utils.mix_bernoulli_em_mnist import mnist_data
