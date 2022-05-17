@@ -42,7 +42,7 @@ dot
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_4239/2890680977.py in <module>
+/tmp/ipykernel_4228/2890680977.py in <module>
      34 
      35 file_name = "hbayes-maml"
 ---> 36 dot.render(file_name, view=True)
