@@ -48,7 +48,7 @@ os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "False"
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2829/3116938674.py in <module>
+/tmp/ipykernel_2862/3116938674.py in <module>
      10     import flax.linen as nn
      11 
 ---> 12 from flax.training import train_state, checkpoints
