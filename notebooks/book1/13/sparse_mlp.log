@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3472/142067606.py in <module>
+/tmp/ipykernel_3468/142067606.py in <module>
       3 try:
 ----> 4     import pyprobml_utils as pml
       5 except ModuleNotFoundError:
@@ -23,7 +23,7 @@ ModuleNotFoundError: No module named 'pyprobml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3472/142067606.py in <module>
+/tmp/ipykernel_3468/142067606.py in <module>
       5 except ModuleNotFoundError:
       6     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
 ----> 7     import pyprobml_utils as pml
