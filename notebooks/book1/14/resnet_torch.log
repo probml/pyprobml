@@ -7,12 +7,12 @@ train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_3230/1771745465.py in <module>
+/tmp/ipykernel_3246/1771745465.py in <module>
       1 lr, num_epochs, batch_size = 0.05, 10, 256
       2 train_iter, test_iter = load_data_fashion_mnist(batch_size, resize=96)
 ----> 3 train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
-/tmp/ipykernel_3230/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
+/tmp/ipykernel_3246/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
      21             optimizer.zero_grad()
      22             X, y = X.to(device), y.to(device)
 ---> 23             y_hat = net(X)
@@ -54,26 +54,33 @@ RuntimeError                              Traceback (most recent call last)
    1111         # Do not call functions when jit is used
    1112         full_backward_hooks, non_full_backward_hooks = [], []
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/pooling.py in forward(self, input)
-    162         return F.max_pool2d(input, self.kernel_size, self.stride,
-    163                             self.padding, self.dilation, self.ceil_mode,
---> 164                             self.return_indices)
-    165 
-    166 
+/tmp/ipykernel_3246/3271681189.py in forward(self, X)
+     14 
+     15     def forward(self, X):
+---> 16         Y = F.relu(self.bn1(self.conv1(X)))
+     17         Y = self.bn2(self.conv2(Y))
+     18         if self.conv3:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/_jit_internal.py in fn(*args, **kwargs)
-    420             return if_true(*args, **kwargs)
-    421         else:
---> 422             return if_false(*args, **kwargs)
-    423 
-    424     if if_true.__doc__ is None and if_false.__doc__ is not None:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/module.py in _call_impl(self, *input, **kwargs)
+   1108         if not (self._backward_hooks or self._forward_hooks or self._forward_pre_hooks or _global_backward_hooks
+   1109                 or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1110             return forward_call(*input, **kwargs)
+   1111         # Do not call functions when jit is used
+   1112         full_backward_hooks, non_full_backward_hooks = [], []
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/functional.py in _max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode, return_indices)
-    795     if stride is None:
-    796         stride = torch.jit.annotate(List[int], [])
---> 797     return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
-    798 
-    799 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/conv.py in forward(self, input)
+    445 
+    446     def forward(self, input: Tensor) -> Tensor:
+--> 447         return self._conv_forward(input, self.weight, self.bias)
+    448 
+    449 class Conv3d(_ConvNd):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/conv.py in _conv_forward(self, input, weight, bias)
+    442                             _pair(0), self.dilation, self.groups)
+    443         return F.conv2d(input, weight, bias, self.stride,
+--> 444                         self.padding, self.dilation, self.groups)
+    445 
+    446     def forward(self, input: Tensor) -> Tensor:
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -82,5 +89,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 3325) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 3325) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 3301) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 3301) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.

@@ -6,11 +6,11 @@ class TrainState(train_state.TrainState):
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_2991/1014202307.py in <module>
+/tmp/ipykernel_2988/1014202307.py in <module>
 ----> 1 class TrainState(train_state.TrainState):
       2     batch_stats: Any
 
-/tmp/ipykernel_2991/1014202307.py in TrainState()
+/tmp/ipykernel_2988/1014202307.py in TrainState()
       1 class TrainState(train_state.TrainState):
 ----> 2     batch_stats: Any
 
