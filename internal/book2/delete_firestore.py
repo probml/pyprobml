@@ -1,8 +1,8 @@
-#command usage: 
-'''
-Delete all keys: python misc/book2/delete_firestore.py -key "../key_probml_gcp.json" -level1 figures -level2 book2 -level3 figures
-Delete 1 key: python misc/book2/delete_firestore.py -key "../key_probml_gcp.json" -level1 figures -level2 book2 -level3 figures -key_del 10.1
-'''
+# command usage:
+"""
+Delete all keys: python internal/book2/delete_firestore.py -key "../key_probml_gcp.json" -level1 figures -level2 book2 -level3 figures
+Delete 1 key: python internal/book2/delete_firestore.py -key "../key_probml_gcp.json" -level1 figures -level2 book2 -level3 figures -key_del 10.1
+"""
 from probml_utils.url_utils import create_firestore_db
 import argparse
 

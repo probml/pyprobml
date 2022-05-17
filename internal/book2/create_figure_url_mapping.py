@@ -1,7 +1,7 @@
-'''
+"""
 command usage:
-python3 misc/book2/create_figure_url_mapping.py -lof misc/book2.lof -csv misc/figures_url_mapping_book2.csv
-'''
+python3 internal/book2/create_figure_url_mapping.py -lof internal/book2.lof -csv misc/figures_url_mapping_book2.csv
+"""
 import argparse
 from probml_utils.url_utils import figure_url_mapping_from_lof
 

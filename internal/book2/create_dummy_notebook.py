@@ -1,6 +1,6 @@
 """
 command usage:
-python3 misc/book2/create_dummy_notebook.py --lof=misc/book2.lof --book_no=2
+python3 internal/book2/create_dummy_notebook.py --lof=internal/book2.lof --book_no=2
 """
 
 import argparse
