@@ -46,7 +46,7 @@ tfd = tfp.distributions
 
 ---------------------------------------------------------------------------
 OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_2817/3748809266.py in <module>
+/tmp/ipykernel_2814/3748809266.py in <module>
       4 
       5 try:
 ----> 6     import distrax
