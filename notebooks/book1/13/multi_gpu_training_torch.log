@@ -9,21 +9,21 @@ print("b1 grad:", new_params[1].grad)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5318/3426816453.py in <module>
+/tmp/ipykernel_4110/3426816453.py in <module>
       1 # Copy the params to GPU0
       2 gpu0 = torch.device("cuda:0")
 ----> 3 new_params = get_params(params, gpu0)
       4 print("b1 weight:", new_params[1])
       5 print("b1 grad:", new_params[1].grad)
 
-/tmp/ipykernel_5318/1826495151.py in get_params(params, device)
+/tmp/ipykernel_4110/1826495151.py in get_params(params, device)
       1 def get_params(params, device):
 ----> 2     new_params = [p.clone().to(device) for p in params]
       3     for p in new_params:
       4         p.requires_grad_()
       5     return new_params
 
-/tmp/ipykernel_5318/1826495151.py in <listcomp>(.0)
+/tmp/ipykernel_4110/1826495151.py in <listcomp>(.0)
       1 def get_params(params, device):
 ----> 2     new_params = [p.clone().to(device) for p in params]
       3     for p in new_params:
