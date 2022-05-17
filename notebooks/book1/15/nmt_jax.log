@@ -1,0 +1,51 @@
+An error occurred while executing the following cell:
+------------------
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+import pandas as pd
+import math
+from IPython import display
+
+import jax
+
+try:
+    import flax.linen as nn
+except ModuleNotFoundError:
+    %pip install flax
+    import flax.linen as nn
+from flax.training import train_state
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install optax
+    import optax
+
+import collections
+import re
+import random
+import os
+import requests
+import zipfile
+import tarfile
+import hashlib
+import time
+import functools
+
+random.seed(0)
+rng = jax.random.PRNGKey(0)
+
+!mkdir figures # for saving plots
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3285/2460670613.py in <module>
+----> 1 import jax.numpy as jnp
+      2 import matplotlib.pyplot as plt
+      3 import pandas as pd
+      4 import math
+      5 from IPython import display
+
+ModuleNotFoundError: No module named 'jax'
+ModuleNotFoundError: No module named 'jax'
