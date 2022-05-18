@@ -3,7 +3,7 @@ An error occurred while executing the following cell:
 # Author: Meduri Venkata Shivaditya
 """
 Figure 11.16 and 11.17 in the book "Probabilistic Machine Learning: An Introduction by Kevin P. Murphy"
-Dependencies: spams(pip install spams), group-lasso(pip install group-lasso)
+Dependencies: spams(pip install -qq spams), group-lasso(pip install -qq group-lasso)
 Illustration of group lasso:
 To show the effectiveness of group lasso, in this code we demonstrate:
 a)Actual Data b)Vanilla Lasso c)Group lasso(L2 norm) d)Group Lasso(L infinity norm)
@@ -35,19 +35,19 @@ import scipy.linalg
 try:
     from group_lasso import GroupLasso
 except ModuleNotFoundError:
-    %pip install group_lasso
+    %pip install -qq group_lasso
     from group_lasso import GroupLasso
 try:
     from sklearn import linear_model
 except ModuleNotFoundError:
-    %pip install scikit-learn
+    %pip install -qq scikit-learn
     from sklearn import linear_model
 from sklearn.metrics import mean_squared_error
 
 try:
     import spams
 except ModuleNotFoundError:
-    %pip install spams
+    %pip install -qq spams
     import spams
 from scipy.linalg import lstsq
 import warnings
@@ -194,7 +194,7 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4104/2945071769.py in <module>
+/tmp/ipykernel_3197/3948049188.py in <module>
      45 try:
 ---> 46     import spams
      47 except ModuleNotFoundError:
@@ -204,9 +204,9 @@ ModuleNotFoundError: No module named 'spams'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4104/2945071769.py in <module>
+/tmp/ipykernel_3197/3948049188.py in <module>
      47 except ModuleNotFoundError:
-     48     get_ipython().run_line_magic('pip', 'install spams')
+     48     get_ipython().run_line_magic('pip', 'install -qq spams')
 ---> 49     import spams
      50 from scipy.linalg import lstsq
      51 import warnings
