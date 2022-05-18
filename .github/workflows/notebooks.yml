@@ -203,8 +203,8 @@ jobs:
 
     - name: Combine and publish results
       run: |
-        python .github/scripts/combine_results.py
-        python .github/scripts/create_dashboard.py
+        python .github/scripts/combine_results.py --user_name ${{ github.repository }}
+        python .github/scripts/create_dashboard.py --user_name ${{ github.repository }}
 
     - name: Push figures to auto_generated_figures (does not run on pull requests)
       uses: peaceiris/actions-gh-pages@v3.6.1
