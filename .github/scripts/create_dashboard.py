@@ -7,7 +7,7 @@ parser.add_argument("-user_name", "--user_name", type=str, help="")
 args = parser.parse_args()
 
 
-print(f"**** {len(statuses)} statuses found ****")
+
 
 user, repo = args.user_name.split("/") # github.repository gives owner/repo
 print(f"\n**** creating dashboard on {user}/{repo} *********\n")
@@ -28,6 +28,7 @@ file_counter = 0
 with open("workflow_testing_indicator/README.md", "w") as f:
     for book_no in [1,2]:
         statuses = glob(f"workflow_testing_indicator/notebooks/book{book_no}/*/*.png")
+        print(f"**** {len(statuses)} statuses found in Book{book_no}****")
         statuses = sorted(statuses, key=sort_key)
         f.write(f"#Book {book_no}: PyProbML status\n")
         f.write(f"\n")
