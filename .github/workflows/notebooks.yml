@@ -4,8 +4,7 @@ on:
   push:
     branches:
     - master
-    - seperate_dashboard
-    
+
   pull_request:
     branches:
     - master
