@@ -3,13 +3,13 @@ An error occurred while executing the following cell:
 try:
     import pyprobml.scripts.mnist_helpers_tf as helper
 except ModuleNotFoundError:
-    %pip install pyprobml
+    %pip install -qq pyprobml
     import pyprobml.scripts.mnist_helpers_tf as helper
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3288/4284005111.py in <module>
+/tmp/ipykernel_4597/827394235.py in <module>
       1 try:
 ----> 2     import pyprobml.scripts.mnist_helpers_tf as helper
       3 except ModuleNotFoundError:
@@ -24,9 +24,9 @@ ModuleNotFoundError: No module named 'superimport'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3288/4284005111.py in <module>
+/tmp/ipykernel_4597/827394235.py in <module>
       3 except ModuleNotFoundError:
-      4     get_ipython().run_line_magic('pip', 'install pyprobml')
+      4     get_ipython().run_line_magic('pip', 'install -qq pyprobml')
 ----> 5     import pyprobml.scripts.mnist_helpers_tf as helper
 
 /__w/pyprobml/pyprobml/pyprobml/scripts/mnist_helpers_tf.py in <module>

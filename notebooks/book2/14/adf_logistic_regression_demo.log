@@ -9,7 +9,7 @@ An error occurred while executing the following cell:
 #     pp. 435-440, doi: 10.1109/ISPA.2007.4383733.
 # of the posterior distribution
 # Dependencies:
-#   !pip install jax_cosmo
+#   !pip install -qq jax_cosmo
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 from jax import random
 from jax.scipy.stats import norm
@@ -29,14 +29,14 @@ from jax.scipy.stats import norm
 try:
     from jax_cosmo.scipy import integrate
 except ModuleNotFoundError:
-    %pip install jax_cosmo
+    %pip install -qq jax_cosmo
     from jax_cosmo.scipy import integrate
 from functools import partial
 
 try:
     from jsl.demos import logreg_biclusters_demo as demo
 except ModuleNotFoundError:
-    %pip install jsl
+    %pip install -qq jsl
     from jsl.demos import logreg_biclusters_demo as demo
 
 import probml_utils as pml
@@ -188,22 +188,22 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2618/673417878.py in <module>
-     19 try:
----> 20     import probml_utils as pml
-     21 except ModuleNotFoundError:
+/tmp/ipykernel_2798/842337329.py in <module>
+     34 try:
+---> 35     from jsl.demos import logreg_biclusters_demo as demo
+     36 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'jsl'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2618/673417878.py in <module>
-     21 except ModuleNotFoundError:
-     22     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
----> 23     import probml_utils as pml
-     24 from jax import random
-     25 from jax.scipy.stats import norm
+/tmp/ipykernel_2798/842337329.py in <module>
+     36 except ModuleNotFoundError:
+     37     get_ipython().run_line_magic('pip', 'install -qq jsl')
+---> 38     from jsl.demos import logreg_biclusters_demo as demo
+     39 
+     40 import probml_utils as pml
 
-ModuleNotFoundError: No module named 'probml_utils'
-ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'jsl.demos'
+ModuleNotFoundError: No module named 'jsl.demos'

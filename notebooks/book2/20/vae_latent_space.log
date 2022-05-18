@@ -4,17 +4,17 @@ An error occurred while executing the following cell:
 %%capture
 !sudo apt-get install subversion
 !svn checkout https://github.com/probml/pyprobml/trunk/vae .
-!pip install pytorch-lightning einops umap-learn
+!pip install -qq pytorch-lightning einops umap-learn
 
 try:
     import umap
 except ModuleNotFoundError:
-    %pip install umap
+    %pip install -qq umap
     import umap
 try:
     import torch
 except ModuleNotFoundError:
-    %pip install torch
+    %pip install -qq torch
     import torch
 import numpy as np
 import matplotlib
@@ -26,14 +26,14 @@ import torch.nn.functional as F
 try:
     from einops import rearrange
 except ModuleNotFoundError:
-    %pip install einops
+    %pip install -qq einops
     from einops import rearrange
 from sklearn.manifold import TSNE
 
 try:
     from torchvision.datasets import MNIST
 except ModuleNotFoundError:
-    %pip install torchvision
+    %pip install -qq torchvision
     from torchvision.datasets import MNIST
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
@@ -41,12 +41,12 @@ import torchvision.transforms as transforms
 try:
     from pytorch_lightning import Trainer
 except ModuleNotFoundError:
-    %pip install pytorch_lightning
+    %pip install -qq pytorch_lightning
     from pytorch_lightning import Trainer
 try:
     from models.guassian_vae import VAE
 except ModuleNotFoundError:
-    %pip install models
+    %pip install -qq models
     from models.guassian_vae import VAE
 from models.vanilla_vae import kl_divergence
 from models.mmd_vae import MMD
@@ -54,7 +54,7 @@ from models.mmd_vae import MMD
 try:
     from experiment import VAEModule, VAE2stageModule
 except ModuleNotFoundError:
-    %pip install experiment
+    %pip install -qq experiment
     from experiment import VAEModule, VAE2stageModule
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

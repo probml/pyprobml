@@ -7,14 +7,14 @@ import numpy as np
 try:
     import torch
 except ModuleNotFoundError:
-    %pip install torch
+    %pip install -qq torch
     import torch
 import torch.nn as nn
 
 try:
     from torchvision.datasets import MNIST
 except ModuleNotFoundError:
-    %pip install torchvision
+    %pip install -qq torchvision
     from torchvision.datasets import MNIST
 import torch.nn.functional as F
 import torchvision.transforms as transforms
@@ -23,12 +23,12 @@ from torch.utils.data import DataLoader
 try:
     from pytorch_lightning import LightningModule, Trainer
 except ModuleNotFoundError:
-    %pip install pytorch_lightning
+    %pip install -qq pytorch_lightning
     from pytorch_lightning import LightningModule, Trainer
 try:
     from einops import rearrange
 except ModuleNotFoundError:
-    %pip install einops
+    %pip install -qq einops
     from einops import rearrange
 import seaborn as sns
 
@@ -41,7 +41,7 @@ try:
         plot_grid_plot,
     )
 except:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     from probml_utils.lvm_plots_utils import (
         get_random_samples,
         get_grid_samples,
@@ -58,7 +58,7 @@ from ae_mnist_conv import ConvAE
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3897/3892019423.py in <module>
+/tmp/ipykernel_2773/185146632.py in <module>
      52 from torchvision.utils import make_grid
      53 from pytorch_lightning.utilities.seed import seed_everything
 ---> 54 from ae_mnist_conv import ConvAE

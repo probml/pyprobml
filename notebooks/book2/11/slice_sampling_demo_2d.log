@@ -17,12 +17,12 @@ import matplotlib.pyplot as plt
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 try:
     from mcmc_utils import slice_sample
 except ModuleNotFoundError:
-    %pip install mcmc_utils
+    %pip install -qq mcmc_utils
     from mcmc_utils import slice_sample
 
 seed = 123
@@ -117,7 +117,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2618/452022245.py in <module>
+/tmp/ipykernel_2728/1264199418.py in <module>
      20 try:
 ---> 21     from mcmc_utils import slice_sample
      22 except ModuleNotFoundError:
@@ -127,9 +127,9 @@ ModuleNotFoundError: No module named 'mcmc_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2618/452022245.py in <module>
+/tmp/ipykernel_2728/1264199418.py in <module>
      22 except ModuleNotFoundError:
-     23     get_ipython().run_line_magic('pip', 'install mcmc_utils')
+     23     get_ipython().run_line_magic('pip', 'install -qq mcmc_utils')
 ---> 24     from mcmc_utils import slice_sample
      25 
      26 seed = 123

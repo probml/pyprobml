@@ -7,7 +7,7 @@ An error occurred while executing the following cell:
 try:
     import pymc3 as pm
 except ModuleNotFoundError:
-    %pip install pymc3
+    %pip install -qq pymc3
     import pymc3 as pm
 import numpy as np
 import scipy.stats as stats
@@ -15,24 +15,24 @@ import scipy.stats as stats
 try:
     import pandas as pd
 except ModuleNotFoundError:
-    %pip install pandas
+    %pip install -qq pandas
     import pandas as pd
 try:
     import theano.tensor as tt
 except ModuleNotFoundError:
-    %pip install theano
+    %pip install -qq theano
     import theano.tensor as tt
 import matplotlib.pyplot as plt
 
 try:
     import arviz as az
 except ModuleNotFoundError:
-    %pip install arviz
+    %pip install -qq arviz
     import arviz as az
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 
 np.random.seed(42)
@@ -88,7 +88,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-/tmp/ipykernel_3249/1818234667.py in <module>
+/tmp/ipykernel_2863/3207410612.py in <module>
      42 # So we make a copy here
      43 url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
 ---> 44 df = pd.read_csv(url)

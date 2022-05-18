@@ -6,7 +6,7 @@ This code is referenced from
 https://github.com/probml/pmtk3/blob/master/demos/sparseDictDemo.m
 spams package is from
 https://gitlab.inria.fr/thoth/spams-devel
-(Can be instaled from PyPi through pip install ...)
+(Can be instaled from PyPi through pip install -qq ...)
 """
 
 
@@ -15,14 +15,14 @@ import numpy as np
 try:
     from spams import trainDL, nmf, displayPatches, im2col_sliding
 except ModuleNotFoundError:
-    %pip install spams
+    %pip install -qq spams
     from spams import trainDL, nmf, displayPatches, im2col_sliding
 from sklearn.decomposition import TruncatedSVD
 
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 
 import matplotlib.pyplot as plt
@@ -93,7 +93,7 @@ for m in methods:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2662/310192599.py in <module>
+/tmp/ipykernel_2598/3546596513.py in <module>
      13 try:
 ---> 14     from spams import trainDL, nmf, displayPatches, im2col_sliding
      15 except ModuleNotFoundError:
@@ -103,9 +103,9 @@ ModuleNotFoundError: No module named 'spams'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2662/310192599.py in <module>
+/tmp/ipykernel_2598/3546596513.py in <module>
      15 except ModuleNotFoundError:
-     16     get_ipython().run_line_magic('pip', 'install spams')
+     16     get_ipython().run_line_magic('pip', 'install -qq spams')
 ---> 17     from spams import trainDL, nmf, displayPatches, im2col_sliding
      18 from sklearn.decomposition import TruncatedSVD
      19 

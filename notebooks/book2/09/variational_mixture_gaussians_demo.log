@@ -4,7 +4,7 @@ An error occurred while executing the following cell:
 # For a matlab version, see  https://github.com/probml/pmtk3/blob/master/demos/mixGaussVbDemoFaithful.m
 # To run in colab, consider the following two lines
 # > pip uninstall tensorflow -y -q
-# > pip install -Uq tfp-nightly[jax] > /dev/null
+# > pip install -qq -Uq tfp-nightly[jax] > /dev/null
 # Author: Gerardo Duran-Martin (@gerdm)
 
 
@@ -15,12 +15,12 @@ import matplotlib.pyplot as plt
 try:
     import variational_mixture_gaussians as vmg
 except ModuleNotFoundError:
-    %pip install variational_mixture_gaussians
+    %pip install -qq variational_mixture_gaussians
     import variational_mixture_gaussians as vmg
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 from scipy import stats as scistats
 from jax import random
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2769/2547035749.py in <module>
+/tmp/ipykernel_2636/3733338085.py in <module>
      13 try:
 ---> 14     import variational_mixture_gaussians as vmg
      15 except ModuleNotFoundError:
@@ -132,9 +132,9 @@ ModuleNotFoundError: No module named 'variational_mixture_gaussians'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2769/2547035749.py in <module>
+/tmp/ipykernel_2636/3733338085.py in <module>
      15 except ModuleNotFoundError:
-     16     get_ipython().run_line_magic('pip', 'install variational_mixture_gaussians')
+     16     get_ipython().run_line_magic('pip', 'install -qq variational_mixture_gaussians')
 ---> 17     import variational_mixture_gaussians as vmg
      18 try:
      19     import probml_utils as pml

@@ -1,18 +1,18 @@
 An error occurred while executing the following cell:
 ------------------
 
-!pip install  git+git://github.com/lindermanlab/ssm-jax-refactor.git
+!pip install -qq  git+git://github.com/lindermanlab/ssm-jax-refactor.git
 
 try:
     import ssm
 except ModuleNotFoundError:
-    %pip install ssm
+    %pip install -qq ssm
     import ssm
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2815/80757758.py in <module>
+/tmp/ipykernel_2598/1702384279.py in <module>
       3 try:
 ----> 4     import ssm
       5 except ModuleNotFoundError:
@@ -22,9 +22,9 @@ ModuleNotFoundError: No module named 'ssm'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2815/80757758.py in <module>
+/tmp/ipykernel_2598/1702384279.py in <module>
       5 except ModuleNotFoundError:
-      6     get_ipython().run_line_magic('pip', 'install ssm')
+      6     get_ipython().run_line_magic('pip', 'install -qq ssm')
 ----> 7     import ssm
 
 ModuleNotFoundError: No module named 'ssm'

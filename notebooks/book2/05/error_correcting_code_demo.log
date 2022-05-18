@@ -5,23 +5,23 @@ An error occurred while executing the following cell:
 # Based on
 # https://github.com/probml/pmtk3/blob/master/demos/errorCorrectingCodeDemo.m
 
-#!pip install pgmpy
+#!pip install -qq pgmpy
 
 
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 try:
     import pgmpy_utils as pgm
 except ModuleNotFoundError:
-    %pip install pgmpy_utils
+    %pip install -qq pgmpy_utils
     import pgmpy_utils as pgm
 try:
     from pgmpy.models import BayesianModel
 except ModuleNotFoundError:
-    %pip install pgmpy
+    %pip install -qq pgmpy
     from pgmpy.models import BayesianModel
 from pgmpy.factors.discrete import TabularCPD
 import numpy as np
@@ -85,7 +85,7 @@ pgm.visualize_model(model)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2828/984790945.py in <module>
+/tmp/ipykernel_3050/1264649089.py in <module>
      14 try:
 ---> 15     import pgmpy_utils as pgm
      16 except ModuleNotFoundError:
@@ -95,9 +95,9 @@ ModuleNotFoundError: No module named 'pgmpy_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2828/984790945.py in <module>
+/tmp/ipykernel_3050/1264649089.py in <module>
      16 except ModuleNotFoundError:
-     17     get_ipython().run_line_magic('pip', 'install pgmpy_utils')
+     17     get_ipython().run_line_magic('pip', 'install -qq pgmpy_utils')
 ---> 18     import pgmpy_utils as pgm
      19 try:
      20     from pgmpy.models import BayesianModel

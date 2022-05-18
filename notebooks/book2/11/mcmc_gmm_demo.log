@@ -4,7 +4,7 @@ An error occurred while executing the following cell:
 # using a 1d Gaussian proposal with different sigma.
 # Author: Gerardo Duran-Martin (@gerdm)
 
-# !pip install matplotlib==3.4.2
+# !pip install -qq matplotlib==3.4.2
 
 
 import numpy as np
@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 try:
     import statsmodels.api as sm
 except ModuleNotFoundError:
-    %pip install statsmodels
+    %pip install -qq statsmodels
     import statsmodels.api as sm
 from scipy.stats import norm
 from numpy.random import rand, randn
@@ -21,7 +21,7 @@ from numpy.random import rand, randn
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 
 
@@ -134,14 +134,14 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2617/1259337586.py in <module>
+/tmp/ipykernel_3555/1179156163.py in <module>
     125 
     126     np.random.seed(314)
 --> 127     sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax)
     128     for τ in τ_values:
     129         sample_plot_mh(x0, τ, π, μ, σ, n_iterations, xmin, xmax)
 
-/tmp/ipykernel_2617/1259337586.py in sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax)
+/tmp/ipykernel_3555/1179156163.py in sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax)
      89     pml.style3d(axs, 1.5, 1, 0.8)
      90     plt.subplots_adjust(left=0.001, bottom=0.208, right=0.7)
 ---> 91     pml.savefig("gibbs_trace.pdf", pad_inches=0, bbox_inches="tight")

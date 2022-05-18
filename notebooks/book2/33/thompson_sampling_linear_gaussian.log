@@ -6,7 +6,7 @@ An error occurred while executing the following cell:
 # 1. The first arm is an upward-trending arm with initial negative bias
 # 2. The second arm is a downward-trending arm with initial positive bias
 # 3. The third arm is a stationary arm with initial zero bias
-# !pip install -Uq tfp-nightly[jax] > /dev/null
+# !pip install -qq -Uq tfp-nightly[jax] > /dev/null
 
 # Author: Gerardo Durán-Martín (@gerdm)
 
@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 import jax.numpy as jnp
 import pandas as pd
@@ -30,7 +30,7 @@ from jax.nn import one_hot
 try:
     from tensorflow_probability.substrates import jax as tfp
 except ModuleNotFoundError:
-    %pip install tensorflow-probability
+    %pip install -qq tensorflow-probability
     from tensorflow_probability.substrates import jax as tfp
 tfd = tfp.distributions
 
@@ -215,7 +215,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_2574/814404278.py in <module>
+/tmp/ipykernel_2599/506990392.py in <module>
      23 from jax import random
      24 from functools import partial
 ---> 25 from jax.ops import index_update

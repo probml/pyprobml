@@ -8,18 +8,18 @@ from jax.random import PRNGKey, split
 try:
     import distrax
 except ModuleNotFoundError:
-    %pip install distrax
+    %pip install -qq distrax
     import distrax
 try:
     from tensorflow_probability.substrates.jax.distributions import HalfCauchy
 except ModuleNotFoundError:
-    %pip install tensorflow-probability
+    %pip install -qq tensorflow-probability
     from tensorflow_probability.substrates.jax.distributions import HalfCauchy
 
 try:
     import blackjax.hmc as hmc
 except ModuleNotFoundError:
-    %pip install blackjax
+    %pip install -qq blackjax
     import blackjax.hmc as hmc
 import blackjax.nuts as nuts
 import blackjax.stan_warmup as stan_warmup
@@ -32,7 +32,7 @@ import seaborn as sns
 try:
     import arviz as az
 except ModuleNotFoundError:
-    %pip install arviz
+    %pip install -qq arviz
     import arviz as az
 from functools import partial
 
@@ -42,7 +42,7 @@ np.random.seed(123)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2979/2331100378.py in <module>
+/tmp/ipykernel_2729/944001903.py in <module>
      17 try:
 ---> 18     import blackjax.hmc as hmc
      19 except ModuleNotFoundError:
@@ -52,9 +52,9 @@ ModuleNotFoundError: No module named 'blackjax.hmc'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2979/2331100378.py in <module>
+/tmp/ipykernel_2729/944001903.py in <module>
      19 except ModuleNotFoundError:
-     20     get_ipython().run_line_magic('pip', 'install blackjax')
+     20     get_ipython().run_line_magic('pip', 'install -qq blackjax')
 ---> 21     import blackjax.hmc as hmc
      22 import blackjax.nuts as nuts
      23 import blackjax.stan_warmup as stan_warmup

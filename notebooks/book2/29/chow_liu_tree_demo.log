@@ -5,7 +5,7 @@ An error occurred while executing the following cell:
 # Based on
 # https://github.com/probml/pmtk3/blob/master/demos/chowliuTreeDemo.m
 
-#!pip install pgmpy
+#!pip install -qq pgmpy
 
 
 import pandas as pd
@@ -14,19 +14,19 @@ from sklearn.datasets import fetch_20newsgroups
 try:
     import networkx as nx
 except ModuleNotFoundError:
-    %pip install networkx
+    %pip install -qq networkx
     import networkx as nx
 try:
     from pgmpy.estimators import TreeSearch
 except ModuleNotFoundError:
-    %pip install pgmpy
+    %pip install -qq pgmpy
     from pgmpy.estimators import TreeSearch
 from sklearn.feature_extraction.text import CountVectorizer
 
 try:
     import pydot
 except ModuleNotFoundError:
-    %pip install pydot
+    %pip install -qq pydot
     import pydot
 from networkx.drawing.nx_pydot import graphviz_layout
 from IPython.display import Image, display
@@ -34,7 +34,7 @@ from IPython.display import Image, display
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 
 newsgroups_train = fetch_20newsgroups(subset="train")
@@ -159,7 +159,7 @@ p.write_png("../figures/tree_structure.png")
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2578/2475716636.py in <module>
+/tmp/ipykernel_2131/437414598.py in <module>
     137 ]
     138 
 --> 139 count_vect = CountVectorizer(newsgroups_train.data, vocabulary=list_of_words)

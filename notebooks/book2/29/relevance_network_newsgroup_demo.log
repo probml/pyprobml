@@ -5,7 +5,7 @@ An error occurred while executing the following cell:
 # Based on:
 # https://github.com/probml/pmtk3/blob/master/demos/relevanceNetworkNewsgroupDemo.m
 
-#!pip install pgmpy
+#!pip install -qq pgmpy
 
 
 import numpy as np
@@ -16,19 +16,19 @@ from sklearn.datasets import fetch_20newsgroups
 try:
     import networkx as nx
 except ModuleNotFoundError:
-    %pip install networkx
+    %pip install -qq networkx
     import networkx as nx
 try:
     from pgmpy.estimators import TreeSearch
 except ModuleNotFoundError:
-    %pip install pgmpy
+    %pip install -qq pgmpy
     from pgmpy.estimators import TreeSearch
 from sklearn.feature_extraction.text import CountVectorizer
 
 try:
     import pydot
 except ModuleNotFoundError:
-    %pip install pydot
+    %pip install -qq pydot
     import pydot
 from networkx.drawing.nx_pydot import graphviz_layout
 from IPython.display import Image, display
@@ -36,14 +36,14 @@ from IPython.display import Image, display
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
 from itertools import combinations
 
 try:
     from tqdm import tqdm
 except ModuleNotFoundError:
-    %pip install tqdm
+    %pip install -qq tqdm
     from tqdm import tqdm
 from joblib import Parallel, delayed
 from sklearn.metrics import mutual_info_score
@@ -149,7 +149,7 @@ p2.write_png("../figures/relevance_network.png")
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2578/3681325117.py in <module>
+/tmp/ipykernel_2604/2332062532.py in <module>
     101 ]
     102 
 --> 103 count_vect = CountVectorizer(newsgroups_train.data, vocabulary=list_of_words)

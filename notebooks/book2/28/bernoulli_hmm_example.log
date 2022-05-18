@@ -3,13 +3,13 @@ An error occurred while executing the following cell:
 try:
     import ssm
 except ModuleNotFoundError:
-    %pip install ssm
+    %pip install -qq ssm
     import ssm
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2815/1253680016.py in <module>
+/tmp/ipykernel_2602/3081356446.py in <module>
       1 try:
 ----> 2     import ssm
       3 except ModuleNotFoundError:
@@ -19,9 +19,9 @@ ModuleNotFoundError: No module named 'ssm'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2815/1253680016.py in <module>
+/tmp/ipykernel_2602/3081356446.py in <module>
       3 except ModuleNotFoundError:
-      4     get_ipython().run_line_magic('pip', 'install ssm')
+      4     get_ipython().run_line_magic('pip', 'install -qq ssm')
 ----> 5     import ssm
 
 ModuleNotFoundError: No module named 'ssm'

@@ -26,7 +26,7 @@ import os
 try:
     from probml_utils import savefig
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     from probml_utils import savefig
 
 
@@ -41,7 +41,7 @@ from sklearn import manifold, datasets, decomposition, ensemble, discriminant_an
 try:
     import umap  # # https://github.com/lmcinnes/umap
 except ModuleNotFoundError:
-    %pip install umap-learn
+    %pip install -qq umap-learn
     import umap  # # https://github.com/lmcinnes/umap
 
 digits = datasets.load_digits()  # n_class=6)
@@ -184,7 +184,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_3204/4059661903.py in <module>
+/tmp/ipykernel_2990/3727510768.py in <module>
      99 
     100 print("Computing UMAP projection")
 --> 101 X_umap = umap.UMAP(n_neighbors=5, min_dist=0.3, n_components=2, metric="correlation").fit_transform(X)

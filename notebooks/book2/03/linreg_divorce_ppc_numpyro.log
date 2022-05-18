@@ -11,7 +11,7 @@ An error occurred while executing the following cell:
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
+    %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
    
 import numpy as np
@@ -35,7 +35,7 @@ rng_key, rng_key_ = random.split(rng_key)
 try:
     import numpyro
 except ModuleNotFoundError:
-    %pip install numpyro
+    %pip install -qq numpyro
     import numpyro
 import numpyro.distributions as dist
 from numpyro.distributions import constraints
@@ -51,7 +51,7 @@ import numpyro.optim as optim
 try:
     import arviz as az
 except ModuleNotFoundError:
-    %pip install arviz
+    %pip install -qq arviz
     import arviz as az
 
 # Data
@@ -131,7 +131,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-/tmp/ipykernel_3014/2911436241.py in <module>
+/tmp/ipykernel_3062/2208627534.py in <module>
      76 m5_3 = AutoLaplaceApproximation(model)
      77 svi = SVI(model, m5_3, optim.Adam(1), Trace_ELBO(), M=d.M.values, A=d.A.values, D=d.D.values)
 ---> 78 p5_3, losses = svi.run(random.PRNGKey(0), 1000)

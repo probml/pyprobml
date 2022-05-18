@@ -5,12 +5,12 @@ from typing import Sequence
 try:
     import distrax
 except ModuleNotFoundError:
-    %pip install distrax
+    %pip install -qq distrax
     import distrax
 try:
     import haiku as hk
 except ModuleNotFoundError:
-    %pip install haiku
+    %pip install -qq haiku
     import haiku as hk
 import jax
 import jax.numpy as jnp
@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 try:
     import optax
 except ModuleNotFoundError:
-    %pip install optax
+    %pip install -qq optax
     import optax
 
 Array = jnp.ndarray
@@ -30,7 +30,7 @@ prng = hk.PRNGSequence(42)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2858/895298816.py in <module>
+/tmp/ipykernel_2593/3030563672.py in <module>
       8 try:
 ----> 9     import haiku as hk
      10 except ModuleNotFoundError:
@@ -40,9 +40,9 @@ ModuleNotFoundError: No module named 'haiku'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2858/895298816.py in <module>
+/tmp/ipykernel_2593/3030563672.py in <module>
      10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install haiku')
+     11     get_ipython().run_line_magic('pip', 'install -qq haiku')
 ---> 12     import haiku as hk
      13 import jax
      14 import jax.numpy as jnp

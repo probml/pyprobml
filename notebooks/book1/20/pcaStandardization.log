@@ -5,13 +5,13 @@ import numpy as np
 try:
     import pandas as pd
 except ModuleNotFoundError:
-    %pip install pandas
+    %pip install -qq pandas
     import pandas as pd
 import matplotlib.pyplot as plt
 try:
     from sklearn.decomposition import PCA
 except ModuleNotFoundError:
-    %pip install scikit-learn
+    %pip install -qq scikit-learn
     from sklearn.decomposition import PCA
 from pathlib import Path
 
@@ -72,7 +72,7 @@ FileNotFoundError: [Errno 2] No such file or directory: '/__w/pyprobml/data/heig
 The above exception was the direct cause of the following exception:
 
 OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_3107/1323480122.py in <module>
+/tmp/ipykernel_2930/110842311.py in <module>
      18 # Get Data
      19 data_dir = Path('.').absolute().parent / 'data' / 'heightWeight'
 ---> 20 data = scipy.io.loadmat(data_dir / "heightWeight.mat")['heightWeightData']

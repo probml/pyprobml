@@ -12,19 +12,19 @@ import seaborn as sns
 try:
     import tensorflow as tf
 except ModuleNotFoundError:
-    %pip install tensorflow
+    %pip install -qq tensorflow
     import tensorflow as tf
 try:
     import tensorflow_probability as tfp
 except ModuleNotFoundError:
-    %pip install tensorflow-probability
+    %pip install -qq tensorflow-probability
     import tensorflow_probability as tfp
 tfd = tfp.distributions
 
 try:
     import svi_gmm_model_tfp as GMM
 except ModuleNotFoundError:
-    %pip install svi_gmm_model_tfp
+    %pip install -qq svi_gmm_model_tfp
     import svi_gmm_model_tfp as GMM
 
 
@@ -98,7 +98,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2578/1760317010.py in <module>
+/tmp/ipykernel_2660/4204866481.py in <module>
      22 try:
 ---> 23     import svi_gmm_model_tfp as GMM
      24 except ModuleNotFoundError:
@@ -108,9 +108,9 @@ ModuleNotFoundError: No module named 'svi_gmm_model_tfp'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2578/1760317010.py in <module>
+/tmp/ipykernel_2660/4204866481.py in <module>
      24 except ModuleNotFoundError:
-     25     get_ipython().run_line_magic('pip', 'install svi_gmm_model_tfp')
+     25     get_ipython().run_line_magic('pip', 'install -qq svi_gmm_model_tfp')
 ---> 26     import svi_gmm_model_tfp as GMM
      27 
      28 
