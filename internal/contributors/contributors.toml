@@ -1,5 +1,0 @@
-owner = "probml"
-repo = "pyprobml"
-min_PRs = 2
-min_commits = 2
-fig_width = 50
