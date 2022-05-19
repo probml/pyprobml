@@ -1,5 +1,5 @@
 key,url
-bnn_mnist_sgld_whitejax,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/18/bnn_mnist_sgld_whitejax.ipynb
+bnn_mnist_sgld,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/18/bnn_mnist_sgld.ipynb
 ab_test_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/33/ab_test_demo.ipynb
 thompson_sampling_linear_gaussian,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/33/thompson_sampling_linear_gaussian.ipynb
 ising_image_denoise_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/11/ising_image_denoise_demo.ipynb
@@ -26,6 +26,7 @@ fig_3_2,https://colab.research.google.com/github/probml/pyprobml/blob/master/not
 bimodal_dist_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/03/bimodal_dist_plot.ipynb
 gauss_infer_1d,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/03/gauss_infer_1d.ipynb
 newcomb_plugin_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/03/newcomb_plugin_demo.ipynb
+newsgroupsVisualize,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/29/newsgroupsVisualize.ipynb
 ggm_lasso_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/29/ggm_lasso_demo.ipynb
 chow_liu_tree_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/29/chow_liu_tree_demo.ipynb
 relevance_network_newsgroup_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/29/relevance_network_newsgroup_demo.ipynb
@@ -68,7 +69,6 @@ gpr_demo_marglik,https://colab.research.google.com/github/probml/pyprobml/blob/m
 gp_poisson_1d,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/17/gp_poisson_1d.ipynb
 combining_kernels_by_multiplication,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/17/combining_kernels_by_multiplication.ipynb
 pendulum_1d,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/12/pendulum_1d.ipynb
-fig_12_11,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/12/fig_12_11.ipynb
 smc_ibis_1d,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/12/smc_ibis_1d.ipynb
 pf_guided_neural_decoding,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/12/pf_guided_neural_decoding.ipynb
 rbpf_maneuver,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/12/rbpf_maneuver.ipynb
@@ -115,17 +115,24 @@ ekf_vs_ukf,https://colab.research.google.com/github/probml/pyprobml/blob/master/
 arhmm_example,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/arhmm_example.ipynb
 kf_parallel,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/kf_parallel.ipynb
 STS_TFP,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/STS_TFP.ipynb
+fig_28_11,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/fig_28_11.ipynb
 kf_spiral,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/kf_spiral.ipynb
-fig_28_13,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/fig_28_13.ipynb
 poisson_lds_example,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/poisson_lds_example.ipynb
 hmm_poisson_changepoint_jax,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/hmm_poisson_changepoint_jax.ipynb
 hmm_lillypad,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/hmm_lillypad.ipynb
 gp_mauna_loa,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/gp_mauna_loa.ipynb
 kf_tracking,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/kf_tracking.ipynb
 causal_impact_tfp,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/causal_impact_tfp.ipynb
+zipfs_law_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/zipfs_law_plot.ipynb
 bayes_change_of_var,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/bayes_change_of_var.ipynb
+dirichlet_3d_triangle_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/dirichlet_3d_triangle_plot.ipynb
+sub_super_gauss_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/sub_super_gauss_plot.ipynb
 bigram_hinton_diagram,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/bigram_hinton_diagram.ipynb
+fig_2_5,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/fig_2_5.ipynb
 ecdf_sample,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/ecdf_sample.ipynb
+pareto_dist_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/pareto_dist_plot.ipynb
+student_laplace_pdf_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/student_laplace_pdf_plot.ipynb
+dirichlet_3d_spiky_plot,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/dirichlet_3d_spiky_plot.ipynb
 ngram_character_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/02/ngram_character_demo.ipynb
 rejection_sampling_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/10/rejection_sampling_demo.ipynb
 mc_estimate_pi,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/10/mc_estimate_pi.ipynb
@@ -152,6 +159,7 @@ ica_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/no
 gmm_2d,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/27/gmm_2d.ipynb
 gmm_plot_demo,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/27/gmm_plot_demo.ipynb
 discretized_ssm,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/discretized_ssm.ipynb
+gauss-bp-1d-line,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/gauss-bp-1d-line.ipynb
 ugm_inf_autodiff,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/ugm_inf_autodiff.ipynb
 hmm_casino,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/hmm_casino.ipynb
 two_moons_normalizingFlow,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/22/two_moons_normalizingFlow.ipynb
