@@ -12,14 +12,14 @@ plt.show();
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_2822/3801382653.py in <module>
+/tmp/ipykernel_2821/3801382653.py in <module>
 ----> 1 example_x, example_y = train_dl.__getitem__(0)
       2 
       3 viewable_imgs = example_x[:32]
       4 viewable_imgs = (viewable_imgs - viewable_imgs.min()) / (viewable_imgs.max() - viewable_imgs.min())
       5 viewable_imgs = viewable_imgs * 255.0
 
-/tmp/ipykernel_2822/672425379.py in __getitem__(self, ix)
+/tmp/ipykernel_2821/672425379.py in __getitem__(self, ix)
      40     def __getitem__(self, ix):
      41         X, Y = [], []
 ---> 42         hdl = os.listdir(self.hot_dogs_list)[ix * self.batch_size : (ix + 1) * self.batch_size]
