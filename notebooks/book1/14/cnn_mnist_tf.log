@@ -9,7 +9,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3864/827394235.py in <module>
+/tmp/ipykernel_4325/827394235.py in <module>
       1 try:
 ----> 2     import pyprobml.scripts.mnist_helpers_tf as helper
       3 except ModuleNotFoundError:
@@ -24,7 +24,7 @@ ModuleNotFoundError: No module named 'superimport'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3864/827394235.py in <module>
+/tmp/ipykernel_4325/827394235.py in <module>
       3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install -qq pyprobml')
 ----> 5     import pyprobml.scripts.mnist_helpers_tf as helper
