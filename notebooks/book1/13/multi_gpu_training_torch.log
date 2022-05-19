@@ -1,0 +1,41 @@
+An error occurred while executing the following cell:
+------------------
+# Copy the params to GPU0
+gpu0 = torch.device("cuda:0")
+new_params = get_params(params, gpu0)
+print("b1 weight:", new_params[1])
+print("b1 grad:", new_params[1].grad)
+------------------
+
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_2971/3426816453.py in <module>
+      1 # Copy the params to GPU0
+      2 gpu0 = torch.device("cuda:0")
+----> 3 new_params = get_params(params, gpu0)
+      4 print("b1 weight:", new_params[1])
+      5 print("b1 grad:", new_params[1].grad)
+
+/tmp/ipykernel_2971/1826495151.py in get_params(params, device)
+      1 def get_params(params, device):
+----> 2     new_params = [p.clone().to(device) for p in params]
+      3     for p in new_params:
+      4         p.requires_grad_()
+      5     return new_params
+
+/tmp/ipykernel_2971/1826495151.py in <listcomp>(.0)
+      1 def get_params(params, device):
+----> 2     new_params = [p.clone().to(device) for p in params]
+      3     for p in new_params:
+      4         p.requires_grad_()
+      5     return new_params
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/cuda/__init__.py in _lazy_init()
+    214         # This function throws if there's a driver initialization error, no GPUs
+    215         # are found or any other error occurs
+--> 216         torch._C._cuda_init()
+    217         # Some of the queued calls may reentrantly call _lazy_init();
+    218         # we need to just return without initializing in that case.
+
+RuntimeError: Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx
+RuntimeError: Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx
