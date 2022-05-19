@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2637/3733338085.py in <module>
+/tmp/ipykernel_2641/3733338085.py in <module>
      13 try:
 ---> 14     import variational_mixture_gaussians as vmg
      15 except ModuleNotFoundError:
@@ -132,7 +132,7 @@ ModuleNotFoundError: No module named 'variational_mixture_gaussians'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2637/3733338085.py in <module>
+/tmp/ipykernel_2641/3733338085.py in <module>
      15 except ModuleNotFoundError:
      16     get_ipython().run_line_magic('pip', 'install -qq variational_mixture_gaussians')
 ---> 17     import variational_mixture_gaussians as vmg
