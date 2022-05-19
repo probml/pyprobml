@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['# train loop', '', 'epoch = 5', 'for e in range(epoch):', '    print(f"Starting epoch {e} of {epoch}")']
+...
+['        reconstruction = net(X)', '        loss = criterion_MSE(reconstruction, X)', '        loss.backward()', '        optimizer.step()', '    print(f"Loss: {loss.item()}")']
+-------------------
