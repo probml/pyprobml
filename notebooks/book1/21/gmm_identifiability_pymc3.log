@@ -88,7 +88,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-/tmp/ipykernel_2876/3207410612.py in <module>
+/tmp/ipykernel_2870/3207410612.py in <module>
      42 # So we make a copy here
      43 url = "https://github.com/probml/pyprobml/blob/master/data/chemical_shifts_theo_exp.csv?raw=true"
 ---> 44 df = pd.read_csv(url)
