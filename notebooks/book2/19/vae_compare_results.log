@@ -52,7 +52,7 @@ def make_and_load_models(model_names: list, use_gpu=False):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2611/228787327.py in <module>
+/tmp/ipykernel_2602/228787327.py in <module>
      18 try:
 ---> 19     from assembler import get_config, assembler
      20 except ModuleNotFoundError:
@@ -62,7 +62,7 @@ ModuleNotFoundError: No module named 'assembler'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2611/228787327.py in <module>
+/tmp/ipykernel_2602/228787327.py in <module>
      20 except ModuleNotFoundError:
      21     get_ipython().run_line_magic('pip', 'install -qq assembler')
 ---> 22     from assembler import get_config, assembler

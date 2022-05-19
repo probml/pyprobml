@@ -58,7 +58,7 @@ from ae_mnist_conv import ConvAE
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2778/185146632.py in <module>
+/tmp/ipykernel_3203/185146632.py in <module>
      52 from torchvision.utils import make_grid
      53 from pytorch_lightning.utilities.seed import seed_everything
 ---> 54 from ae_mnist_conv import ConvAE
