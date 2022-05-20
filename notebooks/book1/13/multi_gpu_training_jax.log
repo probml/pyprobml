@@ -1,0 +1,109 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython import display
+
+import jax
+import jax.numpy as jnp  # JAX NumPy
+
+try:
+    import flax
+except ModuleNotFoundError:
+    %pip install -qq flax
+    import flax
+from flax import linen as nn  # The Linen API
+from flax.training import train_state  # Useful dataclass to keep train state
+
+try:
+    import optax  # Optimizers
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax  # Optimizers
+try:
+    import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
+except ModuleNotFoundError:
+    %pip install -qq tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
+
+import os
+import functools
+from typing import Tuple
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2979/3722993415.py in <module>
+     21 try:
+---> 22     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
+     23 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/__init__.py in <module>
+     42 # import tensorflow, too.
+---> 43 from tensorflow_datasets.core import tf_compat
+     44 tf_compat.ensure_tf_install()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/__init__.py in <module>
+     21 
+---> 22 tf_compat.ensure_tf_install()
+     23 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/tf_compat.py in ensure_tf_install()
+     47   try:
+---> 48     import tensorflow as tf  # pylint: disable=import-outside-toplevel
+     49   except ImportError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2979/3722993415.py in <module>
+     23 except ModuleNotFoundError:
+     24     get_ipython().run_line_magic('pip', 'install -qq tensorflow tensorflow_datasets')
+---> 25     import tensorflow_datasets as tfds  # TFDS for Fashion MNIST
+     26 
+     27 import os
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/__init__.py in <module>
+     41 # needs to happen before anything else, since the imports below will try to
+     42 # import tensorflow, too.
+---> 43 from tensorflow_datasets.core import tf_compat
+     44 tf_compat.ensure_tf_install()
+     45 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/__init__.py in <module>
+     24 # pylint:disable=g-import-not-at-top
+     25 
+---> 26 from tensorflow_datasets.core import community  # pylint: disable=g-bad-import-order
+     27 from tensorflow_datasets.core.dataset_builder import BeamBasedBuilder
+     28 from tensorflow_datasets.core.dataset_builder import BuilderConfig
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/community/__init__.py in <module>
+     16 """Community dataset API."""
+     17 
+---> 18 from tensorflow_datasets.core.community.huggingface_wrapper import mock_builtin_to_use_gfile
+     19 from tensorflow_datasets.core.community.huggingface_wrapper import mock_huggingface_import
+     20 from tensorflow_datasets.core.community.load import builder_cls_from_module
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/community/huggingface_wrapper.py in <module>
+     25 from unittest import mock
+     26 
+---> 27 import tensorflow as tf
+     28 from tensorflow_datasets.core import dataset_builder
+     29 from tensorflow_datasets.core import dataset_info
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
