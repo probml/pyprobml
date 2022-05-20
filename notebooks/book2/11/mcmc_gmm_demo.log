@@ -134,14 +134,14 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3574/1179156163.py in <module>
+/tmp/ipykernel_3587/1179156163.py in <module>
     125 
     126     np.random.seed(314)
 --> 127     sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax)
     128     for τ in τ_values:
     129         sample_plot_mh(x0, τ, π, μ, σ, n_iterations, xmin, xmax)
 
-/tmp/ipykernel_3574/1179156163.py in sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax)
+/tmp/ipykernel_3587/1179156163.py in sample_plot_gibbs(x0, z0, kv, π, μ, σ, n_iterations, xmin, xmax)
      89     pml.style3d(axs, 1.5, 1, 0.8)
      90     plt.subplots_adjust(left=0.001, bottom=0.208, right=0.7)
 ---> 91     pml.savefig("gibbs_trace.pdf", pad_inches=0, bbox_inches="tight")
