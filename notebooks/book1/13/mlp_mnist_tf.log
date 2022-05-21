@@ -24,13 +24,38 @@ if not tf.config.list_physical_devices("GPU"):
 ------------------
 
 ---------------------------------------------------------------------------
-OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_2982/1663250572.py in <module>
-      8 # TensorFlow ≥2.0 is required
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2987/1663250572.py in <module>
       9 try:
 ---> 10     import tensorflow as tf
      11 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
+     35 
+---> 36 from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
+     37 from tensorflow.python.eager import context
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/pywrap_tensorflow.py in <module>
+     20 
+---> 21 from tensorflow.python.platform import self_check
+     22 
+
+ModuleNotFoundError: No module named 'tensorflow.python.platform'
+
+During handling of the above exception, another exception occurred:
+
+OSError                                   Traceback (most recent call last)
+/tmp/ipykernel_2987/1663250572.py in <module>
+     11 except ModuleNotFoundError:
      12     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+---> 13     import tensorflow as tf
+     14 from tensorflow import keras
+     15 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing

@@ -2,7 +2,6 @@ A cell timed out while it was being executed, after 600 seconds.
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-key, _ = jax.random.split(jax.random.PRNGKey(42))
-
-train(key, data, 23, 0.03)
+train = train_procedure_builder(LeNetBN)
+state = train(train_ds, test_ds, num_epochs, batch_size, learning_rate)
 -------------------
