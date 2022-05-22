@@ -20,7 +20,7 @@ _ = plt.xlabel("step number")
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2885/3357705884.py in <module>
+/tmp/ipykernel_2905/3357705884.py in <module>
       1 model = GPModule()
 ----> 2 params = model.init(jax.random.PRNGKey(0), x, y, x_test)
       3 tx = optax.sgd(learning_rate=3e-3)
@@ -29,7 +29,7 @@ TypeError                                 Traceback (most recent call last)
 
     [... skipping hidden 11 frame]
 
-/tmp/ipykernel_2885/3123926733.py in __call__(self, x, y, t)
+/tmp/ipykernel_2905/3123926733.py in __call__(self, x, y, t)
      48         )
      49 
 ---> 50         loss = -gp.condition(y)

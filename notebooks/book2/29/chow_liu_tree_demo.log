@@ -158,13 +158,23 @@ p.write_png("../figures/tree_structure.png")
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2611/437414598.py in <module>
-    137 ]
-    138 
---> 139 count_vect = CountVectorizer(newsgroups_train.data, vocabulary=list_of_words)
-    140 X_train_counts = count_vect.fit_transform(newsgroups_train.data)
-    141 df_ = pd.DataFrame.sparse.from_spmatrix(X_train_counts, columns=list_of_words)
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2610/437414598.py in <module>
+     32 try:
+---> 33     import probml_utils as pml
+     34 except ModuleNotFoundError:
 
-TypeError: __init__() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given
-TypeError: __init__() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2610/437414598.py in <module>
+     34 except ModuleNotFoundError:
+     35     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 36     import probml_utils as pml
+     37 
+     38 newsgroups_train = fetch_20newsgroups(subset="train")
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'

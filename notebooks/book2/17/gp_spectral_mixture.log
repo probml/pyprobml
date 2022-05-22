@@ -34,7 +34,7 @@ plt.savefig("gp-spectral-mixture-learned-kernel.pdf")
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2649/253787479.py in <module>
+/tmp/ipykernel_2653/253787479.py in <module>
      15 opt_state = opt.init(params)
      16 for i in range(1000):
 ---> 17     loss_val, grads = loss(params)
@@ -43,7 +43,7 @@ TypeError                                 Traceback (most recent call last)
 
     [... skipping hidden 22 frame]
 
-/tmp/ipykernel_2649/253787479.py in loss(theta)
+/tmp/ipykernel_2653/253787479.py in loss(theta)
       9 @jax.value_and_grad
      10 def loss(theta):
 ---> 11     return -build_gp(theta).condition(y)
