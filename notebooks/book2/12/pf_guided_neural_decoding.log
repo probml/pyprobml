@@ -13,7 +13,7 @@ import particles.distributions as dists
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3552/3442777274.py in <module>
+/tmp/ipykernel_3614/3442777274.py in <module>
       4     get_ipython().run_line_magic('pip', 'install -qq particles')
       5     import particles
 ----> 6 import particles.state_space_models as ssm

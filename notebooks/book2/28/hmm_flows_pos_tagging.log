@@ -1,0 +1,41 @@
+An error occurred while executing the following cell:
+------------------
+# Running this cell is neccesary due to the fact that
+# installing faiss 1.6.5 via pip is not working for torchcuda
+# However, it will restart the kernel.
+# After that, you should continue with the next cell and reload the page.
+
+!pip install -q condacolab
+import condacolab
+
+condacolab.install()
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/condacolab.py in <module>
+     25 try:
+---> 26     import google.colab
+     27 except ImportError:
+
+ModuleNotFoundError: No module named 'google'
+
+During handling of the above exception, another exception occurred:
+
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_2681/298501686.py in <module>
+      5 
+      6 get_ipython().system('pip install -q condacolab')
+----> 7 import condacolab
+      8 
+      9 condacolab.install()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/condacolab.py in <module>
+     26     import google.colab
+     27 except ImportError:
+---> 28     raise RuntimeError("This module must ONLY run as part of a Colab notebook!")
+     29 
+     30 
+
+RuntimeError: This module must ONLY run as part of a Colab notebook!
+RuntimeError: This module must ONLY run as part of a Colab notebook!
