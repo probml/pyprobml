@@ -1,0 +1,45 @@
+An error occurred while executing the following cell:
+------------------
+from conditional_bernoulli_mix_lib import ClassConditionalBMM
+from conditional_bernoulli_mix_utils import (
+    fake_test_data,
+    encode,
+    decode,
+    get_decoded_samples,
+    get_emnist_images_per_class,
+)
+from noisy_spelling_hmm import Word
+from ngram_character_demo import ngram_model_fit, read_file, preprocessing, ngram_model_sample, ngram_loglikelihood
+from distrax import HMM
+
+from nltk.util import ngrams
+from nltk import FreqDist, LidstoneProbDist
+
+import numpy as np
+
+import re
+import string
+from collections import defaultdict
+from dataclasses import dataclass
+
+from jax import vmap
+import jax.numpy as jnp
+import jax
+from jax.random import PRNGKey, split
+import distrax
+
+import numpy as np
+from matplotlib import pyplot as plt
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_2679/4012661389.py in <module>
+----> 1 from conditional_bernoulli_mix_lib import ClassConditionalBMM
+      2 from conditional_bernoulli_mix_utils import (
+      3     fake_test_data,
+      4     encode,
+      5     decode,
+
+ModuleNotFoundError: No module named 'conditional_bernoulli_mix_lib'
+ModuleNotFoundError: No module named 'conditional_bernoulli_mix_lib'
