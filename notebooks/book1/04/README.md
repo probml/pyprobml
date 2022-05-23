@@ -31,8 +31,10 @@
 | 4.24 | [samplingDistributionGaussianShrinkage.ipynb](samplingDistributionGaussianShrinkage.ipynb) | - |
 | 4.25 | [biasVarModelComplexity3.ipynb](biasVarModelComplexity3.ipynb) | - |
 | 4.26 | - | [Figure_4.26.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_4.26.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Intro to PyMc3|PyMc3|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/pymc3_intro.ipynb)
-|Intro to Bayesian stats|PyMc3|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/bayes_intro.ipynb)
+|Intro to PyMc3|PyMc3|[pymc3_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/pymc3_intro.ipynb)
+|Intro to Bayesian stats|PyMc3|[bayes_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/bayes_intro.ipynb)

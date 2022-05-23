@@ -21,9 +21,11 @@
 | 19.14 | [hbayes_maml.ipynb](hbayes_maml.ipynb) | [Figure_19.14.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_19.14.png)<br/> |
 | 19.15 | - | [Figure_19.15.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_19.15.png)<br/> |
 | 19.16 | - | [Figure_19.16.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_19.16.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Image augmentation|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/image_augmentation_torch.ipynb)
-|Using a CNN that is pretrained on Imagenet|PyTorch|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/pre_trained_image_classifier_torch.ipynb)
-|Fine-tuning a pre-trained CNN to make a hotdog detector (D2L 13.2)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/finetune_cnn_torch.ipynb)
+|Image augmentation|PyTorch|[image_augmentation_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/19/image_augmentation_torch.ipynb)
+|Using a CNN that is pretrained on Imagenet|PyTorch|[pre_trained_image_classifier_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/19/pre_trained_image_classifier_torch.ipynb)
+|Fine-tuning a pre-trained CNN to make a hotdog detector (D2L 13.2)|PyTorch|[finetune_cnn_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/19/finetune_cnn_torch.ipynb)

@@ -16,8 +16,10 @@
 | 5.9 | - | [Figure_5.9.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_5.9.png)<br/> |
 | 5.10 | [fig_5_10.ipynb](fig_5_10.ipynb) | - |
 | 5.11 | - | [Figure_5.11.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_5.11.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Brief intro to Bayesian decision theory|Python|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/dtheory.ipynb)
+|Brief intro to Bayesian decision theory|Python|[dtheory.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/05/dtheory.ipynb)
 |Multi-armed bandits|Python|[Notebooks](bandits.ipynb)
