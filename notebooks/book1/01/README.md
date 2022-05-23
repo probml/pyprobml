@@ -20,14 +20,16 @@
 | 1.13 | [fig_1_13.ipynb](fig_1_13.ipynb) | - |
 | 1.14 | - | [Figure_1.14_B.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_1.14_B.png)<br/>[Figure_1.14_A.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_1.14_A.png)<br/> |
 | 1.15 | - | [Figure_1.15.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_1.15.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
 |Overview of Python ML/DL software ecosystem|Various|[Markdown](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/tutorials/software.md)
 |List of Python tutorials|Various|[Markdown](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/tutorials/python_tutorials.md)
-|Intro to colab|Colab|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/colab_intro.ipynb)
-|Intro to Pandas|Pandas, Xarray|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/pandas_intro.ipynb)
-|Intro to JAX|Jax|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/jax_intro.ipynb)
+|Intro to colab|Colab|[colab_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/colab_intro.ipynb)
+|Intro to Pandas|Pandas, Xarray|[pandas_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/pandas_intro.ipynb)
+|Intro to JAX|Jax|[jax_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/jax_intro.ipynb)
 |Other JAX tutorials|Jax|[Markdown](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/tutorials/jax_tutorials.md)
-|Text preprocessing|PyTorch|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/text_preproc_torch.ipynb)
+|Text preprocessing|PyTorch|[text_preproc_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/text_preproc_torch.ipynb)
 |Intro to ML using Scikit learn|Python|[Online book](https://inria.github.io/scikit-learn-mooc/)

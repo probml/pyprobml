@@ -20,9 +20,11 @@
 | 10.13 | [logreg_laplace_demo.ipynb](logreg_laplace_demo.ipynb) | - |
 | 10.14 | [logreg_laplace_demo.ipynb](logreg_laplace_demo.ipynb) | - |
 | 10.15 | - | [Figure_10.15_A.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_10.15_A.png)<br/>[Figure_10.15_B.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_10.15_B.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Logreg using sklearn|Sklearn|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/logreg_sklearn.ipynb)
-|Logreg from scratch using JAX|JAX|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/logreg_jax.ipynb)
-|Logreg from scratch using PyTorch|PyTorch|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/logreg_pytorch.ipynb)
+|Logreg using sklearn|Sklearn|[logreg_sklearn.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/10/logreg_sklearn.ipynb)
+|Logreg from scratch using JAX|JAX|[logreg_jax.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/10/logreg_jax.ipynb)
+|Logreg from scratch using PyTorch|PyTorch|[logreg_pytorch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/10/logreg_pytorch.ipynb)

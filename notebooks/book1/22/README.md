@@ -11,8 +11,10 @@
 | 22.4 | [matrix_factorization_recommender.ipynb](matrix_factorization_recommender.ipynb) | [Figure_22.4_B.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_22.4_B.png)<br/>[Figure_22.4_A.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_22.4_A.png)<br/> |
 | 22.5 | - | [Figure_22.5.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_22.5.png)<br/> |
 | 22.6 | - | [Figure_22.6.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_22.6.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Matrix factorization|Numpy|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/matrix_factorization_recommender.ipynb)
-|Matrix factorization|Suprise|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/matrix_factorization_recommender_surprise_lib.ipynb)
+|Matrix factorization|Numpy|[matrix_factorization_recommender.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/22/matrix_factorization_recommender.ipynb)
+|Matrix factorization|Suprise|[matrix_factorization_recommender_surprise_lib.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/22/matrix_factorization_recommender_surprise_lib.ipynb)

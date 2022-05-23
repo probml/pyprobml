@@ -17,7 +17,9 @@
 | 7.10 | [svd_image_demo.ipynb](svd_image_demo.ipynb) | - |
 | 7.11 | - | [Figure_7.11_A.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_7.11_A.png)<br/>[Figure_7.11_B.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_7.11_B.png)<br/> |
 | 7.12 | - | [Figure_7.12.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_7.12.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Intro to linear algebra|JAX|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/linalg.ipynb)
+|Intro to linear algebra|JAX|[linalg.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/07/linalg.ipynb)

@@ -11,11 +11,24 @@ notebooks1 = glob("notebooks/book1/*/*.ipynb")
 notebooks2 = glob("notebooks/book2/*/*.ipynb")
 notebooks = notebooks1 + notebooks2
 
+#get IGNORE_LIST of notebooks
+IGNORE_LIST = []
+with open("internal/copied_from misc_nb.txt") as fp:
+    ignored_notebooks = fp.readlines()
+    for nb in ignored_notebooks:
+        IGNORE_LIST.append(nb.strip().split("/")[-1])
+
+def in_ignore_list(nb_path):
+    nb_name = nb_path.split("/")[-1]
+    return nb_name in IGNORE_LIST
+
+notebooks = list(filter(lambda nb: not in_ignore_list(nb), notebooks))
+
 # load installed modules
 all_modules = set(map(lambda x: x[1], list(pkgutil.iter_modules())))
 
 # Special cases
-special_modules = set(["mpl_toolkits", "itertools", "time", "sys", "d2l", "augmax", "google", "ae_mnist_conv"])
+special_modules = set(["mpl_toolkits", "itertools", "time", "sys", "d2l", "augmax", "google"])
 all_modules = all_modules.union(special_modules)
 
 

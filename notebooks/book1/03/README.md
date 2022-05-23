@@ -22,7 +22,9 @@
 | 3.15 | - | [Figure_3.15_B.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_3.15_B.png)<br/>[Figure_3.15_A.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_3.15_A.png)<br/> |
 | 3.16 | - | [Figure_3.16.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_3.16.png)<br/> |
 | 3.17 | - | [Figure_3.17.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_3.17.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Intro to probability|Scipy|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/prob.ipynb)
+|Intro to probability|Scipy|[prob.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/03/prob.ipynb)

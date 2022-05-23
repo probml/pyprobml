@@ -15,7 +15,9 @@
 | 16.8 | [smoothingKernelPlot.ipynb](smoothingKernelPlot.ipynb) | - |
 | 16.9 | [parzen_window_demo2.ipynb](parzen_window_demo2.ipynb) | - |
 | 16.10 | [kernelRegressionDemo.ipynb](kernelRegressionDemo.ipynb) | - |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|KNN classifier|Sklearn|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/knn_demo.ipynb)
+|KNN classifier|Sklearn|[knn_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/16/knn_demo.ipynb)

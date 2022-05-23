@@ -46,20 +46,22 @@
 | 14.39 | - | [Figure_14.39_B.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.39_B.png)<br/>[Figure_14.39_C.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.39_C.png)<br/>[Figure_14.39_D.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.39_D.png)<br/>[Figure_14.39_F.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.39_F.png)<br/>[Figure_14.39_H.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.39_H.png)<br/>[Figure_14.39_A.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.39_A.png)<br/>[Figure_14.39_G.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.39_G.png)<br/>[Figure_14.39_E.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.39_E.png)<br/> |
 | 14.40 | - | [Figure_14.40.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.40.png)<br/> |
 | 14.41 | - | [Figure_14.41.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_14.41.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Basics of (2d) convolution (D2L 6.2)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/conv2d_torch.ipynb)
-|CIFAR image classification with CNN|PyTorch|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/cnn_cifar_pytorch.ipynb)
-|LeNet (D2L 6.5)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/lenet_torch.ipynb)
-|Batchnorm (D2L 7.5|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/batchnorm_torch.ipynb)
-|Residual networks (D2L 7.6)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/resnet_torch.ipynb)
-|Resnets for CIFAR10|PyTorch Lightning|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/cifar10_cnn_lightning.ipynb)
-|Dense nets (D2L 7.7)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/densenet_torch.ipynb)
+|Basics of (2d) convolution (D2L 6.2)|PyTorch|[conv2d_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/conv2d_torch.ipynb)
+|CIFAR image classification with CNN|PyTorch|[cnn_cifar_pytorch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/cnn_cifar_pytorch.ipynb)
+|LeNet (D2L 6.5)|PyTorch|[lenet_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/lenet_torch.ipynb)
+|Batchnorm (D2L 7.5|PyTorch|[batchnorm_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/batchnorm_torch.ipynb)
+|Residual networks (D2L 7.6)|PyTorch|[resnet_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/resnet_torch.ipynb)
+|Resnets for CIFAR10|PyTorch Lightning|[cifar10_cnn_lightning.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/cifar10_cnn_lightning.ipynb)
+|Dense nets (D2L 7.7)|PyTorch|[densenet_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/densenet_torch.ipynb)
 |Multi-GPU training (D2L 12.5)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/multi_gpu_torch.ipynb)
-|Image augmentation (D2L 13.1)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/image_augmentation_torch.ipynb)
+|Image augmentation (D2L 13.1)|PyTorch|[image_augmentation_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/19/image_augmentation_torch.ipynb)
 |Imagenet classifier|JAX/Flax|[External](https://colab.research.google.com/github/google/flax/blob/master/examples/imagenet/imagenet.ipynb)
-|MNIST image classification using a CNN|TF2|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/cnn_mnist_tf.ipynb)
+|MNIST image classification using a CNN|TF2|[cnn_mnist_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/cnn_mnist_tf.ipynb)
 |Transfer learning for flower classification|TF2|[External](https://www.tensorflow.org/tutorials/images/transfer_learning_with_hub)
 |Deep dream|TF2|[External](https://www.tensorflow.org/tutorials/generative/deepdream)
 |Neural style transfer|TF2|[External](https://www.tensorflow.org/tutorials/generative/style_transfer))
