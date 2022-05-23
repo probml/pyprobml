@@ -99,11 +99,12 @@ def store_copied_nb(notebooks,fname = "internal/copied_from misc_nb.txt"):
         [fp.write(nb+"\n") for nb in notebooks]
 
 if __name__ == "__main__":
-    copied_nb = copy_referred_nb()
-    print(len(copied_nb), len(set(copied_nb)))
-    print(copied_nb[:4])
-    store_copied_nb(copied_nb)
-    delete_nb(set(copied_nb))
+    print("main")
+    # copied_nb = copy_referred_nb()
+    # print(len(copied_nb), len(set(copied_nb)))
+    # print(copied_nb[:4])
+    # store_copied_nb(copied_nb)
+    # delete_nb(set(copied_nb))
 
 '''
 # some issues
