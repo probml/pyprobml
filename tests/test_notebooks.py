@@ -14,6 +14,17 @@ os.environ["FIG_DIR"] = "figures"
 os.environ["LATEXIFY"] = ""  # To enable latexify code
 os.environ["DUAL_SAVE"] = ""  # To save both .pdf and .png
 
+#get IGNORE_LIST of notebooks
+IGNORE_LIST = []
+with open("internal/copied_from misc_nb.txt") as fp:
+    notebooks = fp.readlines()
+    for nb in notebooks:
+        IGNORE_LIST.append(nb.strip().split("/")[-1])
+
+def in_ignore_list(nb_path):
+    nb_name = nb_path.split("/")[-1]
+    return nb_name in IGNORE_LIST
+
 # Load notebooks
 cmd = "git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {}"
 notebooks_raw = subprocess.run(cmd, check=True, shell=True, capture_output=True, text=True)
@@ -24,7 +35,12 @@ for entry in notebooks_raw.stdout.split("\n"):
     if entry:
         ts, notebook = entry.split(" ")
         timestamped_notebooks.append((int(ts), notebook))
+        if in_ignore_list(notebook):
+            print(f"******** {notebook} skiped!! *********")
+            continue # don't exceute these notebooks
 timestamped_notebooks.sort(reverse=True)  # execute newer notebooks first
+
+
 if "PYPROBML_GA_RUNNER_ID" in os.environ:
     # we are in execute_all_notebooks
     notebooks = [

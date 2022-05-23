@@ -4,11 +4,12 @@ on:
   push:
     branches:
     - master
-
+    - md_notebooks
+    
   pull_request:
     branches:
     - master
-    - md_notebooks
+    
 
 jobs:
   check_code_quality:
