@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - md_notebooks
     
   pull_request:
     branches:
