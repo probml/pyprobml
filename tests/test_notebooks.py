@@ -34,10 +34,10 @@ timestamped_notebooks = []
 for entry in notebooks_raw.stdout.split("\n"):
     if entry:
         ts, notebook = entry.split(" ")
-        timestamped_notebooks.append((int(ts), notebook))
         if in_ignore_list(notebook):
             print(f"******** {notebook} skiped!! *********")
-            continue # don't exceute these notebooks
+            continue # don't execute these notebooks
+        timestamped_notebooks.append((int(ts), notebook))
 timestamped_notebooks.sort(reverse=True)  # execute newer notebooks first
 
 
