@@ -1,0 +1,134 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
+from jax import lax
+
+try:
+    from probml_utils import latexify, savefig
+except:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig
+
+try:
+    import blackjax
+except:
+    %pip install blackjax
+    import blackjax
+
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qqq tensorflow_probability
+    from tensorflow_probability.substrates import jax as tfp
+
+try:
+    from rich import print
+except ModuleNotFoundError:
+    %pip install -qqq rich
+    from rich import print
+
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+import warnings
+import os
+
+warnings.filterwarnings("ignore")
+dist = tfp.distributions
+
+plt.rc("font", size=10)  # controls default text sizes
+plt.rc("axes", labelsize=12)  # fontsize of the x and y labels
+plt.rc("legend", fontsize=12)  # legend fontsize
+plt.rc("figure", titlesize=15)  # fontsize of the figure title
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4611/3920625945.py in <module>
+     11 try:
+---> 12     import blackjax
+     13 except:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/__init__.py in <module>
+      2 from .diagnostics import potential_scale_reduction as rhat
+----> 3 from .kernels import (
+      4     adaptive_tempered_smc,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/kernels.py in <module>
+      5 
+----> 6 import blackjax.adaptation as adaptation
+      7 import blackjax.mcmc as mcmc
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/__init__.py in <module>
+----> 1 from . import pathfinder_adaptation, window_adaptation
+      2 
+      3 __all__ = ["window_adaptation", "pathfinder_adaptation"]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/pathfinder_adaptation.py in <module>
+     12 from blackjax.types import Array, PRNGKey, PyTree
+---> 13 from blackjax.vi.pathfinder import init as pathfinder_init_fn
+     14 from blackjax.vi.pathfinder import lbfgs_inverse_hessian_formula_1, sample_from_state
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/vi/__init__.py in <module>
+----> 1 from . import pathfinder
+      2 
+      3 __all__ = ["pathfinder"]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/vi/pathfinder.py in <module>
+      5 import jax.random
+----> 6 import jaxopt
+      7 from jax import lax
+
+ModuleNotFoundError: No module named 'jaxopt'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4611/3920625945.py in <module>
+     13 except:
+     14     get_ipython().run_line_magic('pip', 'install blackjax')
+---> 15     import blackjax
+     16 
+     17 try:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/__init__.py in <module>
+      1 from .diagnostics import effective_sample_size as ess
+      2 from .diagnostics import potential_scale_reduction as rhat
+----> 3 from .kernels import (
+      4     adaptive_tempered_smc,
+      5     elliptical_slice,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/kernels.py in <module>
+      4 import jax.numpy as jnp
+      5 
+----> 6 import blackjax.adaptation as adaptation
+      7 import blackjax.mcmc as mcmc
+      8 import blackjax.sgmcmc as sgmcmc
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/__init__.py in <module>
+----> 1 from . import pathfinder_adaptation, window_adaptation
+      2 
+      3 __all__ = ["window_adaptation", "pathfinder_adaptation"]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/pathfinder_adaptation.py in <module>
+     11 from blackjax.mcmc.hmc import HMCState
+     12 from blackjax.types import Array, PRNGKey, PyTree
+---> 13 from blackjax.vi.pathfinder import init as pathfinder_init_fn
+     14 from blackjax.vi.pathfinder import lbfgs_inverse_hessian_formula_1, sample_from_state
+     15 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/vi/__init__.py in <module>
+----> 1 from . import pathfinder
+      2 
+      3 __all__ = ["pathfinder"]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/vi/pathfinder.py in <module>
+      4 import jax.numpy as jnp
+      5 import jax.random
+----> 6 import jaxopt
+      7 from jax import lax
+      8 from jax.flatten_util import ravel_pytree
+
+ModuleNotFoundError: No module named 'jaxopt'
+ModuleNotFoundError: No module named 'jaxopt'
