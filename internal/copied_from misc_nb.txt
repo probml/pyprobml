@@ -27,3 +27,6 @@ notebooks/misc/opt_flax.ipynb
 notebooks/misc/autodiff_tf.ipynb
 notebooks/misc/autodiff_jax.ipynb
 notebooks/misc/autodiff_pytorch.ipynb
+notebooks/book2/28/hmm_flows_pos_tagging.ipynb
+notebooks/book2/28/hmm_poisson_changepoint_tfp.ipynb
+notebooks/book2/28/hmm_with_ngram.ipynb
