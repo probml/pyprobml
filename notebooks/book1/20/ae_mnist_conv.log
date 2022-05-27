@@ -1,70 +1,94 @@
 An error occurred while executing the following cell:
 ------------------
-
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
 
 try:
     import torch
 except ModuleNotFoundError:
     %pip install -qq torch
     import torch
-import warnings
-import matplotlib.pyplot as plt
+import torch.nn as nn
+
 try:
-    import torchvision.transforms as transforms
+    from torchvision.datasets import MNIST
 except ModuleNotFoundError:
     %pip install -qq torchvision
-    import torchvision.transforms as transforms
-try:
-    from download_celeba import celeba_dataloader
-except ModuleNotFoundError:
-    %pip install -qq download_celeba
-    from download_celeba import celeba_dataloader
-try:
-    from assembler import get_config, assembler
-except ModuleNotFoundError:
-    %pip install -qq assembler
-    from assembler import get_config, assembler
-try:
-    from utils.plot import plot_reconstruction, plot_samples
-except ModuleNotFoundError:
-    %pip install -qq utils
-    from utils.plot import plot_reconstruction, plot_samples
-from utils.interpolation import vector_of_interest, get_imrange
+    from torchvision.datasets import MNIST
+import torch.nn.functional as F
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
 
-warnings.filterwarnings('ignore')
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+try:
+    from pytorch_lightning import LightningModule, Trainer
+except ModuleNotFoundError:
+    %pip install -qq pytorch_lightning
+    from pytorch_lightning import LightningModule, Trainer
+try:
+    from einops import rearrange
+except ModuleNotFoundError:
+    %pip install -qq einops
+    from einops import rearrange
+import seaborn as sns
 
-def make_model(model_name, use_gpu=False):
-  fname = f"./configs/{model_name}.yaml"
-  config = get_config(fname)
-  vae = assembler(config, "inference")
-  if use_gpu: vae = vae.to("cuda")
-  return vae
+try:
+    from probml_utils import savefig
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig
+try:
+    from probml_utils.lvm_plots_utils import (
+        get_random_samples,
+        get_grid_samples,
+        plot_scatter_plot,
+        get_imrange,
+        plot_grid_plot,
+    )
+except:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils.lvm_plots_utils import (
+        get_random_samples,
+        get_grid_samples,
+        plot_scatter_plot,
+        get_imrange,
+        plot_grid_plot,
+    )
 
-def make_and_load_models(model_names: list, use_gpu=False):
-  vaes = []
-  for model_name in model_names:
-    vae = make_model(model_name, use_gpu)
-    vae.load_model()
-    vaes.append(vae)
-  return vaes 
+from torchvision.utils import make_grid
+from pytorch_lightning.utilities.seed import seed_everything
+
+try:
+    from probml_utils.ae_mnist_conv import (
+        ConvAEModule,
+        ConvAE,
+    )
+except:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils.ae_mnist_conv import (
+        ConvAEModule,
+        ConvAE,
+    )
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3688/228787327.py in <module>
-     12     import torchvision.transforms as transforms
-     13 try:
----> 14     from download_celeba import celeba_dataloader
-     15 except ModuleNotFoundError:
-     16     get_ipython().run_line_magic('pip', 'install -qq download_celeba')
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3644/4080974842.py in <module>
+     21 try:
+---> 22     from pytorch_lightning import LightningModule, Trainer
+     23 except ModuleNotFoundError:
 
-/__w/pyprobml/pyprobml/download_celeba.py in <module>
-     25 from torchvision.datasets.utils import verify_str_arg
-     26 
----> 27 import pytorch_lightning as pl
-     28 
-     29 #from celeba_data import  CelebADataModule
+ModuleNotFoundError: No module named 'pytorch_lightning'
+
+During handling of the above exception, another exception occurred:
+
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_3644/4080974842.py in <module>
+     23 except ModuleNotFoundError:
+     24     get_ipython().run_line_magic('pip', 'install -qq pytorch_lightning')
+---> 25     from pytorch_lightning import LightningModule, Trainer
+     26 try:
+     27     from einops import rearrange
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/__init__.py in <module>
      28     _logger.propagate = False

@@ -18,7 +18,7 @@ for i in range(1000):
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_2749/3617792424.py in <module>
+/tmp/ipykernel_3749/3617792424.py in <module>
       5 
       6 model = GPdeep()
 ----> 7 params = model.init(jax.random.PRNGKey(1234), x, y, t)
@@ -27,7 +27,7 @@ TypeError                                 Traceback (most recent call last)
 
     [... skipping hidden 11 frame]
 
-/tmp/ipykernel_2749/1460196001.py in __call__(self, x, y, t)
+/tmp/ipykernel_3749/1460196001.py in __call__(self, x, y, t)
      51             kernel, x[:, None], diag=jnp.exp(2 * log_jitter)
      52         )
 ---> 53         return -gp.condition(y), gp.predict(y, t[:, None], return_var=True)
