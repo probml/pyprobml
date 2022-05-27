@@ -452,6 +452,7 @@ def wrap_line_with_try_accept(line, module):
         "skimage": "scikit-image",
         "cv2": "opencv-python",
         "tensorflow_datasets": "tensorflow tensorflow_datasets",
+        "umap":"umap-learn"
     }
     f"""
     check if import {module} is in given line: {line}
