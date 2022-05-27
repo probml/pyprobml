@@ -1,8 +1,9 @@
 An error occurred while executing the following cell:
 ------------------
-# Gaussian process binary classification in 1d
+# Bayesian Binary logistic regression in 2d for iris flwoers
+
 # Code is based on
-# https://github.com/aloctavodia/BAP/blob/master/code/Chp7/07_Gaussian%20process.ipynb
+# https://github.com/aloctavodia/BAP/blob/master/code/Chp4/04_Generalizing_linear_models.ipynb
 
 
 try:
@@ -11,21 +12,16 @@ except ModuleNotFoundError:
     %pip install -qq pymc3
     import pymc3 as pm
 import numpy as np
+import pandas as pd
 
 try:
-    import pandas as pd
+    import theano.tensor as tt
 except ModuleNotFoundError:
-    %pip install -qq pandas
-    import pandas as pd
-from scipy import stats
+    %pip install -qq theano
+    import theano.tensor as tt
+# import seaborn as sns
+import scipy.stats as stats
 from scipy.special import expit as logistic
-
-try:
-    import probml_utils as pml
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    import probml_utils as pml
-
 import matplotlib.pyplot as plt
 
 try:
@@ -33,13 +29,13 @@ try:
 except ModuleNotFoundError:
     %pip install -qq arviz
     import arviz as az
+from sklearn.datasets import load_iris
 
 try:
-    from sklearn.datasets import load_iris
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install -qq scikit-learn
-    from sklearn.datasets import load_iris
-
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
 iris = load_iris()
 X = iris.data
@@ -50,113 +46,67 @@ df_iris = pd.DataFrame(data=iris.data, columns=["sepal_length", "sepal_width", "
 df_iris["species"] = pd.Series(iris.target_names[y], dtype="category")
 
 
-# Covnert to a two-class problem, and extract 1 feature to make 1d
 df = df_iris.query("species == ('setosa', 'versicolor')")
-y = pd.Categorical(df["species"]).codes
-x_1 = df["sepal_length"].values
-X_1 = x_1[:, None]
 
-# For evaluating posterior predictive
-X_new = np.linspace(np.floor(x_1.min()), np.ceil(x_1.max()), 200)[:, None]
+# We reduce the sample size from 50 to 25 per class,
+# or to 5 + 45 in the unbalanced setting.
+# The latter will increase posterior uncertainty
+unbalanced = False  # True
+if unbalanced:
+    df = df[45:95]
+else:
+    df = df[25:75]
+assert len(df) == 50
+
+y_1 = pd.Categorical(df["species"]).codes
+x_n = ["sepal_length", "sepal_width"]
+x_1 = df[x_n].values
 
 
-def find_midpoint(array1, array2, value):
-    array1 = np.asarray(array1)
-    idx0 = np.argsort(np.abs(array1 - value))[0]
-    idx1 = idx0 - 1 if array1[idx0] > value else idx0 + 1
-    if idx1 == len(array1):
-        idx1 -= 1
-    return (array2[idx0] + array2[idx1]) / 2
+with pm.Model() as model_1:
+    α = pm.Normal("α", mu=0, sd=10)
+    β = pm.Normal("β", mu=0, sd=2, shape=len(x_n))
 
+    μ = α + pm.math.dot(x_1, β)
+    θ = pm.Deterministic("θ", 1 / (1 + pm.math.exp(-μ)))
+    bd = pm.Deterministic("bd", -α / β[1] - β[0] / β[1] * x_1[:, 0])
 
-if 1:
-    # Posterior over length scale l of kernel
-    with pm.Model() as model_iris:
-        # ℓ = pm.HalfCauchy("ℓ", 1)
-        ℓ = pm.Gamma("ℓ", 2, 0.5)
-        cov = pm.gp.cov.ExpQuad(1, ℓ) + pm.gp.cov.WhiteNoise(1e-5)
-        gp = pm.gp.Latent(cov_func=cov)
-        f = gp.prior("f", X=X_1)
-        # logistic inverse link function and Bernoulli likelihood
-        y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
-        trace_iris = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
+    yl = pm.Bernoulli("yl", p=θ, observed=y_1)
 
-    # Posterior predictive
+    trace_1 = pm.sample(2000, cores=1, chains=2)
 
-    with model_iris:
-        f_pred = gp.conditional("f_pred", X_new)
-        pred_samples = pm.sample_posterior_predictive(trace_iris, var_names=["f_pred"], samples=1000)
+varnames = ["α", "β"]
+# az.plot_forest(trace_1, var_names=varnames);
 
-    # Plot results
-    _, ax = plt.subplots(figsize=(10, 6))
+idx = np.argsort(x_1[:, 0])
+bd = trace_1["bd"].mean(0)[idx]
 
-    fp = logistic(pred_samples["f_pred"])
-    fp_mean = np.mean(fp, 0)
+plt.figure()
+plt.scatter(x_1[:, 0], x_1[:, 1], c=[f"C{x}" for x in y_1])
+plt.plot(x_1[:, 0][idx], bd, color="k")
 
-    ax.plot(X_new[:, 0], fp_mean)
-    # plot the data (with some jitter) and the true latent function
-    ax.scatter(x_1, np.random.normal(y, 0.02), marker=".", color=[f"C{x}" for x in y])
+az.plot_hdi(x_1[:, 0], trace_1["bd"], color="k")
 
-    az.plot_hdi(X_new[:, 0], fp, color="C2")
+plt.xlabel(x_n[0])
+plt.ylabel(x_n[1])
 
-    db = np.array([find_midpoint(f, X_new[:, 0], 0.5) for f in fp])
-    db_mean = db.mean()
-    db_hpd = az.hdi(db)
-    ax.vlines(db_mean, 0, 1, color="k")
-    ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color="k", alpha=0.5)
-    ax.set_xlabel("sepal_length")
-    ax.set_ylabel("θ", rotation=0)
-    pml.savefig("gp_classify_iris1.pdf", dpi=300)
-
-# Change kernel to be sum of SE and linear, to improve tail behavior
-
-with pm.Model() as model_iris2:
-    # ℓ = pm.HalfCauchy("ℓ", 1)
-    ℓ = pm.Gamma("ℓ", 2, 0.5)
-    c = pm.Normal("c", x_1.min())
-    τ = pm.HalfNormal("τ", 5)
-    cov = pm.gp.cov.ExpQuad(1, ℓ) + τ * pm.gp.cov.Linear(1, c) + pm.gp.cov.WhiteNoise(1e-5)
-    gp = pm.gp.Latent(cov_func=cov)
-    f = gp.prior("f", X=X_1)
-    # logistic inverse link function and Bernoulli likelihood
-    y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
-    trace_iris2 = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
-
-with model_iris2:
-    f_pred = gp.conditional("f_pred", X_new)
-    pred_samples = pm.sample_posterior_predictive(trace_iris2, var_names=["f_pred"], samples=1000)
-
-_, ax = plt.subplots(figsize=(10, 6))
-
-fp = logistic(pred_samples["f_pred"])
-fp_mean = np.mean(fp, 0)
-
-ax.scatter(x_1, np.random.normal(y, 0.02), marker=".", color=[f"C{ci}" for ci in y])
-
-db = np.array([find_midpoint(f, X_new[:, 0], 0.5) for f in fp])
-db_mean = db.mean()
-db_hpd = az.hdi(db)
-ax.vlines(db_mean, 0, 1, color="k")
-ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color="k", alpha=0.5)
-
-ax.plot(X_new[:, 0], fp_mean, "C2", lw=3)
-az.plot_hdi(X_new[:, 0], fp, color="C2")
-
-ax.set_xlabel("sepal_length")
-ax.set_ylabel("θ", rotation=0)
-pml.savefig("gp_classify_iris2.pdf", dpi=300)
+plt.tight_layout()
+if unbalanced:
+    pml.savefig("logreg_iris_bayes_2d_unbalanced.pdf", dpi=300)
+else:
+    pml.savefig("logreg_iris_bayes_2d.pdf", dpi=300)
 
 plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
 AssertionError                            Traceback (most recent call last)
-/tmp/ipykernel_2759/3888614036.py in <module>
-     72     with pm.Model() as model_iris:
-     73         # ℓ = pm.HalfCauchy("ℓ", 1)
----> 74         ℓ = pm.Gamma("ℓ", 2, 0.5)
-     75         cov = pm.gp.cov.ExpQuad(1, ℓ) + pm.gp.cov.WhiteNoise(1e-5)
-     76         gp = pm.gp.Latent(cov_func=cov)
+/tmp/ipykernel_2907/795184038.py in <module>
+     63 
+     64 with pm.Model() as model_1:
+---> 65     α = pm.Normal("α", mu=0, sd=10)
+     66     β = pm.Normal("β", mu=0, sd=2, shape=len(x_n))
+     67 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/distribution.py in __new__(cls, name, *args, **kwargs)
     123         else:
@@ -166,39 +116,11 @@ AssertionError                            Traceback (most recent call last)
     127     def __getnewargs__(self):
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in Var(self, name, dist, data, total_size, dims)
-   1145                         transform=dist.transform,
-   1146                         total_size=total_size,
--> 1147                         model=self,
-   1148                     )
-   1149                 pm._log.debug(
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in __init__(self, type, owner, index, name, distribution, model, transform, total_size)
-   2011 
-   2012             self.transformed = model.Var(
--> 2013                 transformed_name, transform.apply(distribution), total_size=total_size
-   2014             )
-   2015 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/transforms.py in apply(self, dist)
-    124     def apply(self, dist):
-    125         # avoid circular import
---> 126         return TransformedDistribution.dist(dist, self)
-    127 
-    128     def __str__(self):
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/distribution.py in dist(cls, *args, **kwargs)
-    131     def dist(cls, *args, **kwargs):
-    132         dist = object.__new__(cls)
---> 133         dist.__init__(*args, **kwargs)
-    134         return dist
-    135 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/transforms.py in __init__(self, dist, transform, *args, **kwargs)
-    152         self.dist = dist
-    153         self.transform_used = transform
---> 154         v = forward(FreeRV(name="v", distribution=dist))
-    155         self.type = v.type
-    156 
+   1136             if getattr(dist, "transform", None) is None:
+   1137                 with self:
+-> 1138                     var = FreeRV(name=name, distribution=dist, total_size=total_size, model=self)
+   1139                 self.free_RVs.append(var)
+   1140             else:
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in __init__(self, type, owner, index, name, distribution, total_size, model)
    1672             # The logp might need scaling in minibatches.
