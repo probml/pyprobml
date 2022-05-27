@@ -58,7 +58,7 @@ jobs:
   execute_latest_notebooks:
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [check_code_quality]
+    needs: [check_code_quality, static_import_check]
     container: texlive/texlive:TL2020-historic
 
     steps:
