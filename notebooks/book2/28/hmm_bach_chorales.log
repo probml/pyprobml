@@ -1,33 +1,33 @@
 An error occurred while executing the following cell:
 ------------------
-import jax
+all_models, all_losses, all_obs_logits = {}, [], []
 
-from jax import jit, lax, vmap
-from jax.random import split, PRNGKey, permutation, normal
-import jax.numpy as jnp
-from jax.nn import log_softmax, sigmoid
+for learning_rate, batch_size in zip(learning_rates, batch_sizes):
+    opt_init, opt_update, get_params = jax.experimental.optimizers.adam(learning_rate)
+    models = {}
+    losses, obs_logits = [], []
+    for k in hidden_states:
+        initial_hmm, b = init_hmm(k, D)
+        hmm, loss_, obs_logits_ = fit(sequences, lengths, b, initial_hmm.trans_dist, batch_size, num_epochs=num_epochs)
 
-import tensorflow as tf
-import tensorflow_probability as tfp
+        # Store results
+        models[k] = hmm
+        losses.append(loss_)
+        obs_logits.append(obs_logits_)
 
-import itertools
-
-
-import distrax
-from distrax import HMM
-
-import numpy as np
-import matplotlib.pyplot as plt
+    all_models[batch_size] = models
+    all_losses.append(losses)
+    all_obs_logits.append(obs_logits)
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_2683/1857217326.py in <module>
-      6 from jax.nn import log_softmax, sigmoid
-      7 
-----> 8 import tensorflow as tf
-      9 import tensorflow_probability as tfp
-     10 
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_2469/1735617235.py in <module>
+      2 
+      3 for learning_rate, batch_size in zip(learning_rates, batch_sizes):
+----> 4     opt_init, opt_update, get_params = jax.experimental.optimizers.adam(learning_rate)
+      5     models = {}
+      6     losses, obs_logits = [], []
 
-ModuleNotFoundError: No module named 'tensorflow'
-ModuleNotFoundError: No module named 'tensorflow'
+AttributeError: module 'jax.experimental' has no attribute 'optimizers'
+AttributeError: module 'jax.experimental' has no attribute 'optimizers'

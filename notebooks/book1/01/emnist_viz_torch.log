@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['# We need to rotate the images', '# https://github.com/pytorch/vision/issues/2630', '', 'transform = transforms.Compose(', '    [']
+...
+['    plt.imshow(img.squeeze(), cmap=plt.cm.binary)', '', 'plt.tight_layout()', 'pml.savefig("emnist-data.pdf")', 'plt.show()']
+-------------------
