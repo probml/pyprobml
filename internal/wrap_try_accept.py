@@ -460,7 +460,7 @@ def wrap_line_with_try_accept(line, module):
     line = line.rstrip()
     if module in transformed_modules:
         module = transformed_modules[module]
-    try_except_line = f"try:\n    {line}\nexcept ModuleNotFoundError:\n    %pip install {module}\n    {line}"
+    try_except_line = f"try:\n    {line}\nexcept ModuleNotFoundError:\n    %pip install -qq {module}\n    {line}"
     return try_except_line
 
 
@@ -509,6 +509,21 @@ if __name__ == "__main__":
     notebooks1 = glob("notebooks/book1/*/*.ipynb")
     notebooks2 = glob("notebooks/book2/*/*.ipynb")
     notebooks = notebooks1 + notebooks2
+    
+    #get IGNORE_LIST of notebooks
+    IGNORE_LIST = []
+    with open("internal/copied_from misc_nb.txt") as fp:
+        ignored_notebooks = fp.readlines()
+        for nb in ignored_notebooks:
+            IGNORE_LIST.append(nb.strip().split("/")[-1])
+
+    def in_ignore_list(nb_path):
+        nb_name = nb_path.split("/")[-1]
+        return nb_name in IGNORE_LIST
+
+    print(f"{len(IGNORE_LIST)} notebooks ignored")
+    notebooks = list(filter(lambda nb: not in_ignore_list(nb), notebooks))
+
     for notebook in notebooks:
         print(f"******* {notebook} *******")
         apply_fun_to_notebook(notebook, remove_superimport)
