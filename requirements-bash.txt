@@ -1,5 +1,5 @@
+xdg-utils
 graphviz
 wget
 build-essential
 python3-dev
-xdg-utils
