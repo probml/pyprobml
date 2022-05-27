@@ -1,0 +1,295 @@
+An error occurred while executing the following cell:
+------------------
+# Gaussian process binary classification in 1d
+# Code is based on
+# https://github.com/aloctavodia/BAP/blob/master/code/Chp7/07_Gaussian%20process.ipynb
+
+
+try:
+    import pymc3 as pm
+except ModuleNotFoundError:
+    %pip install -qq pymc3
+    import pymc3 as pm
+import numpy as np
+
+try:
+    import pandas as pd
+except ModuleNotFoundError:
+    %pip install -qq pandas
+    import pandas as pd
+from scipy import stats
+from scipy.special import expit as logistic
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+import matplotlib.pyplot as plt
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
+
+try:
+    from sklearn.datasets import load_iris
+except ModuleNotFoundError:
+    %pip install -qq scikit-learn
+    from sklearn.datasets import load_iris
+
+
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Convert to pandas dataframe
+df_iris = pd.DataFrame(data=iris.data, columns=["sepal_length", "sepal_width", "petal_length", "petal_width"])
+df_iris["species"] = pd.Series(iris.target_names[y], dtype="category")
+
+
+# Covnert to a two-class problem, and extract 1 feature to make 1d
+df = df_iris.query("species == ('setosa', 'versicolor')")
+y = pd.Categorical(df["species"]).codes
+x_1 = df["sepal_length"].values
+X_1 = x_1[:, None]
+
+# For evaluating posterior predictive
+X_new = np.linspace(np.floor(x_1.min()), np.ceil(x_1.max()), 200)[:, None]
+
+
+def find_midpoint(array1, array2, value):
+    array1 = np.asarray(array1)
+    idx0 = np.argsort(np.abs(array1 - value))[0]
+    idx1 = idx0 - 1 if array1[idx0] > value else idx0 + 1
+    if idx1 == len(array1):
+        idx1 -= 1
+    return (array2[idx0] + array2[idx1]) / 2
+
+
+if 1:
+    # Posterior over length scale l of kernel
+    with pm.Model() as model_iris:
+        # ℓ = pm.HalfCauchy("ℓ", 1)
+        ℓ = pm.Gamma("ℓ", 2, 0.5)
+        cov = pm.gp.cov.ExpQuad(1, ℓ) + pm.gp.cov.WhiteNoise(1e-5)
+        gp = pm.gp.Latent(cov_func=cov)
+        f = gp.prior("f", X=X_1)
+        # logistic inverse link function and Bernoulli likelihood
+        y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
+        trace_iris = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
+
+    # Posterior predictive
+
+    with model_iris:
+        f_pred = gp.conditional("f_pred", X_new)
+        pred_samples = pm.sample_posterior_predictive(trace_iris, var_names=["f_pred"], samples=1000)
+
+    # Plot results
+    _, ax = plt.subplots(figsize=(10, 6))
+
+    fp = logistic(pred_samples["f_pred"])
+    fp_mean = np.mean(fp, 0)
+
+    ax.plot(X_new[:, 0], fp_mean)
+    # plot the data (with some jitter) and the true latent function
+    ax.scatter(x_1, np.random.normal(y, 0.02), marker=".", color=[f"C{x}" for x in y])
+
+    az.plot_hdi(X_new[:, 0], fp, color="C2")
+
+    db = np.array([find_midpoint(f, X_new[:, 0], 0.5) for f in fp])
+    db_mean = db.mean()
+    db_hpd = az.hdi(db)
+    ax.vlines(db_mean, 0, 1, color="k")
+    ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color="k", alpha=0.5)
+    ax.set_xlabel("sepal_length")
+    ax.set_ylabel("θ", rotation=0)
+    pml.savefig("gp_classify_iris1.pdf", dpi=300)
+
+# Change kernel to be sum of SE and linear, to improve tail behavior
+
+with pm.Model() as model_iris2:
+    # ℓ = pm.HalfCauchy("ℓ", 1)
+    ℓ = pm.Gamma("ℓ", 2, 0.5)
+    c = pm.Normal("c", x_1.min())
+    τ = pm.HalfNormal("τ", 5)
+    cov = pm.gp.cov.ExpQuad(1, ℓ) + τ * pm.gp.cov.Linear(1, c) + pm.gp.cov.WhiteNoise(1e-5)
+    gp = pm.gp.Latent(cov_func=cov)
+    f = gp.prior("f", X=X_1)
+    # logistic inverse link function and Bernoulli likelihood
+    y_ = pm.Bernoulli("y", p=pm.math.sigmoid(f), observed=y)
+    trace_iris2 = pm.sample(1000, chains=1, cores=1, compute_convergence_checks=False)
+
+with model_iris2:
+    f_pred = gp.conditional("f_pred", X_new)
+    pred_samples = pm.sample_posterior_predictive(trace_iris2, var_names=["f_pred"], samples=1000)
+
+_, ax = plt.subplots(figsize=(10, 6))
+
+fp = logistic(pred_samples["f_pred"])
+fp_mean = np.mean(fp, 0)
+
+ax.scatter(x_1, np.random.normal(y, 0.02), marker=".", color=[f"C{ci}" for ci in y])
+
+db = np.array([find_midpoint(f, X_new[:, 0], 0.5) for f in fp])
+db_mean = db.mean()
+db_hpd = az.hdi(db)
+ax.vlines(db_mean, 0, 1, color="k")
+ax.fill_betweenx([0, 1], db_hpd[0], db_hpd[1], color="k", alpha=0.5)
+
+ax.plot(X_new[:, 0], fp_mean, "C2", lw=3)
+az.plot_hdi(X_new[:, 0], fp, color="C2")
+
+ax.set_xlabel("sepal_length")
+ax.set_ylabel("θ", rotation=0)
+pml.savefig("gp_classify_iris2.pdf", dpi=300)
+
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+AssertionError                            Traceback (most recent call last)
+/tmp/ipykernel_2759/3888614036.py in <module>
+     72     with pm.Model() as model_iris:
+     73         # ℓ = pm.HalfCauchy("ℓ", 1)
+---> 74         ℓ = pm.Gamma("ℓ", 2, 0.5)
+     75         cov = pm.gp.cov.ExpQuad(1, ℓ) + pm.gp.cov.WhiteNoise(1e-5)
+     76         gp = pm.gp.Latent(cov_func=cov)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/distribution.py in __new__(cls, name, *args, **kwargs)
+    123         else:
+    124             dist = cls.dist(*args, **kwargs)
+--> 125         return model.Var(name, dist, data, total_size, dims=dims)
+    126 
+    127     def __getnewargs__(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in Var(self, name, dist, data, total_size, dims)
+   1145                         transform=dist.transform,
+   1146                         total_size=total_size,
+-> 1147                         model=self,
+   1148                     )
+   1149                 pm._log.debug(
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in __init__(self, type, owner, index, name, distribution, model, transform, total_size)
+   2011 
+   2012             self.transformed = model.Var(
+-> 2013                 transformed_name, transform.apply(distribution), total_size=total_size
+   2014             )
+   2015 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/transforms.py in apply(self, dist)
+    124     def apply(self, dist):
+    125         # avoid circular import
+--> 126         return TransformedDistribution.dist(dist, self)
+    127 
+    128     def __str__(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/distribution.py in dist(cls, *args, **kwargs)
+    131     def dist(cls, *args, **kwargs):
+    132         dist = object.__new__(cls)
+--> 133         dist.__init__(*args, **kwargs)
+    134         return dist
+    135 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/transforms.py in __init__(self, dist, transform, *args, **kwargs)
+    152         self.dist = dist
+    153         self.transform_used = transform
+--> 154         v = forward(FreeRV(name="v", distribution=dist))
+    155         self.type = v.type
+    156 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in __init__(self, type, owner, index, name, distribution, total_size, model)
+   1672             # The logp might need scaling in minibatches.
+   1673             # This is done in `Factor`.
+-> 1674             self.logp_sum_unscaledt = distribution.logp_sum(self)
+   1675             self.logp_nojac_unscaledt = distribution.logp_nojac(self)
+   1676             self.total_size = total_size
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/distribution.py in logp_sum(self, *args, **kwargs)
+    307         if only the sum of the logp values is needed.
+    308         """
+--> 309         return tt.sum(self.logp(*args, **kwargs))
+    310 
+    311     __latex__ = _repr_latex_
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/tensor/basic.py in sum(input, axis, dtype, keepdims, acc_dtype)
+   3219     """
+   3220 
+-> 3221     out = elemwise.Sum(axis=axis, dtype=dtype, acc_dtype=acc_dtype)(input)
+   3222 
+   3223     if keepdims:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/graph/op.py in __call__(self, *inputs, **kwargs)
+    251 
+    252         if config.compute_test_value != "off":
+--> 253             compute_test_value(node)
+    254 
+    255         if self.default_output is not None:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/graph/op.py in compute_test_value(node)
+    124 
+    125     # Create a thunk that performs the computation
+--> 126     thunk = node.op.make_thunk(node, storage_map, compute_map, no_recycling=[])
+    127     thunk.inputs = [storage_map[v] for v in node.inputs]
+    128     thunk.outputs = [storage_map[v] for v in node.outputs]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/graph/op.py in make_thunk(self, node, storage_map, compute_map, no_recycling, impl)
+    632             )
+    633             try:
+--> 634                 return self.make_c_thunk(node, storage_map, compute_map, no_recycling)
+    635             except (NotImplementedError, MethodNotDefined):
+    636                 # We requested the c code, so don't catch the error.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/graph/op.py in make_c_thunk(self, node, storage_map, compute_map, no_recycling)
+    599                 raise NotImplementedError("float16")
+    600         outputs = cl.make_thunk(
+--> 601             input_storage=node_input_storage, output_storage=node_output_storage
+    602         )
+    603         thunk, node_input_filters, node_output_filters = outputs
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/basic.py in make_thunk(self, input_storage, output_storage, storage_map)
+   1202         init_tasks, tasks = self.get_init_tasks()
+   1203         cthunk, module, in_storage, out_storage, error_storage = self.__compile__(
+-> 1204             input_storage, output_storage, storage_map
+   1205         )
+   1206 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/basic.py in __compile__(self, input_storage, output_storage, storage_map)
+   1140             input_storage,
+   1141             output_storage,
+-> 1142             storage_map,
+   1143         )
+   1144         return (
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/basic.py in cthunk_factory(self, error_storage, in_storage, out_storage, storage_map)
+   1632             for node in self.node_order:
+   1633                 node.op.prepare_node(node, storage_map, None, "c")
+-> 1634             module = get_module_cache().module_from_key(key=key, lnk=self)
+   1635 
+   1636         vars = self.inputs + self.outputs + self.orphans
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/cmodule.py in module_from_key(self, key, lnk)
+   1155         # Is the source code already in the cache?
+   1156         module_hash = get_module_hash(src_code, key)
+-> 1157         module = self._get_from_hash(module_hash, key)
+   1158         if module is not None:
+   1159             return module
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/cmodule.py in _get_from_hash(self, module_hash, key)
+   1058             with lock_ctx():
+   1059                 try:
+-> 1060                     key_data.add_key(key, save_pkl=bool(key[0]))
+   1061                     key_broken = False
+   1062                 except pickle.PicklingError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/cmodule.py in add_key(self, key, save_pkl)
+    495 
+    496         """
+--> 497         assert key not in self.keys
+    498         self.keys.add(key)
+    499         if save_pkl:
+
+AssertionError: 
+AssertionError: 
