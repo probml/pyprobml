@@ -31,7 +31,7 @@ print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5686/1115125.py in <module>
+/tmp/ipykernel_4806/1115125.py in <module>
      12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
      13         batch["label"] = jnp.float32(y)
 ---> 14         state, metrics = train_step(state, batch)
@@ -40,7 +40,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_5686/1580938479.py in train_step(state, batch)
+/tmp/ipykernel_4806/1580938479.py in train_step(state, batch)
      13 
      14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
 ---> 15     aux, grads = grad_fn(state.params)
@@ -49,7 +49,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 8 frame]
 
-/tmp/ipykernel_5686/1580938479.py in loss_fn(params)
+/tmp/ipykernel_4806/1580938479.py in loss_fn(params)
       5     def loss_fn(params):
       6         logits, new_model_state = state.apply_fn(
 ----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
@@ -58,7 +58,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_5686/2176403876.py in __call__(self, x, train)
+/tmp/ipykernel_4806/2176403876.py in __call__(self, x, train)
      16 
      17         for i, num_convs in enumerate(num_convs_in_dense_blocks):
 ---> 18             x = DenseBlock(growth_rate, num_convs, norm)(x)
@@ -67,7 +67,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_5686/502619999.py in __call__(self, x)
+/tmp/ipykernel_4806/502619999.py in __call__(self, x)
       8 
       9         for _ in range(self.num_convs):
 ---> 10             y = ConvBlock(self.filters, self.norm)(x)
@@ -76,7 +76,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_5686/3760988665.py in __call__(self, x)
+/tmp/ipykernel_4806/3760988665.py in __call__(self, x)
       7         x = self.norm()(x)
       8         x = nn.relu(x)
 ----> 9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
@@ -85,20 +85,11 @@ RuntimeError                              Traceback (most recent call last)
     [... skipping hidden 3 frame]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/linear.py in __call__(self, inputs)
-    388 
-    389     kernel = self.param('kernel', self.kernel_init, kernel_shape,
---> 390                         self.param_dtype)
-    391 
-    392     if self.use_bias:
-
-    [... skipping hidden 10 frame]
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/nn/initializers.py in init(key, shape, dtype)
-    228       if jnp.issubdtype(dtype, jnp.floating):
-    229         # constant is stddev of standard normal truncated to (-2, 2)
---> 230         stddev = jnp.sqrt(variance) / jnp.array(.87962566103423978, dtype)
-    231         return random.truncated_normal(key, -2, 2, shape, dtype) * stddev
-    232       else:
+    430     if self.use_bias:
+    431       bias = bias.reshape((1,) * (y.ndim - bias.ndim) + bias.shape)
+--> 432       y += bias
+    433 
+    434     if is_single_input:
 
     [... skipping hidden 1 frame]
 
@@ -109,7 +100,7 @@ RuntimeError                              Traceback (most recent call last)
    4558   return deferring_binary_op
    4559 
 
-    [... skipping hidden 6 frame]
+    [... skipping hidden 9 frame]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -118,5 +109,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 5797) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 5797) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4931) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4931) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
