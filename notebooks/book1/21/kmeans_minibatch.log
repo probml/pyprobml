@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['# minibtach K-means clustering for MNIST', '# Code is from chapter 9 of', '# https://github.com/ageron/handson-ml2', '', '']
+...
+['# plt.axis([1, K, 0, 6])', '', 'plt.tight_layout()', 'pml.savefig("kmeans_minibatch.pdf", dpi=300)', 'plt.show()']
+-------------------
