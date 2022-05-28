@@ -1,95 +1,99 @@
 An error occurred while executing the following cell:
 ------------------
-import jax
-import jax.numpy as jnp
-
-try:
-    import numpyro
-except ModuleNotFoundError:
-    %pip install -qq numpyro
-    import numpyro
-import numpyro.distributions as dist
-
-try:
-    from tinygp import kernels, GaussianProcess
-except ModuleNotFoundError:
-    %pip install -qq tinygp
-    from tinygp import kernels, GaussianProcess
-
-# We'll enable float64 support here for better numerical performance
-from jax.config import config
-
-config.update("jax_enable_x64", True)
+def guide(x, y=None):
+    numpyro.param("mean", jnp.zeros(()))
+    numpyro.param("sigma", jnp.ones(()), constraint=dist.constraints.positive)
+    numpyro.param("rho", 2 * jnp.ones(()), constraint=dist.constraints.positive)
+    mu = numpyro.param("log_rate_mu", jnp.zeros_like(x) if y is None else jnp.log(y + 1))
+    sigma = numpyro.param(
+        "log_rate_sigma",
+        jnp.ones_like(x),
+        constraint=dist.constraints.positive,
+    )
+    numpyro.sample("log_rate", dist.Normal(mu, sigma))
 
 
-def model(x, y=None):
-    # The parameters of the GP model
-    mean = numpyro.sample("mean", dist.Normal(0.0, 2.0))
-    sigma = numpyro.sample("sigma", dist.HalfNormal(3.0))
-    rho = numpyro.sample("rho", dist.HalfNormal(10.0))
-
-    # Set up the kernel and GP objects
-    kernel = sigma**2 * kernels.Matern52(rho)
-    gp = GaussianProcess(kernel, x, diag=1e-5, mean=mean)
-
-    # This parameter has shape (num_data,) and it encodes our beliefs about
-    # the process rate in each bin
-    log_rate = numpyro.sample("log_rate", gp.numpyro_dist())
-
-    # Finally, our observation model is Poisson
-    numpyro.sample("obs", dist.Poisson(jnp.exp(log_rate)), obs=y)
-
-
-# Run the MCMC
-nuts_kernel = numpyro.infer.NUTS(model, target_accept_prob=0.9)
-mcmc = numpyro.infer.MCMC(
-    nuts_kernel,
-    num_warmup=500,
-    num_samples=500,
-    num_chains=2,
-    progress_bar=False,
-)
-rng_key = jax.random.PRNGKey(55873)
-mcmc.run(rng_key, x, y=y)
-samples = mcmc.get_samples()
+optim = numpyro.optim.Adam(0.01)
+svi = numpyro.infer.SVI(model, guide, optim, numpyro.infer.Trace_ELBO(10))
+results = svi.run(jax.random.PRNGKey(55873), 3000, x, y=y, progress_bar=False)
 ------------------
 
 ---------------------------------------------------------------------------
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3680/2652553149.py in <module>
-      3 
-      4 try:
-----> 5     import numpyro
-      6 except ModuleNotFoundError:
-      7     get_ipython().run_line_magic('pip', 'install -qq numpyro')
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_3646/2265157179.py in <module>
+     14 optim = numpyro.optim.Adam(0.01)
+     15 svi = numpyro.infer.SVI(model, guide, optim, numpyro.infer.Trace_ELBO(10))
+---> 16 results = svi.run(jax.random.PRNGKey(55873), 3000, x, y=y, progress_bar=False)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/__init__.py in <module>
-      4 import logging
-      5 
-----> 6 from numpyro import compat, diagnostics, distributions, handlers, infer, optim
-      7 from numpyro.contrib.render import render_model
-      8 from numpyro.distributions.distribution import enable_validation, validation_enabled
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/svi.py in run(self, rng_key, num_steps, progress_bar, stable_update, init_state, *args, **kwargs)
+    340 
+    341         if init_state is None:
+--> 342             svi_state = self.init(rng_key, *args, **kwargs)
+    343         else:
+    344             svi_state = init_state
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/__init__.py in <module>
-      2 # SPDX-License-Identifier: Apache-2.0
-      3 
-----> 4 from numpyro.distributions.conjugate import (
-      5     BetaBinomial,
-      6     DirichletMultinomial,
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/svi.py in init(self, rng_key, *args, **kwargs)
+    180         guide_trace = trace(guide_init).get_trace(*args, **kwargs, **self.static_kwargs)
+    181         model_trace = trace(replay(model_init, guide_trace)).get_trace(
+--> 182             *args, **kwargs, **self.static_kwargs
+    183         )
+    184         params = {}
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/conjugate.py in <module>
-      8 from numpyro.distributions import constraints
-      9 from numpyro.distributions.continuous import Beta, Dirichlet, Gamma
----> 10 from numpyro.distributions.discrete import (
-     11     BinomialProbs,
-     12     MultinomialProbs,
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/handlers.py in get_trace(self, *args, **kwargs)
+    169         :return: `OrderedDict` containing the execution trace.
+    170         """
+--> 171         self(*args, **kwargs)
+    172         return self.trace
+    173 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/discrete.py in <module>
-     34 from jax.nn import softmax, softplus
-     35 import jax.numpy as jnp
----> 36 from jax.ops import index_add
-     37 import jax.random as random
-     38 from jax.scipy.special import expit, gammaincc, gammaln, logsumexp, xlog1py, xlogy
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in __call__(self, *args, **kwargs)
+    103             return self
+    104         with self:
+--> 105             return self.fn(*args, **kwargs)
+    106 
+    107 
 
-ImportError: cannot import name 'index_add' from 'jax.ops' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/ops/__init__.py)
-ImportError: cannot import name 'index_add' from 'jax.ops' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/ops/__init__.py)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in __call__(self, *args, **kwargs)
+    103             return self
+    104         with self:
+--> 105             return self.fn(*args, **kwargs)
+    106 
+    107 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in __call__(self, *args, **kwargs)
+    103             return self
+    104         with self:
+--> 105             return self.fn(*args, **kwargs)
+    106 
+    107 
+
+/tmp/ipykernel_3646/2652553149.py in model(x, y)
+     23 def model(x, y=None):
+     24     # The parameters of the GP model
+---> 25     mean = numpyro.sample("mean", dist.Normal(0.0, 2.0))
+     26     sigma = numpyro.sample("sigma", dist.HalfNormal(3.0))
+     27     rho = numpyro.sample("rho", dist.HalfNormal(10.0))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in sample(name, fn, obs, rng_key, sample_shape, infer, obs_mask)
+    217 
+    218     # ...and use apply_stack to send it to the Messengers
+--> 219     msg = apply_stack(initial_msg)
+    220     return msg["value"]
+    221 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/primitives.py in apply_stack(msg)
+     45     pointer = 0
+     46     for pointer, handler in enumerate(reversed(_PYRO_STACK)):
+---> 47         handler.process_message(msg)
+     48         # When a Messenger sets the "stop" field of a message,
+     49         # it prevents any Messengers above it on the stack from being applied.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/handlers.py in process_message(self, msg)
+    221                     return None
+    222                 if guide_msg["type"] != "sample" or guide_msg["is_observed"]:
+--> 223                     raise RuntimeError(f"Site {name} must be sampled in trace.")
+    224                 msg["value"] = guide_msg["value"]
+    225                 msg["infer"] = guide_msg["infer"]
+
+RuntimeError: Site mean must be sampled in trace.
+RuntimeError: Site mean must be sampled in trace.
