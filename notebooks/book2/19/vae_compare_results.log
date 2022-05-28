@@ -52,7 +52,7 @@ def make_and_load_models(model_names: list, use_gpu=False):
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3649/228787327.py in <module>
+/tmp/ipykernel_3650/228787327.py in <module>
      12     import torchvision.transforms as transforms
      13 try:
 ---> 14     from download_celeba import celeba_dataloader

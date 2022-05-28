@@ -7,12 +7,12 @@ train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5420/4170259555.py in <module>
+/tmp/ipykernel_5793/4170259555.py in <module>
       1 lr, num_epochs, batch_size = 0.1, 10, 256
       2 train_iter, test_iter = load_data_fashion_mnist(batch_size, resize=96)
 ----> 3 train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
-/tmp/ipykernel_5420/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
+/tmp/ipykernel_5793/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
      21             optimizer.zero_grad()
      22             X, y = X.to(device), y.to(device)
 ---> 23             y_hat = net(X)
@@ -75,5 +75,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 5462) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 5462) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5842) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5842) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
