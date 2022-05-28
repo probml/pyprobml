@@ -1,7 +1,26 @@
 An error occurred while executing the following cell:
 ------------------
+
+# We illustrate LKJ prior as discussed in fig 14.3 of
+# [Statistical Rethinking ed 2](https://xcelab.net/rm/statistical-rethinking/).
+# The numpyro code is from [Du Phan's site]
+#https://fehiepsi.github.io/rethinking-numpyro/14-adventures-in-covariance.html
+
+
+
+import numpy as np
+np.set_printoptions(precision=3)
+import matplotlib.pyplot as plt
+
 import jax
+print("jax version {}".format(jax.__version__))
+print("jax backend {}".format(jax.lib.xla_bridge.get_backend().platform))
+
 import jax.numpy as jnp
+from jax import random, vmap
+
+rng_key = random.PRNGKey(0)
+rng_key, rng_key_ = random.split(rng_key)
 
 try:
     import numpyro
@@ -11,57 +30,52 @@ except ModuleNotFoundError:
 import numpyro.distributions as dist
 
 try:
-    from tinygp import kernels, GaussianProcess
+    import arviz as az
 except ModuleNotFoundError:
-    %pip install -qq tinygp
-    from tinygp import kernels, GaussianProcess
+    %pip install -qq arviz
+    import arviz as az
 
-# We'll enable float64 support here for better numerical performance
-from jax.config import config
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
-config.update("jax_enable_x64", True)
-
-
-def model(x, y=None):
-    # The parameters of the GP model
-    mean = numpyro.sample("mean", dist.Normal(0.0, 2.0))
-    sigma = numpyro.sample("sigma", dist.HalfNormal(3.0))
-    rho = numpyro.sample("rho", dist.HalfNormal(10.0))
-
-    # Set up the kernel and GP objects
-    kernel = sigma**2 * kernels.Matern52(rho)
-    gp = GaussianProcess(kernel, x, diag=1e-5, mean=mean)
-
-    # This parameter has shape (num_data,) and it encodes our beliefs about
-    # the process rate in each bin
-    log_rate = numpyro.sample("log_rate", gp.numpyro_dist())
-
-    # Finally, our observation model is Poisson
-    numpyro.sample("obs", dist.Poisson(jnp.exp(log_rate)), obs=y)
+eta_list = [1,2,4]
+colors = ['r', 'k', 'b']
+fig, ax = plt.subplots()
+for i, eta in enumerate(eta_list):
+  R = dist.LKJ(dimension=2, concentration=eta).sample(random.PRNGKey(0), (int(1e4),))
+  az.plot_kde(R[:, 0, 1], label=f"eta={eta}", plot_kwargs  ={'color': colors[i]})
+plt.legend()
+ax.set_xlabel('correlation')
+ax.set_ylabel('density')
+ax.set_ylim(0, 1.2)
+ax.set_xlim(-1.1, 1.1)
+pml.savefig('LKJ_1d_correlation.pdf', dpi=300)
+plt.show()
 
 
-# Run the MCMC
-nuts_kernel = numpyro.infer.NUTS(model, target_accept_prob=0.9)
-mcmc = numpyro.infer.MCMC(
-    nuts_kernel,
-    num_warmup=500,
-    num_samples=500,
-    num_chains=2,
-    progress_bar=False,
-)
-rng_key = jax.random.PRNGKey(55873)
-mcmc.run(rng_key, x, y=y)
-samples = mcmc.get_samples()
 ------------------
 
 ---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4070/4076008051.py in <module>
+     22 try:
+---> 23     import numpyro
+     24 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'numpyro'
+
+During handling of the above exception, another exception occurred:
+
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3680/2652553149.py in <module>
-      3 
-      4 try:
-----> 5     import numpyro
-      6 except ModuleNotFoundError:
-      7     get_ipython().run_line_magic('pip', 'install -qq numpyro')
+/tmp/ipykernel_4070/4076008051.py in <module>
+     24 except ModuleNotFoundError:
+     25     get_ipython().run_line_magic('pip', 'install -qq numpyro')
+---> 26     import numpyro
+     27 import numpyro.distributions as dist
+     28 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/__init__.py in <module>
       4 import logging

@@ -19,8 +19,8 @@ _ = plt.xlabel("step number")
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3686/3357705884.py in <module>
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_3683/3357705884.py in <module>
       1 model = GPModule()
 ----> 2 params = model.init(jax.random.PRNGKey(0), x, y, x_test)
       3 tx = optax.sgd(learning_rate=3e-3)
@@ -29,12 +29,19 @@ TypeError                                 Traceback (most recent call last)
 
     [... skipping hidden 11 frame]
 
-/tmp/ipykernel_3686/3123926733.py in __call__(self, x, y, t)
+/tmp/ipykernel_3683/3123926733.py in __call__(self, x, y, t)
+     45         kernel = kernel1 + kernel2
+     46         gp = GaussianProcess(
+---> 47             kernel, x, diag=jnp.exp(log_jitter), mean=mean
      48         )
      49 
----> 50         loss = -gp.condition(y)
-     51         pred = gp.predict(y, t)
-     52 
 
-TypeError: bad operand type for unary -: 'ConditionResult'
-TypeError: bad operand type for unary -: 'ConditionResult'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tinygp/gp.py in __init__(self, kernel, X, diag, mean, lower)
+     43         self.kernel = kernel
+     44         self.K0 = self.kernel.evaluate(X, X)
+---> 45         self.K = jax.ops.index_add(
+     46             self.K0, jnp.diag_indices(self.X.shape[0]), self.diag
+     47         )
+
+AttributeError: module 'jax.ops' has no attribute 'index_add'
+AttributeError: module 'jax.ops' has no attribute 'index_add'

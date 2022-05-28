@@ -1,33 +1,61 @@
 An error occurred while executing the following cell:
 ------------------
-all_models, all_losses, all_obs_logits = {}, [], []
+try:
+    from numpyro.examples.datasets import JSB_CHORALES, load_dataset
+except ModuleNotFoundError:
+    %pip install -qq numpyro
+    from numpyro.examples.datasets import JSB_CHORALES, load_dataset
 
-for learning_rate, batch_size in zip(learning_rates, batch_sizes):
-    opt_init, opt_update, get_params = jax.experimental.optimizers.adam(learning_rate)
-    models = {}
-    losses, obs_logits = [], []
-    for k in hidden_states:
-        initial_hmm, b = init_hmm(k, D)
-        hmm, loss_, obs_logits_ = fit(sequences, lengths, b, initial_hmm.trans_dist, batch_size, num_epochs=num_epochs)
+_, fetch = load_dataset(JSB_CHORALES, split="train", shuffle=False)
 
-        # Store results
-        models[k] = hmm
-        losses.append(loss_)
-        obs_logits.append(obs_logits_)
+lengths, sequences_all = fetch()
 
-    all_models[batch_size] = models
-    all_losses.append(losses)
-    all_obs_logits.append(obs_logits)
+# find all the notes that are present at least once in the training set
+present_notes = (sequences_all == 1).sum(0).sum(0) > 0
+# remove notes that are never played (we remove 37/88 notes with default args)
+sequences = sequences_all[..., present_notes]
+
+print(sequences_all.shape)
+print(sequences.shape)
+print(lengths)
 ------------------
 
 ---------------------------------------------------------------------------
-AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_3641/1735617235.py in <module>
-      2 
-      3 for learning_rate, batch_size in zip(learning_rates, batch_sizes):
-----> 4     opt_init, opt_update, get_params = jax.experimental.optimizers.adam(learning_rate)
-      5     models = {}
-      6     losses, obs_logits = [], []
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_3640/1162121394.py in <module>
+      1 try:
+----> 2     from numpyro.examples.datasets import JSB_CHORALES, load_dataset
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq numpyro')
+      5     from numpyro.examples.datasets import JSB_CHORALES, load_dataset
 
-AttributeError: module 'jax.experimental' has no attribute 'optimizers'
-AttributeError: module 'jax.experimental' has no attribute 'optimizers'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/__init__.py in <module>
+      4 import logging
+      5 
+----> 6 from numpyro import compat, diagnostics, distributions, handlers, infer, optim
+      7 from numpyro.contrib.render import render_model
+      8 from numpyro.distributions.distribution import enable_validation, validation_enabled
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/__init__.py in <module>
+      2 # SPDX-License-Identifier: Apache-2.0
+      3 
+----> 4 from numpyro.distributions.conjugate import (
+      5     BetaBinomial,
+      6     DirichletMultinomial,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/conjugate.py in <module>
+      8 from numpyro.distributions import constraints
+      9 from numpyro.distributions.continuous import Beta, Dirichlet, Gamma
+---> 10 from numpyro.distributions.discrete import (
+     11     BinomialProbs,
+     12     MultinomialProbs,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/distributions/discrete.py in <module>
+     34 from jax.nn import softmax, softplus
+     35 import jax.numpy as jnp
+---> 36 from jax.ops import index_add
+     37 import jax.random as random
+     38 from jax.scipy.special import expit, gammaincc, gammaln, logsumexp, xlog1py, xlogy
+
+ImportError: cannot import name 'index_add' from 'jax.ops' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/ops/__init__.py)
+ImportError: cannot import name 'index_add' from 'jax.ops' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/ops/__init__.py)
