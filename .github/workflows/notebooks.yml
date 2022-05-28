@@ -93,13 +93,6 @@ jobs:
         pip install -U --no-cache-dir -r requirements.txt | cat
         apt update && xargs -a requirements-bash.txt apt install -y
 
-    - name: Check code quality (again)
-      shell: bash
-      run: |
-        source /root/.bashrc
-        black --check --verbose notebooks/book1/*/*.ipynb
-        black --check --verbose notebooks/book2/*/*.ipynb
-
     - name: Cache datasets
       id: cache-datasets
       uses: actions/cache@v3
@@ -155,13 +148,6 @@ jobs:
         pip install -U --no-cache-dir -r requirements-dev.txt | cat
         pip install -U --no-cache-dir -r requirements.txt | cat
         apt update && xargs -a requirements-bash.txt apt install -y
-
-    - name: Check code quality (again)
-      shell: bash
-      run: |
-        source /root/.bashrc
-        black --check --verbose notebooks/book1/*/*.ipynb
-        black --check --verbose notebooks/book2/*/*.ipynb
 
     - name: Cache datasets
       id: cache-datasets
