@@ -161,6 +161,7 @@
 | [book1/13/xor_heaviside](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/xor_heaviside.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/xor_heaviside.png> | [log](-) |
 | [book1/13/activation_fun_plot](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/activation_fun_plot.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/activation_fun_plot.png> | [log](-) |
 | [book1/13/linregRbfDemo](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/linregRbfDemo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/linregRbfDemo.png> | [log](-) |
+| [book1/13/multi_gpu_training_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/multi_gpu_training_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/multi_gpu_training_jax.png> | [log](-) |
 | [book1/13/logregXorDemo](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/logregXorDemo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/logregXorDemo.png> | [log](-) |
 | [book1/13/mlp_imdb_tf](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/mlp_imdb_tf.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/mlp_imdb_tf.png> | [log](-) |
 | [book1/14/transposed_conv_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/transposed_conv_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/transposed_conv_jax.png> | [log](-) |
@@ -257,7 +258,6 @@
 | [book1/11/geom_ridge](https://github.com/probml/pyprobml/tree/master/notebooks/book1/11/geom_ridge.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/11/geom_ridge.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/11/geom_ridge.log) |
 | [book1/11/groupLassoDemo](https://github.com/probml/pyprobml/tree/master/notebooks/book1/11/groupLassoDemo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/11/groupLassoDemo.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/11/groupLassoDemo.log) |
 | [book1/13/mlp_1d_regression_hetero_tfp](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/mlp_1d_regression_hetero_tfp.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/mlp_1d_regression_hetero_tfp.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/13/mlp_1d_regression_hetero_tfp.log) |
-| [book1/13/multi_gpu_training_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/multi_gpu_training_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/multi_gpu_training_jax.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/13/multi_gpu_training_jax.log) |
 | [book1/14/resnet_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/resnet_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/resnet_torch.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/14/resnet_torch.log) |
 | [book1/14/batchnorm_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/batchnorm_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/batchnorm_jax.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/14/batchnorm_jax.log) |
 | [book1/14/cnn_mnist_tf](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/cnn_mnist_tf.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/cnn_mnist_tf.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/14/cnn_mnist_tf.log) |
@@ -292,7 +292,7 @@
 ## Summary
 
 Book1: In total, 284 jobs were tested.
-35 jobs failed.
+34 jobs failed.
 
 # Book 2: PyProbML status
 
