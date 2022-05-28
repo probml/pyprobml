@@ -42,7 +42,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3786/659007454.py in <module>
+/tmp/ipykernel_3749/659007454.py in <module>
      23     plt.xlim(0, 3)
      24     plt.title('n_samples = %d' % size)
 ---> 25     savefig('mcAccuracyDemoHist%d.pdf' % size)
