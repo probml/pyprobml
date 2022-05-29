@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['prng_seq = hk.PRNGSequence(42)', 'params = log_prob.init(next(prng_seq), np.zeros((1, *MNIST_IMAGE_SHAPE)))', 'opt_state = optimizer.init(params)', 'train_ds = load_dataset(tfds.Split.TRAIN, batch_size)', 'valid_ds = load_dataset(tfds.Split.TEST, batch_size)']
+...
+['    params, opt_state = update(params, next(prng_seq), opt_state, next(train_ds))', '', '    if step % eval_frequency == 0:', '        val_loss = eval_fn(params, next(valid_ds))', '        print(f"STEP: {step:5d}; Validation loss: {val_loss:.3f}")']
+-------------------
