@@ -12,20 +12,83 @@ import pandas as pd
 from glob import glob
 import nbformat
 
-try:
-    from probml_utils.url_utils import (
-        extract_scripts_name_from_caption,
-        make_url_from_fig_no_and_script_name,
-        dict_to_csv,
-    )
-except ModuleNotFoundError:
-    os.system("pip install git+https://github.com/probml/probml-utils.git")
-    from probml_utils.url_utils import (
-        extract_scripts_name_from_caption,
-        make_url_from_fig_no_and_script_name,
-        dict_to_csv,
-    )
+# try:
+#     from probml_utils.url_utils import (
+#         extract_scripts_name_from_caption,
+#         make_url_from_fig_no_and_script_name,
+#         dict_to_csv,
+#     )
+# except ModuleNotFoundError:
+#     os.system("pip install git+https://github.com/probml/probml-utils.git")
+#     from probml_utils.url_utils import (
+#         extract_scripts_name_from_caption,
+#         make_url_from_fig_no_and_script_name,
+#         dict_to_csv,
+#     )
 import argparse
+
+################## url_uils ######################
+def dict_to_csv(key_value_dict, csv_name):
+    df = pd.DataFrame(key_value_dict.items(), columns=["key", "url"])
+    df.set_index(keys=["key"], inplace=True, drop=True)
+    df.to_csv(csv_name)
+
+
+def extract_scripts_name_from_caption(caption):
+    """
+    extract foo.py from ...{https//:<path/to/>foo.py}{foo.py}...
+    Input: caption
+    Output: ['foo.py']
+    """
+    py_pattern = r"\{\S+?\.py\}"
+    ipynb_pattern = r"\{\S+?\.ipynb\}"
+
+    matches = re.findall(py_pattern, str(caption)) + re.findall(ipynb_pattern, str(caption))
+    extracted_scripts = []
+    for each in matches:
+        if "https" not in each:
+            each = each.replace("{", "").replace("}", "").replace("\\_", "_")
+            extracted_scripts.append(each)
+    return extracted_scripts
+
+
+def github_url_to_colab_url(url):
+    """
+    convert github .ipynb url to colab .ipynb url
+    """
+    if not (url.startswith("https://github.com")):
+        raise ValueError("INVALID URL: not a Github url")
+
+    if not (url.endswith(".ipynb")):
+        raise ValueError("INVALID URL: not a .ipynb file")
+
+    base_url_colab = "https://colab.research.google.com/github/"
+    base_url_github = "https://github.com/"
+
+    return url.replace(base_url_github, base_url_colab)
+
+
+def make_url_from_fig_no_and_script_name(
+    fig_no,
+    script_name,
+    base_url="https://github.com/probml/pyprobml/blob/master/notebooks",
+    book_no=1,
+    convert_to_colab_url=True,
+):
+    """
+    create mapping between fig_no and actual_url path
+    (fig_no=1.3,script_name=iris_plot.ipynb) converted to https://github.com/probml/pyprobml/blob/master/notebooks/book1/01/iris_plot.ipynb
+    """
+    chapter_no = int(fig_no.strip().split(".")[0])
+    base_url_ipynb = os.path.join(base_url, f"book{book_no}/{chapter_no:02d}")
+    if ".py" in script_name:
+        script_name = script_name[:-3] + ".ipynb"
+    if convert_to_colab_url:
+        return github_url_to_colab_url(os.path.join(base_url_ipynb, script_name))
+    return os.path.join(base_url_ipynb, script_name)
+
+
+################## url_uils ######################
 
 
 def hyperlink_from_urls(urls):
