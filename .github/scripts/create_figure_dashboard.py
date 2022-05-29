@@ -239,7 +239,7 @@ chap_urls_mapping = chap_to_urls_mapping(csv_excluded_dummy)
 csv_chap_names = f"internal/chapter_no_to_name_mapping_book{book_no}.csv"
 chap_no_chap_name_mapping = get_chap_mapping(csv_chap_names)
 # print(chap_urls_mapping)
-md_content = ""
+md_content = "## Instructions\n\n* Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).\n\nDashboard\n"
 for chap_no in chap_urls_mapping:
     notebooks = []
     base_str = f"<details>\n<summary>Chapter: {chap_no}_{chap_no_chap_name_mapping[chap_no]}</summary>\n\n"
