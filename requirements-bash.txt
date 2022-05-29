@@ -1,3 +1,4 @@
+xdg-utils
 graphviz
 wget
 build-essential

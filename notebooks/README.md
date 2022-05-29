@@ -14,7 +14,7 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
     try:
         import tensorflow as tf
     except ModuleNotFoundError:
-        %pip install tensorflow
+        %pip install -qq tensorflow
         import tensorflow as tf
 
     from tensorflow import keras
