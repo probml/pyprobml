@@ -9,13 +9,15 @@ try:
 except ModuleNotFoundError:
     %pip install -qq torch
     import torch
-import torch.nn as nn
 
 try:
-    from torchvision.datasets import MNIST
+    from torchvision.utils import make_grid
 except ModuleNotFoundError:
     %pip install -qq torchvision
-    from torchvision.datasets import MNIST
+    from torchvision.utils import make_grid
+
+import torch.nn as nn
+from torchvision.datasets import MNIST
 import torch.nn.functional as F
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
@@ -23,72 +25,57 @@ from torch.utils.data import DataLoader
 try:
     from pytorch_lightning import LightningModule, Trainer
 except ModuleNotFoundError:
-    %pip install -qq pytorch_lightning
+    %pip install -qq pytorch-lightning
     from pytorch_lightning import LightningModule, Trainer
+
 try:
     from einops import rearrange
 except ModuleNotFoundError:
     %pip install -qq einops
     from einops import rearrange
-import seaborn as sns
 
 try:
-    from probml_utils import savefig
+    import probml_utils
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils import savefig
-try:
-    from probml_utils.lvm_plots_utils import (
-        get_random_samples,
-        get_grid_samples,
-        plot_scatter_plot,
-        get_imrange,
-        plot_grid_plot,
-    )
-except:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils.lvm_plots_utils import (
-        get_random_samples,
-        get_grid_samples,
-        plot_scatter_plot,
-        get_imrange,
-        plot_grid_plot,
-    )
+    import probml_utils
 
+from probml_utils import savefig
+
+from probml_utils.lvm_plots_utils import (
+    get_random_samples,
+    get_grid_samples,
+    plot_scatter_plot,
+    get_imrange,
+    plot_grid_plot,
+    plot_scatter_plot,
+)
+
+import seaborn as sns
 from torchvision.utils import make_grid
-from pytorch_lightning.utilities.seed import seed_everything
+from probml_utils.vae_conv_mnist import ConvVAE
 
-try:
-    from probml_utils.ae_mnist_conv import (
-        ConvAEModule,
-        ConvAE,
-    )
-except:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils.ae_mnist_conv import (
-        ConvAEModule,
-        ConvAE,
-    )
+%pip install -qq test-tube umap
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3609/4080974842.py in <module>
-     21 try:
----> 22     from pytorch_lightning import LightningModule, Trainer
-     23 except ModuleNotFoundError:
+/tmp/ipykernel_3612/3536696859.py in <module>
+     23 try:
+---> 24     from pytorch_lightning import LightningModule, Trainer
+     25 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'pytorch_lightning'
 
 During handling of the above exception, another exception occurred:
 
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3609/4080974842.py in <module>
-     23 except ModuleNotFoundError:
-     24     get_ipython().run_line_magic('pip', 'install -qq pytorch_lightning')
----> 25     from pytorch_lightning import LightningModule, Trainer
-     26 try:
-     27     from einops import rearrange
+/tmp/ipykernel_3612/3536696859.py in <module>
+     25 except ModuleNotFoundError:
+     26     get_ipython().run_line_magic('pip', 'install -qq pytorch-lightning')
+---> 27     from pytorch_lightning import LightningModule, Trainer
+     28 
+     29 try:
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/__init__.py in <module>
      28     _logger.propagate = False
