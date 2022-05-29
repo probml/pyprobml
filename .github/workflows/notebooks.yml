@@ -10,7 +10,6 @@ on:
     branches:
     - master
     
-
 jobs:
   combine_and_publish_results:
     runs-on: ubuntu-latest
@@ -21,6 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        pip install git+https://github.com/probml/probml-utils.git | cat
         pip install -U --no-cache-dir -r requirements-dev.txt | cat
         pip install -U --no-cache-dir -r requirements.txt | cat
 
@@ -28,14 +28,6 @@ jobs:
       run: |
         python .github/scripts/combine_results.py --user_name ${{ github.repository }}
         python .github/scripts/create_figure_dashboard.py --user_name ${{ github.repository }}
-
-    - name: Push figures to auto_generated_figures (does not run on pull requests)
-      uses: peaceiris/actions-gh-pages@v3.6.1
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: auto_generated_figures/
-        publish_branch: auto_generated_figures
-      if: github.event_name == 'push'  # Don't run on pull requests
       
     - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
       uses: peaceiris/actions-gh-pages@v3.6.1
