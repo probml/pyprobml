@@ -31,7 +31,7 @@ print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4666/1115125.py in <module>
+/tmp/ipykernel_4613/1115125.py in <module>
      12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
      13         batch["label"] = jnp.float32(y)
 ---> 14         state, metrics = train_step(state, batch)
@@ -40,7 +40,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_4666/1580938479.py in train_step(state, batch)
+/tmp/ipykernel_4613/1580938479.py in train_step(state, batch)
      13 
      14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
 ---> 15     aux, grads = grad_fn(state.params)
@@ -49,7 +49,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 8 frame]
 
-/tmp/ipykernel_4666/1580938479.py in loss_fn(params)
+/tmp/ipykernel_4613/1580938479.py in loss_fn(params)
       5     def loss_fn(params):
       6         logits, new_model_state = state.apply_fn(
 ----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
@@ -58,43 +58,87 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_4666/2176403876.py in __call__(self, x, train)
-     21             # A transition layer that halves the number of channels is added between the dense blocks.
-     22             if i != len(num_convs_in_dense_blocks) - 1:
----> 23                 x = TransitionBlock(num_channels // 2, norm)(x)
-     24                 num_channels = num_channels // 2
-     25 
+/tmp/ipykernel_4613/2176403876.py in __call__(self, x, train)
+     16 
+     17         for i, num_convs in enumerate(num_convs_in_dense_blocks):
+---> 18             x = DenseBlock(growth_rate, num_convs, norm)(x)
+     19             # This is the number of output channels in the previous dense block
+     20             num_channels += num_convs * growth_rate
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_4666/585409295.py in __call__(self, x)
+/tmp/ipykernel_4613/502619999.py in __call__(self, x)
+      8 
+      9         for _ in range(self.num_convs):
+---> 10             y = ConvBlock(self.filters, self.norm)(x)
+     11             # Concatenate the input and output of each block on the channel dimension.
+     12             x = jnp.concatenate(arrays=[x, y], axis=-1)
+
+    [... skipping hidden 3 frame]
+
+/tmp/ipykernel_4613/3760988665.py in __call__(self, x)
+      5     @nn.compact
+      6     def __call__(self, x):
+----> 7         x = self.norm()(x)
       8         x = nn.relu(x)
-      9         x = nn.Conv(self.filters, (1, 1), padding=[(0, 0), (0, 0)], dtype=jnp.float32)(x)
----> 10         x = nn.avg_pool(x, (2, 2), (2, 2), padding=[(0, 0), (0, 0)])
-     11         return x
+      9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/pooling.py in avg_pool(inputs, window_shape, strides, padding)
-     84     The average for each window slice.
-     85   """
----> 86   y = pool(inputs, 0., lax.add, window_shape, strides, padding)
-     87   y = y / np.prod(window_shape)
-     88   return y
+    [... skipping hidden 3 frame]
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/pooling.py in pool(inputs, init, reduce_fn, window_shape, strides, padding)
-     64         f"each entry in padding {padding} must be length 2")
-     65     padding = ((0, 0),) + padding + ((0, 0),)
----> 66   y = lax.reduce_window(inputs, init, reduce_fn, dims, strides, padding)
-     67   if is_single_input:
-     68     y = jnp.squeeze(y, axis=0)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in __call__(self, x, use_running_average)
+    263           dtype=self.dtype,
+    264           axis_name=self.axis_name if not initializing else None,
+--> 265           axis_index_groups=self.axis_index_groups)
+    266 
+    267       if not initializing:
 
-    [... skipping hidden 15 frame]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in _compute_stats(x, axes, dtype, axis_name, axis_index_groups)
+     80   x = jnp.asarray(x, dtype)
+     81 
+---> 82   mean = jnp.mean(x, axes)
+     83   mean2 = jnp.mean(_abs_sq(x), axes)
+     84   if axis_name is not None:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in get_state(self)
-    252 
-    253     def get_state(self):
---> 254       val = getattr(_thread_local_state, name, unset)
-    255       return val if val is not unset else self._read(name)
-    256     setattr(Config, name, property(get_state))
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/reductions.py in mean(a, axis, dtype, out, keepdims, where)
+    251          out=None, keepdims=False, *, where=None):
+    252   return _mean(a, _ensure_optional_axes(axis), dtype, out, keepdims,
+--> 253                where=where)
+    254 
+    255 @partial(api.jit, static_argnames=('axis', 'dtype', 'keepdims'), inline=True)
+
+    [... skipping hidden 13 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/reductions.py in _mean(a, axis, dtype, out, keepdims, where)
+    277 
+    278   return lax.div(
+--> 279       sum(a, axis, dtype=dtype, keepdims=keepdims, where=where),
+    280       lax.convert_element_type(normalizer, dtype))
+    281 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/reductions.py in sum(a, axis, dtype, out, keepdims, initial, where)
+    164         out=None, keepdims=None, initial=None, where=None):
+    165   return _reduce_sum(a, axis=_ensure_optional_axes(axis), dtype=dtype, out=out,
+--> 166                      keepdims=keepdims, initial=initial, where=where)
+    167 
+    168 
+
+    [... skipping hidden 13 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/reductions.py in _reduce_sum(a, axis, dtype, out, keepdims, initial, where)
+    158                     bool_op=lax.bitwise_or, upcast_f16_for_computation=True,
+    159                     axis=axis, dtype=dtype, out=out, keepdims=keepdims,
+--> 160                     initial=initial, where_=where, parallel_reduce=lax.psum)
+    161 
+    162 @_wraps(np.sum, skip_params=['out'])
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/reductions.py in _reduction(a, name, np_fun, op, init_val, has_identity, preproc, bool_op, upcast_f16_for_computation, axis, dtype, out, keepdims, initial, where_, parallel_reduce)
+     96     result = parallel_reduce(a, dims)
+     97   else:
+---> 98     result = lax.reduce(a, init_val, op, dims)
+     99   if initial is not None:
+    100     result = op(lax.convert_element_type(initial, a.dtype), result)
+
+    [... skipping hidden 11 frame]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -103,5 +147,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 4791) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 4791) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4738) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4738) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
