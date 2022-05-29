@@ -5,19 +5,19 @@ obj(theta_init, t, y)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3915/1633541497.py in <module>
+/tmp/ipykernel_3887/1633541497.py in <module>
 ----> 1 obj(theta_init, t, y)
 
     [... skipping hidden 22 frame]
 
-/tmp/ipykernel_3915/3466355736.py in neg_log_likelihood(theta, X, y)
+/tmp/ipykernel_3887/3466355736.py in neg_log_likelihood(theta, X, y)
      33 
      34 def neg_log_likelihood(theta, X, y):
 ---> 35     gp = build_gp(theta, X)
      36     return -gp.condition(y)
      37 
 
-/tmp/ipykernel_3915/3466355736.py in build_gp(theta, X)
+/tmp/ipykernel_3887/3466355736.py in build_gp(theta, X)
      21         theta[2] ** 2
      22         * kernels.ExpSquared(theta[3])
 ---> 23         * kernels.ExpSineSquared(period=theta[4], gamma=theta[5])
