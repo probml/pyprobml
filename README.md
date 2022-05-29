@@ -435,7 +435,6 @@ Book1: In total, 264 jobs were tested.
 | [book2/27/gplvm_mocap](https://github.com/probml/pyprobml/tree/master/notebooks/book2/27/gplvm_mocap.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/27/gplvm_mocap.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/27/gplvm_mocap.log) |
 | [book2/27/mix_PPCA_celeba](https://github.com/probml/pyprobml/tree/master/notebooks/book2/27/mix_PPCA_celeba.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/27/mix_PPCA_celeba.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/27/mix_PPCA_celeba.log) |
 | [book2/28/bernoulli_hmm_example](https://github.com/probml/pyprobml/tree/master/notebooks/book2/28/bernoulli_hmm_example.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/28/bernoulli_hmm_example.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/28/bernoulli_hmm_example.log) |
-| [book2/28/hmm_bach_chorales](https://github.com/probml/pyprobml/tree/master/notebooks/book2/28/hmm_bach_chorales.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/28/hmm_bach_chorales.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/28/hmm_bach_chorales.log) |
 | [book2/28/gp_mauna_loa](https://github.com/probml/pyprobml/tree/master/notebooks/book2/28/gp_mauna_loa.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/28/gp_mauna_loa.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/28/gp_mauna_loa.log) |
 | [book2/28/arhmm_example](https://github.com/probml/pyprobml/tree/master/notebooks/book2/28/arhmm_example.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/28/arhmm_example.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/28/arhmm_example.log) |
 | [book2/28/poisson_lds_example](https://github.com/probml/pyprobml/tree/master/notebooks/book2/28/poisson_lds_example.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/28/poisson_lds_example.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/28/poisson_lds_example.log) |
@@ -446,5 +445,5 @@ Book1: In total, 264 jobs were tested.
 
 ## Summary
 
-Book2: In total, 164 jobs were tested.
-48 jobs failed.
+Book2: In total, 163 jobs were tested.
+47 jobs failed.
