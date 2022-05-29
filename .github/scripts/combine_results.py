@@ -10,7 +10,10 @@ user, repo = args.user_name.split("/")
 # Read number of jobs
 with open(".github/workflows/notebooks.yml") as f:
     runners = re.findall("runner_id: (.*)", f.read())
-    n_jobs = len(eval(runners[0]))
+    try:
+        n_jobs = len(eval(runners[0]))
+    except:
+        print("No runners found")
 
 print(f"{n_jobs} jobs found")
 
