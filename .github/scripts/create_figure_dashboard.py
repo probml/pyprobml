@@ -2,15 +2,7 @@ from typing import Any
 import os
 
 os.system("pip install tabulate")
-try:
-    from TexSoup import TexSoup
-except ModuleNotFoundError:
-    os.system("pip install TexSoup")
-    from TexSoup import TexSoup
-
-
 import pandas as pd
-from glob import glob
 import nbformat
 
 # try:
@@ -100,45 +92,6 @@ def hyperlink_from_urls(urls):
     for url in urls:
         nb_name = url.split("/")[-1]
         hyperlinks += f"[{nb_name}]({url})"
-
-
-def figure_url_mapping_from_lof_dummy_nb_excluded(
-    lof_file_path,
-    csv_name,
-    convert_to_colab_url=True,
-    base_url="https://github.com/probml/pyprobml/blob/master/notebooks",
-    book_no=1,
-):
-    f"""
-    create mapping of fig_no to url by parsing lof_file and save mapping in {csv_name}
-    """
-    with open(lof_file_path) as fp:
-        LoF_File_Contents = fp.read()
-    soup = TexSoup(LoF_File_Contents)
-
-    # create mapping of fig_no to list of script_name
-
-    url_mapping = {}
-    for caption in soup.find_all("numberline"):
-        fig_no = str(caption.contents[0])
-        extracted_scripts = extract_scripts_name_from_caption(str(caption))
-        if len(extracted_scripts) > 0:
-            url_mapping[fig_no] = []
-            for script_name in extracted_scripts:
-                url_mapping[fig_no].append(
-                    make_url_from_fig_no_and_script_name(
-                        fig_no,
-                        script_name,
-                        convert_to_colab_url=convert_to_colab_url,
-                        base_url=base_url,
-                        book_no=book_no,
-                    )
-                )
-
-    if csv_name:
-        dict_to_csv(url_mapping, csv_name)
-    print(f"Mapping of {len(url_mapping)} urls is saved in {csv_name}")
-    return url_mapping
 
 
 def get_chap_mapping(csv_name):
