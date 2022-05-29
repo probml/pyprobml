@@ -7,12 +7,12 @@ train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4357/1771745465.py in <module>
+/tmp/ipykernel_4359/1771745465.py in <module>
       1 lr, num_epochs, batch_size = 0.05, 10, 256
       2 train_iter, test_iter = load_data_fashion_mnist(batch_size, resize=96)
 ----> 3 train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
-/tmp/ipykernel_4357/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
+/tmp/ipykernel_4359/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
      21             optimizer.zero_grad()
      22             X, y = X.to(device), y.to(device)
 ---> 23             y_hat = net(X)
@@ -54,19 +54,19 @@ RuntimeError                              Traceback (most recent call last)
    1111         # Do not call functions when jit is used
    1112         full_backward_hooks, non_full_backward_hooks = [], []
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/activation.py in forward(self, input)
-     96 
-     97     def forward(self, input: Tensor) -> Tensor:
----> 98         return F.relu(input, inplace=self.inplace)
-     99 
-    100     def extra_repr(self) -> str:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/conv.py in forward(self, input)
+    445 
+    446     def forward(self, input: Tensor) -> Tensor:
+--> 447         return self._conv_forward(input, self.weight, self.bias)
+    448 
+    449 class Conv3d(_ConvNd):
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/functional.py in relu(input, inplace)
-   1440         result = torch.relu_(input)
-   1441     else:
--> 1442         result = torch.relu(input)
-   1443     return result
-   1444 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/conv.py in _conv_forward(self, input, weight, bias)
+    442                             _pair(0), self.dilation, self.groups)
+    443         return F.conv2d(input, weight, bias, self.stride,
+--> 444                         self.padding, self.dilation, self.groups)
+    445 
+    446     def forward(self, input: Tensor) -> Tensor:
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -75,5 +75,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 4399) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 4399) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4436) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4436) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
