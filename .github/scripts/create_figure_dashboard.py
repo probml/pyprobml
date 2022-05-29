@@ -1,9 +1,14 @@
 from typing import Any
-from TexSoup import TexSoup
-import regex as re
 import os
+
+try:
+    from TexSoup import TexSoup
+except ModuleNotFoundError:
+    os.system("pip install TexSoup")
+    from TexSoup import TexSoup
+
+
 import pandas as pd
-import os
 from glob import glob
 import nbformat
 from probml_utils.url_utils import extract_scripts_name_from_caption, make_url_from_fig_no_and_script_name, dict_to_csv
