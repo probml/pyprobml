@@ -11,7 +11,20 @@ except ModuleNotFoundError:
 import pandas as pd
 from glob import glob
 import nbformat
-from probml_utils.url_utils import extract_scripts_name_from_caption, make_url_from_fig_no_and_script_name, dict_to_csv
+
+try:
+    from probml_utils.url_utils import (
+        extract_scripts_name_from_caption,
+        make_url_from_fig_no_and_script_name,
+        dict_to_csv,
+    )
+except ModuleNotFoundError:
+    os.system("pip install git+https://github.com/probml/probml-utils.git")
+    from probml_utils.url_utils import (
+        extract_scripts_name_from_caption,
+        make_url_from_fig_no_and_script_name,
+        dict_to_csv,
+    )
 import argparse
 
 
