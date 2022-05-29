@@ -31,7 +31,7 @@ print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5381/1115125.py in <module>
+/tmp/ipykernel_5302/1115125.py in <module>
      12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
      13         batch["label"] = jnp.float32(y)
 ---> 14         state, metrics = train_step(state, batch)
@@ -40,7 +40,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_5381/1580938479.py in train_step(state, batch)
+/tmp/ipykernel_5302/1580938479.py in train_step(state, batch)
      13 
      14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
 ---> 15     aux, grads = grad_fn(state.params)
@@ -49,7 +49,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 8 frame]
 
-/tmp/ipykernel_5381/1580938479.py in loss_fn(params)
+/tmp/ipykernel_5302/1580938479.py in loss_fn(params)
       5     def loss_fn(params):
       6         logits, new_model_state = state.apply_fn(
 ----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
@@ -58,7 +58,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_5381/2176403876.py in __call__(self, x, train)
+/tmp/ipykernel_5302/2176403876.py in __call__(self, x, train)
      16 
      17         for i, num_convs in enumerate(num_convs_in_dense_blocks):
 ---> 18             x = DenseBlock(growth_rate, num_convs, norm)(x)
@@ -67,7 +67,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_5381/502619999.py in __call__(self, x)
+/tmp/ipykernel_5302/502619999.py in __call__(self, x)
       8 
       9         for _ in range(self.num_convs):
 ---> 10             y = ConvBlock(self.filters, self.norm)(x)
@@ -76,30 +76,40 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_5381/3760988665.py in __call__(self, x)
-      5     @nn.compact
-      6     def __call__(self, x):
-----> 7         x = self.norm()(x)
+/tmp/ipykernel_5302/3760988665.py in __call__(self, x)
+      7         x = self.norm()(x)
       8         x = nn.relu(x)
-      9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
+----> 9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
+     10         return x
 
     [... skipping hidden 3 frame]
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in __call__(self, x, use_running_average)
-    263           dtype=self.dtype,
-    264           axis_name=self.axis_name if not initializing else None,
---> 265           axis_index_groups=self.axis_index_groups)
-    266 
-    267       if not initializing:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/linear.py in __call__(self, inputs)
+    430     if self.use_bias:
+    431       bias = bias.reshape((1,) * (y.ndim - bias.ndim) + bias.shape)
+--> 432       y += bias
+    433 
+    434     if is_single_input:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in _compute_stats(x, axes, dtype, axis_name, axis_index_groups)
-     91   # mean2 - _abs_sq(mean) is not guaranteed to be non-negative due
-     92   # to floating point round-off errors.
----> 93   var = jnp.maximum(0., mean2 - _abs_sq(mean))
-     94   return mean, var
-     95 
+    [... skipping hidden 1 frame]
 
-    [... skipping hidden 15 frame]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/lax_numpy.py in deferring_binary_op(self, other)
+   4555     if not isinstance(other, _accepted_binop_types):
+   4556       return NotImplemented
+-> 4557     return binary_op(self, other)
+   4558   return deferring_binary_op
+   4559 
+
+    [... skipping hidden 13 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/ufuncs.py in fn(x1, x2)
+     85   def fn(x1, x2):
+     86     x1, x2 = _promote_args(numpy_fn.__name__, x1, x2)
+---> 87     return lax_fn(x1, x2) if x1.dtype != np.bool_ else bool_lax_fn(x1, x2)
+     88   fn = jit(fn, inline=True)
+     89   if lax_doc:
+
+    [... skipping hidden 10 frame]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -108,5 +118,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 5506) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 5506) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5425) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5425) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
