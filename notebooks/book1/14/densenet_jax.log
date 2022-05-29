@@ -1,0 +1,112 @@
+An error occurred while executing the following cell:
+------------------
+timer = Timer()
+animator = Animator(xlabel="epoch", xlim=[1, num_epochs], legend=["train loss", "train acc", "test acc"])
+num_batches = len(train_iter)
+device = torch.device(f"cuda:{0}")
+
+for epoch in range(num_epochs):
+    # Sum of training loss, sum of training accuracy, no. of examples
+    metric = Accumulator(3)
+    for i, (X, y) in enumerate(train_iter):
+        timer.start()
+        batch = {}
+        batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
+        batch["label"] = jnp.float32(y)
+        state, metrics = train_step(state, batch)
+        metric.add(metrics["loss"] * X.shape[0], metrics["numcorrect"], X.shape[0])
+        timer.stop()
+        train_l = metric[0] / metric[2]
+        train_acc = metric[1] / metric[2]
+        if (i + 1) % (num_batches // 5) == 0 or i == num_batches - 1:
+            animator.add(epoch + (i + 1) / num_batches, (train_l, train_acc, None))
+
+    test_acc = eval_model(state, test_iter)
+    animator.add(epoch + 1, (None, None, test_acc))
+
+
+print(f"{metric[2] * num_epochs / timer.sum():.1f} examples/sec " f"on {str(device)}")
+print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3f}")
+------------------
+
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_5259/1115125.py in <module>
+     12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
+     13         batch["label"] = jnp.float32(y)
+---> 14         state, metrics = train_step(state, batch)
+     15         metric.add(metrics["loss"] * X.shape[0], metrics["numcorrect"], X.shape[0])
+     16         timer.stop()
+
+    [... skipping hidden 14 frame]
+
+/tmp/ipykernel_5259/1580938479.py in train_step(state, batch)
+     13 
+     14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
+---> 15     aux, grads = grad_fn(state.params)
+     16     # grads = lax.pmean(grads, axis_name='batch')
+     17 
+
+    [... skipping hidden 8 frame]
+
+/tmp/ipykernel_5259/1580938479.py in loss_fn(params)
+      5     def loss_fn(params):
+      6         logits, new_model_state = state.apply_fn(
+----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
+      8         )
+      9         one_hot = jax.nn.one_hot(batch["label"], num_classes=10)
+
+    [... skipping hidden 7 frame]
+
+/tmp/ipykernel_5259/2176403876.py in __call__(self, x, train)
+     21             # A transition layer that halves the number of channels is added between the dense blocks.
+     22             if i != len(num_convs_in_dense_blocks) - 1:
+---> 23                 x = TransitionBlock(num_channels // 2, norm)(x)
+     24                 num_channels = num_channels // 2
+     25 
+
+    [... skipping hidden 3 frame]
+
+/tmp/ipykernel_5259/585409295.py in __call__(self, x)
+      7         x = self.norm()(x)
+      8         x = nn.relu(x)
+----> 9         x = nn.Conv(self.filters, (1, 1), padding=[(0, 0), (0, 0)], dtype=jnp.float32)(x)
+     10         x = nn.avg_pool(x, (2, 2), (2, 2), padding=[(0, 0), (0, 0)])
+     11         return x
+
+    [... skipping hidden 3 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/linear.py in __call__(self, inputs)
+    388 
+    389     kernel = self.param('kernel', self.kernel_init, kernel_shape,
+--> 390                         self.param_dtype)
+    391 
+    392     if self.use_bias:
+
+    [... skipping hidden 10 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/nn/initializers.py in init(key, shape, dtype)
+    229         # constant is stddev of standard normal truncated to (-2, 2)
+    230         stddev = jnp.sqrt(variance) / jnp.array(.87962566103423978, dtype)
+--> 231         return random.truncated_normal(key, -2, 2, shape, dtype) * stddev
+    232       else:
+    233         # constant is stddev of complex standard normal truncated to 2
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in truncated_normal(key, lower, upper, shape, dtype)
+    655   if shape is not None:
+    656     shape = core.as_named_shape(shape)
+--> 657   return _truncated_normal(key, lower, upper, shape, dtype)  # type: ignore
+    658 
+    659 @partial(jit, static_argnums=(3, 4), inline=True)
+
+    [... skipping hidden 8 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
+     64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
+     65         # Python can still get and update the process status successfully.
+---> 66         _error_if_any_worker_fails()
+     67         if previous_handler is not None:
+     68             assert callable(previous_handler)
+
+RuntimeError: DataLoader worker (pid 5382) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5382) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
