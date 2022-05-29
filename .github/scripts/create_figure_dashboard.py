@@ -1,6 +1,7 @@
 from typing import Any
 import os
 
+os.system("pip install tabulate")
 try:
     from TexSoup import TexSoup
 except ModuleNotFoundError:
