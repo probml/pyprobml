@@ -73,7 +73,7 @@ except:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3614/4080974842.py in <module>
+/tmp/ipykernel_3602/4080974842.py in <module>
      21 try:
 ---> 22     from pytorch_lightning import LightningModule, Trainer
      23 except ModuleNotFoundError:
@@ -83,7 +83,7 @@ ModuleNotFoundError: No module named 'pytorch_lightning'
 During handling of the above exception, another exception occurred:
 
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3614/4080974842.py in <module>
+/tmp/ipykernel_3602/4080974842.py in <module>
      23 except ModuleNotFoundError:
      24     get_ipython().run_line_magic('pip', 'install -qq pytorch_lightning')
 ---> 25     from pytorch_lightning import LightningModule, Trainer
