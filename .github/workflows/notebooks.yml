@@ -184,7 +184,7 @@ jobs:
   combine_and_publish_results:
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [execute_all_notebooks]
+    #needs: [execute_all_notebooks]
     steps:
     - name: Clone the reference repository
       uses: actions/checkout@v2

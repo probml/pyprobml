@@ -2,9 +2,17 @@ from typing import Any
 import os
 
 os.system("pip install tabulate")
-import pandas as pd
-import nbformat
+try:
+    import pandas as pd
+except ModuleNotFoundError:
+    os.system("pip install pandas")
+    import pandas as pd
 
+try:
+    import nbformat
+except ModuleNotFoundError:
+    os.system("pip install nbformat")
+    import nbformat
 # try:
 #     from probml_utils.url_utils import (
 #         extract_scripts_name_from_caption,
