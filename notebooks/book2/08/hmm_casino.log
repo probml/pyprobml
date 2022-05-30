@@ -20,7 +20,7 @@ for k, v in dict_figures.items():
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3612/1556826169.py in <module>
+/tmp/ipykernel_3625/1556826169.py in <module>
       1 try:
 ----> 2     from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results
       3 except ModuleNotFoundError:
@@ -45,7 +45,7 @@ ModuleNotFoundError: No module named 'tqdm'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3612/1556826169.py in <module>
+/tmp/ipykernel_3625/1556826169.py in <module>
       3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install -qq ssm_jax')
 ----> 5     from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results
