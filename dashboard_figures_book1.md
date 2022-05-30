@@ -3,7 +3,7 @@
 * Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).
 
 Dashboard
-<details>
+<details open>
 <summary>Chapter: 1_Introduction</summary>
 
 | nb_name                                                                                                                                              |   fig_no | workflow                                                                                                                                                                                                                                                                                       | latexify   | jaxify   |
@@ -21,7 +21,7 @@ Dashboard
 | [cifar_viz_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/cifar_viz_tf.ipynb)                     |     1.13 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/01/cifar_viz_tf.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/01/cifar_viz_tf.log)                     | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 2_Probability: univariate models</summary>
 
 | nb_name                                                                                                                                                  |   fig_no | workflow                                                                                                                                                                                                                                                                                           | latexify   | jaxify   |
@@ -46,7 +46,7 @@ Dashboard
 | [change_of_vars_demo1d.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/02/change_of_vars_demo1d.ipynb)       |     2.24 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/02/change_of_vars_demo1d.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/02/change_of_vars_demo1d.log)       | &#9989;    | &#9989;  |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 3_Probability: multivariate models</summary>
 
 | nb_name                                                                                                                                                                      |   fig_no | workflow                                                                                                                                                                                                                                                                                                               | latexify   | jaxify   |
@@ -63,7 +63,7 @@ Dashboard
 | [mix_bernoulli_em_mnist.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/03/mix_bernoulli_em_mnist.ipynb)                         |     3.13 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/03/mix_bernoulli_em_mnist.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/03/mix_bernoulli_em_mnist.log)                         | &#10060;   | &#9989;  |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 4_Statistics</summary>
 
 | nb_name                                                                                                                                                                            |   fig_no | workflow                                                                                                                                                                                                                                                                                                                     | latexify   | jaxify   |
@@ -94,7 +94,7 @@ Dashboard
 | [biasVarModelComplexity3.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/04/biasVarModelComplexity3.ipynb)                             |     4.25 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/04/biasVarModelComplexity3.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/04/biasVarModelComplexity3.log)                             | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 5_Decision theory</summary>
 
 | nb_name                                                                                                                                                |   fig_no | workflow                                                                                                                                                                                                                                                                                         | latexify   | jaxify   |
@@ -110,7 +110,7 @@ Dashboard
 | [twoPowerCurves.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/05/twoPowerCurves.ipynb)                   |      5.1 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/05/twoPowerCurves.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/05/twoPowerCurves.log)                   | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 6_Information theory</summary>
 
 | nb_name                                                                                                                                            |   fig_no | workflow                                                                                                                                                                                                                                                                                     | latexify   | jaxify   |
@@ -121,7 +121,7 @@ Dashboard
 | [MIC_correlation_2d.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/06/MIC_correlation_2d.ipynb)       |      6.6 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/06/MIC_correlation_2d.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/06/MIC_correlation_2d.log)       | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 7_Linear algebra</summary>
 
 | nb_name                                                                                                                                                    |   fig_no | workflow                                                                                                                                                                                                                                                                                             | latexify   | jaxify   |
@@ -132,7 +132,7 @@ Dashboard
 | [svd_image_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/07/svd_image_demo.ipynb)                       |      7.1 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/07/svd_image_demo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/07/svd_image_demo.log)                       | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 8_Optimization</summary>
 
 | nb_name                                                                                                                                                |   fig_no | workflow                                                                                                                                                                                                                                                                                         | latexify   | jaxify   |
@@ -154,7 +154,7 @@ Dashboard
 | [gmm_lik_surface_plot.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/08/gmm_lik_surface_plot.ipynb)       |     8.27 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/08/gmm_lik_surface_plot.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/08/gmm_lik_surface_plot.log)       | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 9_Linear discriminant analysis</summary>
 
 | nb_name                                                                                                                                                                      |   fig_no | workflow                                                                                                                                                                                                                                                                                                               | latexify   | jaxify   |
@@ -168,7 +168,7 @@ Dashboard
 | [generativeVsDiscrim.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/09/generativeVsDiscrim.ipynb)                               |      9.8 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/09/generativeVsDiscrim.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/09/generativeVsDiscrim.log)                               | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 10_Logistic regression</summary>
 
 | nb_name                                                                                                                                                                    |   fig_no | workflow                                                                                                                                                                                                                                                                                                             | latexify   | jaxify   |
@@ -184,7 +184,7 @@ Dashboard
 | [logreg_laplace_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/10/logreg_laplace_demo.ipynb)                             |    10.14 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/10/logreg_laplace_demo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/10/logreg_laplace_demo.log)                             | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 11_Linear regression</summary>
 
 | nb_name                                                                                                                                                                |   fig_no | workflow                                                                                                                                                                                                                                                                                                         | latexify   | jaxify   |
@@ -214,7 +214,7 @@ Dashboard
 | [multi_collinear_legs_numpyro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/11/multi_collinear_legs_numpyro.ipynb)       |    11.24 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/11/multi_collinear_legs_numpyro.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/11/multi_collinear_legs_numpyro.log)       | &#10060;   | &#9989;  |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 12_Generalized linear models</summary>
 
 | nb_name                                                                                                                                                          |   fig_no | workflow                                                                                                                                                                                                                                                                                                   | latexify   | jaxify   |
@@ -223,7 +223,7 @@ Dashboard
 | [poisson_regression_insurance.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/12/poisson_regression_insurance.ipynb) |     12.2 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/12/poisson_regression_insurance.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/12/poisson_regression_insurance.log) | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 13_Neural networks for unstructured data</summary>
 
 | nb_name                                                                                                                                                          |   fig_no | workflow                                                                                                                                                                                                                                                                                                   | latexify   | jaxify   |
@@ -240,7 +240,7 @@ Dashboard
 | [mixexpDemoOneToMany.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/13/mixexpDemoOneToMany.ipynb)                   |    13.23 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/mixexpDemoOneToMany.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/mixexpDemoOneToMany.log)                   | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 14_Neural networks for images</summary>
 
 | nb_name                                                                                                                          |   fig_no | workflow                                                                                                                                                                                                                                                                   | latexify   | jaxify   |
@@ -250,7 +250,7 @@ Dashboard
 | [cnn_mnist_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/14/cnn_mnist_tf.ipynb) |    14.17 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/cnn_mnist_tf.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/cnn_mnist_tf.log) | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 15_Neural networks for sequences</summary>
 
 | nb_name                                                                                                                                                        |   fig_no | workflow                                                                                                                                                                                                                                                                                                 | latexify   | jaxify   |
@@ -260,7 +260,7 @@ Dashboard
 | [positional_encoding_jax.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/positional_encoding_jax.ipynb)         |    15.25 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/positional_encoding_jax.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/positional_encoding_jax.log)         | &#10060;   | &#9989;  |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 16_Exemplar-based methods</summary>
 
 | nb_name                                                                                                                                                    |   fig_no | workflow                                                                                                                                                                                                                                                                                             | latexify   | jaxify   |
@@ -273,7 +273,7 @@ Dashboard
 | [kernelRegressionDemo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/16/kernelRegressionDemo.ipynb)           |     16.1 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/16/kernelRegressionDemo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/16/kernelRegressionDemo.log)           | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 17_Kernel methods</summary>
 
 | nb_name                                                                                                                                                              |   fig_no | workflow                                                                                                                                                                                                                                                                                                       | latexify   | jaxify   |
@@ -296,7 +296,7 @@ Dashboard
 | [rvm_regression_1d.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/17/rvm_regression_1d.ipynb)                           |    17.23 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/17/rvm_regression_1d.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/17/rvm_regression_1d.log)                           | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 18_Trees</summary>
 
 | nb_name                                                                                                                                                          |   fig_no | workflow                                                                                                                                                                                                                                                                                                   | latexify   | jaxify   |
@@ -313,7 +313,7 @@ Dashboard
 | [spam_tree_ensemble_interpret.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/18/spam_tree_ensemble_interpret.ipynb) |     18.1 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/18/spam_tree_ensemble_interpret.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/18/spam_tree_ensemble_interpret.log) | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 19_Learning with fewer labeled examples</summary>
 
 | nb_name                                                                                                                                              |   fig_no | workflow                                                                                                                                                                                                                                                                                       | latexify   | jaxify   |
@@ -322,7 +322,7 @@ Dashboard
 | [hbayes_maml.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/19/hbayes_maml.ipynb)                       |    19.14 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/19/hbayes_maml.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/19/hbayes_maml.log)                       | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 20_Dimensionality reduction</summary>
 
 | nb_name                                                                                                                                                  |   fig_no | workflow                                                                                                                                                                                                                                                                                           | latexify   | jaxify   |
@@ -367,7 +367,7 @@ Dashboard
 | [manifold_digits_sklearn.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/20/manifold_digits_sklearn.ipynb)   |    20.41 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/manifold_digits_sklearn.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/manifold_digits_sklearn.log)   | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 21_Clustering</summary>
 
 | nb_name                                                                                                                                                    |   fig_no | workflow                                                                                                                                                                                                                                                                                             | latexify   | jaxify   |
@@ -393,7 +393,7 @@ Dashboard
 | [spectral_clustering_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/21/spectral_clustering_demo.ipynb)   |    21.19 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/21/spectral_clustering_demo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/21/spectral_clustering_demo.log)   | &#10060;   | &#10060; |
 </details>
 
-<details>
+<details open>
 <summary>Chapter: 22_Recommender systems</summary>
 
 | nb_name                                                                                                                                                                  |   fig_no | workflow                                                                                                                                                                                                                                                                                                           | latexify   | jaxify   |
