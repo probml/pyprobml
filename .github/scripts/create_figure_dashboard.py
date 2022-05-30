@@ -1,95 +1,10 @@
 from typing import Any
 import os
 
-os.system("pip install tabulate")
-try:
-    import pandas as pd
-except ModuleNotFoundError:
-    os.system("pip install pandas")
-    import pandas as pd
-
-try:
-    import nbformat
-except ModuleNotFoundError:
-    os.system("pip install nbformat")
-    import nbformat
-# try:
-#     from probml_utils.url_utils import (
-#         extract_scripts_name_from_caption,
-#         make_url_from_fig_no_and_script_name,
-#         dict_to_csv,
-#     )
-# except ModuleNotFoundError:
-#     os.system("pip install git+https://github.com/probml/probml-utils.git")
-#     from probml_utils.url_utils import (
-#         extract_scripts_name_from_caption,
-#         make_url_from_fig_no_and_script_name,
-#         dict_to_csv,
-#     )
+# os.system("pip install tabulate")
+import pandas as pd
+import nbformat
 import argparse
-
-################## url_uils ######################
-def dict_to_csv(key_value_dict, csv_name):
-    df = pd.DataFrame(key_value_dict.items(), columns=["key", "url"])
-    df.set_index(keys=["key"], inplace=True, drop=True)
-    df.to_csv(csv_name)
-
-
-def extract_scripts_name_from_caption(caption):
-    """
-    extract foo.py from ...{https//:<path/to/>foo.py}{foo.py}...
-    Input: caption
-    Output: ['foo.py']
-    """
-    py_pattern = r"\{\S+?\.py\}"
-    ipynb_pattern = r"\{\S+?\.ipynb\}"
-
-    matches = re.findall(py_pattern, str(caption)) + re.findall(ipynb_pattern, str(caption))
-    extracted_scripts = []
-    for each in matches:
-        if "https" not in each:
-            each = each.replace("{", "").replace("}", "").replace("\\_", "_")
-            extracted_scripts.append(each)
-    return extracted_scripts
-
-
-def github_url_to_colab_url(url):
-    """
-    convert github .ipynb url to colab .ipynb url
-    """
-    if not (url.startswith("https://github.com")):
-        raise ValueError("INVALID URL: not a Github url")
-
-    if not (url.endswith(".ipynb")):
-        raise ValueError("INVALID URL: not a .ipynb file")
-
-    base_url_colab = "https://colab.research.google.com/github/"
-    base_url_github = "https://github.com/"
-
-    return url.replace(base_url_github, base_url_colab)
-
-
-def make_url_from_fig_no_and_script_name(
-    fig_no,
-    script_name,
-    base_url="https://github.com/probml/pyprobml/blob/master/notebooks",
-    book_no=1,
-    convert_to_colab_url=True,
-):
-    """
-    create mapping between fig_no and actual_url path
-    (fig_no=1.3,script_name=iris_plot.ipynb) converted to https://github.com/probml/pyprobml/blob/master/notebooks/book1/01/iris_plot.ipynb
-    """
-    chapter_no = int(fig_no.strip().split(".")[0])
-    base_url_ipynb = os.path.join(base_url, f"book{book_no}/{chapter_no:02d}")
-    if ".py" in script_name:
-        script_name = script_name[:-3] + ".ipynb"
-    if convert_to_colab_url:
-        return github_url_to_colab_url(os.path.join(base_url_ipynb, script_name))
-    return os.path.join(base_url_ipynb, script_name)
-
-
-################## url_uils ######################
 
 
 def hyperlink_from_urls(urls):
@@ -190,44 +105,44 @@ get_run = (
 )
 right_emoji = "&#9989;"
 wrong_emoji = "&#10060;"
-book_no = 1
-lof_path = f"internal/book{book_no}.lof"
-csv_excluded_dummy = f"internal/figures_url_mapping_book{book_no}_excluded_dummy_nb.csv"
 
-# figure_url_mapping_from_lof_dummy_nb_excluded(lof_path, csv_excluded_dummy, book_no=1)
-chap_urls_mapping = chap_to_urls_mapping(csv_excluded_dummy)
 
-csv_chap_names = f"internal/chapter_no_to_name_mapping_book{book_no}.csv"
-chap_no_chap_name_mapping = get_chap_mapping(csv_chap_names)
-# print(chap_urls_mapping)
-md_content = "## Instructions\n\n* Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).\n\nDashboard\n"
-for chap_no in chap_urls_mapping:
-    notebooks = []
-    base_str = f"<details>\n<summary>Chapter: {chap_no}_{chap_no_chap_name_mapping[chap_no]}</summary>\n\n"
-    urls_list = chap_urls_mapping[chap_no]
-    print(f"*** {chap_no}-{chap_no_chap_name_mapping[chap_no]}: {len(urls_list)} urls found! ****")
-    for fig_no in urls_list:
-        # print(fig_no, type(urls_list[fig_no]), urls_list[fig_no])
-        for url in urls_list[fig_no]:
-            # print(url)
-            path = get_path_from_url(url)
-            # print(path)
-            is_latexify = int(check_fun_to_notebook(path, check_latexify))
-            is_jaxify = int(check_fun_to_notebook(path, check_jaxify))
-            notebooks.append(
-                {
-                    "nb_name": f"[{url.split('/')[-1]}]({url})",
-                    "fig_no": fig_no,
-                    "workflow": get_run(book_no, chap_no, url.split("/")[-1]),
-                    "latexify": right_emoji if is_latexify else wrong_emoji,
-                    "jaxify": right_emoji if is_jaxify else wrong_emoji,
-                }
-            )
+for book_no in [1, 2]:
+    print(f"********** creating figure dashboard of book{book_no} *******************")
+    csv_excluded_dummy = f"internal/figures_url_mapping_book{book_no}_excluded_dummy_nb.csv"
+    chap_urls_mapping = chap_to_urls_mapping(csv_excluded_dummy)
 
-    if len(notebooks) > 0:
-        df_nb = pd.DataFrame(notebooks)
-        md = base_str + df_nb.to_markdown(index=None) + "\n</details>"
-        # print(md)
-        md_content += md + "\n\n"
+    csv_chap_names = f"internal/chapter_no_to_name_mapping_book{book_no}.csv"
+    chap_no_chap_name_mapping = get_chap_mapping(csv_chap_names)
+    # print(chap_urls_mapping)
+    md_content = "## Instructions\n\n* Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).\n\nDashboard\n"
+    for chap_no in chap_urls_mapping:
+        notebooks = []
+        base_str = f"<details open>\n<summary>Chapter: {chap_no}_{chap_no_chap_name_mapping[chap_no]}</summary>\n\n"
+        urls_list = chap_urls_mapping[chap_no]
+        print(f"*** {chap_no}-{chap_no_chap_name_mapping[chap_no]}: {len(urls_list)} urls found! ****")
+        for fig_no in urls_list:
+            # print(fig_no, type(urls_list[fig_no]), urls_list[fig_no])
+            for url in urls_list[fig_no]:
+                # print(url)
+                path = get_path_from_url(url)
+                # print(path)
+                is_latexify = int(check_fun_to_notebook(path, check_latexify))
+                is_jaxify = int(check_fun_to_notebook(path, check_jaxify))
+                notebooks.append(
+                    {
+                        "nb_name": f"[{url.split('/')[-1]}]({url})",
+                        "fig_no": fig_no,
+                        "workflow": get_run(book_no, chap_no, url.split("/")[-1]),
+                        "latexify": right_emoji if is_latexify else wrong_emoji,
+                        "jaxify": right_emoji if is_jaxify else wrong_emoji,
+                    }
+                )
 
-save_to_md(md_content, f"workflow_testing_indicator/dashboard_figures_book{book_no}.md")
+        if len(notebooks) > 0:
+            df_nb = pd.DataFrame(notebooks)
+            md = base_str + df_nb.to_markdown(index=None) + "\n</details>"
+            # print(md)
+            md_content += md + "\n\n"
+
+    save_to_md(md_content, f"workflow_testing_indicator/dashboard_figures_book{book_no}.md")

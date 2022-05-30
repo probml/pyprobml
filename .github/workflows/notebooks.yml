@@ -193,6 +193,7 @@ jobs:
       run: |
         pip install -U --no-cache-dir -r requirements-dev.txt | cat
         pip install -U --no-cache-dir -r requirements.txt | cat
+        pip install -U --no-cache-dir tabulate | cat
 
     - name: Combine and publish results
       run: |
