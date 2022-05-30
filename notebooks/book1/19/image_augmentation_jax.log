@@ -9,7 +9,7 @@ show_images([img], titles=["Cat&Dog"], num_rows=1, num_cols=1, scale=3)
 
 ---------------------------------------------------------------------------
 error                                     Traceback (most recent call last)
-/tmp/ipykernel_4097/3796997684.py in <module>
+/tmp/ipykernel_4090/3796997684.py in <module>
       1 img = cv2.imread("/content/cat_dog.jpg")
       2 # When we load an image using Open-Cv it's opened in "BGR" format, let's change it to "RGB"
 ----> 3 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

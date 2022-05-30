@@ -181,7 +181,6 @@
 | [book1/15/attention_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/attention_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/attention_torch.png> | [log](-) |
 | [book1/15/gru_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/gru_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/gru_torch.png> | [log](-) |
 | [book1/15/lstm_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/lstm_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/lstm_torch.png> | [log](-) |
-| [book1/15/nmt_attention_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/nmt_attention_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/nmt_attention_torch.png> | [log](-) |
 | [book1/15/gru_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/gru_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/gru_jax.png> | [log](-) |
 | [book1/15/nmt_attention_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/nmt_attention_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/nmt_attention_jax.png> | [log](-) |
 | [book1/15/rnn_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/rnn_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/rnn_torch.png> | [log](-) |
@@ -273,6 +272,7 @@
 | [book1/15/cnn1d_sentiment_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/cnn1d_sentiment_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/cnn1d_sentiment_torch.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/15/cnn1d_sentiment_torch.log) |
 | [book1/15/bert_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/bert_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/bert_torch.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/15/bert_torch.log) |
 | [book1/15/bert_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/bert_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/bert_jax.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/15/bert_jax.log) |
+| [book1/15/nmt_attention_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/nmt_attention_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/nmt_attention_torch.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/15/nmt_attention_torch.log) |
 | [book1/15/lstm_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/lstm_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/lstm_jax.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/15/lstm_jax.log) |
 | [book1/15/positional_encoding_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/positional_encoding_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/positional_encoding_torch.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/15/positional_encoding_torch.log) |
 | [book1/15/cnn1d_sentiment_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/15/cnn1d_sentiment_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/15/cnn1d_sentiment_jax.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/15/cnn1d_sentiment_jax.log) |
@@ -293,7 +293,7 @@
 ## Summary
 
 Book1: In total, 285 jobs were tested.
-33 jobs failed.
+34 jobs failed.
 
 # Book 2: PyProbML status
 

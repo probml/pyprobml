@@ -98,7 +98,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3960/4204866481.py in <module>
+/tmp/ipykernel_4015/4204866481.py in <module>
      22 try:
 ---> 23     import svi_gmm_model_tfp as GMM
      24 except ModuleNotFoundError:
@@ -108,7 +108,7 @@ ModuleNotFoundError: No module named 'svi_gmm_model_tfp'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3960/4204866481.py in <module>
+/tmp/ipykernel_4015/4204866481.py in <module>
      24 except ModuleNotFoundError:
      25     get_ipython().run_line_magic('pip', 'install -qq svi_gmm_model_tfp')
 ---> 26     import svi_gmm_model_tfp as GMM
