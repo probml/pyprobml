@@ -1,0 +1,77 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results
+except ModuleNotFoundError:
+    %pip install -qq ssm_jax
+    from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results
+
+hmm, true_states, emissions = make_model_and_data()
+posterior = hmm.smoother(emissions)
+most_likely_states = hmm.most_likely_states(emissions)
+dict_figures = plot_results(true_states, emissions, posterior, most_likely_states)
+
+for k, v in dict_figures.items():
+    fname = k + ".pdf"
+    print(fname)
+    fig = v
+    fig.savefig(fname)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3612/1556826169.py in <module>
+      1 try:
+----> 2     from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results
+      3 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/demos/casino_hmm.py in <module>
+     11 
+---> 12 from ssm_jax.hmm.models import CategoricalHMM
+     13 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/models.py in <module>
+     20     hmm_posterior_mode)
+---> 21 from ssm_jax.hmm.learning import (
+     22     compute_transition_probs)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/learning.py in <module>
+      6 
+----> 7 from tqdm.auto import trange
+      8 
+
+ModuleNotFoundError: No module named 'tqdm'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3612/1556826169.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq ssm_jax')
+----> 5     from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results
+      6 
+      7 hmm, true_states, emissions = make_model_and_data()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/demos/casino_hmm.py in <module>
+     10 import numpy as np
+     11 
+---> 12 from ssm_jax.hmm.models import CategoricalHMM
+     13 
+     14 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/models.py in <module>
+     19     hmm_smoother,
+     20     hmm_posterior_mode)
+---> 21 from ssm_jax.hmm.learning import (
+     22     compute_transition_probs)
+     23 from ssm_jax.utils import PSDToRealBijector
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/learning.py in <module>
+      5 import optax
+      6 
+----> 7 from tqdm.auto import trange
+      8 
+      9 # Helper function to access parameters
+
+ModuleNotFoundError: No module named 'tqdm'
+ModuleNotFoundError: No module named 'tqdm'
