@@ -189,6 +189,11 @@ jobs:
     - name: Clone the reference repository
       uses: actions/checkout@v2
 
+    - name: Install dependencies
+      run: |
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
+
     - name: Combine and publish results
       run: |
         python .github/scripts/combine_results.py --user_name ${{ github.repository }}
