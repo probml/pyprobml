@@ -5,10 +5,10 @@ gibbs_sampler(key, 1, niter=2)
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3901/1903917795.py in <module>
+/tmp/ipykernel_3914/1903917795.py in <module>
 ----> 1 gibbs_sampler(key, 1, niter=2)
 
-/tmp/ipykernel_3901/3129064784.py in gibbs_sampler(key, jvalue, niter)
+/tmp/ipykernel_3914/3129064784.py in gibbs_sampler(key, jvalue, niter)
      37         return state_mat
      38 
 ---> 39     for iter in tqdm(range(niter)):
