@@ -1,50 +1,30 @@
 An error occurred while executing the following cell:
 ------------------
-# Install Augmax for Image Augmentation
-try:
-    import augmax
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/khdlr/augmax.git -q
-    import augmax
+example_x, example_y = train_dl.__getitem__(0)
 
-# Install the  jax-resnet
-try:
-    import jax_resnet
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/n2cholas/jax-resnet.git -q
-    import jax_resnet
+viewable_imgs = example_x[:32]
+viewable_imgs = (viewable_imgs - viewable_imgs.min()) / (viewable_imgs.max() - viewable_imgs.min())
+viewable_imgs = viewable_imgs * 255.0
+viewable_imgs = viewable_imgs.astype(jnp.uint8)
+plt.imshow(montage(viewable_imgs, multichannel=True, grid_shape=(4, 8)))
+plt.show();
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4878/3209891542.py in <module>
-      9 try:
----> 10     import jax_resnet
-     11 except ModuleNotFoundError:
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_4874/3801382653.py in <module>
+----> 1 example_x, example_y = train_dl.__getitem__(0)
+      2 
+      3 viewable_imgs = example_x[:32]
+      4 viewable_imgs = (viewable_imgs - viewable_imgs.min()) / (viewable_imgs.max() - viewable_imgs.min())
+      5 viewable_imgs = viewable_imgs * 255.0
 
-ModuleNotFoundError: No module named 'jax_resnet'
+/tmp/ipykernel_4874/672425379.py in __getitem__(self, ix)
+     40     def __getitem__(self, ix):
+     41         X, Y = [], []
+---> 42         hdl = os.listdir(self.hot_dogs_list)[ix * self.batch_size : (ix + 1) * self.batch_size]
+     43         nhdl = os.listdir(self.non_hot_dogs_list)[ix * self.batch_size : (ix + 1) * self.batch_size]
+     44 
 
-During handling of the above exception, another exception occurred:
-
-AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4878/3209891542.py in <module>
-     11 except ModuleNotFoundError:
-     12     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/n2cholas/jax-resnet.git -q')
----> 13     import jax_resnet
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax_resnet/__init__.py in <module>
-      1 from .common import *  # noqa
-----> 2 from .pretrained import *  # noqa
-      3 from .resnet import *  # noqa
-      4 from .splat import *  # noqa
-      5 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax_resnet/pretrained.py in <module>
-     13 
-     14     # https://github.com/pytorch/vision/issues/4156#issuecomment-894768539
----> 15     torch.hub._validate_not_a_forked_repo = lambda *_: True  # type: ignore
-     16     torch_exists = True
-     17 except ImportError:
-
-AttributeError: module 'torch' has no attribute 'hub'
-AttributeError: module 'torch' has no attribute 'hub'
+FileNotFoundError: [Errno 2] No such file or directory: '/content/hotdog/train/hotdog'
+FileNotFoundError: [Errno 2] No such file or directory: '/content/hotdog/train/hotdog'
