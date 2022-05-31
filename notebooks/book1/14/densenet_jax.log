@@ -31,7 +31,7 @@ print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5290/1115125.py in <module>
+/tmp/ipykernel_5276/1115125.py in <module>
      12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
      13         batch["label"] = jnp.float32(y)
 ---> 14         state, metrics = train_step(state, batch)
@@ -40,7 +40,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_5290/1580938479.py in train_step(state, batch)
+/tmp/ipykernel_5276/1580938479.py in train_step(state, batch)
      13 
      14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
 ---> 15     aux, grads = grad_fn(state.params)
@@ -49,7 +49,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 8 frame]
 
-/tmp/ipykernel_5290/1580938479.py in loss_fn(params)
+/tmp/ipykernel_5276/1580938479.py in loss_fn(params)
       5     def loss_fn(params):
       6         logits, new_model_state = state.apply_fn(
 ----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
@@ -58,7 +58,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_5290/2176403876.py in __call__(self, x, train)
+/tmp/ipykernel_5276/2176403876.py in __call__(self, x, train)
      16 
      17         for i, num_convs in enumerate(num_convs_in_dense_blocks):
 ---> 18             x = DenseBlock(growth_rate, num_convs, norm)(x)
@@ -67,7 +67,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_5290/502619999.py in __call__(self, x)
+/tmp/ipykernel_5276/502619999.py in __call__(self, x)
       8 
       9         for _ in range(self.num_convs):
 ---> 10             y = ConvBlock(self.filters, self.norm)(x)
@@ -76,93 +76,37 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_5290/3760988665.py in __call__(self, x)
-      7         x = self.norm()(x)
+/tmp/ipykernel_5276/3760988665.py in __call__(self, x)
+      5     @nn.compact
+      6     def __call__(self, x):
+----> 7         x = self.norm()(x)
       8         x = nn.relu(x)
-----> 9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
-     10         return x
+      9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
 
     [... skipping hidden 3 frame]
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/linear.py in __call__(self, inputs)
-    388 
-    389     kernel = self.param('kernel', self.kernel_init, kernel_shape,
---> 390                         self.param_dtype)
-    391 
-    392     if self.use_bias:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in __call__(self, x, use_running_average)
+    263           dtype=self.dtype,
+    264           axis_name=self.axis_name if not initializing else None,
+--> 265           axis_index_groups=self.axis_index_groups)
+    266 
+    267       if not initializing:
 
-    [... skipping hidden 10 frame]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/normalization.py in _compute_stats(x, axes, dtype, axis_name, axis_index_groups)
+     80   x = jnp.asarray(x, dtype)
+     81 
+---> 82   mean = jnp.mean(x, axes)
+     83   mean2 = jnp.mean(_abs_sq(x), axes)
+     84   if axis_name is not None:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/nn/initializers.py in init(key, shape, dtype)
-    229         # constant is stddev of standard normal truncated to (-2, 2)
-    230         stddev = jnp.sqrt(variance) / jnp.array(.87962566103423978, dtype)
---> 231         return random.truncated_normal(key, -2, 2, shape, dtype) * stddev
-    232       else:
-    233         # constant is stddev of complex standard normal truncated to 2
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/numpy/reductions.py in mean(a, axis, dtype, out, keepdims, where)
+    251          out=None, keepdims=False, *, where=None):
+    252   return _mean(a, _ensure_optional_axes(axis), dtype, out, keepdims,
+--> 253                where=where)
+    254 
+    255 @partial(api.jit, static_argnames=('axis', 'dtype', 'keepdims'), inline=True)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in truncated_normal(key, lower, upper, shape, dtype)
-    655   if shape is not None:
-    656     shape = core.as_named_shape(shape)
---> 657   return _truncated_normal(key, lower, upper, shape, dtype)  # type: ignore
-    658 
-    659 @partial(jit, static_argnums=(3, 4), inline=True)
-
-    [... skipping hidden 7 frame]
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _truncated_normal(key, lower, upper, shape, dtype)
-    671   if not jnp.issubdtype(dtype, np.floating):
-    672     raise TypeError("truncated_normal only accepts floating point dtypes.")
---> 673   u = uniform(key, shape, dtype, minval=a, maxval=b)
-    674   out = sqrt2 * lax.erf_inv(u)
-    675   # Clamp the value to the open interval (lower, upper) to make sure that
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in uniform(key, shape, dtype, minval, maxval)
-    235   dtype = dtypes.canonicalize_dtype(dtype)
-    236   shape = core.as_named_shape(shape)
---> 237   return _uniform(key, shape, dtype, minval, maxval)  # type: ignore
-    238 
-    239 @partial(jit, static_argnums=(1, 2), inline=True)
-
-    [... skipping hidden 7 frame]
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _uniform(key, shape, dtype, minval, maxval)
-    254     raise TypeError("uniform only accepts 32- or 64-bit dtypes.")
-    255 
---> 256   bits = _random_bits(key, nbits, shape)
-    257 
-    258   # The strategy here is to randomize only the mantissa bits with an exponent of
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _random_bits(key, bit_width, shape)
-     84 def _random_bits(key: prng.PRNGKeyArray, bit_width, shape) -> jnp.ndarray:
-     85   key, _ = _check_prng_key(key)
----> 86   return key._random_bits(bit_width, shape)
-     87 
-     88 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in _random_bits(self, bit_width, shape)
-    198 
-    199   def _random_bits(self, bit_width, shape) -> jnp.ndarray:
---> 200     return self.impl.random_bits(self._keys, bit_width, shape)
-    201 
-    202   def _split(self, num: int) -> 'PRNGKeyArray':
-
-    [... skipping hidden 6 frame]
-
-~/miniconda3/envs/py37/lib/python3.7/contextlib.py in __enter__(self)
-    110         del self.args, self.kwds, self.func
-    111         try:
---> 112             return next(self.gen)
-    113         except StopIteration:
-    114             raise RuntimeError("generator didn't yield") from None
-
-    [... skipping hidden 2 frame]
-
-~/miniconda3/envs/py37/lib/python3.7/collections/__init__.py in _replace(_self, **kwds)
-    411                               'or iterable')
-    412 
---> 413     def _replace(_self, **kwds):
-    414         result = _self._make(map(kwds.pop, field_names, _self))
-    415         if kwds:
+    [... skipping hidden 4 frame]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -171,5 +115,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 5413) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 5413) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5401) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5401) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
