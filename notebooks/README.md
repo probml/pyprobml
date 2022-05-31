@@ -39,13 +39,12 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
 6. Follow PEP 8 naming convention.
 7. Convert the existing code to `jax`, `flax` and `distrax` wherever possible.
 8. (If applicable) In the last cell, create an interactive demo with `@interact`, `interactive` or any other tools available with `ipywidgets`. Make sure the demo works on Google colab.
-9. Please modify existing figure names by adding `_latexified` suffix and remove the `.pdf`/`.png` extension if present. e.g. `uniform_distribution.pdf` should be renamed as `uniform_distribution_latexified`.
-10. Verify that your notebook does not throw any exception when executed in a fresh python/anaconda environment with the following command (you can make use of `docker` to have a fresh environment every time):
+9. Verify that your notebook does not throw any exception when executed in a fresh python/anaconda environment with the following command (you can make use of `docker` to have a fresh environment every time):
 
 ```bash
 ipython foo.ipynb
 ```
-11. At the time of opening a PR, double check that only the notebook you are working on is affected.
+10. At the time of opening a PR, double check that only the notebook you are working on is affected.
 
 ### Generating figures and saving them locally
 * By default, figures are not saved:
