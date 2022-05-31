@@ -47,6 +47,27 @@ RuntimeError                              Traceback (most recent call last)
     142         return input
     143 
 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/module.py in _call_impl(self, *input, **kwargs)
+   1108         if not (self._backward_hooks or self._forward_hooks or self._forward_pre_hooks or _global_backward_hooks
+   1109                 or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1110             return forward_call(*input, **kwargs)
+   1111         # Do not call functions when jit is used
+   1112         full_backward_hooks, non_full_backward_hooks = [], []
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/batchnorm.py in forward(self, input)
+    177             bn_training,
+    178             exponential_average_factor,
+--> 179             self.eps,
+    180         )
+    181 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/functional.py in batch_norm(input, running_mean, running_var, weight, bias, training, momentum, eps)
+   2420 
+   2421     return torch.batch_norm(
+-> 2422         input, weight, bias, running_mean, running_var, training, momentum, eps, torch.backends.cudnn.enabled
+   2423     )
+   2424 
+
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
      65         # Python can still get and update the process status successfully.
@@ -54,5 +75,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 4394) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 4394) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4408) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4408) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
