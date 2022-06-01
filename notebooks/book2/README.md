@@ -4,15 +4,15 @@
 
 |   chap_no | chap_name                          | Notebook   |
 |----------:|:-----------------------------------|:-----------|
-|         1 | Introduction                       | [01/](1/)  |
-|         2 | Probability                        | [02/](2/)  |
-|         3 | Bayesian statistics                | [03/](3/)  |
-|         4 | Probabilistic graphical models     | [04/](4/)  |
-|         5 | Information theory                 | [05/](5/)  |
-|         6 | Optimization                       | [06/](6/)  |
-|         7 | Inference algorithms: an overview  | [07/](7/)  |
-|         8 | Message passing inference          | [08/](8/)  |
-|         9 | Variational inference              | [09/](9/)  |
+|         1 | Introduction                       | [01/](01/) |
+|         2 | Probability                        | [02/](02/) |
+|         3 | Bayesian statistics                | [03/](03/) |
+|         4 | Probabilistic graphical models     | [04/](04/) |
+|         5 | Information theory                 | [05/](05/) |
+|         6 | Optimization                       | [06/](06/) |
+|         7 | Inference algorithms: an overview  | [07/](07/) |
+|         8 | Message passing inference          | [08/](08/) |
+|         9 | Variational inference              | [09/](09/) |
 |        10 | Monte Carlo inference              | [10/](10/) |
 |        11 | Markov Chain Monte Carlo inference | [11/](11/) |
 |        12 | Sequential Monte Carlo inference   | [12/](12/) |
