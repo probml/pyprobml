@@ -22,7 +22,7 @@ assert float(torch.abs(Y1 - Y2).sum()) < 1e-6
 
 ---------------------------------------------------------------------------
 AssertionError                            Traceback (most recent call last)
-/tmp/ipykernel_5581/2674749559.py in <module>
+/tmp/ipykernel_7125/2674749559.py in <module>
      16 Y2 = corr2d_multi_in_out(X, K)
      17 print(Y2.shape)
 ---> 18 assert float(torch.abs(Y1 - Y2).sum()) < 1e-6

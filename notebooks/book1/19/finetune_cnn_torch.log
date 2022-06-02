@@ -1,24 +1,68 @@
 An error occurred while executing the following cell:
 ------------------
-train_fine_tuning(finetune_net, 5e-5)
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(seed=1)
+import math
+import os
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install -qq torch
+    import torch
+from torch import nn
+from torch.nn import functional as F
+
+try:
+    import torchvision
+except ModuleNotFoundError:
+    %pip install -qq torchvision
+    import torchvision
+
+!mkdir figures # for saving plots
+
+!wget https://raw.githubusercontent.com/d2l-ai/d2l-en/master/d2l/torch.py -q -O d2l.py
+import d2l
 ------------------
 
 ---------------------------------------------------------------------------
-IndexError                                Traceback (most recent call last)
-/tmp/ipykernel_5960/2961865800.py in <module>
-----> 1 train_fine_tuning(finetune_net, 5e-5)
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_5589/4258866018.py in <module>
+     11     get_ipython().run_line_magic('pip', 'install -qq torch')
+     12     import torch
+---> 13 from torch import nn
+     14 from torch.nn import functional as F
+     15 
 
-/tmp/ipykernel_5960/2439772.py in train_fine_tuning(net, learning_rate, batch_size, num_epochs, param_group)
-     19     else:
-     20         trainer = torch.optim.SGD(net.parameters(), lr=learning_rate, weight_decay=0.001)
----> 21     train(net, train_iter, test_iter, loss, trainer, num_epochs, devices)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/__init__.py in <module>
+----> 1 from .modules import *  # noqa: F403
+      2 from .parameter import Parameter, UninitializedParameter, UninitializedBuffer
+      3 from .parallel import DataParallel
+      4 from . import init
+      5 from . import utils
 
-/tmp/ipykernel_5960/1256513533.py in train(net, train_iter, test_iter, loss, trainer, num_epochs, devices)
-     19     )
-     20     # net = nn.DataParallel(net, device_ids=devices).to(devices[0])
----> 21     net = net.to(devices[0])
-     22     for epoch in range(num_epochs):
-     23         # Store training_loss, training_accuracy, num_examples, num_features
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/__init__.py in <module>
+----> 1 from .module import Module
+      2 from .linear import Identity, Linear, Bilinear, LazyLinear
+      3 from .conv import Conv1d, Conv2d, Conv3d, \
+      4     ConvTranspose1d, ConvTranspose2d, ConvTranspose3d, \
+      5     LazyConv1d, LazyConv2d, LazyConv3d, LazyConvTranspose1d, LazyConvTranspose2d, LazyConvTranspose3d
 
-IndexError: list index out of range
-IndexError: list index out of range
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/module.py in <module>
+      5 
+      6 import torch
+----> 7 from ..parameter import Parameter
+      8 import torch.utils.hooks as hooks
+      9 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/parameter.py in <module>
+      1 import torch
+----> 2 from torch._C import _disabled_torch_function_impl
+      3 from collections import OrderedDict
+      4 
+      5 
+
+ModuleNotFoundError: No module named 'torch._C'
+ModuleNotFoundError: No module named 'torch._C'

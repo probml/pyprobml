@@ -1,39 +1,40 @@
 An error occurred while executing the following cell:
 ------------------
-def trainable_point_estimate(initial_loc, initial_scale, event_ndims, validate_args):
-    return tfd.Independent(
-        tfd.Deterministic(tf.Variable(initial_loc), validate_args=validate_args), reinterpreted_batch_ndims=event_ndims
-    )
-
-
-point_mass_posterior = tfp.experimental.vi.build_factored_surrogate_posterior(
-    pinned.event_shape,
-    bijector=pinned.experimental_default_event_space_bijector(),
-    trainable_distribution_fn=trainable_point_estimate,
-)
+url = "https://raw.githubusercontent.com/probml/probml-data/main/data/faithful.txt"
+# df = pd.read_csv(url, sep='\t', header=None, columns=['eruptions', 'waiting'])
+!wget $url
+data = np.array(np.loadtxt("faithful.txt"))
+print(data.shape)
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4807/3173641128.py in <module>
-      8     pinned.event_shape,
-      9     bijector=pinned.experimental_default_event_space_bijector(),
----> 10     trainable_distribution_fn=trainable_point_estimate,
-     11 )
+OSError                                   Traceback (most recent call last)
+/tmp/ipykernel_4810/2527802436.py in <module>
+      2 # df = pd.read_csv(url, sep='\t', header=None, columns=['eruptions', 'waiting'])
+      3 get_ipython().system('wget $url')
+----> 4 data = np.array(np.loadtxt("faithful.txt"))
+      5 print(data.shape)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/trainable_state_util.py in build_stateful_trainable(seed, *args, **kwargs)
-    327   def build_stateful_trainable(*args, seed=None, **kwargs):
-    328     g = functools.partial(generator, *args, **kwargs)
---> 329     params = _initialize_parameters(g, seed=seed)
-    330     params_as_variables = []
-    331     for name, value in params._asdict().items():
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/lib/npyio.py in loadtxt(fname, dtype, comments, delimiter, converters, skiprows, usecols, unpack, ndmin, encoding, max_rows, like)
+   1065             fname = os_fspath(fname)
+   1066         if _is_string_like(fname):
+-> 1067             fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)
+   1068             fencoding = getattr(fh, 'encoding', 'latin1')
+   1069             fh = iter(fh)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/trainable_state_util.py in _initialize_parameters(generator, seed)
-    209       parameter values returned from the yielded callables.
-    210   """
---> 211   gen = generator()
-    212   if not isinstance(gen, types.GeneratorType):
-    213     raise ValueError('Expected generator but saw function: {}. A generator '
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/lib/_datasource.py in open(path, mode, destpath, encoding, newline)
+    191 
+    192     ds = DataSource(destpath)
+--> 193     return ds.open(path, mode, encoding=encoding, newline=newline)
+    194 
+    195 
 
-TypeError: _factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
-TypeError: _factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/lib/_datasource.py in open(self, path, mode, encoding, newline)
+    531                                       encoding=encoding, newline=newline)
+    532         else:
+--> 533             raise IOError("%s not found." % path)
+    534 
+    535 
+
+OSError: faithful.txt not found.
+OSError: faithful.txt not found.
