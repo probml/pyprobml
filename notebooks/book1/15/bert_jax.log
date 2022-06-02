@@ -1,1 +1,7 @@
-Kernel died
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+nsteps, lr = 50, 5e-3
+bert_train_state = train_bert(Transformer, train_iter, lr, nsteps, len(vocab))
+-------------------
