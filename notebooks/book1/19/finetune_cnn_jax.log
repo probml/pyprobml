@@ -17,7 +17,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4857/3209891542.py in <module>
+/tmp/ipykernel_4794/3209891542.py in <module>
       9 try:
 ---> 10     import jax_resnet
      11 except ModuleNotFoundError:
@@ -27,7 +27,7 @@ ModuleNotFoundError: No module named 'jax_resnet'
 During handling of the above exception, another exception occurred:
 
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4857/3209891542.py in <module>
+/tmp/ipykernel_4794/3209891542.py in <module>
      11 except ModuleNotFoundError:
      12     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/n2cholas/jax-resnet.git -q')
 ---> 13     import jax_resnet
