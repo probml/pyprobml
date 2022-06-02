@@ -1,142 +1,100 @@
 An error occurred while executing the following cell:
 ------------------
 
-
-#We illustrate  linear using the "waffle divorce" example in sec 5.1  of [Statistical Rethinking ed 2](https://xcelab.net/rm/statistical-rethinking/). 
-#The numpyro code is from [Du Phan's site](https://fehiepsi.github.io/rethinking-numpyro/05-the-many-variables-and-the-spurious-waffles.html)
-  
-
+# Gaussian mixture model suign PyMC3
+# Based on https://github.com/aloctavodia/BAP/blob/master/code/Chp6/06_mixture_models.ipynb
 
 
 try:
-    import probml_utils as pml
+    import pymc3 as pm
 except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    import probml_utils as pml
-   
+    %pip install -qq pymc3
+    import pymc3 as pm
 import numpy as np
-np.set_printoptions(precision=3)
-import matplotlib.pyplot as plt
-import math
-import os
-import warnings
-import pandas as pd
-
-import jax
-print("jax version {}".format(jax.__version__))
-print("jax backend {}".format(jax.lib.xla_bridge.get_backend().platform))
-
-import jax.numpy as jnp
-from jax import random, vmap
-
-rng_key = random.PRNGKey(0)
-rng_key, rng_key_ = random.split(rng_key)
+import scipy.stats as stats
 
 try:
-    import numpyro
+    import pandas as pd
 except ModuleNotFoundError:
-    %pip install -qq numpyro
-    import numpyro
-import numpyro.distributions as dist
-from numpyro.distributions import constraints
-from numpyro.distributions.transforms import AffineTransform
-from numpyro.diagnostics import hpdi, print_summary
-from numpyro.infer import Predictive, log_likelihood
-from numpyro.infer import MCMC, NUTS
-from numpyro.infer import SVI, Trace_ELBO, init_to_value
-from numpyro.infer.autoguide import AutoLaplaceApproximation
-import numpyro.optim as optim
-
+    %pip install -qq pandas
+    import pandas as pd
+try:
+    import theano.tensor as tt
+except ModuleNotFoundError:
+    %pip install -qq theano
+    import theano.tensor as tt
+import matplotlib.pyplot as plt
 
 try:
     import arviz as az
 except ModuleNotFoundError:
     %pip install -qq arviz
     import arviz as az
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
-# Data
-
-# load data and copy
-url = 'https://raw.githubusercontent.com/fehiepsi/rethinking-numpyro/master/data/WaffleDivorce.csv'
-WaffleDivorce = pd.read_csv(url, sep=";")
-d = WaffleDivorce
-
-# standardize variables
-d["A"] = d.MedianAgeMarriage.pipe(lambda x: (x - x.mean()) / x.std())
-d["D"] = d.Divorce.pipe(lambda x: (x - x.mean()) / x.std())
-d["M"] = d.Marriage.pipe(lambda x: (x - x.mean()) / x.std())
-
-# Model
-
-def model(M, A, D=None):
-    a = numpyro.sample("a", dist.Normal(0, 0.2))
-    bM = numpyro.sample("bM", dist.Normal(0, 0.5))
-    bA = numpyro.sample("bA", dist.Normal(0, 0.5))
-    sigma = numpyro.sample("sigma", dist.Exponential(1))
-    mu = numpyro.deterministic("mu", a + bM * M + bA * A)
-    numpyro.sample("D", dist.Normal(mu, sigma), obs=D)
+np.random.seed(42)
 
 
-m5_3 = AutoLaplaceApproximation(model)
-svi = SVI(model, m5_3, optim.Adam(1), Trace_ELBO(), M=d.M.values, A=d.A.values, D=d.D.values)
-p5_3, losses = svi.run(random.PRNGKey(0), 1000)
-post = m5_3.sample_posterior(random.PRNGKey(1), p5_3, (1000,))
+# url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
+# There is some error reading the abvoe file
+# Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
+# So we make a copy here
+url = "https://raw.githubusercontent.com/aloctavodia/BAP/master/code/data/chemical_shifts_theo_exp.csv"
+df = pd.read_csv(url)
+obs = df["exp"]
 
-# Posterior
+az.plot_kde(obs)
+plt.hist(obs, density=True, bins=30, alpha=0.3)
+plt.yticks([])
+pml.savefig("gmm_pymc3_data.pdf", dpi=300)
 
-param_names = {'a', 'bA', 'bM', 'sigma'}
-for p in param_names:
-  print(f'posterior for {p}')
-  print_summary(post[p], 0.95, False)
-  
-  
-# PPC
+# Illustrate unidentifiability
 
-# call predictive without specifying new data
-# so it uses original data
-post = m5_3.sample_posterior(random.PRNGKey(1), p5_3, (int(1e4),))
-post_pred = Predictive(m5_3.model, post)(random.PRNGKey(2), M=d.M.values, A=d.A.values)
-mu = post_pred["mu"]
+clusters = 2
+with pm.Model() as model_mg:
+    p = pm.Dirichlet("p", a=np.ones(clusters))
+    means = pm.Normal("means", mu=obs.mean(), sd=10, shape=clusters)
+    sd = pm.HalfNormal("sd", sd=10)
+    y = pm.NormalMixture("y", w=p, mu=means, sd=sd, observed=obs)
+    trace_mg = pm.sample(random_seed=123, cores=1, chains=2)
 
-# summarize samples across cases
-mu_mean = jnp.mean(mu, 0)
-mu_PI = jnp.percentile(mu, q=(5.5, 94.5), axis=0)
+varnames = ["means", "p"]
+print(az.summary(trace_mg, varnames))
 
+az.plot_trace(trace_mg, varnames)
+pml.savefig("gmm_pymc3_label_switching.pdf", dpi=300)
 
-ax = plt.subplot(
-    ylim=(float(mu_PI.min()), float(mu_PI.max())),
-    xlabel="Observed divorce",
-    ylabel="Predicted divorce"
-)
-plt.plot(d.D, mu_mean, "o")
-x = jnp.linspace(mu_PI.min(), mu_PI.max(), 101)
-plt.plot(x, x, "--")
-for i in range(d.shape[0]):
-    plt.plot([d.D[i]] * 2, mu_PI[:, i], "b")
-fig = plt.gcf()
+# Add constraint that mu[0] < mu[1] using a potential (penalty) function
 
-for i in range(d.shape[0]):
-    if d.Loc[i] in ["ID", "UT", "RI", "ME"]:
-        ax.annotate(
-            d.Loc[i], (d.D[i], mu_mean[i]), xytext=(1,0), textcoords="offset pixels"
-        )
-plt.tight_layout()
-pml.savefig('linreg_divorce_postpred.pdf', dpi=300)
+clusters = 2
+with pm.Model() as model_mgp:
+    p = pm.Dirichlet("p", a=np.ones(clusters))
+    means = pm.Normal("means", mu=np.array([0.9, 1]) * obs.mean(), sd=10, shape=clusters)
+    sd = pm.HalfNormal("sd", sd=10)
+    order_means = pm.Potential("order_means", tt.switch(means[1] - means[0] < 0, -np.inf, 0))
+    y = pm.NormalMixture("y", w=p, mu=means, sd=sd, observed=obs)
+    trace_mgp = pm.sample(1000, random_seed=123, cores=1, chains=2)
+
+varnames = ["means", "p"]
+print(az.summary(trace_mgp, varnames))
+az.plot_trace(trace_mgp, varnames)
+pml.savefig("gmm_pymc3_constrained.pdf", dpi=300)
+
 plt.show()
-
-
-
-  
 ------------------
 
 ---------------------------------------------------------------------------
 HTTPError                                 Traceback (most recent call last)
-/tmp/ipykernel_4259/2208627534.py in <module>
-     55 # load data and copy
-     56 url = 'https://raw.githubusercontent.com/fehiepsi/rethinking-numpyro/master/data/WaffleDivorce.csv'
----> 57 WaffleDivorce = pd.read_csv(url, sep=";")
-     58 d = WaffleDivorce
-     59 
+/tmp/ipykernel_3609/2957873058.py in <module>
+     42 # So we make a copy here
+     43 url = "https://raw.githubusercontent.com/aloctavodia/BAP/master/code/data/chemical_shifts_theo_exp.csv"
+---> 44 df = pd.read_csv(url)
+     45 obs = df["exp"]
+     46 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/util/_decorators.py in wrapper(*args, **kwargs)
     309                     stacklevel=stacklevel,
