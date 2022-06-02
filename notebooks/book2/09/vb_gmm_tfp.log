@@ -1,0 +1,40 @@
+An error occurred while executing the following cell:
+------------------
+url = "https://raw.githubusercontent.com/probml/probml-data/main/data/faithful.txt"
+# df = pd.read_csv(url, sep='\t', header=None, columns=['eruptions', 'waiting'])
+!wget $url
+data = np.array(np.loadtxt("faithful.txt"))
+print(data.shape)
+------------------
+
+---------------------------------------------------------------------------
+OSError                                   Traceback (most recent call last)
+/tmp/ipykernel_4810/2527802436.py in <module>
+      2 # df = pd.read_csv(url, sep='\t', header=None, columns=['eruptions', 'waiting'])
+      3 get_ipython().system('wget $url')
+----> 4 data = np.array(np.loadtxt("faithful.txt"))
+      5 print(data.shape)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/lib/npyio.py in loadtxt(fname, dtype, comments, delimiter, converters, skiprows, usecols, unpack, ndmin, encoding, max_rows, like)
+   1065             fname = os_fspath(fname)
+   1066         if _is_string_like(fname):
+-> 1067             fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)
+   1068             fencoding = getattr(fh, 'encoding', 'latin1')
+   1069             fh = iter(fh)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/lib/_datasource.py in open(path, mode, destpath, encoding, newline)
+    191 
+    192     ds = DataSource(destpath)
+--> 193     return ds.open(path, mode, encoding=encoding, newline=newline)
+    194 
+    195 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/lib/_datasource.py in open(self, path, mode, encoding, newline)
+    531                                       encoding=encoding, newline=newline)
+    532         else:
+--> 533             raise IOError("%s not found." % path)
+    534 
+    535 
+
+OSError: faithful.txt not found.
+OSError: faithful.txt not found.
