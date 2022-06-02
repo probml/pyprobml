@@ -1,0 +1,45 @@
+An error occurred while executing the following cell:
+------------------
+import requests
+from io import BytesIO
+from scipy.io import loadmat
+
+url = "https://raw.githubusercontent.com/probml/probml-data/main/data/20news_w100.mat"
+response = requests.get(url)
+# rawdata = response.text
+rawdata = BytesIO(response.content)
+data = loadmat(rawdata)
+print(data)
+------------------
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+/tmp/ipykernel_5191/4110769290.py in <module>
+      7 # rawdata = response.text
+      8 rawdata = BytesIO(response.content)
+----> 9 data = loadmat(rawdata)
+     10 print(data)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/mio.py in loadmat(file_name, mdict, appendmat, **kwargs)
+    223     variable_names = kwargs.pop('variable_names', None)
+    224     with _open_file_context(file_name, appendmat) as f:
+--> 225         MR, _ = mat_reader_factory(f, **kwargs)
+    226         matfile_dict = MR.get_variables(variable_names)
+    227 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/mio.py in mat_reader_factory(file_name, appendmat, **kwargs)
+     72     """
+     73     byte_stream, file_opened = _open_file(file_name, appendmat)
+---> 74     mjv, mnv = get_matfile_version(byte_stream)
+     75     if mjv == 0:
+     76         return MatFile4Reader(byte_stream, **kwargs), file_opened
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/miobase.py in get_matfile_version(fileobj)
+    229     if maj_val in (1, 2):
+    230         return ret
+--> 231     raise ValueError('Unknown mat file type, version %s, %s' % ret)
+    232 
+    233 
+
+ValueError: Unknown mat file type, version 108, 49
+ValueError: Unknown mat file type, version 108, 49

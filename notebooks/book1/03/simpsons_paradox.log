@@ -1,0 +1,104 @@
+An error occurred while executing the following cell:
+------------------
+column_mapping = {
+    "penguins": {
+        "species": "Species",
+        "bill_length_mm": "Bill Length (mm)",
+        "bill_depth_mm": "Bill Depth (mm)",
+    },
+    "iris": {
+        "species": "Species",
+        "sepal_length": "Sepal Length",
+        "sepal_width": "Sepal Width",
+    },
+}
+
+dataset_cols = {
+    "penguins": {
+        "x_col": "Bill Length (mm)",
+        "y_col": "Bill Depth (mm)",
+        "groupby_col": "Species",
+    },
+    "iris": {"x_col": "Sepal Length", "y_col": "Sepal Width", "groupby_col": "Species"},
+}
+
+for dataset in column_mapping.keys():
+    df = sns.load_dataset(dataset)
+    df = df.rename(columns=column_mapping[dataset])
+    df = df.dropna()
+    make_graph(
+        df,
+        dataset_cols[dataset]["x_col"],
+        dataset_cols[dataset]["y_col"],
+        dataset_cols[dataset]["groupby_col"],
+        f"simpson_{dataset}_latexified.pdf",
+    )
+------------------
+
+---------------------------------------------------------------------------
+HTTPError                                 Traceback (most recent call last)
+/tmp/ipykernel_5075/3181841524.py in <module>
+     22 
+     23 for dataset in column_mapping.keys():
+---> 24     df = sns.load_dataset(dataset)
+     25     df = df.rename(columns=column_mapping[dataset])
+     26     df = df.dropna()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/utils.py in load_dataset(name, cache, data_home, **kws)
+    594             if name not in get_dataset_names():
+    595                 raise ValueError(f"'{name}' is not one of the example datasets.")
+--> 596             urlretrieve(url, cache_path)
+    597         full_path = cache_path
+    598     else:
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlretrieve(url, filename, reporthook, data)
+    245     url_type, path = splittype(url)
+    246 
+--> 247     with contextlib.closing(urlopen(url, data)) as fp:
+    248         headers = fp.info()
+    249 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlopen(url, data, timeout, cafile, capath, cadefault, context)
+    220     else:
+    221         opener = _opener
+--> 222     return opener.open(url, data, timeout)
+    223 
+    224 def install_opener(opener):
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in open(self, fullurl, data, timeout)
+    529         for processor in self.process_response.get(protocol, []):
+    530             meth = getattr(processor, meth_name)
+--> 531             response = meth(req, response)
+    532 
+    533         return response
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_response(self, request, response)
+    639         if not (200 <= code < 300):
+    640             response = self.parent.error(
+--> 641                 'http', request, response, code, msg, hdrs)
+    642 
+    643         return response
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in error(self, proto, *args)
+    567         if http_err:
+    568             args = (dict, 'default', 'http_error_default') + orig_args
+--> 569             return self._call_chain(*args)
+    570 
+    571 # XXX probably also want an abstract factory that knows when it makes
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _call_chain(self, chain, kind, meth_name, *args)
+    501         for handler in handlers:
+    502             func = getattr(handler, meth_name)
+--> 503             result = func(*args)
+    504             if result is not None:
+    505                 return result
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_error_default(self, req, fp, code, msg, hdrs)
+    647 class HTTPDefaultErrorHandler(BaseHandler):
+    648     def http_error_default(self, req, fp, code, msg, hdrs):
+--> 649         raise HTTPError(req.full_url, code, msg, hdrs, fp)
+    650 
+    651 class HTTPRedirectHandler(BaseHandler):
+
+HTTPError: HTTP Error 503: first byte timeout
+HTTPError: HTTP Error 503: first byte timeout
