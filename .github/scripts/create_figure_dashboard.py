@@ -75,7 +75,11 @@ def check_fun_to_notebook(notebook, fun):
     """
     fun should take one argument: code
     """
-    nb = nbformat.read(notebook, as_version=4)
+    try:
+        nb = nbformat.read(notebook, as_version=4)
+    except FileNotFoundError:
+        print("File not found:", notebook)
+        return False
     for cell in nb.cells:
         code = cell["source"]
         output = fun(code)
