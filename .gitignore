@@ -8,6 +8,8 @@ scripts/.DS_Store
 
 *.pdf
 *.lof
+!internal/book1.lof
+!internal/book2.lof
 *.jpg
 *.jpeg
 

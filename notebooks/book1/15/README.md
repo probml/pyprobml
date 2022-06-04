@@ -41,20 +41,22 @@
 | 15.34 | - | [Figure_15.34.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_15.34.png)<br/> |
 | 15.35 | - | [Figure_15.35_B.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_15.35_B.png)<br/>[Figure_15.35_A.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_15.35_A.png)<br/>[Figure_15.35_D.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_15.35_D.png)<br/>[Figure_15.35_C.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_15.35_C.png)<br/> |
 | 15.36 | - | [Figure_15.36.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_15.36.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|RNN for character level generation (D2L 8.5)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/rnn_torch.ipynb)
-|GRUs (D2L 9.1)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/gru_torch.ipynb)
-|LSTMs (D2L 9.2)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/lstm_torch.ipynb)
-|NMT using RNN (D2L 9.7)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/nmt_torch.ipynb)
-|Attention (D2L 10.3)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/attention_torch.ipynb)
-|NMT with RNN and attention (D2L 10.4)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/nmt_attention_torch.ipynb)
-|NMT using transformers (D2L 10.7)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/transformers_torch.ipynb)
-|BERT (D2L 14.8)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/bert_torch.ipynb)
-|RNN for sentiment classification (D2L 15.2)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/rnn_sentiment_torch.ipynb)
-|1d CNN for sentiment classification (D2L 15.3)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/cnn1d_sentiment_torch.ipynb)
-|Entailment classification using MLP with attention (D2L 15.5)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/entailment_attention_mlp_torch.ipynb)
+|RNN for character level generation (D2L 8.5)|PyTorch|[rnn_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/rnn_torch.ipynb)
+|GRUs (D2L 9.1)|PyTorch|[gru_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/gru_torch.ipynb)
+|LSTMs (D2L 9.2)|PyTorch|[lstm_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/lstm_torch.ipynb)
+|NMT using RNN (D2L 9.7)|PyTorch|[nmt_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/nmt_torch.ipynb)
+|Attention (D2L 10.3)|PyTorch|[attention_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/attention_torch.ipynb)
+|NMT with RNN and attention (D2L 10.4)|PyTorch|[nmt_attention_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/nmt_attention_torch.ipynb)
+|NMT using transformers (D2L 10.7)|PyTorch|[transformers_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/transformers_torch.ipynb)
+|BERT (D2L 14.8)|PyTorch|[bert_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/bert_torch.ipynb)
+|RNN for sentiment classification (D2L 15.2)|PyTorch|[rnn_sentiment_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/rnn_sentiment_torch.ipynb)
+|1d CNN for sentiment classification (D2L 15.3)|PyTorch|[cnn1d_sentiment_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/cnn1d_sentiment_torch.ipynb)
+|Entailment classification using MLP with attention (D2L 15.5)|PyTorch|[entailment_attention_mlp_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/15/entailment_attention_mlp_torch.ipynb)
 |RNN for sentiment classification|TF2|[External](https://www.tensorflow.org/tutorials/text/text_classification_rnn)
 |RNN for character level generation|TF2|[External](https://www.tensorflow.org/tutorials/text/text_generation)
 |RNN for time series forecasting|TF2|[External](https://www.tensorflow.org/tutorials/structured_data/time_series)

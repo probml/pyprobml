@@ -30,16 +30,18 @@
 | 13.23 | [mixexpDemoOneToMany.ipynb](mixexpDemoOneToMany.ipynb) | - |
 | 13.24 | - | [Figure_13.24.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_13.24.png)<br/> |
 | 13.25 | - | [Figure_13.25.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_13.25.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Intro to Flax/Jax|Jax, Flax|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/flax_intro.ipynb)
+|Intro to Flax/Jax|Jax, Flax|[flax_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/13/flax_intro.ipynb)
 |Intro to Tensorflow|TF2|[External](https://www.tensorflow.org/tutorials)
 |Intro to PyTorch|PyTorch|[External](https://pytorch.org/tutorials/beginner/basics/intro.html)
-|CIFAR image classification with MLP|PyTorch|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/mlp_cifar_pytorch.ipynb)
-|MNIST image classification with MLP|TF2|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/mlp_mnist_tf.ipynb)
+|CIFAR image classification with MLP|PyTorch|[mlp_cifar_pytorch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/13/mlp_cifar_pytorch.ipynb)
+|MNIST image classification with MLP|TF2|[mlp_mnist_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/13/mlp_mnist_tf.ipynb)
 |Dropout for an MLP|PyTorch|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/dropout_mlp_torch.ipynb)
-|IMDB movie review sentiment classification|TF2|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/mlp_imdb_tf.ipynb)
-|Hierarchical Bayes for BNNs|PyMC3|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/bnn_hierarchical_pymc3.ipynb)
-|Hierarchical Bayes for BNNs|NumPyro|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/bnn_hierarchical_numpyro.ipynb)
+|IMDB movie review sentiment classification|TF2|[mlp_imdb_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/13/mlp_imdb_tf.ipynb)
+|Hierarchical Bayes for BNNs|PyMC3|[bnn_hierarchical_pymc3.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/13/bnn_hierarchical_pymc3.ipynb)
+|Hierarchical Bayes for BNNs|NumPyro|[bnn_hierarchical_numpyro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/13/bnn_hierarchical_numpyro.ipynb)
 |NYU course on deep learning (2020)|PyTorch|[External](https://atcold.github.io/pytorch-Deep-Learning)

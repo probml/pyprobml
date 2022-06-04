@@ -4,10 +4,11 @@ on:
   push:
     branches:
     - master
-
+    
   pull_request:
     branches:
     - master
+    
 
 jobs:
   check_code_quality:
@@ -92,13 +93,6 @@ jobs:
         pip install -U --no-cache-dir -r requirements.txt | cat
         apt update && xargs -a requirements-bash.txt apt install -y
 
-    - name: Check code quality (again)
-      shell: bash
-      run: |
-        source /root/.bashrc
-        black --check --verbose notebooks/book1/*/*.ipynb
-        black --check --verbose notebooks/book2/*/*.ipynb
-
     - name: Cache datasets
       id: cache-datasets
       uses: actions/cache@v3
@@ -155,13 +149,6 @@ jobs:
         pip install -U --no-cache-dir -r requirements.txt | cat
         apt update && xargs -a requirements-bash.txt apt install -y
 
-    - name: Check code quality (again)
-      shell: bash
-      run: |
-        source /root/.bashrc
-        black --check --verbose notebooks/book1/*/*.ipynb
-        black --check --verbose notebooks/book2/*/*.ipynb
-
     - name: Cache datasets
       id: cache-datasets
       uses: actions/cache@v3
@@ -202,9 +189,16 @@ jobs:
     - name: Clone the reference repository
       uses: actions/checkout@v2
 
+    - name: Install dependencies
+      run: |
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
+        pip install -U --no-cache-dir tabulate | cat
+
     - name: Combine and publish results
       run: |
         python .github/scripts/combine_results.py --user_name ${{ github.repository }}
+        python .github/scripts/create_figure_dashboard.py --user_name ${{ github.repository }}
         python .github/scripts/create_dashboard.py --user_name ${{ github.repository }}
 
     - name: Push figures to auto_generated_figures (does not run on pull requests)

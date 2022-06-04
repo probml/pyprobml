@@ -29,7 +29,9 @@
 | 2.22 | - | [Figure_2.22.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_2.22.png)<br/> |
 | 2.23 | [centralLimitDemo.ipynb](centralLimitDemo.ipynb) | - |
 | 2.24 | [change_of_vars_demo1d.ipynb](change_of_vars_demo1d.ipynb) | - |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|Intro to probability|Scipy|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/prob.ipynb)
+|Intro to probability|Scipy|[prob.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/02/prob.ipynb)

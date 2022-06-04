@@ -50,13 +50,15 @@
 | 20.43 | - | [Figure_20.43.jpg](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_20.43.jpg)<br/> |
 | 20.44 | - | [Figure_20.44_B.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_20.44_B.png)<br/>[Figure_20.44_A.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_20.44_A.png)<br/> |
 | 20.45 | - | [Figure_20.45.png](https://github.com/probml/pml-book/blob/main/book1-figures/Figure_20.45.png)<br/> |
+
 ## Supplementary material
+
 |Title|Software|Link|
 -|-|-
-|PCA|Sklearn|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/pca.ipynb)
-|Autoencoder for (Fashion) MNIST|TF2|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/ae_mnist_tf.ipynb)
-|Autoencoder for (Fashion) MNIST (GDL)|TF2|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/ae_mnist_gdl_tf.ipynb)
-|VAE for CelebA|TF2|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/vae_celeba_tf.ipynb)
-|VAE for MNIST (GDL)|TF2|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/vae_mnist_gdl_tf.ipynb)
-|Skipgram with negative sampling (D2L 14.3)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/skipgram_torch.ipynb)
-|Word analogies with skipgram (D2L 14.7)|PyTorch|[d2lbook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks-d2l/word_analogies_torch.ipynb)
+|PCA|Sklearn|[pca.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/20/pca.ipynb)
+|Autoencoder for (Fashion) MNIST|TF2|[ae_mnist_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/20/ae_mnist_tf.ipynb)
+|Autoencoder for (Fashion) MNIST (GDL)|TF2|[ae_mnist_gdl_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/20/ae_mnist_gdl_tf.ipynb)
+|VAE for CelebA|TF2|[vae_celeba_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/20/vae_celeba_tf.ipynb)
+|VAE for MNIST (GDL)|TF2|[vae_mnist_gdl_tf.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/20/vae_mnist_gdl_tf.ipynb)
+|Skipgram with negative sampling (D2L 14.3)|PyTorch|[skipgram_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/20/skipgram_torch.ipynb)
+|Word analogies with skipgram (D2L 14.7)|PyTorch|[word_analogies_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/20/word_analogies_torch.ipynb)
