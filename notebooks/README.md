@@ -22,7 +22,7 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
 
     * Do not wrap imports in `try: except:` blocks if a package is present in [requirements.txt](requirements.txt) or it is an inbuilt python package such as `os`, `sys`, `functools` etc.
     * Note that `latexify` function will be effective only if "LATEXIFY" is set in the environment. For more details check "Generating figures and saving them locally" section below.
-    * Set appropriate height and width using the latexify function. for example: 
+    * Set appropriate height (you can refer exact height of figures from here: [book1](https://github.com/probml/pyprobml/blob/master/internal/fig_height/fig_height_book1.md) & [book2](https://github.com/probml/pyprobml/blob/master/internal/fig_height/fig_height_book2.md))  and width using the latexify function. for example: 
     ```py
     latexify(width_scale_factor=1, fig_height=1.5)  # width = 6 inch, height = 1.5 inch
     latexify(width_scale_factor=2, fig_height=2)  # width = 3 inch, height = 2 inch
