@@ -189,9 +189,16 @@ jobs:
     - name: Clone the reference repository
       uses: actions/checkout@v2
 
+    - name: Install dependencies
+      run: |
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
+        pip install -U --no-cache-dir tabulate | cat
+
     - name: Combine and publish results
       run: |
         python .github/scripts/combine_results.py --user_name ${{ github.repository }}
+        python .github/scripts/create_figure_dashboard.py --user_name ${{ github.repository }}
         python .github/scripts/create_dashboard.py --user_name ${{ github.repository }}
 
     - name: Push figures to auto_generated_figures (does not run on pull requests)
