@@ -14,7 +14,7 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
     try:
         import tensorflow as tf
     except ModuleNotFoundError:
-        %pip install tensorflow
+        %pip install -qq tensorflow
         import tensorflow as tf
 
     from tensorflow import keras
@@ -22,7 +22,7 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
 
     * Do not wrap imports in `try: except:` blocks if a package is present in [requirements.txt](requirements.txt) or it is an inbuilt python package such as `os`, `sys`, `functools` etc.
     * Note that `latexify` function will be effective only if "LATEXIFY" is set in the environment. For more details check "Generating figures and saving them locally" section below.
-    * Set appropriate height and width using the latexify function. for example: 
+    * Set appropriate height (you can refer exact height of figures from here: [book1](https://github.com/probml/pyprobml/blob/master/internal/fig_height/fig_height_book1.md) & [book2](https://github.com/probml/pyprobml/blob/master/internal/fig_height/fig_height_book2.md))  and width using the latexify function. for example: 
     ```py
     latexify(width_scale_factor=1, fig_height=1.5)  # width = 6 inch, height = 1.5 inch
     latexify(width_scale_factor=2, fig_height=2)  # width = 3 inch, height = 2 inch
@@ -39,13 +39,12 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
 6. Follow PEP 8 naming convention.
 7. Convert the existing code to `jax`, `flax` and `distrax` wherever possible.
 8. (If applicable) In the last cell, create an interactive demo with `@interact`, `interactive` or any other tools available with `ipywidgets`. Make sure the demo works on Google colab.
-9. Please modify existing figure names by adding `_latexified` suffix and remove the `.pdf`/`.png` extension if present. e.g. `uniform_distribution.pdf` should be renamed as `uniform_distribution_latexified`.
-10. Verify that your notebook does not throw any exception when executed in a fresh python/anaconda environment with the following command (you can make use of `docker` to have a fresh environment every time):
+9. Verify that your notebook does not throw any exception when executed in a fresh python/anaconda environment with the following command (you can make use of `docker` to have a fresh environment every time):
 
 ```bash
 ipython foo.ipynb
 ```
-11. At the time of opening a PR, double check that only the notebook you are working on is affected.
+10. At the time of opening a PR, double check that only the notebook you are working on is affected.
 
 ### Generating figures and saving them locally
 * By default, figures are not saved:

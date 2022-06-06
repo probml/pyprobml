@@ -158,7 +158,7 @@ key,url
 28.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/hmm_poisson_changepoint_jax.ipynb
 28.8,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/kf_tracking.ipynb
 28.9,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/kf_spiral.ipynb
-28.10,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/linreg_kf.ipynb
+28.10,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/kf_linreg.ipynb
 28.11,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/fig_28_11.ipynb
 28.15,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/gp_mauna_loa.ipynb
 29.8,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/29/ggm_lasso_demo.ipynb

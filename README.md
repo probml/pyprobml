@@ -23,7 +23,7 @@ In addition to the figure notebooks, there are a series of notebooks which provi
 
 [Colab](https://colab.research.google.com/notebooks/intro.ipynb) has most of the libraries you will need (e.g., scikit-learn,  JAX) pre-installed, and gives you access to a free GPU and TPU. We have a created a 
 [colab intro](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/misc/colab_intro.ipynb)
-notebook with more details. To run the notebooks on colab in any browser, you can go to a particular notebook on GitHub and change the domain from `github.com` to `githubtocolab.com` as suggeted [here](https://stackoverflow.com/a/67344477/13330701). If you are using Google Chrome browser, you can use ["Open in Colab" Chrome extension](https://chrome.google.com/webstore/detail/open-in-colab/iogfkhleblhcpcekbiedikdehleodpjo) to do the same with a single click.
+notebook with more details. To run the notebooks on colab in any browser, you can go to a particular notebook on GitHub and change the domain from `github.com` to `githubtocolab.com` as suggested [here](https://stackoverflow.com/a/67344477/13330701). If you are using Google Chrome browser, you can use ["Open in Colab" Chrome extension](https://chrome.google.com/webstore/detail/open-in-colab/iogfkhleblhcpcekbiedikdehleodpjo) to do the same with a single click.
 
 ## Running the noteboks locally 
 
@@ -63,9 +63,9 @@ See [this guide](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md)
 
 ## GSOC 
 
-For a summary of some of the contributions to this codebase during Google Summer of Code (GSOC) 2021,
-see [this link](https://probml.github.io/pml-book/gsoc2021.html).
-Stay tuned for GSOC 2022.
+For a summary of some of the contributions to this codebase during Google Summer of Code (GSOC),
+see  these links: [2021](https://probml.github.io/pml-book/gsoc/gsoc2021.html)
+and [2022](https://probml.github.io/pml-book/gsoc/gsoc2022.html).
 
 
 
