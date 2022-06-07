@@ -7,7 +7,7 @@ data = pods.datasets.cmu_mocap(subject, motion)
 
 ---------------------------------------------------------------------------
 StdinNotImplementedError                  Traceback (most recent call last)
-/tmp/ipykernel_4160/1995362234.py in <module>
+/tmp/ipykernel_4162/1995362234.py in <module>
       1 subject = "16"
       2 motion = ["02", "21"]
 ----> 3 data = pods.datasets.cmu_mocap(subject, motion)
@@ -41,11 +41,11 @@ StdinNotImplementedError                  Traceback (most recent call last)
      54             choice = raw_input().lower()
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in raw_input(self, prompt)
-   1157         if not self._allow_stdin:
-   1158             raise StdinNotImplementedError(
--> 1159                 "raw_input was called, but this frontend does not support input requests."
-   1160             )
-   1161         return self._input_request(
+   1161         if not self._allow_stdin:
+   1162             raise StdinNotImplementedError(
+-> 1163                 "raw_input was called, but this frontend does not support input requests."
+   1164             )
+   1165         return self._input_request(
 
 StdinNotImplementedError: raw_input was called, but this frontend does not support input requests.
 StdinNotImplementedError: raw_input was called, but this frontend does not support input requests.

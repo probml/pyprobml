@@ -21,7 +21,7 @@ from blackjax.tempered_smc import TemperedSMCState, adaptive_tempered_smc
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3976/3414307964.py in <module>
+/tmp/ipykernel_3983/3414307964.py in <module>
       8 try:
 ----> 9     from blackjax.hmc import kernel as hmc_kernel
      10 except ModuleNotFoundError:
@@ -42,26 +42,21 @@ ModuleNotFoundError                       Traceback (most recent call last)
       3 __all__ = ["window_adaptation", "pathfinder_adaptation"]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/pathfinder_adaptation.py in <module>
-     12 from blackjax.types import Array, PRNGKey, PyTree
----> 13 from blackjax.vi.pathfinder import init as pathfinder_init_fn
-     14 from blackjax.vi.pathfinder import lbfgs_inverse_hessian_formula_1, sample_from_state
+      6 
+----> 7 from blackjax.adaptation.step_size import (
+      8     DualAveragingAdaptationState,
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/vi/__init__.py in <module>
-----> 1 from . import pathfinder
-      2 
-      3 __all__ = ["pathfinder"]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/step_size.py in <module>
+      6 
+----> 7 import blackjax.optimizers.dual_averaging as dual_averaging
+      8 from blackjax.mcmc.hmc import HMCState
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/vi/pathfinder.py in <module>
-      5 import jax.random
-----> 6 import jaxopt
-      7 from jax import lax
-
-ModuleNotFoundError: No module named 'jaxopt'
+ModuleNotFoundError: No module named 'blackjax.optimizers'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3976/3414307964.py in <module>
+/tmp/ipykernel_3983/3414307964.py in <module>
      10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install -qq blackjax')
 ---> 12     from blackjax.hmc import kernel as hmc_kernel
@@ -88,23 +83,18 @@ ModuleNotFoundError                       Traceback (most recent call last)
       3 __all__ = ["window_adaptation", "pathfinder_adaptation"]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/pathfinder_adaptation.py in <module>
-     11 from blackjax.mcmc.hmc import HMCState
-     12 from blackjax.types import Array, PRNGKey, PyTree
----> 13 from blackjax.vi.pathfinder import init as pathfinder_init_fn
-     14 from blackjax.vi.pathfinder import lbfgs_inverse_hessian_formula_1, sample_from_state
-     15 
+      5 import jax.numpy as jnp
+      6 
+----> 7 from blackjax.adaptation.step_size import (
+      8     DualAveragingAdaptationState,
+      9     dual_averaging_adaptation,
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/vi/__init__.py in <module>
-----> 1 from . import pathfinder
-      2 
-      3 __all__ = ["pathfinder"]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/step_size.py in <module>
+      5 import jax.numpy as jnp
+      6 
+----> 7 import blackjax.optimizers.dual_averaging as dual_averaging
+      8 from blackjax.mcmc.hmc import HMCState
+      9 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/vi/pathfinder.py in <module>
-      4 import jax.numpy as jnp
-      5 import jax.random
-----> 6 import jaxopt
-      7 from jax import lax
-      8 from jax.flatten_util import ravel_pytree
-
-ModuleNotFoundError: No module named 'jaxopt'
-ModuleNotFoundError: No module named 'jaxopt'
+ModuleNotFoundError: No module named 'blackjax.optimizers'
+ModuleNotFoundError: No module named 'blackjax.optimizers'
