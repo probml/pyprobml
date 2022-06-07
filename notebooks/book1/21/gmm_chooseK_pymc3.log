@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['np.random.seed(42)', '', "# url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'", '# There is some error reading the abvoe file', '# Error tokenizing data. C error: Expected 1 fields in line 71, saw 2']
+...
+['    ax[idx].set_title("K = {}".format(clusters[idx]))', '    ax[idx].set_yticks([])', '    ax[idx].set_xlabel("x")', 'plt.savefig("gmm_chooseK_pymc3_kde.pdf")', 'plt.show()']
+-------------------
