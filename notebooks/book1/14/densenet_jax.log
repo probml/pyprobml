@@ -30,196 +30,8 @@ print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3
 ------------------
 
 ---------------------------------------------------------------------------
-JaxStackTraceBeforeTransformation         Traceback (most recent call last)
-~/miniconda3/envs/py37/lib/python3.7/runpy.py in _run_module_as_main(***failed resolving arguments***)
-    192     return _run_code(code, main_globals, None,
---> 193                      "__main__", mod_spec)
-    194 
-
-~/miniconda3/envs/py37/lib/python3.7/runpy.py in _run_code(***failed resolving arguments***)
-     84                        __spec__ = mod_spec)
----> 85     exec(code, run_globals)
-     86     return run_globals
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel_launcher.py in <module>
-     16 
----> 17     app.launch_new_instance()
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/traitlets/config/application.py in launch_instance(***failed resolving arguments***)
-    975         app.initialize(argv)
---> 976         app.start()
-    977 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelapp.py in start(***failed resolving arguments***)
-    711             try:
---> 712                 self.io_loop.start()
-    713             except KeyboardInterrupt:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tornado/platform/asyncio.py in start(***failed resolving arguments***)
-    198             asyncio.set_event_loop(self.asyncio_loop)
---> 199             self.asyncio_loop.run_forever()
-    200         finally:
-
-~/miniconda3/envs/py37/lib/python3.7/asyncio/base_events.py in run_forever(***failed resolving arguments***)
-    540             while True:
---> 541                 self._run_once()
-    542                 if self._stopping:
-
-~/miniconda3/envs/py37/lib/python3.7/asyncio/base_events.py in _run_once(***failed resolving arguments***)
-   1785             else:
--> 1786                 handle._run()
-   1787         handle = None  # Needed to break cycles when an exception occurs.
-
-~/miniconda3/envs/py37/lib/python3.7/asyncio/events.py in _run(***failed resolving arguments***)
-     87         try:
----> 88             self._context.run(self._callback, *self._args)
-     89         except Exception as exc:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in dispatch_queue(***failed resolving arguments***)
-    507             try:
---> 508                 await self.process_one()
-    509             except Exception:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in process_one(***failed resolving arguments***)
-    496                 return None
---> 497         await dispatch(*args)
-    498 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in dispatch_shell(***failed resolving arguments***)
-    403                 if inspect.isawaitable(result):
---> 404                     await result
-    405             except Exception:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in execute_request(***failed resolving arguments***)
-    727         if inspect.isawaitable(reply_content):
---> 728             reply_content = await reply_content
-    729 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/ipkernel.py in do_execute(***failed resolving arguments***)
-    386                         silent=silent,
---> 387                         cell_id=cell_id,
-    388                     )
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/zmqshell.py in run_cell(***failed resolving arguments***)
-    527         self._last_traceback = None
---> 528         return super().run_cell(*args, **kwargs)
-    529 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in run_cell(***failed resolving arguments***)
-   2975             result = self._run_cell(
--> 2976                 raw_cell, store_history, silent, shell_futures, cell_id
-   2977             )
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in _run_cell(***failed resolving arguments***)
-   3029         try:
--> 3030             return runner(coro)
-   3031         except BaseException as e:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/async_helpers.py in _pseudo_sync_runner(***failed resolving arguments***)
-     77     try:
----> 78         coro.send(None)
-     79     except StopIteration as exc:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in run_cell_async(***failed resolving arguments***)
-   3257                 has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
--> 3258                        interactivity=interactivity, compiler=compiler, result=result)
-   3259 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in run_ast_nodes(***failed resolving arguments***)
-   3472                         asy = compare(code)
--> 3473                     if (await self.run_code(code, result,  async_=asy)):
-   3474                         return True
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in run_code(***failed resolving arguments***)
-   3552                 else:
--> 3553                     exec(code_obj, self.user_global_ns, self.user_ns)
-   3554             finally:
-
-/tmp/ipykernel_4604/1115125.py in <module>
-     13         batch["label"] = jnp.float32(y)
----> 14         state, metrics = train_step(state, batch)
-     15         metric.add(metrics["loss"] * X.shape[0], metrics["numcorrect"], X.shape[0])
-
-/tmp/ipykernel_4604/1580938479.py in train_step(***failed resolving arguments***)
-     14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
----> 15     aux, grads = grad_fn(state.params)
-     16     # grads = lax.pmean(grads, axis_name='batch')
-
-/tmp/ipykernel_4604/1580938479.py in loss_fn(***failed resolving arguments***)
-      6         logits, new_model_state = state.apply_fn(
-----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
-      8         )
-
-/tmp/ipykernel_4604/2176403876.py in __call__(***failed resolving arguments***)
-     17         for i, num_convs in enumerate(num_convs_in_dense_blocks):
----> 18             x = DenseBlock(growth_rate, num_convs, norm)(x)
-     19             # This is the number of output channels in the previous dense block
-
-/tmp/ipykernel_4604/502619999.py in __call__(***failed resolving arguments***)
-      9         for _ in range(self.num_convs):
----> 10             y = ConvBlock(self.filters, self.norm)(x)
-     11             # Concatenate the input and output of each block on the channel dimension.
-
-/tmp/ipykernel_4604/3760988665.py in __call__(***failed resolving arguments***)
-      8         x = nn.relu(x)
-----> 9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
-     10         return x
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/linear.py in __call__(***failed resolving arguments***)
-    389     kernel = self.param('kernel', self.kernel_init, kernel_shape,
---> 390                         self.param_dtype)
-    391 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/nn/initializers.py in init(***failed resolving arguments***)
-    230         stddev = jnp.sqrt(variance) / jnp.array(.87962566103423978, dtype)
---> 231         return random.truncated_normal(key, -2, 2, shape, dtype) * stddev
-    232       else:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in truncated_normal(***failed resolving arguments***)
-    656     shape = core.as_named_shape(shape)
---> 657   return _truncated_normal(key, lower, upper, shape, dtype)  # type: ignore
-    658 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _truncated_normal(***failed resolving arguments***)
-    672     raise TypeError("truncated_normal only accepts floating point dtypes.")
---> 673   u = uniform(key, shape, dtype, minval=a, maxval=b)
-    674   out = sqrt2 * lax.erf_inv(u)
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in uniform(***failed resolving arguments***)
-    236   shape = core.as_named_shape(shape)
---> 237   return _uniform(key, shape, dtype, minval, maxval)  # type: ignore
-    238 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _uniform(***failed resolving arguments***)
-    255 
---> 256   bits = _random_bits(key, nbits, shape)
-    257 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _random_bits(***failed resolving arguments***)
-     85   key, _ = _check_prng_key(key)
----> 86   return key._random_bits(bit_width, shape)
-     87 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in _random_bits(***failed resolving arguments***)
-    199   def _random_bits(self, bit_width, shape) -> jnp.ndarray:
---> 200     return self.impl.random_bits(self._keys, bit_width, shape)
-    201 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in threefry_random_bits(***failed resolving arguments***)
-    543     bits = lax.convert_element_type(bits, dtype)[:size]
---> 544   return lax.reshape(bits, shape)
-    545 
-
-JaxStackTraceBeforeTransformation: RuntimeError: DataLoader worker (pid 4764) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-
-The preceding stack trace is the source of the JAX operation that, once transformed by JAX, triggered the following exception.
-
---------------------
-
-The above exception was the direct cause of the following exception:
-
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4604/1115125.py in <module>
+/tmp/ipykernel_4874/1115125.py in <module>
      12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
      13         batch["label"] = jnp.float32(y)
 ---> 14         state, metrics = train_step(state, batch)
@@ -228,7 +40,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_4604/1580938479.py in train_step(state, batch)
+/tmp/ipykernel_4874/1580938479.py in train_step(state, batch)
      13 
      14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
 ---> 15     aux, grads = grad_fn(state.params)
@@ -237,7 +49,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 8 frame]
 
-/tmp/ipykernel_4604/1580938479.py in loss_fn(params)
+/tmp/ipykernel_4874/1580938479.py in loss_fn(params)
       5     def loss_fn(params):
       6         logits, new_model_state = state.apply_fn(
 ----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
@@ -246,29 +58,21 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_4604/2176403876.py in __call__(self, x, train)
-     16 
-     17         for i, num_convs in enumerate(num_convs_in_dense_blocks):
----> 18             x = DenseBlock(growth_rate, num_convs, norm)(x)
-     19             # This is the number of output channels in the previous dense block
-     20             num_channels += num_convs * growth_rate
+/tmp/ipykernel_4874/2176403876.py in __call__(self, x, train)
+     21             # A transition layer that halves the number of channels is added between the dense blocks.
+     22             if i != len(num_convs_in_dense_blocks) - 1:
+---> 23                 x = TransitionBlock(num_channels // 2, norm)(x)
+     24                 num_channels = num_channels // 2
+     25 
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_4604/502619999.py in __call__(self, x)
-      8 
-      9         for _ in range(self.num_convs):
----> 10             y = ConvBlock(self.filters, self.norm)(x)
-     11             # Concatenate the input and output of each block on the channel dimension.
-     12             x = jnp.concatenate(arrays=[x, y], axis=-1)
-
-    [... skipping hidden 3 frame]
-
-/tmp/ipykernel_4604/3760988665.py in __call__(self, x)
+/tmp/ipykernel_4874/585409295.py in __call__(self, x)
       7         x = self.norm()(x)
       8         x = nn.relu(x)
-----> 9         x = nn.Conv(self.filters, (3, 3), padding=[(1, 1), (1, 1)], dtype=jnp.float32)(x)
-     10         return x
+----> 9         x = nn.Conv(self.filters, (1, 1), padding=[(0, 0), (0, 0)], dtype=jnp.float32)(x)
+     10         x = nn.avg_pool(x, (2, 2), (2, 2), padding=[(0, 0), (0, 0)])
+     11         return x
 
     [... skipping hidden 3 frame]
 
@@ -311,30 +115,16 @@ RuntimeError                              Traceback (most recent call last)
     238 
     239 @partial(jit, static_argnums=(1, 2), inline=True)
 
-    [... skipping hidden 7 frame]
+    [... skipping hidden 5 frame]
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _uniform(key, shape, dtype, minval, maxval)
-    254     raise TypeError("uniform only accepts 32- or 64-bit dtypes.")
-    255 
---> 256   bits = _random_bits(key, nbits, shape)
-    257 
-    258   # The strategy here is to randomize only the mantissa bits with an exponent of
+~/miniconda3/envs/py37/lib/python3.7/contextlib.py in __exit__(self, type, value, traceback)
+    117         if type is None:
+    118             try:
+--> 119                 next(self.gen)
+    120             except StopIteration:
+    121                 return False
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in _random_bits(key, bit_width, shape)
-     84 def _random_bits(key: prng.PRNGKeyArray, bit_width, shape) -> jnp.ndarray:
-     85   key, _ = _check_prng_key(key)
----> 86   return key._random_bits(bit_width, shape)
-     87 
-     88 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in _random_bits(self, bit_width, shape)
-    198 
-    199   def _random_bits(self, bit_width, shape) -> jnp.ndarray:
---> 200     return self.impl.random_bits(self._keys, bit_width, shape)
-    201 
-    202   def _split(self, num: int) -> 'PRNGKeyArray':
-
-    [... skipping hidden 11 frame]
+    [... skipping hidden 1 frame]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -343,5 +133,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 4764) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 4764) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5003) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5003) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
