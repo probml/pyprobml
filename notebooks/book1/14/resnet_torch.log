@@ -7,12 +7,12 @@ train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4592/1771745465.py in <module>
+/tmp/ipykernel_4615/1771745465.py in <module>
       1 lr, num_epochs, batch_size = 0.05, 10, 256
       2 train_iter, test_iter = load_data_fashion_mnist(batch_size, resize=96)
 ----> 3 train(net, train_iter, test_iter, num_epochs, lr, try_gpu())
 
-/tmp/ipykernel_4592/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
+/tmp/ipykernel_4615/3503916201.py in train(net, train_iter, test_iter, num_epochs, lr, device)
      21             optimizer.zero_grad()
      22             X, y = X.to(device), y.to(device)
 ---> 23             y_hat = net(X)
@@ -54,19 +54,26 @@ RuntimeError                              Traceback (most recent call last)
    1111         # Do not call functions when jit is used
    1112         full_backward_hooks, non_full_backward_hooks = [], []
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/batchnorm.py in forward(self, input)
-    177             bn_training,
-    178             exponential_average_factor,
---> 179             self.eps,
-    180         )
-    181 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/pooling.py in forward(self, input)
+    162         return F.max_pool2d(input, self.kernel_size, self.stride,
+    163                             self.padding, self.dilation, self.ceil_mode,
+--> 164                             self.return_indices)
+    165 
+    166 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/functional.py in batch_norm(input, running_mean, running_var, weight, bias, training, momentum, eps)
-   2420 
-   2421     return torch.batch_norm(
--> 2422         input, weight, bias, running_mean, running_var, training, momentum, eps, torch.backends.cudnn.enabled
-   2423     )
-   2424 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/_jit_internal.py in fn(*args, **kwargs)
+    420             return if_true(*args, **kwargs)
+    421         else:
+--> 422             return if_false(*args, **kwargs)
+    423 
+    424     if if_true.__doc__ is None and if_false.__doc__ is not None:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/functional.py in _max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode, return_indices)
+    795     if stride is None:
+    796         stride = torch.jit.annotate(List[int], [])
+--> 797     return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
+    798 
+    799 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -75,5 +82,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 4723) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 4723) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4668) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 4668) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
