@@ -1,0 +1,263 @@
+An error occurred while executing the following cell:
+------------------
+from sklearn.datasets import fetch_openml
+
+
+df = fetch_openml(data_id=41214, as_frame=True).frame
+df
+------------------
+
+---------------------------------------------------------------------------
+SSLCertVerificationError                  Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in do_open(self, http_class, req, **http_conn_args)
+   1349                 h.request(req.get_method(), req.selector, req.data, headers,
+-> 1350                           encode_chunked=req.has_header('Transfer-encoding'))
+   1351             except OSError as err: # timeout error
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in request(self, method, url, body, headers, encode_chunked)
+   1280         """Send a complete request to the server."""
+-> 1281         self._send_request(method, url, body, headers, encode_chunked)
+   1282 
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in _send_request(self, method, url, body, headers, encode_chunked)
+   1326             body = _encode(body, 'body')
+-> 1327         self.endheaders(body, encode_chunked=encode_chunked)
+   1328 
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in endheaders(self, message_body, encode_chunked)
+   1275             raise CannotSendHeader()
+-> 1276         self._send_output(message_body, encode_chunked=encode_chunked)
+   1277 
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in _send_output(self, message_body, encode_chunked)
+   1035         del self._buffer[:]
+-> 1036         self.send(msg)
+   1037 
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in send(self, data)
+    975             if self.auto_open:
+--> 976                 self.connect()
+    977             else:
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in connect(self)
+   1450             self.sock = self._context.wrap_socket(self.sock,
+-> 1451                                                   server_hostname=server_hostname)
+   1452 
+
+~/miniconda3/envs/py37/lib/python3.7/ssl.py in wrap_socket(self, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, session)
+    422             context=self,
+--> 423             session=session
+    424         )
+
+~/miniconda3/envs/py37/lib/python3.7/ssl.py in _create(cls, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, context, session)
+    869                         raise ValueError("do_handshake_on_connect should not be specified for non-blocking sockets")
+--> 870                     self.do_handshake()
+    871             except (OSError, ValueError):
+
+~/miniconda3/envs/py37/lib/python3.7/ssl.py in do_handshake(self, block)
+   1138                 self.settimeout(None)
+-> 1139             self._sslobj.do_handshake()
+   1140         finally:
+
+SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1091)
+
+During handling of the above exception, another exception occurred:
+
+URLError                                  Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in wrapper(*args, **kw)
+     60             try:
+---> 61                 return f(*args, **kw)
+     62             except HTTPError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in _load_json()
+    170     def _load_json():
+--> 171         with closing(_open_openml_url(url, data_home)) as response:
+    172             return json.loads(response.read().decode("utf-8"))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in _open_openml_url(openml_path, data_home)
+    117             with TemporaryDirectory(dir=dir_name) as tmpdir:
+--> 118                 with closing(urlopen(req)) as fsrc:
+    119                     opener: Callable
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlopen(url, data, timeout, cafile, capath, cadefault, context)
+    221         opener = _opener
+--> 222     return opener.open(url, data, timeout)
+    223 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in open(self, fullurl, data, timeout)
+    524 
+--> 525         response = self._open(req, data)
+    526 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _open(self, req, data)
+    542         result = self._call_chain(self.handle_open, protocol, protocol +
+--> 543                                   '_open', req)
+    544         if result:
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _call_chain(self, chain, kind, meth_name, *args)
+    502             func = getattr(handler, meth_name)
+--> 503             result = func(*args)
+    504             if result is not None:
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in https_open(self, req)
+   1392             return self.do_open(http.client.HTTPSConnection, req,
+-> 1393                 context=self._context, check_hostname=self._check_hostname)
+   1394 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in do_open(self, http_class, req, **http_conn_args)
+   1351             except OSError as err: # timeout error
+-> 1352                 raise URLError(err)
+   1353             r = h.getresponse()
+
+URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1091)>
+
+During handling of the above exception, another exception occurred:
+
+SSLCertVerificationError                  Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in do_open(self, http_class, req, **http_conn_args)
+   1349                 h.request(req.get_method(), req.selector, req.data, headers,
+-> 1350                           encode_chunked=req.has_header('Transfer-encoding'))
+   1351             except OSError as err: # timeout error
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in request(self, method, url, body, headers, encode_chunked)
+   1280         """Send a complete request to the server."""
+-> 1281         self._send_request(method, url, body, headers, encode_chunked)
+   1282 
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in _send_request(self, method, url, body, headers, encode_chunked)
+   1326             body = _encode(body, 'body')
+-> 1327         self.endheaders(body, encode_chunked=encode_chunked)
+   1328 
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in endheaders(self, message_body, encode_chunked)
+   1275             raise CannotSendHeader()
+-> 1276         self._send_output(message_body, encode_chunked=encode_chunked)
+   1277 
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in _send_output(self, message_body, encode_chunked)
+   1035         del self._buffer[:]
+-> 1036         self.send(msg)
+   1037 
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in send(self, data)
+    975             if self.auto_open:
+--> 976                 self.connect()
+    977             else:
+
+~/miniconda3/envs/py37/lib/python3.7/http/client.py in connect(self)
+   1450             self.sock = self._context.wrap_socket(self.sock,
+-> 1451                                                   server_hostname=server_hostname)
+   1452 
+
+~/miniconda3/envs/py37/lib/python3.7/ssl.py in wrap_socket(self, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, session)
+    422             context=self,
+--> 423             session=session
+    424         )
+
+~/miniconda3/envs/py37/lib/python3.7/ssl.py in _create(cls, sock, server_side, do_handshake_on_connect, suppress_ragged_eofs, server_hostname, context, session)
+    869                         raise ValueError("do_handshake_on_connect should not be specified for non-blocking sockets")
+--> 870                     self.do_handshake()
+    871             except (OSError, ValueError):
+
+~/miniconda3/envs/py37/lib/python3.7/ssl.py in do_handshake(self, block)
+   1138                 self.settimeout(None)
+-> 1139             self._sslobj.do_handshake()
+   1140         finally:
+
+SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1091)
+
+During handling of the above exception, another exception occurred:
+
+URLError                                  Traceback (most recent call last)
+/tmp/ipykernel_8601/4200238039.py in <module>
+      2 
+      3 
+----> 4 df = fetch_openml(data_id=41214, as_frame=True).frame
+      5 df
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in fetch_openml(name, version, data_id, data_home, target_column, cache, return_X_y, as_frame)
+    875         )
+    876 
+--> 877     data_description = _get_data_description_by_id(data_id, data_home)
+    878     if data_description["status"] != "active":
+    879         warn(
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in _get_data_description_by_id(data_id, data_home)
+    450     error_message = "Dataset with data_id {} not found.".format(data_id)
+    451     json_data = _get_json_content_from_openml_api(
+--> 452         url, error_message, data_home=data_home
+    453     )
+    454     return json_data["data_set_description"]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in _get_json_content_from_openml_api(url, error_message, data_home)
+    173 
+    174     try:
+--> 175         return _load_json()
+    176     except HTTPError as error:
+    177         # 412 is an OpenML specific error code, indicating a generic error
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in wrapper(*args, **kw)
+     67                 if os.path.exists(local_path):
+     68                     os.unlink(local_path)
+---> 69                 return f(*args, **kw)
+     70 
+     71         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in _load_json()
+    169     @_retry_with_clean_cache(url, data_home)
+    170     def _load_json():
+--> 171         with closing(_open_openml_url(url, data_home)) as response:
+    172             return json.loads(response.read().decode("utf-8"))
+    173 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/sklearn/datasets/_openml.py in _open_openml_url(openml_path, data_home)
+    116             # concurrence safety of the dataset caching mechanism.
+    117             with TemporaryDirectory(dir=dir_name) as tmpdir:
+--> 118                 with closing(urlopen(req)) as fsrc:
+    119                     opener: Callable
+    120                     if is_gzip_encoded(fsrc):
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlopen(url, data, timeout, cafile, capath, cadefault, context)
+    220     else:
+    221         opener = _opener
+--> 222     return opener.open(url, data, timeout)
+    223 
+    224 def install_opener(opener):
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in open(self, fullurl, data, timeout)
+    523             req = meth(req)
+    524 
+--> 525         response = self._open(req, data)
+    526 
+    527         # post-process response
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _open(self, req, data)
+    541         protocol = req.type
+    542         result = self._call_chain(self.handle_open, protocol, protocol +
+--> 543                                   '_open', req)
+    544         if result:
+    545             return result
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _call_chain(self, chain, kind, meth_name, *args)
+    501         for handler in handlers:
+    502             func = getattr(handler, meth_name)
+--> 503             result = func(*args)
+    504             if result is not None:
+    505                 return result
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in https_open(self, req)
+   1391         def https_open(self, req):
+   1392             return self.do_open(http.client.HTTPSConnection, req,
+-> 1393                 context=self._context, check_hostname=self._check_hostname)
+   1394 
+   1395         https_request = AbstractHTTPHandler.do_request_
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in do_open(self, http_class, req, **http_conn_args)
+   1350                           encode_chunked=req.has_header('Transfer-encoding'))
+   1351             except OSError as err: # timeout error
+-> 1352                 raise URLError(err)
+   1353             r = h.getresponse()
+   1354         except:
+
+URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1091)>
+URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1091)>
