@@ -1,8 +1,22 @@
-A cell timed out while it was being executed, after 600 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-['try:', '    import cv2', 'except ModuleNotFoundError:', '    %pip install -qq opencv-python', '    import cv2']
-...
-['    import tensorflow_datasets as tfds', '', 'import matplotlib.pyplot as plt', '', '%matplotlib inline']
--------------------
+An error occurred while executing the following cell:
+------------------
+img = cv2.imread("/content/cat_dog.jpg")
+# When we load an image using Open-Cv it's opened in "BGR" format, let's change it to "RGB"
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+show_images([img], titles=["Cat&Dog"], num_rows=1, num_cols=1, scale=3)
+------------------
+
+---------------------------------------------------------------------------
+error                                     Traceback (most recent call last)
+/tmp/ipykernel_4168/3796997684.py in <module>
+      1 img = cv2.imread("/content/cat_dog.jpg")
+      2 # When we load an image using Open-Cv it's opened in "BGR" format, let's change it to "RGB"
+----> 3 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+      4 
+      5 show_images([img], titles=["Cat&Dog"], num_rows=1, num_cols=1, scale=3)
+
+error: OpenCV(4.6.0) /io/opencv/modules/imgproc/src/color.cpp:182: error: (-215:Assertion failed) !_src.empty() in function 'cvtColor'
+
+error: OpenCV(4.6.0) /io/opencv/modules/imgproc/src/color.cpp:182: error: (-215:Assertion failed) !_src.empty() in function 'cvtColor'
+
