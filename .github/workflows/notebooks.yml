@@ -162,6 +162,7 @@ jobs:
     - name: Check notebooks for errors
       shell: bash
       run: |
+        mkdir /content
         source /root/.bashrc
         pytest -n auto -s --verbose tests/test_notebooks.py
 
