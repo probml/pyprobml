@@ -8,7 +8,7 @@ import shutil
 from testbook import testbook
 
 # Global variables
-TIMEOUT = 600  # seconds
+TIMEOUT = 1200  # seconds
 TEST_DIR = "test_results"
 os.environ["FIG_DIR"] = "figures"
 os.environ["LATEXIFY"] = ""  # To enable latexify code
