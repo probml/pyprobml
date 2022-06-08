@@ -1,1 +1,7 @@
-Kernel died
+A cell timed out while it was being executed, after 1200 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+lr, num_epochs = 0.001, 4
+final_state = train_bert_classifier(Transformer, train_iter, test_iter, num_epochs, lr)
+-------------------

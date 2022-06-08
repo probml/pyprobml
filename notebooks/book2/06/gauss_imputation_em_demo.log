@@ -88,7 +88,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4151/2942206828.py in <module>
+/tmp/ipykernel_4031/2942206828.py in <module>
      11 try:
 ---> 12     import gauss_utils as gauss
      13 except ModuleNotFoundError:
@@ -98,7 +98,7 @@ ModuleNotFoundError: No module named 'gauss_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4151/2942206828.py in <module>
+/tmp/ipykernel_4031/2942206828.py in <module>
      13 except ModuleNotFoundError:
      14     get_ipython().run_line_magic('pip', 'install -qq gauss_utils')
 ---> 15     import gauss_utils as gauss

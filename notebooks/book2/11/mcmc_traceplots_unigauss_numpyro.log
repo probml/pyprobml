@@ -1,0 +1,260 @@
+An error occurred while executing the following cell:
+------------------
+
+# We illustrate bad mixing MCMC chains using the example in sec 9.5  of
+# [Statistical Rethinking ed 2](https://xcelab.net/rm/statistical-rethinking/).
+# The numpyro code is from [Du Phan's site]
+# https://fehiepsi.github.io/rethinking-numpyro/09-markov-chain-monte-carlo.html
+
+
+
+
+import numpy as np
+np.set_printoptions(precision=3)
+import matplotlib.pyplot as plt
+import math
+import os
+import warnings
+import pandas as pd
+
+import jax
+print("jax version {}".format(jax.__version__))
+print("jax backend {}".format(jax.lib.xla_bridge.get_backend().platform))
+
+import jax.numpy as jnp
+from jax import random, vmap
+
+rng_key = random.PRNGKey(0)
+rng_key, rng_key_ = random.split(rng_key)
+
+try:
+    import numpyro
+except ModuleNotFoundError:
+    %pip install -qq numpyro
+    import numpyro
+import numpyro.distributions as dist
+from numpyro.distributions import constraints
+from numpyro.distributions.transforms import AffineTransform
+from numpyro.diagnostics import hpdi, print_summary
+from numpyro.infer import Predictive
+from numpyro.infer import MCMC, NUTS
+from numpyro.infer import SVI, Trace_ELBO, init_to_value
+from numpyro.infer.autoguide import AutoLaplaceApproximation
+import numpyro.optim as optim
+
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+y = jnp.array([-1, 1])
+
+# Model with vague priors
+
+def model(y):
+    alpha = numpyro.sample("alpha", dist.Normal(0, 1000))
+    sigma = numpyro.sample("sigma", dist.Exponential(0.0001))
+    mu = alpha
+    numpyro.sample("y", dist.Normal(mu, sigma), obs=y)
+
+
+m9_2 = MCMC(
+    NUTS(model, target_accept_prob=0.95), num_warmup=500, num_samples=500, num_chains=3
+)
+m9_2.run(random.PRNGKey(11), y=y)
+
+m9_2.print_summary(0.95)
+
+az.plot_trace(az.from_numpyro(m9_2))
+pml.savefig('mcmc_traceplot_unigauss_bad.png')
+plt.show()
+
+az.plot_rank(az.from_numpyro(m9_2))
+pml.savefig('mcmc_trankplot_unigauss_bad.png')
+plt.show()
+
+# Model with proper priors
+
+def model(y):
+    alpha = numpyro.sample("alpha", dist.Normal(1, 10))
+    sigma = numpyro.sample("sigma", dist.Exponential(1))
+    mu = alpha
+    numpyro.sample("y", dist.Normal(mu, sigma), obs=y)
+
+
+m9_3 = MCMC(NUTS(model), num_warmup=500, num_samples=500, num_chains=3)
+m9_3.run(random.PRNGKey(11), y=y)
+m9_3.print_summary(0.95)
+
+az.plot_trace(az.from_numpyro(m9_3))
+pml.savefig('mcmc_traceplot_unigauss_good.png')
+plt.show()
+
+az.plot_rank(az.from_numpyro(m9_3))
+pml.savefig('mcmc_trankplot_unigauss_good.png')
+plt.show()
+
+
+
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _dep_map(self)
+   3023         try:
+-> 3024             return self.__dep_map
+   3025         except AttributeError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in __getattr__(self, attr)
+   2820         if attr.startswith('_'):
+-> 2821             raise AttributeError(attr)
+   2822         return getattr(self._provider, attr)
+
+AttributeError: _DistInfoDistribution__dep_map
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _parsed_pkg_info(self)
+   3014         try:
+-> 3015             return self._pkg_info
+   3016         except AttributeError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in __getattr__(self, attr)
+   2820         if attr.startswith('_'):
+-> 2821             raise AttributeError(attr)
+   2822         return getattr(self._provider, attr)
+
+AttributeError: _pkg_info
+
+During handling of the above exception, another exception occurred:
+
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_6618/4022460704.py in <module>
+     71 m9_2.print_summary(0.95)
+     72 
+---> 73 az.plot_trace(az.from_numpyro(m9_2))
+     74 pml.savefig('mcmc_traceplot_unigauss_bad.png')
+     75 plt.show()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/io_numpyro.py in from_numpyro(posterior, prior, posterior_predictive, predictions, constant_data, predictions_constant_data, log_likelihood, index_origin, coords, dims, pred_dims, num_chains)
+    376         dims=dims,
+    377         pred_dims=pred_dims,
+--> 378         num_chains=num_chains,
+    379     ).to_inference_data()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/io_numpyro.py in to_inference_data(self)
+    307         return InferenceData(
+    308             **{
+--> 309                 "posterior": self.posterior_to_xarray(),
+    310                 "sample_stats": self.sample_stats_to_xarray(),
+    311                 "log_likelihood": self.log_likelihood_to_xarray(),
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/base.py in wrapped(cls)
+     63                 if all((getattr(cls, prop_i) is None for prop_i in prop)):
+     64                     return None
+---> 65             return func(cls)
+     66 
+     67         return wrapped
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/io_numpyro.py in posterior_to_xarray(self)
+    146             coords=self.coords,
+    147             dims=self.dims,
+--> 148             index_origin=self.index_origin,
+    149         )
+    150 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/base.py in dict_to_dataset(data, attrs, library, coords, dims, default_dims, index_origin, skip_event_dims)
+    314             skip_event_dims=skip_event_dims,
+    315         )
+--> 316     return xr.Dataset(data_vars=data_vars, attrs=make_attrs(attrs=attrs, library=library))
+    317 
+    318 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/base.py in make_attrs(attrs, library)
+    338         default_attrs["inference_library"] = library_name
+    339         try:
+--> 340             version = pkg_resources.get_distribution(library_name).version
+    341             default_attrs["inference_library_version"] = version
+    342         except pkg_resources.DistributionNotFound:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_distribution(dist)
+    475         dist = Requirement.parse(dist)
+    476     if isinstance(dist, Requirement):
+--> 477         dist = get_provider(dist)
+    478     if not isinstance(dist, Distribution):
+    479         raise TypeError("Expected string, Requirement, or Distribution", dist)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_provider(moduleOrReq)
+    351     """Return an IResourceProvider for the named module or requirement"""
+    352     if isinstance(moduleOrReq, Requirement):
+--> 353         return working_set.find(moduleOrReq) or require(str(moduleOrReq))[0]
+    354     try:
+    355         module = sys.modules[moduleOrReq]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in require(self, *requirements)
+    895         included, even if they were already activated in this working set.
+    896         """
+--> 897         needed = self.resolve(parse_requirements(requirements))
+    898 
+    899         for dist in needed:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in resolve(self, requirements, env, installer, replace_conflicting, extras)
+    789 
+    790             # push the new requirements onto the stack
+--> 791             new_requirements = dist.requires(req.extras)[::-1]
+    792             requirements.extend(new_requirements)
+    793 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in requires(self, extras)
+   2740     def requires(self, extras=()):
+   2741         """List of Requirements needed for this distro if `extras` are used"""
+-> 2742         dm = self._dep_map
+   2743         deps = []
+   2744         deps.extend(dm.get(None, ()))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _dep_map(self)
+   3024             return self.__dep_map
+   3025         except AttributeError:
+-> 3026             self.__dep_map = self._compute_dependencies()
+   3027             return self.__dep_map
+   3028 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _compute_dependencies(self)
+   3033         reqs = []
+   3034         # Including any condition expressions
+-> 3035         for req in self._parsed_pkg_info.get_all('Requires-Dist') or []:
+   3036             reqs.extend(parse_requirements(req))
+   3037 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _parsed_pkg_info(self)
+   3015             return self._pkg_info
+   3016         except AttributeError:
+-> 3017             metadata = self.get_metadata(self.PKG_INFO)
+   3018             self._pkg_info = email.parser.Parser().parsestr(metadata)
+   3019             return self._pkg_info
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_metadata(self, name)
+   1416             return ""
+   1417         path = self._get_metadata_path(name)
+-> 1418         value = self._get(path)
+   1419         try:
+   1420             return value.decode('utf-8')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _get(self, path)
+   1620 
+   1621     def _get(self, path):
+-> 1622         with open(path, 'rb') as stream:
+   1623             return stream.read()
+   1624 
+
+FileNotFoundError: [Errno 2] No such file or directory: '/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/flatbuffers-2.0.dist-info/METADATA'
+FileNotFoundError: [Errno 2] No such file or directory: '/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/flatbuffers-2.0.dist-info/METADATA'
