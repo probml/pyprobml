@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 600 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['%cd /content/GANJax', '', 'import os', '', 'try:']
+...
+['from gan.dcgan import DCGAN as GAN', 'from utils.data import load_images_celeba_64', '', 'print(tf.__version__)', 'print("DEVICES VISIBLE BY TF - ", tf.config.list_physical_devices())']
+-------------------
