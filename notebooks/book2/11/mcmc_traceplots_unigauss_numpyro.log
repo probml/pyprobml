@@ -138,7 +138,7 @@ AttributeError: _pkg_info
 During handling of the above exception, another exception occurred:
 
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_6618/4022460704.py in <module>
+/tmp/ipykernel_6611/4022460704.py in <module>
      71 m9_2.print_summary(0.95)
      72 
 ---> 73 az.plot_trace(az.from_numpyro(m9_2))

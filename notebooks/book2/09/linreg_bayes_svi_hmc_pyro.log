@@ -33,7 +33,7 @@ from pyro.nn import PyroModule
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4126/1419653647.py in <module>
+/tmp/ipykernel_4128/1419653647.py in <module>
      14 try:
 ---> 15     import pyro
      16 except ModuleNotFoundError:
@@ -83,7 +83,7 @@ ModuleNotFoundError: No module named 'torch.distributions'
 During handling of the above exception, another exception occurred:
 
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4126/1419653647.py in <module>
+/tmp/ipykernel_4128/1419653647.py in <module>
      16 except ModuleNotFoundError:
      17     get_ipython().run_line_magic('pip', 'install -qq pyro')
 ---> 18     import pyro
