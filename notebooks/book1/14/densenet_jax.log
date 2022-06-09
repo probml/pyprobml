@@ -30,8 +30,18 @@ print(f"loss {train_l:.3f}, train acc {train_acc:.3f}, " f"test acc {test_acc:.3
 ------------------
 
 ---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/core/numerictypes.py in issubclass_(arg1, arg2)
+    320     try:
+--> 321         return issubclass(arg1, arg2)
+    322     except TypeError:
+
+TypeError: issubclass() arg 1 must be a class
+
+During handling of the above exception, another exception occurred:
+
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5520/1115125.py in <module>
+/tmp/ipykernel_5527/1115125.py in <module>
      12         batch["image"] = jnp.reshape(jnp.float32(X), (-1, 96, 96, 1))
      13         batch["label"] = jnp.float32(y)
 ---> 14         state, metrics = train_step(state, batch)
@@ -40,7 +50,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_5520/1580938479.py in train_step(state, batch)
+/tmp/ipykernel_5527/1580938479.py in train_step(state, batch)
      13 
      14     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
 ---> 15     aux, grads = grad_fn(state.params)
@@ -49,7 +59,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 8 frame]
 
-/tmp/ipykernel_5520/1580938479.py in loss_fn(params)
+/tmp/ipykernel_5527/1580938479.py in loss_fn(params)
       5     def loss_fn(params):
       6         logits, new_model_state = state.apply_fn(
 ----> 7             {"params": params, "batch_stats": state.batch_stats}, batch["image"], mutable=["batch_stats"]
@@ -58,7 +68,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 7 frame]
 
-/tmp/ipykernel_5520/2176403876.py in __call__(self, x, train)
+/tmp/ipykernel_5527/2176403876.py in __call__(self, x, train)
      16 
      17         for i, num_convs in enumerate(num_convs_in_dense_blocks):
 ---> 18             x = DenseBlock(growth_rate, num_convs, norm)(x)
@@ -67,7 +77,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_5520/502619999.py in __call__(self, x)
+/tmp/ipykernel_5527/502619999.py in __call__(self, x)
       8 
       9         for _ in range(self.num_convs):
 ---> 10             y = ConvBlock(self.filters, self.norm)(x)
@@ -76,7 +86,7 @@ RuntimeError                              Traceback (most recent call last)
 
     [... skipping hidden 3 frame]
 
-/tmp/ipykernel_5520/3760988665.py in __call__(self, x)
+/tmp/ipykernel_5527/3760988665.py in __call__(self, x)
       5     @nn.compact
       6     def __call__(self, x):
 ----> 7         x = self.norm()(x)
@@ -110,7 +120,21 @@ RuntimeError                              Traceback (most recent call last)
      88   fn = jit(fn, inline=True)
      89   if lax_doc:
 
-    [... skipping hidden 9 frame]
+    [... skipping hidden 17 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/core/numerictypes.py in issubdtype(arg1, arg2)
+    415 
+    416     """
+--> 417     if not issubclass_(arg1, generic):
+    418         arg1 = dtype(arg1).type
+    419     if not issubclass_(arg2, generic):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/numpy/core/numerictypes.py in issubclass_(arg1, arg2)
+    319     """
+    320     try:
+--> 321         return issubclass(arg1, arg2)
+    322     except TypeError:
+    323         return False
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/_utils/signal_handling.py in handler(signum, frame)
      64         # This following call uses `waitid` with WNOHANG from C side. Therefore,
@@ -119,5 +143,5 @@ RuntimeError                              Traceback (most recent call last)
      67         if previous_handler is not None:
      68             assert callable(previous_handler)
 
-RuntimeError: DataLoader worker (pid 5639) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
-RuntimeError: DataLoader worker (pid 5639) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5646) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
+RuntimeError: DataLoader worker (pid 5646) is killed by signal: Bus error. It is possible that dataloader's workers are out of shared memory. Please try to raise your shared memory limit.
