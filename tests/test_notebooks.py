@@ -16,7 +16,7 @@ os.environ["DUAL_SAVE"] = ""  # To save both .pdf and .png
 
 #get IGNORE_LIST of notebooks
 IGNORE_LIST = []
-with open("internal/copied_from misc_nb.txt") as fp:
+with open("internal/ignored_notebooks.txt") as fp:
     notebooks = fp.readlines()
     for nb in notebooks:
         IGNORE_LIST.append(nb.strip().split("/")[-1])
