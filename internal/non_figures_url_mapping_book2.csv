@@ -110,7 +110,7 @@ vae_latent_space,https://colab.research.google.com/github/probml/pyprobml/blob/m
 quantized_autoencoder_mnist,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/20/quantized_autoencoder_mnist.ipynb
 score_matching_swiss_roll,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/23/score_matching_swiss_roll.ipynb
 bernoulli_hmm_example,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/bernoulli_hmm_example.ipynb
-linreg_kf,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/linreg_kf.ipynb
+linreg_kf,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/kf_linreg.ipynb
 ekf_vs_ukf,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/ekf_vs_ukf.ipynb
 arhmm_example,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/arhmm_example.ipynb
 kf_parallel,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/kf_parallel.ipynb
