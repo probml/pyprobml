@@ -1,0 +1,69 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+
+try:
+    import tensorflow
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow
+import tensorflow as tf
+from tensorflow import keras
+
+assert tf.__version__ >= "2.0"
+
+
+K = tf.keras.backend
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4391/3040475755.py in <module>
+      5 try:
+----> 6     import tensorflow
+      7 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4391/3040475755.py in <module>
+      7 except ModuleNotFoundError:
+      8     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+----> 9     import tensorflow
+     10 import tensorflow as tf
+     11 from tensorflow import keras
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
+     35 
+     36 from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
+---> 37 from tensorflow.python.eager import context
+     38 
+     39 # pylint: enable=wildcard-import
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/context.py in <module>
+     27 import six
+     28 
+---> 29 from tensorflow.core.framework import function_pb2
+     30 from tensorflow.core.protobuf import config_pb2
+     31 from tensorflow.core.protobuf import coordination_config_pb2
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/function_pb2.py in <module>
+      5 import sys
+      6 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
+----> 7 from google.protobuf import descriptor as _descriptor
+      8 from google.protobuf import message as _message
+      9 from google.protobuf import reflection as _reflection
+
+ModuleNotFoundError: No module named 'google.protobuf'
+ModuleNotFoundError: No module named 'google.protobuf'
