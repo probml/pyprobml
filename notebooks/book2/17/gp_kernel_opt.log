@@ -1,23 +1,72 @@
 An error occurred while executing the following cell:
 ------------------
-import numpy as np
+try:
+    from tinygp import kernels, GaussianProcess
+except ModuleNotFoundError:
+    %pip install -qq tinygp
+    from tinygp import kernels, GaussianProcess
 
 import jax
 import jax.numpy as jnp
 
 try:
-    from flax import linen as nn
+    import flax.linen as nn
 except ModuleNotFoundError:
     %pip install -qq flax
-    from flax import linen as nn
+    import flax.linen as nn
+from flax.linen.initializers import zeros
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
+
+
+class GPModule(nn.Module):
+    @nn.compact
+    def __call__(self, x, y, t):
+        # t = test input locations
+        # Returns loss (-log p(y|x)) and predictions p(y|t)
+        mean = self.param("mean", zeros, ())
+        log_jitter = self.param("log_jitter", zeros, ())
+
+        log_sigma1 = self.param("log_sigma1", zeros, ())
+        log_rho1 = self.param("log_rho1", zeros, ())
+        log_tau = self.param("log_tau", zeros, ())
+        kernel1 = (
+            jnp.exp(2 * log_sigma1)
+            * kernels.ExpSquared(jnp.exp(log_tau))
+            * kernels.Cosine(jnp.exp(log_rho1))
+        )
+
+        log_sigma2 = self.param("log_sigma2", zeros, ())
+        log_rho2 = self.param("log_rho2", zeros, ())
+        kernel2 = jnp.exp(2 * log_sigma2) * kernels.Matern32(jnp.exp(log_rho2))
+
+        kernel = kernel1 + kernel2
+        gp = GaussianProcess(
+            kernel, x, diag=jnp.exp(log_jitter), mean=mean
+        )
+
+        loss = -gp.condition(y)
+        pred = gp.predict(y, t)
+
+        return loss, pred
+
+
+def loss(params):
+    return model.apply(params, x, y, x_test)[0]
+
+
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4545/3426525404.py in <module>
-      6 try:
-----> 7     from flax import linen as nn
-      8 except ModuleNotFoundError:
+/tmp/ipykernel_3708/3123926733.py in <module>
+     10 try:
+---> 11     import flax.linen as nn
+     12 except ModuleNotFoundError:
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
      18 from . import core as core
@@ -49,10 +98,12 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4545/3426525404.py in <module>
-      8 except ModuleNotFoundError:
-      9     get_ipython().run_line_magic('pip', 'install -qq flax')
----> 10     from flax import linen as nn
+/tmp/ipykernel_3708/3123926733.py in <module>
+     12 except ModuleNotFoundError:
+     13     get_ipython().run_line_magic('pip', 'install -qq flax')
+---> 14     import flax.linen as nn
+     15 from flax.linen.initializers import zeros
+     16 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
      17 
