@@ -1,37 +1,45 @@
 An error occurred while executing the following cell:
 ------------------
-from typing import Sequence
-import matplotlib.pyplot as plt
-
 import jax
 import jax.numpy as jnp
 
 try:
-    import flax.linen as nn
+    from flax import linen as nn
 except ModuleNotFoundError:
     %pip install -qq flax
-    import flax.linen as nn
-from flax.training import train_state
-
+    from flax import linen as nn
 try:
-    import optax
+    from torchvision import datasets
 except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
+    %pip install -qq torchvision
+    from torchvision import datasets
 
-import functools
-import scipy as sp
-import math
 
-rng = jax.random.PRNGKey(0)
+def get_datasets(n_tr, n_te):
+    train_test = {}
+    for split in {"train", "test"}:
+        data = datasets.MNIST("./data", train=split == "train", download=True)
+        n = n_tr if split == "train" else n_te
+        key = jax.random.PRNGKey(42)
+        rp = jax.random.permutation(key, len(data))[:n]
+        X = jnp.full((n, 16, 16, 1), 0.0, dtype=jnp.float32)
+        Y = jnp.full((n, 10), -1.0, dtype=jnp.float32)
+        for i, ix in enumerate(rp):
+            I, yint = data[int(ix)]
+            xi = jnp.array(I, dtype=jnp.float32) / 127.5 - 1.0
+            xi = jax.image.resize(xi, (16, 16), "bilinear")
+            X = X.at[i].set(jnp.expand_dims(xi, axis=2))
+            Y = Y.at[i, yint].set(1.0)
+        train_test[split] = (X, Y)
+    return train_test
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3528/1747487776.py in <module>
-      7 try:
-----> 8     import flax.linen as nn
-      9 except ModuleNotFoundError:
+/tmp/ipykernel_4103/3339551067.py in <module>
+      4 try:
+----> 5     from flax import linen as nn
+      6 except ModuleNotFoundError:
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
      18 from . import core as core
@@ -63,12 +71,12 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3528/1747487776.py in <module>
-      9 except ModuleNotFoundError:
-     10     get_ipython().run_line_magic('pip', 'install -qq flax')
----> 11     import flax.linen as nn
-     12 from flax.training import train_state
-     13 
+/tmp/ipykernel_4103/3339551067.py in <module>
+      6 except ModuleNotFoundError:
+      7     get_ipython().run_line_magic('pip', 'install -qq flax')
+----> 8     from flax import linen as nn
+      9 try:
+     10     from torchvision import datasets
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
      17 
