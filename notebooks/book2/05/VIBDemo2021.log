@@ -1,109 +1,58 @@
 An error occurred while executing the following cell:
 ------------------
-# Bonnet's thm: d/dm E[f(z)] = E[d/dz f(z)] for z ~ N(m,v)
-#Price's thm:  d/dv E[f(z)] = 0.5 E[d^2/dz^2 f(z)] for z ~ N(m,v)
-
-# Note that we are taking derivatives wrt the parameters of the sampling distribution
-# We rely on the fact that TFP Gaussian samples are reparameterizable
-
-import numpy as np
 import jax
-import jax.numpy as jnp
+import jax.numpy as np
+from jax import grad, vmap, jit, random
+
 try:
-    import tensorflow_probability as tfp
+    import flax
+except ModuleNotFoundError:
+    %pip install -qq flax
+    import flax
+import flax.linen as nn
+import matplotlib.pyplot as plt
+
+try:
+    import einops
+except ModuleNotFoundError:
+    %pip install -qq einops
+    import einops
+try:
+    import tensorflow_probability.substrates.jax as tfp
 except ModuleNotFoundError:
     %pip install -qq tensorflow-probability
-    import tensorflow_probability as tfp
-tfp = tfp.substrates.jax
+    import tensorflow_probability.substrates.jax as tfp
 tfd = tfp.distributions
+from functools import partial
 
-key = jax.random.PRNGKey(0)
-nsamples = 10000
+try:
+    import tensorflow_datasets as tfds
+except ModuleNotFoundError:
+    %pip install -qq tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds
+import typing
+from typing import Any
 
-
-def f(z):
-  return jnp.square(z) # arbitrary fn
-
-def expect_f(params):
-  m, v = params
-  dist = tfd.Normal(m, jnp.sqrt(v))
-  zs = dist.sample(nsamples, key)
-  return jnp.mean(f(zs))
-
-def expect_grad(params):
-  m, v = params
-  dist = tfd.Normal(m, jnp.sqrt(v))
-  zs = dist.sample(nsamples, key)
-  grads = jax.vmap(jax.grad(f))(zs)
-  return jnp.mean(grads)
-
-def expect_grad2(params):
-  m, v = params
-  dist = tfd.Normal(m, jnp.sqrt(v))
-  zs = dist.sample(nsamples, key)
-  #g = jax.grad(f)
-  #grads = jax.vmap(jax.grad(g))(zs)
-  grads = jax.vmap(jax.hessian(f))(zs)
-  return jnp.mean(grads)
-
-
-params = (1.0, 2.0)
-
-
-e1 = expect_grad(params)
-e2 = expect_grad2(params)
-print([e1, 0.5*e2])
-
-grads = jax.grad(expect_f)(params)
-print(grads)
-
-assert np.allclose(e1, grads[0], atol=1e-1)
-assert np.allclose(0.5 * e2, grads[1], atol=1e-1)
-
-
+try:
+    import chex
+except ModuleNotFoundError:
+    %pip install -qq chex
+    import chex
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
 ------------------
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4243/994468337.py in <module>
-     14     import tensorflow_probability as tfp
-     15 tfp = tfp.substrates.jax
----> 16 tfd = tfp.distributions
-     17 
-     18 key = jax.random.PRNGKey(0)
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in __getattr__(self, item)
-     51 
-     52   def __getattr__(self, item):
----> 53     module = self._load()
-     54     return getattr(module, item)
-     55 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in _load(self)
-     38       self._on_first_access = None
-     39     # Import the target module and insert it into the parent's namespace
----> 40     module = importlib.import_module(self.__name__)
-     41     if self._parent_module_globals is not None:
-     42       self._parent_module_globals[self._local_name] = module
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/__init__.py in import_module(name, package)
-    125                 break
-    126             level += 1
---> 127     return _bootstrap._gcd_import(name[level:], package, level)
-    128 
-    129 
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _gcd_import(name, package, level)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load(name, import_)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load_unlocked(name, import_)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _load_unlocked(spec)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in exec_module(self, module)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _call_with_frames_removed(f, *args, **kwds)
+/tmp/ipykernel_4615/1522286039.py in <module>
+     17     import einops
+     18 try:
+---> 19     import tensorflow_probability.substrates.jax as tfp
+     20 except ModuleNotFoundError:
+     21     get_ipython().run_line_magic('pip', 'install -qq tensorflow-probability')
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
      39 from tensorflow_probability.python.version import __version__

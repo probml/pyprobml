@@ -12,7 +12,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4538/1702384279.py in <module>
+/tmp/ipykernel_4881/1702384279.py in <module>
       3 try:
 ----> 4     import ssm
       5 except ModuleNotFoundError:
@@ -22,7 +22,7 @@ ModuleNotFoundError: No module named 'ssm'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4538/1702384279.py in <module>
+/tmp/ipykernel_4881/1702384279.py in <module>
       5 except ModuleNotFoundError:
       6     get_ipython().run_line_magic('pip', 'install -qq ssm')
 ----> 7     import ssm
