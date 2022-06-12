@@ -135,23 +135,13 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4170/3439636957.py in <module>
+OSError                                   Traceback (most recent call last)
+/tmp/ipykernel_4292/3439636957.py in <module>
+     30 
      31 try:
 ---> 32     from tensorflow import keras
      33 except ModuleNotFoundError:
-
-ModuleNotFoundError: No module named 'tensorflow'
-
-During handling of the above exception, another exception occurred:
-
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4170/3439636957.py in <module>
-     33 except ModuleNotFoundError:
      34     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
----> 35     from tensorflow import keras
-     36 import tensorflow as tf
-     37 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing
@@ -161,25 +151,30 @@ ImportError                               Traceback (most recent call last)
      39 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
+     34 # pylint: disable=wildcard-import,g-bad-import-order,g-import-not-at-top
      35 
-     36 from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
----> 37 from tensorflow.python.eager import context
+---> 36 from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
+     37 from tensorflow.python.eager import context
      38 
-     39 # pylint: enable=wildcard-import
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/context.py in <module>
-     27 import six
-     28 
----> 29 from tensorflow.core.framework import function_pb2
-     30 from tensorflow.core.protobuf import config_pb2
-     31 from tensorflow.core.protobuf import coordination_config_pb2
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/pywrap_tensorflow.py in <module>
+     24 
+     25 # Perform pre-load sanity checks in order to produce a more actionable error.
+---> 26 self_check.preload_check()
+     27 
+     28 # pylint: disable=wildcard-import,g-import-not-at-top,unused-import,line-too-long
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/function_pb2.py in <module>
-      5 import sys
-      6 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
-----> 7 from google.protobuf import descriptor as _descriptor
-      8 from google.protobuf import message as _message
-      9 from google.protobuf import reflection as _reflection
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/platform/self_check.py in preload_check()
+     63     cpu_feature_guard_library = os.path.join(
+     64         os.path.dirname(__file__), "../../core/platform/_cpu_feature_guard.so")
+---> 65     ctypes.CDLL(cpu_feature_guard_library)
 
-ImportError: cannot import name 'descriptor' from 'google.protobuf' (unknown location)
-ImportError: cannot import name 'descriptor' from 'google.protobuf' (unknown location)
+~/miniconda3/envs/py37/lib/python3.7/ctypes/__init__.py in __init__(self, name, mode, handle, use_errno, use_last_error)
+    362 
+    363         if handle is None:
+--> 364             self._handle = _dlopen(self._name, mode)
+    365         else:
+    366             self._handle = handle
+
+OSError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/platform/../../core/platform/_cpu_feature_guard.so: cannot open shared object file: No such file or directory
+OSError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/platform/../../core/platform/_cpu_feature_guard.so: cannot open shared object file: No such file or directory
