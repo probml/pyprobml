@@ -188,22 +188,22 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4325/842337329.py in <module>
-     27 try:
----> 28     from jax_cosmo.scipy import integrate
-     29 except ModuleNotFoundError:
+/tmp/ipykernel_4311/842337329.py in <module>
+     34 try:
+---> 35     from jsl.demos import logreg_biclusters_demo as demo
+     36 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'jax_cosmo'
+ModuleNotFoundError: No module named 'jsl'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4325/842337329.py in <module>
-     29 except ModuleNotFoundError:
-     30     get_ipython().run_line_magic('pip', 'install -qq jax_cosmo')
----> 31     from jax_cosmo.scipy import integrate
-     32 from functools import partial
-     33 
+/tmp/ipykernel_4311/842337329.py in <module>
+     36 except ModuleNotFoundError:
+     37     get_ipython().run_line_magic('pip', 'install -qq jsl')
+---> 38     from jsl.demos import logreg_biclusters_demo as demo
+     39 
+     40 import probml_utils as pml
 
-ModuleNotFoundError: No module named 'jax_cosmo'
-ModuleNotFoundError: No module named 'jax_cosmo'
+ModuleNotFoundError: No module named 'jsl.demos'
+ModuleNotFoundError: No module named 'jsl.demos'
