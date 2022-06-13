@@ -27,7 +27,7 @@ from flax.training import train_state
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4113/366079681.py in <module>
+/tmp/ipykernel_4128/366079681.py in <module>
      17 try:
 ---> 18     import flax
      19 except ModuleNotFoundError:
@@ -62,7 +62,7 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4113/366079681.py in <module>
+/tmp/ipykernel_4128/366079681.py in <module>
      19 except ModuleNotFoundError:
      20     get_ipython().run_line_magic('pip', 'install -qq flax')
 ---> 21     import flax
