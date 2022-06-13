@@ -1,0 +1,42 @@
+An error occurred while executing the following cell:
+------------------
+def plot(eta_list, savename, random_seed):
+    font_size = 6 if is_latexify_enabled() else None
+    rng_key = jax.random.PRNGKey(random_seed)
+    rng_key, rng_key_ = jax.random.split(rng_key)
+    fig, ax = plt.subplots()
+    for i, eta in enumerate(eta_list):
+        dist = tfp.distributions.LKJ(dimension=2, concentration=eta)
+        ans = dist.sample(sample_shape=[100000], seed=8)
+        sns.kdeplot(ans[:, 0, 1], label=f"$\eta$ = {eta}", clip=[-1, 1], shade=True)
+    plt.legend(loc="upper right", fontsize=font_size)
+    ax.set_xlabel("Correlation")
+    ax.set_ylabel("Density")
+    # ax.set_ylim(0, 1.2)
+    # ax.set_xlim(-1.2, 1.2)
+    plt.title("LKJ 1D Correlation Coef.")
+    sns.despine()
+    if len(savename) > 0:
+        savefig(savename)
+    plt.show()
+
+
+plot([1, 2, 4], "LKJ_1d_correlation", 0)
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_3725/4172207252.py in <module>
+     20 
+     21 
+---> 22 plot([1, 2, 4], "LKJ_1d_correlation", 0)
+
+/tmp/ipykernel_3725/4172207252.py in plot(eta_list, savename, random_seed)
+      1 def plot(eta_list, savename, random_seed):
+      2     font_size = 6 if is_latexify_enabled() else None
+----> 3     rng_key = jax.random.PRNGKey(random_seed)
+      4     rng_key, rng_key_ = jax.random.split(rng_key)
+      5     fig, ax = plt.subplots()
+
+NameError: name 'jax' is not defined
+NameError: name 'jax' is not defined
