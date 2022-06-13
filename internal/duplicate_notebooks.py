@@ -94,7 +94,7 @@ def delete_nb(notebook_list):
     [os.remove(nb) for nb in notebook_list]
     print(f"{len(notebook_list)} deleted!")
 
-def store_copied_nb(notebooks,fname = "internal/copied_from misc_nb.txt"):        
+def store_copied_nb(notebooks,fname = "internal/ignored_notebooks.txt"):
     with open(fname,"w") as fp:
         [fp.write(nb+"\n") for nb in notebooks]
 
