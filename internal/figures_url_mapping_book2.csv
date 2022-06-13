@@ -44,7 +44,7 @@ key,url
 7.2,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/07/laplace_approx_beta_binom_jax.ipynb
 7.3,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/07/advi_beta_binom_jax.ipynb
 7.4,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/07/hmc_beta_binom_blackjax.ipynb
-8.2,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/hmm_casino.ipynb
+8.2,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/casino_hmm.ipynb
 8.6,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/kf_tracking.ipynb
 8.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/discretized_ssm.ipynb
 8.8,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/08/discretized_ssm.ipynb
@@ -120,9 +120,9 @@ key,url
 17.26,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/17/gp_deep_kernel_learning.ipynb
 18.8,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/18/bnn_mnist_sgld.ipynb
 18.9,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/18/bnn_mnist_sgld.ipynb
-19.3,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/parzen_window_demo2.ipynb
-19.6,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/vae_compare_results.ipynb
-19.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/vae_celeba_lightning.ipynb
+19.4,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/parzen_window_demo2.ipynb
+19.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/vae_compare_results.ipynb
+19.8,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/vae_celeba_lightning.ipynb
 20.3,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/20/vae_compare_results.ipynb
 20.4,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/20/vae_compare_results.ipynb
 20.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/20/vae_latent_space.ipynb
@@ -152,7 +152,7 @@ key,url
 27.32,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/27/ica_demo_uniform.ipynb
 27.33,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/27/sparse_dict_demo.ipynb
 28.3,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/bernoulli_hmm_example.ipynb
-28.4,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/hmm_lillypad.ipynb
+28.4,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/hmm_gauss2d.ipynb
 28.5,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/hmm_poisson_changepoint_jax.ipynb
 28.6,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/hmm_poisson_changepoint_jax.ipynb
 28.7,https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/28/hmm_poisson_changepoint_jax.ipynb
