@@ -1,7 +1,0 @@
-{
-    "python.testing.pytestArgs": [
-        "internal"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
-}
