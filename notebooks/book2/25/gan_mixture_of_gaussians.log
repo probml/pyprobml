@@ -28,7 +28,7 @@ rng = jax.random.PRNGKey(0)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4225/1747487776.py in <module>
+/tmp/ipykernel_4204/1747487776.py in <module>
       7 try:
 ----> 8     import flax.linen as nn
       9 except ModuleNotFoundError:
@@ -63,7 +63,7 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4225/1747487776.py in <module>
+/tmp/ipykernel_4204/1747487776.py in <module>
       9 except ModuleNotFoundError:
      10     get_ipython().run_line_magic('pip', 'install -qq flax')
 ---> 11     import flax.linen as nn

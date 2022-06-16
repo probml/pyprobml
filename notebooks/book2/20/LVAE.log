@@ -58,7 +58,7 @@ os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "False"
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4158/3867189385.py in <module>
+/tmp/ipykernel_4131/3867189385.py in <module>
      13 try:
 ---> 14     import flax.linen as nn
      15 except ModuleNotFoundError:
@@ -68,7 +68,7 @@ ModuleNotFoundError: No module named 'flax'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4158/3867189385.py in <module>
+/tmp/ipykernel_4131/3867189385.py in <module>
      15 except ModuleNotFoundError:
      16     get_ipython().run_line_magic('pip', 'install -qq flax')
 ---> 17     import flax.linen as nn

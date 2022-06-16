@@ -47,7 +47,7 @@ cmap_uncertainty = sns.cubehelix_palette(light=1, as_cmap=True)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4100/3489975445.py in <module>
+/tmp/ipykernel_4117/3489975445.py in <module>
      10 try:
 ---> 11     import blackjax.nuts as nuts
      12 except ModuleNotFoundError:
@@ -57,7 +57,7 @@ ModuleNotFoundError: No module named 'blackjax.nuts'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4100/3489975445.py in <module>
+/tmp/ipykernel_4117/3489975445.py in <module>
      12 except ModuleNotFoundError:
      13     get_ipython().run_line_magic('pip', 'install -qq blackjax')
 ---> 14     import blackjax.nuts as nuts
