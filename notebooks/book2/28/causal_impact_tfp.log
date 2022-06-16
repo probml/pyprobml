@@ -1,0 +1,70 @@
+An error occurred while executing the following cell:
+------------------
+%matplotlib inline
+
+import sys
+import os
+
+
+# sys.path.append(os.path.abspath('../'))
+
+
+import numpy as np
+import pandas as pd
+
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow as tf
+try:
+    import tensorflow_probability as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow-probability
+    import tensorflow_probability as tfp
+import matplotlib.pyplot as plt
+
+try:
+    from causalimpact import CausalImpact
+except ModuleNotFoundError:
+    %pip install -qq causalimpact
+    from causalimpact import CausalImpact
+
+
+tfd = tfp.distributions
+plt.rcParams["figure.figsize"] = [15, 10]
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4377/611632792.py in <module>
+     13 try:
+---> 14     import tensorflow as tf
+     15 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4377/611632792.py in <module>
+     15 except ModuleNotFoundError:
+     16     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+---> 17     import tensorflow as tf
+     18 try:
+     19     import tensorflow_probability as tfp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
