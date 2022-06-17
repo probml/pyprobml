@@ -1,0 +1,25 @@
+An error occurred while executing the following cell:
+------------------
+from functools import partial
+import jax
+import jax.numpy as jnp
+from jax import vmap, random, lax
+import optax
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from dp_mixgauss_truncated import stick_breaking_weights, beta_draw_from_weights, component_probs_loglike
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3739/2194364594.py in <module>
+      3 import jax.numpy as jnp
+      4 from jax import vmap, random, lax
+----> 5 import optax
+      6 
+      7 import matplotlib.pyplot as plt
+
+ModuleNotFoundError: No module named 'optax'
+ModuleNotFoundError: No module named 'optax'
