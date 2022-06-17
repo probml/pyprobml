@@ -23,7 +23,7 @@ p4_3, losses = svi.run(random.PRNGKey(0), 2000)
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_4177/411791433.py in <module>
+/tmp/ipykernel_4148/411791433.py in <module>
      17 m4_3 = AutoLaplaceApproximation(model)
      18 svi = SVI(model, m4_3, optim.Adam(1), Trace_ELBO(), weight=d2.weight.values, height=d2.height.values)
 ---> 19 p4_3, losses = svi.run(random.PRNGKey(0), 2000)
@@ -92,18 +92,18 @@ NameError                                 Traceback (most recent call last)
     162         self._potential_fn = self._potential_fn_gen(*args, **kwargs)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/util.py in initialize_model(rng_key, model, init_strategy, dynamic_args, model_args, model_kwargs, forward_mode_differentiation, validate_grad)
-    606         has_enumerate_support,
-    607         model_trace,
---> 608     ) = _get_model_transforms(substituted_model, model_args, model_kwargs)
-    609     # substitute param sites from model_trace to model so
-    610     # we don't need to generate again parameters of `numpyro.module`
+    605         has_enumerate_support,
+    606         model_trace,
+--> 607     ) = _get_model_transforms(substituted_model, model_args, model_kwargs)
+    608     # substitute param sites from model_trace to model so
+    609     # we don't need to generate again parameters of `numpyro.module`
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/util.py in _get_model_transforms(model, model_args, model_kwargs)
-    404 def _get_model_transforms(model, model_args=(), model_kwargs=None):
-    405     model_kwargs = {} if model_kwargs is None else model_kwargs
---> 406     model_trace = trace(model).get_trace(*model_args, **model_kwargs)
-    407     inv_transforms = {}
-    408     # model code may need to be replayed in the presence of deterministic sites
+    403 def _get_model_transforms(model, model_args=(), model_kwargs=None):
+    404     model_kwargs = {} if model_kwargs is None else model_kwargs
+--> 405     model_trace = trace(model).get_trace(*model_args, **model_kwargs)
+    406     inv_transforms = {}
+    407     # model code may need to be replayed in the presence of deterministic sites
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/handlers.py in get_trace(self, *args, **kwargs)
     169         :return: `OrderedDict` containing the execution trace.
@@ -133,7 +133,7 @@ NameError                                 Traceback (most recent call last)
     106 
     107 
 
-/tmp/ipykernel_4177/411791433.py in model(weight, height)
+/tmp/ipykernel_4148/411791433.py in model(weight, height)
       3     b = numpyro.sample("b", dist.LogNormal(0, 1))
       4     sigma = numpyro.sample("sigma", dist.Uniform(0, 50))
 ----> 5     mu = numpyro.deterministic("mu", a + b * (weight - xbar))
