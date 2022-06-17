@@ -29,7 +29,7 @@ from IPython.display import clear_output
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4186/1060929984.py in <module>
+/tmp/ipykernel_4181/1060929984.py in <module>
      10 try:
 ---> 11     from flax import linen as nn  # The Linen API
      12 except ModuleNotFoundError:
@@ -64,7 +64,7 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4186/1060929984.py in <module>
+/tmp/ipykernel_4181/1060929984.py in <module>
      12 except ModuleNotFoundError:
      13     get_ipython().run_line_magic('pip', 'install -qq flax')
 ---> 14     from flax import linen as nn  # The Linen API

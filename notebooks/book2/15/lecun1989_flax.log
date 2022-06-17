@@ -36,7 +36,7 @@ def get_datasets(n_tr, n_te):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4113/3339551067.py in <module>
+/tmp/ipykernel_4119/3339551067.py in <module>
       4 try:
 ----> 5     from flax import linen as nn
       6 except ModuleNotFoundError:
@@ -71,7 +71,7 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4113/3339551067.py in <module>
+/tmp/ipykernel_4119/3339551067.py in <module>
       6 except ModuleNotFoundError:
       7     get_ipython().run_line_magic('pip', 'install -qq flax')
 ----> 8     from flax import linen as nn
