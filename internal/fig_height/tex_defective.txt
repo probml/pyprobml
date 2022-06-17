@@ -30,7 +30,7 @@
 ../bookv2/book2/gan/algorithms_theory.tex
 ../bookv2/book2/genmo/evaluation.tex
 ../bookv2/book2/glm/glm-supp.tex
-../bookv2/book2/diffusion/old2.tex
+../bookv2/book2/diffusion/Old/old2.tex
 ../bookv2/book2/bp/jinfer.tex
 ../bookv2/book2/npbayes/point_proc.tex
 ../bookv2/book1/Kernels1/svmStruct1.tex
