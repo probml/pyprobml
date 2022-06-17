@@ -1,0 +1,93 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+
+import jax
+import jax.numpy as jnp
+
+try:
+    from flax import linen as nn
+except ModuleNotFoundError:
+    %pip install -qq flax
+    from flax import linen as nn
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_6781/3426525404.py in <module>
+      6 try:
+----> 7     from flax import linen as nn
+      8 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
+     18 from . import core as core
+---> 19 from . import linen as linen
+     20 from . import optim as optim
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/__init__.py in <module>
+     19 # re-export commonly used modules and functions
+---> 20 from .activation import (
+     21   PReLU as PReLU,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/activation.py in <module>
+     21 
+---> 22 from flax.linen.module import compact
+     23 from flax.linen.module import Module
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/module.py in <module>
+     38     union_filters)
+---> 39 from flax.linen import summary
+     40 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/summary.py in <module>
+     25 import rich.text
+---> 26 import yaml
+     27 
+
+ModuleNotFoundError: No module named 'yaml'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_6781/3426525404.py in <module>
+      8 except ModuleNotFoundError:
+      9     get_ipython().run_line_magic('pip', 'install -qq flax')
+---> 10     from flax import linen as nn
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
+     17 
+     18 from . import core as core
+---> 19 from . import linen as linen
+     20 from . import optim as optim
+     21 # DO NOT REMOVE - Marker for internal deprecated API.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/__init__.py in <module>
+     18 # pylint: disable=g-multiple-import
+     19 # re-export commonly used modules and functions
+---> 20 from .activation import (
+     21   PReLU as PReLU,
+     22   celu as celu,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/activation.py in <module>
+     20 from typing import Any, Optional
+     21 
+---> 22 from flax.linen.module import compact
+     23 from flax.linen.module import Module
+     24 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/module.py in <module>
+     37     CollectionFilter, DenyList, FrozenVariableDict, Variable, VariableDict,
+     38     union_filters)
+---> 39 from flax.linen import summary
+     40 
+     41 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/summary.py in <module>
+     24 import rich.table
+     25 import rich.text
+---> 26 import yaml
+     27 
+     28 PRNGKey = Any  # pylint: disable=invalid-name
+
+ModuleNotFoundError: No module named 'yaml'
+ModuleNotFoundError: No module named 'yaml'
