@@ -73,7 +73,7 @@ def fake_test_data(test_words, dataset, targets, L, type_, rng_key=None):
 
         get_img_index = lambda key, target: jax.random.choice(key, jnp.where(targets_with_blank == target)[0])
 
-        img_indices = jax.tree_multimap(get_img_index, keys_, classes.tolist())
+        img_indices = jax.tree_map(get_img_index, keys_, classes.tolist())
         test_images.append(dataset_with_blank[img_indices, ...])
     return test_images
 

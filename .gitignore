@@ -4,7 +4,14 @@ scripts/.DS_Store
 
 *.mp4
 *.png
+!tests/icons/*.png
+!gan/assets/*.png
+!vae/assets/*.png
+
 *.pdf
+*.lof
+!internal/book1.lof
+!internal/book2.lof
 *.jpg
 *.jpeg
 
@@ -96,9 +103,9 @@ Control.system-ca-bundle
 GitHub.sublime-settings 
 
 # Visual Studio Code # 
-.vscode/* 
-!.vscode/settings.json 
-!.vscode/tasks.json 
-!.vscode/launch.json 
-!.vscode/extensions.json 
+.vscode
 .history
+
+# GitHub Actions
+workflow_testing_indicator*
+auto_generated_figures*

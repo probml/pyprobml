@@ -6,7 +6,7 @@ import superimport
 
 import jax.numpy as jnp
 from jax.random import PRNGKey, split, normal
-from jax import tree_multimap
+from jax.tree_util import tree_map
 
 import matplotlib.pyplot as plt
 from numpy.linalg import cholesky
@@ -96,8 +96,8 @@ Sigma3_base = jnp.array([[1, 0.9], [0.9, 1]])
 sigmas = init_sigma((Sigma1_base, Sigma2_base, Sigma3_base), test_dims)
 
 samples = init_samples(mu_base, sigmas, test_dims, keys, n_samples)
-hist_ml, hist_map = jnp.array(tree_multimap(lambda X, Sigma, dim: attempt_em_fit(X, Sigma, pi, dim),
-                                            samples, sigmas, test_dims.tolist())).T
+hist_ml, hist_map = jnp.array(tree_map(lambda X, Sigma, dim: attempt_em_fit(X, Sigma, pi, dim),
+                                       samples, sigmas, test_dims.tolist())).T
 
 fig, ax = plt.subplots()
 ax.plot(test_dims, hist_ml, c="tab:red", marker="o", label="MLE")

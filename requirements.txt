@@ -1,2 +1,14 @@
-jupyter-book
-sphinx==4.2.0
+#add only those modules/libraries that are pre-installed in colab
+jaxlib
+jax
+jupyter
+matplotlib
+numpy
+requests
+scipy
+seaborn
+scikit-learn
+h5py
+pandas
+graphviz
+arviz
