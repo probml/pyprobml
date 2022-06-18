@@ -63,7 +63,7 @@ def loss(params):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4159/3123926733.py in <module>
+/tmp/ipykernel_4073/3123926733.py in <module>
      10 try:
 ---> 11     import flax.linen as nn
      12 except ModuleNotFoundError:
@@ -98,7 +98,7 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4159/3123926733.py in <module>
+/tmp/ipykernel_4073/3123926733.py in <module>
      12 except ModuleNotFoundError:
      13     get_ipython().run_line_magic('pip', 'install -qq flax')
 ---> 14     import flax.linen as nn
