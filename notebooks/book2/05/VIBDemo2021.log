@@ -1,0 +1,128 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as np
+from jax import grad, vmap, jit, random
+
+try:
+    import flax
+except ModuleNotFoundError:
+    %pip install -qq flax
+    import flax
+import flax.linen as nn
+import matplotlib.pyplot as plt
+
+try:
+    import einops
+except ModuleNotFoundError:
+    %pip install -qq einops
+    import einops
+try:
+    import tensorflow_probability.substrates.jax as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow-probability
+    import tensorflow_probability.substrates.jax as tfp
+tfd = tfp.distributions
+from functools import partial
+
+try:
+    import tensorflow_datasets as tfds
+except ModuleNotFoundError:
+    %pip install -qq tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds
+import typing
+from typing import Any
+
+try:
+    import chex
+except ModuleNotFoundError:
+    %pip install -qq chex
+    import chex
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4281/1522286039.py in <module>
+      5 try:
+----> 6     import flax
+      7 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
+     18 from . import core as core
+---> 19 from . import linen as linen
+     20 from . import optim as optim
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/__init__.py in <module>
+     19 # re-export commonly used modules and functions
+---> 20 from .activation import (
+     21   PReLU as PReLU,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/activation.py in <module>
+     21 
+---> 22 from flax.linen.module import compact
+     23 from flax.linen.module import Module
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/module.py in <module>
+     38     union_filters)
+---> 39 from flax.linen import summary
+     40 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/summary.py in <module>
+     25 import rich.text
+---> 26 import yaml
+     27 
+
+ModuleNotFoundError: No module named 'yaml'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4281/1522286039.py in <module>
+      7 except ModuleNotFoundError:
+      8     get_ipython().run_line_magic('pip', 'install -qq flax')
+----> 9     import flax
+     10 import flax.linen as nn
+     11 import matplotlib.pyplot as plt
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
+     17 
+     18 from . import core as core
+---> 19 from . import linen as linen
+     20 from . import optim as optim
+     21 # DO NOT REMOVE - Marker for internal deprecated API.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/__init__.py in <module>
+     18 # pylint: disable=g-multiple-import
+     19 # re-export commonly used modules and functions
+---> 20 from .activation import (
+     21   PReLU as PReLU,
+     22   celu as celu,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/activation.py in <module>
+     20 from typing import Any, Optional
+     21 
+---> 22 from flax.linen.module import compact
+     23 from flax.linen.module import Module
+     24 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/module.py in <module>
+     37     CollectionFilter, DenyList, FrozenVariableDict, Variable, VariableDict,
+     38     union_filters)
+---> 39 from flax.linen import summary
+     40 
+     41 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/linen/summary.py in <module>
+     24 import rich.table
+     25 import rich.text
+---> 26 import yaml
+     27 
+     28 PRNGKey = Any  # pylint: disable=invalid-name
+
+ModuleNotFoundError: No module named 'yaml'
+ModuleNotFoundError: No module named 'yaml'
