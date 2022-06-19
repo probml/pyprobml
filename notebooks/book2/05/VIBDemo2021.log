@@ -47,7 +47,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4682/1522286039.py in <module>
+/tmp/ipykernel_4281/1522286039.py in <module>
       5 try:
 ----> 6     import flax
       7 except ModuleNotFoundError:
@@ -82,7 +82,7 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4682/1522286039.py in <module>
+/tmp/ipykernel_4281/1522286039.py in <module>
       7 except ModuleNotFoundError:
       8     get_ipython().run_line_magic('pip', 'install -qq flax')
 ----> 9     import flax
