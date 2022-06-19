@@ -1,38 +1,53 @@
 An error occurred while executing the following cell:
 ------------------
-try:
-    import sgmcmcjax
-except ModuleNotFoundError:
-    %pip install -qq sgmcmcjax
-    import sgmcmcjax
-from jax import jit, vmap
-from jax.random import split, PRNGKey
+"""
+Fits Bernoulli mixture model for mnist digits using Gradient Descent
+Author: Aleyna Kara(@karalleyna)
+"""
+
+
+import jax.numpy as jnp
 
 try:
-    import distrax
+    from probml_utils.mix_bernoulli_lib import BMM
 except ModuleNotFoundError:
-    %pip install -qq distrax
-    import distrax
-try:
-    from tqdm.auto import tqdm
-except ModuleNotFoundError:
-    %pip install -qq tqdm
-    from tqdm.auto import tqdm
-try:
-    import tensorflow_probability.substrates.jax.distributions as tfd
-except ModuleNotFoundError:
-    %pip install -qq tensorflow-probability
-    import tensorflow_probability.substrates.jax.distributions as tfd
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils.mix_bernoulli_lib import BMM
+
+from probml_utils.mix_bernoulli_em_mnist import mnist_data
+
+
+def main():
+    n_obs = 1000
+    observations = mnist_data(n_obs)  # subsample the MNIST dataset
+    n_vars = len(observations[0])
+    K, num_epochs = 12, 500
+    bmm = BMM(K, n_vars)
+    _ = bmm.fit_sgd(jnp.array(observations), n_obs, num_epochs=num_epochs)
+
+    n_row, n_col = 3, 4
+    bmm.plot(n_row, n_col, "bmm_sgd_mnist")
+
+
+if __name__ == "__main__":
+    main()
 ------------------
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4120/1812348996.py in <module>
+/tmp/ipykernel_4571/3897083071.py in <module>
       8 
       9 try:
----> 10     import distrax
+---> 10     from probml_utils.mix_bernoulli_lib import BMM
      11 except ModuleNotFoundError:
-     12     get_ipython().run_line_magic('pip', 'install -qq distrax')
+     12     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/mix_bernoulli_lib.py in <module>
+     10 from jax.experimental import optimizers
+     11 
+---> 12 import distrax
+     13 from distrax._src.utils import jittable
+     14 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/distrax/__init__.py in <module>
      16 
