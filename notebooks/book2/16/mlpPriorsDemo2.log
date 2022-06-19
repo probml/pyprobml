@@ -1,36 +1,47 @@
 An error occurred while executing the following cell:
 ------------------
-%matplotlib inline
-
-from functools import partial
-
-import matplotlib.pyplot as plt
-
 try:
-    import optax
+    import jax
 except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
-import jax
+    %pip install -qq jax jaxlib
+    import jax
+
+
 import jax.numpy as jnp
-from jax import jit
-from jax.nn.initializers import glorot_normal
+from typing import Any, Callable, Sequence, Optional
+from jax import lax, random, numpy as jnp
+from jax.nn import initializers
 
 try:
     import flax
 except ModuleNotFoundError:
-    %pip install -qq flax
+    %pip install -qq flax yaml
     import flax
-import flax.linen as nn
-from flax.training import train_state
+
+from flax.core import freeze, unfreeze
+from flax import linen as nn
+
+try:
+    import matplotlib.pyplot as plt
+except ModuleNotFoundError:
+    %pip install -qq matplotlib
+    import matplotlib.pyplot as plt
+
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
+
+import seaborn as sns
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4207/366079681.py in <module>
-     17 try:
----> 18     import flax
-     19 except ModuleNotFoundError:
+/tmp/ipykernel_4528/3726277587.py in <module>
+     13 try:
+---> 14     import flax
+     15 except ModuleNotFoundError:
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
      18 from . import core as core
@@ -62,12 +73,12 @@ ModuleNotFoundError: No module named 'yaml'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4207/366079681.py in <module>
-     19 except ModuleNotFoundError:
-     20     get_ipython().run_line_magic('pip', 'install -qq flax')
----> 21     import flax
-     22 import flax.linen as nn
-     23 from flax.training import train_state
+/tmp/ipykernel_4528/3726277587.py in <module>
+     15 except ModuleNotFoundError:
+     16     get_ipython().run_line_magic('pip', 'install -qq flax yaml')
+---> 17     import flax
+     18 
+     19 from flax.core import freeze, unfreeze
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
      17 
