@@ -1,0 +1,43 @@
+An error occurred while executing the following cell:
+------------------
+
+# Tensorflow
+try:
+  # %tensorflow_version only exists in Colab.
+    %tensorflow_version 2.x
+except Exception:
+    pass
+
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow as tf
+    
+from tensorflow import keras
+
+print("tf version {}".format(tf.__version__))
+tf.config.list_physical_devices('GPU')
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4247/2318241506.py in <module>
+      8 try:
+----> 9     import tensorflow as tf
+     10 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4247/2318241506.py in <module>
+     10 except ModuleNotFoundError:
+     11     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+---> 12     import tensorflow as tf
+     13 
+     14 from tensorflow import keras
+
+ModuleNotFoundError: No module named 'tensorflow'
+ModuleNotFoundError: No module named 'tensorflow'
