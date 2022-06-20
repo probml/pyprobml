@@ -13,7 +13,7 @@ import scipy
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3912/2981750457.py in <module>
+/tmp/ipykernel_3904/2981750457.py in <module>
 ----> 1 import jax
       2 import random
       3 import numpy as np
