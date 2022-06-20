@@ -1,0 +1,43 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+try:
+    from probml_utils import latexify, savefig
+except ModuleNotFoundError:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig
+
+try:
+    from tinygp import GaussianProcess, kernels
+except ModuleNotFoundError:
+    %pip install -qqq tinygp
+    from tinygp import GaussianProcess, kernels
+
+jax.config.update("jax_enable_x64", True)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3743/1187262091.py in <module>
+      6 try:
+----> 7     from probml_utils import latexify, savefig
+      8 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3743/1187262091.py in <module>
+      8 except ModuleNotFoundError:
+      9     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
+---> 10     from probml_utils import latexify, savefig
+     11 
+     12 try:
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
