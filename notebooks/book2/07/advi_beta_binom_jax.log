@@ -24,7 +24,7 @@ import math
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4774/891049855.py in <module>
+/tmp/ipykernel_6831/891049855.py in <module>
       1 try:
 ----> 2     import pymc3 as pm
       3 except ModuleNotFoundError:
