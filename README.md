@@ -20,7 +20,6 @@ The notebooks needed to make all the figures are available at the following loca
 
 Notebooks are saved in chapter-wise folders. For example, a notebook for figure 2.3 from book 1 is saved in the folder `notebooks/book1/02/`.
 
-In addition to the figure notebooks, there are a series of notebooks which provide supplementary material for the book. These are stored in the [`notebooks/misc` folder](https://github.com/probml/pyprobml/tree/master/notebooks/misc).
 
 ### Running notebooks in colab
 
