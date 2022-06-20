@@ -1,0 +1,53 @@
+An error occurred while executing the following cell:
+------------------
+# Plot 2d NLL loss surface for  binary logistic regression with 1 feature
+# Loosely based on
+# https://peterroelants.github.io/posts/neural-network-implementation-part02/
+
+import jax
+import jax.numpy as jnp
+from jax.config import config
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+from probml_utils import LogisticRegression as lr
+
+from mpl_toolkits.mplot3d import axes3d, Axes3D
+
+try:
+    import sklearn
+except ModuleNotFoundError:
+    %pip install -qq scikit-learn
+    import sklearn
+from sklearn.linear_model import LogisticRegression
+from sklearn import datasets
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3745/865199424.py in <module>
+     12 try:
+---> 13     import probml_utils as pml
+     14 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3745/865199424.py in <module>
+     14 except ModuleNotFoundError:
+     15     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 16     import probml_utils as pml
+     17 
+     18 from probml_utils import LogisticRegression as lr
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
