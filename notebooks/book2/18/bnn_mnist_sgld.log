@@ -27,7 +27,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4144/1812348996.py in <module>
+/tmp/ipykernel_4142/1812348996.py in <module>
       8 
       9 try:
 ---> 10     import distrax
