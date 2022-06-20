@@ -1,0 +1,33 @@
+An error occurred while executing the following cell:
+------------------
+all_models, all_losses, all_obs_logits = {}, [], []
+
+for learning_rate, batch_size in zip(learning_rates, batch_sizes):
+    opt_init, opt_update, get_params = jax.experimental.optimizers.adam(learning_rate)
+    models = {}
+    losses, obs_logits = [], []
+    for k in hidden_states:
+        initial_hmm, b = init_hmm(k, D)
+        hmm, loss_, obs_logits_ = fit(sequences, lengths, b, initial_hmm.trans_dist, batch_size, num_epochs=num_epochs)
+
+        # Store results
+        models[k] = hmm
+        losses.append(loss_)
+        obs_logits.append(obs_logits_)
+
+    all_models[batch_size] = models
+    all_losses.append(losses)
+    all_obs_logits.append(obs_logits)
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4166/1735617235.py in <module>
+      2 
+      3 for learning_rate, batch_size in zip(learning_rates, batch_sizes):
+----> 4     opt_init, opt_update, get_params = jax.experimental.optimizers.adam(learning_rate)
+      5     models = {}
+      6     losses, obs_logits = [], []
+
+AttributeError: module 'jax.experimental' has no attribute 'optimizers'
+AttributeError: module 'jax.experimental' has no attribute 'optimizers'
