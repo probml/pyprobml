@@ -23,13 +23,3 @@
 
 ## Supplementary material
 
-|Title|Software|Link|
--|-|-
-|Overview of Python ML/DL software ecosystem|Various|[Markdown](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/tutorials/software.md)
-|List of Python tutorials|Various|[Markdown](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/tutorials/python_tutorials.md)
-|Intro to colab|Colab|[colab_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/colab_intro.ipynb)
-|Intro to Pandas|Pandas, Xarray|[pandas_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/pandas_intro.ipynb)
-|Intro to JAX|Jax|[jax_intro.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/jax_intro.ipynb)
-|Other JAX tutorials|Jax|[Markdown](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/tutorials/jax_tutorials.md)
-|Text preprocessing|PyTorch|[text_preproc_torch.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/01/text_preproc_torch.ipynb)
-|Intro to ML using Scikit learn|Python|[Online book](https://inria.github.io/scikit-learn-mooc/)
