@@ -18,7 +18,7 @@ for k, v in dict_figures.items():
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4320/801093522.py in <module>
+/tmp/ipykernel_4323/801093522.py in <module>
       1 try:
 ----> 2     from ssm_jax.lgssm.demos.kf_parallel import kf_parallel, plot_kf_parallel
       3 except ModuleNotFoundError:
