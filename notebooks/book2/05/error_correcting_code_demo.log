@@ -85,7 +85,7 @@ pgm.visualize_model(model)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5983/1264649089.py in <module>
+/tmp/ipykernel_5849/1264649089.py in <module>
      14 try:
 ---> 15     import pgmpy_utils as pgm
      16 except ModuleNotFoundError:
@@ -95,7 +95,7 @@ ModuleNotFoundError: No module named 'pgmpy_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5983/1264649089.py in <module>
+/tmp/ipykernel_5849/1264649089.py in <module>
      16 except ModuleNotFoundError:
      17     get_ipython().run_line_magic('pip', 'install -qq pgmpy_utils')
 ---> 18     import pgmpy_utils as pgm
