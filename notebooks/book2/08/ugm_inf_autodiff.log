@@ -110,7 +110,7 @@ probs = grad(logZ_fun)(logpots)
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5319/101645996.py in <module>
+/tmp/ipykernel_5138/101645996.py in <module>
       7 import jax.numpy as jnp
       8 from jax import grad, jit, vmap
 ----> 9 from jax.ops import index, index_add, index_update
