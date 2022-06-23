@@ -1,25 +1,30 @@
 An error occurred while executing the following cell:
 ------------------
-
-
 try:
     import pymc3 as pm
 except ModuleNotFoundError:
     %pip install -qq pymc3
     import pymc3 as pm
-print(pm.__version__)
+try:
+    import scipy.stats as stats
+except ModuleNotFoundError:
+    %pip install -qq scipy
+    import scipy.stats as stats
+
+import scipy.special as sp
 
 try:
     import arviz as az
 except ModuleNotFoundError:
     %pip install -qq arviz
     import arviz as az
-print(az.__version__)
+
+import math
 ------------------
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4293/3704952739.py in <module>
+/tmp/ipykernel_4453/891049855.py in <module>
       1 try:
 ----> 2     import pymc3 as pm
       3 except ModuleNotFoundError:
