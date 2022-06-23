@@ -19,7 +19,7 @@ print(az.__version__)
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4293/3704952739.py in <module>
+/tmp/ipykernel_4290/3704952739.py in <module>
       1 try:
 ----> 2     import pymc3 as pm
       3 except ModuleNotFoundError:
