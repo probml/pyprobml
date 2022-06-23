@@ -1,0 +1,59 @@
+An error occurred while executing the following cell:
+------------------
+import jax.numpy as jnp
+import chex
+import dataclasses
+import pandas as pd
+import numpy as np
+import haiku as hk
+import plotnine as gg
+import matplotlib.pyplot as plt
+from jax import random, vmap, nn
+from typing import Dict, Sequence, Optional, Callable, List
+from acme.utils.loggers.terminal import TerminalLogger
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_3773/55496869.py in <module>
+      9 from jax import random, vmap, nn
+     10 from typing import Dict, Sequence, Optional, Callable, List
+---> 11 from acme.utils.loggers.terminal import TerminalLogger
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/__init__.py in <module>
+     32 
+     33 # Expose the environment loop.
+---> 34 from acme.environment_loop import EnvironmentLoop
+     35 
+     36 from acme.specs import make_environment_spec
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/environment_loop.py in <module>
+     21 from acme import core
+     22 from acme.utils import counting
+---> 23 from acme.utils import loggers
+     24 from acme.utils import observers as observers_lib
+     25 from acme.utils import signals
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/utils/loggers/__init__.py in <module>
+     15 """Acme loggers."""
+     16 
+---> 17 from acme.utils.loggers.aggregators import Dispatcher
+     18 from acme.utils.loggers.asynchronous import AsyncLogger
+     19 from acme.utils.loggers.auto_close import AutoCloseLogger
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/utils/loggers/aggregators.py in <module>
+     16 
+     17 from typing import Callable, Optional, Sequence
+---> 18 from acme.utils.loggers import base
+     19 
+     20 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/utils/loggers/base.py in <module>
+     16 
+     17 import abc
+---> 18 from typing import Any, Mapping, Protocol, Optional
+     19 
+     20 import numpy as np
+
+ImportError: cannot import name 'Protocol' from 'typing' (/github/home/miniconda3/envs/py37/lib/python3.7/typing.py)
+ImportError: cannot import name 'Protocol' from 'typing' (/github/home/miniconda3/envs/py37/lib/python3.7/typing.py)
