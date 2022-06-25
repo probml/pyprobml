@@ -16,7 +16,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4363/3589137354.py in <module>
+/tmp/ipykernel_4515/3589137354.py in <module>
       8 try:
 ----> 9     import pgmpy_utils as pgm
      10 except ModuleNotFoundError:
@@ -26,7 +26,7 @@ ModuleNotFoundError: No module named 'pgmpy_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4363/3589137354.py in <module>
+/tmp/ipykernel_4515/3589137354.py in <module>
      10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install pgmpy_utils')
 ---> 12     import pgmpy_utils as pgm

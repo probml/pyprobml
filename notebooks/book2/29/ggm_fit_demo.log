@@ -36,7 +36,7 @@ assert np.all(prec_mat - guide_prec_mat < 1e-2)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4384/2450069186.py in <module>
+/tmp/ipykernel_4238/2450069186.py in <module>
       7 try:
 ----> 8     from ggm_fit_htf import ggm_fit_htf
       9 except ModuleNotFoundError:
@@ -46,7 +46,7 @@ ModuleNotFoundError: No module named 'ggm_fit_htf'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4384/2450069186.py in <module>
+/tmp/ipykernel_4238/2450069186.py in <module>
       9 except ModuleNotFoundError:
      10     get_ipython().run_line_magic('pip', 'install -qq ggm_fit_htf')
 ---> 11     from ggm_fit_htf import ggm_fit_htf
