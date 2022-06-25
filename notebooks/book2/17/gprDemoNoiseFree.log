@@ -1,0 +1,33 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+try:
+    from probml_utils import latexify, savefig
+except ModuleNotFoundError:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig
+
+try:
+    from tinygp import GaussianProcess, kernels
+except ModuleNotFoundError:
+    %pip install -qqq tinygp
+    from tinygp import GaussianProcess, kernels
+
+jax.config.update("jax_enable_x64", True)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3860/1187262091.py in <module>
+----> 1 import jax
+      2 import jax.numpy as jnp
+      3 import matplotlib.pyplot as plt
+      4 import seaborn as sns
+      5 
+
+ModuleNotFoundError: No module named 'jax'
+ModuleNotFoundError: No module named 'jax'
