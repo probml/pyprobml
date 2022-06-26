@@ -36,7 +36,7 @@ def get_datasets(n_tr, n_te):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4604/3339551067.py in <module>
+/tmp/ipykernel_4595/3339551067.py in <module>
       9 try:
 ---> 10     from torchvision import datasets
      11 except ModuleNotFoundError:
@@ -46,7 +46,7 @@ ModuleNotFoundError: No module named 'torchvision'
 During handling of the above exception, another exception occurred:
 
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4604/3339551067.py in <module>
+/tmp/ipykernel_4595/3339551067.py in <module>
      11 except ModuleNotFoundError:
      12     get_ipython().run_line_magic('pip', 'install -qq torchvision')
 ---> 13     from torchvision import datasets
