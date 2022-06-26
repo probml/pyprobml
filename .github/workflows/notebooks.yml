@@ -118,8 +118,8 @@ jobs:
       PYPROBML_GA_RUNNER_ID: ${{ matrix.runner_id }}
 
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'  # Don't run on pull requests
-    needs: [execute_current_PR_notebooks_MUST_PASS]
+    if: always() && github.event_name == 'push'  # Don't run on pull requests
+    needs: [black_format_MUST_PASS, static_import_check_MUST_PASS]
     container: texlive/texlive:TL2020-historic
 
     steps:
