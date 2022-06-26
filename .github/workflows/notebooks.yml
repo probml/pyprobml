@@ -119,7 +119,6 @@ jobs:
 
     runs-on: ubuntu-latest
     if: github.event_name == 'push'  # Don't run on pull requests
-    needs: [execute_current_PR_notebooks_MUST_PASS]
     container: texlive/texlive:TL2020-historic
 
     steps:
