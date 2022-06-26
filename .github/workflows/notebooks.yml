@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - workflow_errors 
     
   pull_request:
     branches:
