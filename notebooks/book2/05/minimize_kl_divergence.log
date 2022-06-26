@@ -1,0 +1,54 @@
+An error occurred while executing the following cell:
+------------------
+import jax.numpy as jnp
+import jax
+import matplotlib.pyplot as plt
+
+try:
+    import distrax
+except:
+    %pip install -qq distrax
+    import distrax
+try:
+    import optax
+except:
+    %pip install -qq optax
+    import optax
+try:
+    import seaborn as sns
+except:
+    %pip install -qq seaborn
+    import seaborn as sns
+try:
+    from probml_utils import savefig, latexify, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify, is_latexify_enabled
+
+from jax.config import config
+
+config.update("jax_enable_x64", True)
+latexify(width_scale_factor=1.6, fig_height=1.0)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3813/948535827.py in <module>
+     20 try:
+---> 21     from probml_utils import savefig, latexify, is_latexify_enabled
+     22 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3813/948535827.py in <module>
+     22 except ModuleNotFoundError:
+     23     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 24     from probml_utils import savefig, latexify, is_latexify_enabled
+     25 
+     26 from jax.config import config
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
