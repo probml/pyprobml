@@ -46,7 +46,7 @@ dist = tfp.distributions
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4517/2771991078.py in <module>
+/tmp/ipykernel_4522/2771991078.py in <module>
      40 
      41 warnings.filterwarnings("ignore")
 ---> 42 dist = tfp.distributions

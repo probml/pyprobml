@@ -1,8 +1,92 @@
-A cell timed out while it was being executed, after 1200 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-key, _ = jax.random.split(jax.random.PRNGKey(42))
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
 
-train(key, data, 80, 3e-4)
--------------------
+try:
+    from flax import linen as nn
+except ModuleNotFoundError:
+    %pip install -qq flax
+    from flax import linen as nn
+try:
+    from torchvision import datasets
+except ModuleNotFoundError:
+    %pip install -qq torchvision
+    from torchvision import datasets
+
+
+def get_datasets(n_tr, n_te):
+    train_test = {}
+    for split in {"train", "test"}:
+        data = datasets.MNIST("./data", train=split == "train", download=True)
+        n = n_tr if split == "train" else n_te
+        key = jax.random.PRNGKey(42)
+        rp = jax.random.permutation(key, len(data))[:n]
+        X = jnp.full((n, 16, 16, 1), 0.0, dtype=jnp.float32)
+        Y = jnp.full((n, 10), -1.0, dtype=jnp.float32)
+        for i, ix in enumerate(rp):
+            I, yint = data[int(ix)]
+            xi = jnp.array(I, dtype=jnp.float32) / 127.5 - 1.0
+            xi = jax.image.resize(xi, (16, 16), "bilinear")
+            X = X.at[i].set(jnp.expand_dims(xi, axis=2))
+            Y = Y.at[i, yint].set(1.0)
+        train_test[split] = (X, Y)
+    return train_test
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4604/3339551067.py in <module>
+      9 try:
+---> 10     from torchvision import datasets
+     11 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'torchvision'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4604/3339551067.py in <module>
+     11 except ModuleNotFoundError:
+     12     get_ipython().run_line_magic('pip', 'install -qq torchvision')
+---> 13     from torchvision import datasets
+     14 
+     15 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/__init__.py in <module>
+      3 
+      4 import torch
+----> 5 from torchvision import datasets
+      6 from torchvision import io
+      7 from torchvision import models
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/__init__.py in <module>
+----> 1 from ._optical_flow import KittiFlow, Sintel, FlyingChairs, FlyingThings3D, HD1K
+      2 from .caltech import Caltech101, Caltech256
+      3 from .celeba import CelebA
+      4 from .cifar import CIFAR10, CIFAR100
+      5 from .cityscapes import Cityscapes
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/_optical_flow.py in <module>
+     10 from PIL import Image
+     11 
+---> 12 from ..io.image import _read_png_16
+     13 from .utils import verify_str_arg
+     14 from .vision import VisionDataset
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/io/__init__.py in <module>
+      3 import torch
+      4 
+----> 5 from ..utils import _log_api_usage_once
+      6 
+      7 try:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/utils.py in <module>
+     19 
+     20 
+---> 21 @torch.no_grad()
+     22 def make_grid(
+     23     tensor: Union[torch.Tensor, List[torch.Tensor]],
+
+AttributeError: module 'torch' has no attribute 'no_grad'
+AttributeError: module 'torch' has no attribute 'no_grad'
