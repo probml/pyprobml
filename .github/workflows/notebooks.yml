@@ -183,7 +183,7 @@ jobs:
 
   combine_and_publish_results:
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: always() && github.event_name == 'push'  # Don't run on pull requests
     needs: [execute_all_notebooks]
     steps:
     - name: Clone the reference repository
@@ -207,7 +207,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: auto_generated_figures/
         publish_branch: auto_generated_figures
-      if: github.event_name == 'push'  # Don't run on pull requests
       
     - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
       uses: peaceiris/actions-gh-pages@v3.6.1
@@ -215,4 +214,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: workflow_testing_indicator/
         publish_branch: workflow_testing_indicator
-      if: always() && github.event_name == 'push'  # Don't run on pull requests
