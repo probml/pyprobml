@@ -13,13 +13,13 @@ plt.savefig("gmm_chooseK_pymc3_waic.pdf")
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/indexes/base.py in get_loc(self, key, method, tolerance)
-   3360             try:
--> 3361                 return self._engine.get_loc(casted_key)
-   3362             except KeyError as err:
+   3360             join_idx, lidx, ridx = self_jnlevels.join(other_jnlevels, how,
+-> 3361                                                       return_indexers=True)
+   3362 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
+pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
+pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
 
 pandas/_libs/hashtable_class_helper.pxi in pandas._libs.hashtable.Int64HashTable.get_item()
 
@@ -30,7 +30,7 @@ KeyError: 0
 The above exception was the direct cause of the following exception:
 
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_5389/3848547173.py in <module>
+/tmp/ipykernel_5240/3848547173.py in <module>
       5 comp = az.compare(dict(zip(clusters, traces)), method="BB-pseudo-BMA")
       6 comp
 ----> 7 az.plot_compare(comp)
@@ -51,25 +51,25 @@ KeyError                                  Traceback (most recent call last)
      84         if scale == "log":
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/series.py in __getitem__(self, key)
-    940 
-    941         elif key_is_scalar:
---> 942             return self._get_value(key)
-    943 
-    944         if is_hashable(key):
+    940         if key_type == 'integer':
+    941             if self.index.is_integer() or self.index.is_floating():
+--> 942                 return self.loc[key]
+    943             else:
+    944                 return self._get_values(key)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/series.py in _get_value(self, label, takeable)
-   1049 
-   1050         # Similar to Index.get_value, but we do not fall back to positional
--> 1051         loc = self.index.get_loc(label)
-   1052         return self.index._get_values_for_loc(self, loc, label)
-   1053 
+   1049             values[self.index.get_loc(key)] = value
+   1050             return
+-> 1051 
+   1052     def _set_with(self, key, value):
+   1053         # other: fancy integer or otherwise
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/indexes/base.py in get_loc(self, key, method, tolerance)
-   3361                 return self._engine.get_loc(casted_key)
-   3362             except KeyError as err:
--> 3363                 raise KeyError(key) from err
-   3364 
-   3365         if is_scalar(key) and isna(key) and not self.hasnans:
+   3361                                                       return_indexers=True)
+   3362 
+-> 3363             # Restore the dropped levels
+   3364             # Returned index level order is
+   3365             # common levels, ldrop_names, rdrop_names
 
 KeyError: 0
 KeyError: 0

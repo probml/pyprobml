@@ -12,15 +12,14 @@ import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
 try:
-    import probml_utils.variational_mixture_gaussians as vmg
-except ModuleNotFoundError:
-    %pip install -qq variational_mixture_gaussians
-    import probml_utils.variational_mixture_gaussians as vmg
-try:
     import probml_utils as pml
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
+
+import probml_utils.variational_mixture_gaussians as vmg
+
+
 from scipy import stats as scistats
 from jax import random
 import requests
@@ -28,23 +27,20 @@ from io import BytesIO
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3773/3496072573.py in <module>
-     12 try:
----> 13     import probml_utils.variational_mixture_gaussians as vmg
-     14 except ModuleNotFoundError:
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_3772/1762928824.py in <module>
+     16     import probml_utils as pml
+     17 
+---> 18 import probml_utils.variational_mixture_gaussians as vmg
+     19 
+     20 
 
-ModuleNotFoundError: No module named 'probml_utils'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/variational_mixture_gaussians.py in <module>
+      6 from jax.scipy import special
+      7 from jax.numpy.linalg import inv, det
+----> 8 from jax.ops import index_update
+      9 from sklearn.exceptions import NotFittedError
+     10 from tensorflow_probability.substrates import jax as tfp
 
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3773/3496072573.py in <module>
-     14 except ModuleNotFoundError:
-     15     get_ipython().run_line_magic('pip', 'install -qq variational_mixture_gaussians')
----> 16     import probml_utils.variational_mixture_gaussians as vmg
-     17 try:
-     18     import probml_utils as pml
-
-ModuleNotFoundError: No module named 'probml_utils'
-ModuleNotFoundError: No module named 'probml_utils'
+ImportError: cannot import name 'index_update' from 'jax.ops' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/ops/__init__.py)
+ImportError: cannot import name 'index_update' from 'jax.ops' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/ops/__init__.py)
