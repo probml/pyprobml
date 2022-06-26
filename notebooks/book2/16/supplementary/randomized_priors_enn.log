@@ -1,0 +1,11 @@
+A cell timed out while it was being executed, after 1200 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+!pip install -q dm-acme
+!pip install -q dm-haiku==0.0.5
+!pip install -q chex
+!pip install -q optax
+!pip install -q plotnine
+!pip install -q git+https://github.com/deepmind/enn
+-------------------
