@@ -1,0 +1,50 @@
+An error occurred while executing the following cell:
+------------------
+# Example of a variational mixture of Gaussians.
+# For a matlab version, see  https://github.com/probml/pmtk3/blob/master/demos/mixGaussVbDemoFaithful.m
+# To run in colab, consider the following two lines
+# > pip uninstall tensorflow -y -q
+# > pip install -qq -Uq tfp-nightly[jax] > /dev/null
+# Author: Gerardo Duran-Martin (@gerdm)
+
+import numpy as np
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+
+try:
+    import probml_utils.variational_mixture_gaussians as vmg
+except ModuleNotFoundError:
+    %pip install -qq variational_mixture_gaussians
+    import probml_utils.variational_mixture_gaussians as vmg
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+from scipy import stats as scistats
+from jax import random
+import requests
+from io import BytesIO
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3773/3496072573.py in <module>
+     12 try:
+---> 13     import probml_utils.variational_mixture_gaussians as vmg
+     14 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3773/3496072573.py in <module>
+     14 except ModuleNotFoundError:
+     15     get_ipython().run_line_magic('pip', 'install -qq variational_mixture_gaussians')
+---> 16     import probml_utils.variational_mixture_gaussians as vmg
+     17 try:
+     18     import probml_utils as pml
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
