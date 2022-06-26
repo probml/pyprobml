@@ -7,7 +7,7 @@ line_width = 0.75 if pml.is_latexify_enabled() else 1.5
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3773/607278640.py in <module>
+/tmp/ipykernel_3779/607278640.py in <module>
 ----> 1 pml.latexify(width_scale_factor=2, fig_height=2)
       2 scatter_size = 3 if pml.is_latexify_enabled() else 6
       3 line_width = 0.75 if pml.is_latexify_enabled() else 1.5
