@@ -29,11 +29,12 @@
 | 11.22 | [linreg_2d_bayes_centering_pymc3.ipynb](linreg_2d_bayes_centering_pymc3.ipynb) | - |
 | 11.23 | [multi_collinear_legs_numpyro.ipynb](multi_collinear_legs_numpyro.ipynb) | - |
 | 11.24 | [multi_collinear_legs_numpyro.ipynb](multi_collinear_legs_numpyro.ipynb) | - |
+
 ## Supplementary material
 |Title| Software| Link| Author(s)
 -|-|-|-
-|Linear regression from scratch| Numpy| [Notebook](https://github.com/probml/probml-notebooks/blob/main/notebooks/LinearRegressionProbML.ipynb)| Ashish Tendulkar
-|Linear regression using sklearn and JAX| Sklearn| [Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/linreg_sklearn.ipynb)| Kevin Murphy
-|Polynomial regression| PyTorch| [Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/poly_regression_torch.ipynb) | d2l.ai authors 
-|Bayesian linear regression with MCMC|PyMC3|[Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/linreg_pymc3.ipynb) | Kevin Murphy
-|Bayesian linear regression with variational inference| TFP| [Notebook](https://colab.research.google.com/github/probml/probml-notebooks/blob/master/notebooks/svi_linear_regression_1d_tfp.ipynb) | TFP team
+|Linear regression from scratch| Numpy| [Notebook](https://github.com/probml/pyprobml/blob/main/notebooks/book1/11/LinearRegressionProbML.ipynb)| Ashish Tendulkar
+|Linear regression using sklearn and JAX| Sklearn| [Notebook](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/11/linreg_sklearn.ipynb)| Kevin Murphy
+|Polynomial regression| PyTorch| [Notebook](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/11/poly_regression_torch.ipynb) | d2l.ai authors 
+|Bayesian linear regression with MCMC|PyMC3|[Notebook](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book1/11/linreg_pymc3.ipynb) | Kevin Murphy
+|Bayesian linear regression with variational inference| TFP| [Notebook](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/svi_linear_regression_1d_tfp.ipynb) | TFP team
