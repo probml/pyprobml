@@ -1,0 +1,12 @@
+An error occurred while executing the following cell:
+------------------
+latexify(width_scale_factor=3, fig_height=1.5)
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_3855/3281992555.py in <module>
+----> 1 latexify(width_scale_factor=3, fig_height=1.5)
+
+NameError: name 'latexify' is not defined
+NameError: name 'latexify' is not defined
