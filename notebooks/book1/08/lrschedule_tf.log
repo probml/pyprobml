@@ -42,14 +42,14 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-/tmp/ipykernel_4848/302482964.py in <module>
+/tmp/ipykernel_4550/302482964.py in <module>
       1 plt.figure()
 ----> 2 plot_lr_vs_loss(rates, losses)
       3 save_fig("lrfinder-raw.pdf")
       4 plt.show()
       5 
 
-/tmp/ipykernel_4848/118368236.py in plot_lr_vs_loss(rates, losses)
+/tmp/ipykernel_4550/118368236.py in plot_lr_vs_loss(rates, losses)
      28     plt.gca().set_xscale("log")
      29     plt.hlines(min(losses), min(rates), max(rates))
 ---> 30     plt.axis([min(rates), max(rates), min(losses), (losses[0] + min(losses)) / 2])
