@@ -1,0 +1,44 @@
+An error occurred while executing the following cell:
+------------------
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+from pprint import pprint
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+
+import tensorflow.compat.v2 as tf
+
+tf.enable_v2_behavior()
+
+
+import tensorflow_probability as tfp
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+
+# figdir = "../figures"
+# def save_fig(fname): plt.savefig(os.path.join(figdir, fname))
+
+sns.reset_defaults()
+# sns.set_style('whitegrid')
+# sns.set_context('talk')
+sns.set_context(context="talk", font_scale=0.7)
+
+tfd = tfp.distributions
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3906/682239226.py in <module>
+     14 
+     15 
+---> 16 import tensorflow_probability as tfp
+     17 import numpy as np
+     18 import matplotlib.pyplot as plt
+
+ModuleNotFoundError: No module named 'tensorflow_probability'
+ModuleNotFoundError: No module named 'tensorflow_probability'
