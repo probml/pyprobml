@@ -184,7 +184,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_5702/3727510768.py in <module>
+/tmp/ipykernel_4895/3727510768.py in <module>
      99 
     100 print("Computing UMAP projection")
 --> 101 X_umap = umap.UMAP(n_neighbors=5, min_dist=0.3, n_components=2, metric="correlation").fit_transform(X)
