@@ -12,15 +12,15 @@ from probml_utils.url_utils import (
 from TexSoup import TexSoup
 
 parser = argparse.ArgumentParser(description="create figure url mapping")
-parser.add_argument("-lof", "--lof", type=str, help="")
-parser.add_argument("-csv", "--csv", type=str, help="")
+parser.add_argument("-lof", "--lof", type=str, help="", default="internal/book2.lof")
+parser.add_argument("-csv", "--csv", type=str, help="", default="internal/figures_url_mapping_book2.csv")
 args = parser.parse_args()
 
 
 def figure_url_mapping_from_lof_dummy_nb_excluded(
     lof_file_path,
     csv_name,
-    convert_to_colab_url=True,
+    convert_to_which_url="colab",
     base_url="https://github.com/probml/pyprobml/blob/master/notebooks",
     book_no=1,
 ):
@@ -44,7 +44,7 @@ def figure_url_mapping_from_lof_dummy_nb_excluded(
                     make_url_from_fig_no_and_script_name(
                         fig_no,
                         script_name,
-                        convert_to_colab_url=convert_to_colab_url,
+                        convert_to_which_url=convert_to_which_url,
                         base_url=base_url,
                         book_no=book_no,
                     )
