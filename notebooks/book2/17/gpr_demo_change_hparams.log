@@ -1,0 +1,50 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+try:
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig, is_latexify_enabled
+
+jax.config.update("jax_enable_x64", True)
+
+try:
+    import tinygp
+except ModuleNotFoundError:
+    %pip install -qqq tinygp
+    import tinygp
+
+kernels = tinygp.kernels
+from tinygp import GaussianProcess
+
+latexify(width_scale_factor=2, fig_height=1.75)
+
+marksize = 11 if is_latexify_enabled() else 30
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3776/1107391226.py in <module>
+      6 try:
+----> 7     from probml_utils import latexify, savefig, is_latexify_enabled
+      8 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3776/1107391226.py in <module>
+      8 except ModuleNotFoundError:
+      9     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
+---> 10     from probml_utils import latexify, savefig, is_latexify_enabled
+     11 
+     12 jax.config.update("jax_enable_x64", True)
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'

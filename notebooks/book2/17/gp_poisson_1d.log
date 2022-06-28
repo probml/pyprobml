@@ -20,7 +20,7 @@ results = svi.run(jax.random.PRNGKey(55873), 3000, x, y=y, progress_bar=False)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4435/2265157179.py in <module>
+/tmp/ipykernel_4439/2265157179.py in <module>
      14 optim = numpyro.optim.Adam(0.01)
      15 svi = numpyro.infer.SVI(model, guide, optim, numpyro.infer.Trace_ELBO(10))
 ---> 16 results = svi.run(jax.random.PRNGKey(55873), 3000, x, y=y, progress_bar=False)
@@ -67,7 +67,7 @@ RuntimeError                              Traceback (most recent call last)
     106 
     107 
 
-/tmp/ipykernel_4435/2652553149.py in model(x, y)
+/tmp/ipykernel_4439/2652553149.py in model(x, y)
      23 def model(x, y=None):
      24     # The parameters of the GP model
 ---> 25     mean = numpyro.sample("mean", dist.Normal(0.0, 2.0))
