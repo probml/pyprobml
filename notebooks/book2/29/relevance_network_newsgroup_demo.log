@@ -149,7 +149,7 @@ p2.write_png("../figures/relevance_network.png")
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4548/2332062532.py in <module>
+/tmp/ipykernel_4535/2332062532.py in <module>
      19 try:
 ---> 20     from pgmpy.estimators import TreeSearch
      21 except ModuleNotFoundError:
@@ -159,7 +159,7 @@ ModuleNotFoundError: No module named 'pgmpy'
 During handling of the above exception, another exception occurred:
 
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4548/2332062532.py in <module>
+/tmp/ipykernel_4535/2332062532.py in <module>
      21 except ModuleNotFoundError:
      22     get_ipython().run_line_magic('pip', 'install -qq pgmpy')
 ---> 23     from pgmpy.estimators import TreeSearch
