@@ -1,164 +1,30 @@
 An error occurred while executing the following cell:
 ------------------
-# Download Cifar-10 dataset
-
 try:
-    import tensorflow_datasets as tfds
+    from google.colab import auth
 except ModuleNotFoundError:
-    %pip install -qq tensorflow tensorflow_datasets
-    import tensorflow_datasets as tfds
-dataset = tfds.load("cifar10", download=True)
+    %pip install -qq google
+    from google.colab import auth
+auth.authenticate_user()
 ------------------
 
 ---------------------------------------------------------------------------
-DownloadError                             Traceback (most recent call last)
-/tmp/ipykernel_3819/1424614050.py in <module>
-      6     get_ipython().run_line_magic('pip', 'install -qq tensorflow tensorflow_datasets')
-      7     import tensorflow_datasets as tfds
-----> 8 dataset = tfds.load("cifar10", download=True)
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3820/3713042534.py in <module>
+      1 try:
+----> 2     from google.colab import auth
+      3 except ModuleNotFoundError:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/load.py in load(name, split, data_dir, batch_size, shuffle_files, download, as_supervised, decoders, read_config, with_info, builder_kwargs, download_and_prepare_kwargs, as_dataset_kwargs, try_gcs)
-    325   if download:
-    326     download_and_prepare_kwargs = download_and_prepare_kwargs or {}
---> 327     dbuilder.download_and_prepare(**download_and_prepare_kwargs)
-    328 
-    329   if as_dataset_kwargs is None:
+ModuleNotFoundError: No module named 'google.colab'
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/dataset_builder.py in download_and_prepare(self, download_dir, download_config, file_format)
-    481           self._download_and_prepare(
-    482               dl_manager=dl_manager,
---> 483               download_config=download_config,
-    484           )
-    485 
+During handling of the above exception, another exception occurred:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/dataset_builder.py in _download_and_prepare(self, dl_manager, download_config)
-   1183         optional_pipeline_kwargs = {}
-   1184       split_generators = self._split_generators(  # pylint: disable=unexpected-keyword-arg
--> 1185           dl_manager, **optional_pipeline_kwargs)
-   1186       # TODO(tfds): Could be removed once all datasets are migrated.
-   1187       # https://github.com/tensorflow/datasets/issues/2537
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3820/3713042534.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq google')
+----> 5     from google.colab import auth
+      6 auth.authenticate_user()
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/image_classification/cifar.py in _split_generators(self, dl_manager)
-     75   def _split_generators(self, dl_manager):
-     76     """Returns SplitGenerators."""
----> 77     cifar_path = dl_manager.download_and_extract(self._cifar_info.url)
-     78     cifar_info = self._cifar_info
-     79 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/download/download_manager.py in download_and_extract(self, url_or_urls)
-    631     with self._downloader.tqdm():
-    632       with self._extractor.tqdm():
---> 633         return _map_promise(self._download_extract, url_or_urls)
-    634 
-    635   @property
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/download/download_manager.py in _map_promise(map_fn, all_inputs)
-    764   """Map the function into each element and resolve the promise."""
-    765   all_promises = tf.nest.map_structure(map_fn, all_inputs)  # Apply the function
---> 766   res = tf.nest.map_structure(lambda p: p.get(), all_promises)  # Wait promises
-    767   return res
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/util/nest.py in map_structure(func, *structure, **kwargs)
-    914 
-    915   return pack_sequence_as(
---> 916       structure[0], [func(*x) for x in entries],
-    917       expand_composites=expand_composites)
-    918 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/util/nest.py in <listcomp>(.0)
-    914 
-    915   return pack_sequence_as(
---> 916       structure[0], [func(*x) for x in entries],
-    917       expand_composites=expand_composites)
-    918 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/download/download_manager.py in <lambda>(p)
-    764   """Map the function into each element and resolve the promise."""
-    765   all_promises = tf.nest.map_structure(map_fn, all_inputs)  # Apply the function
---> 766   res = tf.nest.map_structure(lambda p: p.get(), all_promises)  # Wait promises
-    767   return res
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/promise/promise.py in get(self, timeout)
-    510         target = self._target()
-    511         self._wait(timeout or DEFAULT_TIMEOUT)
---> 512         return self._target_settled_value(_raise=True)
-    513 
-    514     def _target_settled_value(self, _raise=False):
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/promise/promise.py in _target_settled_value(self, _raise)
-    514     def _target_settled_value(self, _raise=False):
-    515         # type: (bool) -> Any
---> 516         return self._target()._settled_value(_raise)
-    517 
-    518     _value = _reason = _target_settled_value
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/promise/promise.py in _settled_value(self, _raise)
-    224             if _raise:
-    225                 raise_val = self._fulfillment_handler0
---> 226                 reraise(type(raise_val), raise_val, self._traceback)
-    227             return self._fulfillment_handler0
-    228 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/six.py in reraise(tp, value, tb)
-    717             if value.__traceback__ is not tb:
-    718                 raise value.with_traceback(tb)
---> 719             raise value
-    720         finally:
-    721             value = None
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/promise/promise.py in handle_future_result(future)
-    842         # type: (Any) -> None
-    843         try:
---> 844             resolve(future.result())
-    845         except Exception as e:
-    846             tb = exc_info()[2]
-
-~/miniconda3/envs/py37/lib/python3.7/concurrent/futures/_base.py in result(self, timeout)
-    426                 raise CancelledError()
-    427             elif self._state == FINISHED:
---> 428                 return self.__get_result()
-    429 
-    430             self._condition.wait(timeout)
-
-~/miniconda3/envs/py37/lib/python3.7/concurrent/futures/_base.py in __get_result(self)
-    382     def __get_result(self):
-    383         if self._exception:
---> 384             raise self._exception
-    385         else:
-    386             return self._result
-
-~/miniconda3/envs/py37/lib/python3.7/concurrent/futures/thread.py in run(self)
-     55 
-     56         try:
----> 57             result = self.fn(*self.args, **self.kwargs)
-     58         except BaseException as exc:
-     59             self.future.set_exception(exc)
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/download/downloader.py in _sync_download(self, url, destination_path, verify)
-    215       pass
-    216 
---> 217     with _open_url(url, verify=verify) as (response, iter_content):
-    218       fname = _get_filename(response)
-    219       path = os.path.join(destination_path, fname)
-
-~/miniconda3/envs/py37/lib/python3.7/contextlib.py in __enter__(self)
-    110         del self.args, self.kwds, self.func
-    111         try:
---> 112             return next(self.gen)
-    113         except StopIteration:
-    114             raise RuntimeError("generator didn't yield") from None
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/download/downloader.py in _open_with_requests(url, **kwargs)
-    277       url = _normalize_drive_url(url)
-    278     with session.get(url, stream=True, **kwargs) as response:
---> 279       _assert_status(response)
-    280       yield (response, response.iter_content(chunk_size=io.DEFAULT_BUFFER_SIZE))
-    281 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/download/downloader.py in _assert_status(response)
-    305   if response.status_code != 200:
-    306     raise DownloadError('Failed to get url {}. HTTP code: {}.'.format(
---> 307         response.url, response.status_code))
-
-DownloadError: Failed to get url https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz. HTTP code: 500.
-DownloadError: Failed to get url https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz. HTTP code: 500.
+ModuleNotFoundError: No module named 'google.colab'
+ModuleNotFoundError: No module named 'google.colab'
