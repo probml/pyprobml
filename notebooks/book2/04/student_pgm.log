@@ -1,0 +1,29 @@
+An error occurred while executing the following cell:
+------------------
+# import probml_utils as pml
+try:
+    import probml_utils.pgmpy_utils as pgm
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils.pgmpy_utils as pgm
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3839/3440308482.py in <module>
+      2 try:
+----> 3     import probml_utils.pgmpy_utils as pgm
+      4 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3839/3440308482.py in <module>
+      4 except ModuleNotFoundError:
+      5     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+----> 6     import probml_utils.pgmpy_utils as pgm
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
