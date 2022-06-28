@@ -6,31 +6,32 @@ chap_no,chap_name
 5,Information theory
 6,Optimization
 7,Inference algorithms: an overview
-8,Message passing inference
-9,Variational inference
-10,Monte Carlo inference
-11,Markov Chain Monte Carlo inference
-12,Sequential Monte Carlo inference
-13,Predictive models: an overview
-14,Generalized linear models
-15,Deep neural networks
-16,Bayesian neural networks
-17,Gaussian processes
-18,Beyond the iid assumption
-19,Generative models: an overview
-20,Variational autoencoders
-21,Auto-regressive models
-22,Normalizing Flows
-23,Energy-based models
-24,Denoising diffusion models
-25,Generative adversarial networks
-26,Discovery methods: an overview
-27,Latent factor models
-28,State-space models
-29,Graph learning
-30,Non-parametric Bayesian models
-31,Representation learning
-32,Interpretability
-33,Multi-step decision problems
-34,Reinforcement learning
-35,Causality
+8,Inference for state-space models
+9,Inference for graphical models
+10,Variational inference
+11,Monte Carlo inference
+12,Markov Chain Monte Carlo inference
+13,Sequential Monte Carlo inference
+14,Predictive models: an overview
+15,Generalized linear models
+16,Deep neural networks
+17,Bayesian neural networks
+18,Gaussian processes
+19,Beyond the iid assumption
+20,Generative models: an overview
+21,Variational autoencoders
+22,Auto-regressive models
+23,Normalizing Flows
+24,Energy-based models
+25,Diffusion models
+26,Generative adversarial networks
+27,Discovery methods: an overview
+28,Latent factor models
+29,State-space models
+30,Graph learning
+31,Non-parametric Bayesian models
+32,Representation learning {\bf (Unfinished)
+33,Interpretability
+34,Decision making under uncertainty
+35,Reinforcement learning
+36,Causality
