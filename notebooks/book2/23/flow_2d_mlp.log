@@ -30,7 +30,7 @@ prng = hk.PRNGSequence(42)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3964/3030563672.py in <module>
+/tmp/ipykernel_3963/3030563672.py in <module>
       8 try:
 ----> 9     import haiku as hk
      10 except ModuleNotFoundError:
@@ -40,7 +40,7 @@ ModuleNotFoundError: No module named 'haiku'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3964/3030563672.py in <module>
+/tmp/ipykernel_3963/3030563672.py in <module>
      10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install -qq haiku')
 ---> 12     import haiku as hk
