@@ -53,7 +53,7 @@ import jax.numpy as jnp
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4080/1722435670.py in <module>
+/tmp/ipykernel_4091/1722435670.py in <module>
      40 
      41 try:
 ---> 42     import tensorflow_probability.substrates.jax as tfp
