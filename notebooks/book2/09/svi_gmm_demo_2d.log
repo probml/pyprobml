@@ -33,7 +33,7 @@ import os
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3776/3123412331.py in <module>
+/tmp/ipykernel_3779/3123412331.py in <module>
      20 try:
 ---> 21     import probml_utils.svi_gmm_model_tfp as GMM
      22 except ModuleNotFoundError:
@@ -43,7 +43,7 @@ ModuleNotFoundError: No module named 'probml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3776/3123412331.py in <module>
+/tmp/ipykernel_3779/3123412331.py in <module>
      22 except ModuleNotFoundError:
      23     get_ipython().run_line_magic('pip', 'install -qq svi_gmm_model_tfp')
 ---> 24     import probml_utils.svi_gmm_model_tfp as GMM

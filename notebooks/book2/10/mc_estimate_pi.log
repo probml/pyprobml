@@ -25,7 +25,7 @@ key = jax.random.PRNGKey(0)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3862/2214020405.py in <module>
+/tmp/ipykernel_3865/2214020405.py in <module>
      12 try:
 ---> 13     import probml_utils as pml
      14 except ModuleNotFoundError:
@@ -35,7 +35,7 @@ ModuleNotFoundError: No module named 'probml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3862/2214020405.py in <module>
+/tmp/ipykernel_3865/2214020405.py in <module>
      14 except ModuleNotFoundError:
      15     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
 ---> 16     import probml_utils as pml
