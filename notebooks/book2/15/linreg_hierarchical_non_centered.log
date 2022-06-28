@@ -42,7 +42,7 @@ np.random.seed(123)
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5713/1662817140.py in <module>
+/tmp/ipykernel_5727/1662817140.py in <module>
       5 
       6 try:
 ----> 7     import distrax

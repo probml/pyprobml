@@ -6,7 +6,7 @@ markersize = 3 if pml.is_latexify_enabled() else 6
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3809/355754833.py in <module>
+/tmp/ipykernel_3813/355754833.py in <module>
 ----> 1 pml.latexify(width_scale_factor=2)
       2 markersize = 3 if pml.is_latexify_enabled() else 6
 
