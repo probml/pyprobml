@@ -27,7 +27,7 @@ ModuleNotFoundError: No module named 'pygame'
 During handling of the above exception, another exception occurred:
 
 DependencyNotInstalled                    Traceback (most recent call last)
-/tmp/ipykernel_3775/2971796468.py in <module>
+/tmp/ipykernel_3785/2971796468.py in <module>
      11 env = gym.make(env_name)
      12 env.reset()
 ---> 13 env.render()
