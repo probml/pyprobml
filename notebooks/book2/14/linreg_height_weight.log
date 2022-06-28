@@ -23,7 +23,7 @@ p4_3, losses = svi.run(random.PRNGKey(0), 2000)
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3772/411791433.py in <module>
+/tmp/ipykernel_3778/411791433.py in <module>
      17 m4_3 = AutoLaplaceApproximation(model)
      18 svi = SVI(model, m4_3, optim.Adam(1), Trace_ELBO(), weight=d2.weight.values, height=d2.height.values)
 ---> 19 p4_3, losses = svi.run(random.PRNGKey(0), 2000)
@@ -133,7 +133,7 @@ NameError                                 Traceback (most recent call last)
     106 
     107 
 
-/tmp/ipykernel_3772/411791433.py in model(weight, height)
+/tmp/ipykernel_3778/411791433.py in model(weight, height)
       3     b = numpyro.sample("b", dist.LogNormal(0, 1))
       4     sigma = numpyro.sample("sigma", dist.Uniform(0, 50))
 ----> 5     mu = numpyro.deterministic("mu", a + b * (weight - xbar))
