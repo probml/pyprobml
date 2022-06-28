@@ -1,0 +1,116 @@
+An error occurred while executing the following cell:
+------------------
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install -qq torch
+    import torch
+
+try:
+    from torchvision.utils import make_grid
+except ModuleNotFoundError:
+    %pip install -qq torchvision
+    from torchvision.utils import make_grid
+
+import torch.nn as nn
+from torchvision.datasets import MNIST
+import torch.nn.functional as F
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
+
+try:
+    from pytorch_lightning import LightningModule, Trainer
+except ModuleNotFoundError:
+    %pip install -qq pytorch-lightning
+    from pytorch_lightning import LightningModule, Trainer
+
+try:
+    from einops import rearrange
+except ModuleNotFoundError:
+    %pip install -qq einops
+    from einops import rearrange
+
+try:
+    import probml_utils
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils
+
+from probml_utils import savefig
+
+from probml_utils.lvm_plots_utils import (
+    get_random_samples,
+    get_grid_samples,
+    plot_scatter_plot,
+    get_imrange,
+    plot_grid_plot,
+    plot_scatter_plot,
+)
+
+import seaborn as sns
+from torchvision.utils import make_grid
+from probml_utils.vae_conv_mnist import ConvVAE
+
+%pip install -qq test-tube umap
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4533/3536696859.py in <module>
+     11 try:
+---> 12     from torchvision.utils import make_grid
+     13 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'torchvision'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4533/3536696859.py in <module>
+     13 except ModuleNotFoundError:
+     14     get_ipython().run_line_magic('pip', 'install -qq torchvision')
+---> 15     from torchvision.utils import make_grid
+     16 
+     17 import torch.nn as nn
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/__init__.py in <module>
+      3 
+      4 import torch
+----> 5 from torchvision import datasets
+      6 from torchvision import io
+      7 from torchvision import models
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/__init__.py in <module>
+----> 1 from ._optical_flow import KittiFlow, Sintel, FlyingChairs, FlyingThings3D, HD1K
+      2 from .caltech import Caltech101, Caltech256
+      3 from .celeba import CelebA
+      4 from .cifar import CIFAR10, CIFAR100
+      5 from .cityscapes import Cityscapes
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/_optical_flow.py in <module>
+     10 from PIL import Image
+     11 
+---> 12 from ..io.image import _read_png_16
+     13 from .utils import verify_str_arg
+     14 from .vision import VisionDataset
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/io/__init__.py in <module>
+      3 import torch
+      4 
+----> 5 from ..utils import _log_api_usage_once
+      6 
+      7 try:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/utils.py in <module>
+     19 
+     20 
+---> 21 @torch.no_grad()
+     22 def make_grid(
+     23     tensor: Union[torch.Tensor, List[torch.Tensor]],
+
+AttributeError: module 'torch' has no attribute 'no_grad'
+AttributeError: module 'torch' has no attribute 'no_grad'
