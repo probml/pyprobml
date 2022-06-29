@@ -1,102 +1,124 @@
 An error occurred while executing the following cell:
 ------------------
-fixed_vars = [None, 1]
 
-for fixed_var in fixed_vars:
-    model = DensityNetwork([1, 50, 50], [20, 1], fixed_var)
+# Tensorflow
+try:
+  # %tensorflow_version only exists in Colab.
+    %tensorflow_version 2.x
+except Exception:
+    pass
 
-    def negloglik(y, rv_y):
-        return -rv_y.log_prob(y)
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow as tf
+    
+from tensorflow import keras
 
-    model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.01), loss=negloglik)
-    history = model.fit(x, y, epochs=500, batch_size=100, verbose=False)
-    if fixed_var is not None:
-        # estimate MLE of sigma
-        yhat_train = model(x)
-        ypred = yhat_train.mean().numpy()[:, 0]
-        # print(ypred.shape)
-        residuals = y - ypred
-        mse = np.mean((residuals**2))
-        # mse = scipy.stats.trim_mean(residuals ** 2, proportiontocut=0.1)
-        model.fixed_variance = mse
-        # print(model.fixed_variance)
-    yhat = model(x_tst)  # a Gaussian distribution object
-
-    plt.plot(history.history["loss"], label="Train")
-    plt.legend()
-    plt.xlabel("Epoch")
-    plt.ylabel("NLL")
-    plt.show()
-
-    plt.figure()
-    plt.plot(x, y, "b.", label="observed")
-    m = yhat.mean()
-    s = yhat.stddev()
-    plt.plot(x_tst, m, "r", linewidth=4, label="mean")
-    plt.plot(x_tst, m + 2 * s, "g", linewidth=2, label=r"mean + 2 stddev")
-    plt.plot(x_tst, m - 2 * s, "g", linewidth=2, label=r"mean - 2 stddev")
-    # plt.ylim([-10,10])
-    plt.show()
+print("tf version {}".format(tf.__version__))
+tf.config.list_physical_devices('GPU')
 ------------------
 
 ---------------------------------------------------------------------------
-AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4611/2370705851.py in <module>
-      8 
-      9     model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.01), loss=negloglik)
----> 10     history = model.fit(x, y, epochs=500, batch_size=100, verbose=False)
-     11     if fixed_var is not None:
-     12         # estimate MLE of sigma
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4604/2318241506.py in <module>
+      8 try:
+----> 9     import tensorflow as tf
+     10 except ModuleNotFoundError:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/traceback_utils.py in error_handler(*args, **kwargs)
-     65     except Exception as e:  # pylint: disable=broad-except
-     66       filtered_tb = _process_traceback_frames(e.__traceback__)
----> 67       raise e.with_traceback(filtered_tb) from None
-     68     finally:
-     69       del filtered_tb
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py in tf__train_function(iterator)
-     13                 try:
-     14                     do_return = True
----> 15                     retval_ = ag__.converted_call(ag__.ld(step_function), (ag__.ld(self), ag__.ld(iterator)), None, fscope)
-     16                 except:
-     17                     do_return = False
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
 
-AttributeError: in user code:
+During handling of the above exception, another exception occurred:
 
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1051, in train_function  *
-        return step_function(self, iterator)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1040, in step_function  **
-        outputs = model.distribute_strategy.run(run_step, args=(data,))
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1030, in run_step  **
-        outputs = model.train_step(data)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 890, in train_step
-        loss = self.compute_loss(x, y, y_pred, sample_weight)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 949, in compute_loss
-        y, y_pred, sample_weight, regularization_losses=self.losses)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 199, in __call__
-        y_t, y_p, sw = match_dtype_and_rank(y_t, y_p, sw)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 717, in match_dtype_and_rank
-        if y_t.shape.rank == 1 and y_p.shape.rank == 2:
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4604/2318241506.py in <module>
+     10 except ModuleNotFoundError:
+     11     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+---> 12     import tensorflow as tf
+     13 
+     14 from tensorflow import keras
 
-    AttributeError: 'Normal' object has no attribute 'shape'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     43 _tf2.enable()
+     44 
+---> 45 from ._api.v2 import __internal__
+     46 from ._api.v2 import __operators__
+     47 from ._api.v2 import audio
 
-AttributeError: in user code:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/_api/v2/__internal__/__init__.py in <module>
+      6 import sys as _sys
+      7 
+----> 8 from . import autograph
+      9 from . import decorator
+     10 from . import dispatch
 
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1051, in train_function  *
-        return step_function(self, iterator)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1040, in step_function  **
-        outputs = model.distribute_strategy.run(run_step, args=(data,))
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1030, in run_step  **
-        outputs = model.train_step(data)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 890, in train_step
-        loss = self.compute_loss(x, y, y_pred, sample_weight)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 949, in compute_loss
-        y, y_pred, sample_weight, regularization_losses=self.losses)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 199, in __call__
-        y_t, y_p, sw = match_dtype_and_rank(y_t, y_p, sw)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 717, in match_dtype_and_rank
-        if y_t.shape.rank == 1 and y_p.shape.rank == 2:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/_api/v2/__internal__/autograph/__init__.py in <module>
+      6 import sys as _sys
+      7 
+----> 8 from tensorflow.python.autograph.core.ag_ctx import control_status_ctx
+      9 from tensorflow.python.autograph.impl.api import tf_convert
 
-    AttributeError: 'Normal' object has no attribute 'shape'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/__init__.py in <module>
+     31 
+     32 # TODO(mdan): Bring only the relevant symbols to the top level.
+---> 33 from tensorflow.python.autograph import operators
+     34 from tensorflow.python.autograph import utils
+     35 from tensorflow.python.autograph.core.converter import ConversionOptions
 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/operators/__init__.py in <module>
+     34 # for some specializations of the operator.
+     35 
+---> 36 from tensorflow.python.autograph.operators.conditional_expressions import if_exp
+     37 from tensorflow.python.autograph.operators.control_flow import for_stmt
+     38 from tensorflow.python.autograph.operators.control_flow import if_stmt
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/operators/conditional_expressions.py in <module>
+     16 
+     17 
+---> 18 from tensorflow.python.autograph.operators import control_flow
+     19 from tensorflow.python.autograph.utils import tensors
+     20 from tensorflow.python.ops import control_flow_ops
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/operators/control_flow.py in <module>
+     62 import numpy as np
+     63 
+---> 64 from tensorflow.python.autograph.operators import py_builtins
+     65 from tensorflow.python.autograph.operators import variables
+     66 from tensorflow.python.autograph.utils import ag_logging
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/operators/py_builtins.py in <module>
+     24 import six
+     25 
+---> 26 from tensorflow.python.autograph.utils import py_func
+     27 from tensorflow.python.autograph.utils import tensors
+     28 from tensorflow.python.data.experimental.ops import cardinality
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/utils/__init__.py in <module>
+     15 """Utility module that contains APIs usable in the generated code."""
+     16 
+---> 17 from tensorflow.python.autograph.utils.context_managers import control_dependency_on_returns
+     18 from tensorflow.python.autograph.utils.misc import alias_tensors
+     19 from tensorflow.python.autograph.utils.py_func import wrap_py_func
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/utils/context_managers.py in <module>
+     17 import contextlib
+     18 
+---> 19 from tensorflow.python.framework import ops
+     20 from tensorflow.python.ops import tensor_array_ops
+     21 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/ops.py in <module>
+     27 from six.moves import map  # pylint: disable=redefined-builtin
+     28 
+---> 29 from tensorflow.core.framework import attr_value_pb2
+     30 from tensorflow.core.framework import full_type_pb2
+     31 from tensorflow.core.framework import function_pb2
+
+ModuleNotFoundError: No module named 'tensorflow.core'
+ModuleNotFoundError: No module named 'tensorflow.core'

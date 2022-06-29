@@ -23,7 +23,7 @@ p4_3, losses = svi.run(random.PRNGKey(0), 2000)
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_4923/411791433.py in <module>
+/tmp/ipykernel_4409/411791433.py in <module>
      17 m4_3 = AutoLaplaceApproximation(model)
      18 svi = SVI(model, m4_3, optim.Adam(1), Trace_ELBO(), weight=d2.weight.values, height=d2.height.values)
 ---> 19 p4_3, losses = svi.run(random.PRNGKey(0), 2000)
@@ -64,46 +64,46 @@ NameError                                 Traceback (most recent call last)
     107 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/autoguide.py in __call__(self, *args, **kwargs)
-    555         if self.prototype_trace is None:
-    556             # run model to inspect the model structure
---> 557             self._setup_prototype(*args, **kwargs)
-    558 
-    559         latent = self._sample_latent(*args, **kwargs)
+    557         if self.prototype_trace is None:
+    558             # run model to inspect the model structure
+--> 559             self._setup_prototype(*args, **kwargs)
+    560 
+    561         latent = self._sample_latent(*args, **kwargs)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/autoguide.py in _setup_prototype(self, *args, **kwargs)
-   1109 
-   1110     def _setup_prototype(self, *args, **kwargs):
--> 1111         super(AutoLaplaceApproximation, self)._setup_prototype(*args, **kwargs)
-   1112 
-   1113         def loss_fn(params):
+   1684 
+   1685     def _setup_prototype(self, *args, **kwargs):
+-> 1686         super(AutoLaplaceApproximation, self)._setup_prototype(*args, **kwargs)
+   1687 
+   1688         def loss_fn(params):
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/autoguide.py in _setup_prototype(self, *args, **kwargs)
-    517 
-    518     def _setup_prototype(self, *args, **kwargs):
---> 519         super()._setup_prototype(*args, **kwargs)
-    520         self._init_latent, shape_dict = _ravel_dict(self._init_locs)
-    521         unpack_latent = partial(_unravel_dict, shape_dict=shape_dict)
+    519 
+    520     def _setup_prototype(self, *args, **kwargs):
+--> 521         super()._setup_prototype(*args, **kwargs)
+    522         self._init_latent, shape_dict = _ravel_dict(self._init_locs)
+    523         unpack_latent = partial(_unravel_dict, shape_dict=shape_dict)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/autoguide.py in _setup_prototype(self, *args, **kwargs)
-    158                 dynamic_args=True,
-    159                 model_args=args,
---> 160                 model_kwargs=kwargs,
-    161             )
-    162         self._potential_fn = self._potential_fn_gen(*args, **kwargs)
+    160                 dynamic_args=True,
+    161                 model_args=args,
+--> 162                 model_kwargs=kwargs,
+    163             )
+    164         self._potential_fn = self._potential_fn_gen(*args, **kwargs)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/util.py in initialize_model(rng_key, model, init_strategy, dynamic_args, model_args, model_kwargs, forward_mode_differentiation, validate_grad)
-    605         has_enumerate_support,
-    606         model_trace,
---> 607     ) = _get_model_transforms(substituted_model, model_args, model_kwargs)
-    608     # substitute param sites from model_trace to model so
-    609     # we don't need to generate again parameters of `numpyro.module`
+    604         has_enumerate_support,
+    605         model_trace,
+--> 606     ) = _get_model_transforms(substituted_model, model_args, model_kwargs)
+    607     # substitute param sites from model_trace to model so
+    608     # we don't need to generate again parameters of `numpyro.module`
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/infer/util.py in _get_model_transforms(model, model_args, model_kwargs)
-    403 def _get_model_transforms(model, model_args=(), model_kwargs=None):
-    404     model_kwargs = {} if model_kwargs is None else model_kwargs
---> 405     model_trace = trace(model).get_trace(*model_args, **model_kwargs)
-    406     inv_transforms = {}
-    407     # model code may need to be replayed in the presence of deterministic sites
+    402 def _get_model_transforms(model, model_args=(), model_kwargs=None):
+    403     model_kwargs = {} if model_kwargs is None else model_kwargs
+--> 404     model_trace = trace(model).get_trace(*model_args, **model_kwargs)
+    405     inv_transforms = {}
+    406     # model code may need to be replayed in the presence of deterministic sites
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/numpyro/handlers.py in get_trace(self, *args, **kwargs)
     169         :return: `OrderedDict` containing the execution trace.
@@ -133,7 +133,7 @@ NameError                                 Traceback (most recent call last)
     106 
     107 
 
-/tmp/ipykernel_4923/411791433.py in model(weight, height)
+/tmp/ipykernel_4409/411791433.py in model(weight, height)
       3     b = numpyro.sample("b", dist.LogNormal(0, 1))
       4     sigma = numpyro.sample("sigma", dist.Uniform(0, 50))
 ----> 5     mu = numpyro.deterministic("mu", a + b * (weight - xbar))
