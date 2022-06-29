@@ -57,7 +57,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4264/1422291325.py in <module>
+/tmp/ipykernel_4256/1422291325.py in <module>
      12 try:
 ---> 13     from mcmc_utils import slice_sample
      14 except ModuleNotFoundError:
@@ -67,7 +67,7 @@ ModuleNotFoundError: No module named 'mcmc_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4264/1422291325.py in <module>
+/tmp/ipykernel_4256/1422291325.py in <module>
      14 except ModuleNotFoundError:
      15     get_ipython().run_line_magic('pip', 'install -qq mcmc_utils')
 ---> 16     from mcmc_utils import slice_sample
