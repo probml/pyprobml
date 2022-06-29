@@ -194,7 +194,7 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_6430/3948049188.py in <module>
+/tmp/ipykernel_6579/3948049188.py in <module>
      45 try:
 ---> 46     import spams
      47 except ModuleNotFoundError:
@@ -204,7 +204,7 @@ ModuleNotFoundError: No module named 'spams'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_6430/3948049188.py in <module>
+/tmp/ipykernel_6579/3948049188.py in <module>
      47 except ModuleNotFoundError:
      48     get_ipython().run_line_magic('pip', 'install -qq spams')
 ---> 49     import spams
