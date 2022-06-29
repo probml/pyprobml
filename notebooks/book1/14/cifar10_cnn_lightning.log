@@ -12,7 +12,7 @@ trainer.fit(model, datamodule=dm)
 
 ---------------------------------------------------------------------------
 MisconfigurationException                 Traceback (most recent call last)
-/tmp/ipykernel_4796/3004781518.py in <module>
+/tmp/ipykernel_4797/3004781518.py in <module>
       4     max_epochs=1,
       5     tpu_cores=AVAIL_TPUS,
 ----> 6     gpus=NUM_GPUS,
