@@ -93,7 +93,7 @@ for m in methods:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3780/3546596513.py in <module>
+/tmp/ipykernel_3773/3546596513.py in <module>
      13 try:
 ---> 14     from spams import trainDL, nmf, displayPatches, im2col_sliding
      15 except ModuleNotFoundError:
@@ -103,7 +103,7 @@ ModuleNotFoundError: No module named 'spams'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3780/3546596513.py in <module>
+/tmp/ipykernel_3773/3546596513.py in <module>
      15 except ModuleNotFoundError:
      16     get_ipython().run_line_magic('pip', 'install -qq spams')
 ---> 17     from spams import trainDL, nmf, displayPatches, im2col_sliding
