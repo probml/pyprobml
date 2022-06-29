@@ -1,0 +1,49 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import matplotlib.pyplot as plt
+except ModuleNotFoundError:
+    %pip install -qq matplotlib.pyplot
+    import matplotlib.pyplot as plt
+
+try:
+    import seaborn as sns
+except ModuleNotFoundError:
+    %pip install -qq seaborn
+    import seaborn as sns
+%matplotlib inline
+
+import numpy as np
+
+
+try:
+    import probml_utils as pml
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+    from probml_utils import savefig, latexify
+%pip install -qq git+https://github.com/probml/ssm-jax.git
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3774/2087706422.py in <module>
+     17 try:
+---> 18     import probml_utils as pml
+     19     from probml_utils import savefig, latexify
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3774/2087706422.py in <module>
+     20 except ModuleNotFoundError:
+     21     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 22     import probml_utils as pml
+     23     from probml_utils import savefig, latexify
+     24 get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/ssm-jax.git')
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
