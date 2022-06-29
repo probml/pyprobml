@@ -215,7 +215,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3771/506990392.py in <module>
+/tmp/ipykernel_3778/506990392.py in <module>
      23 from jax import random
      24 from functools import partial
 ---> 25 from jax.ops import index_update
