@@ -1,0 +1,40 @@
+An error occurred while executing the following cell:
+------------------
+import jax.numpy as jnp
+import jax.numpy.linalg as JLA
+from scipy.linalg import block_diag
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+import seaborn as sns
+
+try:
+    from probml_utils import pyprobml_utils as pml
+except ModuleNotFoundError:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import pyprobml_utils as pml
+
+from probml_utils import savefig, latexify, is_latexify_enabled
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4002/1748719693.py in <module>
+      9 try:
+---> 10     from probml_utils import pyprobml_utils as pml
+     11 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4002/1748719693.py in <module>
+     11 except ModuleNotFoundError:
+     12     get_ipython().run_line_magic('pip', 'install git+https://github.com/probml/probml-utils.git')
+---> 13     from probml_utils import pyprobml_utils as pml
+     14 
+     15 from probml_utils import savefig, latexify, is_latexify_enabled
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
