@@ -39,7 +39,7 @@ key = jax.random.PRNGKey(2)
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4307/3970943600.py in <module>
+/tmp/ipykernel_4310/3970943600.py in <module>
       2 try:
 ----> 3     import tensorflow_probability.substrates.jax as tfp
       4 except:
@@ -120,7 +120,7 @@ KeyError: 'tensorflow'
 During handling of the above exception, another exception occurred:
 
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4307/3970943600.py in <module>
+/tmp/ipykernel_4310/3970943600.py in <module>
       4 except:
       5     get_ipython().run_line_magic('pip', 'install tensorflow_probability')
 ----> 6     import tensorflow_probability.substrates.jax as tfp
