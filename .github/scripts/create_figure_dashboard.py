@@ -112,7 +112,9 @@ wrong_emoji = "&#10060;"
 
 
 for book_no in [1, 2]:
+    total_cnt = 0
     latexify_cnt = 0
+    jaxify_cnt = 0
     print(f"********** creating figure dashboard of book{book_no} *******************")
     csv_excluded_dummy = f"internal/figures_url_mapping_book{book_no}_excluded_dummy_nb.csv"
     chap_urls_mapping = chap_to_urls_mapping(csv_excluded_dummy)
@@ -120,7 +122,7 @@ for book_no in [1, 2]:
     csv_chap_names = f"internal/chapter_no_to_name_mapping_book{book_no}.csv"
     chap_no_chap_name_mapping = get_chap_mapping(csv_chap_names)
     # print(chap_urls_mapping)
-    md_content= ""
+    md_content = ""
     for chap_no in chap_urls_mapping:
         notebooks = []
         base_str = f"<details open>\n<summary>Chapter: {chap_no}_{chap_no_chap_name_mapping[chap_no]}</summary>\n\n"
@@ -136,6 +138,8 @@ for book_no in [1, 2]:
                 is_jaxify = int(check_fun_to_notebook(path, check_jaxify))
                 if is_latexify:
                     latexify_cnt += 1
+                if is_jaxify:
+                    jaxify_cnt += 1
                 notebooks.append(
                     {
                         "nb_name": f"[{url.split('/')[-1]}]({url})",
@@ -151,7 +155,16 @@ for book_no in [1, 2]:
             md = base_str + df_nb.to_markdown(index=None) + "\n</details>"
             # print(md)
             md_content += md + "\n\n"
-        
+            total_cnt += len(notebooks)
+
     print(f"*** {book_no}: {latexify_cnt} latexify found! ****")
-    md_content = "## Instructions\n\n* Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).\n\nDashboard\n" + f"*** In {book_no}: {latexify_cnt} latexified notebooks found! ****\n" + md_content
+    headline = f"## Instructions\n\n* Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).\n\n## Book{book_no}Dashboard\n"
+    md_content = (
+        headline
+        + f"""Total Notebooks | Latexified | Jaxified | 
+| -- | -- |  -- |
+| {total_cnt} | {latexify_cnt} | {jaxify_cnt} |"""
+        + md_content
+    )
+
     save_to_md(md_content, f"workflow_testing_indicator/dashboard_figures_book{book_no}.md")
