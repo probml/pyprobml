@@ -3,7 +3,7 @@
 * Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).
 
 Dashboard
-*** In 2: 10 latexified notebooks found! ****
+*** In 2: 11 latexified notebooks found! ****
 <details open>
 <summary>Chapter: 2_Probability</summary>
 
@@ -71,7 +71,7 @@ Dashboard
 
 | nb_name                                                                                                                                                      |   fig_no | workflow                                                                                                                                                                                                                                                                                               | latexify   | jaxify   |
 |:-------------------------------------------------------------------------------------------------------------------------------------------------------------|---------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------|
-| [bernoulli_entropy_fig.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/bernoulli_entropy_fig.ipynb)           |      5.3 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/bernoulli_entropy_fig.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/bernoulli_entropy_fig.log)           | &#10060;   | &#10060; |
+| [bernoulli_entropy_fig.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/bernoulli_entropy_fig.ipynb)           |      5.3 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/bernoulli_entropy_fig.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/bernoulli_entropy_fig.log)           | &#9989;    | &#10060; |
 | [error_correcting_code_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/error_correcting_code_demo.ipynb) |      5.8 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/error_correcting_code_demo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/error_correcting_code_demo.log) | &#10060;   | &#10060; |
 | [VIBDemo2021.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/VIBDemo2021.ipynb)                               |      5.1 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/VIBDemo2021.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/VIBDemo2021.log)                               | &#10060;   | &#10060; |
 </details>
