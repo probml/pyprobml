@@ -1,0 +1,35 @@
+An error occurred while executing the following cell:
+------------------
+from typing import Callable
+import functools
+
+import jax
+from jax import lax
+from jax import numpy as jnp
+from jax import scipy as jsp
+from jax import random
+import matplotlib.pyplot as plt
+
+
+plt.rcParams.update({"font.size": 16})
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_4019/3652478435.py in <module>
+      2 import functools
+      3 
+----> 4 import jax
+      5 from jax import lax
+      6 from jax import numpy as jnp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/nn/__init__.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/nn/functions.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/scipy/__init__.py in <module>
+
+ImportError: cannot import name 'sparse' from 'jax.scipy' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/scipy/__init__.py)
+ImportError: cannot import name 'sparse' from 'jax.scipy' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/scipy/__init__.py)
