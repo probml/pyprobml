@@ -13,7 +13,7 @@ notebooks = notebooks1 + notebooks2
 
 #get IGNORE_LIST of notebooks
 IGNORE_LIST = []
-with open("internal/copied_from misc_nb.txt") as fp:
+with open("internal/ignored_notebooks.txt") as fp:
     ignored_notebooks = fp.readlines()
     for nb in ignored_notebooks:
         IGNORE_LIST.append(nb.strip().split("/")[-1])

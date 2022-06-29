@@ -11,3 +11,5 @@ scikit-learn
 h5py
 pandas
 graphviz
+arviz
+pyyaml

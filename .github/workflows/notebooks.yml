@@ -11,7 +11,7 @@ on:
     
 
 jobs:
-  check_code_quality:
+  black_format_MUST_PASS:
     runs-on: ubuntu-latest
     steps:
     - name: Clone the reference repository
@@ -33,7 +33,7 @@ jobs:
         black --check --verbose notebooks/book1/*/*.ipynb
         black --check --verbose notebooks/book2/*/*.ipynb  
 
-  static_import_check:
+  static_import_check_MUST_PASS:
     runs-on: ubuntu-latest
     steps:
     - name: Clone the reference repository
@@ -55,10 +55,10 @@ jobs:
       run: |
         pytest -n auto -s --verbose tests/test_imports.py
 
-  execute_latest_notebooks:
+  execute_current_PR_notebooks_MUST_PASS:
     runs-on: ubuntu-latest
-    if: ${{ always() }}
-    needs: [check_code_quality, static_import_check]
+    if: github.event_name == 'pull_request'  # Run only on pull requests
+    needs: [black_format_MUST_PASS, static_import_check_MUST_PASS]
     container: texlive/texlive:TL2020-historic
 
     steps:
@@ -118,8 +118,8 @@ jobs:
       PYPROBML_GA_RUNNER_ID: ${{ matrix.runner_id }}
 
     runs-on: ubuntu-latest
-    if: ${{ always() }}
-    needs: [execute_latest_notebooks]
+    if: always() && github.event_name == 'push'  # Don't run on pull requests
+    needs: [black_format_MUST_PASS, static_import_check_MUST_PASS]
     container: texlive/texlive:TL2020-historic
 
     steps:
@@ -183,7 +183,7 @@ jobs:
 
   combine_and_publish_results:
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: always() && github.event_name == 'push'  # Don't run on pull requests
     needs: [execute_all_notebooks]
     steps:
     - name: Clone the reference repository
@@ -207,7 +207,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: auto_generated_figures/
         publish_branch: auto_generated_figures
-      if: github.event_name == 'push'  # Don't run on pull requests
       
     - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
       uses: peaceiris/actions-gh-pages@v3.6.1
@@ -215,4 +214,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: workflow_testing_indicator/
         publish_branch: workflow_testing_indicator
-      if: always() && github.event_name == 'push'  # Don't run on pull requests

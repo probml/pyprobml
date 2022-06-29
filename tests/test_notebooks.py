@@ -8,7 +8,7 @@ import shutil
 from testbook import testbook
 
 # Global variables
-TIMEOUT = 600  # seconds
+TIMEOUT = 1200  # seconds
 TEST_DIR = "test_results"
 os.environ["FIG_DIR"] = "figures"
 os.environ["LATEXIFY"] = ""  # To enable latexify code
@@ -16,7 +16,7 @@ os.environ["DUAL_SAVE"] = ""  # To save both .pdf and .png
 
 #get IGNORE_LIST of notebooks
 IGNORE_LIST = []
-with open("internal/copied_from misc_nb.txt") as fp:
+with open("internal/ignored_notebooks.txt") as fp:
     notebooks = fp.readlines()
     for nb in notebooks:
         IGNORE_LIST.append(nb.strip().split("/")[-1])
