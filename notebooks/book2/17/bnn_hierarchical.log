@@ -46,7 +46,7 @@ cmap_uncertainty = sns.cubehelix_palette(light=1, as_cmap=True)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3907/2927936185.py in <module>
+/tmp/ipykernel_3912/2927936185.py in <module>
      10 try:
 ---> 11     import blackjax
      12 except ModuleNotFoundError:
@@ -91,7 +91,7 @@ ModuleNotFoundError: No module named 'jaxopt'
 During handling of the above exception, another exception occurred:
 
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3907/2927936185.py in <module>
+/tmp/ipykernel_3912/2927936185.py in <module>
      12 except ModuleNotFoundError:
      13     get_ipython().run_line_magic('pip', 'install -qq blackjax')
 ---> 14     import blackjax
