@@ -2,9 +2,10 @@
 
 * Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).
 
-Dashboard
-*** In 1: 29 latexified notebooks found! ****
-<details open>
+## Book1Dashboard
+Total Notebooks | Latexified | Jaxified | 
+| -- | -- |  -- |
+| 245 | 29 | 47 |<details open>
 <summary>Chapter: 1_Introduction</summary>
 
 | nb_name                                                                                                                                              |   fig_no | workflow                                                                                                                                                                                                                                                                                       | latexify   | jaxify   |
