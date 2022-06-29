@@ -1,0 +1,26 @@
+An error occurred while executing the following cell:
+------------------
+import pandas as pd
+import jax
+import jax.numpy as jnp
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+try:
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig, is_latexify_enabled
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4257/1868476974.py in <module>
+      1 import pandas as pd
+----> 2 import jax
+      3 import jax.numpy as jnp
+      4 import seaborn as sns
+      5 import matplotlib.pyplot as plt
+
+ModuleNotFoundError: No module named 'jax'
+ModuleNotFoundError: No module named 'jax'
