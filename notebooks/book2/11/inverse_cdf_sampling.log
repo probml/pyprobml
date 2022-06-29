@@ -1,0 +1,224 @@
+An error occurred while executing the following cell:
+------------------
+# author name: @AnandShegde
+try:
+    import tensorflow_probability.substrates.jax as tfp
+except:
+    %pip install tensorflow_probability
+    import tensorflow_probability.substrates.jax as tfp
+
+tfd = tfp.distributions
+import matplotlib.pyplot as plt
+import jax
+import jax.numpy as jnp
+import seaborn
+
+try:
+    import probml_utils as pml
+except:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+import warnings
+import os
+import logging
+
+logger = logging.getLogger()
+
+
+class CheckTypesFilter(logging.Filter):
+    def filter(self, record):
+        return "check_types" not in record.getMessage()
+
+
+logger.addFilter(CheckTypesFilter())
+
+jax.config.update("jax_platform_name", "cpu")
+
+key = jax.random.PRNGKey(2)
+------------------
+
+---------------------------------------------------------------------------
+KeyError                                  Traceback (most recent call last)
+/tmp/ipykernel_4307/3970943600.py in <module>
+      2 try:
+----> 3     import tensorflow_probability.substrates.jax as tfp
+      4 except:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
+     40 # from tensorflow_probability.substrates.jax.google import staging  # DisableOnExport  # pylint:disable=line-too-long
+---> 41 from tensorflow_probability.substrates.jax import bijectors
+     42 from tensorflow_probability.substrates.jax import distributions
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/__init__.py in <module>
+     18 
+---> 19 from tensorflow_probability.substrates.jax.bijectors.absolute_value import AbsoluteValue
+     20 from tensorflow_probability.substrates.jax.bijectors.ascending import Ascending
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/absolute_value.py in <module>
+     16 
+---> 17 from tensorflow_probability.python.internal.backend.jax.compat import v2 as tf
+     18 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/__init__.py in <module>
+     18 from tensorflow_probability.python.internal.backend.jax import bitwise
+---> 19 from tensorflow_probability.python.internal.backend.jax import compat
+     20 from tensorflow_probability.python.internal.backend.jax import config
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/compat.py in <module>
+     17 from tensorflow_probability.python.internal.backend.jax import v1
+---> 18 from tensorflow_probability.python.internal.backend.jax import v2
+     19 from tensorflow_probability.python.internal.backend.jax.gen.tensor_shape import dimension_value
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/v2.py in <module>
+     26 from tensorflow_probability.python.internal.backend.jax import errors
+---> 27 from tensorflow_probability.python.internal.backend.jax import linalg
+     28 from tensorflow_probability.python.internal.backend.jax import nest
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/linalg.py in <module>
+     27   # pylint: disable=unused-import
+---> 28   from tensorflow_probability.python.internal.backend.jax.gen import adjoint_registrations as _adjoint_registrations
+     29   from tensorflow_probability.python.internal.backend.jax.gen import cholesky_registrations as _cholesky_registrations
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/gen/adjoint_registrations.py in <module>
+     36 from tensorflow_probability.python.internal.backend.jax import numpy_math as math_ops
+---> 37 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator
+     38 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator_adjoint
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/gen/linear_operator.py in <module>
+     55 from tensorflow_probability.python.internal.backend.jax import linalg_impl as linalg
+---> 56 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator_algebra
+     57 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator_util
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/gen/linear_operator_algebra.py in <module>
+     39 from tensorflow_probability.python.internal.backend.jax import ops
+---> 40 from tensorflow_probability.python.internal.backend.jax import tf_inspect
+     41 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/tf_inspect.py in <module>
+     17 try:
+---> 18   from tensorflow.python.util import tf_inspect as inspect  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top
+     19 except ImportError:
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load_unlocked(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_spec(name, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in find_spec(cls, fullname, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _get_spec(cls, fullname, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in __iter__(self)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _recalculate(self)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _get_parent_path(self)
+
+KeyError: 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+KeyError                                  Traceback (most recent call last)
+/tmp/ipykernel_4307/3970943600.py in <module>
+      4 except:
+      5     get_ipython().run_line_magic('pip', 'install tensorflow_probability')
+----> 6     import tensorflow_probability.substrates.jax as tfp
+      7 
+      8 tfd = tfp.distributions
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
+     39 from tensorflow_probability.python.version import __version__
+     40 # from tensorflow_probability.substrates.jax.google import staging  # DisableOnExport  # pylint:disable=line-too-long
+---> 41 from tensorflow_probability.substrates.jax import bijectors
+     42 from tensorflow_probability.substrates.jax import distributions
+     43 from tensorflow_probability.substrates.jax import experimental
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/__init__.py in <module>
+     17 # pylint: disable=unused-import,wildcard-import,line-too-long,g-importing-member
+     18 
+---> 19 from tensorflow_probability.substrates.jax.bijectors.absolute_value import AbsoluteValue
+     20 from tensorflow_probability.substrates.jax.bijectors.ascending import Ascending
+     21 # from tensorflow_probability.substrates.jax.bijectors.batch_normalization import BatchNormalization
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/absolute_value.py in <module>
+     15 """AbsoluteValue bijector."""
+     16 
+---> 17 from tensorflow_probability.python.internal.backend.jax.compat import v2 as tf
+     18 
+     19 from tensorflow_probability.substrates.jax.bijectors import bijector
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/__init__.py in <module>
+     17 from tensorflow_probability.python.internal.backend.jax import __internal__
+     18 from tensorflow_probability.python.internal.backend.jax import bitwise
+---> 19 from tensorflow_probability.python.internal.backend.jax import compat
+     20 from tensorflow_probability.python.internal.backend.jax import config
+     21 from tensorflow_probability.python.internal.backend.jax import debugging
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/compat.py in <module>
+     16 
+     17 from tensorflow_probability.python.internal.backend.jax import v1
+---> 18 from tensorflow_probability.python.internal.backend.jax import v2
+     19 from tensorflow_probability.python.internal.backend.jax.gen.tensor_shape import dimension_value
+     20 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/v2.py in <module>
+     25 from tensorflow_probability.python.internal.backend.jax import debugging
+     26 from tensorflow_probability.python.internal.backend.jax import errors
+---> 27 from tensorflow_probability.python.internal.backend.jax import linalg
+     28 from tensorflow_probability.python.internal.backend.jax import nest
+     29 from tensorflow_probability.python.internal.backend.jax import nn
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/linalg.py in <module>
+     26 try:
+     27   # pylint: disable=unused-import
+---> 28   from tensorflow_probability.python.internal.backend.jax.gen import adjoint_registrations as _adjoint_registrations
+     29   from tensorflow_probability.python.internal.backend.jax.gen import cholesky_registrations as _cholesky_registrations
+     30   from tensorflow_probability.python.internal.backend.jax.gen import inverse_registrations as _inverse_registrations
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/gen/adjoint_registrations.py in <module>
+     35 
+     36 from tensorflow_probability.python.internal.backend.jax import numpy_math as math_ops
+---> 37 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator
+     38 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator_adjoint
+     39 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator_algebra
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/gen/linear_operator.py in <module>
+     54 from tensorflow_probability.python.internal.backend.jax import variables
+     55 from tensorflow_probability.python.internal.backend.jax import linalg_impl as linalg
+---> 56 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator_algebra
+     57 from tensorflow_probability.python.internal.backend.jax.gen import linear_operator_util
+     58 from tensorflow_probability.python.internal.backend.jax.gen import slicing
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/gen/linear_operator_algebra.py in <module>
+     38 
+     39 from tensorflow_probability.python.internal.backend.jax import ops
+---> 40 from tensorflow_probability.python.internal.backend.jax import tf_inspect
+     41 
+     42 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/tf_inspect.py in <module>
+     16 
+     17 try:
+---> 18   from tensorflow.python.util import tf_inspect as inspect  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top
+     19 except ImportError:
+     20   import inspect  # pylint: disable=g-import-not-at-top
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load_unlocked(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_spec(name, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in find_spec(cls, fullname, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _get_spec(cls, fullname, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in __iter__(self)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _recalculate(self)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _get_parent_path(self)
+
+KeyError: 'tensorflow'
+KeyError: 'tensorflow'
