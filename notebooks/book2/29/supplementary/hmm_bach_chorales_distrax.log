@@ -22,7 +22,7 @@ for learning_rate, batch_size in zip(learning_rates, batch_sizes):
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_3785/1735617235.py in <module>
+/tmp/ipykernel_3783/1735617235.py in <module>
       2 
       3 for learning_rate, batch_size in zip(learning_rates, batch_sizes):
 ----> 4     opt_init, opt_update, get_params = jax.experimental.optimizers.adam(learning_rate)

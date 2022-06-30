@@ -1,0 +1,72 @@
+An error occurred while executing the following cell:
+------------------
+"""
+Fits Bernoulli mixture model for mnist digits using em algorithm
+Author: Meduri Venkata Shivaditya, Aleyna Kara(@karalleyna)
+"""
+
+
+from jax.random import PRNGKey, randint
+
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow as tf
+try:
+    from probml_utils.mix_bernoulli_lib import BMM
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils.mix_bernoulli_lib import BMM
+
+from probml_utils.mix_bernoulli_em_mnist import mnist_data
+
+
+def main():
+    n_obs = 1000
+    observations = mnist_data(n_obs)  # subsample the MNIST dataset
+    n_vars = len(observations[0])
+    K, num_of_iters = 12, 10
+    n_row, n_col = 3, 4
+    bmm = BMM(K, n_vars)
+    _ = bmm.fit_em(observations, num_of_iters=num_of_iters)
+    bmm.plot(n_row, n_col, "bmm_em_mnist")
+
+
+if __name__ == "__main__":
+    main()
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4694/205051138.py in <module>
+      9 try:
+---> 10     import tensorflow as tf
+     11 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4694/205051138.py in <module>
+     11 except ModuleNotFoundError:
+     12     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+---> 13     import tensorflow as tf
+     14 try:
+     15     from probml_utils.mix_bernoulli_lib import BMM
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
