@@ -1,0 +1,46 @@
+An error occurred while executing the following cell:
+------------------
+# -*- coding: utf-8 -*-
+# Author: Ang Ming Liang
+
+import numpy as np
+
+import matplotlib.pyplot as plt
+import matplotlib
+
+%matplotlib inline
+
+import seaborn as sns
+
+try:
+    from arspy.ars import adaptive_rejection_sampling
+except ModuleNotFoundError:
+    %pip install -qq arspy
+    from arspy.ars import adaptive_rejection_sampling
+
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3782/1569250773.py in <module>
+     19 try:
+---> 20     from probml_utils import savefig, latexify
+     21 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3782/1569250773.py in <module>
+     21 except ModuleNotFoundError:
+     22     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 23     from probml_utils import savefig, latexify
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
