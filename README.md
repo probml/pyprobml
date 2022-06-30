@@ -13,12 +13,13 @@ See also [probml-utils](https://github.com/probml/probml-utils) for some utility
 
 ## Running the notebooks
 
+
 The notebooks needed to make all the figures are available at the following locations.
 
-* [Volume 1 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book1)
-* [Volume 2 figure notebooks](https://github.com/probml/pyprobml/tree/master/notebooks/book2). 
+* [All notebooks (sorted by filename)](https://github.com/probml/pyprobml/blob/master/notebooks.md)
+* [Book 1 notebooks (sorted by chaper)](https://github.com/probml/pyprobml/tree/master/notebooks/book1)
+* [Book 2 notebooks (sorted by chapter)](https://github.com/probml/pyprobml/tree/master/notebooks/book2). 
 
-Notebooks are saved in chapter-wise folders. For example, a notebook for figure 2.3 from book 1 is saved in the folder `notebooks/book1/02/`.
 
 
 ### Running notebooks in colab
