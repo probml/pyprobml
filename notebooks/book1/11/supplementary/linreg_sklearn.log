@@ -29,7 +29,7 @@ pd.set_option("display.width", 100)  # wide windows
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4163/1059154030.py in <module>
+/tmp/ipykernel_4307/1059154030.py in <module>
       8 import matplotlib.pyplot as plt
       9 import PIL
 ---> 10 import imageio
