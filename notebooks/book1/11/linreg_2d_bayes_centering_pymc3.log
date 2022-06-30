@@ -97,7 +97,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_7220/2476972418.py in <module>
+/tmp/ipykernel_4686/2476972418.py in <module>
       7 
       8 try:
 ----> 9     import pymc3 as pm
