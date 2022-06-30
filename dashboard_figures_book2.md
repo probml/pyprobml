@@ -2,7 +2,7 @@
 
 * Follow [the contributing guidelines](https://github.com/probml/pyprobml/blob/master/CONTRIBUTING.md) and specific instructions given over [here](https://github.com/probml/pyprobml/blob/master/notebooks/README.md).
 
-## Book2Dashboard
+## Book2 Dashboard
 Total Notebooks | Latexified | Jaxified | 
 | -- | -- |  -- |
 | 202 | 49 | 75 |<details open>
