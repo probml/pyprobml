@@ -1,0 +1,9 @@
+This files contains shorter explanation about notebooks in ignored notebooks
+
+1. Following notebooks are running in colab but not in our workflow
+
+book2/08/casino_hmm
+book2/11/ars_demo
+book2/28/sparse_dict_demo
+book2/29/hmm_gaussian_2d
+book2/29/causal_impact
