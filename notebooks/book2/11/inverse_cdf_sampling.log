@@ -1,0 +1,78 @@
+An error occurred while executing the following cell:
+------------------
+# author name: @AnandShegde
+try:
+    import tensorflow_probability.substrates.jax as tfp
+except:
+    %pip install tensorflow_probability
+    import tensorflow_probability.substrates.jax as tfp
+
+tfd = tfp.distributions
+import matplotlib.pyplot as plt
+import jax
+import jax.numpy as jnp
+import seaborn
+
+try:
+    import probml_utils as pml
+except:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+import warnings
+import os
+import logging
+
+logger = logging.getLogger()
+
+
+class CheckTypesFilter(logging.Filter):
+    def filter(self, record):
+        return "check_types" not in record.getMessage()
+
+
+logger.addFilter(CheckTypesFilter())
+
+jax.config.update("jax_platform_name", "cpu")
+
+key = jax.random.PRNGKey(2)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4757/3970943600.py in <module>
+     33 jax.config.update("jax_platform_name", "cpu")
+     34 
+---> 35 key = jax.random.PRNGKey(2)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in PRNGKey(seed)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in seed_with_impl(impl, seed)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in threefry_seed(seed)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lax/lax.py in shift_right_logical(x, y)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in bind(self, *args, **params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in bind_with_trace(self, trace, args, params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in process_primitive(self, primitive, tracers, params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in apply_primitive(prim, *args, **params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/util.py in wrapper(*args, **kwargs)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/util.py in cached(_, *args, **kwargs)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in xla_primitive_callable(prim, *arg_specs, **params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in _xla_callable_uncached(fun, device, backend, name, donated_invars, keep_unused, *arg_specs)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in compile(self)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in from_xla_computation(name, xla_computation, in_type, out_type, nreps, device, backend, tuple_args, in_avals, out_avals, has_unordered_effects, ordered_effects, kept_var_idx, keepalive)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in compile_or_get_cached(backend, computation, compile_options)
+
+ModuleNotFoundError: No module named 'jax.experimental.compilation_cache'
+ModuleNotFoundError: No module named 'jax.experimental.compilation_cache'
