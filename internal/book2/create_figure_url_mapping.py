@@ -3,6 +3,7 @@ command usage:
 python3 internal/book2/create_figure_url_mapping.py -lof internal/book2.lof -csv internal/figures_url_mapping_book2.csv
 """
 import argparse
+import regex as re
 from probml_utils.url_utils import (
     figure_url_mapping_from_lof,
     dict_to_csv,
@@ -15,6 +16,8 @@ parser = argparse.ArgumentParser(description="create figure url mapping")
 parser.add_argument("-lof", "--lof", type=str, help="", default="internal/book2.lof")
 parser.add_argument("-csv", "--csv", type=str, help="", default="internal/figures_url_mapping_book2.csv")
 args = parser.parse_args()
+
+BOOK_NO = int(args.lof.split("/")[-1].split(".")[0][-1])  # from internal/book1.lof to 1
 
 
 def figure_url_mapping_from_lof_dummy_nb_excluded(
@@ -59,10 +62,10 @@ def figure_url_mapping_from_lof_dummy_nb_excluded(
 print(f"Parsing started from {args.lof}...........")
 
 if args.csv:
-    figure_mapping = figure_url_mapping_from_lof(args.lof, args.csv, book_no=2)
+    figure_mapping = figure_url_mapping_from_lof(args.lof, args.csv, book_no=BOOK_NO)
     figure_mapping = figure_url_mapping_from_lof_dummy_nb_excluded(
-        args.lof, args.csv.replace(".csv", "") + "_excluded_dummy_nb.csv", book_no=2
+        args.lof, args.csv.replace(".csv", "") + "_excluded_dummy_nb.csv", book_no=BOOK_NO
     )
 else:
-    figure_mapping = figure_url_mapping_from_lof(args.lof, "", book_no=2)
-    figure_mapping = figure_url_mapping_from_lof_dummy_nb_excluded(args.lof, "", book_no=2)
+    figure_mapping = figure_url_mapping_from_lof(args.lof, "", book_no=BOOK_NO)
+    figure_mapping = figure_url_mapping_from_lof_dummy_nb_excluded(args.lof, "", book_no=BOOK_NO)
