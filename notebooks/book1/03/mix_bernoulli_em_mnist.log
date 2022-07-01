@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_7721/205051138.py in <module>
+/tmp/ipykernel_7724/205051138.py in <module>
      13     import tensorflow as tf
      14 try:
 ---> 15     from probml_utils.mix_bernoulli_lib import BMM
