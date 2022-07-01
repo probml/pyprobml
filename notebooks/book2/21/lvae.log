@@ -58,7 +58,7 @@ os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "False"
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4123/3867189385.py in <module>
+/tmp/ipykernel_4023/3867189385.py in <module>
       7 try:
 ----> 8     import tensorflow as tf
       9 except ModuleNotFoundError:
@@ -73,7 +73,7 @@ ModuleNotFoundError: No module named 'tensorflow.python.tools'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4123/3867189385.py in <module>
+/tmp/ipykernel_4023/3867189385.py in <module>
       9 except ModuleNotFoundError:
      10     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 ---> 11     import tensorflow as tf
