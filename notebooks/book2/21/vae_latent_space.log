@@ -81,7 +81,7 @@ trainer2.fit(mmd_vae, dm)
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_4014/376362601.py in <module>
+/tmp/ipykernel_3826/376362601.py in <module>
      65 kl_loss = partial(kl_loss, {"kl_coeff": 1})
      66 mmd_loss = partial(mmd_loss, {"beta": 1})
 ---> 67 vanilla_vae = VAE("vanilla_vae", kl_loss, encoder, decoder)
