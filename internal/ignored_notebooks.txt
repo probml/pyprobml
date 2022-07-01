@@ -89,3 +89,10 @@ notebooks/book1/13/multi_gpu_training_jax.ipynb
 notebooks/book1/13/multi_gpu_training_torch.ipynb
 notebooks/book1/15/lstm_jax.ipynb
 notebooks/book1/15/lstm_torch.ipynb
+notebooks/book2/16/lecun1989
+notebooks/book2/23/flow_spline_mnist
+book2/08/casino_hmm
+book2/11/ars_demo
+book2/28/sparse_dict_demo
+book2/29/hmm_gaussian_2d
+book2/29/causal_impact
