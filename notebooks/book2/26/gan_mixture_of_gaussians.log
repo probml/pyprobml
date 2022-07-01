@@ -1,0 +1,67 @@
+An error occurred while executing the following cell:
+------------------
+from typing import Sequence
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+
+%pip install -qq jax==0.3.14
+import jax
+import jax.numpy as jnp
+
+try:
+    import flax.linen as nn
+    from flax.training import train_state
+except ModuleNotFoundError:
+    %pip install -qq flax
+    import flax.linen as nn
+    from flax.training import train_state
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
+
+import functools
+import scipy as sp
+import math
+
+try:
+    import seaborn as sns
+except ModuleNotFoundError:
+    %pip install -qq seaborn
+    import seaborn as sns
+
+try:
+    import probml_utils as pml
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+    from probml_utils import savefig, latexify
+
+rng = jax.random.PRNGKey(0)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3689/1147266451.py in <module>
+     34 try:
+---> 35     import probml_utils as pml
+     36     from probml_utils import savefig, latexify
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3689/1147266451.py in <module>
+     37 except ModuleNotFoundError:
+     38     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 39     import probml_utils as pml
+     40     from probml_utils import savefig, latexify
+     41 
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
