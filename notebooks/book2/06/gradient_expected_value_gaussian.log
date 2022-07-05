@@ -65,7 +65,7 @@ assert np.allclose(0.5 * e2, grads[1], atol=1e-1)
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4410/994468337.py in <module>
+/tmp/ipykernel_4458/994468337.py in <module>
      14     import tensorflow_probability as tfp
      15 tfp = tfp.substrates.jax
 ---> 16 tfd = tfp.distributions

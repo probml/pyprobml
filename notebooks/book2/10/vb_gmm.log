@@ -1,39 +1,60 @@
 An error occurred while executing the following cell:
 ------------------
-def trainable_point_estimate(initial_loc, initial_scale, event_ndims, validate_args):
-    return tfd.Independent(
-        tfd.Deterministic(tf.Variable(initial_loc), validate_args=validate_args), reinterpreted_batch_ndims=event_ndims
-    )
+import functools
+import numpy as np
 
+try:
+    import tensorflow.compat.v2 as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow.compat.v2 as tf
+try:
+    import tensorflow_probability as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow-probability
+    import tensorflow_probability as tfp
+from tensorflow_probability import bijectors as tfb
+from tensorflow_probability import distributions as tfd
 
-point_mass_posterior = tfp.experimental.vi.build_factored_surrogate_posterior(
-    pinned.event_shape,
-    bijector=pinned.experimental_default_event_space_bijector(),
-    trainable_distribution_fn=trainable_point_estimate,
-)
+# from matplotlib import pylab as plt
+import seaborn as sns
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+print(tf.__version__, tfp.__version__)
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5259/3173641128.py in <module>
-      8     pinned.event_shape,
-      9     bijector=pinned.experimental_default_event_space_bijector(),
----> 10     trainable_distribution_fn=trainable_point_estimate,
-     11 )
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_5065/4265537780.py in <module>
+      4 try:
+----> 5     import tensorflow.compat.v2 as tf
+      6 except ModuleNotFoundError:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/trainable_state_util.py in build_stateful_trainable(seed, *args, **kwargs)
-    327   def build_stateful_trainable(*args, seed=None, **kwargs):
-    328     g = functools.partial(generator, *args, **kwargs)
---> 329     params = _initialize_parameters(g, seed=seed)
-    330     params_as_variables = []
-    331     for name, value in params._asdict().items():
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/trainable_state_util.py in _initialize_parameters(generator, seed)
-    209       parameter values returned from the yielded callables.
-    210   """
---> 211   gen = generator()
-    212   if not isinstance(gen, types.GeneratorType):
-    213     raise ValueError('Expected generator but saw function: {}. A generator '
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
 
-TypeError: _factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
-TypeError: _factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_5065/4265537780.py in <module>
+      6 except ModuleNotFoundError:
+      7     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+----> 8     import tensorflow.compat.v2 as tf
+      9 try:
+     10     import tensorflow_probability as tfp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'

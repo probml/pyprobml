@@ -42,7 +42,7 @@ np.random.seed(123)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4153/1662817140.py in <module>
+/tmp/ipykernel_4195/1662817140.py in <module>
      17 try:
 ---> 18     import blackjax.nuts as nuts
      19 except ModuleNotFoundError:
@@ -52,7 +52,7 @@ ModuleNotFoundError: No module named 'blackjax'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4153/1662817140.py in <module>
+/tmp/ipykernel_4195/1662817140.py in <module>
      19 except ModuleNotFoundError:
      20     get_ipython().run_line_magic('pip', 'install -qq blackjax')
 ---> 21     import blackjax.nuts as nuts
