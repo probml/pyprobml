@@ -18,7 +18,7 @@ cluster_means, cluster_covs, samples = vmap(dp_mixgauss_sample, in_axes=(0, None
 
 ---------------------------------------------------------------------------
 TracerArrayConversionError                Traceback (most recent call last)
-/tmp/ipykernel_4282/838087406.py in <module>
+/tmp/ipykernel_4285/838087406.py in <module>
      11 # Sampling from the DP mixture distribution
      12 cluster_means, cluster_covs, samples = vmap(dp_mixgauss_sample, in_axes=(0, None, 0, None))(
 ---> 13     jnp.array(subkeys), num_of_samples, dp_concentrations, dp_base_measure
