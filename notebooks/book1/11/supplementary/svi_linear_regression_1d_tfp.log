@@ -17,7 +17,7 @@ tf.config.list_physical_devices('GPU')
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5539/3416765276.py in <module>
+/tmp/ipykernel_5685/3416765276.py in <module>
       5 except Exception:
       6   pass
 ----> 7 import tensorflow as tf
