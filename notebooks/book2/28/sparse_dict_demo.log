@@ -1,0 +1,54 @@
+An error occurred while executing the following cell:
+------------------
+"""
+Author : Srikar reddy Jilugu(@always-newbie161)
+This code is referenced from
+https://github.com/probml/pmtk3/blob/master/demos/sparseDictDemo.m
+spams package is from
+https://gitlab.inria.fr/thoth/spams-devel
+(Can be instaled from PyPi through pip install -qq ...)
+"""
+
+
+import numpy as np
+
+try:
+    from spams import trainDL, nmf, displayPatches, im2col_sliding
+except ModuleNotFoundError:
+    %pip install -qq spams
+    from spams import trainDL, nmf, displayPatches, im2col_sliding
+from sklearn.decomposition import TruncatedSVD
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+import matplotlib.pyplot as plt
+from PIL import Image
+import requests
+import io
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3731/87649367.py in <module>
+     13 try:
+---> 14     from spams import trainDL, nmf, displayPatches, im2col_sliding
+     15 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'spams'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3731/87649367.py in <module>
+     15 except ModuleNotFoundError:
+     16     get_ipython().run_line_magic('pip', 'install -qq spams')
+---> 17     from spams import trainDL, nmf, displayPatches, im2col_sliding
+     18 from sklearn.decomposition import TruncatedSVD
+     19 
+
+ModuleNotFoundError: No module named 'spams'
+ModuleNotFoundError: No module named 'spams'
