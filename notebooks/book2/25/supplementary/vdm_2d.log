@@ -18,12 +18,10 @@ from google.colab import files
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3915/2623076112.py in <module>
-      4 import jax
-      5 import jax.numpy as jnp
-----> 6 from flax import linen as nn
-      7 import optax
-      8 
+/tmp/ipykernel_4219/2623076112.py in <module>
+     12 from IPython import display
+     13 from tqdm.notebook import trange, tqdm
+---> 14 from google.colab import files
 
-ModuleNotFoundError: No module named 'flax'
-ModuleNotFoundError: No module named 'flax'
+ModuleNotFoundError: No module named 'google.colab'
+ModuleNotFoundError: No module named 'google.colab'

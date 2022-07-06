@@ -1,0 +1,27 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results, plot_inference
+except ModuleNotFoundError:
+    %pip install -qq ssm_jax
+    from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results, plot_inference
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_3728/3740179054.py in <module>
+      1 try:
+----> 2     from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results, plot_inference
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq ssm_jax')
+      5     from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results, plot_inference
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/demos/casino_hmm.py in <module>
+     10 import numpy as np
+     11 
+---> 12 from ssm_jax.hmm.models import CategoricalHMM
+     13 
+     14 
+
+ImportError: cannot import name 'CategoricalHMM' from 'ssm_jax.hmm.models' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/models/__init__.py)
+ImportError: cannot import name 'CategoricalHMM' from 'ssm_jax.hmm.models' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/ssm_jax/hmm/models/__init__.py)
