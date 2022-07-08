@@ -30,7 +30,7 @@ KeyError: 0
 The above exception was the direct cause of the following exception:
 
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4712/3848547173.py in <module>
+/tmp/ipykernel_4456/3848547173.py in <module>
       5 comp = az.compare(dict(zip(clusters, traces)), method="BB-pseudo-BMA")
       6 comp
 ----> 7 az.plot_compare(comp)
