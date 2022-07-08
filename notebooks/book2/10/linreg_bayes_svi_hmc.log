@@ -1,0 +1,213 @@
+An error occurred while executing the following cell:
+------------------
+import os
+from functools import partial
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install -qq torch
+    import torch
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+try:
+    import pyro
+except ModuleNotFoundError:
+    %pip install -qq pyro
+    import pyro
+import pyro.distributions as dist
+from pyro.nn import PyroSample
+from pyro.infer.autoguide import AutoDiagonalNormal
+from pyro.infer import Predictive
+from pyro.infer import SVI, Trace_ELBO
+from pyro.infer import MCMC, NUTS
+
+pyro.set_rng_seed(1)
+
+from torch import nn
+from pyro.nn import PyroModule
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4285/1419653647.py in <module>
+     14 try:
+---> 15     import pyro
+     16 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/__init__.py in <module>
+      3 
+----> 4 import pyro.poutine as poutine
+      5 from pyro.infer.inspect import render_model
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/__init__.py in <module>
+      3 
+----> 4 from .handlers import (
+      5     block,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/handlers.py in <module>
+     57 
+---> 58 from .block_messenger import BlockMessenger
+     59 from .broadcast_messenger import BroadcastMessenger
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/block_messenger.py in <module>
+      5 
+----> 6 from pyro.poutine.messenger import Messenger
+      7 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/messenger.py in <module>
+      6 
+----> 7 from .runtime import _PYRO_STACK
+      8 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/runtime.py in <module>
+      6 
+----> 7 from pyro.params.param_store import (  # noqa: F401
+      8     _MODULE_NAMESPACE_DIVIDER,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/params/__init__.py in <module>
+      3 
+----> 4 from .param_store import (
+      5     module_from_param_with_module_name,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/params/param_store.py in <module>
+      9 import torch
+---> 10 from torch.distributions import constraints, transform_to
+     11 
+
+ModuleNotFoundError: No module named 'torch.distributions'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4285/1419653647.py in <module>
+     16 except ModuleNotFoundError:
+     17     get_ipython().run_line_magic('pip', 'install -qq pyro')
+---> 18     import pyro
+     19 import pyro.distributions as dist
+     20 from pyro.nn import PyroSample
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/__init__.py in <module>
+      2 # SPDX-License-Identifier: Apache-2.0
+      3 
+----> 4 import pyro.poutine as poutine
+      5 from pyro.infer.inspect import render_model
+      6 from pyro.logger import log
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/__init__.py in <module>
+      2 # SPDX-License-Identifier: Apache-2.0
+      3 
+----> 4 from .handlers import (
+      5     block,
+      6     broadcast,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/handlers.py in <module>
+     56 from pyro.poutine import util
+     57 
+---> 58 from .block_messenger import BlockMessenger
+     59 from .broadcast_messenger import BroadcastMessenger
+     60 from .collapse_messenger import CollapseMessenger
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/block_messenger.py in <module>
+      4 from functools import partial
+      5 
+----> 6 from pyro.poutine.messenger import Messenger
+      7 
+      8 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/messenger.py in <module>
+      5 from functools import partial
+      6 
+----> 7 from .runtime import _PYRO_STACK
+      8 
+      9 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/poutine/runtime.py in <module>
+      5 from typing import Dict
+      6 
+----> 7 from pyro.params.param_store import (  # noqa: F401
+      8     _MODULE_NAMESPACE_DIVIDER,
+      9     ParamStoreDict,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/params/__init__.py in <module>
+      2 # SPDX-License-Identifier: Apache-2.0
+      3 
+----> 4 from .param_store import (
+      5     module_from_param_with_module_name,
+      6     param_with_module_name,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pyro/params/param_store.py in <module>
+      8 
+      9 import torch
+---> 10 from torch.distributions import constraints, transform_to
+     11 
+     12 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/distributions/__init__.py in <module>
+     72 """
+     73 
+---> 74 from .bernoulli import Bernoulli
+     75 from .beta import Beta
+     76 from .binomial import Binomial
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/distributions/bernoulli.py in <module>
+      4 from torch._six import nan
+      5 from torch.distributions import constraints
+----> 6 from torch.distributions.exp_family import ExponentialFamily
+      7 from torch.distributions.utils import broadcast_all, probs_to_logits, logits_to_probs, lazy_property
+      8 from torch.nn.functional import binary_cross_entropy_with_logits
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/distributions/exp_family.py in <module>
+      1 import torch
+----> 2 from torch.distributions.distribution import Distribution
+      3 
+      4 
+      5 class ExponentialFamily(Distribution):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/distributions/distribution.py in <module>
+      2 import warnings
+      3 from torch.distributions import constraints
+----> 4 from torch.distributions.utils import lazy_property
+      5 from typing import Dict, Optional, Any
+      6 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/distributions/utils.py in <module>
+      2 from numbers import Number
+      3 import torch
+----> 4 import torch.nn.functional as F
+      5 from typing import Dict, Any
+      6 from torch.overrides import is_tensor_like
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/__init__.py in <module>
+----> 1 from .modules import *  # noqa: F403
+      2 from .parameter import Parameter, UninitializedParameter, UninitializedBuffer
+      3 from .parallel import DataParallel
+      4 from . import init
+      5 from . import functional
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/__init__.py in <module>
+----> 1 from .module import Module
+      2 from .linear import Identity, Linear, Bilinear, LazyLinear
+      3 from .conv import Conv1d, Conv2d, Conv3d, \
+      4     ConvTranspose1d, ConvTranspose2d, ConvTranspose3d, \
+      5     LazyConv1d, LazyConv2d, LazyConv3d, LazyConvTranspose1d, LazyConvTranspose2d, LazyConvTranspose3d
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/module.py in <module>
+      5 
+      6 import torch
+----> 7 from ..parameter import Parameter
+      8 import torch.utils.hooks as hooks
+      9 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/parameter.py in <module>
+     12 
+     13 
+---> 14 class Parameter(torch.Tensor, metaclass=_ParameterMeta):
+     15     r"""A kind of Tensor that is to be considered a module parameter.
+     16 
+
+AttributeError: module 'torch' has no attribute 'Tensor'
+AttributeError: module 'torch' has no attribute 'Tensor'
