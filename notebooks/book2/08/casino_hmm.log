@@ -9,7 +9,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3731/3740179054.py in <module>
+/tmp/ipykernel_3725/3740179054.py in <module>
       1 try:
 ----> 2     from ssm_jax.hmm.demos.casino_hmm import make_model_and_data, plot_results, plot_inference
       3 except ModuleNotFoundError:
