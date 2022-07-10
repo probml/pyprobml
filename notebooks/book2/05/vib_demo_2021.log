@@ -47,7 +47,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_5324/1522286039.py in <module>
+/tmp/ipykernel_5322/1522286039.py in <module>
      17     import einops
      18 try:
 ---> 19     import tensorflow_probability.substrates.jax as tfp
