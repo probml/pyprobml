@@ -52,7 +52,7 @@ def make_and_load_models(model_names: list, use_gpu=False):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4244/228787327.py in <module>
+/tmp/ipykernel_4288/228787327.py in <module>
      13 try:
 ---> 14     from download_celeba import celeba_dataloader
      15 except ModuleNotFoundError:
@@ -62,7 +62,7 @@ ModuleNotFoundError: No module named 'download_celeba'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4244/228787327.py in <module>
+/tmp/ipykernel_4288/228787327.py in <module>
      15 except ModuleNotFoundError:
      16     get_ipython().run_line_magic('pip', 'install -qq download_celeba')
 ---> 17     from download_celeba import celeba_dataloader
