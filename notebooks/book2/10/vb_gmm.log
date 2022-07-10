@@ -1,0 +1,25 @@
+An error occurred while executing the following cell:
+------------------
+def trainable_point_estimate(initial_loc, initial_scale, event_ndims, validate_args):
+    return tfd.Independent(
+        tfd.Deterministic(tf.Variable(initial_loc), validate_args=validate_args), reinterpreted_batch_ndims=event_ndims
+    )
+
+
+point_mass_posterior = tfp.experimental.vi.build_factored_surrogate_posterior(
+    pinned.event_shape,
+    bijector=pinned.experimental_default_event_space_bijector(),
+    trainable_distribution_fn=trainable_point_estimate,
+)
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_4259/3173641128.py in <module>
+      8     pinned.event_shape,
+      9     bijector=pinned.experimental_default_event_space_bijector(),
+---> 10     trainable_distribution_fn=trainable_point_estimate,
+     11 )
+
+TypeError: build_factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
+TypeError: build_factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
