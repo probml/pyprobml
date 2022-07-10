@@ -3,7 +3,6 @@ import pandas as pd
 import os
 import nbformat
 import numpy as np
-import probml_utils.url_utils as url_utils
 
 root_path = "notebooks"
 curr_path = "internal/notebooks_md/"
@@ -13,6 +12,50 @@ folder = "notebooks_md"
 if os.path.exists(folder):
     os.system("rm -rf " + folder)
 os.makedirs(folder)
+
+
+## url utils helper functions START ##
+def github_url_to_colab_url(url):
+    """
+    convert github .ipynb url to colab .ipynb url
+    """
+    if not (url.startswith("https://github.com")):
+        raise ValueError("INVALID URL: not a Github url")
+
+    if not (url.endswith(".ipynb")):
+        raise ValueError("INVALID URL: not a .ipynb file")
+
+    base_url_colab = "https://colab.research.google.com/github/"
+    base_url_github = "https://github.com/"
+
+    return url.replace(base_url_github, base_url_colab)
+
+
+def make_url_from_chapter_no_and_script_name(
+    chapter_no,
+    script_name,
+    base_url="https://github.com/probml/pyprobml/blob/master/notebooks",
+    book_no=1,
+    convert_to_which_url="github",
+):
+    """
+    create mapping between chapter_no and actual_url path
+    (chapter_no = 3,script_name=iris_plot.ipynb) converted to https://github.com/probml/pyprobml/blob/master/notebooks/book1/01/iris_plot.ipynb
+    convert_to_which_url = Union["github","colab","gihub-raw"]
+    """
+    base_url_ipynb = os.path.join(base_url, f"book{book_no}/{int(chapter_no):02d}")
+    if script_name.strip().endswith(".py"):
+        script_name = script_name[:-3] + ".ipynb"
+    github_url = os.path.join(base_url_ipynb, script_name)
+
+    if convert_to_which_url == "colab":
+        return github_url_to_colab_url(github_url)
+    elif convert_to_which_url == "github-raw":
+        return github_to_rawcontent_url(github_url)
+    return github_url
+
+
+## url utils helper functions END ##
 
 
 def get_notebook_path(book_str, chap_no, nb_name):
@@ -89,7 +132,7 @@ to_md_url = lambda text, url: f"[{text}]({url})"  # make md url
 
 def to_colab_md_url(github_url):
     if is_github_notebook(github_url):
-        colab_url = url_utils.github_url_to_colab_url(github_url)
+        colab_url = github_url_to_colab_url(github_url)
         return to_md_url("colab", colab_url)
     else:
         return "NA"
@@ -115,7 +158,7 @@ df_pyprobml["book_no"] = df_pyprobml.apply(get_root_col, col="book_no", axis=1)
 # Add github url
 df_pyprobml["type"] = "github"
 df_pyprobml["github_url"] = df_pyprobml.apply(
-    lambda x: url_utils.make_url_from_chapter_no_and_script_name(
+    lambda x: make_url_from_chapter_no_and_script_name(
         chapter_no=int(x["chap_no"]),
         script_name=x["Notebook"],
         book_no=int(x["book_no"][-1]),

@@ -225,7 +225,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install numpy pandas nbformat git+https://github.com/probml/probml-utils.git
+        pip install numpy pandas nbformat tabulate 
 
     - name: Update notebooks.md
       run: |
