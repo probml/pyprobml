@@ -20,7 +20,7 @@ import arviz as az
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4073/1453690669.py in <module>
+/tmp/ipykernel_4077/1453690669.py in <module>
       7 # https://docs.pymc.io/notebooks/api_quickstart.html
       8 get_ipython().system('pip install pymc3==3.8')
 ----> 9 import pymc3 as pm
