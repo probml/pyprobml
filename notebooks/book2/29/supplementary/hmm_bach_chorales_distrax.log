@@ -34,7 +34,7 @@ import matplotlib.pyplot as plt
 
 ---------------------------------------------------------------------------
 OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_4141/65622709.py in <module>
+/tmp/ipykernel_4146/65622709.py in <module>
       7 
       8 try:
 ----> 9     import tensorflow as tf
