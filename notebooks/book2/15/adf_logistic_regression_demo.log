@@ -44,7 +44,7 @@ import probml_utils as pml
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4136/1206735459.py in <module>
+/tmp/ipykernel_4000/1206735459.py in <module>
      34 try:
 ---> 35     from jsl.demos import logreg_biclusters_demo as demo
      36 except ModuleNotFoundError:
@@ -54,7 +54,7 @@ ModuleNotFoundError: No module named 'jsl'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4136/1206735459.py in <module>
+/tmp/ipykernel_4000/1206735459.py in <module>
      36 except ModuleNotFoundError:
      37     get_ipython().run_line_magic('pip', 'install -qq jsl')
 ---> 38     from jsl.demos import logreg_biclusters_demo as demo
