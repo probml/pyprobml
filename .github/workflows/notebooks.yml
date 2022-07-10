@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - notebooks_md
     
   pull_request:
     branches:
@@ -56,165 +55,165 @@ jobs:
       run: |
         pytest -n auto -s --verbose tests/test_imports.py
 
-  # execute_current_PR_notebooks_MUST_PASS:
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'pull_request'  # Run only on pull requests
-  #   needs: [black_format_MUST_PASS, static_import_check_MUST_PASS]
-  #   container: texlive/texlive:TL2020-historic
+  execute_current_PR_notebooks_MUST_PASS:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'  # Run only on pull requests
+    needs: [black_format_MUST_PASS, static_import_check_MUST_PASS]
+    container: texlive/texlive:TL2020-historic
 
-  #   steps:
-  #   - name: Clone the reference repository
-  #     uses: actions/checkout@v3
-  #     with:
-  #       fetch-depth: 2  # fetch latest 2 commits to see which notebooks were touched by the last commit
+    steps:
+    - name: Clone the reference repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2  # fetch latest 2 commits to see which notebooks were touched by the last commit
 
-  #   - name: Display notebook modification time
-  #     shell: bash
-  #     run: |
-  #       git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {} | sort -r
+    - name: Display notebook modification time
+      shell: bash
+      run: |
+        git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {} | sort -r
 
-  #   - name: Setup Python 3.7.13 (current colab version)
-  #     shell: bash
-  #     run: |
-  #       curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output miniconda.sh
-  #       mkdir /root/.conda
-  #       bash miniconda.sh -b
-  #       rm miniconda.sh
-  #       echo "export PATH=\"\$HOME/miniconda3/bin:\$PATH\"" >> /root/.bashrc
-  #       echo "source \"\$HOME/miniconda3/bin/activate\"" >> /root/.bashrc
-  #       source /root/.bashrc
-  #       conda create -n py37 python=3.7.13 -y
-  #       echo "conda activate py37" >> /root/.bashrc
+    - name: Setup Python 3.7.13 (current colab version)
+      shell: bash
+      run: |
+        curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output miniconda.sh
+        mkdir /root/.conda
+        bash miniconda.sh -b
+        rm miniconda.sh
+        echo "export PATH=\"\$HOME/miniconda3/bin:\$PATH\"" >> /root/.bashrc
+        echo "source \"\$HOME/miniconda3/bin/activate\"" >> /root/.bashrc
+        source /root/.bashrc
+        conda create -n py37 python=3.7.13 -y
+        echo "conda activate py37" >> /root/.bashrc
 
-  #   - name: Install requirements
-  #     shell: bash
-  #     run: |
-  #       source /root/.bashrc
-  #       pip install -U --no-cache-dir -r requirements-dev.txt | cat
-  #       pip install -U --no-cache-dir -r requirements.txt | cat
-  #       apt update && xargs -a requirements-bash.txt apt install -y
+    - name: Install requirements
+      shell: bash
+      run: |
+        source /root/.bashrc
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
+        apt update && xargs -a requirements-bash.txt apt install -y
 
-  #   - name: Cache datasets
-  #     id: cache-datasets
-  #     uses: actions/cache@v3
-  #     with:
-  #       path: |
-  #         /root/.keras/datasets
-  #         /root/tensorflow_datasets
-  #         ${{ github.workspace }}/data
-  #       key: datasets
+    - name: Cache datasets
+      id: cache-datasets
+      uses: actions/cache@v3
+      with:
+        path: |
+          /root/.keras/datasets
+          /root/tensorflow_datasets
+          ${{ github.workspace }}/data
+        key: datasets
 
-  #   - name: Check notebooks for errors
-  #     shell: bash
-  #     run: |
-  #       source /root/.bashrc
-  #       pytest -n auto -s --verbose tests/test_notebooks.py
+    - name: Check notebooks for errors
+      shell: bash
+      run: |
+        source /root/.bashrc
+        pytest -n auto -s --verbose tests/test_notebooks.py
 
-  # execute_all_notebooks:
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       runner_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-  #   env:
-  #     PYPROBML_GA_RUNNER_ID: ${{ matrix.runner_id }}
+  execute_all_notebooks:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    env:
+      PYPROBML_GA_RUNNER_ID: ${{ matrix.runner_id }}
 
-  #   runs-on: ubuntu-latest
-  #   if: always() && github.event_name == 'push'  # Don't run on pull requests
-  #   needs: [black_format_MUST_PASS, static_import_check_MUST_PASS]
-  #   container: texlive/texlive:TL2020-historic
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'push'  # Don't run on pull requests
+    needs: [black_format_MUST_PASS, static_import_check_MUST_PASS]
+    container: texlive/texlive:TL2020-historic
 
-  #   steps:
-  #   - name: Clone the reference repository
-  #     uses: actions/checkout@v3
-  #     with:
-  #       fetch-depth: 0
+    steps:
+    - name: Clone the reference repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     
-  #   - name: Setup Python 3.7.13 (current colab version)
-  #     shell: bash
-  #     run: |
-  #       curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output miniconda.sh
-  #       mkdir /root/.conda
-  #       bash miniconda.sh -b
-  #       rm miniconda.sh
-  #       echo "export PATH=\"\$HOME/miniconda3/bin:\$PATH\"" >> /root/.bashrc
-  #       echo "source \"\$HOME/miniconda3/bin/activate\"" >> /root/.bashrc
-  #       source /root/.bashrc
-  #       conda create -n py37 python=3.7.13 -y
-  #       echo "conda activate py37" >> /root/.bashrc
+    - name: Setup Python 3.7.13 (current colab version)
+      shell: bash
+      run: |
+        curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output miniconda.sh
+        mkdir /root/.conda
+        bash miniconda.sh -b
+        rm miniconda.sh
+        echo "export PATH=\"\$HOME/miniconda3/bin:\$PATH\"" >> /root/.bashrc
+        echo "source \"\$HOME/miniconda3/bin/activate\"" >> /root/.bashrc
+        source /root/.bashrc
+        conda create -n py37 python=3.7.13 -y
+        echo "conda activate py37" >> /root/.bashrc
 
-  #   - name: Install requirements
-  #     shell: bash
-  #     run: |
-  #       source /root/.bashrc
-  #       pip install -U --no-cache-dir -r requirements-dev.txt | cat
-  #       pip install -U --no-cache-dir -r requirements.txt | cat
-  #       apt update && xargs -a requirements-bash.txt apt install -y
+    - name: Install requirements
+      shell: bash
+      run: |
+        source /root/.bashrc
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
+        apt update && xargs -a requirements-bash.txt apt install -y
 
-  #   - name: Cache datasets
-  #     id: cache-datasets
-  #     uses: actions/cache@v3
-  #     with:
-  #       path: |
-  #         /root/.keras/datasets
-  #         /root/tensorflow_datasets
-  #         ${{ github.workspace }}/data
-  #       key: datasets
+    - name: Cache datasets
+      id: cache-datasets
+      uses: actions/cache@v3
+      with:
+        path: |
+          /root/.keras/datasets
+          /root/tensorflow_datasets
+          ${{ github.workspace }}/data
+        key: datasets
 
-  #   - name: Check notebooks for errors
-  #     shell: bash
-  #     run: |
-  #       source /root/.bashrc
-  #       pytest -n auto -s --verbose tests/test_notebooks.py
+    - name: Check notebooks for errors
+      shell: bash
+      run: |
+        source /root/.bashrc
+        pytest -n auto -s --verbose tests/test_notebooks.py
 
-  #   - name: Push figures to auto_generated_figures (does not run on pull requests)
-  #     uses: peaceiris/actions-gh-pages@v3.6.1
-  #     with:
-  #       github_token: ${{ secrets.GITHUB_TOKEN }}
-  #       publish_dir: figures/
-  #       publish_branch: auto_generated_figures_${{ matrix.runner_id }}
-  #     if: always() && github.event_name == 'push'  # Don't run on pull requests
+    - name: Push figures to auto_generated_figures (does not run on pull requests)
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: figures/
+        publish_branch: auto_generated_figures_${{ matrix.runner_id }}
+      if: always() && github.event_name == 'push'  # Don't run on pull requests
       
-  #   - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
-  #     uses: peaceiris/actions-gh-pages@v3.6.1
-  #     with:
-  #       github_token: ${{ secrets.GITHUB_TOKEN }}
-  #       publish_dir: test_results/
-  #       publish_branch: workflow_testing_indicator_${{ matrix.runner_id }}
-  #     if: always() && github.event_name == 'push'  # Don't run on pull requests
+    - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: test_results/
+        publish_branch: workflow_testing_indicator_${{ matrix.runner_id }}
+      if: always() && github.event_name == 'push'  # Don't run on pull requests
 
-  # combine_and_publish_results:
-  #   runs-on: ubuntu-latest
-  #   if: always() && github.event_name == 'push'  # Don't run on pull requests
-  #   needs: [execute_all_notebooks]
-  #   steps:
-  #   - name: Clone the reference repository
-  #     uses: actions/checkout@v2
+  combine_and_publish_results:
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'push'  # Don't run on pull requests
+    needs: [execute_all_notebooks]
+    steps:
+    - name: Clone the reference repository
+      uses: actions/checkout@v2
 
-  #   - name: Install dependencies
-  #     run: |
-  #       pip install -U --no-cache-dir -r requirements-dev.txt | cat
-  #       pip install -U --no-cache-dir -r requirements.txt | cat
-  #       pip install -U --no-cache-dir tabulate | cat
+    - name: Install dependencies
+      run: |
+        pip install -U --no-cache-dir -r requirements-dev.txt | cat
+        pip install -U --no-cache-dir -r requirements.txt | cat
+        pip install -U --no-cache-dir tabulate | cat
 
-  #   - name: Combine and publish results
-  #     run: |
-  #       python .github/scripts/combine_results.py --user_name ${{ github.repository }}
-  #       python .github/scripts/create_figure_dashboard.py --user_name ${{ github.repository }}
-  #       python .github/scripts/create_dashboard.py --user_name ${{ github.repository }}
+    - name: Combine and publish results
+      run: |
+        python .github/scripts/combine_results.py --user_name ${{ github.repository }}
+        python .github/scripts/create_figure_dashboard.py --user_name ${{ github.repository }}
+        python .github/scripts/create_dashboard.py --user_name ${{ github.repository }}
 
-  #   - name: Push figures to auto_generated_figures (does not run on pull requests)
-  #     uses: peaceiris/actions-gh-pages@v3.6.1
-  #     with:
-  #       github_token: ${{ secrets.GITHUB_TOKEN }}
-  #       publish_dir: auto_generated_figures/
-  #       publish_branch: auto_generated_figures
+    - name: Push figures to auto_generated_figures (does not run on pull requests)
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: auto_generated_figures/
+        publish_branch: auto_generated_figures
       
-  #   - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
-  #     uses: peaceiris/actions-gh-pages@v3.6.1
-  #     with:
-  #       github_token: ${{ secrets.GITHUB_TOKEN }}
-  #       publish_dir: workflow_testing_indicator/
-  #       publish_branch: workflow_testing_indicator
+    - name: Push test-results to workflow_testing_indicator (does not run on pull requests)
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: workflow_testing_indicator/
+        publish_branch: workflow_testing_indicator
 
   update_notebooks_md:
     runs-on: ubuntu-latest

@@ -5,7 +5,7 @@ import nbformat
 import numpy as np
 
 root_path = "notebooks"
-curr_path = "internal/notebooks_md/"
+curr_path = ""
 
 # where to save notebooks.md
 folder = "notebooks_md"
