@@ -213,83 +213,23 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3672/2794284974.py in <module>
-    178 
-    179 fig, ax = plt.subplots(figsize=(4, 5))
---> 180 sns.heatmap(map_reward_df, cmap="viridis", ax=ax, xticklabels=labels)
-    181 plt.ylabel("time")
-    182 pml.savefig("bandit-lingauss-heatmap.pdf")
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3670/2794284974.py in <module>
+     16 try:
+---> 17     import probml_utils as pml
+     18 except ModuleNotFoundError:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/_decorators.py in inner_f(*args, **kwargs)
-     44             )
-     45         kwargs.update({k: arg for k, arg in zip(sig.parameters, args)})
----> 46         return f(**kwargs)
-     47     return inner_f
-     48 
+ModuleNotFoundError: No module named 'probml_utils'
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/matrix.py in heatmap(data, vmin, vmax, cmap, center, robust, annot, fmt, annot_kws, linewidths, linecolor, cbar, cbar_kws, cbar_ax, square, xticklabels, yticklabels, mask, ax, **kwargs)
-    551     if square:
-    552         ax.set_aspect("equal")
---> 553     plotter.plot(ax, cbar_ax, kwargs)
-    554     return ax
-    555 
+During handling of the above exception, another exception occurred:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/matrix.py in plot(self, ax, cax, kws)
-    300 
-    301         # Draw the heatmap
---> 302         mesh = ax.pcolormesh(self.plot_data, cmap=self.cmap, **kws)
-    303 
-    304         # Set the axis limits
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3670/2794284974.py in <module>
+     18 except ModuleNotFoundError:
+     19     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 20     import probml_utils as pml
+     21 import jax.numpy as jnp
+     22 import pandas as pd
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/__init__.py in inner(ax, data, *args, **kwargs)
-   1410     def inner(ax, *args, data=None, **kwargs):
-   1411         if data is None:
--> 1412             return func(ax, *map(sanitize_sequence, args), **kwargs)
-   1413 
-   1414         bound = new_sig.bind(ax, *args, **kwargs)
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/axes/_axes.py in pcolormesh(self, alpha, norm, cmap, vmin, vmax, shading, antialiased, *args, **kwargs)
-   6066         collection = mcoll.QuadMesh(
-   6067             coords, antialiased=antialiased, shading=shading,
--> 6068             array=C, cmap=cmap, norm=norm, alpha=alpha, **kwargs)
-   6069         collection._scale_norm(norm, vmin, vmax)
-   6070         self._pcolor_grid_deprecation_helper()
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/collections.py in __init__(self, *args, **kwargs)
-   2013         # super init delayed after own init because array kwarg requires
-   2014         # self._coordinates and self._shading
--> 2015         super().__init__(**kwargs)
-   2016         self.mouseover = False
-   2017 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/collections.py in __init__(self, edgecolors, facecolors, linewidths, linestyles, capstyle, joinstyle, antialiaseds, offsets, transOffset, norm, cmap, pickradius, hatch, urls, zorder, **kwargs)
-    215 
-    216         self._path_effects = None
---> 217         self.update(kwargs)
-    218         self._paths = None
-    219 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/artist.py in update(self, props)
-   1064                         raise AttributeError(f"{type(self).__name__!r} object "
-   1065                                              f"has no property {k!r}")
--> 1066                     ret.append(func(v))
-   1067         if ret:
-   1068             self.pchanged()
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/collections.py in set_array(self, A)
-   2075                     f"X ({width}) and/or Y ({height})")
-   2076 
--> 2077         return super().set_array(A)
-   2078 
-   2079     def get_datalim(self, transData):
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/cm.py in set_array(self, A)
-    475         A = cbook.safe_masked_invalid(A, copy=True)
-    476         if not np.can_cast(A.dtype, float, "same_kind"):
---> 477             raise TypeError(f"Image data of dtype {A.dtype} cannot be "
-    478                             "converted to float")
-    479 
-
-TypeError: Image data of dtype object cannot be converted to float
-TypeError: Image data of dtype object cannot be converted to float
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
