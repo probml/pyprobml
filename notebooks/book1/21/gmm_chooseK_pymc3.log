@@ -1,75 +1,52 @@
 An error occurred while executing the following cell:
 ------------------
-# Compute information criteria for the 4 models
-# Use Bayesian Bootstrapping together with
-# pseudo Bayes Model Averaging
-# See "Bayesian analysis with Python" p201
-comp = az.compare(dict(zip(clusters, traces)), method="BB-pseudo-BMA")
-comp
-az.plot_compare(comp)
-plt.savefig("gmm_chooseK_pymc3_waic.pdf")
+try:
+    import pymc3 as pm
+except ModuleNotFoundError:
+    %pip install -qq pymc3
+    import pymc3 as pm
+
+import numpy as np
+import scipy.stats as stats
+import pandas as pd
+
+try:
+    import theano.tensor as tt
+except ModuleNotFoundError:
+    %pip install -qq Theano
+    import theano.tensor as tt
+
+import matplotlib.pyplot as plt
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
 ------------------
 
 ---------------------------------------------------------------------------
-KeyError                                  Traceback (most recent call last)
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/indexes/base.py in get_loc(self, key, method, tolerance)
-   3360             try:
--> 3361                 return self._engine.get_loc(casted_key)
-   3362             except KeyError as err:
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4455/266898213.py in <module>
+      1 try:
+----> 2     import pymc3 as pm
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq pymc3')
+      5     import pymc3 as pm
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/__init__.py in <module>
+     11 from .model_graph import model_to_graphviz
+     12 from . import ode
+---> 13 from .stats import *
+     14 from .sampling import *
+     15 from .step_methods import *
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/stats/__init__.py in <module>
+     30 compare = map_args(az.compare)
+     31 ess = map_args(az.ess)
+---> 32 geweke = map_args(az.geweke)
+     33 hpd = map_args(az.hpd)
+     34 loo = map_args(az.loo)
 
-pandas/_libs/hashtable_class_helper.pxi in pandas._libs.hashtable.Int64HashTable.get_item()
-
-pandas/_libs/hashtable_class_helper.pxi in pandas._libs.hashtable.Int64HashTable.get_item()
-
-KeyError: 0
-
-The above exception was the direct cause of the following exception:
-
-KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4914/3848547173.py in <module>
-      5 comp = az.compare(dict(zip(clusters, traces)), method="BB-pseudo-BMA")
-      6 comp
-----> 7 az.plot_compare(comp)
-      8 plt.savefig("gmm_chooseK_pymc3_waic.pdf")
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/plots/compareplot.py in plot_compare(comp_df, insample_dev, plot_standard_error, plot_ic_diff, order_by_rank, figsize, textsize, labeller, plot_kwargs, ax, backend, backend_kwargs, show)
-    157     # TODO: Add backend kwargs
-    158     plot = get_plotting_function("plot_compare", "compareplot", backend)
---> 159     ax = plot(**compareplot_kwargs)
-    160 
-    161     return ax
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/plots/backends/matplotlib/compareplot.py in plot_compare(ax, comp_df, figsize, plot_ic_diff, plot_standard_error, insample_dev, yticks_pos, yticks_labels, plot_kwargs, information_criterion, textsize, step, backend_kwargs, show)
-     80 
-     81     if insample_dev:
----> 82         scale = comp_df[f"{information_criterion}_scale"][0]
-     83         p_ic = comp_df[f"p_{information_criterion}"]
-     84         if scale == "log":
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/series.py in __getitem__(self, key)
-    940 
-    941         elif key_is_scalar:
---> 942             return self._get_value(key)
-    943 
-    944         if is_hashable(key):
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/series.py in _get_value(self, label, takeable)
-   1049 
-   1050         # Similar to Index.get_value, but we do not fall back to positional
--> 1051         loc = self.index.get_loc(label)
-   1052         return self.index._get_values_for_loc(self, loc, label)
-   1053 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/indexes/base.py in get_loc(self, key, method, tolerance)
-   3361                 return self._engine.get_loc(casted_key)
-   3362             except KeyError as err:
--> 3363                 raise KeyError(key) from err
-   3364 
-   3365         if is_scalar(key) and isna(key) and not self.hasnans:
-
-KeyError: 0
-KeyError: 0
+AttributeError: module 'arviz' has no attribute 'geweke'
+AttributeError: module 'arviz' has no attribute 'geweke'

@@ -149,7 +149,7 @@ p2.write_png("../figures/relevance_network.png")
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4817/2332062532.py in <module>
+/tmp/ipykernel_3868/2332062532.py in <module>
     101 ]
     102 
 --> 103 count_vect = CountVectorizer(newsgroups_train.data, vocabulary=list_of_words)
