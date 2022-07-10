@@ -6,6 +6,13 @@ import numpy as np
 import probml_utils.url_utils as url_utils
 
 root_path = "notebooks"
+curr_path = "internal/notebooks_md/"
+
+# where to save notebooks.md
+folder = "notebooks_md"
+if os.path.exists(folder):
+    os.system("rm -rf " + folder)
+os.makedirs(folder)
 
 
 def get_notebook_path(book_str, chap_no, nb_name):
@@ -131,7 +138,7 @@ df_supp = pd.DataFrame(nb_github_colab_list, columns=df_pyprobml.columns)
 
 
 # handle external notebooks
-df_external = pd.read_csv("internal/external_links.csv")
+df_external = pd.read_csv(curr_path + "external_links.csv")
 common_notebooks = np.intersect1d(df_pyprobml["Notebook"].values, df_external["Notebook"].values)
 
 # drop common notebooks from df_pyprobml and replace with df_external's notebooks
@@ -156,4 +163,4 @@ df_all["github_url"] = df_all.apply(
 
 # save to .md file
 df_all = df_all[["Notebook", "github_url", "colab_url"]]
-df_all.to_markdown("notebooks.md", index=False)
+df_all.to_markdown(os.path.join(folder, "notebooks.md"), index=False)
