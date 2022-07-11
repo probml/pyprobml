@@ -1,0 +1,4 @@
+Notebook,type,github_url
+hmm_casino_training.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/casino_training.ipynb
+hmm_casino_training_old.ipynb,github,https://github.com/probml/pyprobml/blob/master/notebooks/book2/29/hmm_casino_training.ipynb
+logistic_regression_blackjax.ipynb,blog,https://blackjax-devs.github.io/blackjax/examples/LogisticRegressionWithLatentGaussianSampler.html
