@@ -18,7 +18,7 @@ from google.colab import files
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4373/2623076112.py in <module>
+/tmp/ipykernel_4087/2623076112.py in <module>
      12 from IPython import display
      13 from tqdm.notebook import trange, tqdm
 ---> 14 from google.colab import files
