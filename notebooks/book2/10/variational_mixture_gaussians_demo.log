@@ -28,7 +28,7 @@ from io import BytesIO
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4172/1762928824.py in <module>
+/tmp/ipykernel_7576/1762928824.py in <module>
      16     import probml_utils as pml
      17 
 ---> 18 import probml_utils.variational_mixture_gaussians as vmg
