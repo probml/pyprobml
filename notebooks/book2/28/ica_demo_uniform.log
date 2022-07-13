@@ -1,0 +1,40 @@
+An error occurred while executing the following cell:
+------------------
+# Comparing ICA and PCA on data from a 2d uniform distribution
+# Author : Aleyna Kara
+# This file is based on https://github.com/probml/pmtk3/blob/master/demos/icaDemoUniform.m
+
+
+from sklearn.decomposition import PCA, FastICA
+import numpy as np
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+import seaborn as sns
+
+try:
+    from probml_utils import savefig, latexify, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify, is_latexify_enabled
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3785/3797946622.py in <module>
+     13 try:
+---> 14     from probml_utils import savefig, latexify, is_latexify_enabled
+     15 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3785/3797946622.py in <module>
+     15 except ModuleNotFoundError:
+     16     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 17     from probml_utils import savefig, latexify, is_latexify_enabled
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
