@@ -131,7 +131,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-/tmp/ipykernel_4395/2208627534.py in <module>
+/tmp/ipykernel_4954/2208627534.py in <module>
      76 m5_3 = AutoLaplaceApproximation(model)
      77 svi = SVI(model, m5_3, optim.Adam(1), Trace_ELBO(), M=d.M.values, A=d.A.values, D=d.D.values)
 ---> 78 p5_3, losses = svi.run(random.PRNGKey(0), 1000)

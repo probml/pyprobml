@@ -13,7 +13,7 @@ from torchvision import datasets  # torchvision.datasets For MNIST
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4810/3004196690.py in <module>
+/tmp/ipykernel_4817/3004196690.py in <module>
       7 import numpy as np  # Ordinary NumPy
       8 import optax  # Optimizers
 ----> 9 from torchvision import datasets  # torchvision.datasets For MNIST

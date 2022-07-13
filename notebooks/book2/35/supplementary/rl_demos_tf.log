@@ -30,7 +30,7 @@ from tqdm import tqdm
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4475/1226003757.py in <module>
+/tmp/ipykernel_4406/1226003757.py in <module>
       1 # Imports
 ----> 2 from tensorflow.python.client import device_lib
       3 from psutil import virtual_memory
