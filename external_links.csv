@@ -1,4 +1,7 @@
 Notebook,type,github_url
-hmm_casino_training.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/casino_training.ipynb
-hmm_casino_training_old.ipynb,github,https://github.com/probml/pyprobml/blob/master/notebooks/book2/29/hmm_casino_training.ipynb
 logistic_regression_blackjax,blog,https://blackjax-devs.github.io/blackjax/examples/LogisticRegressionWithLatentGaussianSampler.html
+bernoulli_hmm_example,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bernoulli_hmm_example.ipynb
+bach_chorales_hmm,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bach_chorales_hmm.ipynb
+gaussian_hmm_2d,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/gaussian_hmm_2d.ipynb
+casino_hmm_training.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/casino_hmm_training.ipynb
+poisson_hmm_changepoint.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/poisson_hmm_changepoint.ipynb
