@@ -1,0 +1,39 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    from ssm_jax.lgssm.demos.kf_parallel import kf_parallel, plot_kf_parallel
+except ModuleNotFoundError:
+    %pip install -qq ssm_jax
+    from ssm_jax.lgssm.demos.kf_parallel import kf_parallel, plot_kf_parallel
+
+x, y, lgssm_posterior = kf_parallel()
+dict_figures = plot_kf_parallel(x, y, lgssm_posterior)
+
+for k, v in dict_figures.items():
+    fname = k + ".pdf"
+    print(fname)
+    fig = v
+    fig.savefig(fname)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4834/801093522.py in <module>
+      1 try:
+----> 2     from ssm_jax.lgssm.demos.kf_parallel import kf_parallel, plot_kf_parallel
+      3 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'ssm_jax'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4834/801093522.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq ssm_jax')
+----> 5     from ssm_jax.lgssm.demos.kf_parallel import kf_parallel, plot_kf_parallel
+      6 
+      7 x, y, lgssm_posterior = kf_parallel()
+
+ModuleNotFoundError: No module named 'ssm_jax'
+ModuleNotFoundError: No module named 'ssm_jax'

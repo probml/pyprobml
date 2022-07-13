@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_25035/3897083071.py in <module>
+/tmp/ipykernel_7168/3897083071.py in <module>
       8 
       9 try:
 ---> 10     from probml_utils.mix_bernoulli_lib import BMM

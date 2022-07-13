@@ -5,7 +5,7 @@
 ## Book2Dashboard
 Total Notebooks | Latexified | Jaxified | 
 | -- | -- |  -- |
-| 203 | 66 | 84 |<details open>
+| 203 | 68 | 84 |<details open>
 <summary>Chapter: 2_Probability</summary>
 
 | nb_name                                                                                                                                                      |   fig_no | workflow                                                                                                                                                                                                                                                                                               | latexify   | jaxify   |
@@ -272,8 +272,8 @@ Total Notebooks | Latexified | Jaxified |
 
 | nb_name                                                                                                                              |   fig_no | workflow                                                                                                                                                                                                                                                                       | latexify   | jaxify   |
 |:-------------------------------------------------------------------------------------------------------------------------------------|---------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------|
-| [bnn_mnist_sgld.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld.ipynb) |     19.8 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld.log) | &#10060;   | &#9989;  |
-| [bnn_mnist_sgld.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld.ipynb) |     19.9 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld.log) | &#10060;   | &#9989;  |
+| [bnn_mnist_sgld.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld.ipynb) |     19.8 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld.log) | &#9989;    | &#9989;  |
+| [bnn_mnist_sgld.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld.ipynb) |     19.9 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld.log) | &#9989;    | &#9989;  |
 </details>
 
 <details open>
