@@ -170,8 +170,10 @@ df_pyprobml["github_url"] = df_pyprobml.apply(
 df_pyprobml = df_pyprobml[["Notebook", "type", "github_url"]]
 
 
-# handle supplementary notebooks
-supp_book = glob("notebooks/book2/*/*/*.ipynb") + glob("notebooks/book1/*/*/*.ipynb")
+# handle supplementary & tutorials notebooks
+supp_book = (
+    glob("notebooks/book2/*/*/*.ipynb") + glob("notebooks/book1/*/*/*.ipynb") + glob("notebooks/tutorials/*.ipynb")
+)
 print(f"{len(supp_book)} supplementary notebooks found")
 
 # convert to github url
@@ -193,7 +195,7 @@ print(f"{len(df_external)} external reference found")
 
 # combine all type of notebooks
 df_all = pd.concat([df_pyprobml, df_supp, df_external])
-df_all = df_all.sort_values(by="Notebook", key=lambda col: col.str.lower())
+df_all = df_all.sort_values(by="Notebook", key=lambda col: col.str.lower()).reset_index(drop=True)
 
 # get colab url from github url
 df_all["colab_url"] = df_all["github_url"].apply(to_colab_md_url)
@@ -206,4 +208,4 @@ df_all["github_url"] = df_all.apply(
 
 # save to .md file
 df_all = df_all[["Notebook", "github_url", "colab_url"]]
-df_all.to_markdown(os.path.join(folder, "notebooks.md"), index=False)
+df_all.to_markdown(os.path.join(folder, "notebooks.md"), index=True)
