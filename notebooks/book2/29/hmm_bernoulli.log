@@ -1,0 +1,69 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import ssm
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/lindermanlab/ssm-jax.git
+    import ssm
+
+import jax.random as jr
+import jax.numpy as np
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+
+try:
+    from probml_utils import savefig, latexify, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify, is_latexify_enabled
+
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow-probability
+    from tensorflow_probability.substrates import jax as tfp
+
+try:
+    from ssm.hmm import BernoulliHMM
+except ModuleNotFoundError:
+    %pip install -qq ssm
+    from ssm.hmm import BernoulliHMM
+from ssm.plots import gradient_cmap
+from ssm.utils import find_permutation
+
+import seaborn as sns
+import logging
+
+logger = logging.getLogger()
+
+
+class CheckTypesFilter(logging.Filter):
+    def filter(self, record):
+        return "check_types" not in record.getMessage()
+
+
+logger.addFilter(CheckTypesFilter())
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3745/1155118230.py in <module>
+     13 try:
+---> 14     from probml_utils import savefig, latexify, is_latexify_enabled
+     15 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3745/1155118230.py in <module>
+     15 except ModuleNotFoundError:
+     16     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 17     from probml_utils import savefig, latexify, is_latexify_enabled
+     18 
+     19 try:
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
