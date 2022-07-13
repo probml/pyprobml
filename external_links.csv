@@ -4,6 +4,8 @@ bernoulli_hmm_example,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax
 casino_hmm.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/casino_hmm.ipynb
 casino_hmm_training.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/casino_hmm_training.ipynb
 ekf_vs_ukf.py,github,https://github.com/probml/JSL/blob/main/jsl/demos/ekf_vs_ukf.py
+ekf_mlp.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_mlp.ipynb
+ekf_spiral.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_spiral.ipynb
 gaussian_hmm_2d,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/gaussian_hmm_2d.ipynb
 kf_linreg.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_linreg.ipynb
 kf_parallel.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_parallel.ipynb
