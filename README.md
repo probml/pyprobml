@@ -367,9 +367,10 @@ Book1: In total, 217 jobs were tested.
 | [book2/28/sparse_dict_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/28/sparse_dict_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/28/sparse_dict_demo.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/28/sparse_dict_demo.log) |
 | [book2/29/changepoint_detection](https://github.com/probml/pyprobml/tree/master/notebooks/book2/29/changepoint_detection.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/29/changepoint_detection.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/29/changepoint_detection.log) |
 | [book2/30/relevance_network_newsgroup_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/30/relevance_network_newsgroup_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/30/relevance_network_newsgroup_demo.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/30/relevance_network_newsgroup_demo.log) |
+| [book2/30/chow_liu_tree_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/30/chow_liu_tree_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/30/chow_liu_tree_demo.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/30/chow_liu_tree_demo.log) |
 | [book2/34/thompson_sampling_linear_gaussian](https://github.com/probml/pyprobml/tree/master/notebooks/book2/34/thompson_sampling_linear_gaussian.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/34/thompson_sampling_linear_gaussian.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book2/34/thompson_sampling_linear_gaussian.log) |
 
 ## Summary
 
-Book2: In total, 136 jobs were tested.
-22 jobs failed.
+Book2: In total, 137 jobs were tested.
+23 jobs failed.
