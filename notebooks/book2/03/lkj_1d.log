@@ -1,0 +1,63 @@
+An error occurred while executing the following cell:
+------------------
+def plot(eta_list, savename, random_seed):
+    font_size = 6 if is_latexify_enabled() else None
+    rng_key = jax.random.PRNGKey(random_seed)
+    rng_key, rng_key_ = jax.random.split(rng_key)
+    fig, ax = plt.subplots()
+    for i, eta in enumerate(eta_list):
+        dist = tfp.distributions.LKJ(dimension=2, concentration=eta)
+        ans = dist.sample(sample_shape=[100000], seed=8)
+        sns.kdeplot(ans[:, 0, 1], label=f"$\eta$ = {eta}", clip=[-1, 1], shade=True)
+    plt.legend(loc="upper right", fontsize=font_size)
+    ax.set_xlabel("Correlation")
+    ax.set_ylabel("Density")
+    # ax.set_ylim(0, 1.2)
+    # ax.set_xlim(-1.2, 1.2)
+    plt.title("LKJ 1D Correlation Coef.")
+    sns.despine()
+    if len(savename) > 0:
+        savefig(savename)
+    plt.show()
+
+
+plot([1, 2, 4], "LKJ_1d_correlation", 0)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_5030/4172207252.py in <module>
+     20 
+     21 
+---> 22 plot([1, 2, 4], "LKJ_1d_correlation", 0)
+
+/tmp/ipykernel_5030/4172207252.py in plot(eta_list, savename, random_seed)
+      5     fig, ax = plt.subplots()
+      6     for i, eta in enumerate(eta_list):
+----> 7         dist = tfp.distributions.LKJ(dimension=2, concentration=eta)
+      8         ans = dist.sample(sample_shape=[100000], seed=8)
+      9         sns.kdeplot(ans[:, 0, 1], label=f"$\eta$ = {eta}", clip=[-1, 1], shade=True)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in __getattr__(self, item)
+     51 
+     52   def __getattr__(self, item):
+---> 53     module = self._load()
+     54     return getattr(module, item)
+     55 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in _load(self)
+     35     """Load the module and insert it into the parent's globals."""
+     36     if callable(self._on_first_access):
+---> 37       self._on_first_access()
+     38       self._on_first_access = None
+     39     # Import the target module and insert it into the parent's namespace
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/__init__.py in _validate_tf_environment(package)
+     36   """
+     37   try:
+---> 38     import tensorflow.compat.v1 as tf
+     39   except (ImportError, ModuleNotFoundError):
+     40     # Print more informative error message, then reraise.
+
+ModuleNotFoundError: No module named 'tensorflow'
+ModuleNotFoundError: No module named 'tensorflow'
