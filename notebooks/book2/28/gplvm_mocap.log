@@ -7,7 +7,7 @@ data = pods.datasets.cmu_mocap(subject, motion)
 
 ---------------------------------------------------------------------------
 StdinNotImplementedError                  Traceback (most recent call last)
-/tmp/ipykernel_4154/1995362234.py in <module>
+/tmp/ipykernel_4826/1995362234.py in <module>
       1 subject = "16"
       2 motion = ["02", "21"]
 ----> 3 data = pods.datasets.cmu_mocap(subject, motion)
