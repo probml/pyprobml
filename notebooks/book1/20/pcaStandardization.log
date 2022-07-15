@@ -72,7 +72,7 @@ FileNotFoundError: [Errno 2] No such file or directory: '/__w/pyprobml/data/heig
 The above exception was the direct cause of the following exception:
 
 OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_4555/110842311.py in <module>
+/tmp/ipykernel_5867/110842311.py in <module>
      18 # Get Data
      19 data_dir = Path('.').absolute().parent / 'data' / 'heightWeight'
 ---> 20 data = scipy.io.loadmat(data_dir / "heightWeight.mat")['heightWeightData']
