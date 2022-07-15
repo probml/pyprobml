@@ -163,7 +163,6 @@
 | [book1/13/mixexpDemoOneToMany](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/mixexpDemoOneToMany.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/mixexpDemoOneToMany.png> | [log](-) |
 | [book1/13/activation_fun_deriv](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/activation_fun_deriv.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/activation_fun_deriv.png> | [log](-) |
 | [book1/14/layer_norm_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/layer_norm_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/layer_norm_jax.png> | [log](-) |
-| [book1/14/transposed_conv_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/transposed_conv_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/transposed_conv_torch.png> | [log](-) |
 | [book1/14/transposed_conv_jax](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/transposed_conv_jax.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/transposed_conv_jax.png> | [log](-) |
 | [book1/14/layer_norm_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/layer_norm_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/layer_norm_torch.png> | [log](-) |
 | [book1/14/cnn_mnist_tf](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/cnn_mnist_tf.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/cnn_mnist_tf.png> | [log](-) |
@@ -243,6 +242,7 @@
 | [book1/08/lrschedule_tf](https://github.com/probml/pyprobml/tree/master/notebooks/book1/08/lrschedule_tf.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/08/lrschedule_tf.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/08/lrschedule_tf.log) |
 | [book1/11/groupLassoDemo](https://github.com/probml/pyprobml/tree/master/notebooks/book1/11/groupLassoDemo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/11/groupLassoDemo.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/11/groupLassoDemo.log) |
 | [book1/13/mlp_1d_regression_hetero_tfp](https://github.com/probml/pyprobml/tree/master/notebooks/book1/13/mlp_1d_regression_hetero_tfp.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/13/mlp_1d_regression_hetero_tfp.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/13/mlp_1d_regression_hetero_tfp.log) |
+| [book1/14/transposed_conv_torch](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/transposed_conv_torch.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/transposed_conv_torch.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/14/transposed_conv_torch.log) |
 | [book1/14/cifar10_cnn_lightning](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/cifar10_cnn_lightning.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/cifar10_cnn_lightning.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/14/cifar10_cnn_lightning.log) |
 | [book1/20/pcaStandardization](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/pcaStandardization.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/pcaStandardization.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/20/pcaStandardization.log) |
 | [book1/21/gmm_chooseK_pymc3](https://github.com/probml/pyprobml/tree/master/notebooks/book1/21/gmm_chooseK_pymc3.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/21/gmm_chooseK_pymc3.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/21/gmm_chooseK_pymc3.log) |
@@ -250,7 +250,7 @@
 ## Summary
 
 Book1: In total, 242 jobs were tested.
-8 jobs failed.
+9 jobs failed.
 
 # Book 2: PyProbML status
 
@@ -347,6 +347,7 @@ Book1: In total, 242 jobs were tested.
 | [book2/18/gp_kernel_opt](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/gp_kernel_opt.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/gp_kernel_opt.png> | [log](-) |
 | [book2/18/gpr_demo_ard](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/gpr_demo_ard.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/gpr_demo_ard.png> | [log](-) |
 | [book2/18/gp_spectral_mixture](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/gp_spectral_mixture.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/gp_spectral_mixture.png> | [log](-) |
+| [book2/18/gpKernelPlot](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/gpKernelPlot.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/gpKernelPlot.png> | [log](-) |
 | [book2/18/gpc_demo_2d](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/gpc_demo_2d.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/gpc_demo_2d.png> | [log](-) |
 | [book2/18/combining_kernels_by_multiplication](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/combining_kernels_by_multiplication.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/combining_kernels_by_multiplication.png> | [log](-) |
 | [book2/18/gp_spatial_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/gp_spatial_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/gp_spatial_demo.png> | [log](-) |
@@ -412,5 +413,5 @@ Book1: In total, 242 jobs were tested.
 
 ## Summary
 
-Book2: In total, 152 jobs were tested.
+Book2: In total, 153 jobs were tested.
 23 jobs failed.
