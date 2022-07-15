@@ -1,0 +1,37 @@
+An error occurred while executing the following cell:
+------------------
+# Plots Sigmoid vs. Probit.
+import numpy as np
+import matplotlib.pyplot as plt
+
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
+import seaborn as sns
+from scipy.special import expit
+from scipy.stats import norm
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3865/3338577462.py in <module>
+      5 try:
+----> 6     from probml_utils import savefig, latexify
+      7 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3865/3338577462.py in <module>
+      7 except ModuleNotFoundError:
+      8     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+----> 9     from probml_utils import savefig, latexify
+     10 import seaborn as sns
+     11 from scipy.special import expit
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
