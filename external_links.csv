@@ -11,5 +11,6 @@ kf_linreg.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm
 kf_parallel.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_parallel.ipynb
 kf_spiral.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_spiral.ipynb
 kf_tracking.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_tracking.ipynb
+linreg_hierarchical_non_centered.ipynb,github,https://github.com/probml/pyprobml/blob/master/notebooks/book2/15/linreg_hierarchical_non_centered_blackjax.ipynb
 logistic_regression_blackjax,blog,https://blackjax-devs.github.io/blackjax/examples/LogisticRegressionWithLatentGaussianSampler.html
 poisson_hmm_changepoint.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/poisson_hmm_changepoint.ipynb
