@@ -23,7 +23,7 @@ n_counties = len(data.county.unique())
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3873/1135320850.py in <module>
+/tmp/ipykernel_3880/1135320850.py in <module>
       2 import matplotlib.pyplot as plt
       3 import numpy as np
 ----> 4 import pymc3 as pm

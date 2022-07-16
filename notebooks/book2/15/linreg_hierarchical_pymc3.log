@@ -16,7 +16,7 @@ county_idx = data["county_code"].values
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3879/2983604879.py in <module>
+/tmp/ipykernel_3876/2983604879.py in <module>
       3 import matplotlib.pyplot as plt
       4 import numpy as np
 ----> 5 import pymc3 as pm
