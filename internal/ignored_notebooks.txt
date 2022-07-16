@@ -96,3 +96,5 @@ book2/11/ars_demo
 book2/28/sparse_dict_demo
 book2/29/hmm_gaussian_2d
 book2/29/causal_impact
+book2/19/bnn_mnist_sgld
+book2/16/lecun1989
