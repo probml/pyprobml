@@ -116,6 +116,7 @@ def get_root_col(df_root_ser, col):
 
     elif is_source.count(0) > 1:
         print(f"1: Multiple copies exist:  {nb_name}")
+        return df_root_ser[col][0]
 
     else:
         return df_root_ser[col][is_source.index(0)]
