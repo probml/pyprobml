@@ -15,7 +15,7 @@ point_mass_posterior = tfp.experimental.vi.build_factored_surrogate_posterior(
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4421/3173641128.py in <module>
+/tmp/ipykernel_4423/3173641128.py in <module>
       8     pinned.event_shape,
       9     bijector=pinned.experimental_default_event_space_bijector(),
 ---> 10     trainable_distribution_fn=trainable_point_estimate,

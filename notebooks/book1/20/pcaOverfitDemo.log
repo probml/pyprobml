@@ -164,7 +164,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4566/3773121736.py in <module>
+/tmp/ipykernel_4568/3773121736.py in <module>
      19 try:
 ---> 20     from tensorflow import keras
      21 except ModuleNotFoundError:
@@ -179,7 +179,7 @@ ModuleNotFoundError: No module named 'tensorflow.python.tools'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4566/3773121736.py in <module>
+/tmp/ipykernel_4568/3773121736.py in <module>
      21 except ModuleNotFoundError:
      22     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 ---> 23     from tensorflow import keras
@@ -187,24 +187,11 @@ ModuleNotFoundError                       Traceback (most recent call last)
      25 from sklearn.metrics import mean_squared_error
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
-     43 _tf2.enable()
-     44 
----> 45 from ._api.v2 import __internal__
-     46 from ._api.v2 import __operators__
-     47 from ._api.v2 import audio
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/_api/v2/__internal__/__init__.py in <module>
-      6 import sys as _sys
-      7 
-----> 8 from . import autograph
-      9 from . import decorator
-     10 from . import dispatch
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/_api/v2/__internal__/autograph/__init__.py in <module>
-      6 import sys as _sys
-      7 
-----> 8 from tensorflow.python.autograph.core.ag_ctx import control_status_ctx
-      9 from tensorflow.python.autograph.impl.api import tf_convert
-
-ModuleNotFoundError: No module named 'tensorflow.python.autograph'
-ModuleNotFoundError: No module named 'tensorflow.python.autograph'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
