@@ -1,0 +1,14 @@
+An error occurred while executing the following cell:
+------------------
+x, y, lgssm_posterior = kf_parallel()
+plot_kf_parallel(x, y, lgssm_posterior)
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_3882/2049624563.py in <module>
+----> 1 x, y, lgssm_posterior = kf_parallel()
+      2 plot_kf_parallel(x, y, lgssm_posterior)
+
+NameError: name 'kf_parallel' is not defined
+NameError: name 'kf_parallel' is not defined
