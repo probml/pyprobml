@@ -1,0 +1,33 @@
+An error occurred while executing the following cell:
+------------------
+import jax.numpy as jnp
+import jax
+from matplotlib import pyplot as plt
+import seaborn as sns
+
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3877/212745700.py in <module>
+      6 try:
+----> 7     from probml_utils import savefig, latexify
+      8 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3877/212745700.py in <module>
+      8 except ModuleNotFoundError:
+      9     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 10     from probml_utils import savefig, latexify
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
