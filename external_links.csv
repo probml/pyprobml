@@ -1,0 +1,16 @@
+Notebook,type,github_url
+bach_chorales_hmm,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bach_chorales_hmm.ipynb
+bernoulli_hmm_example,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bernoulli_hmm_example.ipynb
+casino_hmm.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/casino_hmm.ipynb
+casino_hmm_training.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/casino_hmm_training.ipynb
+ekf_vs_ukf.py,github,https://github.com/probml/JSL/blob/main/jsl/demos/ekf_vs_ukf.py
+ekf_mlp.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_mlp.ipynb
+ekf_spiral.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_spiral.ipynb
+gaussian_hmm_2d,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/gaussian_hmm_2d.ipynb
+kf_linreg.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_linreg.ipynb
+kf_parallel.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_parallel.ipynb
+kf_spiral.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_spiral.ipynb
+kf_tracking.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_tracking.ipynb
+linreg_hierarchical_non_centered.ipynb,github,https://github.com/probml/pyprobml/blob/master/notebooks/book2/15/linreg_hierarchical_non_centered_blackjax.ipynb
+logistic_regression_blackjax,blog,https://blackjax-devs.github.io/blackjax/examples/LogisticRegressionWithLatentGaussianSampler.html
+poisson_hmm_changepoint.ipynb,github,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/poisson_hmm_changepoint.ipynb

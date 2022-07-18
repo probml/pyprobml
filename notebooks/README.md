@@ -1,8 +1,56 @@
-# Notebooks
+# How to contribute?
 
-## Instructions for contributors
+## I. Understanding the workflows
+There are 3 workflows that need to be passed after creating the PR.
 
-### How to contribute?
+![image](https://user-images.githubusercontent.com/59387624/178658825-4f4ed292-733d-41b1-9f9a-775160befea3.png)
+### 1. black_format
+This workflow checks if all notebooks are formatted as per [black](https://black.readthedocs.io/en/stable/)'s guidelines. There are two ways to apply black on notebooks.
+
+**a) Manually:**
+```sh
+$ pip install black[jupyter]==22.3.0 # check this version in requirements-dev.txt
+```
+```sh
+$ black <path/to/notebook>
+```
+**b) Pre-commit**: we have already configured black in `pre-commit.yaml` file.
+```sh
+$ pip install pre-commit
+```
+```sh
+$ pre-commit install
+```
+After the above configuration, on every commit, pre-commit will run black on **modified** notebooks.
+
+**Gotcha:** `black_format` workflow checks all the notebooks in the repo, so it may be possible that you have already reformated your notebook but still workflow fails due to an existing un-formated notebook. In this case, you can search unformatted notebooks in logs (see below image) and put a comment mentioning the notebook name.
+
+![image](https://user-images.githubusercontent.com/59387624/178660753-4dc38535-e015-4b6b-a425-1298917f7612.png)
+
+### 2. static_import_check
+You need to put `import <package>` in `try..except ModuleNotFoundError` block. This is only applicable when `package` is not in requirements.txt or it is not pre-installed in pip packages.
+Example: 
+This workflow will fail on the following code.
+```py
+import os
+import pandas as pd
+import tensorflow_probability as tfp
+```
+The above imports should be written as follows: 
+```py
+import os # pre-installed in python
+import pandas as pd # available in requirements.txt
+try:
+  import tensorflow_probability as tfp # put try...except
+except ModuleNotFoundError:
+  %pip install -qqq tensorflow_probability # use -qqq flag
+  import tensorflow_probability as tfp
+  
+```
+### 3. execute_current_PR_notebook
+This workflow execute your notebook.
+
+## II. Detailed guidelines
 
 It is recommended to use Python `3.7.13` because our automated GitHub workflow uses `3.7.13` to check the code and currently Google colab Python version is also `3.7.13`. You may use [Anaconda](https://www.anaconda.com/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) to install a specific version of Python on your system.
 
@@ -46,7 +94,7 @@ ipython foo.ipynb
 ```
 10. At the time of opening a PR, double check that only the notebook you are working on is affected.
 
-### Generating figures and saving them locally
+## III. Generating figures and saving them locally
 * By default, figures are not saved:
 ```py
 ipython foo.ipynb
@@ -69,7 +117,7 @@ export DUAL_SAVE=1
 ipython foo.ipynb
 ```
 
-### Gotchas
+## IV. Gotchas
 
 * Use `latexify` function carefully with `seaborn`. Check if the generated figure is as expected.
 * VS code does not behave well when using notebooks with `ipywidgets`, so double check with `jupyter notebook` GUI if something does not work as expected.

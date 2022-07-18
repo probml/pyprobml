@@ -1,0 +1,38 @@
+\documentclass[tikz, border=2pt]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+
+\begin{document}
+% \title{sequential_prediction}
+% \author{Dhruv Patel}
+% \date{July 2022}
+\tikzstyle{emptynode} = [rectangle, draw=black!0, minimum size=5mm]
+\begin{tikzpicture}
+	
+	
+	\node[latent]  (w0) {$w_0$};
+	\node[latent, right= of w0](w1){$w_1$};
+	\node[latent, right= of w1](w2){$w_2$};
+	\node[obs, below = of w1](y1){${y_1}$};
+	\node[latent, left = 0.2 of y1](y1hat){$\hat{y_1}$};
+	\node[obs, below = 0.5 of y1](x1){${x_1}$};
+	\node[latent, below = 0.5 of x1](phi1){${\phi_1}$};
+	\node[latent, right = 0.2 of y1](y2hat){$\hat{y_2}$};
+	\node[obs, below = of w2](y2){$y_2$};
+	\node[obs, below = 0.5 of y2](x2){$x_2$};
+	\node[latent, below = 0.5 of x2](phi2){${\phi_2}$};
+	\edge {w0}{w1, y1hat};
+	\edge {w1}{w2, y2hat, y1};
+	\edge {x1}{y1hat, y1};
+	\edge {x2}{y2hat};
+	\edge {y2}{x2};
+	\edge {phi1}{x1};
+	\edge{phi1}{phi2};
+	\node[emptynode, right= of w2](empty1){$\cdots$};
+	\node[emptynode, right= of phi2](empty2){$\cdots$};
+	\edge {w2}{y2, empty1};
+	\edge {phi2}{x2, empty2};
+
+\end{tikzpicture}
+\end{document}

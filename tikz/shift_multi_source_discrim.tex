@@ -1,0 +1,51 @@
+\documentclass[tikz, border=2pt]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+
+\begin{document}
+
+% \title{shift_multi_source_discrim}
+% \author{Dhruv Patel}
+% \date{July 2022}
+
+\tikzstyle{emptynode} = [rectangle, draw=black!0, minimum size=5mm]
+\begin{tikzpicture}
+	\node[latent]  (w0) {$w_0$};
+	\node[latent, below left =  2 of w0](w1){$w^1$};
+	\node[latent, right  = 1.25 of w1](we){$w^E$};
+	\node[latent,below right = 2 of w0](wt){$w^t$};
+	\node[obs, below  = 0.75 of w1](y1){${y}^1_n$};
+	\node[obs, below  = 0.75 of we](ye){$y^E_n$};
+	\node[latent, below  = 0.75 of wt](yt){$y^t_n$};
+	\node[obs, right  = 0.25 of yt](yk){$y^k_n$};
+	\node[obs, below  = 0.35 of y1](x1){$x^1_n$};
+	\node[obs, below  = 0.35 of ye](xe){$x^E_n$};
+	\node[obs, below  = 0.35 of yt](xt){$x^t_n$};
+	\node[latent, below  = 0.35 of yk](ln){$L_n$};
+	\node[latent, below  = 0.5 of x1](phi1){$\phi^1$};
+	\node[latent, below  = 0.5 of xe](phie){$\phi^E$};
+	\node[latent, below  = 0.5 of xt](phit){$\phi^t$};
+	\node[latent, below  = 0.5 of phie](phi0){$\phi^0$};
+	\node[emptynode, right = 0.3 of y1](empty1){};
+	\node[emptynode, below = 0.15 of empty1](empty2){$...$};
+
+    \node[draw=black,thin,fit=(y1)(x1), rounded corners=.05cm,inner sep=2pt](rect1)  {};
+    \node[draw=black,thin,fit=(ye)(xe), rounded corners=.05cm,inner sep=2pt] (rect2) {};
+    \node[draw=black,thin,fit=(yt)(yk)(xt)(ln), rounded corners=.05cm,inner sep=2pt] (rect3) {};
+	
+	\edge {w0}{w1, we, wt};
+	\edge {w1}{rect1};
+	\edge {we}{rect2};
+	\edge {wt}{rect3};
+	\edge{x1}{y1};
+	\edge{xe}{ye};
+	\edge{xt}{yt};
+	\edge{yt, yk}{ln};
+	\edge{phi1}{x1};
+	\edge{phie}{xe};
+	\edge{phit}{xt};
+	\edge{phi0}{phi1, phie, phit};
+
+\end{tikzpicture}
+\end{document}
