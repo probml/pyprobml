@@ -1,0 +1,56 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+
+\begin{document}
+
+% \title{shift_one_source}
+% \author{Vishal Ghoniya}
+% \date{July 2022}
+
+% \maketitle
+\tikzstyle{constant} = [circle, draw=black!0, minimum size = 4mm]
+\begin{tikzpicture}[font={\small}]
+	
+	\node [constant](pi_s){$\Pi^{s}$};
+	\node [constant, right=4cm of pi_s] (pi_t) {$\Pi^{t}$};
+	\edge{pi_s}{pi_t};
+	\node [constant, below left=1.5cm of pi_s] (1_1) {$y_{n}$};
+	\edge{pi_s}{1_1};
+	\node [obs, below=1cm of 1_1] (2_1) {$x_n$};
+	\plate{}{(1_1)(2_1)}{};
+	\edge{1_1}{2_1};
+	\node [constant, below=4cm of pi_s] (phi_s) {$\Phi^{s}$}; 
+	\node [obs, below right=1.5cm of pi_s] (1_2) {$y_{n}$};
+	\edge{pi_s}{1_2};
+	\node [obs, below=1cm of 1_2] (2_2) {$x_n$};
+	\plate{}{(1_2)(2_2)}{};
+	\edge{1_2}{2_2};
+	\edge{phi_s}{2_2, 2_1};
+	
+	
+	\node [latent, below left=1.5cm of pi_t] (1_3) {$y_{n}$};
+	\node[latent, below right=1.5cm of pi_t] (1_4) {$y_n$};
+	\edge{pi_t}{1_3, 1_4};
+	\node [obs, below=1cm of 1_3] (2_3) {$x_n$};
+	\edge{1_3}{2_3};
+	\plate{}{(1_3)(2_3)}{};
+	\node [obs, below=1cm of 1_4] (2_4) {$x_n$};
+	\node [obs, right=0.5cm of 1_4] (1_5) {$y^{t}_{n}$};
+	\node [constant, below=1cm of 1_5] (2) {$L_n$};
+	\edge{1_5}{2};
+	\edge{1_4}{2_4, 2};
+	\plate{}{(1_4)(1_5)(2_4)(2)}{};
+	\node [constant, below=4cm of pi_t] (phi_t) {$\Phi^{t}$};
+	\edge{phi_s}{phi_t};
+	\edge{phi_t}{2_3, 2_4};
+	
+	\node[const, above=0.3cm of 1_1] (d_us) {$D_u^s$};
+	\node[const, above=0.3cm of 1_2] (d_ls) {$D_l^s$};
+	\node[const, above=0.3cm of 1_3] (d_ut) {$D_u^t$};
+	\node[const, above=0.3cm of 1_4] (d_lt) {$D_l^t$};
+	
+\end{tikzpicture}
+
+\end{document}

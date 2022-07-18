@@ -1,0 +1,42 @@
+\documentclass[tikz,border=2pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+
+\begin{document}
+% \title{Fig_19_22}
+% \author{Vishal Ghoniya}
+% \date{July 2022}
+% \maketitle
+
+\tikzstyle{constant} = [circle, draw=black!0, minimum size = 4mm]
+\tikzstyle{lat} = [ellipse, draw=black!70, minimum width=1cm, minimum height=0.7cm]
+\tikzstyle{rect} = [rectangle, draw=black!70, minimum height=0.7cm]
+
+\begin{tikzpicture}[font={\small}]
+    \node [constant](P_t0){$P_{t-1}$};
+    \node[constant, right=1cm of P_t0](P_t){$P_{t}$};
+    \node[constant, right=4cm of P_t] (P_t1) {$P_{t+1}$};
+        \edge{P_t0}{P_t};
+        \edge{P_t}{P_t1};
+    
+    \node[lat, above=2cm of P_t] (x_t) {x$_t$};
+    \node [lat, above=1cm of x_t] (yhat_t) {$\hat{Y}_t$};
+    \node[lat, above right=1cm of yhat_t] (L_t) {L$_t$};
+    \node[lat, right=2cm of yhat_t] (y_t) {Y$_t$};
+        \edge{yhat_t}{L_t};
+        \edge{x_t}{yhat_t};
+        \edge{P_t}{x_t};
+        \edge{y_t}{L_t};
+    
+    \node[rect, below=2.5cm of y_t] (update) {update};    
+    \node[lat, left=3.5cm of update] (theta_t0) {$\theta_{t-1}$};
+    \node[lat, right=1cm of update] (theta_t1) {$\theta_t$};
+        \edge{update}{theta_t1};
+        \edge{theta_t0}{yhat_t, update};
+        \edge{x_t}{update};
+        \edge{y_t}{update};
+        \edge{P_t}{y_t};
+
+\end{tikzpicture}
+\end{document}
