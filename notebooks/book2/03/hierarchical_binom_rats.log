@@ -1,0 +1,138 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
+import matplotlib
+import matplotlib.pyplot as plt
+import arviz as az
+import seaborn as sns
+import pandas as pd
+
+pd.set_option("display.max_rows", 80)
+
+
+try:
+    import blackjax
+except ModuleNotFoundError:
+    %pip install -qq jaxopt blackjax
+    import blackjax
+
+
+try:
+    import tensorflow_probability.substrates.jax as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow_probability
+    import tensorflow_probability.substrates.jax as tfp
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+from probml_utils.blackjax_utils import inference_loop, inference_loop_multiple_chains, arviz_trace_from_states
+
+
+tfd = tfp.distributions
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3891/2097253101.py in <module>
+     19 try:
+---> 20     import tensorflow_probability.substrates.jax as tfp
+     21 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'tensorflow_probability'
+
+During handling of the above exception, another exception occurred:
+
+KeyError                                  Traceback (most recent call last)
+/tmp/ipykernel_3891/2097253101.py in <module>
+     21 except ModuleNotFoundError:
+     22     get_ipython().run_line_magic('pip', 'install -qq tensorflow_probability')
+---> 23     import tensorflow_probability.substrates.jax as tfp
+     24 
+     25 try:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
+     39 from tensorflow_probability.python.version import __version__
+     40 # from tensorflow_probability.substrates.jax.google import staging  # DisableOnExport  # pylint:disable=line-too-long
+---> 41 from tensorflow_probability.substrates.jax import bijectors
+     42 from tensorflow_probability.substrates.jax import distributions
+     43 from tensorflow_probability.substrates.jax import experimental
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/__init__.py in <module>
+     17 # pylint: disable=unused-import,wildcard-import,line-too-long,g-importing-member
+     18 
+---> 19 from tensorflow_probability.substrates.jax.bijectors.absolute_value import AbsoluteValue
+     20 from tensorflow_probability.substrates.jax.bijectors.ascending import Ascending
+     21 # from tensorflow_probability.substrates.jax.bijectors.batch_normalization import BatchNormalization
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/absolute_value.py in <module>
+     17 from tensorflow_probability.python.internal.backend.jax.compat import v2 as tf
+     18 
+---> 19 from tensorflow_probability.substrates.jax.bijectors import bijector
+     20 from tensorflow_probability.substrates.jax.internal import assert_util
+     21 from tensorflow_probability.substrates.jax.internal import dtype_util
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/bijector.py in <module>
+     24 from tensorflow_probability.substrates.jax.internal import assert_util
+     25 from tensorflow_probability.substrates.jax.internal import auto_composite_tensor
+---> 26 from tensorflow_probability.substrates.jax.internal import batch_shape_lib
+     27 from tensorflow_probability.substrates.jax.internal import cache_util
+     28 from tensorflow_probability.substrates.jax.internal import dtype_util
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/internal/batch_shape_lib.py in <module>
+     21 from tensorflow_probability.python.internal.backend.jax.compat import v2 as tf
+     22 
+---> 23 from tensorflow_probability.substrates.jax.internal import prefer_static as ps
+     24 from tensorflow_probability.substrates.jax.internal import tensor_util
+     25 from tensorflow_probability.substrates.jax.internal import tensorshape_util
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/internal/prefer_static.py in <module>
+     24 from tensorflow_probability.substrates.jax.internal import dtype_util
+     25 from tensorflow_probability.substrates.jax.internal import tensorshape_util
+---> 26 from tensorflow_probability.python.internal.backend import numpy as nptf
+     27 
+     28 # Try catch required to avoid breaking Probability opensource presubmits.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/numpy/__init__.py in <module>
+     16 
+     17 from tensorflow_probability.python.internal.backend.numpy import __internal__
+---> 18 from tensorflow_probability.python.internal.backend.numpy import bitwise
+     19 from tensorflow_probability.python.internal.backend.numpy import compat
+     20 from tensorflow_probability.python.internal.backend.numpy import config
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/numpy/bitwise.py in <module>
+     17 import numpy as np
+     18 
+---> 19 from tensorflow_probability.python.internal.backend.numpy import _utils as utils
+     20 
+     21 __all__ = [
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/numpy/_utils.py in <module>
+     23 
+     24 try:
+---> 25   from tensorflow.python.ops import array_ops  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top,unused-import
+     26   from tensorflow.python.ops import random_ops  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top,unused-import
+     27   import tensorflow.compat.v1 as tf1  # pylint: disable=g-import-not-at-top,unused-import
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load_unlocked(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_spec(name, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in find_spec(cls, fullname, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _get_spec(cls, fullname, path, target)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in __iter__(self)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _recalculate(self)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in _get_parent_path(self)
+
+KeyError: 'tensorflow'
+KeyError: 'tensorflow'
