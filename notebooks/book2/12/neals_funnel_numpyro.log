@@ -32,7 +32,7 @@ from numpyro.infer.reparam import LocScaleReparam
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3884/3585271741.py in <module>
+/tmp/ipykernel_3903/3585271741.py in <module>
      11 try:
 ---> 12     import probml_utils as pml
      13 except ModuleNotFoundError:
@@ -42,7 +42,7 @@ ModuleNotFoundError: No module named 'probml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3884/3585271741.py in <module>
+/tmp/ipykernel_3903/3585271741.py in <module>
      13 except ModuleNotFoundError:
      14     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
 ---> 15     import probml_utils as pml
