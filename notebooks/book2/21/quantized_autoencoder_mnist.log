@@ -1,48 +1,8 @@
-An error occurred while executing the following cell:
-------------------
-try:
-    import torch
-except ModuleNotFoundError:
-    %pip install -qq torch
-    import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import torch.autograd as autograd
-
-try:
-    from torchvision import datasets, transforms
-except ModuleNotFoundError:
-    %pip install -qq torchvision
-    from torchvision import datasets, transforms
-import numpy as np
-import matplotlib.pyplot as plt
-
-try:
-    from tqdm import tqdm
-except ModuleNotFoundError:
-    %pip install -qq tqdm
-    from tqdm import tqdm
-
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
-print(device)
-------------------
-
----------------------------------------------------------------------------
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4558/1422306336.py in <module>
-     10 
-     11 try:
----> 12     from torchvision import datasets, transforms
-     13 except ModuleNotFoundError:
-     14     get_ipython().run_line_magic('pip', 'install -qq torchvision')
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/__init__.py in <module>
-      3 
-      4 import torch
-----> 5 from torchvision import datasets
-      6 from torchvision import io
-      7 from torchvision import models
-
-ImportError: cannot import name 'datasets' from 'torchvision' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/__init__.py)
-ImportError: cannot import name 'datasets' from 'torchvision' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/__init__.py)
+A cell timed out while it was being executed, after 1200 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['# train loop', '', 'epoch = 5', 'for e in range(epoch):', '    print(f"Starting epoch {e} of {epoch}")']
+...
+['        reconstruction = net(X)', '        loss = criterion_MSE(reconstruction, X)', '        loss.backward()', '        optimizer.step()', '    print(f"Loss: {loss.item()}")']
+-------------------
