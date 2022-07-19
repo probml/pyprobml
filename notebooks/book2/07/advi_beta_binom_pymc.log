@@ -45,7 +45,7 @@ AttributeError: _pkg_info
 During handling of the above exception, another exception occurred:
 
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_5494/434867515.py in <module>
+/tmp/ipykernel_5477/434867515.py in <module>
       9     approx = advi.fit(callbacks=[tracker], n=20000)
      10 
 ---> 11 trace_approx = approx.sample(1000)
