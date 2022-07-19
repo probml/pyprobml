@@ -164,7 +164,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4579/3773121736.py in <module>
+/tmp/ipykernel_4575/3773121736.py in <module>
      19 try:
 ---> 20     from tensorflow import keras
      21 except ModuleNotFoundError:
@@ -179,7 +179,7 @@ ModuleNotFoundError: No module named 'tensorflow.python.tools'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4579/3773121736.py in <module>
+/tmp/ipykernel_4575/3773121736.py in <module>
      21 except ModuleNotFoundError:
      22     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 ---> 23     from tensorflow import keras
@@ -187,80 +187,11 @@ ModuleNotFoundError                       Traceback (most recent call last)
      25 from sklearn.metrics import mean_squared_error
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
-     43 _tf2.enable()
-     44 
----> 45 from ._api.v2 import __internal__
-     46 from ._api.v2 import __operators__
-     47 from ._api.v2 import audio
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/_api/v2/__internal__/__init__.py in <module>
-      6 import sys as _sys
-      7 
-----> 8 from . import autograph
-      9 from . import decorator
-     10 from . import dispatch
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/_api/v2/__internal__/autograph/__init__.py in <module>
-      6 import sys as _sys
-      7 
-----> 8 from tensorflow.python.autograph.core.ag_ctx import control_status_ctx
-      9 from tensorflow.python.autograph.impl.api import tf_convert
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/__init__.py in <module>
-     31 
-     32 # TODO(mdan): Bring only the relevant symbols to the top level.
----> 33 from tensorflow.python.autograph import operators
-     34 from tensorflow.python.autograph import utils
-     35 from tensorflow.python.autograph.core.converter import ConversionOptions
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/operators/__init__.py in <module>
-     34 # for some specializations of the operator.
-     35 
----> 36 from tensorflow.python.autograph.operators.conditional_expressions import if_exp
-     37 from tensorflow.python.autograph.operators.control_flow import for_stmt
-     38 from tensorflow.python.autograph.operators.control_flow import if_stmt
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/operators/conditional_expressions.py in <module>
-     16 
-     17 
----> 18 from tensorflow.python.autograph.operators import control_flow
-     19 from tensorflow.python.autograph.utils import tensors
-     20 from tensorflow.python.ops import control_flow_ops
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/operators/control_flow.py in <module>
-     62 import numpy as np
-     63 
----> 64 from tensorflow.python.autograph.operators import py_builtins
-     65 from tensorflow.python.autograph.operators import variables
-     66 from tensorflow.python.autograph.utils import ag_logging
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/operators/py_builtins.py in <module>
-     24 import six
-     25 
----> 26 from tensorflow.python.autograph.utils import py_func
-     27 from tensorflow.python.autograph.utils import tensors
-     28 from tensorflow.python.data.experimental.ops import cardinality
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/utils/__init__.py in <module>
-     15 """Utility module that contains APIs usable in the generated code."""
-     16 
----> 17 from tensorflow.python.autograph.utils.context_managers import control_dependency_on_returns
-     18 from tensorflow.python.autograph.utils.misc import alias_tensors
-     19 from tensorflow.python.autograph.utils.py_func import wrap_py_func
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/autograph/utils/context_managers.py in <module>
-     17 import contextlib
-     18 
----> 19 from tensorflow.python.framework import ops
-     20 from tensorflow.python.ops import tensor_array_ops
-     21 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/ops.py in <module>
-     27 from six.moves import map  # pylint: disable=redefined-builtin
-     28 
----> 29 from tensorflow.core.framework import attr_value_pb2
-     30 from tensorflow.core.framework import full_type_pb2
-     31 from tensorflow.core.framework import function_pb2
-
-ModuleNotFoundError: No module named 'tensorflow.core'
-ModuleNotFoundError: No module named 'tensorflow.core'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
