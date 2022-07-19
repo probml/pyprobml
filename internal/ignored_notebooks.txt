@@ -98,3 +98,7 @@ book2/29/hmm_gaussian_2d
 book2/29/causal_impact
 book2/19/bnn_mnist_sgld
 book2/16/lecun1989
+notebooks/book2/15/linreg_hierarchical_numpyro.ipynb
+notebooks/book2/15/linreg_hierarchical_pymc3.ipynb
+notebooks/book2/15/linreg_hierarchical_non_centered_numpyro.ipynb
+notebooks/book2/15/linreg_hierarchical_non_centered_pymc3.ipynb
