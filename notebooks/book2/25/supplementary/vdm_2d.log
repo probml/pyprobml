@@ -18,7 +18,7 @@ from google.colab import files
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4672/2623076112.py in <module>
+/tmp/ipykernel_4659/2623076112.py in <module>
       4 import jax
       5 import jax.numpy as jnp
 ----> 6 from flax import linen as nn
