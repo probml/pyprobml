@@ -1,1 +1,173 @@
-Kernel didn't respond in 60 seconds
+An error occurred while executing the following cell:
+------------------
+with pm.Model() as mf_model:
+    theta = pm.Beta("theta", 1, 1)
+    y = pm.Binomial("y", n=1, p=theta, observed=dataset)  # Bernoulli
+    advi = pm.ADVI()
+    tracker = pm.callbacks.Tracker(
+        mean=advi.approx.mean.eval,  # callable that returns mean
+        std=advi.approx.std.eval,  # callable that returns std
+    )
+    approx = advi.fit(callbacks=[tracker], n=20000)
+
+trace_approx = approx.sample(1000)
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _dep_map(self)
+   3023         try:
+-> 3024             return self.__dep_map
+   3025         except AttributeError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in __getattr__(self, attr)
+   2820         if attr.startswith('_'):
+-> 2821             raise AttributeError(attr)
+   2822         return getattr(self._provider, attr)
+
+AttributeError: _DistInfoDistribution__dep_map
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _parsed_pkg_info(self)
+   3014         try:
+-> 3015             return self._pkg_info
+   3016         except AttributeError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in __getattr__(self, attr)
+   2820         if attr.startswith('_'):
+-> 2821             raise AttributeError(attr)
+   2822         return getattr(self._provider, attr)
+
+AttributeError: _pkg_info
+
+During handling of the above exception, another exception occurred:
+
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_5494/434867515.py in <module>
+      9     approx = advi.fit(callbacks=[tracker], n=20000)
+     10 
+---> 11 trace_approx = approx.sample(1000)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc/variational/opvi.py in sample(self, draws, random_seed, return_inferencedata, **kwargs)
+   1520             return trace
+   1521         else:
+-> 1522             return pm.to_inference_data(trace, model=self.model, **kwargs)
+   1523 
+   1524     @property
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc/backends/arviz.py in to_inference_data(trace, prior, posterior_predictive, log_likelihood, coords, dims, model, save_warmup)
+    588         dims=dims,
+    589         model=model,
+--> 590         save_warmup=save_warmup,
+    591     ).to_inference_data()
+    592 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc/backends/arviz.py in to_inference_data(self)
+    515         """
+    516         id_dict = {
+--> 517             "posterior": self.posterior_to_xarray(),
+    518             "sample_stats": self.sample_stats_to_xarray(),
+    519             "log_likelihood": self.log_likelihood_to_xarray(),
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/base.py in wrapped(cls)
+     63                 if all((getattr(cls, prop_i) is None for prop_i in prop)):
+     64                     return None
+---> 65             return func(cls)
+     66 
+     67         return wrapped
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc/backends/arviz.py in posterior_to_xarray(self)
+    330                 coords=self.coords,
+    331                 dims=self.dims,
+--> 332                 attrs=self.attrs,
+    333             ),
+    334             dict_to_dataset(
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/base.py in dict_to_dataset(data, attrs, library, coords, dims, default_dims, index_origin, skip_event_dims)
+    314             skip_event_dims=skip_event_dims,
+    315         )
+--> 316     return xr.Dataset(data_vars=data_vars, attrs=make_attrs(attrs=attrs, library=library))
+    317 
+    318 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/base.py in make_attrs(attrs, library)
+    338         default_attrs["inference_library"] = library_name
+    339         try:
+--> 340             version = pkg_resources.get_distribution(library_name).version
+    341             default_attrs["inference_library_version"] = version
+    342         except pkg_resources.DistributionNotFound:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_distribution(dist)
+    475         dist = Requirement.parse(dist)
+    476     if isinstance(dist, Requirement):
+--> 477         dist = get_provider(dist)
+    478     if not isinstance(dist, Distribution):
+    479         raise TypeError("Expected string, Requirement, or Distribution", dist)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_provider(moduleOrReq)
+    351     """Return an IResourceProvider for the named module or requirement"""
+    352     if isinstance(moduleOrReq, Requirement):
+--> 353         return working_set.find(moduleOrReq) or require(str(moduleOrReq))[0]
+    354     try:
+    355         module = sys.modules[moduleOrReq]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in require(self, *requirements)
+    895         included, even if they were already activated in this working set.
+    896         """
+--> 897         needed = self.resolve(parse_requirements(requirements))
+    898 
+    899         for dist in needed:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in resolve(self, requirements, env, installer, replace_conflicting, extras)
+    789 
+    790             # push the new requirements onto the stack
+--> 791             new_requirements = dist.requires(req.extras)[::-1]
+    792             requirements.extend(new_requirements)
+    793 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in requires(self, extras)
+   2740     def requires(self, extras=()):
+   2741         """List of Requirements needed for this distro if `extras` are used"""
+-> 2742         dm = self._dep_map
+   2743         deps = []
+   2744         deps.extend(dm.get(None, ()))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _dep_map(self)
+   3024             return self.__dep_map
+   3025         except AttributeError:
+-> 3026             self.__dep_map = self._compute_dependencies()
+   3027             return self.__dep_map
+   3028 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _compute_dependencies(self)
+   3033         reqs = []
+   3034         # Including any condition expressions
+-> 3035         for req in self._parsed_pkg_info.get_all('Requires-Dist') or []:
+   3036             reqs.extend(parse_requirements(req))
+   3037 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _parsed_pkg_info(self)
+   3015             return self._pkg_info
+   3016         except AttributeError:
+-> 3017             metadata = self.get_metadata(self.PKG_INFO)
+   3018             self._pkg_info = email.parser.Parser().parsestr(metadata)
+   3019             return self._pkg_info
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in get_metadata(self, name)
+   1416             return ""
+   1417         path = self._get_metadata_path(name)
+-> 1418         value = self._get(path)
+   1419         try:
+   1420             return value.decode('utf-8')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pkg_resources/__init__.py in _get(self, path)
+   1620 
+   1621     def _get(self, path):
+-> 1622         with open(path, 'rb') as stream:
+   1623             return stream.read()
+   1624 
+
+FileNotFoundError: [Errno 2] No such file or directory: '/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/pandas-1.3.5.dist-info/METADATA'
+FileNotFoundError: [Errno 2] No such file or directory: '/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/pandas-1.3.5.dist-info/METADATA'
