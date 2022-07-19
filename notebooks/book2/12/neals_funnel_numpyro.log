@@ -1,0 +1,53 @@
+An error occurred while executing the following cell:
+------------------
+# Illustrate Neal's funnel
+# Code based on
+# https://numpyro.readthedocs.io/en/latest/examples/funnel.html
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+
+from scipy.stats import norm
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+from jax import random
+import jax.numpy as jnp
+
+try:
+    import numpyro
+except ModuleNotFoundError:
+    %pip install -qq numpyro
+    import numpyro
+import numpyro.distributions as dist
+from numpyro.handlers import reparam
+from numpyro.infer import MCMC, NUTS, Predictive
+from numpyro.infer.reparam import LocScaleReparam
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3884/3585271741.py in <module>
+     11 try:
+---> 12     import probml_utils as pml
+     13 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3884/3585271741.py in <module>
+     13 except ModuleNotFoundError:
+     14     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 15     import probml_utils as pml
+     16 
+     17 from jax import random
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
