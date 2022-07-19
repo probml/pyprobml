@@ -1,0 +1,22 @@
+\documentclass[tikz, border=2pt]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\begin{document}
+
+\usetikzlibrary{fit,arrows,calc,positioning,shadows.blur}
+
+\begin{tikzpicture}[var/.style={draw,circle,inner sep=0pt,minimum size=1.2cm}]
+    % Nodes
+    \node (A) [var] {$A$};
+    \node (Y) [var, right=.8cm of A] {$Y$};
+    \node (H) [var, above=.8cm of A] {$H$};
+    \node (G) [var, above=.8cm of Y] {$G$};
+    
+    % Arrows
+    \path[->, line width=0.5mm]
+        (A) edge (Y)
+        (H) edge (Y)
+        (G) edge (Y);
+\end{tikzpicture}
+
+\end{document}
