@@ -15,7 +15,7 @@ with pm.Model() as normal_aproximation:
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4362/2376091484.py in <module>
+/tmp/ipykernel_4366/2376091484.py in <module>
       4     y = pm.Binomial("y", n=1, p=theta, observed=dataset)  # Bernoulli
       5     mean_q = pm.find_MAP()
 ----> 6     std_q = ((1 / pm.find_hessian(mean_q, vars=[theta])) ** 0.5)[0]
