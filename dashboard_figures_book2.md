@@ -5,7 +5,7 @@
 ## Book2Dashboard
 Total Notebooks | Latexified | Jaxified | 
 | -- | -- |  -- |
-| 203 | 73 | 80 |<details open>
+| 203 | 73 | 79 |<details open>
 <summary>Chapter: 2_Probability</summary>
 
 | nb_name                                                                                                                                                      |   fig_no | workflow                                                                                                                                                                                                                                                                                               | latexify   | jaxify   |
@@ -305,7 +305,7 @@ Total Notebooks | Latexified | Jaxified |
 |:-------------------------------------------------------------------------------------------------------------------------------------------------------------|---------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------|
 | [flow_2d_mlp.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/23/flow_2d_mlp.ipynb)                               |     23.1 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/flow_2d_mlp.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/flow_2d_mlp.log)                               | &#9989;    | &#9989;  |
 | [flow_spline_mnist.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/23/flow_spline_mnist.ipynb)                   |     23.4 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/flow_spline_mnist.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/flow_spline_mnist.log)                   | &#10060;   | &#9989;  |
-| [two_moons_normalizing_flow.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/23/two_moons_normalizing_flow.ipynb) |     23.8 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/two_moons_normalizing_flow.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/two_moons_normalizing_flow.log) | &#10060;   | &#9989;  |
+| [two_moons_normalizing_flow.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/23/two_moons_normalizing_flow.ipynb) |     23.8 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/two_moons_normalizing_flow.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/two_moons_normalizing_flow.log) | &#10060;   | &#10060; |
 </details>
 
 <details open>
