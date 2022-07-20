@@ -26,12 +26,40 @@ torch.cuda.manual_seed_all(hash("so runs are repeatable") % 2**32 - 1)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4674/3874404621.py in <module>
-      5 import math
+/tmp/ipykernel_26350/3874404621.py in <module>
       6 
-----> 7 import torch
-      8 from torch import nn
+      7 import torch
+----> 8 from torch import nn
       9 from torch.nn import functional as F
+     10 from torch.utils import data
 
-ModuleNotFoundError: No module named 'torch'
-ModuleNotFoundError: No module named 'torch'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/__init__.py in <module>
+----> 1 from .modules import *  # noqa: F403
+      2 from .parameter import Parameter, UninitializedParameter, UninitializedBuffer
+      3 from .parallel import DataParallel
+      4 from . import init
+      5 from . import functional
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/__init__.py in <module>
+----> 1 from .module import Module
+      2 from .linear import Identity, Linear, Bilinear, LazyLinear
+      3 from .conv import Conv1d, Conv2d, Conv3d, \
+      4     ConvTranspose1d, ConvTranspose2d, ConvTranspose3d, \
+      5     LazyConv1d, LazyConv2d, LazyConv3d, LazyConvTranspose1d, LazyConvTranspose2d, LazyConvTranspose3d
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/module.py in <module>
+      5 
+      6 import torch
+----> 7 from ..parameter import Parameter
+      8 import torch.utils.hooks as hooks
+      9 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/parameter.py in <module>
+      1 import torch
+----> 2 from torch._C import _disabled_torch_function_impl
+      3 from collections import OrderedDict
+      4 
+      5 
+
+ModuleNotFoundError: No module named 'torch._C'
+ModuleNotFoundError: No module named 'torch._C'
