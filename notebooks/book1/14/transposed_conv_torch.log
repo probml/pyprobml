@@ -13,29 +13,39 @@ import numpy as np
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5646/4101351880.py in <module>
-      2 try:
-----> 3     import torch
-      4 except ModuleNotFoundError:
-
-ModuleNotFoundError: No module named 'torch'
-
-During handling of the above exception, another exception occurred:
-
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5646/4101351880.py in <module>
-      4 except ModuleNotFoundError:
-      5     get_ipython().run_line_magic('pip', 'install -qq torch')
-----> 6     import torch
+/tmp/ipykernel_5651/4101351880.py in <module>
+      6     import torch
       7 
-      8 from torch import nn
+----> 8 from torch import nn
+      9 import numpy as np
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/__init__.py in <module>
-    200     if USE_GLOBAL_DEPS:
-    201         _load_global_deps()
---> 202     from torch._C import *  # noqa: F403
-    203 
-    204 # Appease the type checker; ordinarily this binding is inserted by the
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/__init__.py in <module>
+----> 1 from .modules import *  # noqa: F403
+      2 from .parameter import Parameter, UninitializedParameter, UninitializedBuffer
+      3 from .parallel import DataParallel
+      4 from . import init
+      5 from . import functional
 
-ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
-ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/__init__.py in <module>
+----> 1 from .module import Module
+      2 from .linear import Identity, Linear, Bilinear, LazyLinear
+      3 from .conv import Conv1d, Conv2d, Conv3d, \
+      4     ConvTranspose1d, ConvTranspose2d, ConvTranspose3d, \
+      5     LazyConv1d, LazyConv2d, LazyConv3d, LazyConvTranspose1d, LazyConvTranspose2d, LazyConvTranspose3d
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/module.py in <module>
+      5 
+      6 import torch
+----> 7 from ..parameter import Parameter
+      8 import torch.utils.hooks as hooks
+      9 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/parameter.py in <module>
+      1 import torch
+----> 2 from torch._C import _disabled_torch_function_impl
+      3 from collections import OrderedDict
+      4 
+      5 
+
+ModuleNotFoundError: No module named 'torch._C'
+ModuleNotFoundError: No module named 'torch._C'
