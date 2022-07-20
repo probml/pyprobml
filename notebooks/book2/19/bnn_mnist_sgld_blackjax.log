@@ -55,7 +55,7 @@ tfd = tfp.distributions
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3885/833055583.py in <module>
+/tmp/ipykernel_3882/833055583.py in <module>
      23 try:
 ---> 24     import tensorflow_probability.substrates.jax as tfp
      25 except:
@@ -65,7 +65,7 @@ ModuleNotFoundError: No module named 'tensorflow_probability'
 During handling of the above exception, another exception occurred:
 
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_3885/833055583.py in <module>
+/tmp/ipykernel_3882/833055583.py in <module>
      25 except:
      26     get_ipython().run_line_magic('pip', 'install -qq tensorflow_probability')
 ---> 27     import tensorflow_probability.substrates.jax as tfp
