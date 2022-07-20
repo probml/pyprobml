@@ -1,0 +1,54 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+from scipy.stats import norm
+from scipy.optimize import minimize
+from matplotlib import pyplot as plt
+
+%matplotlib inline
+from cycler import cycler
+import jax.numpy as jnp
+import jax.scipy.stats.norm as jnorm
+from jax import grad
+
+try:
+    import seaborn as sns
+except ModuleNotFoundError:
+    %pip install seaborn
+    import seaborn as sns
+
+try:
+    import probml_utils as pml
+    from probml_utils import latexify, savefig
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+    from probml_utils import latexify, savefig
+try:
+    from statsmodels.discrete.discrete_model import Probit
+except ModuleNotFoundError:
+    %pip install -qq statsmodels
+    from statsmodels.discrete.discrete_model import Probit
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3887/3704738278.py in <module>
+     18 try:
+---> 19     import probml_utils as pml
+     20     from probml_utils import latexify, savefig
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3887/3704738278.py in <module>
+     21 except ModuleNotFoundError:
+     22     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 23     import probml_utils as pml
+     24     from probml_utils import latexify, savefig
+     25 try:
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
