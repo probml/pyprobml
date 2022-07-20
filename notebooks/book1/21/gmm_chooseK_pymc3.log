@@ -1,207 +1,75 @@
 An error occurred while executing the following cell:
 ------------------
-np.random.seed(42)
-
-# url = 'https://github.com/aloctavodia/BAP/tree/master/code/data/chemical_shifts_theo_exp.csv?raw=true'
-# There is some error reading the abvoe file
-# Error tokenizing data. C error: Expected 1 fields in line 71, saw 2
-url = "https://raw.githubusercontent.com/probml/probml-data/main/data/chemical_shifts_theo_exp.csv"
-df = pd.read_csv(url, sep=",")
-data = df["exp"]
-
-clusters = [3, 4, 5, 6]
-
-models = []
-traces = []
-for cluster in clusters:
-    with pm.Model() as model:
-        p = pm.Dirichlet("p", a=np.ones(cluster))
-        means = pm.Normal(
-            "means",
-            mu=np.linspace(data.min(), data.max(), cluster),
-            sd=10,
-            shape=cluster,
-            transform=pm.distributions.transforms.ordered,
-        )
-        sd = pm.HalfNormal("sd", sd=10)
-        y = pm.NormalMixture("y", w=p, mu=means, sd=sd, observed=data)
-        trace = pm.sample(1000, tune=2000, random_seed=123, cores=1, chains=2)
-        traces.append(trace)
-        models.append(model)
-
-
-# Visualize fitted densities, compared to KDE
-_, ax = plt.subplots(2, 2, figsize=(11, 8), constrained_layout=True)
-
-ax = np.ravel(ax)
-x = np.linspace(data.min(), data.max(), 200)
-for idx, trace_x in enumerate(traces):
-    x_ = np.array([x] * clusters[idx]).T
-
-    for i in range(50):  # posterior samples
-        i_ = np.random.randint(0, len(trace_x))
-        means_y = trace_x["means"][i_]
-        p_y = trace_x["p"][i_]
-        sd = trace_x["sd"][i_]
-        dist = stats.norm(means_y, sd)
-        ax[idx].plot(x, np.sum(dist.pdf(x_) * p_y, 1), "C0", alpha=0.1)
-
-    means_y = trace_x["means"].mean(0)
-    p_y = trace_x["p"].mean(0)
-    sd = trace_x["sd"].mean()
-    dist = stats.norm(means_y, sd)
-    ax[idx].plot(x, np.sum(dist.pdf(x_) * p_y, 1), "C0", lw=2)
-    ax[idx].plot(x, dist.pdf(x_) * p_y, "k--", alpha=0.7)
-
-    az.plot_kde(data, plot_kwargs={"linewidth": 2, "color": "k"}, ax=ax[idx])
-    ax[idx].set_title("K = {}".format(clusters[idx]))
-    ax[idx].set_yticks([])
-    ax[idx].set_xlabel("x")
-plt.savefig("gmm_chooseK_pymc3_kde.pdf")
-plt.show()
+# Compute information criteria for the 4 models
+# Use Bayesian Bootstrapping together with
+# pseudo Bayes Model Averaging
+# See "Bayesian analysis with Python" p201
+comp = az.compare(dict(zip(clusters, traces)), method="BB-pseudo-BMA")
+comp
+az.plot_compare(comp)
+plt.savefig("gmm_chooseK_pymc3_waic.pdf")
 ------------------
 
 ---------------------------------------------------------------------------
-AssertionError                            Traceback (most recent call last)
-/tmp/ipykernel_4734/2383297384.py in <module>
-     14 for cluster in clusters:
-     15     with pm.Model() as model:
----> 16         p = pm.Dirichlet("p", a=np.ones(cluster))
-     17         means = pm.Normal(
-     18             "means",
+KeyError                                  Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/indexes/base.py in get_loc(self, key, method, tolerance)
+   3360             try:
+-> 3361                 return self._engine.get_loc(casted_key)
+   3362             except KeyError as err:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/distribution.py in __new__(cls, name, *args, **kwargs)
-    123         else:
-    124             dist = cls.dist(*args, **kwargs)
---> 125         return model.Var(name, dist, data, total_size, dims=dims)
-    126 
-    127     def __getnewargs__(self):
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in Var(self, name, dist, data, total_size, dims)
-   1145                         transform=dist.transform,
-   1146                         total_size=total_size,
--> 1147                         model=self,
-   1148                     )
-   1149                 pm._log.debug(
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in __init__(self, type, owner, index, name, distribution, model, transform, total_size)
-   2011 
-   2012             self.transformed = model.Var(
--> 2013                 transformed_name, transform.apply(distribution), total_size=total_size
-   2014             )
-   2015 
+pandas/_libs/hashtable_class_helper.pxi in pandas._libs.hashtable.Int64HashTable.get_item()
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/transforms.py in apply(self, dist)
-    124     def apply(self, dist):
-    125         # avoid circular import
---> 126         return TransformedDistribution.dist(dist, self)
-    127 
-    128     def __str__(self):
+pandas/_libs/hashtable_class_helper.pxi in pandas._libs.hashtable.Int64HashTable.get_item()
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/distribution.py in dist(cls, *args, **kwargs)
-    131     def dist(cls, *args, **kwargs):
-    132         dist = object.__new__(cls)
---> 133         dist.__init__(*args, **kwargs)
-    134         return dist
-    135 
+KeyError: 0
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/transforms.py in __init__(self, dist, transform, *args, **kwargs)
-    152         self.dist = dist
-    153         self.transform_used = transform
---> 154         v = forward(FreeRV(name="v", distribution=dist))
-    155         self.type = v.type
-    156 
+The above exception was the direct cause of the following exception:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in __init__(self, type, owner, index, name, distribution, total_size, model)
-   1672             # The logp might need scaling in minibatches.
-   1673             # This is done in `Factor`.
--> 1674             self.logp_sum_unscaledt = distribution.logp_sum(self)
-   1675             self.logp_nojac_unscaledt = distribution.logp_nojac(self)
-   1676             self.total_size = total_size
+KeyError                                  Traceback (most recent call last)
+/tmp/ipykernel_6366/3848547173.py in <module>
+      5 comp = az.compare(dict(zip(clusters, traces)), method="BB-pseudo-BMA")
+      6 comp
+----> 7 az.plot_compare(comp)
+      8 plt.savefig("gmm_chooseK_pymc3_waic.pdf")
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/distributions/distribution.py in logp_sum(self, *args, **kwargs)
-    307         if only the sum of the logp values is needed.
-    308         """
---> 309         return tt.sum(self.logp(*args, **kwargs))
-    310 
-    311     __latex__ = _repr_latex_
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/plots/compareplot.py in plot_compare(comp_df, insample_dev, plot_standard_error, plot_ic_diff, order_by_rank, figsize, textsize, labeller, plot_kwargs, ax, backend, backend_kwargs, show)
+    157     # TODO: Add backend kwargs
+    158     plot = get_plotting_function("plot_compare", "compareplot", backend)
+--> 159     ax = plot(**compareplot_kwargs)
+    160 
+    161     return ax
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/tensor/basic.py in sum(input, axis, dtype, keepdims, acc_dtype)
-   3219     """
-   3220 
--> 3221     out = elemwise.Sum(axis=axis, dtype=dtype, acc_dtype=acc_dtype)(input)
-   3222 
-   3223     if keepdims:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/plots/backends/matplotlib/compareplot.py in plot_compare(ax, comp_df, figsize, plot_ic_diff, plot_standard_error, insample_dev, yticks_pos, yticks_labels, plot_kwargs, information_criterion, textsize, step, backend_kwargs, show)
+     80 
+     81     if insample_dev:
+---> 82         scale = comp_df[f"{information_criterion}_scale"][0]
+     83         p_ic = comp_df[f"p_{information_criterion}"]
+     84         if scale == "log":
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/graph/op.py in __call__(self, *inputs, **kwargs)
-    251 
-    252         if config.compute_test_value != "off":
---> 253             compute_test_value(node)
-    254 
-    255         if self.default_output is not None:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/series.py in __getitem__(self, key)
+    940 
+    941         elif key_is_scalar:
+--> 942             return self._get_value(key)
+    943 
+    944         if is_hashable(key):
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/graph/op.py in compute_test_value(node)
-    124 
-    125     # Create a thunk that performs the computation
---> 126     thunk = node.op.make_thunk(node, storage_map, compute_map, no_recycling=[])
-    127     thunk.inputs = [storage_map[v] for v in node.inputs]
-    128     thunk.outputs = [storage_map[v] for v in node.outputs]
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/series.py in _get_value(self, label, takeable)
+   1049 
+   1050         # Similar to Index.get_value, but we do not fall back to positional
+-> 1051         loc = self.index.get_loc(label)
+   1052         return self.index._get_values_for_loc(self, loc, label)
+   1053 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/graph/op.py in make_thunk(self, node, storage_map, compute_map, no_recycling, impl)
-    632             )
-    633             try:
---> 634                 return self.make_c_thunk(node, storage_map, compute_map, no_recycling)
-    635             except (NotImplementedError, MethodNotDefined):
-    636                 # We requested the c code, so don't catch the error.
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/indexes/base.py in get_loc(self, key, method, tolerance)
+   3361                 return self._engine.get_loc(casted_key)
+   3362             except KeyError as err:
+-> 3363                 raise KeyError(key) from err
+   3364 
+   3365         if is_scalar(key) and isna(key) and not self.hasnans:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/graph/op.py in make_c_thunk(self, node, storage_map, compute_map, no_recycling)
-    599                 raise NotImplementedError("float16")
-    600         outputs = cl.make_thunk(
---> 601             input_storage=node_input_storage, output_storage=node_output_storage
-    602         )
-    603         thunk, node_input_filters, node_output_filters = outputs
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/basic.py in make_thunk(self, input_storage, output_storage, storage_map)
-   1202         init_tasks, tasks = self.get_init_tasks()
-   1203         cthunk, module, in_storage, out_storage, error_storage = self.__compile__(
--> 1204             input_storage, output_storage, storage_map
-   1205         )
-   1206 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/basic.py in __compile__(self, input_storage, output_storage, storage_map)
-   1140             input_storage,
-   1141             output_storage,
--> 1142             storage_map,
-   1143         )
-   1144         return (
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/basic.py in cthunk_factory(self, error_storage, in_storage, out_storage, storage_map)
-   1632             for node in self.node_order:
-   1633                 node.op.prepare_node(node, storage_map, None, "c")
--> 1634             module = get_module_cache().module_from_key(key=key, lnk=self)
-   1635 
-   1636         vars = self.inputs + self.outputs + self.orphans
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/cmodule.py in module_from_key(self, key, lnk)
-   1155         # Is the source code already in the cache?
-   1156         module_hash = get_module_hash(src_code, key)
--> 1157         module = self._get_from_hash(module_hash, key)
-   1158         if module is not None:
-   1159             return module
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/cmodule.py in _get_from_hash(self, module_hash, key)
-   1058             with lock_ctx():
-   1059                 try:
--> 1060                     key_data.add_key(key, save_pkl=bool(key[0]))
-   1061                     key_broken = False
-   1062                 except pickle.PicklingError:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/link/c/cmodule.py in add_key(self, key, save_pkl)
-    495 
-    496         """
---> 497         assert key not in self.keys
-    498         self.keys.add(key)
-    499         if save_pkl:
-
-AssertionError: 
-AssertionError: 
+KeyError: 0
+KeyError: 0
