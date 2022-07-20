@@ -164,7 +164,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4978/3773121736.py in <module>
+/tmp/ipykernel_4963/3773121736.py in <module>
      19 try:
 ---> 20     from tensorflow import keras
      21 except ModuleNotFoundError:
@@ -174,12 +174,12 @@ ModuleNotFoundError                       Traceback (most recent call last)
 ---> 37 from tensorflow.python.tools import module_util as _module_util
      38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
 
-ModuleNotFoundError: No module named 'tensorflow.python'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4978/3773121736.py in <module>
+/tmp/ipykernel_4963/3773121736.py in <module>
      21 except ModuleNotFoundError:
      22     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 ---> 23     from tensorflow import keras
