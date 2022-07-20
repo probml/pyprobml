@@ -30,7 +30,7 @@ print(device)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4350/1422306336.py in <module>
+/tmp/ipykernel_4349/1422306336.py in <module>
       4     get_ipython().run_line_magic('pip', 'install -qq torch')
       5     import torch
 ----> 6 import torch.nn as nn
