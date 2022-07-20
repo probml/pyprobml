@@ -40,7 +40,7 @@ import math
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_5014/852505752.py in <module>
+/tmp/ipykernel_5011/852505752.py in <module>
      15 
      16 try:
 ---> 17     import pymc3 as pm
