@@ -8,7 +8,7 @@ casino_hmm_training.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hm
 ekf_mlp.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_mlp.ipynb
 ekf_pendulum.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_pendulum.ipynb
 ekf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_spiral.ipynb
-gaussian_hmm_2d,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/gaussian_hmm_2d.ipynb
+gaussian_hmm_2d.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/gaussian_hmm_2d.ipynb
 kf_linreg.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_linreg.ipynb
 kf_parallel.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_parallel.ipynb
 kf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_spiral.ipynb
@@ -16,8 +16,8 @@ kf_tracking.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demo
 laplace_approx_beta_binom.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book1/04/laplace_approx_beta_binom_jax.ipynb
 linreg_hierarchical_non_centered.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/15/linreg_hierarchical_non_centered_blackjax.ipynb
 poisson_hmm_changepoint.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/poisson_hmm_changepoint.ipynb
-bnn_mnist_sgld/ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld_blackjax.ipynb 
-rbpf_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneuver.py
+bnn_mnist_sgld.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld_blackjax.ipynb 
+rbpf_maneuver_demo.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneuver.py
 sis_vs_smc.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/sis_vs_smc.py
 ukf_pendulum.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_pendulum.ipynb
 ukf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_spiral.ipynb
