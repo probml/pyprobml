@@ -1,37 +1,23 @@
 An error occurred while executing the following cell:
 ------------------
-import numpy as np
-import matplotlib.pyplot as plt
+# Based on http://d2l.ai/chapter_computer-vision/transposed-conv.html
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install -qq torch
+    import torch
 
-np.random.seed(seed=1)
-import math
-
-import torch
 from torch import nn
-from torch.nn import functional as F
-from torch.utils import data
-from IPython import display
-
-!mkdir figures # for saving plots
-
-import warnings
-
-warnings.filterwarnings("ignore")
-
-# For reproducing the results on different runs
-torch.backends.cudnn.deterministic = True
-torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
-torch.cuda.manual_seed_all(hash("so runs are repeatable") % 2**32 - 1)
+import numpy as np
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_26361/3874404621.py in <module>
-      6 
-      7 import torch
+/tmp/ipykernel_5651/4101351880.py in <module>
+      6     import torch
+      7 
 ----> 8 from torch import nn
-      9 from torch.nn import functional as F
-     10 from torch.utils import data
+      9 import numpy as np
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/__init__.py in <module>
 ----> 1 from .modules import *  # noqa: F403
