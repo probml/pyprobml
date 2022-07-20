@@ -36,7 +36,7 @@ AttributeError: _pkg_info
 During handling of the above exception, another exception occurred:
 
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_3884/490067645.py in <module>
+/tmp/ipykernel_3886/490067645.py in <module>
 ----> 1 data = az.from_numpyro(mcmc)
       2 az.summary(data)
 
