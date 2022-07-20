@@ -1,0 +1,41 @@
+An error occurred while executing the following cell:
+------------------
+# Based on http://d2l.ai/chapter_computer-vision/transposed-conv.html
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install -qq torch
+    import torch
+
+from torch import nn
+import numpy as np
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_5646/4101351880.py in <module>
+      2 try:
+----> 3     import torch
+      4 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'torch'
+
+During handling of the above exception, another exception occurred:
+
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_5646/4101351880.py in <module>
+      4 except ModuleNotFoundError:
+      5     get_ipython().run_line_magic('pip', 'install -qq torch')
+----> 6     import torch
+      7 
+      8 from torch import nn
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/__init__.py in <module>
+    200     if USE_GLOBAL_DEPS:
+    201         _load_global_deps()
+--> 202     from torch._C import *  # noqa: F403
+    203 
+    204 # Appease the type checker; ordinarily this binding is inserted by the
+
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/torch/lib/libtorch_cpu.so: cannot read file data
