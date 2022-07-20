@@ -78,8 +78,8 @@ It is recommended to use Python `3.7.13` because our automated GitHub workflow u
     * Do not use `.pdf` or `.png` extension while saving a figure with `probml_utils.savefig`. For example:
     ```py
     savefig("foo")  # correct
-    # savefig("foo.pdf")  # incorrect
-    # savefig("foo.png")  # incorrect
+    # savefig("foo.pdf")  # incorrect but if used, it will be automatically converted based on LATEXIFY or other flags.
+    # savefig("foo.png")  # incorrect but if used, it will be automatically converted based on LATEXIFY or other flags.
     ```
 
 4. To ensure your code passes the code formatting check, `pip install pre-commit` locally and run `pre-commit install`.
@@ -99,7 +99,7 @@ ipython foo.ipynb
 ```py
 ipython foo.ipynb
 ```
-* To save figures locally (in `.png` format):
+* To save figures locally (in `.pdf` format):
 ```py
 export FIG_DIR=/path/to/figures/directory
 ipython foo.ipynb
