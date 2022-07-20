@@ -1,0 +1,51 @@
+An error occurred while executing the following cell:
+------------------
+# import probml_utils as pml
+try:
+    import probml_utils.pgmpy_utils as pgm
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils.pgmpy_utils as pgm
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/pgmpy_utils.py in <module>
+      7 try:
+----> 8   import pgmpy
+      9 except:
+
+ModuleNotFoundError: No module named 'pgmpy'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4822/3440308482.py in <module>
+      1 # import probml_utils as pml
+      2 try:
+----> 3     import probml_utils.pgmpy_utils as pgm
+      4 except ModuleNotFoundError:
+      5     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/pgmpy_utils.py in <module>
+      9 except:
+     10   os.system("pip install pgmpy")
+---> 11   import pgmpy
+     12 
+     13 import numpy as np
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/__init__.py in <module>
+----> 1 from .global_vars import HAS_PANDAS, device, no_progress
+      2 
+      3 __all__ = ["HAS_PANDAS", "device"]
+      4 __version__ = "0.1.19"
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/global_vars.py in <module>
+      6 
+      7     # Check if GPU is available
+----> 8     if torch.cuda.is_available():
+      9         device = torch.device("cuda")
+     10     else:
+
+AttributeError: module 'torch' has no attribute 'cuda'
+AttributeError: module 'torch' has no attribute 'cuda'
