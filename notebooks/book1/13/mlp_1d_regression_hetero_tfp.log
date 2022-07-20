@@ -41,7 +41,7 @@ for fixed_var in fixed_vars:
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_5636/2370705851.py in <module>
+/tmp/ipykernel_5659/2370705851.py in <module>
       8 
       9     model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.01), loss=negloglik)
 ---> 10     history = model.fit(x, y, epochs=500, batch_size=100, verbose=False)
