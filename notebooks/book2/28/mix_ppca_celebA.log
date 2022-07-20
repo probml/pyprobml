@@ -95,7 +95,7 @@ def main(argv):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4432/4106335031.py in <module>
+/tmp/ipykernel_4439/4106335031.py in <module>
      44 try:
 ---> 45     from mfa_celeba_helpers import *
      46 except ModuleNotFoundError:
@@ -105,7 +105,7 @@ ModuleNotFoundError: No module named 'mfa_celeba_helpers'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4432/4106335031.py in <module>
+/tmp/ipykernel_4439/4106335031.py in <module>
      46 except ModuleNotFoundError:
      47     get_ipython().run_line_magic('pip', 'install -qq mfa_celeba_helpers')
 ---> 48     from mfa_celeba_helpers import *
