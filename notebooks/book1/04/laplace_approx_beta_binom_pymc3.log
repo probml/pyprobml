@@ -1,103 +1,65 @@
 An error occurred while executing the following cell:
 ------------------
-# Laplace
-with pm.Model() as normal_aproximation:
-    theta = pm.Beta("theta", 1.0, 1.0)
-    y = pm.Binomial("y", n=1, p=theta, observed=dataset)  # Bernoulli
-    mean_q = pm.find_MAP()
-    std_q = ((1 / pm.find_hessian(mean_q, vars=[theta])) ** 0.5)[0]
-    print(theta)
-    print(pm.find_hessian(mean_q, vars=[theta]))
-    loc = mean_q["theta"]
+import jax
+import jax.numpy as jnp
+from jax import lax
+import numpy as np
+import matplotlib.pyplot as plt
 
-# plt.savefig('bb_laplace.pdf');
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qqq tensorflow_probability
+    from tensorflow_probability.substrates import jax as tfp
+
+dist = tfp.distributions
+
+
+try:
+    import pymc3 as pm
+except ModuleNotFoundError:
+    %pip install -qq pymc3
+    import pymc3 as pm
+
+try:
+    import scipy.stats as stats
+except ModuleNotFoundError:
+    %pip install -qq scipy
+    import scipy.stats as stats
+
+import scipy.special as sp
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
+
+import math
 ------------------
 
 ---------------------------------------------------------------------------
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4354/2376091484.py in <module>
-      4     y = pm.Binomial("y", n=1, p=theta, observed=dataset)  # Bernoulli
-      5     mean_q = pm.find_MAP()
-----> 6     std_q = ((1 / pm.find_hessian(mean_q, vars=[theta])) ** 0.5)[0]
-      7     print(theta)
-      8     print(pm.find_hessian(mean_q, vars=[theta]))
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_5014/852505752.py in <module>
+     15 
+     16 try:
+---> 17     import pymc3 as pm
+     18 except ModuleNotFoundError:
+     19     get_ipython().run_line_magic('pip', 'install -qq pymc3')
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/tuning/scaling.py in find_hessian(point, vars, model)
-     61     model = modelcontext(model)
-     62     H = model.fastfn(hessian_diag(model.logpt, vars))
----> 63     return H(Point(point, model=model))
-     64 
-     65 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/__init__.py in <module>
+     11 from .model_graph import model_to_graphviz
+     12 from . import ode
+---> 13 from .stats import *
+     14 from .sampling import *
+     15 from .step_methods import *
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/model.py in fastd2logp(self, vars)
-    452 
-    453     def tree_contains(self, item):
---> 454         # needed for `add_random_variable` method
-    455         if isinstance(self.parent, treedict):
-    456             return (dict.__contains__(self, item) or
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/stats/__init__.py in <module>
+     30 compare = map_args(az.compare)
+     31 ess = map_args(az.ess)
+---> 32 geweke = map_args(az.geweke)
+     33 hpd = map_args(az.hpd)
+     34 loo = map_args(az.loo)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/configparser.py in res(*args, **kwargs)
-     46         kv_tuple = kv_pair.split('=', 1)
-     47         if len(kv_tuple) == 1:
----> 48             if issue_warnings:
-     49                 TheanoConfigWarning.warn(
-     50                     ("Config key '%s' has no value, ignoring it"
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/theanof.py in hessian(f, vars)
-    169 @change_flags(compute_test_value='ignore')
-    170 def hessian_diag(f, vars=None):
---> 171     if vars is None:
-    172         vars = cont_inputs(f)
-    173 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/theanof.py in jacobian(f, vars)
-    153 @change_flags(compute_test_value='ignore')
-    154 def hessian(f, vars=None):
---> 155     return -jacobian(gradient(f, vars), vars)
-    156 
-    157 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/theanof.py in <listcomp>(.0)
-    153 @change_flags(compute_test_value='ignore')
-    154 def hessian(f, vars=None):
---> 155     return -jacobian(gradient(f, vars), vars)
-    156 
-    157 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/theanof.py in jacobian1(f, v)
-    145     def grad_ii(i):
-    146         return theano.grad(f[i], x)[i]
---> 147 
-    148     return theano.scan(grad_ii, sequences=[idx],
-    149                        n_steps=f.shape[0],
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/scan/views.py in map(fn, sequences, non_sequences, truncate_gradient, go_backwards, mode, name)
-     56         go_backwards=go_backwards,
-     57         mode=mode,
----> 58         name=name,
-     59     )
-     60 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/scan/basic.py in scan(fn, sequences, outputs_info, non_sequences, n_steps, truncate_gradient, go_backwards, mode, name, profile, allow_gc, strict, return_list)
-   1007     # might do not want to. Currently we are working on removing the
-   1008     # dependencies on sandbox code completeley.
--> 1009     from theano import gpuarray
-   1010 
-   1011     if gpuarray.pygpu_activated:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/gpuarray/__init__.py in <module>
-     27 
-     28 # This is for documentation not to depend on the availability of pygpu
----> 29 from .type import (GpuArrayType, GpuArrayVariable, GpuArrayConstant,
-     30                    GpuArraySharedVariable, gpuarray_shared_constructor,
-     31                    reg_context, get_context, ContextNotDefined)
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/theano/gpuarray/type.py in <module>
-     10 from theano.tensor.type import TensorType
-     11 from theano.tensor.var import _tensor_py_operators
----> 12 from theano import Type, Variable, Constant, tensor, config, scalar
-     13 from theano.compile import SharedVariable
-     14 
-
-ImportError: cannot import name 'Type' from 'theano' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/theano/__init__.py)
-ImportError: cannot import name 'Type' from 'theano' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/theano/__init__.py)
+AttributeError: module 'arviz' has no attribute 'geweke'
+AttributeError: module 'arviz' has no attribute 'geweke'
