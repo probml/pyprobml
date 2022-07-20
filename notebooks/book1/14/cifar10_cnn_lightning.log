@@ -1,51 +1,141 @@
 An error occurred while executing the following cell:
 ------------------
-# Fast debug
-trainer = Trainer(
-    progress_bar_refresh_rate=10,
-    max_epochs=1,
-    tpu_cores=AVAIL_TPUS,
-    gpus=NUM_GPUS,
+if DATA_AUG_TYPE == "rnd":
+    # https://pytorch-lightning.readthedocs.io/en/latest/notebooks/lightning_examples/cifar10-baseline.html#
+    train_transforms = torchvision.transforms.Compose(
+        [
+            torchvision.transforms.RandomCrop(32, padding=4),
+            torchvision.transforms.RandomHorizontalFlip(),
+            torchvision.transforms.ToTensor(),
+            cifar10_normalization(),
+        ]
+    )
+else:
+    # https://github.com/PyTorchLightning/Lightning-Bolts/blob/master/pl_bolts/datamodules/cifar10_datamodule.py#L115
+    train_transforms = torchvision.transforms.Compose(
+        [
+            torchvision.transforms.ToTensor(),
+            cifar10_normalization(),
+        ]
+    )
+
+
+test_transforms = torchvision.transforms.Compose(
+    [
+        torchvision.transforms.ToTensor(),
+        cifar10_normalization(),
+    ]
 )
-trainer.fit(model, datamodule=dm)
+
+
+dm = CIFAR10DataModule(
+    data_dir=PATH_DATASETS,
+    batch_size=BATCH_SIZE,
+    num_workers=NUM_WORKERS,
+    train_transforms=train_transforms,
+    test_transforms=test_transforms,
+    val_transforms=test_transforms,
+)
+
+
+dm.prepare_data()  # force download now
+dm.setup(stage="fit")  # force make data loaders now
+
+classes = ("plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck")
 ------------------
 
 ---------------------------------------------------------------------------
-MisconfigurationException                 Traceback (most recent call last)
-/tmp/ipykernel_5474/3004781518.py in <module>
-      4     max_epochs=1,
-      5     tpu_cores=AVAIL_TPUS,
-----> 6     gpus=NUM_GPUS,
-      7 )
-      8 trainer.fit(model, datamodule=dm)
+HTTPError                                 Traceback (most recent call last)
+/tmp/ipykernel_5963/1707222892.py in <module>
+     37 
+     38 
+---> 39 dm.prepare_data()  # force download now
+     40 dm.setup(stage="fit")  # force make data loaders now
+     41 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/utilities/argparse.py in insert_env_defaults(self, *args, **kwargs)
-    337 
-    338         # all args were already moved to kwargs
---> 339         return fn(self, **kwargs)
-    340 
-    341     return cast(_T, insert_env_defaults)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pl_bolts/datamodules/vision_datamodule.py in prepare_data(self, *args, **kwargs)
+     59     def prepare_data(self, *args: Any, **kwargs: Any) -> None:
+     60         """Saves files to data_dir."""
+---> 61         self.dataset_cls(self.data_dir, train=True, download=True)
+     62         self.dataset_cls(self.data_dir, train=False, download=True)
+     63 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py in __init__(self, logger, checkpoint_callback, enable_checkpointing, callbacks, default_root_dir, gradient_clip_val, gradient_clip_algorithm, process_position, num_nodes, num_processes, devices, gpus, auto_select_gpus, tpu_cores, ipus, log_gpu_memory, progress_bar_refresh_rate, enable_progress_bar, overfit_batches, track_grad_norm, check_val_every_n_epoch, fast_dev_run, accumulate_grad_batches, max_epochs, min_epochs, max_steps, min_steps, max_time, limit_train_batches, limit_val_batches, limit_test_batches, limit_predict_batches, val_check_interval, flush_logs_every_n_steps, log_every_n_steps, accelerator, strategy, sync_batchnorm, precision, enable_model_summary, weights_summary, weights_save_path, num_sanity_val_steps, resume_from_checkpoint, profiler, benchmark, deterministic, reload_dataloaders_every_n_epochs, auto_lr_find, replace_sampler_ddp, detect_anomaly, auto_scale_batch_size, prepare_data_per_node, plugins, amp_backend, amp_level, move_metrics_to_cpu, multiple_trainloader_mode, stochastic_weight_avg, terminate_on_nan)
-    500             amp_type=amp_backend,
-    501             amp_level=amp_level,
---> 502             plugins=plugins,
-    503         )
-    504         self._logger_connector = LoggerConnector(self, log_gpu_memory)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/cifar.py in __init__(self, root, train, transform, target_transform, download)
+     63 
+     64         if download:
+---> 65             self.download()
+     66 
+     67         if not self._check_integrity():
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py in __init__(self, devices, num_nodes, accelerator, strategy, plugins, precision, amp_type, amp_level, sync_batchnorm, benchmark, replace_sampler_ddp, deterministic, auto_select_gpus, num_processes, tpu_cores, ipus, gpus)
-    199         if self._accelerator_flag == "auto" or self._accelerator_flag is None:
-    200             self._accelerator_flag = self._choose_accelerator()
---> 201         self._set_parallel_devices_and_init_accelerator()
-    202 
-    203         # 3. Instantiate ClusterEnvironment
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/cifar.py in download(self)
+    139             print("Files already downloaded and verified")
+    140             return
+--> 141         download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
+    142 
+    143     def extra_repr(self) -> str:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py in _set_parallel_devices_and_init_accelerator(self)
-    518             ]
-    519             raise MisconfigurationException(
---> 520                 f"{self.accelerator.__class__.__qualname__} can not run on your system"
-    521                 " since the accelerator is not available. The following accelerator(s)"
-    522                 " is available and can be passed into `accelerator` argument of"
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/utils.py in download_and_extract_archive(url, download_root, extract_root, filename, md5, remove_finished)
+    444         filename = os.path.basename(url)
+    445 
+--> 446     download_url(url, download_root, filename, md5)
+    447 
+    448     archive = os.path.join(download_root, filename)
 
-MisconfigurationException: GPUAccelerator can not run on your system since the accelerator is not available. The following accelerator(s) is available and can be passed into `accelerator` argument of `Trainer`: ['cpu'].
-MisconfigurationException: GPUAccelerator can not run on your system since the accelerator is not available. The following accelerator(s) is available and can be passed into `accelerator` argument of `Trainer`: ['cpu'].
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/utils.py in download_url(url, root, filename, md5, max_redirect_hops)
+    144     else:
+    145         # expand redirect chain if needed
+--> 146         url = _get_redirect_url(url, max_hops=max_redirect_hops)
+    147 
+    148         # check if file is located on Google Drive
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/utils.py in _get_redirect_url(url, max_hops)
+     92 
+     93     for _ in range(max_hops + 1):
+---> 94         with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as response:
+     95             if response.url == url or response.url is None:
+     96                 return url
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlopen(url, data, timeout, cafile, capath, cadefault, context)
+    220     else:
+    221         opener = _opener
+--> 222     return opener.open(url, data, timeout)
+    223 
+    224 def install_opener(opener):
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in open(self, fullurl, data, timeout)
+    529         for processor in self.process_response.get(protocol, []):
+    530             meth = getattr(processor, meth_name)
+--> 531             response = meth(req, response)
+    532 
+    533         return response
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_response(self, request, response)
+    639         if not (200 <= code < 300):
+    640             response = self.parent.error(
+--> 641                 'http', request, response, code, msg, hdrs)
+    642 
+    643         return response
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in error(self, proto, *args)
+    567         if http_err:
+    568             args = (dict, 'default', 'http_error_default') + orig_args
+--> 569             return self._call_chain(*args)
+    570 
+    571 # XXX probably also want an abstract factory that knows when it makes
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _call_chain(self, chain, kind, meth_name, *args)
+    501         for handler in handlers:
+    502             func = getattr(handler, meth_name)
+--> 503             result = func(*args)
+    504             if result is not None:
+    505                 return result
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_error_default(self, req, fp, code, msg, hdrs)
+    647 class HTTPDefaultErrorHandler(BaseHandler):
+    648     def http_error_default(self, req, fp, code, msg, hdrs):
+--> 649         raise HTTPError(req.full_url, code, msg, hdrs, fp)
+    650 
+    651 class HTTPRedirectHandler(BaseHandler):
+
+HTTPError: HTTP Error 500: Internal Server Error
+HTTPError: HTTP Error 500: Internal Server Error
