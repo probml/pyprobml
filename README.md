@@ -354,6 +354,7 @@ Book1: In total, 242 jobs were tested.
 | [book2/18/gp_spatial_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/gp_spatial_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/gp_spatial_demo.png> | [log](-) |
 | [book2/18/deepgp_stepdata](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/deepgp_stepdata.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/deepgp_stepdata.png> | [log](-) |
 | [book2/18/gp_deep_kernel_learning](https://github.com/probml/pyprobml/tree/master/notebooks/book2/18/gp_deep_kernel_learning.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/18/gp_deep_kernel_learning.png> | [log](-) |
+| [book2/19/bnn_mnist_sgld_jaxbayes](https://github.com/probml/pyprobml/tree/master/notebooks/book2/19/bnn_mnist_sgld_jaxbayes.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/19/bnn_mnist_sgld_jaxbayes.png> | [log](-) |
 | [book2/20/parzen_window_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/20/parzen_window_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/20/parzen_window_demo.png> | [log](-) |
 | [book2/23/flow_2d_mlp](https://github.com/probml/pyprobml/tree/master/notebooks/book2/23/flow_2d_mlp.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/flow_2d_mlp.png> | [log](-) |
 | [book2/23/two_moons_nsf_normalizing_flow](https://github.com/probml/pyprobml/tree/master/notebooks/book2/23/two_moons_nsf_normalizing_flow.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/23/two_moons_nsf_normalizing_flow.png> | [log](-) |
@@ -408,5 +409,5 @@ Book1: In total, 242 jobs were tested.
 
 ## Summary
 
-Book2: In total, 148 jobs were tested.
+Book2: In total, 149 jobs were tested.
 23 jobs failed.
