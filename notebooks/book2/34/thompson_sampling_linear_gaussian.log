@@ -214,7 +214,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4527/2794284974.py in <module>
+/tmp/ipykernel_4445/2794284974.py in <module>
     178 
     179 fig, ax = plt.subplots(figsize=(4, 5))
 --> 180 sns.heatmap(map_reward_df, cmap="viridis", ax=ax, xticklabels=labels)
