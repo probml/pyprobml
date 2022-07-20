@@ -1,0 +1,129 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import multivariate_normal
+import os
+
+
+# if os.path.isdir("scripts"):
+#     os.chdir("scripts")
+
+
+def f1(x):
+    return np.log(multivariate_normal.pdf(x, 0, 0.25**2)) + 1
+
+
+def f2(x):
+    return np.log(multivariate_normal.pdf(x, 1, 0.2**2)) + 20
+
+
+def f3(x):
+    return (
+        5 * np.sin(2 * (x - 0.5))
+        + f1(0.5 * x)
+        + f2(0.5 * x)
+        + 3.5
+        + 20 * np.transpose(multivariate_normal.pdf(x, -2, 0.5**2))
+        - 20 * np.transpose(multivariate_normal.pdf(x, 3, 1**2))
+        - 70 * np.transpose(multivariate_normal.pdf(x, 4, 0.5**2))
+        + 40 * np.transpose(multivariate_normal.pdf(x, -3, 0.5**2))
+        + 100 * np.transpose(multivariate_normal.pdf(x, -4, 0.8**2))
+        + 10 * np.transpose(multivariate_normal.pdf(x, 3, 0.3**2))
+        - 10 * np.transpose(multivariate_normal.pdf(x, -2.8, 0.5**2))
+    )
+
+
+domain = np.arange(-5, 5.01, 0.01)
+
+p1 = plt.plot(domain, f1(domain), "-b")
+p2 = plt.plot(domain, f2(domain), ":g")
+p3 = plt.plot(domain, f3(domain), "-.r")
+plt.axis([-3, 5, -50, 50])
+plt.legend(
+    [
+        "Q(" + "\u03B8" + "," + "\u03B8" + "\u209C" + ")",
+        "Q(" + "\u03B8" + "," + "\u03B8" + "\u209C" + "+" + "\u2081" + ")",
+        "I(" + "\u03B8" + ")",
+    ]
+)
+plt.vlines(-0.65, -50, -0.60, linestyles="dotted")
+plt.vlines(0.065, -50, 8.766, linestyles="dotted")
+plt.vlines(1.129, -50, 23.376, linestyles="dotted")
+
+plt.xticks([], [])
+plt.yticks([], [])
+
+plt.text(-0.75, -58, "\u03B8" + "\u2096", fontsize=16)
+plt.text(-0.165, -58, "\u03B8" + "\u209C" + "\u208A" + "\u2081", fontsize=16)
+plt.text(1.029, -58, "\u03B8" + "\u209C" + "\u208A" + "\u2082", fontsize=16)
+
+plt.show()
+plt.savefig("figures/emLogLikelihoodMax.png")
+------------------
+
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+/tmp/ipykernel_3878/1510232810.py in <module>
+     58 
+     59 plt.show()
+---> 60 plt.savefig("figures/emLogLikelihoodMax.png")
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in savefig(*args, **kwargs)
+    977 def savefig(*args, **kwargs):
+    978     fig = gcf()
+--> 979     res = fig.savefig(*args, **kwargs)
+    980     fig.canvas.draw_idle()   # need this if 'transparent=True' to reset colors
+    981     return res
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/figure.py in savefig(self, fname, transparent, **kwargs)
+   3044                         ax.patch._cm_set(facecolor='none', edgecolor='none'))
+   3045 
+-> 3046             self.canvas.print_figure(fname, **kwargs)
+   3047 
+   3048     def ginput(self, n=1, timeout=30, show_clicks=True,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backend_bases.py in print_figure(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)
+   2323                         orientation=orientation,
+   2324                         bbox_inches_restore=_bbox_inches_restore,
+-> 2325                         **kwargs)
+   2326             finally:
+   2327                 if bbox_inches and restore_bbox:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backend_bases.py in wrapper(*args, **kwargs)
+   1646             kwargs.pop(arg)
+   1647 
+-> 1648         return func(*args, **kwargs)
+   1649 
+   1650     return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/_api/deprecation.py in wrapper(*inner_args, **inner_kwargs)
+    413                          else deprecation_addendum,
+    414                 **kwargs)
+--> 415         return func(*inner_args, **inner_kwargs)
+    416 
+    417     DECORATORS[wrapper] = decorator
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backends/backend_agg.py in print_png(self, filename_or_obj, metadata, pil_kwargs, *args)
+    541         mpl.image.imsave(
+    542             filename_or_obj, self.buffer_rgba(), format="png", origin="upper",
+--> 543             dpi=self.figure.dpi, metadata=metadata, pil_kwargs=pil_kwargs)
+    544 
+    545     def print_to_buffer(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/image.py in imsave(fname, arr, vmin, vmax, cmap, format, origin, dpi, metadata, pil_kwargs)
+   1673         pil_kwargs.setdefault("format", format)
+   1674         pil_kwargs.setdefault("dpi", (dpi, dpi))
+-> 1675         image.save(fname, **pil_kwargs)
+   1676 
+   1677 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/PIL/Image.py in save(self, fp, format, **params)
+   2315                 fp = builtins.open(filename, "r+b")
+   2316             else:
+-> 2317                 fp = builtins.open(filename, "w+b")
+   2318 
+   2319         try:
+
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/emLogLikelihoodMax.png'
+FileNotFoundError: [Errno 2] No such file or directory: 'figures/emLogLikelihoodMax.png'
