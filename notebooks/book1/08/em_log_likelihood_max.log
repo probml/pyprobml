@@ -64,7 +64,7 @@ plt.savefig("figures/emLogLikelihoodMax.png")
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_3955/1510232810.py in <module>
+/tmp/ipykernel_3950/1510232810.py in <module>
      58 
      59 plt.show()
 ---> 60 plt.savefig("figures/emLogLikelihoodMax.png")

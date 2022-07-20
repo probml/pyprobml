@@ -6,7 +6,7 @@ from jax.flatten_util import ravel_pytree
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3956/3377022929.py in <module>
+/tmp/ipykernel_3952/3377022929.py in <module>
 ----> 1 import flax.linen as nn
       2 from jax.flatten_util import ravel_pytree
 
