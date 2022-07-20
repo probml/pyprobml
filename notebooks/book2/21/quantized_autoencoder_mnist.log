@@ -1,69 +1,8 @@
-An error occurred while executing the following cell:
-------------------
-try:
-    import torch
-except ModuleNotFoundError:
-    %pip install -qq torch
-    import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import torch.autograd as autograd
-
-try:
-    from torchvision import datasets, transforms
-except ModuleNotFoundError:
-    %pip install -qq torchvision
-    from torchvision import datasets, transforms
-import numpy as np
-import matplotlib.pyplot as plt
-
-try:
-    from tqdm import tqdm
-except ModuleNotFoundError:
-    %pip install -qq tqdm
-    from tqdm import tqdm
-
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
-print(device)
-------------------
-
----------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4350/1422306336.py in <module>
-      4     get_ipython().run_line_magic('pip', 'install -qq torch')
-      5     import torch
-----> 6 import torch.nn as nn
-      7 import torch.nn.functional as F
-      8 import torch.optim as optim
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/__init__.py in <module>
-----> 1 from .modules import *  # noqa: F403
-      2 from .parameter import Parameter, UninitializedParameter, UninitializedBuffer
-      3 from .parallel import DataParallel
-      4 from . import init
-      5 from . import functional
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/__init__.py in <module>
-----> 1 from .module import Module
-      2 from .linear import Identity, Linear, Bilinear, LazyLinear
-      3 from .conv import Conv1d, Conv2d, Conv3d, \
-      4     ConvTranspose1d, ConvTranspose2d, ConvTranspose3d, \
-      5     LazyConv1d, LazyConv2d, LazyConv3d, LazyConvTranspose1d, LazyConvTranspose2d, LazyConvTranspose3d
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/modules/module.py in <module>
-      5 
-      6 import torch
-----> 7 from ..parameter import Parameter
-      8 import torch.utils.hooks as hooks
-      9 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/nn/parameter.py in <module>
-      1 import torch
-----> 2 from torch._C import _disabled_torch_function_impl
-      3 from collections import OrderedDict
-      4 
-      5 
-
-ModuleNotFoundError: No module named 'torch._C'
-ModuleNotFoundError: No module named 'torch._C'
+A cell timed out while it was being executed, after 1200 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['# train loop', '', 'epoch = 5', 'for e in range(epoch):', '    print(f"Starting epoch {e} of {epoch}")']
+...
+['        reconstruction = net(X)', '        loss = criterion_MSE(reconstruction, X)', '        loss.backward()', '        optimizer.step()', '    print(f"Loss: {loss.item()}")']
+-------------------
