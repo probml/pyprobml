@@ -1,0 +1,49 @@
+\documentclass[tikz, border=2pt]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+
+\begin{document}
+
+% \title{shift-one-source-discrim}
+% \author{Dhruv Patel}
+% \date{July 2022}
+
+\tikzstyle{emptynode} = [rectangle, draw=black!0, minimum size=5mm]
+\begin{tikzpicture}
+	\node[latent]  (ws) {$w^s$};
+	\node[obs, below = of ws](y1n){$y_n$};
+	\node[obs, below = of y1n](x1n){$x_n$};
+	\node[obs, right=  of y1n](y2n){$y_n$};
+	\node[obs, below= of y2n](x2n){$x_n$};
+	\node[latent, right = of y2n](y3n){$y_n$};
+	\node[latent, above =  of y3n](wt){$w^t$};
+	\node[obs, below= of y3n](x3n){$x_n$};
+	\node[latent, right = of y3n](yhat){$\hat y_n$};
+	\node[latent, right = 5mm of yhat](ystar){$y^*_n$};
+	\node[obs, below= of yhat](x4n){$x_n$};
+	\node[latent, below= of ystar](ln){$L_n$};
+	\node[latent, below = of x1n](psis){$\psi^s$};
+	\node[latent, below = of x3n](psit){$\psi^t$};
+	\node[draw=black,thin,fit=(y1n)(x1n), rounded corners=.05cm,inner sep=5pt](rect1)  {};
+	\node[draw=black,thin,fit=(y2n)(x2n), rounded corners=.05cm,inner sep=5pt](rect2)  {};
+	\node[draw=black,thin,fit=(y3n)(x3n), rounded corners=.05cm,inner sep=5pt](rect3)  {};
+	\node[draw=black,thin,fit=(yhat)(ystar)(x4n)(ln), rounded corners=.05cm,inner sep=5pt](rect4)  {};
+	\edge{ws}{wt};
+	\edge{ws}{y1n};
+	\edge{wt}{y2n, y3n, yhat};
+	\edge{x1n}{y1n};
+	\edge{x2n}{y2n};
+	\edge{x3n}{y3n};
+	\edge{x4n}{yhat};
+	\edge{yhat,ystar}{ln};
+	\edge{psis}{x1n};
+	\edge{psit}{x2n, x3n, x4n};
+	\node[const, above  = 0.3cm of y2n](c1){$D^t_l$};
+	\node[const, left = 1cm of c1]{$D^s_l$};
+	\node[const, right = 1cm of c1]{$D^t_u$};
+	\node[const, above  = 0.3cm of yhat]{$D^t_{test}$};
+	\edge{psis}{psit}
+
+\end{tikzpicture}
+\end{document}
