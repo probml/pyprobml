@@ -95,7 +95,7 @@ def main(argv):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4441/4106335031.py in <module>
+/tmp/ipykernel_4434/4106335031.py in <module>
      11 try:
 ---> 12     from torchvision.datasets import CelebA, MNIST
      13 except ModuleNotFoundError:
@@ -105,7 +105,7 @@ ModuleNotFoundError: No module named 'torchvision'
 During handling of the above exception, another exception occurred:
 
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4441/4106335031.py in <module>
+/tmp/ipykernel_4434/4106335031.py in <module>
      13 except ModuleNotFoundError:
      14     get_ipython().run_line_magic('pip', 'install -qq torchvision')
 ---> 15     from torchvision.datasets import CelebA, MNIST
