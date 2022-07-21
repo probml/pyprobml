@@ -60,7 +60,7 @@ from probml_utils.vae_conv_mnist import ConvVAE
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5338/3536696859.py in <module>
+/tmp/ipykernel_5350/3536696859.py in <module>
      23 try:
 ---> 24     from pytorch_lightning import LightningModule, Trainer
      25 except ModuleNotFoundError:
@@ -70,81 +70,12 @@ ModuleNotFoundError: No module named 'pytorch_lightning'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5338/3536696859.py in <module>
+/tmp/ipykernel_5350/3536696859.py in <module>
      25 except ModuleNotFoundError:
      26     get_ipython().run_line_magic('pip', 'install -qq pytorch-lightning')
 ---> 27     from pytorch_lightning import LightningModule, Trainer
      28 
      29 try:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/__init__.py in <module>
-     28     _logger.propagate = False
-     29 
----> 30 from pytorch_lightning.callbacks import Callback  # noqa: E402
-     31 from pytorch_lightning.core import LightningDataModule, LightningModule  # noqa: E402
-     32 from pytorch_lightning.trainer import Trainer  # noqa: E402
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/callbacks/__init__.py in <module>
-     24 from pytorch_lightning.callbacks.prediction_writer import BasePredictionWriter
-     25 from pytorch_lightning.callbacks.progress import ProgressBar, ProgressBarBase, RichProgressBar, TQDMProgressBar
----> 26 from pytorch_lightning.callbacks.pruning import ModelPruning
-     27 from pytorch_lightning.callbacks.quantization import QuantizationAwareTraining
-     28 from pytorch_lightning.callbacks.rich_model_summary import RichModelSummary
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/callbacks/pruning.py in <module>
-     29 import pytorch_lightning as pl
-     30 from pytorch_lightning.callbacks.base import Callback
----> 31 from pytorch_lightning.core.lightning import LightningModule
-     32 from pytorch_lightning.utilities.apply_func import apply_to_collection
-     33 from pytorch_lightning.utilities.exceptions import MisconfigurationException
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/core/__init__.py in <module>
-     14 
-     15 from pytorch_lightning.core.datamodule import LightningDataModule
----> 16 from pytorch_lightning.core.lightning import LightningModule
-     17 
-     18 __all__ = ["LightningDataModule", "LightningModule"]
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/core/lightning.py in <module>
-     39 from pytorch_lightning.core.optimizer import LightningOptimizer
-     40 from pytorch_lightning.core.saving import ModelIO
----> 41 from pytorch_lightning.loggers import LightningLoggerBase, LoggerCollection
-     42 from pytorch_lightning.trainer.connectors.data_connector import _DataHookSelector
-     43 from pytorch_lightning.trainer.connectors.logger_connector.fx_validator import _FxValidator
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/loggers/__init__.py in <module>
-     16 from pytorch_lightning.loggers.base import LightningLoggerBase, LoggerCollection
-     17 from pytorch_lightning.loggers.csv_logs import CSVLogger
----> 18 from pytorch_lightning.loggers.tensorboard import TensorBoardLogger
-     19 
-     20 __all__ = ["LightningLoggerBase", "LoggerCollection", "TensorBoardLogger", "CSVLogger"]
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/loggers/tensorboard.py in <module>
-     24 import numpy as np
-     25 import torch
----> 26 from torch.utils.tensorboard import SummaryWriter
-     27 from torch.utils.tensorboard.summary import hparams
-     28 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/tensorboard/__init__.py in <module>
-     10 del tensorboard
-     11 
----> 12 from .writer import FileWriter, SummaryWriter  # noqa: F401
-     13 from tensorboard.summary.writer.record_writer import RecordWriter  # noqa: F401
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/tensorboard/writer.py in <module>
-      7 
-      8 from tensorboard.compat import tf
-----> 9 from tensorboard.compat.proto.event_pb2 import SessionLog
-     10 from tensorboard.compat.proto.event_pb2 import Event
-     11 from tensorboard.compat.proto import event_pb2
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorboard/compat/proto/event_pb2.py in <module>
-      5 import sys
-      6 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
-----> 7 from google.protobuf.internal import enum_type_wrapper
-      8 from google.protobuf import descriptor as _descriptor
-      9 from google.protobuf import message as _message
-
-ModuleNotFoundError: No module named 'google.protobuf'
-ModuleNotFoundError: No module named 'google.protobuf'
+ModuleNotFoundError: No module named 'pytorch_lightning'
+ModuleNotFoundError: No module named 'pytorch_lightning'
