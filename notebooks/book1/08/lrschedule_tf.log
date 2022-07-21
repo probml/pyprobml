@@ -1,69 +1,88 @@
 An error occurred while executing the following cell:
 ------------------
-import numpy as np
-import matplotlib.pyplot as plt
-import os
+plt.figure()
+plot_lr_vs_loss(rates, losses)
+save_fig("lrfinder-raw.pdf")
+plt.show()
 
-try:
-    import tensorflow
-except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow
-import tensorflow as tf
-from tensorflow import keras
+# https://sites.google.com/site/hardwaremonkey/blog/ewmafilterexmpleusingpandasandpython
+# x = np.linspace(0, 2 * np.pi, 100)
+# y = 2 * np.sin(x) + 0.1 * np.random.normal(x)
+x = rates
+y = np.array(losses, dtype=np.float64)
+df = pd.Series(y)
+filtered = pd.Series.ewm(df, span=10).mean()
+plt.figure()  # figsize=(10,6))
+plt.plot(x, y)
+# plt.plot(x, filtered)
+plt.gca().set_xscale("log")
+plt.xlabel("Learning rate")
+plt.ylabel("Loss")
+save_fig("lrfinder-unfiltered.pdf")
+plt.show()
 
-assert tf.__version__ >= "2.0"
+plt.figure()  # figsize=(10,6))
+# plt.plot(x, y)
+plt.plot(x, filtered)
+plt.gca().set_xscale("log")
+plt.xlabel("Learning rate")
+plt.ylabel("Loss")
+save_fig("lrfinder-filtered.pdf")
+plt.show()
 
-
-K = tf.keras.backend
+plt.figure()  # figsize=(10,6))
+plt.plot(x, y)
+plt.plot(x, filtered)
+plt.gca().set_xscale("log")
+plt.xlabel("Learning rate")
+plt.ylabel("Loss")
+save_fig("lrfinder-filtered-both.pdf")
+plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_6096/3040475755.py in <module>
-      5 try:
-----> 6     import tensorflow
-      7 except ModuleNotFoundError:
+ValueError                                Traceback (most recent call last)
+/tmp/ipykernel_6072/302482964.py in <module>
+      1 plt.figure()
+----> 2 plot_lr_vs_loss(rates, losses)
+      3 save_fig("lrfinder-raw.pdf")
+      4 plt.show()
+      5 
 
-ModuleNotFoundError: No module named 'tensorflow'
+/tmp/ipykernel_6072/118368236.py in plot_lr_vs_loss(rates, losses)
+     28     plt.gca().set_xscale("log")
+     29     plt.hlines(min(losses), min(rates), max(rates))
+---> 30     plt.axis([min(rates), max(rates), min(losses), (losses[0] + min(losses)) / 2])
+     31     plt.xlabel("Learning rate")
+     32     plt.ylabel("Loss")
 
-During handling of the above exception, another exception occurred:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in axis(emit, *args, **kwargs)
+   2371 @_copy_docstring_and_deprecators(Axes.axis)
+   2372 def axis(*args, emit=True, **kwargs):
+-> 2373     return gca().axis(*args, emit=emit, **kwargs)
+   2374 
+   2375 
 
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_6096/3040475755.py in <module>
-      7 except ModuleNotFoundError:
-      8     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
-----> 9     import tensorflow
-     10 import tensorflow as tf
-     11 from tensorflow import keras
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/axes/_base.py in axis(self, emit, *args, **kwargs)
+   2095                      else False)
+   2096             self.set_xlim(xmin, xmax, emit=emit, auto=xauto)
+-> 2097             self.set_ylim(ymin, ymax, emit=emit, auto=yauto)
+   2098         if kwargs:
+   2099             raise TypeError(f"axis() got an unexpected keyword argument "
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
-     35 import typing as _typing
-     36 
----> 37 from tensorflow.python.tools import module_util as _module_util
-     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
-     39 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/axes/_base.py in set_ylim(self, bottom, top, emit, auto, ymin, ymax)
+   4025 
+   4026         self._process_unit_info([("y", (bottom, top))], convert=False)
+-> 4027         bottom = self._validate_converted_limits(bottom, self.convert_yunits)
+   4028         top = self._validate_converted_limits(top, self.convert_yunits)
+   4029 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
-     35 
-     36 from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
----> 37 from tensorflow.python.eager import context
-     38 
-     39 # pylint: enable=wildcard-import
+~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/axes/_base.py in _validate_converted_limits(self, limit, convert)
+   3612             if (isinstance(converted_limit, Real)
+   3613                     and not np.isfinite(converted_limit)):
+-> 3614                 raise ValueError("Axis limits cannot be NaN or Inf")
+   3615             return converted_limit
+   3616 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/context.py in <module>
-     27 import six
-     28 
----> 29 from tensorflow.core.framework import function_pb2
-     30 from tensorflow.core.protobuf import config_pb2
-     31 from tensorflow.core.protobuf import coordination_config_pb2
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/function_pb2.py in <module>
-      5 import sys
-      6 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
-----> 7 from google.protobuf import descriptor as _descriptor
-      8 from google.protobuf import message as _message
-      9 from google.protobuf import reflection as _reflection
-
-ModuleNotFoundError: No module named 'google.protobuf'
-ModuleNotFoundError: No module named 'google.protobuf'
+ValueError: Axis limits cannot be NaN or Inf
+ValueError: Axis limits cannot be NaN or Inf
