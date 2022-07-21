@@ -39,12 +39,18 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3955/608523586.py in <module>
+/tmp/ipykernel_3957/608523586.py in <module>
       3 import matplotlib.pyplot as plt
       4 import matplotlib.colors as colors
 ----> 5 import jax
       6 import jax.numpy as jnp
       7 import numpy as np
 
-ModuleNotFoundError: No module named 'jax'
-ModuleNotFoundError: No module named 'jax'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/api.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lax/lax.py in <module>
+
+ModuleNotFoundError: No module named 'jax._src.lax.utils'
+ModuleNotFoundError: No module named 'jax._src.lax.utils'

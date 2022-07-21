@@ -13,7 +13,7 @@ plt.savefig("/content/plots/celeba_recon_montage.pdf")
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_3950/529873150.py in <module>
+/tmp/ipykernel_3956/529873150.py in <module>
       7 fig.suptitle("Original (upper) vs Reconstructed (lower four)")
       8 fig.show()
 ----> 9 plt.savefig("/content/plots/celeba_recon_montage.pdf")

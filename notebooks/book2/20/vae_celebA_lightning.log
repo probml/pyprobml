@@ -54,7 +54,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5122/2329549897.py in <module>
+/tmp/ipykernel_5124/2329549897.py in <module>
      29 try:
 ---> 30     from vae_celeba_lightning import VAE
      31 except ModuleNotFoundError:
@@ -64,7 +64,7 @@ ModuleNotFoundError: No module named 'vae_celeba_lightning'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5122/2329549897.py in <module>
+/tmp/ipykernel_5124/2329549897.py in <module>
      31 except ModuleNotFoundError:
      32     get_ipython().run_line_magic('pip', 'install -qq vae_celeba_lightning')
 ---> 33     from vae_celeba_lightning import VAE

@@ -1,0 +1,127 @@
+An error occurred while executing the following cell:
+------------------
+# Based on
+# https://github.com/tensorflow/docs/blob/master/site/en/r1/tutorials/keras/basic_classification.ipynb
+# (MIT License)
+
+
+from __future__ import absolute_import, division, print_function
+
+
+try:
+    from tensorflow import keras
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    from tensorflow import keras
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+
+figdir = "figures"
+
+
+def savefig(fname):
+    plt.savefig(os.path.join(figdir, fname))
+
+
+np.random.seed(0)
+
+
+data = keras.datasets.cifar10
+
+(train_images, train_labels), (test_images, test_labels) = data.load_data()
+
+# print(np.shape(train_images))
+# print(np.shape(test_images))
+
+
+# For CIFAR:
+# (50000, 32, 32, 3)
+# (10000, 32, 32, 3)
+
+class_names = ["plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
+
+plt.figure(figsize=(10, 10))
+for i in range(25):
+    plt.subplot(5, 5, i + 1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i])
+    y = train_labels[i][0]
+    plt.xlabel(class_names[y])
+savefig("cifar10-data.pdf")
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+HTTPError                                 Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/data_utils.py in get_file(fname, origin, untar, md5_hash, file_hash, cache_subdir, hash_algorithm, extract, archive_format, cache_dir)
+    282       try:
+--> 283         urlretrieve(origin, fpath, DLProgbar())
+    284       except urllib.error.HTTPError as e:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/data_utils.py in urlretrieve(url, filename, reporthook, data)
+     81 
+---> 82     response = urlopen(url, data)
+     83     with open(filename, 'wb') as fd:
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in urlopen(url, data, timeout, cafile, capath, cadefault, context)
+    221         opener = _opener
+--> 222     return opener.open(url, data, timeout)
+    223 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in open(self, fullurl, data, timeout)
+    530             meth = getattr(processor, meth_name)
+--> 531             response = meth(req, response)
+    532 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_response(self, request, response)
+    640             response = self.parent.error(
+--> 641                 'http', request, response, code, msg, hdrs)
+    642 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in error(self, proto, *args)
+    568             args = (dict, 'default', 'http_error_default') + orig_args
+--> 569             return self._call_chain(*args)
+    570 
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in _call_chain(self, chain, kind, meth_name, *args)
+    502             func = getattr(handler, meth_name)
+--> 503             result = func(*args)
+    504             if result is not None:
+
+~/miniconda3/envs/py37/lib/python3.7/urllib/request.py in http_error_default(self, req, fp, code, msg, hdrs)
+    648     def http_error_default(self, req, fp, code, msg, hdrs):
+--> 649         raise HTTPError(req.full_url, code, msg, hdrs, fp)
+    650 
+
+HTTPError: HTTP Error 500: Internal Server Error
+
+During handling of the above exception, another exception occurred:
+
+Exception                                 Traceback (most recent call last)
+/tmp/ipykernel_6004/2473630569.py in <module>
+     29 data = keras.datasets.cifar10
+     30 
+---> 31 (train_images, train_labels), (test_images, test_labels) = data.load_data()
+     32 
+     33 # print(np.shape(train_images))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/datasets/cifar10.py in load_data()
+     82       untar=True,
+     83       file_hash=
+---> 84       '6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce')
+     85 
+     86   num_train_samples = 50000
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/data_utils.py in get_file(fname, origin, untar, md5_hash, file_hash, cache_subdir, hash_algorithm, extract, archive_format, cache_dir)
+    283         urlretrieve(origin, fpath, DLProgbar())
+    284       except urllib.error.HTTPError as e:
+--> 285         raise Exception(error_msg.format(origin, e.code, e.msg))
+    286       except urllib.error.URLError as e:
+    287         raise Exception(error_msg.format(origin, e.errno, e.reason))
+
+Exception: URL fetch failure on https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz: 500 -- Internal Server Error
+Exception: URL fetch failure on https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz: 500 -- Internal Server Error
