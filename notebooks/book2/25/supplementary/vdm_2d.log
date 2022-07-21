@@ -1,0 +1,29 @@
+An error occurred while executing the following cell:
+------------------
+# Import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import jax
+import jax.numpy as jnp
+from flax import linen as nn
+import optax
+
+%matplotlib inline
+import time
+import pylab as pl
+from IPython import display
+from tqdm.notebook import trange, tqdm
+from google.colab import files
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_25325/2623076112.py in <module>
+      4 import jax
+      5 import jax.numpy as jnp
+----> 6 from flax import linen as nn
+      7 import optax
+      8 
+
+ModuleNotFoundError: No module named 'flax'
+ModuleNotFoundError: No module named 'flax'
