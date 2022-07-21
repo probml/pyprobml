@@ -55,7 +55,7 @@ class QuadKernel(tinygp.kernels.Kernel):
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3962/1983523955.py in <module>
+/tmp/ipykernel_3966/1983523955.py in <module>
 ----> 1 class LinearKernel(tinygp.kernels.Kernel):
       2     def __init__(self, scale):
       3         self.scale = scale
