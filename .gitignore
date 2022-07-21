@@ -110,3 +110,9 @@ GitHub.sublime-settings
 workflow_testing_indicator*
 auto_generated_figures*
 notebooks_md*
+
+# latex ignore
+*.aux
+*.log
+
+

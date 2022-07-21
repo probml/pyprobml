@@ -116,6 +116,7 @@ def get_root_col(df_root_ser, col):
 
     elif is_source.count(0) > 1:
         print(f"1: Multiple copies exist:  {nb_name}")
+        return df_root_ser[col][0]
 
     else:
         return df_root_ser[col][is_source.index(0)]
@@ -156,7 +157,7 @@ df_pyprobml["chap_no"] = df_pyprobml.apply(get_root_col, col="chap_no", axis=1)
 df_pyprobml["book_no"] = df_pyprobml.apply(get_root_col, col="book_no", axis=1)
 
 # Add github url
-df_pyprobml["type"] = "github"
+# df_pyprobml["type"] = "github"
 df_pyprobml["github_url"] = df_pyprobml.apply(
     lambda x: make_url_from_chapter_no_and_script_name(
         chapter_no=int(x["chap_no"]),
@@ -167,7 +168,8 @@ df_pyprobml["github_url"] = df_pyprobml.apply(
     axis=1,
 )
 
-df_pyprobml = df_pyprobml[["Notebook", "type", "github_url"]]
+# df_pyprobml = df_pyprobml[["Notebook", "type", "github_url"]]
+df_pyprobml = df_pyprobml[["Notebook", "github_url"]]
 
 
 # handle supplementary & tutorials notebooks
@@ -178,7 +180,7 @@ print(f"{len(supp_book)} supplementary notebooks found")
 
 # convert to github url
 github_root = "https://github.com/probml/pyprobml/blob/master/"
-nb_github_colab_list = list(map(lambda x: [x.split("/")[-1], "github", github_root + x], supp_book))
+nb_github_colab_list = list(map(lambda x: [x.split("/")[-1], github_root + x], supp_book))
 df_supp = pd.DataFrame(nb_github_colab_list, columns=df_pyprobml.columns)
 
 
@@ -189,7 +191,7 @@ common_notebooks = np.intersect1d(df_pyprobml["Notebook"].values, df_external["N
 # drop common notebooks from df_pyprobml and replace with df_external's notebooks
 print(f"Before: {len(df_pyprobml)} pyprobml notebooks found")
 df_pyprobml = df_pyprobml[~df_pyprobml["Notebook"].isin(common_notebooks)]
-print(f"After: {len(df_pyprobml)} pyprobml notebooks found")
+print(f"After updating same key in external_links.csv\n: {len(df_pyprobml)} pyprobml notebooks found")
 print(f"{len(df_external)} external reference found")
 
 
@@ -202,9 +204,7 @@ df_all["colab_url"] = df_all["github_url"].apply(to_colab_md_url)
 
 # enclose in span tag to give id as a Notebook
 enclose_span = lambda text, nb_id: f"<span id={nb_id}>{text}</span>"
-df_all["github_url"] = df_all.apply(
-    lambda x: to_md_url(enclose_span(x["type"], x["Notebook"]), x["github_url"]), axis=1
-)
+df_all["github_url"] = df_all.apply(lambda x: to_md_url(enclose_span("github", x["Notebook"]), x["github_url"]), axis=1)
 
 # save to .md file
 df_all = df_all[["Notebook", "github_url", "colab_url"]]

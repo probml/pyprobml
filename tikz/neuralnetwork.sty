@@ -1,0 +1,250 @@
+\ProvidesPackage{neuralnetwork}[2013/07/18 v1.0 Neural network diagrams, Mark Kuckian Cowan, mark@battlesnake.co.uk]
+
+%
+%  Available from github:
+%    git clone https://github.com/battlesnake/neural
+%
+%  Distributed under the terms of the GNU General Public License version 2 (GPL2)
+%
+
+\NeedsTeXFormat{LaTeX2e}
+
+\RequirePackage{environ}
+\RequirePackage{etoolbox}
+\RequirePackage{xkeyval}
+\RequirePackage{tikz}
+\RequirePackage{algorithmicx}
+\RequirePackage{mathtools}
+
+\usetikzlibrary{shapes}
+
+\newcommand{\nn@var}[1] {\@ifundefined{c@nn@#1@counter}{\newcounter{nn@#1@counter}}{\nn@set{#1}{0}}}
+\newcommand{\nn@set}[2] {\setcounter{nn@#1@counter}{{#2}}}
+\newcommand{\nn@get}[1] {\arabic{nn@#1@counter}}
+\newcommand{\nn@inc}[1] {\stepcounter{nn@#1@counter}}
+\newcommand{\nn@del}[1] {\stepcounter{nn@#1@counter}}
+
+\define@key{network}{nodespacing} {\pgfmathsetlengthmacro\nn@nodespacing{#1}}
+\define@key{network}{layerspacing} {\pgfmathsetlengthmacro\nn@layerspacing{#1}}
+\define@key{network}{height} {\def\nn@height{#1}}
+\define@key{network}{maintitleheight} {\pgfmathsetlengthmacro\nn@maintitleheight{#1}}
+\define@key{network}{layertitleheight} {\pgfmathsetlengthmacro\nn@layertitleheight{#1}}
+\define@boolkey{network}{toprow} {\ifKV@network@toprow\def\nn@toprow{1}\else\def\nn@toprow{0}\fi}
+\define@key{network}{style} {\def\nn@style{#1}}
+\define@key{network}{nodesize} {\pgfmathsetlengthmacro\nn@nodesize{#1}}
+\define@key{network}{title} {\def\nn@maintitle{#1}}
+\define@key{network}{titlestyle} {\def\nn@titlestyle{#1}}
+
+\NewEnviron{neuralnetwork}[1][] {{%
+\begingroup
+\setkeys{network} {nodespacing=1.0cm, layerspacing=2.5cm, maintitleheight=2.5em, layertitleheight=2.5em, height=5, toprow=false, nodesize=17pt, style={}, title={}, titlestyle={}, #1}
+\edef\nn@tikzpic@styled{\noexpand\begin{tikzpicture}[\nn@style]}
+\nn@tikzpic@styled
+  \tikzstyle{neuron}=[circle,fill=black!25,minimum size=\nn@nodesize,inner sep=0pt]
+  \tikzstyle{input neuron}=[neuron, fill=green!50];
+  \tikzstyle{output neuron}=[neuron, fill=red!50];
+  \tikzstyle{hidden neuron}=[neuron, fill=blue!40];
+  \tikzstyle{bias neuron}=[neuron, fill=yellow!50];
+  \tikzstyle{layertitle} = [text width=\nn@layerspacing - (1 em), text centered];
+  \tikzstyle{layertitlewide} = [layertitle, text width=\nn@layerspacing + (2 em)];
+  \tikzstyle{linkstitle} = [text centered, fill=white, text=darkgray, fill opacity=0.45, text opacity=1.0, inner sep=2pt, ellipse];
+  \tikzstyle{linklabel} = [rectangle, fill=white, text opacity=1.0, text=black, text centered, inner sep=0pt];
+  \tikzstyle{link} = [->, shorten <=0pt, shorten >=1pt, node distance=\nn@layerspacing, thin, draw=black!45];
+  \tikzstyle{networktitle} = [rectangle, text=black, text centered, inner sep=0pt];
+  \nn@var{layerindex}
+  \nn@var{lastlayerstart} \nn@var{thislayerstart}
+  \nn@var{lastlayercount} \nn@var{thislayercount}
+  \nn@var{lastlayerindex} \nn@var{thislayerindex}
+  \def\nnlinkbasestyle{}
+  \def\nnlinkextrastyle{}
+  \def\nnlinklabelbasestyle{}
+  \def\nnlinklabelextrastyle{}
+  \newcommand{\nn@layerindex}{\nn@get{layerindex}}
+  \hfuzz=\maxdimen
+  %\tolerance=10000
+  %\hbadness=10000
+  \ifx\nn@maintitle\empty \def\nn@maintitleheight{0} \fi
+  { \BODY }
+  \ifx\nn@maintitle\empty {} \else
+    \pgfmathsetlengthmacro{\nn@width} {\nn@layerspacing * (\nn@layerindex - 1)}
+    \pgfmathsetlengthmacro{\nn@halfwidth} {\nn@width / 2}
+    \edef\nn@gentitle{\noexpand\node[networktitle, \nn@titlestyle] (MAIN-TITLE) at (\nn@halfwidth, 0) {\noexpand\nn@maintitle};}
+    \nn@gentitle
+  \fi
+\end{tikzpicture}
+\endgroup
+}}
+
+% For some reason latex won't accept this, and spews out a dozen meaningless error messages.
+% The Y version needs updating anyway to account for extra titles
+%\newcommand{\nnGridX}[1] {\pgfmathsetlength{\temp}{(\nn@layerspacing * #1)}\temp}
+%\newcommand{\nnGridY}[1] {\pgfmathsetlength{\temp}{(-\nn@nodespacing * #1 + \nn@titleheight)}\temp}
+
+\newcommand{\nn@if} {\expandafter\ifstrequal\expandafter}
+
+\newcommand{\nn@defaultnodetext}[2] {}
+\newcommand{\setdefaultnodetext}[1] {\renewcommand{\nn@defaultnodetext}[2]{#1{##1}{##2}}}
+\define@key{layer}{title} {\def\nn@layertitle{#1}}
+\define@boolkey{layer}{widetitle} {\ifKV@layer@widetitle\def\nn@widetitle{1}\else\def\nn@widetitle{0}\fi}
+\define@key{layer}{count} {\def\nn@nodecount{#1}}
+\define@key{layer}{text} {\renewcommand{\nn@nodecaption}[2]{#1{##1}{##2}}}
+\define@boolkey{layer}{bias} {\ifKV@layer@bias\def\nn@bias{1}\else\def\nn@bias{0}\fi}
+\define@key{layer}{title} {\def\nn@layertitle{#1}}
+\define@key{layer}{nodeclass} {\def\nn@nodeclass{#1}}
+\define@boolkey{layer}{top} {\ifKV@layer@top\def\nn@top{1}\else\def\nn@top{0}\fi}
+\define@key{layer}{biaspos} {\def\nn@biaspos{#1}}
+\define@key{layer}{exclude} {\def\nn@exclude{#1}}
+\define@key{layer}{titlestyle} {\def\nn@layertitlestyle{#1}}
+\newcommand{\layer}[1][] {{%
+  \newcommand{\nn@nodecaption}[2]{}
+  \setkeys{layer} {title={}, titlestyle={}, count=5, text=\nn@defaultnodetext, nodeclass={hidden neuron}, biaspos=top, top=false, exclude={}, widetitle=false, #1}
+  % Linkage stuff
+  \nn@set{lastlayercount}{\nn@get{thislayercount}}
+  \nn@set{lastlayerstart}{\nn@get{thislayerstart}}
+  \nn@set{lastlayerindex}{\nn@get{thislayerindex}}
+  % Get start index
+  \pgfmathtruncatemacro{\nn@startindex} {1 - \nn@bias}
+  % Get y-offset
+  \pgfmathsetlengthmacro{\nn@titles} {\nn@maintitleheight + \nn@layertitleheight}
+  \if \nn@top 1
+    \pgfmathsetlengthmacro{\nn@offset} {\nn@titles}
+    \def\nn@biaspos{top}
+  \else
+    \pgfmathsetlengthmacro{\nn@offset} {\nn@titles + \nn@nodespacing * (\nn@height - (1 + \nn@nodecount - \nn@startindex)) / 2}
+  \fi
+  % Get x-position
+  \pgfmathsetlengthmacro{\nn@node@x} {\nn@layerspacing * \nn@layerindex}
+  % Draw bias node if needed
+  \pgfmathtruncatemacro{\nn@startindex@draw}{\nn@startindex}
+  \if \nn@bias 1
+    % Get xy-position of bias node and update position range for other nodes
+    \newcommand{\nn@node@xb} {}
+    \def\nn@bias@own@row{0}
+    \nn@if{\nn@biaspos}{top} {
+      \pgfmathsetlengthmacro{\nn@node@y} {-\nn@offset}
+      \pgfmathsetlengthmacro{\nn@node@xb} {\nn@node@x}
+      \def\nn@bias@own@row{1}
+      \if \nn@toprow 1
+        \def\nn@biaspos{top row}
+      \fi
+    }
+    \nn@if{\nn@biaspos}{top row} {
+      \pgfmathsetlengthmacro{\nn@node@y} {-\nn@titles}
+      \pgfmathsetlengthmacro{\nn@node@xb} {\nn@node@x}
+      \def\nn@bias@own@row{1}
+    }
+    % Does the bias node have its own row ("top" or "top row")?
+    \nn@if{\nn@bias@own@row}{0} {
+      \pgfmathsetlengthmacro{\nn@offset} {\nn@offset - (\nn@nodespacing / 2)}
+      \pgfmathsetlengthmacro{\nn@node@y} {-(\nn@nodespacing * ((\nn@nodecount+1)/2 - \nn@startindex@draw) + \nn@offset)}
+    }
+    % Centered vertical position
+    % The "dummy" line is necessary to overcome some LaTeX bug, the first line in the list below always seems to get ignored by the parser.
+    \nn@if{\nn@biaspos}{dummy} { \pgfmathsetlengthmacro{\nn@node@xb} {\nn@node@x} }
+    \nn@if{\nn@biaspos}{center} { \pgfmathsetlengthmacro{\nn@node@xb} {\nn@node@x} }
+    \nn@if{\nn@biaspos}{center right} { \pgfmathsetlengthmacro{\nn@node@xb} {\nn@node@x + (1*\nn@layerspacing / 4)} }
+    \nn@if{\nn@biaspos}{center left} { \pgfmathsetlengthmacro{\nn@node@xb} {\nn@node@x - (1*\nn@layerspacing / 4)} }
+    \nn@if{\nn@biaspos}{center right right} { \pgfmathsetlengthmacro{\nn@node@xb} {\nn@node@x + (2*\nn@layerspacing / 3)} }
+    \nn@if{\nn@biaspos}{center left left} { \pgfmathsetlengthmacro{\nn@node@xb} {\nn@node@x - (2*\nn@layerspacing / 3)} }
+    % Error check
+    \nn@if{\nn@node@xb}{} {
+      \PackageError{neuralnetwork}{Unknown bias node position: "\nn@biaspos"}
+    }
+    % Draw node
+    \node[bias neuron] (L\nn@layerindex-0) at (\nn@node@xb, \nn@node@y) {\nn@nodecaption{\nn@layerindex}{0}};
+  \fi
+  % Adjust unbiased layer if bias nodes have their own top row
+  \if \nn@toprow 1
+    \if \nn@bias 0
+      \pgfmathsetlengthmacro{\nn@offset}{\nn@offset + \nn@nodespacing/2}
+    \fi
+  \fi
+  % Draw nodes
+  \foreach \nn@nodeindex in {1,...,\nn@nodecount} {
+    % Get y-position
+    \pgfmathsetlengthmacro{\nn@node@y} {-(\nn@nodespacing * (\nn@nodeindex - \nn@startindex@draw) + \nn@offset)}
+    % Check if the node is excluded
+    \def\nn@dontdraw{0}
+    \foreach \nn@excluded in \nn@exclude
+      \if \nn@excluded \nn@nodeindex \global\def\nn@dontdraw{1} \breakforeach \fi;
+    % Draw node if not excluded
+    \if \nn@dontdraw 0
+      \node[\nn@nodeclass] (L\nn@layerindex-\nn@nodeindex) at (\nn@node@x, \nn@node@y) {\nn@nodecaption{\nn@layerindex}{\nn@nodeindex}};
+    \fi
+  }
+  % Title
+  %\if\relax\detokenize{\nn@layertitle}\relax \else
+  \ifx\nn@layertitle\empty {} \else
+    \edef\nn@layer@gentitle[##1]{\noexpand\node[##1, \nn@layertitlestyle] (T\nn@layerindex) at (\nn@node@x, \nn@maintitleheight) {\noexpand\nn@layertitle};}
+    \if \nn@widetitle 1
+      \nn@layer@gentitle[layertitlewide]
+    \else
+      \nn@layer@gentitle[layertitle]
+    \fi
+  \fi
+  % Linkage stuff
+  \nn@set{thislayercount}{\nn@nodecount}
+  \nn@set{thislayerstart}{\nn@startindex}
+  \nn@set{thislayerindex}{\nn@layerindex}
+  \nn@inc{layerindex}
+}}
+\newcommand{\inputlayer}[1][] { \layer[bias=true,nodeclass={input neuron},#1] }
+\newcommand{\hiddenlayer}[1][] { \layer[bias=true,nodeclass={hidden neuron},#1] }
+\newcommand{\outputlayer}[1][] { \layer[bias=false,nodeclass={output neuron},#1] }
+
+\define@key{links}{title} {\def\nn@linkstitle{#1}}
+\define@key{links}{labels} {\def\nn@linkslabels{#1}}
+\define@key{links}{not from} {\def\nn@notfrom{#1}}
+\define@key{links}{not to} {\def\nn@notto{#1}}
+\define@key{links}{style} {\def\nn@linksstyle{#1}}
+\newcommand{\linklayers}[1][] {{%
+  \setkeys{links} {title={},labels=\nn@defaultlinklabel,style={},not from={}, not to={},#1}
+  % Layer indices
+  \edef\nn@lastlayer{\nn@get{lastlayerindex}}
+  \edef\nn@thislayer{\nn@get{thislayerindex}}
+  % Links
+  \foreach \nn@lastnode in {\nn@get{lastlayerstart},...,\nn@get{lastlayercount}}
+    \foreach \nn@thisnode in {1,...,\nn@get{thislayercount}} {
+      % Draw link if it isn't excluded
+      \def\nn@dontdraw{0}
+      \foreach \nn@excluded in \nn@notfrom
+        \if \nn@excluded \nn@lastnode \global\def\nn@dontdraw{1} \breakforeach \fi;
+      \foreach \nn@excluded in \nn@notto
+        \if \nn@excluded \nn@thisnode \global\def\nn@dontdraw{1} \breakforeach \fi;
+      \if \nn@dontdraw 0
+        \link[from layer=\nn@lastlayer, from node=\nn@lastnode, to layer=\nn@thislayer, to node=\nn@thisnode, label=\nn@linkslabels, style=\nn@linksstyle];
+      \fi
+    }
+  % Title
+  \ifdefempty{\nn@linkstitle} {} {
+    \pgfmathsetlengthmacro{\nn@links@title@x} {\nn@layerspacing * (\nn@thislayer - 0.5)}
+    \pgfmathsetlengthmacro{\nn@links@title@y} {-(\nn@maintitleheight + \nn@layertitleheight - (\nn@nodespacing / 6))}
+    \node[linkstitle] (TL\nn@lastlayer) at (\nn@links@title@x, \nn@links@title@y) {\nn@linkstitle};
+  }
+}}
+
+\newcommand{\nn@defaultlinklabel}[4] {\empty}
+\newcommand{\setdefaultlinklabel}[1] {\renewcommand{\nn@defaultlinklabel}[4]{#1{##1}{##2}{##3}{##4}}}
+\define@key{link}{label} {\renewcommand{\nn@linklabel}[4]{#1{##1}{##2}{##3}{##4}}}
+\define@key{link}{from layer} {\def\nn@fromlayer{#1}}
+\define@key{link}{from node} {\def\nn@fromnode{#1}}
+\define@key{link}{to layer} {\def\nn@tolayer{#1}}
+\define@key{link}{to node} {\def\nn@tonode{#1}}
+\define@key{link}{labelpos} {\def\nn@labelpos{#1}}
+\define@key{link}{style} {\def\nn@linkstyle{#1}}
+\newcommand{\link}[1][] {{%
+  \newcommand{\nn@linklabel}[4] {}
+  \setkeys{link} {style={}, label=\nn@defaultlinklabel, labelpos=midway, #1}
+  \edef\nn@label{\nn@linklabel{\nn@fromlayer}{\nn@fromnode}{\nn@tolayer}{\nn@tonode}}
+  % Handle necessary expansions
+  \def\nn@link@proto##1 { \noexpand\path[\nnlinkbasestyle, link, \nnlinkextrastyle, \nn@linkstyle] (L\nn@fromlayer-\nn@fromnode) edge ##1 (L\nn@tolayer-\nn@tonode) }
+  \edef\nn@link@path { \nn@link@proto{} }
+  \edef\nn@link@node { \nn@link@proto{[\noexpand\nn@labelpos] node[\nnlinklabelbasestyle, linklabel, \nnlinklabelextrastyle] {\noexpand\nn@label}} }
+  \ifdefempty{\nn@label} {
+    \nn@link@path;
+  } {
+    \nn@link@node;
+  }
+}}
+
+\endinput

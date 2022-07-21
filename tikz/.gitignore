@@ -1,0 +1,2 @@
+# allow storing pdf files in this directory
+!*.pdf
