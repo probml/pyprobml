@@ -15,7 +15,7 @@ from acme.utils.loggers.terminal import TerminalLogger
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4703/55496869.py in <module>
+/tmp/ipykernel_4359/55496869.py in <module>
       9 from jax import random, vmap, nn
      10 from typing import Dict, Sequence, Optional, Callable, List
 ---> 11 from acme.utils.loggers.terminal import TerminalLogger
