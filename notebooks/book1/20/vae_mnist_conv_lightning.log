@@ -1,8 +1,6 @@
 An error occurred while executing the following cell:
 ------------------
-import os
-import pandas as pd
-from collections import OrderedDict
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -11,115 +9,73 @@ try:
 except ModuleNotFoundError:
     %pip install -qq torch
     import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
 try:
-    import torchvision
+    from torchvision.utils import make_grid
 except ModuleNotFoundError:
     %pip install -qq torchvision
-    import torchvision
+    from torchvision.utils import make_grid
+
+import torch.nn as nn
+from torchvision.datasets import MNIST
+import torch.nn.functional as F
 import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
 
 try:
-    from pytorch_lightning import LightningDataModule, LightningModule, Trainer
+    from pytorch_lightning import LightningModule, Trainer
 except ModuleNotFoundError:
-    %pip install -qq pytorch_lightning
-    from pytorch_lightning import LightningDataModule, LightningModule, Trainer
-from torch.utils.data import DataLoader, random_split
+    %pip install -qq pytorch-lightning
+    from pytorch_lightning import LightningModule, Trainer
 
-try:
-    from vae_celeba_lightning import VAE
-except ModuleNotFoundError:
-    %pip install -qq vae_celeba_lightning
-    from vae_celeba_lightning import VAE
 try:
     from einops import rearrange
 except ModuleNotFoundError:
     %pip install -qq einops
     from einops import rearrange
-from torchvision.utils import make_grid
 
 try:
-    from tqdm import tqdm
+    import probml_utils
 except ModuleNotFoundError:
-    %pip install -qq tqdm
-    from tqdm import tqdm
-try:
-    from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, make_imrange
-except ModuleNotFoundError:
-    %pip install -qq lvm_plots_utils
-    from lvm_plots_utils import get_random_samples, get_grid_samples, plot_scatter_plot, get_imrange, make_imrange
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils
+
+from probml_utils import savefig
+
+from probml_utils.lvm_plots_utils import (
+    get_random_samples,
+    get_grid_samples,
+    plot_scatter_plot,
+    get_imrange,
+    plot_grid_plot,
+    plot_scatter_plot,
+)
+
+import seaborn as sns
+from torchvision.utils import make_grid
+from probml_utils.vae_conv_mnist import ConvVAE
+
+%pip install -qq test-tube umap
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5305/2329549897.py in <module>
-     22 try:
----> 23     from pytorch_lightning import LightningDataModule, LightningModule, Trainer
-     24 except ModuleNotFoundError:
+/tmp/ipykernel_5338/3536696859.py in <module>
+     23 try:
+---> 24     from pytorch_lightning import LightningModule, Trainer
+     25 except ModuleNotFoundError:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/__init__.py in <module>
-     29 
----> 30 from pytorch_lightning.callbacks import Callback  # noqa: E402
-     31 from pytorch_lightning.core import LightningDataModule, LightningModule  # noqa: E402
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/callbacks/__init__.py in <module>
-     25 from pytorch_lightning.callbacks.progress import ProgressBar, ProgressBarBase, RichProgressBar, TQDMProgressBar
----> 26 from pytorch_lightning.callbacks.pruning import ModelPruning
-     27 from pytorch_lightning.callbacks.quantization import QuantizationAwareTraining
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/callbacks/pruning.py in <module>
-     30 from pytorch_lightning.callbacks.base import Callback
----> 31 from pytorch_lightning.core.lightning import LightningModule
-     32 from pytorch_lightning.utilities.apply_func import apply_to_collection
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/core/__init__.py in <module>
-     15 from pytorch_lightning.core.datamodule import LightningDataModule
----> 16 from pytorch_lightning.core.lightning import LightningModule
-     17 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/core/lightning.py in <module>
-     40 from pytorch_lightning.core.saving import ModelIO
----> 41 from pytorch_lightning.loggers import LightningLoggerBase, LoggerCollection
-     42 from pytorch_lightning.trainer.connectors.data_connector import _DataHookSelector
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/loggers/__init__.py in <module>
-     17 from pytorch_lightning.loggers.csv_logs import CSVLogger
----> 18 from pytorch_lightning.loggers.tensorboard import TensorBoardLogger
-     19 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/loggers/tensorboard.py in <module>
-     25 import torch
----> 26 from torch.utils.tensorboard import SummaryWriter
-     27 from torch.utils.tensorboard.summary import hparams
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/tensorboard/__init__.py in <module>
-     11 
----> 12 from .writer import FileWriter, SummaryWriter  # noqa: F401
-     13 from tensorboard.summary.writer.record_writer import RecordWriter  # noqa: F401
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torch/utils/tensorboard/writer.py in <module>
-      8 from tensorboard.compat import tf
-----> 9 from tensorboard.compat.proto.event_pb2 import SessionLog
-     10 from tensorboard.compat.proto.event_pb2 import Event
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorboard/compat/proto/event_pb2.py in <module>
-      6 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
-----> 7 from google.protobuf.internal import enum_type_wrapper
-      8 from google.protobuf import descriptor as _descriptor
-
-ModuleNotFoundError: No module named 'google.protobuf'
+ModuleNotFoundError: No module named 'pytorch_lightning'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5305/2329549897.py in <module>
-     24 except ModuleNotFoundError:
-     25     get_ipython().run_line_magic('pip', 'install -qq pytorch_lightning')
----> 26     from pytorch_lightning import LightningDataModule, LightningModule, Trainer
-     27 from torch.utils.data import DataLoader, random_split
+/tmp/ipykernel_5338/3536696859.py in <module>
+     25 except ModuleNotFoundError:
+     26     get_ipython().run_line_magic('pip', 'install -qq pytorch-lightning')
+---> 27     from pytorch_lightning import LightningModule, Trainer
      28 
+     29 try:
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/__init__.py in <module>
      28     _logger.propagate = False
