@@ -95,57 +95,22 @@ def main(argv):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4434/4106335031.py in <module>
-     11 try:
----> 12     from torchvision.datasets import CelebA, MNIST
-     13 except ModuleNotFoundError:
+/tmp/ipykernel_4651/4106335031.py in <module>
+     44 try:
+---> 45     from mfa_celeba_helpers import *
+     46 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'torchvision'
+ModuleNotFoundError: No module named 'mfa_celeba_helpers'
 
 During handling of the above exception, another exception occurred:
 
-AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4434/4106335031.py in <module>
-     13 except ModuleNotFoundError:
-     14     get_ipython().run_line_magic('pip', 'install -qq torchvision')
----> 15     from torchvision.datasets import CelebA, MNIST
-     16 import torchvision.transforms as transforms
-     17 
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4651/4106335031.py in <module>
+     46 except ModuleNotFoundError:
+     47     get_ipython().run_line_magic('pip', 'install -qq mfa_celeba_helpers')
+---> 48     from mfa_celeba_helpers import *
+     49 from IPython.display import Image
+     50 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/__init__.py in <module>
-      3 
-      4 import torch
-----> 5 from torchvision import datasets
-      6 from torchvision import io
-      7 from torchvision import models
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/__init__.py in <module>
-----> 1 from ._optical_flow import KittiFlow, Sintel, FlyingChairs, FlyingThings3D, HD1K
-      2 from .caltech import Caltech101, Caltech256
-      3 from .celeba import CelebA
-      4 from .cifar import CIFAR10, CIFAR100
-      5 from .cityscapes import Cityscapes
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/datasets/_optical_flow.py in <module>
-     10 from PIL import Image
-     11 
----> 12 from ..io.image import _read_png_16
-     13 from .utils import verify_str_arg
-     14 from .vision import VisionDataset
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/io/__init__.py in <module>
-      3 import torch
-      4 
-----> 5 from ..utils import _log_api_usage_once
-      6 
-      7 try:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/torchvision/utils.py in <module>
-     19 
-     20 
----> 21 @torch.no_grad()
-     22 def make_grid(
-     23     tensor: Union[torch.Tensor, List[torch.Tensor]],
-
-AttributeError: module 'torch' has no attribute 'no_grad'
-AttributeError: module 'torch' has no attribute 'no_grad'
+ModuleNotFoundError: No module named 'mfa_celeba_helpers'
+ModuleNotFoundError: No module named 'mfa_celeba_helpers'
