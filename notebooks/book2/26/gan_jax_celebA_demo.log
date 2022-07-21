@@ -38,7 +38,7 @@ print("DEVICES VISIBLE BY TF - ", tf.config.list_physical_devices())
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4588/503770219.py in <module>
+/tmp/ipykernel_4596/503770219.py in <module>
      14 try:
 ---> 15     from gan.progan import ProGAN as GAN
      16 except ModuleNotFoundError:
@@ -48,7 +48,7 @@ ModuleNotFoundError: No module named 'gan'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4588/503770219.py in <module>
+/tmp/ipykernel_4596/503770219.py in <module>
      16 except ModuleNotFoundError:
      17     get_ipython().run_line_magic('pip', 'install -qq gan')
 ---> 18     from gan.progan import ProGAN as GAN

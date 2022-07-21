@@ -33,7 +33,7 @@ import io
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4587/87649367.py in <module>
+/tmp/ipykernel_4629/87649367.py in <module>
      13 try:
 ---> 14     from spams import trainDL, nmf, displayPatches, im2col_sliding
      15 except ModuleNotFoundError:
@@ -43,7 +43,7 @@ ModuleNotFoundError: No module named 'spams'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4587/87649367.py in <module>
+/tmp/ipykernel_4629/87649367.py in <module>
      15 except ModuleNotFoundError:
      16     get_ipython().run_line_magic('pip', 'install -qq spams')
 ---> 17     from spams import trainDL, nmf, displayPatches, im2col_sliding

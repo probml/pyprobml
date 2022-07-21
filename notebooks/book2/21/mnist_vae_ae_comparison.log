@@ -13,7 +13,7 @@ plt.savefig("/content/plots/mnist_recon_montage.pdf")
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_3950/1101576811.py in <module>
+/tmp/ipykernel_3956/1101576811.py in <module>
       7 fig.suptitle("Original (upper) vs Reconstructed (lower four)")
       8 fig.show()
 ----> 9 plt.savefig("/content/plots/mnist_recon_montage.pdf")
