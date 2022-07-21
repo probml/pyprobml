@@ -1,0 +1,82 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+\usetikzlibrary{positioning}
+\newcommand{\indep}{\perp \!\!\! \perp}
+
+% \title{PC_Algorithm_step}
+% \author{Vishal Ghoniya}
+% \date{July 2022}
+
+\begin{document}
+
+\tikzstyle{every}=[circle, draw=black!0, minimum size=5mm]
+\begin{tikzpicture}[font={\small}]
+\node [every] at (0.5,0) (A1) {A};
+    \node [every, right=1cm of A1] (B1) {B} ;
+        \edge {A1}{B1};
+    \node [every, above right=1cm of B1] (C1) {C};
+        \edge{B1}{C1};
+    \node [every, below right=1cm of B1] (D1) {D};
+        \edge{B1}{D1};
+    \node [every, right=2cm of B1] (E1) {E};
+        \edge{D1, C1}{E1};
+\node[const] at (3, -2) {True Graph};
+
+\node [every] at (7.5,0) (A2) {A};
+    \node [every, right=1cm of A2] (B2) {B} ;
+        \edge [-]{A2}{B2};
+    \node [every, above right=1cm of B2] (C2) {C};
+        \edge[-]{A2, B2}{C2};
+    \node [every, below right=1cm of B2] (D2) {D};
+        \edge[-]{A2, B2, C2}{D2};
+    \node [every, right=2cm of B2] (E2) {E};
+        \edge[-]{D2, C2, B2}{E2};
+    \path [draw=black](7.5, -0.25) --(7.5,-1.5) -| (11.8,-0.25);
+\node[const] at (9.65, -2) {Complete Undirected Graph};
+
+\draw (0.5,-2.5) -- (12,-2.5);
+\node [const] at (2, -3) (0) {n = 0};
+\node [const, right=0.5cm of 0] {No zero order independencies};
+\draw (0.5,-3.5) -- (12,-3.5);
+
+\node [const] at (2, -4) (1) {n = 1};
+\node [const, right=0.5cm of 1] {First order independencies };
+\node [const, right=6cm of 1] {Resulting Adjancies};
+\node[const, below=1cm of 1] (1_1) {A $\indep$ C $|$ B};
+\node [const, right=1cm of 1_1] (1_2) {A $\indep$ D $|$ B};
+\node[const, below=0.5cm of 1_1] (1_3) {A $\indep$ E $|$ B};
+\node [const, right=1cm of 1_3] (1_4) {C $\indep$ D $|$ B};
+
+
+\node [every] at (7.5,-5.5) (A3) {A};
+    \node [every, right=1.25cm of A3] (B3) {B} ;
+        \edge [-]{A3}{B3};
+    \node [every, above right=0.75cm of B3] (C3) {C};
+        \edge[-]{B3}{C3};
+    \node [every, below right=0.75cm of B3] (D3) {D};
+        \edge[-]{B3}{D3};
+    \node [every, right=1.25cm of B3] (E3) {E};
+        \edge[-]{D3, C3, B3}{E3};
+        
+\draw (0.5,-7) -- (12,-7);
+\node [const] at (2, -7.5) (2) {n = 2};
+\node [const, right=0.5cm of 2] {Second order independencies};
+\node [const, right=6cm of 2] {Resulting Adjancies};
+\node[const, below right=1.5cm of 2] (1_1) {B $\indep$ E $|\hspace{1pt} \{$C,D$\}$};
+
+
+\node [every] at (7.5,-9) (A3) {A};
+    \node [every, right=1.25cm of A3] (B3) {B} ;
+        \edge [-]{A3}{B3};
+    \node [every, above right=0.75cm of B3] (C3) {C};
+        \edge[-]{B3}{C3};
+    \node [every, below right=0.75cm of B3] (D3) {D};
+        \edge[-]{B3}{D3};
+    \node [every, right=1.25cm of B3] (E3) {E};
+        \edge[-]{D3, C3}{E3};
+
+\end{tikzpicture}
+
+\end{document}
