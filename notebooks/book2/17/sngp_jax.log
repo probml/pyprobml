@@ -39,7 +39,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3958/608523586.py in <module>
+/tmp/ipykernel_3971/608523586.py in <module>
       3 import matplotlib.pyplot as plt
       4 import matplotlib.colors as colors
 ----> 5 import jax
