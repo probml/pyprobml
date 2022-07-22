@@ -39,14 +39,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
-
-ModuleNotFoundError: No module named 'jaxlib'
-
-The above exception was the direct cause of the following exception:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3967/608523586.py in <module>
+/tmp/ipykernel_3964/608523586.py in <module>
       3 import matplotlib.pyplot as plt
       4 import matplotlib.colors as colors
 ----> 5 import jax
@@ -55,11 +48,7 @@ ModuleNotFoundError                       Traceback (most recent call last)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/config.py in <module>
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/api.py in <module>
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in <module>
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
-
-ModuleNotFoundError: jax requires jaxlib to be installed. See https://github.com/google/jax#installation for installation instructions.
-ModuleNotFoundError: jax requires jaxlib to be installed. See https://github.com/google/jax#installation for installation instructions.
+ModuleNotFoundError: No module named 'jax.ad_checkpoint'
+ModuleNotFoundError: No module named 'jax.ad_checkpoint'
