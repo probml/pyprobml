@@ -1,0 +1,34 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+
+% \title{Hierarchical_SSM}
+% \author{Vishal Ghoniya}
+% \date{July 2022}
+
+\begin{document}
+\tikzstyle {level2} = [ellipse, draw=blue!50, minimum width=1.5cm, minimum height=1cm]
+\tikzstyle{level1} = [ellipse, draw=green!80, minimum width=1.5cm, minimum height=1cm]
+\tikzstyle{levelb} = [ellipse, draw=yellow!80, minimum width=1.5cm, minimum height=1cm, fill=yellow!60]
+\begin{tikzpicture}[-, >=stealth, ultra thick]
+\node [levelb] at (0,0) (y_t0) {Y$_{t-1}^j$};
+    \node [levelb, right=1cm of y_t0] (y_t) {Y$_{t}^j$};
+
+\node [level1, above=1cm of y_t0] (z_t0) {z$_{t-1}^j$} 
+    edge[->, draw=green!80, in=north west, out=south west] (y_t0);
+\node [level1, right=1cm of z_t0] (z_t) {z$_{t}^j$} 
+    edge[<-, draw=green!80] (z_t0) 
+    edge [->, draw=green!80] (y_t);
+\node [level2, above=1cm of z_t0] (z_0) {z$_{t-1}^0$} 
+    edge [->, draw=blue!50, in=north west, out=south west] (z_t0);
+\node [level2, right=1cm of z_0] (z_00) {z$_{t}^0$}
+    edge [<-, draw=blue!50] (z_0)
+    edge [->, draw=blue!50] (z_t);
+\node [right=1cm of z_00] (dot) {$\cdots$};
+    \node [below=2.5cm of dot] {$\cdots$};
+    \node [below=4cm of dot] {j=1:J};
+\draw [rounded corners, draw=blue!50] (-1,-0.8) rectangle (5.5,3);
+\end{tikzpicture}
+\end{document}
