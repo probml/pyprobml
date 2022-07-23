@@ -81,12 +81,12 @@ trainer2.fit(mmd_vae, dm)
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_4828/376362601.py in <module>
-     65 kl_loss = partial(kl_loss, {"kl_coeff": 1})
-     66 mmd_loss = partial(mmd_loss, {"beta": 1})
----> 67 vanilla_vae = VAE("vanilla_vae", kl_loss, encoder, decoder)
-     68 vanilla_vae = VAEModule(vanilla_vae, lr, latent_dim)
-     69 
+/tmp/ipykernel_4805/376362601.py in <module>
+     20 
+     21 
+---> 22 class Encoder(nn.Module):
+     23     def __init__(self, latent_dim: int = 256):
+     24         super(Encoder, self).__init__()
 
-NameError: name 'VAE' is not defined
-NameError: name 'VAE' is not defined
+NameError: name 'nn' is not defined
+NameError: name 'nn' is not defined

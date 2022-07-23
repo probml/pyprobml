@@ -1,40 +1,26 @@
 An error occurred while executing the following cell:
 ------------------
-import copy
-
-import jax.numpy as np
-import jax.random as jr
-
-try:
-    from tensorflow_probability.substrates import jax as tfp
-except ModuleNotFoundError:
-    %pip install -qq tensorflow-probability
-    from tensorflow_probability.substrates import jax as tfp
-
-try:
-    from ssm.distributions.linreg import GaussianLinearRegression
-except ModuleNotFoundError:
-    %pip install -qq ssm
-    from ssm.distributions.linreg import GaussianLinearRegression
-from ssm.arhmm import GaussianARHMM
-from ssm.utils import find_permutation, random_rotation
-from ssm.plots import gradient_cmap  # , white_to_color_cmap
-
+import jax.numpy as jnp
+from jax import random
 import matplotlib.pyplot as plt
-
-%matplotlib inline
-
+from scipy.stats import multivariate_normal as mvn
 import seaborn as sns
+
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5169/2356645907.py in <module>
-      1 import copy
-      2 
-----> 3 import jax.numpy as np
-      4 import jax.random as jr
-      5 
+/tmp/ipykernel_5201/19950685.py in <module>
+----> 1 import jax.numpy as jnp
+      2 from jax import random
+      3 import matplotlib.pyplot as plt
+      4 from scipy.stats import multivariate_normal as mvn
+      5 import seaborn as sns
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module
