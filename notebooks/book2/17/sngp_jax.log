@@ -39,16 +39,12 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3964/608523586.py in <module>
+/tmp/ipykernel_3959/608523586.py in <module>
       3 import matplotlib.pyplot as plt
       4 import matplotlib.colors as colors
 ----> 5 import jax
       6 import jax.numpy as jnp
       7 import numpy as np
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/api.py in <module>
-
-ModuleNotFoundError: No module named 'jax.ad_checkpoint'
-ModuleNotFoundError: No module named 'jax.ad_checkpoint'
+ModuleNotFoundError: No module named 'jax'
+ModuleNotFoundError: No module named 'jax'
