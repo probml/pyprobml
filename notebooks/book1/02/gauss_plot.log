@@ -1,39 +1,26 @@
 An error occurred while executing the following cell:
 ------------------
-import copy
-
-import jax.numpy as np
-import jax.random as jr
-
-try:
-    from tensorflow_probability.substrates import jax as tfp
-except ModuleNotFoundError:
-    %pip install -qq tensorflow-probability
-    from tensorflow_probability.substrates import jax as tfp
-
-try:
-    from ssm.distributions.linreg import GaussianLinearRegression
-except ModuleNotFoundError:
-    %pip install -qq ssm
-    from ssm.distributions.linreg import GaussianLinearRegression
-from ssm.arhmm import GaussianARHMM
-from ssm.utils import find_permutation, random_rotation
-from ssm.plots import gradient_cmap  # , white_to_color_cmap
-
+import jax
+import jax.numpy as jnp
+import seaborn as sns
 import matplotlib.pyplot as plt
 
-%matplotlib inline
+try:
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig, is_latexify_enabled
 
-import seaborn as sns
+from jax.scipy.stats import norm
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5169/2356645907.py in <module>
-      1 import copy
-      2 
-----> 3 import jax.numpy as np
-      4 import jax.random as jr
+/tmp/ipykernel_5524/2753427409.py in <module>
+----> 1 import jax
+      2 import jax.numpy as jnp
+      3 import seaborn as sns
+      4 import matplotlib.pyplot as plt
       5 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
