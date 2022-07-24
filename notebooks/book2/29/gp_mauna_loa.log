@@ -36,7 +36,7 @@ marksize = 6 if is_latexify_enabled() else 50
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5484/1698028459.py in <module>
+/tmp/ipykernel_5486/1698028459.py in <module>
       1 try:
 ----> 2     import tinygp
       3 except ImportError:
@@ -46,7 +46,7 @@ ModuleNotFoundError: No module named 'tinygp'
 During handling of the above exception, another exception occurred:
 
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5484/1698028459.py in <module>
+/tmp/ipykernel_5486/1698028459.py in <module>
       3 except ImportError:
       4     get_ipython().run_line_magic('pip', 'install -q tinygp')
 ----> 5     import tinygp
