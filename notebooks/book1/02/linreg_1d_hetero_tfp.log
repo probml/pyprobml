@@ -1,0 +1,262 @@
+An error occurred while executing the following cell:
+------------------
+# Linear regression using MLE with fixed variance and input-dependent variance.
+# Adapted from
+# https://colab.sandbox.google.com/github/tensorflow/probability/blob/master/tensorflow_probability/examples/jupyter_notebooks/Probabilistic_Layers_Regression.ipynb#scrollTo=5zCEYpzu7bDX
+
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+from pprint import pprint
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+try:
+    import tensorflow.compat.v2 as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow.compat.v2 as tf
+tf.enable_v2_behavior()
+
+try:
+    import tensorflow_probability as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow-probability
+    import tensorflow_probability as tfp
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+
+figdir = "figures"
+
+
+def savefig(fname):
+    plt.savefig(os.path.join(figdir, fname))
+
+
+sns.reset_defaults()
+# sns.set_style('whitegrid')
+# sns.set_context('talk')
+sns.set_context(context="talk", font_scale=0.7)
+
+tfd = tfp.distributions
+
+
+# @title Synthesize dataset.
+w0 = 0.125
+b0 = 5.0
+x_range = [-20, 60]
+
+
+def load_dataset(n=150, n_tst=150):
+    np.random.seed(43)
+
+    def s(x):
+        g = (x - x_range[0]) / (x_range[1] - x_range[0])
+        return 3 * (0.25 + g**2.0)
+
+    x = (x_range[1] - x_range[0]) * np.random.rand(n) + x_range[0]
+    eps = np.random.randn(n) * s(x)
+    y = (w0 * x * (1.0 + np.sin(x)) + b0) + eps
+    x = x[..., np.newaxis]
+    x_tst = np.linspace(*x_range, num=n_tst).astype(np.float32)
+    x_tst = x_tst[..., np.newaxis]
+    return y, x, x_tst
+
+
+y, x, x_tst = load_dataset()
+
+
+plt.figure()
+# plt.figure(figsize=[8, 5])  # inches
+plt.plot(x, y, "b.", label="observed")
+savefig("linreg_1d_hetero_data.pdf")
+plt.show()
+
+
+### Fixed output variance
+model = tf.keras.Sequential(
+    [
+        tf.keras.layers.Dense(1),  # 1 linear layer
+        tfp.layers.DistributionLambda(lambda t: tfd.Normal(loc=t, scale=1)),
+    ]
+)
+
+negloglik = lambda y, rv_y: -rv_y.log_prob(y)
+model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.01), loss=negloglik)
+history = model.fit(x, y, epochs=1000, verbose=False)
+[print(np.squeeze(w.numpy())) for w in model.weights]
+yhat = model(x_tst)
+assert isinstance(yhat, tfd.Distribution)
+
+plt.plot(history.history["loss"], label="Train")
+# plt.plot(history.history['val_loss'], label='Val')
+plt.legend()
+plt.xlabel("Epoch")
+plt.ylabel("NLL")
+plt.show()
+
+
+plt.figure()
+plt.plot(x, y, "b.", label="observed")
+plt.plot(x_tst, yhat.mean(), "r", label="mean", linewidth=4)
+savefig("linreg_1d_hetero_mean.pdf")
+plt.show()
+
+
+plt.figure()
+plt.plot(x, y, "b.", label="observed")
+m = yhat.mean()
+s = yhat.stddev()
+plt.plot(x_tst, m, "r", linewidth=4, label="mean")
+plt.plot(x_tst, m + 2 * s, "g", linewidth=2, label=r"mean + 2 stddev")
+plt.plot(x_tst, m - 2 * s, "g", linewidth=2, label=r"mean - 2 stddev")
+savefig("linreg_1d_hetero_var_fixed.pdf")
+plt.show()
+
+# Data-dependent variance (heteroskedastic)
+
+# mu(x) = b + wx
+# sigma(x) = softplus( 0.05 * b' + w' x)
+model = tf.keras.Sequential(
+    [
+        tf.keras.layers.Dense(1 + 1),  # linear model for mean and variance
+        tfp.layers.DistributionLambda(
+            lambda t: tfd.Normal(loc=t[..., :1], scale=1e-3 + tf.math.softplus(0.05 * t[..., 1:]))
+        ),
+    ]
+)
+
+model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.01), loss=negloglik)
+model.fit(x, y, epochs=1000, verbose=False)
+yhat = model(x_tst)
+assert isinstance(yhat, tfd.Distribution)
+
+
+plt.figure()
+plt.plot(x, y, "b.", label="observed")
+m = yhat.mean()
+s = yhat.stddev()
+
+plt.plot(x_tst, m, "r", linewidth=4, label="mean")
+plt.plot(x_tst, m + 2 * s, "g", linewidth=2, label=r"mean + 2 stddev")
+plt.plot(x_tst, m - 2 * s, "g", linewidth=2, label=r"mean - 2 stddev")
+savefig("linreg_1d_hetero_var_adaptive.pdf")
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_5691/494545967.py in <module>
+     15 try:
+---> 16     import tensorflow.compat.v2 as tf
+     17 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_5691/494545967.py in <module>
+     17 except ModuleNotFoundError:
+     18     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+---> 19     import tensorflow.compat.v2 as tf
+     20 tf.enable_v2_behavior()
+     21 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
+     40 
+     41 # Bring in subpackages.
+---> 42 from tensorflow.python import data
+     43 from tensorflow.python import distribute
+     44 # from tensorflow.python import keras
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/__init__.py in <module>
+     19 
+     20 # pylint: disable=unused-import
+---> 21 from tensorflow.python.data import experimental
+     22 from tensorflow.python.data.ops.dataset_ops import AUTOTUNE
+     23 from tensorflow.python.data.ops.dataset_ops import Dataset
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/__init__.py in <module>
+     93 
+     94 # pylint: disable=unused-import
+---> 95 from tensorflow.python.data.experimental import service
+     96 from tensorflow.python.data.experimental.ops.batching import dense_to_ragged_batch
+     97 from tensorflow.python.data.experimental.ops.batching import dense_to_sparse_batch
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/service/__init__.py in <module>
+    385 """
+    386 
+--> 387 from tensorflow.python.data.experimental.ops.data_service_ops import distribute
+    388 from tensorflow.python.data.experimental.ops.data_service_ops import from_dataset_id
+    389 from tensorflow.python.data.experimental.ops.data_service_ops import register_dataset
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/ops/data_service_ops.py in <module>
+     20 from tensorflow.core.protobuf import data_service_pb2
+     21 from tensorflow.python import tf2
+---> 22 from tensorflow.python.data.experimental.ops import compression_ops
+     23 from tensorflow.python.data.experimental.service import _pywrap_server_lib
+     24 from tensorflow.python.data.experimental.service import _pywrap_utils
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/ops/compression_ops.py in <module>
+     14 # ==============================================================================
+     15 """Ops for compressing and uncompressing dataset elements."""
+---> 16 from tensorflow.python.data.util import structure
+     17 from tensorflow.python.ops import gen_experimental_dataset_ops as ged_ops
+     18 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/util/structure.py in <module>
+     20 import wrapt
+     21 
+---> 22 from tensorflow.python.data.util import nest
+     23 from tensorflow.python.framework import composite_tensor
+     24 from tensorflow.python.framework import ops
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/util/nest.py in <module>
+     34 import six as _six
+     35 
+---> 36 from tensorflow.python.framework import sparse_tensor as _sparse_tensor
+     37 from tensorflow.python.util import _pywrap_utils
+     38 from tensorflow.python.util import nest
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/sparse_tensor.py in <module>
+     22 from tensorflow.python import tf2
+     23 from tensorflow.python.framework import composite_tensor
+---> 24 from tensorflow.python.framework import constant_op
+     25 from tensorflow.python.framework import dtypes
+     26 from tensorflow.python.framework import ops
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/constant_op.py in <module>
+     23 from tensorflow.core.framework import types_pb2
+     24 from tensorflow.python.eager import context
+---> 25 from tensorflow.python.eager import execute
+     26 from tensorflow.python.framework import dtypes
+     27 from tensorflow.python.framework import op_callbacks
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/execute.py in <module>
+     21 from tensorflow.python import pywrap_tfe
+     22 from tensorflow.python.eager import core
+---> 23 from tensorflow.python.framework import dtypes
+     24 from tensorflow.python.framework import ops
+     25 from tensorflow.python.framework import tensor_shape
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py in <module>
+     22 # pylint: disable=invalid-import-order,g-bad-import-order
+     23 from tensorflow.python import pywrap_tensorflow  # pylint: disable=unused-import
+---> 24 from tensorflow.python.framework import _dtypes
+     25 from tensorflow.python.types import doc_typealias
+     26 from tensorflow.python.lib.core import _pywrap_bfloat16
+
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/_dtypes.so: undefined symbol: _ZN10tensorflow14DataTypeStringENS_8DataTypeE
+ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/_dtypes.so: undefined symbol: _ZN10tensorflow14DataTypeStringENS_8DataTypeE
