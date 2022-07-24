@@ -1,129 +1,25 @@
 An error occurred while executing the following cell:
 ------------------
-import functools
-import numpy as np
+def trainable_point_estimate(initial_loc, initial_scale, event_ndims, validate_args):
+    return tfd.Independent(
+        tfd.Deterministic(tf.Variable(initial_loc), validate_args=validate_args), reinterpreted_batch_ndims=event_ndims
+    )
 
-try:
-    import tensorflow.compat.v2 as tf
-except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow.compat.v2 as tf
-try:
-    import tensorflow_probability as tfp
-except ModuleNotFoundError:
-    %pip install -qq tensorflow-probability
-    import tensorflow_probability as tfp
-from tensorflow_probability import bijectors as tfb
-from tensorflow_probability import distributions as tfd
 
-# from matplotlib import pylab as plt
-import seaborn as sns
-
-import pandas as pd
-import matplotlib.pyplot as plt
-
-print(tf.__version__, tfp.__version__)
+point_mass_posterior = tfp.experimental.vi.build_factored_surrogate_posterior(
+    pinned.event_shape,
+    bijector=pinned.experimental_default_event_space_bijector(),
+    trainable_distribution_fn=trainable_point_estimate,
+)
 ------------------
 
 ---------------------------------------------------------------------------
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5781/4265537780.py in <module>
-      3 
-      4 try:
-----> 5     import tensorflow.compat.v2 as tf
-      6 except ModuleNotFoundError:
-      7     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_4893/3173641128.py in <module>
+      8     pinned.event_shape,
+      9     bijector=pinned.experimental_default_event_space_bijector(),
+---> 10     trainable_distribution_fn=trainable_point_estimate,
+     11 )
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
-     35 import typing as _typing
-     36 
----> 37 from tensorflow.python.tools import module_util as _module_util
-     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
-     39 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
-     40 
-     41 # Bring in subpackages.
----> 42 from tensorflow.python import data
-     43 from tensorflow.python import distribute
-     44 # from tensorflow.python import keras
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/__init__.py in <module>
-     19 
-     20 # pylint: disable=unused-import
----> 21 from tensorflow.python.data import experimental
-     22 from tensorflow.python.data.ops.dataset_ops import AUTOTUNE
-     23 from tensorflow.python.data.ops.dataset_ops import Dataset
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/__init__.py in <module>
-     93 
-     94 # pylint: disable=unused-import
----> 95 from tensorflow.python.data.experimental import service
-     96 from tensorflow.python.data.experimental.ops.batching import dense_to_ragged_batch
-     97 from tensorflow.python.data.experimental.ops.batching import dense_to_sparse_batch
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/service/__init__.py in <module>
-    385 """
-    386 
---> 387 from tensorflow.python.data.experimental.ops.data_service_ops import distribute
-    388 from tensorflow.python.data.experimental.ops.data_service_ops import from_dataset_id
-    389 from tensorflow.python.data.experimental.ops.data_service_ops import register_dataset
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/ops/data_service_ops.py in <module>
-     20 from tensorflow.core.protobuf import data_service_pb2
-     21 from tensorflow.python import tf2
----> 22 from tensorflow.python.data.experimental.ops import compression_ops
-     23 from tensorflow.python.data.experimental.service import _pywrap_server_lib
-     24 from tensorflow.python.data.experimental.service import _pywrap_utils
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/ops/compression_ops.py in <module>
-     14 # ==============================================================================
-     15 """Ops for compressing and uncompressing dataset elements."""
----> 16 from tensorflow.python.data.util import structure
-     17 from tensorflow.python.ops import gen_experimental_dataset_ops as ged_ops
-     18 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/util/structure.py in <module>
-     20 import wrapt
-     21 
----> 22 from tensorflow.python.data.util import nest
-     23 from tensorflow.python.framework import composite_tensor
-     24 from tensorflow.python.framework import ops
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/util/nest.py in <module>
-     34 import six as _six
-     35 
----> 36 from tensorflow.python.framework import sparse_tensor as _sparse_tensor
-     37 from tensorflow.python.util import _pywrap_utils
-     38 from tensorflow.python.util import nest
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/sparse_tensor.py in <module>
-     22 from tensorflow.python import tf2
-     23 from tensorflow.python.framework import composite_tensor
----> 24 from tensorflow.python.framework import constant_op
-     25 from tensorflow.python.framework import dtypes
-     26 from tensorflow.python.framework import ops
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/constant_op.py in <module>
-     23 from tensorflow.core.framework import types_pb2
-     24 from tensorflow.python.eager import context
----> 25 from tensorflow.python.eager import execute
-     26 from tensorflow.python.framework import dtypes
-     27 from tensorflow.python.framework import op_callbacks
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/execute.py in <module>
-     21 from tensorflow.python import pywrap_tfe
-     22 from tensorflow.python.eager import core
----> 23 from tensorflow.python.framework import dtypes
-     24 from tensorflow.python.framework import ops
-     25 from tensorflow.python.framework import tensor_shape
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py in <module>
-     22 # pylint: disable=invalid-import-order,g-bad-import-order
-     23 from tensorflow.python import pywrap_tensorflow  # pylint: disable=unused-import
----> 24 from tensorflow.python.framework import _dtypes
-     25 from tensorflow.python.types import doc_typealias
-     26 from tensorflow.python.lib.core import _pywrap_bfloat16
-
-ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/_dtypes.so: undefined symbol: _ZN10tensorflow14DataTypeStringENS_8DataTypeE
-ImportError: /github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/_dtypes.so: undefined symbol: _ZN10tensorflow14DataTypeStringENS_8DataTypeE
+TypeError: build_factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
+TypeError: build_factored_surrogate_posterior() got an unexpected keyword argument 'trainable_distribution_fn'
