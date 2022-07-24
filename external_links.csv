@@ -15,9 +15,10 @@ kf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/
 kf_tracking.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_tracking.ipynb
 laplace_approx_beta_binom.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book1/04/laplace_approx_beta_binom_jax.ipynb
 linreg_hierarchical_non_centered.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/15/linreg_hierarchical_non_centered_blackjax.ipynb
+mix_ppca_demo.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book1/20/mixPpcaDemo.ipynb
 poisson_hmm_changepoint.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/poisson_hmm_changepoint.ipynb
 bnn_mnist_sgld.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld_blackjax.ipynb 
-rbpf_maneuver_demo.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneuver.py
+rbpf_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneuver.py
 sis_vs_smc.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/sis_vs_smc.py
 ukf_pendulum.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_pendulum.ipynb
 ukf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_spiral.ipynb
