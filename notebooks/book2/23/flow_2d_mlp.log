@@ -37,7 +37,7 @@ prng = hk.PRNGSequence(42)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4042/2931996044.py in <module>
+/tmp/ipykernel_4040/2931996044.py in <module>
      24 try:
 ---> 25     from probml_utils import savefig, latexify, is_latexify_enabled
      26 except ModuleNotFoundError:
@@ -47,7 +47,7 @@ ModuleNotFoundError: No module named 'probml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4042/2931996044.py in <module>
+/tmp/ipykernel_4040/2931996044.py in <module>
      26 except ModuleNotFoundError:
      27     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
 ---> 28     from probml_utils import savefig, latexify, is_latexify_enabled
