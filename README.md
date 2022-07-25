@@ -215,6 +215,7 @@
 | [book1/20/pca_projected_variance](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/pca_projected_variance.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/pca_projected_variance.png> | [log](-) |
 | [book1/20/pcaImageDemo](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/pcaImageDemo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/pcaImageDemo.png> | [log](-) |
 | [book1/20/fig_20_30](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/fig_20_30.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/fig_20_30.png> | [log](-) |
+| [book1/20/pca_digits](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/pca_digits.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/pca_digits.png> | [log](-) |
 | [book1/20/binary_fa_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/binary_fa_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/binary_fa_demo.png> | [log](-) |
 | [book1/20/fig_20_25](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/fig_20_25.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/fig_20_25.png> | [log](-) |
 | [book1/21/yeast_data_viz](https://github.com/probml/pyprobml/tree/master/notebooks/book1/21/yeast_data_viz.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/21/yeast_data_viz.png> | [log](-) |
@@ -243,13 +244,12 @@
 | [book1/14/cifar10_cnn_lightning](https://github.com/probml/pyprobml/tree/master/notebooks/book1/14/cifar10_cnn_lightning.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/14/cifar10_cnn_lightning.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/14/cifar10_cnn_lightning.log) |
 | [book1/20/pcaOverfitDemo](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/pcaOverfitDemo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/pcaOverfitDemo.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/20/pcaOverfitDemo.log) |
 | [book1/20/pcaStandardization](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/pcaStandardization.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/pcaStandardization.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/20/pcaStandardization.log) |
-| [book1/20/pca_digits](https://github.com/probml/pyprobml/tree/master/notebooks/book1/20/pca_digits.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/20/pca_digits.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/20/pca_digits.log) |
 | [book1/21/gmm_chooseK_pymc3](https://github.com/probml/pyprobml/tree/master/notebooks/book1/21/gmm_chooseK_pymc3.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/21/gmm_chooseK_pymc3.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/21/gmm_chooseK_pymc3.log) |
 
 ## Summary
 
 Book1: In total, 241 jobs were tested.
-13 jobs failed.
+12 jobs failed.
 
 # Book 2: PyProbML status
 
