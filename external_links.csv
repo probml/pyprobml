@@ -1,5 +1,6 @@
 Notebook,github_url
 bach_chorales_hmm.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bach_chorales_hmm.ipynb
+batch_bald_mnist.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/34/batch_bald_mnist_pytorch.ipynb
 bernoulli_hmm_example.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bernoulli_hmm_example.ipynb
 bootstrap_filter_spiral.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/bootstrap_filter.py
 bootstrap_filter_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/bootstrap_filter_maneuver.py
