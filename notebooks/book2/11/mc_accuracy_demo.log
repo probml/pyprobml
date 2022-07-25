@@ -31,7 +31,7 @@ key = jax.random.PRNGKey(500)
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5700/3198901394.py in <module>
+/tmp/ipykernel_5645/3198901394.py in <module>
       1 try:
 ----> 2     import distrax
       3 except ModuleNotFoundError:
