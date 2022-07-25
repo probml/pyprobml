@@ -168,7 +168,7 @@ scaling                  current                                remaining
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_6530/4252389853.py in <module>
+/tmp/ipykernel_6527/4252389853.py in <module>
     105 
     106 
 --> 107 import jax.numpy as jnp
