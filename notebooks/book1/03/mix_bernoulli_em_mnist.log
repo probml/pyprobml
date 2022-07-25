@@ -1,13 +1,18 @@
 An error occurred while executing the following cell:
 ------------------
 """
-Fits Bernoulli mixture model for mnist digits using Gradient Descent
-Author: Aleyna Kara(@karalleyna)
+Fits Bernoulli mixture model for mnist digits using em algorithm
+Author: Meduri Venkata Shivaditya, Aleyna Kara(@karalleyna)
 """
 
 
-import jax.numpy as jnp
+from jax.random import PRNGKey, randint
 
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow as tf
 try:
     from probml_utils.mix_bernoulli_lib import BMM
 except ModuleNotFoundError:
@@ -21,12 +26,11 @@ def main():
     n_obs = 1000
     observations = mnist_data(n_obs)  # subsample the MNIST dataset
     n_vars = len(observations[0])
-    K, num_epochs = 12, 500
-    bmm = BMM(K, n_vars)
-    _ = bmm.fit_sgd(jnp.array(observations), n_obs, num_epochs=num_epochs)
-
+    K, num_of_iters = 12, 10
     n_row, n_col = 3, 4
-    bmm.plot(n_row, n_col, "bmm_sgd_mnist")
+    bmm = BMM(K, n_vars)
+    _ = bmm.fit_em(observations, num_of_iters=num_of_iters)
+    bmm.plot(n_row, n_col, "bmm_em_mnist")
 
 
 if __name__ == "__main__":
@@ -35,12 +39,12 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5437/3897083071.py in <module>
-      8 
-      9 try:
----> 10     from probml_utils.mix_bernoulli_lib import BMM
-     11 except ModuleNotFoundError:
-     12     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+/tmp/ipykernel_5837/205051138.py in <module>
+     13     import tensorflow as tf
+     14 try:
+---> 15     from probml_utils.mix_bernoulli_lib import BMM
+     16 except ModuleNotFoundError:
+     17     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/mix_bernoulli_lib.py in <module>
      10 from jax.experimental import optimizers
