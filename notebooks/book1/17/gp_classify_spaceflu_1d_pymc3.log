@@ -85,7 +85,7 @@ pml.savefig("gp_classify_spaceflu.pdf", dpi=300)
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_5304/3831836.py in <module>
+/tmp/ipykernel_5154/3831836.py in <module>
       5 
       6 try:
 ----> 7     import pymc3 as pm
