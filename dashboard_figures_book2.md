@@ -5,7 +5,7 @@
 ## Book2Dashboard
 Total Notebooks | Latexified | Jaxified | 
 | -- | -- |  -- |
-| 203 | 77 | 79 |<details open>
+| 203 | 78 | 79 |<details open>
 <summary>Chapter: 2_Probability</summary>
 
 | nb_name                                                                                                                                                      |   fig_no | workflow                                                                                                                                                                                                                                                                                               | latexify   | jaxify   |
@@ -407,7 +407,7 @@ Total Notebooks | Latexified | Jaxified |
 
 | nb_name                                                                                                                                                                    |   fig_no | workflow                                                                                                                                                                                                                                                                                                             | latexify   | jaxify   |
 |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------|
-| [ab_test_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/34/ab_test_demo.ipynb)                                           |     34.4 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/34/ab_test_demo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/34/ab_test_demo.log)                                           | &#10060;   | &#10060; |
+| [ab_test_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/34/ab_test_demo.ipynb)                                           |     34.4 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/34/ab_test_demo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/34/ab_test_demo.log)                                           | &#9989;    | &#10060; |
 | [thompson_sampling_linear_gaussian.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/34/thompson_sampling_linear_gaussian.ipynb) |     34.8 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/34/thompson_sampling_linear_gaussian.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/34/thompson_sampling_linear_gaussian.log) | &#10060;   | &#9989;  |
 </details>
 
