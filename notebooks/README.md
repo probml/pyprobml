@@ -116,6 +116,10 @@ export FIG_DIR=/path/to/figures/directory
 export DUAL_SAVE=1
 ipython foo.ipynb
 ```
+* To undo this use
+```py
+unset LATEXIFY
+```
 * In colab you can set the environment variables like this:
 ```py
 %env LATEXIFY= 1
