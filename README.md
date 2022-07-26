@@ -18,7 +18,6 @@
 | [book1/01/iris_dtree](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/iris_dtree.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/01/iris_dtree.png> | [log](-) |
 | [book1/01/fig_1_12](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/fig_1_12.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/01/fig_1_12.png> | [log](-) |
 | [book1/01/iris_pca](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/iris_pca.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/01/iris_pca.png> | [log](-) |
-| [book1/01/cifar_viz_tf](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/cifar_viz_tf.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/01/cifar_viz_tf.png> | [log](-) |
 | [book1/02/iris_logreg](https://github.com/probml/pyprobml/tree/master/notebooks/book1/02/iris_logreg.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/02/iris_logreg.png> | [log](-) |
 | [book1/02/activation_fun_plot](https://github.com/probml/pyprobml/tree/master/notebooks/book1/02/activation_fun_plot.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/02/activation_fun_plot.png> | [log](-) |
 | [book1/02/datasaurus_dozen](https://github.com/probml/pyprobml/tree/master/notebooks/book1/02/datasaurus_dozen.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/02/datasaurus_dozen.png> | [log](-) |
@@ -234,6 +233,7 @@
 | [book1/22/matrix_factorization_recommender](https://github.com/probml/pyprobml/tree/master/notebooks/book1/22/matrix_factorization_recommender.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/22/matrix_factorization_recommender.png> | [log](-) |
 | [book1/23/gnn_graph_classification_jraph](https://github.com/probml/pyprobml/tree/master/notebooks/book1/23/gnn_graph_classification_jraph.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/23/gnn_graph_classification_jraph.png> | [log](-) |
 | [book1/23/gnn_node_classification_jraph](https://github.com/probml/pyprobml/tree/master/notebooks/book1/23/gnn_node_classification_jraph.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/23/gnn_node_classification_jraph.png> | [log](-) |
+| [book1/01/cifar_viz_tf](https://github.com/probml/pyprobml/tree/master/notebooks/book1/01/cifar_viz_tf.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/01/cifar_viz_tf.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/01/cifar_viz_tf.log) |
 | [book1/02/centralLimitDemo](https://github.com/probml/pyprobml/tree/master/notebooks/book1/02/centralLimitDemo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/02/centralLimitDemo.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/02/centralLimitDemo.log) |
 | [book1/08/em_log_likelihood_max](https://github.com/probml/pyprobml/tree/master/notebooks/book1/08/em_log_likelihood_max.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/08/em_log_likelihood_max.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/08/em_log_likelihood_max.log) |
 | [book1/08/fig_8_1](https://github.com/probml/pyprobml/tree/master/notebooks/book1/08/fig_8_1.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book1/08/fig_8_1.png> | [log](https://github.com/probml/pyprobml/tree/workflow_testing_indicator/notebooks/book1/08/fig_8_1.log) |
@@ -249,7 +249,7 @@
 ## Summary
 
 Book1: In total, 241 jobs were tested.
-11 jobs failed.
+12 jobs failed.
 
 # Book 2: PyProbML status
 
