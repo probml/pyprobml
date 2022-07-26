@@ -22,6 +22,7 @@ moons_comparison.ipynb,https://github.com/nipunbatra/bnn-zoo/blob/master/noteboo
 poisson_hmm_changepoint.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/poisson_hmm_changepoint.ipynb
 bnn_mnist_sgld.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld_blackjax.ipynb 
 rbpf_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneuver.py
+schools8.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/03/schools8_blackjax.ipynb
 sis_vs_smc.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/sis_vs_smc.py
 sin_data_comparison.ipynb,https://github.com/nipunbatra/bnn-zoo/blob/master/notebooks/regression/sin_data_comparison.ipynb
 ukf_pendulum.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_pendulum.ipynb
