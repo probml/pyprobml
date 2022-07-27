@@ -46,7 +46,7 @@ rng = jax.random.PRNGKey(0)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4665/1147266451.py in <module>
+/tmp/ipykernel_4662/1147266451.py in <module>
       5 
       6 get_ipython().run_line_magic('pip', 'install -qq jax==0.3.14')
 ----> 7 import jax
