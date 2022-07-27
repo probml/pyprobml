@@ -32,7 +32,7 @@ from sklearn import datasets
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4806/865199424.py in <module>
+/tmp/ipykernel_4834/865199424.py in <module>
       3 # https://peterroelants.github.io/posts/neural-network-implementation-part02/
       4 
 ----> 5 import jax
