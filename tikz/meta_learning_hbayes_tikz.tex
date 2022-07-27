@@ -1,0 +1,38 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
+% \title{Fig 19_15}
+% \author{Vishal Ghoniya}
+% \date{July 2022}
+
+\begin{document}
+\tikzstyle{emptynode} = [circle, draw=black!70, minimum size = 4mm]
+\tikzstyle{fullempty} = [rectangle, draw=black!0, minimum size=3mm]
+\tikzstyle{squarenode} = [rectangle, draw=black!70, fill=black!10, minimum size = 8mm]
+\tikzstyle{fillnode} = [circle, draw=black!70, fill=black!10, minimum size = 4mm]
+
+
+\begin{tikzpicture}[-,>=stealth,thick,node distance=3cm,thick]
+\node[emptynode]     (main node)  at (0, 0) {$\theta$};
+\node[fillnode]    (second node)    at (-2,-2) {$y^{(t)}_n$} edge[<-] (main node);
+\node[squarenode] (first node)  at (-4, -2) {$x^{(t)}_n$} edge[->] (second node);
+
+\node [fullempty] (1first text) at (-2.5,-3) {$n = 1, ..., N_{t}$};
+\draw[rounded corners] (-4.75, -3.5) rectangle (-1.25, -1) {};
+\draw [decorate,decoration={brace,mirror, amplitude=5pt}, thick]
+(-4.65,-3.75) -- (-1.35,-3.75) node [black,midway,yshift=-0.4cm] {$D^{(t)}$};
+
+\node[emptynode]    (third node) at (0, -2) {$\psi^{(t)}$} edge[<-] (main node) edge [->](second node);
+\node[fillnode]     (fourth node) at (2,-2) {$\tilde {y}^{(t)}_m$} edge [<-] (main node) edge [<-] (third node);
+\node[squarenode]   (fifth node) at (4, -2) {$\tilde {x}^{(t)}_m$} edge [->] (fourth node);
+
+\node [fullempty] (1first text) at (3.5,-3) {$m = 1, ..., M_{t}$};
+\draw[rounded corners] (1.25, -3.5) rectangle (4.75, -1) {};
+\node[fullempty] (1second text) at (4,-4) {$t = 1,...,T$};
+
+\draw[rounded corners] (-5, -4.5) rectangle (5, -0.5) {};
+
+\end{tikzpicture}
+\end{document}

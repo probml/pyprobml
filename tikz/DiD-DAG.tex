@@ -1,0 +1,30 @@
+\documentclass[tikz, border=2pt]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\begin{document}
+
+\usetikzlibrary{fit,arrows,calc,positioning,shadows.blur}
+
+\begin{tikzpicture}[var/.style={draw,circle,inner sep=0pt,minimum size=1.2cm},
+  latentconf/.style={draw,circle,dashed,inner sep=0pt,minimum size=1.2cm, fill=green!5}
+]
+  % Nodes
+  \node (A) [var] {$A$};
+%  \node (A) [var, right=.8cm of Z] {$A$};
+    \node (U) [latentconf, above=.8cm of A] {$U$};
+    \node (Y) [var, right=.8cm of U] {$Y_1 - Y_0$};
+    \node (X) [var, above=.8cm of U] {$X$};
+    
+    % Arrows
+    \path[->, line width=0.5mm]
+        (A) edge (Y)
+        (U) edge (A)
+        (X) edge (Y)
+        (U) edge (X)
+        (U) edge (Y);
+    \path[<->, line width=0.5mm]
+        (A) edge[bend left=90, dashed] (U);
+
+\end{tikzpicture}
+
+\end{document}

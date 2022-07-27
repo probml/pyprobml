@@ -7,3 +7,7 @@ book2/11/ars_demo
 book2/28/sparse_dict_demo
 book2/29/hmm_gaussian_2d
 book2/29/causal_impact
+
+2. Follwing notebooks are taking more than 1200s
+d2l notebooks
+book2/16/lecun1989

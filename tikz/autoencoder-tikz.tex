@@ -1,0 +1,33 @@
+% https://tikz.net/autoencoder/
+% Variational autoencoder architecture.
+% Made with https://github.com/battlesnake/neural.
+
+\documentclass[tikz]{standalone}
+
+
+\usepackage{neuralnetwork}
+
+\newcommand{\xin}[2]{$x_#2$}
+\newcommand{\xout}[2]{$\hat x_#2$}
+
+\begin{document}
+\begin{neuralnetwork}[height=8,nodesize=10pt]
+  \tikzstyle{input neuron}=[neuron, fill=orange!70];
+  \tikzstyle{output neuron}=[neuron, fill=blue!60!black, text=white];
+
+  \inputlayer[count=8, bias=false, title=Input Layer, text=\xin]
+
+  \hiddenlayer[count=5, bias=false]
+  \linklayers
+
+  \hiddenlayer[count=3, bias=false, title=Latent\\Representation]
+  \linklayers
+
+  \hiddenlayer[count=5, bias=false]
+  \linklayers
+
+  \outputlayer[count=8, title=Output Layer, text=\xout]
+  \linklayers
+
+\end{neuralnetwork}
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[tikz, border=2pt]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\begin{document}
+
+\usetikzlibrary{fit,arrows,calc,positioning,shadows.blur}
+
+\begin{tikzpicture}[var/.style={draw,circle,inner sep=0pt,minimum size=1.2cm},
+  latentconf/.style={draw,circle,dashed,inner sep=0pt,minimum size=1.2cm, fill=green!5}
+]
+  % Nodes
+    \node (A) [var] {$A$};
+    \node (Y) [var, right=2.2cm of A] {$Y$};
+    \node (U1) [latentconf, above=.8cm of A] {$U_1$};
+    \node (X) [var, below right=.2cm and .8cm of U1] {$X$};
+    \node (U2) [latentconf, above=.8cm of Y] {$U_2$};
+    
+    % Arrows
+    \path[->, line width=0.5mm]
+%        (A) edge (Y)
+        (U1) edge (A)
+        (U1) edge (X)
+        (U2) edge (X)
+        (U2) edge (Y);
+        
+\end{tikzpicture}
+
+\end{document}

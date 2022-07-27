@@ -214,3 +214,25 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: workflow_testing_indicator/
         publish_branch: workflow_testing_indicator
+
+  update_notebooks_md:
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'push'  # Don't run on pull requests
+    steps:
+    - name: Clone the reference repository
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        pip install numpy pandas nbformat tabulate 
+
+    - name: Update notebooks.md
+      run: |
+        python .github/scripts/generate_notebooks_md.py
+
+    - name: Push notebooks.md to notebooks_md (does not run on pull requests)
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: notebooks_md/
+        publish_branch: auto_notebooks_md

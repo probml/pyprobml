@@ -1,0 +1,40 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+% \title{Fig_18_21}
+% \author{Vishal Ghoniya}
+% \date{July 2022}
+\begin{document}
+
+\tikzstyle{fullemptynode} = [rectangle, draw=black!0, minimum size=5mm]
+\tikzstyle{emptynode} = [rectangle, draw=black!70, thick, minimum size = 5mm]
+\tikzstyle{fillnode} = [rectangle, draw=black!70, fill=blue!30, thick, minimum size=5mm]
+
+\begin{tikzpicture}[font={\small}]
+\node[fillnode]     (main node)  {No structure};
+
+\node[emptynode]    (first node)    at (-3,-2)   {SE} edge [-] (main node);
+\node[fillnode] (second node) at (-1,-2) {RQ} edge [-] (main node);
+\node[emptynode]    (fourth node)    at (1, -2) {Lin} edge [-] (main node);
+\node[emptynode]    (fifth node)    at (3, -2) {Per} edge [-] (main node);
+
+
+
+\node[fillnode] (1third node)     at (-1,-4) {Per $+$ RQ} edge [-] (second node);
+\node[fullemptynode] (1second node)       at (-3,-4) {...} edge [-] (second node);
+\node[emptynode]    (1first node)     at (-5,-4) {SE $+$ RQ} edge [-] (second node);
+\node[fullemptynode]    (1fourth node) at (1, -4) {...} edge [-] (second node);
+\node[emptynode]       (1fifth node)     at (3, -4) {Per $\times$ RQ} edge [-] (second node);
+
+\node[emptynode]    (2first node)       at (-5, -6) {SE $+$ Per $+$ RQ} edge [-] (1third node);
+\node[fullemptynode]    (2second node)      at (-2, -6) {...} edge [-] (1third node);
+\node[fillnode]     (2third node)       at (1, -6) {SE $\times$ (Per $+$ RQ)} edge [-] (1third node);
+\node[fullemptynode]    (2fourth node)      at(4, -6)   {...} edge [-] (1third node);
+
+\node[fullemptynode]    (3first node)       at (-1,-8) {...} edge [-] (2third node);
+\node[fullemptynode]    (3second node)      at (1,-8) {...} edge [-] (2third node);
+\node[fullemptynode]    (3third node)       at (3,-8) {...} edge [-] (2third node);
+
+\end{tikzpicture}
+\end{document}
