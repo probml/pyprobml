@@ -1,0 +1,12 @@
+An error occurred while executing the following cell:
+------------------
+model = ADVI(prior=prior, likelihood_fn=likelihood_fn, vi_type="mean_field")
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_4050/10378231.py in <module>
+----> 1 model = ADVI(prior=prior, likelihood_fn=likelihood_fn, vi_type="mean_field")
+
+NameError: name 'ADVI' is not defined
+NameError: name 'ADVI' is not defined
