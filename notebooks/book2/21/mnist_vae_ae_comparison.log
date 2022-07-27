@@ -3,20 +3,20 @@ An error occurred while executing the following cell:
 fig, axes = plt.subplots(5, 6, constrained_layout=True, figsize=plt.figaspect(1))
 for row, (name, recon) in enumerate(recons.items()):
     for col in range(6):
-        axes[row, col].imshow(recon[col], aspect=218 / 178)
+        axes[row, col].imshow(recon[col].reshape(32, 32), cmap="gray")
         axes[row, col].axis("off")
 
 fig.suptitle("Original (upper) vs Reconstructed (lower four)")
 fig.show()
-plt.savefig("/content/plots/celeba_recon_montage.pdf")
+plt.savefig("/content/plots/mnist_recon_montage.pdf")
 ------------------
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_4053/529873150.py in <module>
+/tmp/ipykernel_4046/1101576811.py in <module>
       7 fig.suptitle("Original (upper) vs Reconstructed (lower four)")
       8 fig.show()
-----> 9 plt.savefig("/content/plots/celeba_recon_montage.pdf")
+----> 9 plt.savefig("/content/plots/mnist_recon_montage.pdf")
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in savefig(*args, **kwargs)
     977 def savefig(*args, **kwargs):
@@ -74,5 +74,5 @@ FileNotFoundError                         Traceback (most recent call last)
     452         opened = True
     453     elif hasattr(fname, 'seek'):
 
-FileNotFoundError: [Errno 2] No such file or directory: '/content/plots/celeba_recon_montage.pdf'
-FileNotFoundError: [Errno 2] No such file or directory: '/content/plots/celeba_recon_montage.pdf'
+FileNotFoundError: [Errno 2] No such file or directory: '/content/plots/mnist_recon_montage.pdf'
+FileNotFoundError: [Errno 2] No such file or directory: '/content/plots/mnist_recon_montage.pdf'
