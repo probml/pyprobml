@@ -60,7 +60,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4714/4076008051.py in <module>
+/tmp/ipykernel_5039/4076008051.py in <module>
      10 import matplotlib.pyplot as plt
      11 
 ---> 12 import jax
