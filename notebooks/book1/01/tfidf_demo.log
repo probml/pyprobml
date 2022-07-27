@@ -155,7 +155,7 @@ print(np.round(Btest.todense(), 3))
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5652/2355378358.py in <module>
+/tmp/ipykernel_5357/2355378358.py in <module>
      54 
      55 try:
 ---> 56     from tensorflow import keras
