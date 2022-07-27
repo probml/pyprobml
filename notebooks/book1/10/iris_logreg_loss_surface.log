@@ -1,36 +1,43 @@
 An error occurred while executing the following cell:
 ------------------
+# Plot 2d NLL loss surface for  binary logistic regression with 1 feature
+# Loosely based on
+# https://peterroelants.github.io/posts/neural-network-implementation-part02/
+
 import jax
 import jax.numpy as jnp
-import matplotlib.pyplot as plt
+from jax.config import config
 
-try:
-    import distrax
-except ModuleNotFoundError:
-    %pip install -qq distrax
-    import distrax
-import ipywidgets as widget
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
-import warnings
 
-warnings.filterwarnings("ignore")
-jax.config.update("jax_platform_name", "cpu")
-key = jax.random.PRNGKey(0)
+from probml_utils import LogisticRegression as lr
+
+from mpl_toolkits.mplot3d import axes3d, Axes3D
+
+try:
+    import sklearn
+except ModuleNotFoundError:
+    %pip install -qq scikit-learn
+    import sklearn
+from sklearn.linear_model import LogisticRegression
+from sklearn import datasets
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5019/2214020405.py in <module>
-----> 1 import jax
-      2 import jax.numpy as jnp
-      3 import matplotlib.pyplot as plt
+/tmp/ipykernel_4809/865199424.py in <module>
+      3 # https://peterroelants.github.io/posts/neural-network-implementation-part02/
       4 
-      5 try:
+----> 5 import jax
+      6 import jax.numpy as jnp
+      7 from jax.config import config
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module

@@ -2,6 +2,7 @@ An error occurred while executing the following cell:
 ------------------
 import jax
 import jax.numpy as jnp
+from jax.scipy.stats import beta
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -14,12 +15,12 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_5125/3698783498.py in <module>
+/tmp/ipykernel_4829/3476601433.py in <module>
 ----> 1 import jax
       2 import jax.numpy as jnp
-      3 import matplotlib.pyplot as plt
-      4 import seaborn as sns
-      5 
+      3 from jax.scipy.stats import beta
+      4 import matplotlib.pyplot as plt
+      5 import seaborn as sns
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module
