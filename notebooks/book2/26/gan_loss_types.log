@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4105/212745700.py in <module>
+/tmp/ipykernel_4102/212745700.py in <module>
 ----> 1 import jax.numpy as jnp
       2 import jax
       3 from matplotlib import pyplot as plt
