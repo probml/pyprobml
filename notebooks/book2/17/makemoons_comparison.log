@@ -1,0 +1,48 @@
+An error occurred while executing the following cell:
+------------------
+prior = jax.tree_map(
+    lambda param: tfd.Independent(
+        tfd.Normal(loc=jnp.zeros(param.shape), scale=jnp.ones(param.shape)),
+        reinterpreted_batch_ndims=len(param.shape),
+    ),
+    params,
+)
+
+bijector = jax.tree_map(lambda param: tfb.Identity(), params)
+
+
+def get_log_likelihood(latent_sample, outputs, inputs, **kwargs):
+    frozen_params = freeze(latent_sample)
+    logit = mlp.apply(frozen_params, inputs["X"])
+    # def sigmoid(x, scale=100):
+    #     return 0.5 * (jnp.tanh(x * scale / 2) + 1)
+    # prob = sigmoid(logit)
+    return tfd.Bernoulli(logits=logit).log_prob(outputs).sum()
+
+
+model = ADVI(prior, bijector, get_log_likelihood, vi_type="mean_field")
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_4047/3297204795.py in <module>
+     19 
+     20 
+---> 21 model = ADVI(prior, bijector, get_log_likelihood, vi_type="mean_field")
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/bijax/advi.py in __init__(self, prior, likelihood_fn, prior_constraints, vi_type, rank, ordered_posterior_bijectors)
+     47 
+     48         self.prior = prior
+---> 49         self.prior_constraints = fill_in_bijector(prior_constraints, self.prior)
+     50 
+     51         assert (
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/bijax/core.py in fill_in_bijector(bijector, prior)
+    107 def fill_in_bijector(bijector, prior):
+    108     for key in prior:
+--> 109         if key not in bijector:
+    110             bijector[key] = tfb.Identity()
+    111     return bijector
+
+TypeError: argument of type 'function' is not iterable
+TypeError: argument of type 'function' is not iterable
