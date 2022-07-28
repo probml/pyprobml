@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 1200 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['pbar = tqdm(initial=len(active_learning_data.training_dataset), total=max_training_samples, desc="Training Set Size")', '', 'while True:', '    model = BayesianCNN(num_classes).to(device=device)  # initialise model', '    optimizer = torch.optim.Adam(model.parameters())']
+...
+['    print("Labels: ", targets[candidate_batch.indices])', '', '    active_learning_data.acquire(candidate_batch.indices)  # add the new indices to training dataset', '    added_indices.append(dataset_indices)', '    pbar.update(len(dataset_indices))']
+-------------------
