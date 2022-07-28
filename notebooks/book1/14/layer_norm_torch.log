@@ -1,1 +1,28 @@
-Kernel died
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(seed=1)
+import math
+import collections
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install -qq torch
+    import torch
+from torch import nn
+from torch.nn import functional as F
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_5558/8343947.py in <module>
+     11     get_ipython().run_line_magic('pip', 'install -qq torch')
+     12     import torch
+---> 13 from torch import nn
+     14 from torch.nn import functional as F
+
+ImportError: cannot import name 'nn' from 'torch' (unknown location)
+ImportError: cannot import name 'nn' from 'torch' (unknown location)
