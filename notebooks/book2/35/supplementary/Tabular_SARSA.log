@@ -27,7 +27,7 @@ ModuleNotFoundError: No module named 'pygame'
 During handling of the above exception, another exception occurred:
 
 DependencyNotInstalled                    Traceback (most recent call last)
-/tmp/ipykernel_4130/2971796468.py in <module>
+/tmp/ipykernel_4135/2971796468.py in <module>
      11 env = gym.make(env_name)
      12 env.reset()
 ---> 13 env.render()
@@ -40,11 +40,11 @@ DependencyNotInstalled                    Traceback (most recent call last)
      68         return render
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
-    429     def render(self, *args, **kwargs):
-    430         """Renders the environment."""
---> 431         return self.env.render(*args, **kwargs)
-    432 
-    433     def close(self):
+    431     ) -> Optional[Union[RenderFrame, List[RenderFrame]]]:
+    432         """Renders the environment."""
+--> 433         return self.env.render(*args, **kwargs)
+    434 
+    435     def close(self):
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
      64                 )
@@ -68,11 +68,11 @@ DependencyNotInstalled                    Traceback (most recent call last)
      68         return render
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
-    429     def render(self, *args, **kwargs):
-    430         """Renders the environment."""
---> 431         return self.env.render(*args, **kwargs)
-    432 
-    433     def close(self):
+    431     ) -> Optional[Union[RenderFrame, List[RenderFrame]]]:
+    432         """Renders the environment."""
+--> 433         return self.env.render(*args, **kwargs)
+    434 
+    435     def close(self):
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
      64                 )
