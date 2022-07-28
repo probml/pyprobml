@@ -91,11 +91,7 @@ ModuleNotFoundError                       Traceback (most recent call last)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/config.py in <module>
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/api.py in <module>
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in <module>
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
-
-ModuleNotFoundError: No module named 'jax.version'
-ModuleNotFoundError: No module named 'jax.version'
+ModuleNotFoundError: No module named 'jax.custom_batching'
+ModuleNotFoundError: No module named 'jax.custom_batching'
