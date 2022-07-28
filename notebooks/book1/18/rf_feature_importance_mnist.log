@@ -51,7 +51,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4895/4041839723.py in <module>
+/tmp/ipykernel_4845/4041839723.py in <module>
       2 # Based on https://github.com/ageron/handson-ml2/blob/master/06_decision_trees.ipynb
       3 
 ----> 4 import jax.numpy as jnp
