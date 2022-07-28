@@ -1,0 +1,39 @@
+An error occurred while executing the following cell:
+------------------
+# Illustration of gibbs sampling for 2-dim Gaussian
+# Author: Gerardo Durán-Martín
+# Translated from gibbsGaussDemo.m
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import multivariate_normal, norm
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+import os
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4050/4201845213.py in <module>
+     10 try:
+---> 11     import probml_utils as pml
+     12 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4050/4201845213.py in <module>
+     12 except ModuleNotFoundError:
+     13     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 14     import probml_utils as pml
+     15 import os
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
