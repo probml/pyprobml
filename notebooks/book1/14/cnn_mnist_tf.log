@@ -1,67 +1,37 @@
 An error occurred while executing the following cell:
 ------------------
-
 try:
-    from tensorflow import keras
+    import probml_utils.mnist_helper_tf as helper
 except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    from tensorflow import keras
-import tensorflow as tf
-import numpy as np
-import scipy
-import matplotlib.pyplot as plt
-try:
-    import pandas as pd
-except ModuleNotFoundError:
-    %pip install -qq pandas
-    import pandas as pd
-try:
-    import sklearn
-except ModuleNotFoundError:
-    %pip install -qq scikit-learn
-    import sklearn
-
-from time import time
-import os
-figdir = "figures"
-
-
-def savefig(fname): plt.savefig(os.path.join(figdir, fname))
-
-
-# print(tf.__version__)
-np.random.seed(0)
-
-mnist = keras.datasets.mnist
-(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
-train_images = train_images / 255.0
-test_images = test_images / 255.0
-
-# print(np.shape(train_images))
-# print(np.shape(test_images))
-#(60000, 28, 28)
-#(10000, 28, 28)
-
-plt.figure(figsize=(10, 10))
-for i in range(25):
-    plt.subplot(5, 5, i+1)
-    plt.xticks([])
-    plt.yticks([])
-    plt.grid(False)
-    plt.imshow(train_images[i], cmap=plt.cm.binary)
-savefig("mnist-data.pdf")
-plt.show()
-
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils.mnist_helper_tf as helper
 ------------------
 
 ---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/mnist_helper_tf.py in <module>
+      3 try:
+----> 4     import tensorflow as tf
+      5 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4891/1571387904.py in <module>
+/tmp/ipykernel_4588/2619592856.py in <module>
       1 try:
-----> 2     from tensorflow import keras
+----> 2     import probml_utils.mnist_helper_tf as helper
       3 except ModuleNotFoundError:
-      4     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
-      5     from tensorflow import keras
+      4     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+      5     import probml_utils.mnist_helper_tf as helper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/mnist_helper_tf.py in <module>
+      5 except ModuleNotFoundError:
+      6     os.system("pip install tensorflow")
+----> 7     import tensorflow as tf
+      8 
+      9 from tensorflow import keras
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      49 from ._api.v2 import autograph

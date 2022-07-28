@@ -1,47 +1,62 @@
 An error occurred while executing the following cell:
 ------------------
-# Code is based on Aurélien Geron's code
-# https://github.com/ageron/handson-ml2/blob/master/04_training_linear_models.ipynb
 
-import jax
+
+# feature importance using random forests  on ,mnist
+# Based on https://github.com/ageron/handson-ml2/blob/master/06_decision_trees.ipynb
+
 import jax.numpy as jnp
-import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
-from sklearn import datasets
-from sklearn.metrics import zero_one_loss
-from sklearn.model_selection import train_test_split
-
-from ipywidgets import interact, FloatSlider, fixed
 
 try:
-    import optax
+    from sklearn.datasets import fetch_openml
 except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
+    %pip install -qq scikit-learn
+    from sklearn.datasets import fetch_openml
+from sklearn.ensemble import RandomForestClassifier
 
-try:
-    from probml_utils import latexify, savefig, is_latexify_enabled
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils import latexify, savefig, is_latexify_enabled
+mnist = fetch_openml('mnist_784', version=1)
+mnist.target = mnist.target.astype(jnp.uint8)
+X= mnist["data"]
+y = mnist["target"]
+y = jnp.array(y)
 
-# from probml_utils import LogisticRegression as lr
-import probml_utils.LogisticRegression as lr
+def plot_digit(data):
+    image = data.reshape(28, 28)
+    plt.figure()
+    plt.imshow(image, cmap = mpl.cm.hot,
+               interpolation="nearest")
+    plt.axis("off")
+    
 
-# Load datset
-iris = datasets.load_iris()
+    
+rnd_clf = RandomForestClassifier(n_estimators=100, random_state=42)
+ndxA = jnp.where(y==0)[0]
+ndxB = jnp.where(y==8)[0]
+ndx = jnp.concatenate((ndxA, ndxB))
+Xc = X.loc[ndx,:]
+yc = y[ndx]
+rnd_clf.fit(Xc, yc)
+
+plot_digit(rnd_clf.feature_importances_)
+cbar = plt.colorbar(ticks=[rnd_clf.feature_importances_.min(), rnd_clf.feature_importances_.max()])
+cbar.ax.set_yticklabels(['Not important', 'Very important'])
+plt.savefig("figures/rf_feature_importance_mnist.pdf", dpi=300)
+#plt.savefig("figures/rf_feature_importance_mnist_class{}.pdf".format(c), dpi=300)
+plt.show()
+
+
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4595/697685803.py in <module>
-      2 # https://github.com/ageron/handson-ml2/blob/master/04_training_linear_models.ipynb
+/tmp/ipykernel_4829/4041839723.py in <module>
+      2 # Based on https://github.com/ageron/handson-ml2/blob/master/06_decision_trees.ipynb
       3 
-----> 4 import jax
-      5 import jax.numpy as jnp
-      6 import seaborn as sns
+----> 4 import jax.numpy as jnp
+      5 import matplotlib.pyplot as plt
+      6 import matplotlib as mpl
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module
