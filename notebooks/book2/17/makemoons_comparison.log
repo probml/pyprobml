@@ -25,7 +25,7 @@ model = ADVI(prior, bijector, get_log_likelihood, vi_type="mean_field")
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4049/3297204795.py in <module>
+/tmp/ipykernel_4050/3297204795.py in <module>
      19 
      20 
 ---> 21 model = ADVI(prior, bijector, get_log_likelihood, vi_type="mean_field")
