@@ -36,7 +36,7 @@ iris = datasets.load_iris()
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4568/697685803.py in <module>
+/tmp/ipykernel_4577/697685803.py in <module>
       2 # https://github.com/ageron/handson-ml2/blob/master/04_training_linear_models.ipynb
       3 
 ----> 4 import jax
