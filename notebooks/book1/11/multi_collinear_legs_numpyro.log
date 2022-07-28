@@ -204,7 +204,7 @@ analyze_post(post_hmc, "hmc_br_pos")
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4704/1837182340.py in <module>
+/tmp/ipykernel_4876/1837182340.py in <module>
      18     import pandas as pd
      19 
 ---> 20 import jax
