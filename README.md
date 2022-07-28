@@ -375,7 +375,6 @@ Book1: In total, 241 jobs were tested.
 | [book2/30/ggm_fit_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/30/ggm_fit_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/30/ggm_fit_demo.png> | [log](-) |
 | [book2/30/newsgroups_visualize](https://github.com/probml/pyprobml/tree/master/notebooks/book2/30/newsgroups_visualize.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/30/newsgroups_visualize.png> | [log](-) |
 | [book2/30/ggm_lasso_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/30/ggm_lasso_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/30/ggm_lasso_demo.png> | [log](-) |
-| [book2/31/dp_mixgauss_cluster](https://github.com/probml/pyprobml/tree/master/notebooks/book2/31/dp_mixgauss_cluster.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/31/dp_mixgauss_cluster.png> | [log](-) |
 | [book2/31/stick_breaking_demo](https://github.com/probml/pyprobml/tree/master/notebooks/book2/31/stick_breaking_demo.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/31/stick_breaking_demo.png> | [log](-) |
 | [book2/31/dp_mixgauss_sample](https://github.com/probml/pyprobml/tree/master/notebooks/book2/31/dp_mixgauss_sample.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/31/dp_mixgauss_sample.png> | [log](-) |
 | [book2/34/bandits](https://github.com/probml/pyprobml/tree/master/notebooks/book2/34/bandits.ipynb) | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/34/bandits.png> | [log](-) |
@@ -421,5 +420,5 @@ Book1: In total, 241 jobs were tested.
 
 ## Summary
 
-Book2: In total, 162 jobs were tested.
+Book2: In total, 161 jobs were tested.
 35 jobs failed.

@@ -27,7 +27,7 @@ if not tf.config.list_physical_devices("GPU"):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4659/3329440407.py in <module>
+/tmp/ipykernel_4655/3329440407.py in <module>
      10 try:
 ---> 11     import tensorflow as tf
      12 except ModuleNotFoundError:
@@ -37,7 +37,7 @@ ModuleNotFoundError: No module named 'tensorflow'
 During handling of the above exception, another exception occurred:
 
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4659/3329440407.py in <module>
+/tmp/ipykernel_4655/3329440407.py in <module>
      12 except ModuleNotFoundError:
      13     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 ---> 14     import tensorflow as tf
