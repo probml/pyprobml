@@ -37,7 +37,7 @@ tfd = tfp.distributions
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4109/4227470413.py in <module>
+/tmp/ipykernel_4108/4227470413.py in <module>
 ----> 1 import jax
       2 import jax.numpy as jnp
       3 import pandas as pd

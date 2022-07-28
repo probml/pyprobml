@@ -56,7 +56,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4926/1571387904.py in <module>
+/tmp/ipykernel_4891/1571387904.py in <module>
       1 try:
 ----> 2     from tensorflow import keras
       3 except ModuleNotFoundError:
