@@ -1,0 +1,95 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import flax.linen as nn
+except ModuleNotFoundError:
+    %pip install -qq flax
+    import flax.linen as nn
+
+from flax.core import unfreeze
+
+from flax.training import train_state
+
+import jax
+import jax.numpy as jnp
+from jax.config import config
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+
+try:
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig, is_latexify_enabled
+
+from scipy.ndimage import rotate
+
+try:
+    import tensorflow.keras.datasets as tfds
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow.keras.datasets as tfds
+
+from functools import partial
+
+try:
+    from tqdm import tqdm
+except ModuleNotFoundError:
+    %pip install tqdm
+    from tqdm import tqdm
+
+import pandas as pd
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4049/1338808478.py in <module>
+      1 try:
+----> 2     import flax.linen as nn
+      3 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'flax'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4049/1338808478.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq flax')
+----> 5     import flax.linen as nn
+      6 
+      7 from flax.core import unfreeze
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/__init__.py in <module>
+     16 """Flax API."""
+     17 
+---> 18 from . import core as core
+     19 from . import linen as linen
+     20 from . import optim as optim
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/core/__init__.py in <module>
+     13 # limitations under the License.
+     14 
+---> 15 from .axes_scan import broadcast as broadcast
+     16 from .frozen_dict import (
+     17   FrozenDict as FrozenDict,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/flax/core/axes_scan.py in <module>
+     17 from typing import Any, Callable, Optional
+     18 
+---> 19 import jax
+     20 from jax import lax
+     21 from jax import linear_util as lu
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+
+ModuleNotFoundError: No module named 'jax.core'
+ModuleNotFoundError: No module named 'jax.core'
