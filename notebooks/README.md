@@ -122,8 +122,11 @@ unset LATEXIFY
 ```
 * In colab you can set the environment variables like this:
 ```py
-%env LATEXIFY= 1
-%env FIG_DIR="figures/"
+%env LATEXIFY=1
+%env FIG_DIR=figures
+
+# generate figures
+!zip -q -r /content/figures.zip /content/figures
 ```
 
 ## IV. Gotchas

@@ -30,8 +30,8 @@ jobs:
 
     - name: Check code quality
       run: |
-        black --check --verbose notebooks/book1/*/*.ipynb
-        black --check --verbose notebooks/book2/*/*.ipynb  
+        black --check notebooks/book1/*/*.ipynb
+        black --check notebooks/book2/*/*.ipynb
 
   static_import_check_MUST_PASS:
     runs-on: ubuntu-latest
