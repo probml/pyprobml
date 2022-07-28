@@ -1,0 +1,127 @@
+An error occurred while executing the following cell:
+------------------
+import gym
+
+# Finding the Taxi environment
+for env in gym.envs.registry.all():
+    if env.id.startswith("Taxi"):
+        env_name = env.id
+##
+
+
+print("Environment Name:", env_name)
+env = gym.make(env_name)
+env.reset()
+env.render()
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/envs/toy_text/taxi.py in _render_gui(self, mode)
+    297         try:
+--> 298             import pygame  # dependency to pygame only if rendering with human
+    299         except ImportError:
+
+ModuleNotFoundError: No module named 'pygame'
+
+During handling of the above exception, another exception occurred:
+
+DependencyNotInstalled                    Traceback (most recent call last)
+/tmp/ipykernel_4133/2971796468.py in <module>
+     11 env = gym.make(env_name)
+     12 env.reset()
+---> 13 env.render()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
+     64                 )
+     65 
+---> 66             return render_func(self, *args, **kwargs)
+     67 
+     68         return render
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
+    429     def render(self, *args, **kwargs):
+    430         """Renders the environment."""
+--> 431         return self.env.render(*args, **kwargs)
+    432 
+    433     def close(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
+     64                 )
+     65 
+---> 66             return render_func(self, *args, **kwargs)
+     67 
+     68         return render
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/wrappers/order_enforcing.py in render(self, *args, **kwargs)
+     49                 "set `disable_render_order_enforcing=True` on the OrderEnforcer wrapper."
+     50             )
+---> 51         return self.env.render(*args, **kwargs)
+     52 
+     53     @property
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
+     64                 )
+     65 
+---> 66             return render_func(self, *args, **kwargs)
+     67 
+     68         return render
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
+    429     def render(self, *args, **kwargs):
+    430         """Renders the environment."""
+--> 431         return self.env.render(*args, **kwargs)
+    432 
+    433     def close(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
+     64                 )
+     65 
+---> 66             return render_func(self, *args, **kwargs)
+     67 
+     68         return render
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/wrappers/env_checker.py in render(self, *args, **kwargs)
+     51         if self.checked_render is False:
+     52             self.checked_render = True
+---> 53             return env_render_passive_checker(self.env, *args, **kwargs)
+     54         else:
+     55             return self.env.render(*args, **kwargs)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/utils/passive_env_checker.py in env_render_passive_checker(env, *args, **kwargs)
+    322             )
+    323 
+--> 324     result = env.render(*args, **kwargs)
+    325 
+    326     # TODO: Check that the result is correct
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/core.py in render(self, *args, **kwargs)
+     64                 )
+     65 
+---> 66             return render_func(self, *args, **kwargs)
+     67 
+     68         return render
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/envs/toy_text/taxi.py in render(self, mode)
+    285             return self.renderer.get_renders()
+    286         else:
+--> 287             return self._render(mode)
+    288 
+    289     def _render(self, mode):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/envs/toy_text/taxi.py in _render(self, mode)
+    292             return self._render_text()
+    293         elif mode in {"human", "rgb_array", "single_rgb_array"}:
+--> 294             return self._render_gui(mode)
+    295 
+    296     def _render_gui(self, mode):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/gym/envs/toy_text/taxi.py in _render_gui(self, mode)
+    299         except ImportError:
+    300             raise DependencyNotInstalled(
+--> 301                 "pygame is not installed, run `pip install gym[toy_text]`"
+    302             )
+    303 
+
+DependencyNotInstalled: pygame is not installed, run `pip install gym[toy_text]`
+DependencyNotInstalled: pygame is not installed, run `pip install gym[toy_text]`
