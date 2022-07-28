@@ -60,7 +60,7 @@ from probml_utils.vae_conv_mnist import ConvVAE
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4603/3536696859.py in <module>
+/tmp/ipykernel_4762/3536696859.py in <module>
      41 from probml_utils import savefig
      42 
 ---> 43 from probml_utils.lvm_plots_utils import (
