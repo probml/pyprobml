@@ -1,41 +1,67 @@
 An error occurred while executing the following cell:
 ------------------
-import numpy as np
-import matplotlib.pyplot as plt
-import os
 
 try:
-    import tensorflow
+    from tensorflow import keras
 except ModuleNotFoundError:
     %pip install -qq tensorflow
-    import tensorflow
+    from tensorflow import keras
 import tensorflow as tf
-from tensorflow import keras
+import numpy as np
+import scipy
+import matplotlib.pyplot as plt
+try:
+    import pandas as pd
+except ModuleNotFoundError:
+    %pip install -qq pandas
+    import pandas as pd
+try:
+    import sklearn
+except ModuleNotFoundError:
+    %pip install -qq scikit-learn
+    import sklearn
 
-assert tf.__version__ >= "2.0"
+from time import time
+import os
+figdir = "figures"
 
 
-K = tf.keras.backend
+def savefig(fname): plt.savefig(os.path.join(figdir, fname))
+
+
+# print(tf.__version__)
+np.random.seed(0)
+
+mnist = keras.datasets.mnist
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+train_images = train_images / 255.0
+test_images = test_images / 255.0
+
+# print(np.shape(train_images))
+# print(np.shape(test_images))
+#(60000, 28, 28)
+#(10000, 28, 28)
+
+plt.figure(figsize=(10, 10))
+for i in range(25):
+    plt.subplot(5, 5, i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+savefig("mnist-data.pdf")
+plt.show()
+
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4709/3040475755.py in <module>
-      5 try:
-----> 6     import tensorflow
-      7 except ModuleNotFoundError:
-
-ModuleNotFoundError: No module named 'tensorflow'
-
-During handling of the above exception, another exception occurred:
-
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4709/3040475755.py in <module>
-      7 except ModuleNotFoundError:
-      8     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
-----> 9     import tensorflow
-     10 import tensorflow as tf
-     11 from tensorflow import keras
+/tmp/ipykernel_5104/1571387904.py in <module>
+      1 try:
+----> 2     from tensorflow import keras
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+      5     from tensorflow import keras
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      49 from ._api.v2 import autograph

@@ -1,0 +1,146 @@
+An error occurred while executing the following cell:
+------------------
+
+%matplotlib inline
+
+from functools import partial
+
+import matplotlib.pyplot as plt
+
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
+import jax
+import jax.numpy as jnp
+from jax import jit
+from jax.nn.initializers import glorot_normal
+
+try:
+    import probml_utils as pml
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+    from probml_utils import savefig, latexify, is_latexify_enabled
+
+
+try:
+    import flax
+except ModuleNotFoundError:
+    %pip install -qq flax
+    import flax
+import flax.linen as nn
+from flax.training import train_state
+
+try:
+    import seaborn as sns
+except:
+    %pip install seaborn
+    import seaborn as sns
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4476/187311355.py in <module>
+      8 try:
+----> 9     import optax
+     10 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'optax'
+
+During handling of the above exception, another exception occurred:
+
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_4476/187311355.py in <module>
+     10 except ModuleNotFoundError:
+     11     get_ipython().run_line_magic('pip', 'install -qq optax')
+---> 12     import optax
+     13 import jax
+     14 import jax.numpy as jnp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/optax/__init__.py in <module>
+     15 """Optax: composable gradient processing and optimization, in JAX."""
+     16 
+---> 17 from optax import experimental
+     18 from optax._src.alias import adabelief
+     19 from optax._src.alias import adafactor
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/optax/experimental/__init__.py in <module>
+     18 """
+     19 
+---> 20 from optax._src.experimental.complex_valued import split_real_and_imaginary
+     21 from optax._src.experimental.complex_valued import SplitRealAndImaginaryState
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/optax/_src/experimental/complex_valued.py in <module>
+     30 from typing import NamedTuple, Union
+     31 
+---> 32 import chex
+     33 import jax
+     34 import jax.numpy as jnp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/chex/__init__.py in <module>
+     15 """Chex: Testing made fun, in JAX!"""
+     16 
+---> 17 from chex._src.asserts import assert_axis_dimension
+     18 from chex._src.asserts import assert_axis_dimension_comparator
+     19 from chex._src.asserts import assert_axis_dimension_gt
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/chex/_src/asserts.py in <module>
+     24 from unittest import mock
+     25 
+---> 26 from chex._src import asserts_internal as _ai
+     27 from chex._src import pytypes
+     28 import jax
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/chex/_src/asserts_internal.py in <module>
+     30 
+     31 from absl import logging
+---> 32 from chex._src import pytypes
+     33 import jax
+     34 import jax.numpy as jnp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/chex/_src/pytypes.py in <module>
+     16 
+     17 from typing import Any, Iterable, Mapping, Union
+---> 18 import jax
+     19 import jax.numpy as jnp
+     20 import numpy as np
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+     33 # We want the exported object to be the class, so we first import the module
+     34 # to make sure a later import doesn't overwrite the class.
+---> 35 from jax import config as _config_module
+     36 del _config_module
+     37 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/config.py in <module>
+     15 # TODO(phawkins): fix users of this alias and delete this file.
+     16 
+---> 17 from jax._src.config import config
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in <module>
+     27 from absl import logging
+     28 
+---> 29 from jax._src import lib
+     30 from jax._src.lib import jax_jit
+     31 from jax._src.lib import transfer_guard_lib
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+     95   jax_version=jax.version.__version__,
+     96   jaxlib_version=jaxlib.version.__version__,
+---> 97   minimum_jaxlib_version=jax.version._minimum_jaxlib_version)
+     98 
+     99 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in check_jaxlib_version(jax_version, jaxlib_version, minimum_jaxlib_version)
+     87            f'incompatible with jax version {jax_version}. Please '
+     88            'update your jax and/or jaxlib packages.')
+---> 89     raise RuntimeError(msg)
+     90 
+     91   return _jaxlib_version
+
+RuntimeError: jaxlib version 0.3.15 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.15 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
