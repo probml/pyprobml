@@ -1,47 +1,30 @@
 An error occurred while executing the following cell:
 ------------------
-# Code is based on Aurélien Geron's code
-# https://github.com/ageron/handson-ml2/blob/master/04_training_linear_models.ipynb
-
+# Plot 2d sigmoid functions for various values of w1, w2.
+# i.e. sigmoid(w1*x1 +%w2*x2)
+# Based on https://github.com/probml/pmtk3/blob/master/demos/sigmoidplot2D.m
+# Duane Rich
 import jax
 import jax.numpy as jnp
-import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
-from sklearn import datasets
-from sklearn.metrics import zero_one_loss
-from sklearn.model_selection import train_test_split
-
-from ipywidgets import interact, FloatSlider, fixed
+from mpl_toolkits.mplot3d import proj3d
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 try:
-    import optax
-except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
-
-try:
-    from probml_utils import latexify, savefig, is_latexify_enabled
+    from probml_utils import savefig, latexify
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils import latexify, savefig, is_latexify_enabled
-
-# from probml_utils import LogisticRegression as lr
-import probml_utils.LogisticRegression as lr
-
-# Load datset
-iris = datasets.load_iris()
+    from probml_utils import savefig, latexify
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4596/697685803.py in <module>
-      2 # https://github.com/ageron/handson-ml2/blob/master/04_training_linear_models.ipynb
-      3 
-----> 4 import jax
-      5 import jax.numpy as jnp
-      6 import seaborn as sns
+/tmp/ipykernel_4628/2038054877.py in <module>
+      3 # Based on https://github.com/probml/pmtk3/blob/master/demos/sigmoidplot2D.m
+      4 # Duane Rich
+----> 5 import jax
+      6 import jax.numpy as jnp
+      7 import matplotlib.pyplot as plt
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module

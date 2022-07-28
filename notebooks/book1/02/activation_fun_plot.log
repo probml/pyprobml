@@ -1,5 +1,6 @@
 An error occurred while executing the following cell:
 ------------------
+import jax
 import jax.numpy as jnp
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -9,18 +10,17 @@ try:
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
     from probml_utils import latexify, savefig, is_latexify_enabled
-
-from sklearn.linear_model import LinearRegression
+from jax.scipy.special import erfc
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4623/96550660.py in <module>
-----> 1 import jax.numpy as jnp
-      2 import seaborn as sns
-      3 import matplotlib.pyplot as plt
-      4 
-      5 try:
+/tmp/ipykernel_4581/1542479456.py in <module>
+----> 1 import jax
+      2 import jax.numpy as jnp
+      3 import seaborn as sns
+      4 import matplotlib.pyplot as plt
+      5 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module
