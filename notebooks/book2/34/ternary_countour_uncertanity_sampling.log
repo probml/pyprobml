@@ -15,13 +15,13 @@ plot_data(
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4056/713680158.py in <module>
+/tmp/ipykernel_4053/713680158.py in <module>
       8     uncertainty_lc,
       9     "Least Confidence Sampling",
 ---> 10     save_name="Least Confidence Sampling Ternary Countor",
      11 )
 
-/tmp/ipykernel_4056/3512797537.py in plot_data(prob0, prob1, prob2, uncertanity, title, save_name)
+/tmp/ipykernel_4053/3512797537.py in plot_data(prob0, prob1, prob2, uncertanity, title, save_name)
       9         colorscale="Jet",
      10         showscale=True,
 ---> 11         title=title,
