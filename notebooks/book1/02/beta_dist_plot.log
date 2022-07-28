@@ -15,7 +15,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4573/3476601433.py in <module>
+/tmp/ipykernel_4582/3476601433.py in <module>
 ----> 1 import jax
       2 import jax.numpy as jnp
       3 from jax.scipy.stats import beta

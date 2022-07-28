@@ -49,7 +49,7 @@ latexify(3, fig_height = 1.5)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4546/1746491998.py in <module>
+/tmp/ipykernel_4551/1746491998.py in <module>
       4 import pandas as pd
       5 
 ----> 6 import jax
