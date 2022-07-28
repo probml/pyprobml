@@ -51,7 +51,7 @@ import pandas as pd
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4053/1338808478.py in <module>
+/tmp/ipykernel_4050/1338808478.py in <module>
       1 try:
 ----> 2     import flax.linen as nn
       3 except ModuleNotFoundError:
@@ -61,7 +61,14 @@ ModuleNotFoundError: No module named 'flax'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4053/1338808478.py in <module>
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+
+ModuleNotFoundError: No module named 'jaxlib'
+
+The above exception was the direct cause of the following exception:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4050/1338808478.py in <module>
       3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install -qq flax')
 ----> 5     import flax.linen as nn
@@ -91,7 +98,11 @@ ModuleNotFoundError                       Traceback (most recent call last)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/api.py in <module>
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/config.py in <module>
 
-ModuleNotFoundError: No module named 'jax._src.lax'
-ModuleNotFoundError: No module named 'jax._src.lax'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+
+ModuleNotFoundError: jax requires jaxlib to be installed. See https://github.com/google/jax#installation for installation instructions.
+ModuleNotFoundError: jax requires jaxlib to be installed. See https://github.com/google/jax#installation for installation instructions.
