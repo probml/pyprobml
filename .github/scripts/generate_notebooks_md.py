@@ -15,6 +15,10 @@ os.makedirs(folder)
 
 
 ## url utils helper functions START ##
+def ends_with(url):
+    assert url.endswith(".ipynb") or url.endswith(".py"), f"{url} not ended with .py or .ipynb"
+
+
 def github_url_to_colab_url(url):
     """
     convert github .ipynb url to colab .ipynb url
@@ -186,6 +190,7 @@ df_supp = pd.DataFrame(nb_github_colab_list, columns=df_pyprobml.columns)
 
 # handle external notebooks
 df_external = pd.read_csv(curr_path + "external_links.csv")
+df_external["github_url"] = df_external["github_url"].apply(lambda x: x.strip())  # strip the url
 common_notebooks = np.intersect1d(df_pyprobml["Notebook"].values, df_external["Notebook"].values)
 
 # drop common notebooks from df_pyprobml and replace with df_external's notebooks
@@ -209,3 +214,6 @@ df_all["github_url"] = df_all.apply(lambda x: to_md_url(enclose_span("github", x
 # save to .md file
 df_all = df_all[["Notebook", "github_url", "colab_url"]]
 df_all.to_markdown(os.path.join(folder, "notebooks.md"), index=True)
+
+# check ends with .py or .ipynb
+df_all["github_url"].apply(ends_with)
