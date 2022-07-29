@@ -33,7 +33,7 @@ latexify(width_scale_factor=1.6, fig_height=1.0)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4556/948535827.py in <module>
+/tmp/ipykernel_4845/948535827.py in <module>
 ----> 1 import jax.numpy as jnp
       2 import jax
       3 import matplotlib.pyplot as plt
