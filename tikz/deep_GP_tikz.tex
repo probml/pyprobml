@@ -1,0 +1,38 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+% \title{deep_GP_tikz}
+% \author{Vishal Ghoniya}
+% \date{July 2022}
+
+\begin{document}
+% \maketitle
+\tikzstyle {hidden}=[circle,dashed, draw=black, minimum size=1cm]
+\tikzstyle {latent}=[circle, draw=black, minimum size=1cm]
+\tikzstyle {obs}=[circle, draw=black, fill=black!20, minimum size=1cm]
+\begin{tikzpicture}[-,>= stealth, node distance=3mm, thick]
+\node [obs] at (0,0) (rootobs) {$\textbf X$};
+    \node [obs, below=3cm of rootobs] (obs_0) {$\textbf x^*$};
+\node[latent, right=1cm of rootobs] (hid_1) {$\textbf F_1$} edge[<-] (rootobs);
+    \node[latent, below=3cm of hid_1] (hid_0) {$\textbf f_1^{*}$} 
+    edge[<-] (obs_0)
+    edge[<-] (hid_1);
+\node [hidden, right=1cm of hid_1] (hidden_1) {$\textbf K_2$} edge[<-] (hid_1);
+    \node[hidden, below=1cm of hidden_1] (hidden_10) {$\textbf k_2^*$} 
+    edge[<-] (hid_1)
+    edge[<-] (hid_0);
+    \node[hidden, below=1cm of hidden_10] (hidden_0) {$k_2^{**}$} edge[<-] (hid_0);
+    
+\node [latent, right=1cm of hidden_1] (hid_11) {$\textbf f_2$} edge[<-] (hidden_1);
+\node [latent, below=3cm of hid_11] {$f_2^*$}
+    edge[<-] (hid_11)
+    edge[<-] (hidden_0)
+    edge[<-] (hidden_1)
+    edge[<-] (hidden_10);
+\node [obs, right=1cm of hid_11] {$\textbf y$} edge[<-] (hid_11);
+    
+\end{tikzpicture}
+
+\end{document}

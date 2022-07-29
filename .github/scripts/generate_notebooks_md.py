@@ -15,6 +15,10 @@ os.makedirs(folder)
 
 
 ## url utils helper functions START ##
+def ends_with(url):
+    return url.endswith(".ipynb") or url.endswith(".py")
+
+
 def github_url_to_colab_url(url):
     """
     convert github .ipynb url to colab .ipynb url
@@ -111,7 +115,7 @@ def get_root_col(df_root_ser, col):
     nb_name = df_root_ser["Notebook"]
 
     if is_source.count(0) == 0:
-        print(f"0: Not in pyprobml!:  {nb_name}")
+        print(f"0: Notebooks is not in pyprobml!:  {nb_name}")
         return df_root_ser[col][0]
 
     elif is_source.count(0) > 1:
@@ -186,6 +190,7 @@ df_supp = pd.DataFrame(nb_github_colab_list, columns=df_pyprobml.columns)
 
 # handle external notebooks
 df_external = pd.read_csv(curr_path + "external_links.csv")
+df_external["github_url"] = df_external["github_url"].apply(lambda x: x.strip())  # strip the url
 common_notebooks = np.intersect1d(df_pyprobml["Notebook"].values, df_external["Notebook"].values)
 
 # drop common notebooks from df_pyprobml and replace with df_external's notebooks
@@ -199,6 +204,12 @@ print(f"{len(df_external)} external reference found")
 df_all = pd.concat([df_pyprobml, df_supp, df_external])
 df_all = df_all.sort_values(by="Notebook", key=lambda col: col.str.lower()).reset_index(drop=True)
 
+# check ends with .py or .ipynb
+# invalid_urls = []
+# for url in df_all["github_url"].tolist():
+#     if not ends_with(url):
+#         invalid_urls.append(url)
+
 # get colab url from github url
 df_all["colab_url"] = df_all["github_url"].apply(to_colab_md_url)
 
@@ -209,3 +220,6 @@ df_all["github_url"] = df_all.apply(lambda x: to_md_url(enclose_span("github", x
 # save to .md file
 df_all = df_all[["Notebook", "github_url", "colab_url"]]
 df_all.to_markdown(os.path.join(folder, "notebooks.md"), index=True)
+
+# raise the error
+# assert len(invalid_urls) == 0, f"{len(invalid_urls)} urls are not ended with .py or .ipynb: {invalid_urls}"

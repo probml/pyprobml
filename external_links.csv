@@ -1,5 +1,6 @@
 Notebook,github_url
 bach_chorales_hmm.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bach_chorales_hmm.ipynb
+batch_bald_mnist.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/34/batch_bald_mnist_pytorch.ipynb
 bernoulli_hmm_example.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bernoulli_hmm_example.ipynb
 bootstrap_filter_spiral.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/bootstrap_filter.py
 bootstrap_filter_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/bootstrap_filter_maneuver.py
@@ -19,6 +20,8 @@ mix_ppca_demo.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/boo
 poisson_hmm_changepoint.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/poisson_hmm_changepoint.ipynb
 bnn_mnist_sgld.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld_blackjax.ipynb 
 rbpf_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneuver.py
+rjmcmc_rbf,https://github.com/probml/pyprobml/blob/master/misc/rjmcmc_rbf
+schools8.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/03/schools8_blackjax.ipynb
 sis_vs_smc.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/sis_vs_smc.py
 ukf_pendulum.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_pendulum.ipynb
 ukf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_spiral.ipynb
