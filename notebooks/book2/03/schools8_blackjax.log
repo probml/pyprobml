@@ -32,7 +32,7 @@ tfd = tfp.distributions
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4063/381987292.py in <module>
+/tmp/ipykernel_4059/381987292.py in <module>
       2 try:
 ----> 3     import blackjax
       4 except ModuleNotFoundError:
@@ -42,7 +42,7 @@ ModuleNotFoundError: No module named 'blackjax'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4063/381987292.py in <module>
+/tmp/ipykernel_4059/381987292.py in <module>
       4 except ModuleNotFoundError:
       5     get_ipython().run_line_magic('pip', 'install -qq blackjax')
 ----> 6     import blackjax
