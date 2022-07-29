@@ -1,0 +1,95 @@
+An error occurred while executing the following cell:
+------------------
+
+
+# feature importance using random forests  on ,mnist
+# Based on https://github.com/ageron/handson-ml2/blob/master/06_decision_trees.ipynb
+
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+try:
+    from sklearn.datasets import fetch_openml
+except ModuleNotFoundError:
+    %pip install -qq scikit-learn
+    from sklearn.datasets import fetch_openml
+from sklearn.ensemble import RandomForestClassifier
+
+mnist = fetch_openml('mnist_784', version=1)
+mnist.target = mnist.target.astype(jnp.uint8)
+X= mnist["data"]
+y = mnist["target"]
+y = jnp.array(y)
+
+def plot_digit(data):
+    image = data.reshape(28, 28)
+    plt.figure()
+    plt.imshow(image, cmap = mpl.cm.hot,
+               interpolation="nearest")
+    plt.axis("off")
+    
+
+    
+rnd_clf = RandomForestClassifier(n_estimators=100, random_state=42)
+ndxA = jnp.where(y==0)[0]
+ndxB = jnp.where(y==8)[0]
+ndx = jnp.concatenate((ndxA, ndxB))
+Xc = X.loc[ndx,:]
+yc = y[ndx]
+rnd_clf.fit(Xc, yc)
+
+plot_digit(rnd_clf.feature_importances_)
+cbar = plt.colorbar(ticks=[rnd_clf.feature_importances_.min(), rnd_clf.feature_importances_.max()])
+cbar.ax.set_yticklabels(['Not important', 'Very important'])
+plt.savefig("figures/rf_feature_importance_mnist.pdf", dpi=300)
+#plt.savefig("figures/rf_feature_importance_mnist_class{}.pdf".format(c), dpi=300)
+plt.show()
+
+
+------------------
+
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_4849/4041839723.py in <module>
+      2 # Based on https://github.com/ageron/handson-ml2/blob/master/06_decision_trees.ipynb
+      3 
+----> 4 import jax.numpy as jnp
+      5 import matplotlib.pyplot as plt
+      6 import matplotlib as mpl
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+     33 # We want the exported object to be the class, so we first import the module
+     34 # to make sure a later import doesn't overwrite the class.
+---> 35 from jax import config as _config_module
+     36 del _config_module
+     37 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/config.py in <module>
+     15 # TODO(phawkins): fix users of this alias and delete this file.
+     16 
+---> 17 from jax._src.config import config
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in <module>
+     27 from absl import logging
+     28 
+---> 29 from jax._src import lib
+     30 from jax._src.lib import jax_jit
+     31 from jax._src.lib import transfer_guard_lib
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+     95   jax_version=jax.version.__version__,
+     96   jaxlib_version=jaxlib.version.__version__,
+---> 97   minimum_jaxlib_version=jax.version._minimum_jaxlib_version)
+     98 
+     99 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in check_jaxlib_version(jax_version, jaxlib_version, minimum_jaxlib_version)
+     87            f'incompatible with jax version {jax_version}. Please '
+     88            'update your jax and/or jaxlib packages.')
+---> 89     raise RuntimeError(msg)
+     90 
+     91   return _jaxlib_version
+
+RuntimeError: jaxlib version 0.3.15 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.15 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
