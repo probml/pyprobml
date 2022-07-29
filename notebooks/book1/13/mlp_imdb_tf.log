@@ -25,7 +25,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_5675/2011026016.py in <module>
+/tmp/ipykernel_5679/2011026016.py in <module>
       2 model = make_model(embed_size)
       3 history = model.fit(
 ----> 4     x_train, y_train, epochs=50, batch_size=512, validation_data=(x_val, y_val), verbose=0, callbacks=callbacks
@@ -46,5 +46,5 @@ KeyError                                  Traceback (most recent call last)
      64         f"Failed to add concrete function '{concrete_function.name}' to object-"
      65         f"based SavedModel as it captures tensor {capture!r} which is unsupported"
 
-KeyError: 'Failed to add concrete function \'b\'__inference_test_function_16187\'\' to object-based SavedModel as it captures tensor <tf.Tensor: shape=(), dtype=resource, value=<ResourceHandle(name="Resource-88-at-0x55b898e01d50", device="/job:localhost/replica:0/task:0/device:CPU:0", container="Anonymous", type="tensorflow::Var", dtype and shapes : "[ DType enum: 1, Shape: [] ]")>> which is unsupported or not reachable from root. One reason could be that a stateful object or a variable that the function depends on is not assigned to an attribute of the serialized trackable object (see SaveTest.test_captures_unreachable_variable).'
-KeyError: 'Failed to add concrete function \'b\'__inference_test_function_16187\'\' to object-based SavedModel as it captures tensor <tf.Tensor: shape=(), dtype=resource, value=<ResourceHandle(name="Resource-88-at-0x55b898e01d50", device="/job:localhost/replica:0/task:0/device:CPU:0", container="Anonymous", type="tensorflow::Var", dtype and shapes : "[ DType enum: 1, Shape: [] ]")>> which is unsupported or not reachable from root. One reason could be that a stateful object or a variable that the function depends on is not assigned to an attribute of the serialized trackable object (see SaveTest.test_captures_unreachable_variable).'
+KeyError: 'Failed to add concrete function \'b\'__inference_test_function_16187\'\' to object-based SavedModel as it captures tensor <tf.Tensor: shape=(), dtype=resource, value=<ResourceHandle(name="Resource-88-at-0x55b4775a7730", device="/job:localhost/replica:0/task:0/device:CPU:0", container="Anonymous", type="tensorflow::Var", dtype and shapes : "[ DType enum: 1, Shape: [] ]")>> which is unsupported or not reachable from root. One reason could be that a stateful object or a variable that the function depends on is not assigned to an attribute of the serialized trackable object (see SaveTest.test_captures_unreachable_variable).'
+KeyError: 'Failed to add concrete function \'b\'__inference_test_function_16187\'\' to object-based SavedModel as it captures tensor <tf.Tensor: shape=(), dtype=resource, value=<ResourceHandle(name="Resource-88-at-0x55b4775a7730", device="/job:localhost/replica:0/task:0/device:CPU:0", container="Anonymous", type="tensorflow::Var", dtype and shapes : "[ DType enum: 1, Shape: [] ]")>> which is unsupported or not reachable from root. One reason could be that a stateful object or a variable that the function depends on is not assigned to an attribute of the serialized trackable object (see SaveTest.test_captures_unreachable_variable).'
