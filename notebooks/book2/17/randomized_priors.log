@@ -44,7 +44,7 @@ except:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4554/187311355.py in <module>
+/tmp/ipykernel_4547/187311355.py in <module>
       8 try:
 ----> 9     import optax
      10 except ModuleNotFoundError:
@@ -54,7 +54,7 @@ ModuleNotFoundError: No module named 'optax'
 During handling of the above exception, another exception occurred:
 
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4554/187311355.py in <module>
+/tmp/ipykernel_4547/187311355.py in <module>
      10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install -qq optax')
 ---> 12     import optax

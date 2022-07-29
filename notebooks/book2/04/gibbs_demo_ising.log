@@ -19,7 +19,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4696/3115004030.py in <module>
+/tmp/ipykernel_4698/3115004030.py in <module>
       6 import numpy as np
       7 import matplotlib.pyplot as plt
 ----> 8 import jax
