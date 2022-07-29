@@ -73,7 +73,7 @@ print(Y2.shape)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4992/1607945221.py in <module>
+/tmp/ipykernel_4990/1607945221.py in <module>
       2 
       3 
 ----> 4 import jax

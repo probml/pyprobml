@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4875/3426525404.py in <module>
+/tmp/ipykernel_4868/3426525404.py in <module>
       1 import numpy as np
       2 
 ----> 3 import jax
