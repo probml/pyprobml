@@ -93,7 +93,7 @@ make_plot(A, b, c, fname)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4910/947447400.py in <module>
+/tmp/ipykernel_4889/947447400.py in <module>
       4 
       5 
 ----> 6 import jax
