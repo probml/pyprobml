@@ -1,0 +1,63 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
+import pandas as pd
+import matplotlib.pyplot as plt
+from functools import partial
+import seaborn as sns
+import os
+
+
+try:
+    import blackjax
+except:
+    %pip install jaxopt blackjax
+    import blackjax
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+from probml_utils.blackjax_utils import arviz_trace_from_states, inference_loop_multiple_chains
+from sklearn.datasets import load_iris
+
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qqq tensorflow_probability
+    from tensorflow_probability.substrates import jax as tfp
+
+import arviz as az
+
+tfd = tfp.distributions
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+
+ModuleNotFoundError: No module named 'jaxlib'
+
+The above exception was the direct cause of the following exception:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4374/4227470413.py in <module>
+----> 1 import jax
+      2 import jax.numpy as jnp
+      3 import pandas as pd
+      4 import matplotlib.pyplot as plt
+      5 from functools import partial
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/config.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in <module>
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+
+ModuleNotFoundError: jax requires jaxlib to be installed. See https://github.com/google/jax#installation for installation instructions.
+ModuleNotFoundError: jax requires jaxlib to be installed. See https://github.com/google/jax#installation for installation instructions.
