@@ -1,0 +1,100 @@
+An error occurred while executing the following cell:
+------------------
+# !pip install -qq -U pymc3>=3.8
+try:
+    import blackjax
+except ModuleNotFoundError:
+    %pip install -qq blackjax
+    import blackjax
+
+try:
+    import probml_utils as pml
+except:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+from probml_utils.blackjax_utils import inference_loop_multiple_chains, arviz_trace_from_states, inference_loop
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
+
+try:
+    import tensorflow_probability.substrates.jax as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow_probability
+    import tensorflow_probability.substrates.jax as tfp
+
+tfd = tfp.distributions
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4053/381987292.py in <module>
+      2 try:
+----> 3     import blackjax
+      4 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'blackjax'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4053/381987292.py in <module>
+      4 except ModuleNotFoundError:
+      5     get_ipython().run_line_magic('pip', 'install -qq blackjax')
+----> 6     import blackjax
+      7 
+      8 try:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/__init__.py in <module>
+      1 from .diagnostics import effective_sample_size as ess
+      2 from .diagnostics import potential_scale_reduction as rhat
+----> 3 from .kernels import (
+      4     adaptive_tempered_smc,
+      5     elliptical_slice,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/kernels.py in <module>
+      4 import jax.numpy as jnp
+      5 
+----> 6 import blackjax.adaptation as adaptation
+      7 import blackjax.mcmc as mcmc
+      8 import blackjax.sgmcmc as sgmcmc
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/__init__.py in <module>
+----> 1 from . import pathfinder_adaptation, window_adaptation
+      2 
+      3 __all__ = ["window_adaptation", "pathfinder_adaptation"]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/pathfinder_adaptation.py in <module>
+      5 import jax.numpy as jnp
+      6 
+----> 7 from blackjax.adaptation.step_size import (
+      8     DualAveragingAdaptationState,
+      9     dual_averaging_adaptation,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/adaptation/step_size.py in <module>
+      5 import jax.numpy as jnp
+      6 
+----> 7 import blackjax.optimizers.dual_averaging as dual_averaging
+      8 from blackjax.mcmc.hmc import HMCState
+      9 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/optimizers/__init__.py in <module>
+----> 1 from . import dual_averaging, lbfgs
+      2 
+      3 __all__ = [
+      4     "dual_averaging",
+      5     "lbfgs",
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/optimizers/lbfgs.py in <module>
+      4 import jax.numpy as jnp
+      5 import jax.random
+----> 6 import jaxopt
+      7 from jax import lax
+      8 from jaxopt.base import OptStep
+
+ModuleNotFoundError: No module named 'jaxopt'
+ModuleNotFoundError: No module named 'jaxopt'
