@@ -1,0 +1,73 @@
+An error occurred while executing the following cell:
+------------------
+import jax.numpy as jnp
+import chex
+import dataclasses
+import pandas as pd
+import numpy as np
+import haiku as hk
+import plotnine as gg
+import matplotlib.pyplot as plt
+from jax import random, vmap, nn
+from typing import Dict, Sequence, Optional, Callable, List
+from acme.utils.loggers.terminal import TerminalLogger
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_4501/55496869.py in <module>
+      9 from jax import random, vmap, nn
+     10 from typing import Dict, Sequence, Optional, Callable, List
+---> 11 from acme.utils.loggers.terminal import TerminalLogger
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/__init__.py in <module>
+     33 
+     34 # Expose the environment loop.
+---> 35 from acme.environment_loop import EnvironmentLoop
+     36 
+     37 from acme.specs import make_environment_spec
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/environment_loop.py in <module>
+     24 from acme.utils import loggers
+     25 from acme.utils import observers as observers_lib
+---> 26 from acme.utils import signals
+     27 
+     28 import dm_env
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/utils/signals.py in <module>
+     20 from typing import Any, Callable, Optional
+     21 
+---> 22 import launchpad
+     23 
+     24 _Handler = Callable[[], Any]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/launchpad/__init__.py in <module>
+     34 
+     35 # Nodes
+---> 36 from launchpad.nodes.courier.node import CourierHandle
+     37 from launchpad.nodes.courier.node import CourierNode
+     38 from launchpad.nodes.courier.node import CourierClient
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/launchpad/nodes/courier/node.py in <module>
+     19 
+     20 from absl import logging
+---> 21 import courier
+     22 from launchpad import address as lp_address
+     23 from launchpad.launch import worker_manager
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/courier/__init__.py in <module>
+     24 
+     25 """Courier module."""
+---> 26 from courier.python.client import Client  # pytype: disable=import-error
+     27 from courier.python.client import list_methods  # pytype: disable=import-error
+     28 from courier.python.py_server import Server  # pytype: disable=import-error
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/courier/python/client.py in <module>
+     28 from typing import List, Optional, Union
+     29 
+---> 30 from courier.python import py_client
+     31 # Numpy import needed for proper operation of ../serialization/py_serialize.cc
+     32 import numpy
+
+ImportError: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory
+ImportError: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory
