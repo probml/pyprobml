@@ -18,7 +18,7 @@ from torch.nn import functional as F
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4865/8343947.py in <module>
+/tmp/ipykernel_4866/8343947.py in <module>
      11     get_ipython().run_line_magic('pip', 'install -qq torch')
      12     import torch
 ---> 13 from torch import nn
