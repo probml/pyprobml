@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning}
+\begin{document}
+\begin{tikzpicture}[
+roundnode/.style={circle, draw=black, fill=none, very thick, minimum size=9mm},
+bluenode/.style={circle, draw=black, fill=blue!30, very thick, minimum size=9mm},
+rednode/.style={circle, draw=black, fill=red!30, very thick, minimum size=9mm},
+]
+
+%Nodes
+\node[roundnode] (n1) at (8,10)                        {$X_1$};
+\node[roundnode] (n2)  at (2,8)                            {$X_2$};
+\node[bluenode] (n3) at (6,8)                           {$X_3$};
+\node[bluenode] (n4) at (12,8)                      {$X_4$};
+\node[bluenode] (n5) at (4,6)                        {$X_5$};
+\node[rednode] (n6)  at (8,6)                            {$X_6$};
+\node[roundnode] (n7) at (12,6)                           {$X_7$};
+\node[bluenode] (n8) at (14,6)                      {$X_8$};
+\node[bluenode] (n9) at (6,4)                      {$X_9$};
+\node[bluenode] (n10) at (10,4)                        {$X_{10}$};
+\node[roundnode] (n11)  at (18,4)                            {$X_{11}$};
+\node[roundnode] (n12) at (8,2)                           {$X_{12}$};
+\node[roundnode] (n13) at (12,2)                      {$X_{13}$};
+
+%Lines
+
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n1.south) -- (n3.north);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n2.south) -- (n5.west);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n3.south) -- (n6.west);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n4.south) -- (n6.east);
+\draw[-{Latex[length=2mm,width=3mm]}, thick](n4.south) -- (n7.north);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n5.south) -- (n9.west);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n6.south) -- (n9.east);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n6.south) -- (n10.west);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n8.south) -- (n10.east);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n8.south) -- (n11.west);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n9.south) -- (n12.west);
+\draw[-{Latex[length=2mm,width=3mm]}, thick] (n10.south) -- (n13.west);
+
+\end{tikzpicture}
+\end{document}
