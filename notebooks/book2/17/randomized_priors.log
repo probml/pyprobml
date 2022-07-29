@@ -1,0 +1,65 @@
+An error occurred while executing the following cell:
+------------------
+
+%matplotlib inline
+
+from functools import partial
+
+import matplotlib.pyplot as plt
+
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
+import jax
+import jax.numpy as jnp
+from jax import jit
+from jax.nn.initializers import glorot_normal
+
+try:
+    import probml_utils as pml
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+    from probml_utils import savefig, latexify, is_latexify_enabled
+
+
+try:
+    import flax
+except ModuleNotFoundError:
+    %pip install -qq flax
+    import flax
+import flax.linen as nn
+from flax.training import train_state
+
+try:
+    import seaborn as sns
+except:
+    %pip install seaborn
+    import seaborn as sns
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4415/187311355.py in <module>
+     27 try:
+---> 28     import flax
+     29 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'flax'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4415/187311355.py in <module>
+     29 except ModuleNotFoundError:
+     30     get_ipython().run_line_magic('pip', 'install -qq flax')
+---> 31     import flax
+     32 import flax.linen as nn
+     33 from flax.training import train_state
+
+ModuleNotFoundError: No module named 'flax'
+ModuleNotFoundError: No module named 'flax'
