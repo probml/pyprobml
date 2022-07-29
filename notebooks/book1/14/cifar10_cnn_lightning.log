@@ -37,7 +37,7 @@ from torch.optim.swa_utils import AveragedModel, update_bn
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_9221/4161050863.py in <module>
+/tmp/ipykernel_8389/4161050863.py in <module>
       6     get_ipython().run_line_magic('pip', 'install -qq torch')
       7     import torch
 ----> 8 import torch.nn as nn
