@@ -16,7 +16,7 @@ See also [probml-utils](https://github.com/probml/probml-utils) for some utility
 
 The notebooks needed to make all the figures are available at the following locations.
 
-* [All notebooks (sorted by filename)](https://github.com/probml/pyprobml/blob/master/notebooks.md)
+* [All notebooks (sorted by filename)](https://probml.github.io/notebooks)
 * [Book 1 notebooks (sorted by chaper)](https://github.com/probml/pyprobml/tree/master/notebooks/book1)
 * [Book 2 notebooks (sorted by chapter)](https://github.com/probml/pyprobml/tree/master/notebooks/book2). 
 
