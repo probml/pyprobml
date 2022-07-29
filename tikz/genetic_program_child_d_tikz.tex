@@ -1,0 +1,30 @@
+\documentclass[tikz, border=2pt]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+\usetikzlibrary{shapes}
+\begin{document}
+
+% \title{genetic_program_child_d}
+% \author{Dhruv Patel}
+% \date{July 2022}
+
+\tikzstyle{node} = [circle, draw=blue!50, minimum size=10mm, fill = blue!50]
+\begin{tikzpicture}
+        \node[node](plus){$+$};
+        \node[node, below left = of plus](sin){$sin$};
+        \node[node, below right = of plus](sqrt){$\sqrt{}$};
+        \node[node, below left = of sin](x){$x$};
+        \node[node, below right = of sqrt](plus2){$+$};
+        \node[node, below left = of plus2, draw = red!90, line width = 0.5mm](plus3){$+$};
+        \node[node, below right = of plus2](y){$y$};
+        \node[node, below left = of plus3](x2){$x$};
+        \node[node, below right = of plus3](y2){$y$};
+        \path[thick]
+            (plus) edge(sin) edge(sqrt) 
+            (sin) edge(x)
+            (sqrt) edge(plus2)
+            (plus2) edge(plus3) edge(y)
+            (plus3) edge (x2) edge (y2);	
+\end{tikzpicture}
+\end{document}
