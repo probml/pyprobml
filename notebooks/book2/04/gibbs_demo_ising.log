@@ -1,44 +1,30 @@
 An error occurred while executing the following cell:
 ------------------
-import jax.numpy as jnp
-import jax
+"""
+Author : Ming Liang Ang
+Based on : https://github.com/probml/pmtk3/blob/master/demos/gibbsDemoIsing.m
+"""
+
+import numpy as np
 import matplotlib.pyplot as plt
+import jax
+import jax.numpy as jnp
 
 try:
-    import distrax
-except:
-    %pip install -qq distrax
-    import distrax
-try:
-    import optax
-except:
-    %pip install -qq optax
-    import optax
-try:
-    import seaborn as sns
-except:
-    %pip install -qq seaborn
-    import seaborn as sns
-try:
-    from probml_utils import savefig, latexify, is_latexify_enabled
+    import probml_utils as pml
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils import savefig, latexify, is_latexify_enabled
-
-from jax.config import config
-
-config.update("jax_enable_x64", True)
-latexify(width_scale_factor=1.6, fig_height=1.0)
+    import probml_utils as pml
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4800/948535827.py in <module>
-----> 1 import jax.numpy as jnp
-      2 import jax
-      3 import matplotlib.pyplot as plt
-      4 
-      5 try:
+/tmp/ipykernel_4696/3115004030.py in <module>
+      6 import numpy as np
+      7 import matplotlib.pyplot as plt
+----> 8 import jax
+      9 import jax.numpy as jnp
+     10 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module

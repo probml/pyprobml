@@ -5,7 +5,7 @@
 ## Book2Dashboard
 Total Notebooks | Latexified | Jaxified | 
 | -- | -- |  -- |
-| 203 | 79 | 75 |<details open>
+| 203 | 79 | 74 |<details open>
 <summary>Chapter: 2_Probability</summary>
 
 | nb_name                                                                                                                                                      |   fig_no | workflow                                                                                                                                                                                                                                                                                               | latexify   | jaxify   |
@@ -75,7 +75,7 @@ Total Notebooks | Latexified | Jaxified |
 | [newsgroups_visualize.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/newsgroups_visualize.ipynb)                         |     5.7  | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/newsgroups_visualize.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/newsgroups_visualize.log)                         | &#10060;   | &#10060; |
 | [relevance_network_newsgroup_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/relevance_network_newsgroup_demo.ipynb) |     5.8  | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/relevance_network_newsgroup_demo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/relevance_network_newsgroup_demo.log) | &#10060;   | &#10060; |
 | [error_correcting_code_demo.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/error_correcting_code_demo.ipynb)             |     5.1  | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/error_correcting_code_demo.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/error_correcting_code_demo.log)             | &#10060;   | &#10060; |
-| [vib_demo_2021.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/vib_demo_2021.ipynb)                                       |     5.12 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/vib_demo_2021.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/vib_demo_2021.log)                                       | &#10060;   | &#9989;  |
+| [vib_demo_2021.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/05/vib_demo_2021.ipynb)                                       |     5.12 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/vib_demo_2021.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/05/vib_demo_2021.log)                                       | &#10060;   | &#10060; |
 </details>
 
 <details open>

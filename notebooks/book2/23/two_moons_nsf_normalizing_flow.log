@@ -1,0 +1,82 @@
+An error occurred while executing the following cell:
+------------------
+import os
+import matplotlib.pyplot as plt
+from IPython.display import clear_output
+from sklearn import datasets, preprocessing
+import jax
+import jax.numpy as jnp
+import numpy as np
+
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow as tf
+try:
+    import tensorflow_datasets as tfds
+except ModuleNotFoundError:
+    %pip install -qq tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds
+try:
+    import distrax
+except ModuleNotFoundError:
+    %pip install -qq distrax
+    import distrax
+try:
+    import haiku as hk
+except ModuleNotFoundError:
+    %pip install -qq -U dm-haiku
+    import haiku as hk
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
+
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow-probability
+    from tensorflow_probability.substrates import jax as tfp
+tfd = tfp.distributions
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4354/3775880816.py in <module>
+     14 try:
+---> 15     import tensorflow as tf
+     16 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4354/3775880816.py in <module>
+     16 except ModuleNotFoundError:
+     17     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+---> 18     import tensorflow as tf
+     19 try:
+     20     import tensorflow_datasets as tfds
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
+
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
+ModuleNotFoundError: No module named 'tensorflow.python.tools'
