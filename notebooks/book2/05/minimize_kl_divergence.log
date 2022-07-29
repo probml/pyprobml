@@ -33,7 +33,7 @@ latexify(width_scale_factor=1.6, fig_height=1.0)
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5146/948535827.py in <module>
+/tmp/ipykernel_5106/948535827.py in <module>
       5 try:
 ----> 6     import distrax
       7 except:
@@ -103,7 +103,7 @@ ImportError: cannot import name 'partial' from 'jax.util' (/github/home/minicond
 During handling of the above exception, another exception occurred:
 
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5146/948535827.py in <module>
+/tmp/ipykernel_5106/948535827.py in <module>
       7 except:
       8     get_ipython().run_line_magic('pip', 'install -qq distrax')
 ----> 9     import distrax
