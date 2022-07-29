@@ -30,8 +30,8 @@ jobs:
 
     - name: Check code quality
       run: |
-        black --check --verbose notebooks/book1/*/*.ipynb
-        black --check --verbose notebooks/book2/*/*.ipynb  
+        black --check notebooks/book1/*/*.ipynb
+        black --check notebooks/book2/*/*.ipynb
 
   static_import_check_MUST_PASS:
     runs-on: ubuntu-latest
@@ -231,6 +231,7 @@ jobs:
         python .github/scripts/generate_notebooks_md.py
 
     - name: Push notebooks.md to notebooks_md (does not run on pull requests)
+      if: always()
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}

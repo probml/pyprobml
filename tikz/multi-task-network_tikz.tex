@@ -1,0 +1,43 @@
+\documentclass[tikz, border=2pt]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+\usetikzlibrary{}
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
+%\title{multi-headed-network}
+% \author{Dhruv Patel}
+% \date{July 2022}
+\begin{document}
+\tikzstyle{rect1} = [rectangle, minimum width=2mm, minimum height = 20mm]
+\tikzstyle{rect2} = [rectangle,, minimum width=10mm, minimum height = 2mm]
+\tikzstyle{emptynode1} = [rectangle, draw=black!0, minimum size=1mm]
+\tikzstyle{emptynode2} = [rectangle, draw=blue!70,fill = blue!50, minimum width=3mm, minimum height = 5mm]
+\begin{tikzpicture}[font={\small}]
+    \node[rect1, draw = green!90, fill = green!70](r1){};
+    \node[rect1, draw = green!90, fill = green!70, right = 2mm of r1 ](r2){};
+    \node[rect1, draw = green!90, fill = green!70, right = 2mm of r2 ](r3){};
+    \node[rect1, draw = green!90, fill = green!70, right = 2mm of r3 ](r4){};
+    \node[rect1, draw = green!90, fill = green!70, right = 2mm of r4 ](r5){};
+    \node[const, left = of r1](x){$X$};
+    \node[const, above left = 20mm of r1](x1){};
+    \node[const, below = 15mm of x1](x2){};
+    \node[const, below = 23mm of x2](xd){};
+    \node[const, right = 5cm of x2](w1){$w^1$};
+    \node[const, right = 5cm of xd](wj){$w^j$};
+    \node[emptynode2, above left  = 0.1 mm of w1](e2l){};
+    \node[emptynode2, right  = 2 mm of e2l](e2r){};
+    \node[emptynode2, above left  = 0.1 mm of wj](e3l){};
+    \node[emptynode2, right  = 2 mm of e3l](e3r){};
+    \draw [decorate,decoration={brace,mirror, amplitude=5pt}, thick]
+    (-0.25,-1.2) -- (2.1,-1.2) node [black,midway,yshift=-0.4cm] {$w_0:$ shared parameters};
+    \draw [decorate,decoration={brace, amplitude=5pt}, thick]
+    (5,2) -- (5,-1.8) node [black,midway,xshift=0.5cm, rotate= 90] {task specific parameters};
+    \edge{x}{r1};
+    \edge{r5}{e2l,e3l};
+    \node[const, right= 6mm of e2r](y1){$y^1$};
+    \node[const, right= 6mm of e3r](yj){$y^j$};
+    \edge{e2r}{y1};
+    \edge{e3r}{yj};
+
+\end{tikzpicture}
+\end{document}

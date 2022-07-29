@@ -1,0 +1,55 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning}
+\newcommand{\specific}{rgb:orange,1;yellow,2;pink,5}
+% \title{Decision_tree_oil_wildcatter_problem}
+% \author{Vishal Ghoniya}
+% \date{July 2022}
+
+\begin{document}
+\tikzstyle{chance variable}=[circle, draw=black, minimum size=3mm]
+\tikzstyle{decision node}=[rectangle, draw=black, minimum height=4mm, minimum width=2cm]
+\tikzstyle{decision}=[rectangle, draw=black, minimum height=4mm, minimum width=4mm]
+\tikzstyle{higher utility}=[diamond, draw=black, fill=green, minimum width=3mm, minimum height=3mm]
+\tikzstyle{lower utility}=[diamond, draw=black, fill=red, minimum width=3mm, minimum height=3mm]
+\begin{tikzpicture}[font={\small}]
+
+\node [chance variable, fill=black] at (0,0) (root) {};
+
+\node[chance variable, fill=\specific, right=2cm of root] (s_1) {S = 1} edge (root);
+    \node[above right=0.2cm of s_1, yshift=-0.5cm] {0.35};
+    \node[decision, fill=black, right=1cm of s_1] (d_1) {} edge (s_1);
+    \node[decision node, fill=\specific, above right=0.75cm of d_1] (dd_1) {Drill} (dd_1.west) edge[-] (d_1.north);
+    \node[decision node, fill=\specific, below right=0.75cm of d_1] (ddn_1) {Don't Drill} (ddn_1.west) edge[-] (d_1.south);
+    \node [higher utility, right=2cm of dd_1] (u_1) {} edge (dd_1);
+    \node [right=0.3cm of u_1] {32.9};
+    \node [lower utility, right=2cm of ddn_1] (un_1) {} edge (ddn_1);
+    \node [right=0.3cm of un_1] {0}; 
+    
+    
+\node[chance variable, fill=\specific, above=2cm of s_1] (s_0) {S = 0} edge (root);
+    \node[above right=0.2cm of s_0, yshift=-0.5cm] {0.41};
+    \node[decision, fill=black, right=1cm of s_0] (d_0) {} edge (s_0);
+    \node[decision node, fill=\specific, above right=0.75cm of d_0] (dd_0) {Drill} (dd_0.west) edge[-] (d_0.north);
+    \node[decision node, fill=\specific, below right=0.75cm of d_0] (ddn_0) {Don't Drill} (ddn_0.west) edge[-] (d_0.south);
+    \node [lower utility, right=2cm of dd_0] (u_0) {} edge (dd_0);
+    \node [right=0.3cm of u_0] {-30.5};
+    \node [higher utility, right=2cm of ddn_0] (un_0) {} edge (ddn_0);
+    \node [right=0.3cm of un_0] {0}; 
+    
+\node[chance variable, fill=\specific, below=2cm of s_1] (s_2) {S = 2} edge (root);
+    \node[above right=0.2cm of s_2, yshift=-0.5cm] {0.24};
+    \node[decision, fill=black, right=1cm of s_2] (d_2) {} edge (s_2);
+    \node[decision node, fill=\specific, above right=0.75cm of d_2] (dd_2) {Drill} (dd_2.west) edge[-] (d_2.north);
+    \node[decision node, fill=\specific, below right=0.75cm of d_2] (ddn_2) {Don't Drill} (ddn_2.west) edge[-] (d_2.south);
+    \node [higher utility, right=2cm of dd_2] (u_2) {} edge (dd_2);
+    \node [right=0.3cm of u_2] {87.5};
+    \node [lower utility, right=2cm of ddn_2] (un_2) {} edge (ddn_2);
+    \node [right=0.3cm of un_2] {0}; 
+
+
+\end{tikzpicture}
+
+\end{document}
