@@ -19,7 +19,7 @@ ModuleNotFoundError: No module named 'tensorflow'
 During handling of the above exception, another exception occurred:
 
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4580/2619592856.py in <module>
+/tmp/ipykernel_4589/2619592856.py in <module>
       1 try:
 ----> 2     import probml_utils.mnist_helper_tf as helper
       3 except ModuleNotFoundError:

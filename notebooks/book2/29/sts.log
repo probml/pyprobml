@@ -38,7 +38,7 @@ tf.enable_v2_behavior()
 
 ---------------------------------------------------------------------------
 OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_4123/347576293.py in <module>
+/tmp/ipykernel_4130/347576293.py in <module>
      10 
      11 try:
 ---> 12     import tensorflow.compat.v2 as tf
