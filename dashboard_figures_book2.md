@@ -5,7 +5,7 @@
 ## Book2Dashboard
 Total Notebooks | Latexified | Jaxified | 
 | -- | -- |  -- |
-| 203 | 79 | 74 |<details open>
+| 203 | 79 | 75 |<details open>
 <summary>Chapter: 2_Probability</summary>
 
 | nb_name                                                                                                                                                      |   fig_no | workflow                                                                                                                                                                                                                                                                                               | latexify   | jaxify   |
@@ -321,7 +321,7 @@ Total Notebooks | Latexified | Jaxified |
 
 | nb_name                                                                                                              |   fig_no | workflow                                                                                                                                                                                                                                                       | latexify   | jaxify   |
 |:---------------------------------------------------------------------------------------------------------------------|---------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------|
-| [vdm_2d.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/25/vdm_2d.ipynb) |     25.2 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/25/vdm_2d.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/25/vdm_2d.log) | &#10060;   | &#10060; |
+| [vdm_2d.ipynb](https://colab.research.google.com/github/probml/pyprobml/blob/master/notebooks/book2/25/vdm_2d.ipynb) |     25.2 | <img width="20" alt="image" src=https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/25/vdm_2d.png>, [log](https://raw.githubusercontent.com/probml/pyprobml/workflow_testing_indicator/notebooks/book2/25/vdm_2d.log) | &#10060;   | &#9989;  |
 </details>
 
 <details open>
