@@ -1,0 +1,62 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+
+from sklearn import datasets
+from sklearn.linear_model import LogisticRegression
+from scipy.stats import entropy
+
+
+try:
+    import plotly
+except ModuleNotFoundError:
+    %pip install -qq plotly
+
+import plotly.figure_factory as ff
+import plotly.graph_objects as go
+
+try:
+    import kaleido
+except ModuleNotFoundError:
+    %pip install -qq kaleido
+
+import kaleido
+
+try:
+    import skimage
+except ModuleNotFoundError:
+    %pip install -qq scikit-image
+
+import skimage
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+import warnings
+import os
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4067/982200377.py in <module>
+     30 try:
+---> 31     import probml_utils as pml
+     32 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4067/982200377.py in <module>
+     32 except ModuleNotFoundError:
+     33     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 34     import probml_utils as pml
+     35 
+     36 import warnings
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
