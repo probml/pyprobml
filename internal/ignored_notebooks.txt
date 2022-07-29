@@ -102,3 +102,6 @@ notebooks/book2/15/linreg_hierarchical_numpyro.ipynb
 notebooks/book2/15/linreg_hierarchical_pymc3.ipynb
 notebooks/book2/15/linreg_hierarchical_non_centered_numpyro.ipynb
 notebooks/book2/15/linreg_hierarchical_non_centered_pymc3.ipynb
+notebooks/book2/25/diffusion_mnist.ipynb
+notebooks/book2/25/diffusion_spiral_non_neural.ipynb
+notebooks/book2/25/vdm_2d.ipynb
