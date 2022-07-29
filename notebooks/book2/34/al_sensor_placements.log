@@ -1,0 +1,16 @@
+An error occurred while executing the following cell:
+------------------
+pml.latexify(width_scale_factor=2, fig_height=1.5)
+if pml.is_latexify_enabled():
+    plt.rcParams["lines.markersize"] = 3
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_4067/2638538007.py in <module>
+----> 1 pml.latexify(width_scale_factor=2, fig_height=1.5)
+      2 if pml.is_latexify_enabled():
+      3     plt.rcParams["lines.markersize"] = 3
+
+NameError: name 'pml' is not defined
+NameError: name 'pml' is not defined

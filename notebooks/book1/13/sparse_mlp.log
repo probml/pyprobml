@@ -131,7 +131,7 @@ print(w)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4716/2877403085.py in <module>
+/tmp/ipykernel_4718/2877403085.py in <module>
       4 import numpy.random as npr
       5 
 ----> 6 import jax.numpy as jnp
