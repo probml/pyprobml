@@ -20,7 +20,7 @@ mix_ppca_demo.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/boo
 poisson_hmm_changepoint.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/poisson_hmm_changepoint.ipynb
 bnn_mnist_sgld.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/19/bnn_mnist_sgld_blackjax.ipynb 
 rbpf_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneuver.py
-rjmcmc_rbf.ipynb,https://github.com/probml/pyprobml/blob/master/misc/rjmcmc_rbf
+rjmcmc_rbf,https://github.com/probml/pyprobml/blob/master/misc/rjmcmc_rbf
 schools8.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/03/schools8_blackjax.ipynb
 sis_vs_smc.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/sis_vs_smc.py
 ukf_pendulum.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_pendulum.ipynb
