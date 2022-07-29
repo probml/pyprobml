@@ -1,0 +1,75 @@
+An error occurred while executing the following cell:
+------------------
+# Compute information criteria for the 4 models
+# Use Bayesian Bootstrapping together with
+# pseudo Bayes Model Averaging
+# See "Bayesian analysis with Python" p201
+comp = az.compare(dict(zip(clusters, traces)), method="BB-pseudo-BMA")
+comp
+az.plot_compare(comp)
+plt.savefig("gmm_chooseK_pymc3_waic.pdf")
+------------------
+
+---------------------------------------------------------------------------
+KeyError                                  Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/indexes/base.py in get_loc(self, key, method, tolerance)
+   3360             try:
+-> 3361                 return self._engine.get_loc(casted_key)
+   3362             except KeyError as err:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/_libs/index.pyx in pandas._libs.index.IndexEngine.get_loc()
+
+pandas/_libs/hashtable_class_helper.pxi in pandas._libs.hashtable.Int64HashTable.get_item()
+
+pandas/_libs/hashtable_class_helper.pxi in pandas._libs.hashtable.Int64HashTable.get_item()
+
+KeyError: 0
+
+The above exception was the direct cause of the following exception:
+
+KeyError                                  Traceback (most recent call last)
+/tmp/ipykernel_5744/3848547173.py in <module>
+      5 comp = az.compare(dict(zip(clusters, traces)), method="BB-pseudo-BMA")
+      6 comp
+----> 7 az.plot_compare(comp)
+      8 plt.savefig("gmm_chooseK_pymc3_waic.pdf")
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/plots/compareplot.py in plot_compare(comp_df, insample_dev, plot_standard_error, plot_ic_diff, order_by_rank, figsize, textsize, labeller, plot_kwargs, ax, backend, backend_kwargs, show)
+    157     # TODO: Add backend kwargs
+    158     plot = get_plotting_function("plot_compare", "compareplot", backend)
+--> 159     ax = plot(**compareplot_kwargs)
+    160 
+    161     return ax
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/plots/backends/matplotlib/compareplot.py in plot_compare(ax, comp_df, figsize, plot_ic_diff, plot_standard_error, insample_dev, yticks_pos, yticks_labels, plot_kwargs, information_criterion, textsize, step, backend_kwargs, show)
+     80 
+     81     if insample_dev:
+---> 82         scale = comp_df[f"{information_criterion}_scale"][0]
+     83         p_ic = comp_df[f"p_{information_criterion}"]
+     84         if scale == "log":
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/series.py in __getitem__(self, key)
+    940 
+    941         elif key_is_scalar:
+--> 942             return self._get_value(key)
+    943 
+    944         if is_hashable(key):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/series.py in _get_value(self, label, takeable)
+   1049 
+   1050         # Similar to Index.get_value, but we do not fall back to positional
+-> 1051         loc = self.index.get_loc(label)
+   1052         return self.index._get_values_for_loc(self, loc, label)
+   1053 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/core/indexes/base.py in get_loc(self, key, method, tolerance)
+   3361                 return self._engine.get_loc(casted_key)
+   3362             except KeyError as err:
+-> 3363                 raise KeyError(key) from err
+   3364 
+   3365         if is_scalar(key) and isna(key) and not self.hasnans:
+
+KeyError: 0
+KeyError: 0
