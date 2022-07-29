@@ -1,79 +1,57 @@
 An error occurred while executing the following cell:
 ------------------
-# Imports
-%matplotlib inline
-import matplotlib.pyplot as plt
-import matplotlib.colors as colors
 import jax
-import jax.numpy as jnp
 import numpy as np
+import jax.numpy as jnp
+from jax.scipy import stats
+from jax import jit, lax, vmap
+from jax.example_libraries import optimizers
+import matplotlib.pylab as plt
+import seaborn as sns
 
 try:
-    import sklearn.datasets
+    import tensorflow as tf
 except ModuleNotFoundError:
-    %pip install -qq -U scikit-learn
-    import sklearn.datasets
+    %pip install -qqq tensorflow
+    import tensorflow as tf
 
 try:
-    import flax
-    import flax.linen as nn
-    from flax.training import train_state
+    import tensorflow_probability as tfp
 except ModuleNotFoundError:
-    %pip install -qq -U flax
-    import flax
-    import flax.linen as nn
-    from flax.training import train_state
+    %pip install -qqq tensorflow-probability
+    import tensorflow_probability as tfp
 
 try:
-    import optax
+    from probml_utils import savefig, latexify
 except ModuleNotFoundError:
-    %pip install -qq -U optax
-    import optax
+    %pip install -qqq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
 
 try:
-    import edward2.jax as ed
+    import distrax
 except ModuleNotFoundError:
-    %pip install -qq -U "git+https://github.com/google/edward2.git#egg=edward2"
-    import edward2.jax as ed
+    %pip install -qqq distrax
+    import distrax
+from distrax import HMM
+from tensorflow_probability.substrates import jax as tfp
+
+tfd = tfp.distributions
+
+# enable jnp.float64
+from jax.config import config
+
+config.update("jax_enable_x64", True)
+%matplotlib inline
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4373/608523586.py in <module>
-     31 try:
----> 32     import edward2.jax as ed
-     33 except ModuleNotFoundError:
-
-ModuleNotFoundError: No module named 'edward2'
-
-During handling of the above exception, another exception occurred:
-
 OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_4373/608523586.py in <module>
-     33 except ModuleNotFoundError:
-     34     get_ipython().run_line_magic('pip', 'install -qq -U "git+https://github.com/google/edward2.git#egg=edward2"')
----> 35     import edward2.jax as ed
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/edward2/__init__.py in <module>
-     41 
-     42 try:
----> 43   from edward2 import tensorflow
-     44   from edward2.tensorflow import *  # pylint: disable=wildcard-import
-     45   # By default, `import edward2 as ed` uses the TensorFlow backend's namespace.
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/edward2/tensorflow/__init__.py in <module>
-     16 """Edward2 probabilistic programming language with TensorFlow backend."""
-     17 
----> 18 from edward2.tensorflow import constraints
-     19 from edward2.tensorflow import generated_random_variables
-     20 from edward2.tensorflow import initializers
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/edward2/tensorflow/constraints.py in <module>
-     25 """
-     26 
----> 27 import tensorflow as tf
-     28 
-     29 
+/tmp/ipykernel_4280/3127702341.py in <module>
+      9 
+     10 try:
+---> 11     import tensorflow as tf
+     12 except ModuleNotFoundError:
+     13     get_ipython().run_line_magic('pip', 'install -qqq tensorflow')
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing
