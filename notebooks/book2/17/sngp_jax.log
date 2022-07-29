@@ -39,7 +39,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4374/608523586.py in <module>
+/tmp/ipykernel_4373/608523586.py in <module>
      31 try:
 ---> 32     import edward2.jax as ed
      33 except ModuleNotFoundError:
@@ -49,7 +49,7 @@ ModuleNotFoundError: No module named 'edward2'
 During handling of the above exception, another exception occurred:
 
 OSError                                   Traceback (most recent call last)
-/tmp/ipykernel_4374/608523586.py in <module>
+/tmp/ipykernel_4373/608523586.py in <module>
      33 except ModuleNotFoundError:
      34     get_ipython().run_line_magic('pip', 'install -qq -U "git+https://github.com/google/edward2.git#egg=edward2"')
 ---> 35     import edward2.jax as ed
