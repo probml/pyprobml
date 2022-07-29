@@ -9,7 +9,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5358/2809468119.py in <module>
+/tmp/ipykernel_5357/2809468119.py in <module>
       1 try:
 ----> 2     import ssm
       3 except ModuleNotFoundError:
@@ -19,7 +19,7 @@ ModuleNotFoundError: No module named 'ssm'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5358/2809468119.py in <module>
+/tmp/ipykernel_5357/2809468119.py in <module>
       3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/lindermanlab/ssm-jax.git')
 ----> 5     import ssm
