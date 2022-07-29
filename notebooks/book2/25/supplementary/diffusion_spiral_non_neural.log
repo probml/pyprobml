@@ -16,7 +16,7 @@ from functools import partial
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4061/1370548772.py in <module>
+/tmp/ipykernel_4062/1370548772.py in <module>
       4 import jax
       5 import jax.numpy as jnp
 ----> 6 from flax import linen as nn
