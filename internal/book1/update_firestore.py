@@ -1,6 +1,8 @@
 """
 command usage:
-python3 internal/book1/update_firestore.py -key "../key_probml_gcp.json" -csv internal/book1/figures_nb_mapping_book1_urls.csv -level1 figures -level2 book1 -level3 figures_md
+python3 internal/book1/update_firestore.py -key "../key_probml_gcp.json" -csv internal/book1/figures_nb_mapping_book1_urls.csv -level1 figures -level2 book1 -level3 figures
+python3 internal/book1/update_firestore.py -key "../key_probml_gcp.json" -csv internal/book1/non_figures_nb_mapping_book1_urls.csv -level1 figures -level2 book1 -level3 figures
+
 """
 from probml_utils.url_utils import upload_urls_to_firestore
 import argparse
