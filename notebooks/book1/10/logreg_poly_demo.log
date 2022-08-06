@@ -1,30 +1,42 @@
 An error occurred while executing the following cell:
 ------------------
 """
-Author : Ming Liang Ang
-Based on : https://github.com/probml/pmtk3/blob/master/demos/gibbsDemoIsing.m
-"""
+Created on Tue Oct 27 10:08:08 2020
 
-import numpy as np
-import matplotlib.pyplot as plt
-import jax
-import jax.numpy as jnp
+@author: kpmurphy
+"""
 
 try:
     import probml_utils as pml
+    from probml_utils import savefig, latexify
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
     import probml_utils as pml
+    from probml_utils import savefig, latexify
+try:
+    from sklearn.datasets import make_classification
+except ModuleNotFoundError:
+    %pip install -qq scikit-learn
+    from sklearn.datasets import make_classification
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LogisticRegression
+import matplotlib.pyplot as plt
+import jax
+import jax.numpy as jnp
+import seaborn as sns
+import warnings
+
+warnings.filterwarnings("ignore")
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4698/3115004030.py in <module>
-      6 import numpy as np
-      7 import matplotlib.pyplot as plt
-----> 8 import jax
-      9 import jax.numpy as jnp
-     10 
+/tmp/ipykernel_4582/1498244721.py in <module>
+     20 from sklearn.linear_model import LogisticRegression
+     21 import matplotlib.pyplot as plt
+---> 22 import jax
+     23 import jax.numpy as jnp
+     24 import seaborn as sns
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module
