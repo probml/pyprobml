@@ -5,7 +5,7 @@ model = ADVI(prior=prior, likelihood_fn=likelihood_fn, vi_type="mean_field")
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_4064/10378231.py in <module>
+/tmp/ipykernel_4037/10378231.py in <module>
 ----> 1 model = ADVI(prior=prior, likelihood_fn=likelihood_fn, vi_type="mean_field")
 
 NameError: name 'ADVI' is not defined
