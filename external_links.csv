@@ -1,4 +1,5 @@
 Notebook,github_url
+activation_fun_deriv_jax.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book1/13/activation_fun_deriv.ipynb
 bach_chorales_hmm.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bach_chorales_hmm.ipynb
 batch_bald_mnist.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/34/batch_bald_mnist_pytorch.ipynb
 bernoulli_hmm_example.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/bernoulli_hmm_example.ipynb
@@ -9,7 +10,11 @@ casino_hmm_training.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hm
 ekf_mlp.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_mlp.ipynb
 ekf_pendulum.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_pendulum.ipynb
 ekf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ekf/demos/ekf_spiral.ipynb
+emloglikelihoodmax.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book1/08/em_log_likelihood_max.ipynb
 gaussian_hmm_2d.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/gaussian_hmm_2d.ipynb
+gprdemonoisefree.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/18/gpr_demo_noise_free.ipynb
+gprdemoard.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/18/gpr_demo_ard.ipynb
+gprdemochangehparams.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/18/gpr_demo_change_hparams.ipynb
 kf_linreg.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_linreg.ipynb
 kf_parallel.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_parallel.ipynb
 kf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/lgssm/demos/kf_spiral.ipynb
@@ -23,5 +28,6 @@ rbpf_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneu
 rjmcmc_rbf,https://github.com/probml/pyprobml/blob/master/misc/rjmcmc_rbf
 schools8.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/03/schools8_blackjax.ipynb
 sis_vs_smc.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/sis_vs_smc.py
+smoothvsnonsmooth1d.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book1/08/smooth-vs-nonsmooth-1d.ipynb
 ukf_pendulum.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_pendulum.ipynb
 ukf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/ukf/demos/ukf_spiral.ipynb
