@@ -1,27 +1,30 @@
 An error occurred while executing the following cell:
 ------------------
-import jax
 import jax.numpy as jnp
-import seaborn as sns
+from jax import random
 import matplotlib.pyplot as plt
+from scipy.stats import t, laplace, norm
+import seaborn as sns
+from sklearn.datasets import make_spd_matrix
 
 try:
-    from probml_utils import latexify, savefig, is_latexify_enabled
+    from probml_utils import pyprobml_utils as pml
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils import latexify, savefig, is_latexify_enabled
+    from probml_utils import pyprobml_utils as pml
 
-from jax.scipy.stats import t, norm, laplace
+from probml_utils import savefig, latexify, is_latexify_enabled
+from probml_utils import gauss_utils as gauss
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4863/1464898324.py in <module>
-----> 1 import jax
-      2 import jax.numpy as jnp
-      3 import seaborn as sns
-      4 import matplotlib.pyplot as plt
-      5 
+/tmp/ipykernel_4628/1565666415.py in <module>
+----> 1 import jax.numpy as jnp
+      2 from jax import random
+      3 import matplotlib.pyplot as plt
+      4 from scipy.stats import t, laplace, norm
+      5 import seaborn as sns
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module

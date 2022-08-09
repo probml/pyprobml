@@ -1,66 +1,53 @@
 An error occurred while executing the following cell:
 ------------------
-import jax
+"""
+Fits Bernoulli mixture model for mnist digits using Gradient Descent
+Author: Aleyna Kara(@karalleyna)
+"""
+
+
 import jax.numpy as jnp
-import jax.scipy.stats as stats
-from jax.random import PRNGKey, split
-import os
-import matplotlib
 
 try:
-    import distrax
-except ModuleNotFoundError:
-    %pip install -qq distrax
-    import distrax
-try:
-    from tensorflow_probability.substrates.jax.distributions import HalfCauchy
-except ModuleNotFoundError:
-    %pip install -qq tensorflow-probability
-    from tensorflow_probability.substrates.jax.distributions import HalfCauchy
-
-import tensorflow_probability.substrates.jax as tfp
-
-tfd = tfp.distributions
-
-try:
-    import blackjax
-except ModuleNotFoundError:
-    %pip install -qq jaxopt blackjax
-    import blackjax
-
-# import blackjax.stan_warmup as stan_warmup
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-
-try:
-    import arviz as az
-except ModuleNotFoundError:
-    %pip install -qq arviz
-    import arviz as az
-from functools import partial
-
-try:
-    from probml_utils.blackjax_utils import inference_loop, arviz_trace_from_states
+    from probml_utils.mix_bernoulli_lib import BMM
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils.blackjax_utils import inference_loop, arviz_trace_from_states
+    from probml_utils.mix_bernoulli_lib import BMM
 
-from probml_utils import latexify, savefig, is_latexify_enabled
+from probml_utils.mix_bernoulli_em_mnist import mnist_data
 
-np.random.seed(123)
+
+def main():
+    n_obs = 1000
+    observations = mnist_data(n_obs)  # subsample the MNIST dataset
+    n_vars = len(observations[0])
+    K, num_epochs = 12, 500
+    bmm = BMM(K, n_vars)
+    _ = bmm.fit_sgd(jnp.array(observations), n_obs, num_epochs=num_epochs)
+
+    n_row, n_col = 3, 4
+    bmm.plot(n_row, n_col, "bmm_sgd_mnist")
+
+
+if __name__ == "__main__":
+    main()
 ------------------
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5260/2706158153.py in <module>
-      7 
-      8 try:
-----> 9     import distrax
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install -qq distrax')
+/tmp/ipykernel_5135/3897083071.py in <module>
+      8 
+      9 try:
+---> 10     from probml_utils.mix_bernoulli_lib import BMM
+     11 except ModuleNotFoundError:
+     12     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/mix_bernoulli_lib.py in <module>
+     10 from jax.experimental import optimizers
+     11 
+---> 12 import distrax
+     13 from distrax._src.utils import jittable
+     14 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/distrax/__init__.py in <module>
      16 
