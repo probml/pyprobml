@@ -13,24 +13,24 @@ plt.savefig("/content/plots/celeba_recon_montage.pdf")
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_4520/529873150.py in <module>
+/tmp/ipykernel_4468/529873150.py in <module>
       7 fig.suptitle("Original (upper) vs Reconstructed (lower four)")
       8 fig.show()
 ----> 9 plt.savefig("/content/plots/celeba_recon_montage.pdf")
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in savefig(*args, **kwargs)
-    977 def savefig(*args, **kwargs):
-    978     fig = gcf()
---> 979     res = fig.savefig(*args, **kwargs)
-    980     fig.canvas.draw_idle()   # need this if 'transparent=True' to reset colors
-    981     return res
+    975 def savefig(*args, **kwargs):
+    976     fig = gcf()
+--> 977     res = fig.savefig(*args, **kwargs)
+    978     fig.canvas.draw_idle()   # need this if 'transparent=True' to reset colors
+    979     return res
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/figure.py in savefig(self, fname, transparent, **kwargs)
-   3044                         ax.patch._cm_set(facecolor='none', edgecolor='none'))
-   3045 
--> 3046             self.canvas.print_figure(fname, **kwargs)
-   3047 
-   3048     def ginput(self, n=1, timeout=30, show_clicks=True,
+   3056                         ax.patch._cm_set(facecolor='none', edgecolor='none'))
+   3057 
+-> 3058             self.canvas.print_figure(fname, **kwargs)
+   3059 
+   3060     def ginput(self, n=1, timeout=30, show_clicks=True,
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/backend_bases.py in print_figure(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)
    2323                         orientation=orientation,
