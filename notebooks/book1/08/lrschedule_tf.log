@@ -42,14 +42,14 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-/tmp/ipykernel_5912/302482964.py in <module>
+/tmp/ipykernel_6043/302482964.py in <module>
       1 plt.figure()
 ----> 2 plot_lr_vs_loss(rates, losses)
       3 save_fig("lrfinder-raw.pdf")
       4 plt.show()
       5 
 
-/tmp/ipykernel_5912/118368236.py in plot_lr_vs_loss(rates, losses)
+/tmp/ipykernel_6043/118368236.py in plot_lr_vs_loss(rates, losses)
      28     plt.gca().set_xscale("log")
      29     plt.hlines(min(losses), min(rates), max(rates))
 ---> 30     plt.axis([min(rates), max(rates), min(losses), (losses[0] + min(losses)) / 2])
@@ -57,11 +57,11 @@ ValueError                                Traceback (most recent call last)
      32     plt.ylabel("Loss")
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/pyplot.py in axis(emit, *args, **kwargs)
-   2371 @_copy_docstring_and_deprecators(Axes.axis)
-   2372 def axis(*args, emit=True, **kwargs):
--> 2373     return gca().axis(*args, emit=emit, **kwargs)
-   2374 
-   2375 
+   2369 @_copy_docstring_and_deprecators(Axes.axis)
+   2370 def axis(*args, emit=True, **kwargs):
+-> 2371     return gca().axis(*args, emit=emit, **kwargs)
+   2372 
+   2373 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/axes/_base.py in axis(self, emit, *args, **kwargs)
    2095                      else False)
