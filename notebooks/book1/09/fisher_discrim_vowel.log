@@ -1,0 +1,133 @@
+An error occurred while executing the following cell:
+------------------
+# This code is referenced from
+# https://github.com/probml/pmtk3/blob/master/demos/fisherDiscrimVowelDemo.m
+# Author:Srikar-Reddy-Jilugu(@always-newbie161)
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.io import loadmat
+
+try:
+    from sklearn.decomposition import PCA
+except ModuleNotFoundError:
+    %pip install -qq scikit-learn
+    from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
+try:
+    from probml_utils.fisher_lda_fit import fisher_lda_fit
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils.fisher_lda_fit import fisher_lda_fit
+import probml_utils as pml
+import requests
+from io import BytesIO
+
+url = "https://github.com/probml/probml-data/blob/main/data/vowelTrain.mat?raw=true"
+r = requests.get(url, allow_redirects=True)
+rawdata = BytesIO(r.content)
+
+data = loadmat(rawdata)
+X = data["Xtrain"]
+y = data["ytrain"]
+nsamples, ndims = X.shape
+nclasses = np.max(y)
+
+
+def plot_projection_data(X, y, mu, nclasses, figure_num):
+    """
+    2d data is visualized with their respective symbol and color
+    and the centroids of the data are plotted with black filled-in color.
+    """
+
+    # To match the Hastie color scheme
+    lightblue = [55, 155, 255]
+    orange = [255, 128, 0]
+    magenta = [255, 0, 128]
+    green2 = [132, 199, 71]
+    cyan = [61, 220, 176]
+    yellow = [255, 255, 0]
+    brown = [128, 64, 0]
+    blue = [0, 0, 255]
+    red = [255, 0, 0]
+    black = [0, 0, 0]
+    gray = [128, 128, 128]
+
+    colors = [lightblue, blue, brown, magenta, orange, cyan, gray, yellow, black, red, green2]
+
+    plt.figure(figure_num)
+    for c in range(0, nclasses):
+        colors[c] = [col / 255 for col in colors[c]]
+        ndx = np.where(y == (c + 1))
+        plt.scatter(X[ndx, 0], X[ndx, 1], marker=symbols[c], s=30, facecolor="none", edgecolor=colors[c])
+        plt.scatter(mu[c, 0], mu[c, 1], marker=symbols[c], s=40, facecolor="black")
+
+
+# ------------------------
+
+K = 2
+
+# PCA projection
+
+pca = PCA(K)
+X_pca = pca.fit_transform(X)
+X_pca = -X_pca  # make it look like the Hastie figure
+muC = np.zeros((nclasses, ndims))
+for c in range(0, nclasses):
+    muC[c, :] = np.mean((X[np.where(y == (c + 1))[0], :]), axis=0)
+
+muC2d_pca = pca.fit_transform(muC)
+
+symbols = "+ovd*.xs^d><ph"
+plot_projection_data(X_pca, y, muC2d_pca, nclasses, figure_num=0)
+plt.title("PCA projection of vowel data to 2d")
+pml.savefig("fisherDiscrimVowelPCA.pdf")
+
+# ------------------------
+# FLDA projection
+
+W = fisher_lda_fit(X, y, K)
+W[:, 0] = -W[:, 0]  # make it look like the Hastie figure
+X_lda = X @ W
+muC2d_lda = muC @ W
+plot_projection_data(X_lda, y, muC2d_lda, nclasses, figure_num=1)
+plt.title("FLDA projection of vowel data to 2d")
+pml.savefig("fisherDiscrimVowelLDA.pdf")
+
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+IndexError                                Traceback (most recent call last)
+/tmp/ipykernel_6978/125251180.py in <module>
+     28 rawdata = BytesIO(r.content)
+     29 
+---> 30 data = loadmat(rawdata)
+     31 X = data["Xtrain"]
+     32 y = data["ytrain"]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/mio.py in loadmat(file_name, mdict, appendmat, **kwargs)
+    223     variable_names = kwargs.pop('variable_names', None)
+    224     with _open_file_context(file_name, appendmat) as f:
+--> 225         MR, _ = mat_reader_factory(f, **kwargs)
+    226         matfile_dict = MR.get_variables(variable_names)
+    227 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/mio.py in mat_reader_factory(file_name, appendmat, **kwargs)
+     72     """
+     73     byte_stream, file_opened = _open_file(file_name, appendmat)
+---> 74     mjv, mnv = get_matfile_version(byte_stream)
+     75     if mjv == 0:
+     76         return MatFile4Reader(byte_stream, **kwargs), file_opened
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/scipy/io/matlab/miobase.py in get_matfile_version(fileobj)
+    223     tst_str = fileobj.read(4)
+    224     fileobj.seek(0)
+--> 225     maj_ind = int(tst_str[2] == b'I'[0])
+    226     maj_val = int(tst_str[maj_ind])
+    227     min_val = int(tst_str[1 - maj_ind])
+
+IndexError: index out of range
+IndexError: index out of range
