@@ -1,0 +1,28 @@
+An error occurred while executing the following cell:
+------------------
+import gym
+
+# Finding the Taxi environment
+for env in gym.envs.registry.all():
+    if env.id.startswith("Taxi"):
+        env_name = env.id
+##
+
+
+print("Environment Name:", env_name)
+env = gym.make(env_name)
+env.reset()
+env.render()
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4464/2971796468.py in <module>
+      2 
+      3 # Finding the Taxi environment
+----> 4 for env in gym.envs.registry.all():
+      5     if env.id.startswith("Taxi"):
+      6         env_name = env.id
+
+AttributeError: 'dict' object has no attribute 'all'
+AttributeError: 'dict' object has no attribute 'all'
