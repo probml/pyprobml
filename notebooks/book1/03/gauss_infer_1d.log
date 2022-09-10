@@ -1,34 +1,35 @@
 An error occurred while executing the following cell:
 ------------------
+import jax.numpy as jnp
+from jax import random
+import matplotlib.pyplot as plt
+from scipy.stats import multivariate_normal as mvn
+import seaborn as sns
+import os
+
 try:
     from probml_utils import savefig, latexify
 except ModuleNotFoundError:
-    print("installing probml-utils")
     %pip install -qq git+https://github.com/probml/probml-utils.git
     from probml_utils import savefig, latexify
-
-# latexify(width_scale_factor=2, fig_height=1.5)  # for book
-latexify(fig_height=2)  # for book
 ------------------
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4166/1021879528.py in <module>
-      1 try:
-----> 2     from probml_utils import savefig, latexify
-      3 except ModuleNotFoundError:
+/tmp/ipykernel_3920/2465005300.py in <module>
+      8 try:
+----> 9     from probml_utils import savefig, latexify
+     10 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'probml_utils'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4166/1021879528.py in <module>
-      4     print("installing probml-utils")
-      5     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
-----> 6     from probml_utils import savefig, latexify
-      7 
-      8 # latexify(width_scale_factor=2, fig_height=1.5)  # for book
+/tmp/ipykernel_3920/2465005300.py in <module>
+     10 except ModuleNotFoundError:
+     11     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 12     from probml_utils import savefig, latexify
 
 ModuleNotFoundError: No module named 'probml_utils'
 ModuleNotFoundError: No module named 'probml_utils'

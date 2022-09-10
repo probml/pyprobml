@@ -214,33 +214,26 @@ plt.show()
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4784/2794284974.py in <module>
+/tmp/ipykernel_4441/2794284974.py in <module>
     178 
     179 fig, ax = plt.subplots(figsize=(4, 5))
 --> 180 sns.heatmap(map_reward_df, cmap="viridis", ax=ax, xticklabels=labels)
     181 plt.ylabel("time")
     182 pml.savefig("bandit-lingauss-heatmap.pdf")
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/_decorators.py in inner_f(*args, **kwargs)
-     44             )
-     45         kwargs.update({k: arg for k, arg in zip(sig.parameters, args)})
----> 46         return f(**kwargs)
-     47     return inner_f
-     48 
-
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/matrix.py in heatmap(data, vmin, vmax, cmap, center, robust, annot, fmt, annot_kws, linewidths, linecolor, cbar, cbar_kws, cbar_ax, square, xticklabels, yticklabels, mask, ax, **kwargs)
-    551     if square:
-    552         ax.set_aspect("equal")
---> 553     plotter.plot(ax, cbar_ax, kwargs)
-    554     return ax
-    555 
+    554     if square:
+    555         ax.set_aspect("equal")
+--> 556     plotter.plot(ax, cbar_ax, kwargs)
+    557     return ax
+    558 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/matrix.py in plot(self, ax, cax, kws)
-    300 
-    301         # Draw the heatmap
---> 302         mesh = ax.pcolormesh(self.plot_data, cmap=self.cmap, **kws)
-    303 
-    304         # Set the axis limits
+    304 
+    305         # Draw the heatmap
+--> 306         mesh = ax.pcolormesh(self.plot_data, cmap=self.cmap, **kws)
+    307 
+    308         # Set the axis limits
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/matplotlib/__init__.py in inner(ax, data, *args, **kwargs)
    1412     def inner(ax, *args, data=None, **kwargs):

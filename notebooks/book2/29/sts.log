@@ -1,0 +1,204 @@
+An error occurred while executing the following cell:
+------------------
+# Minimize the variational loss.
+
+# Seems to converge after 100, but need to run longer to get good predictive performance
+num_variational_steps = 200
+num_variational_steps = int(num_variational_steps)
+
+# Build and optimize the variational loss function.
+elbo_loss_curve = tfp.vi.fit_surrogate_posterior(
+    target_log_prob_fn=co2_model.joint_log_prob(observed_time_series=co2_by_month_training_data),
+    surrogate_posterior=variational_posteriors,
+    optimizer=tf.optimizers.Adam(learning_rate=0.1),
+    num_steps=num_variational_steps,
+    jit_compile=True,
+    seed=seed,
+)
+
+plt.plot(elbo_loss_curve)
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_4663/2932556213.py in <module>
+     12     num_steps=num_variational_steps,
+     13     jit_compile=True,
+---> 14     seed=seed,
+     15 )
+     16 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/util/deprecation.py in new_func(*args, **kwargs)
+    559                 'in a future version' if date is None else ('after %s' % date),
+    560                 instructions)
+--> 561       return func(*args, **kwargs)
+    562 
+    563     doc = _add_deprecated_arg_notice_to_docstring(
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/optimization.py in fit_surrogate_posterior(target_log_prob_fn, surrogate_posterior, optimizer, num_steps, convergence_criterion, trace_fn, variational_loss_fn, discrepancy_fn, sample_size, importance_sample_size, trainable_variables, jit_compile, seed, name)
+    757                            jit_compile=jit_compile,
+    758                            seed=seed,
+--> 759                            name=name)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py in minimize(loss_fn, num_steps, optimizer, convergence_criterion, batch_convergence_reduce_fn, trainable_variables, trace_fn, return_full_length_trace, jit_compile, seed, name)
+    622       jit_compile=jit_compile,
+    623       seed=seed,
+--> 624       name=name)
+    625   return traced_values
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py in _minimize_common(num_steps, optimizer_step_fn, initial_parameters, initial_optimizer_state, convergence_criterion, batch_convergence_reduce_fn, trace_fn, return_full_length_trace, jit_compile, seed, name)
+    132     def run_jitted_minimize():
+    133       return _minimize_common(**kwargs)
+--> 134     return run_jitted_minimize()
+    135 
+    136   # Main optimization routine.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/util/traceback_utils.py in error_handler(*args, **kwargs)
+    151     except Exception as e:
+    152       filtered_tb = _process_traceback_frames(e.__traceback__)
+--> 153       raise e.with_traceback(filtered_tb) from None
+    154     finally:
+    155       del filtered_tb
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py in run_jitted_minimize()
+    131     @tf.function(autograph=False, jit_compile=True)
+    132     def run_jitted_minimize():
+--> 133       return _minimize_common(**kwargs)
+    134     return run_jitted_minimize()
+    135 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py in _minimize_common(num_steps, optimizer_step_fn, initial_parameters, initial_optimizer_state, convergence_criterion, batch_convergence_reduce_fn, trace_fn, return_full_length_trace, jit_compile, seed, name)
+    154          parameters=initial_parameters,
+    155          optimizer_state=initial_optimizer_state,
+--> 156          seed=seed)
+    157 
+    158     initial_convergence_criterion_state = ()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py in optimizer_step(***failed resolving arguments***)
+    427         loss = loss_fn(seed=seed)
+    428       except TypeError:
+--> 429         loss = loss_fn()
+    430     watched_variables = tape.watched_variables()
+    431     grads = tape.gradient(loss, watched_variables)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/optimization.py in complete_variational_loss_fn(seed)
+    747         surrogate_posterior,
+    748         sample_size=sample_size,
+--> 749         seed=seed)
+    750 
+    751   return tfp_math.minimize(complete_variational_loss_fn,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/csiszar_divergence.py in monte_carlo_variational_loss(target_log_prob_fn, surrogate_posterior, sample_size, importance_sample_size, discrepancy_fn, use_reparameterization, gradient_estimator, stopped_surrogate_posterior, seed, name)
+   1097         log_prob=surrogate_posterior.log_prob,
+   1098         use_reparameterization=(
+-> 1099             gradient_estimator != GradientEstimators.SCORE_FUNCTION))
+   1100 
+   1101 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/monte_carlo/expectation.py in expectation(f, samples, log_prob, use_reparameterization, axis, keepdims, name)
+    160       raise ValueError('`f` must be a callable function.')
+    161     if use_reparameterization:
+--> 162       return tf.reduce_mean(f(samples), axis=axis, keepdims=keepdims)
+    163     else:
+    164       if not callable(log_prob):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/csiszar_divergence.py in divergence_fn(q_samples)
+   1112   def divergence_fn(q_samples):
+   1113     q_lp = precomputed_surrogate_log_prob
+-> 1114     target_log_prob = nest_util.call_fn(target_log_prob_fn, q_samples)
+   1115 
+   1116     if gradient_estimator == GradientEstimators.DOUBLY_REPARAMETERIZED:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/nest_util.py in call_fn(fn, args)
+    404     return fn(*args)
+    405   elif _expand_as_kwargs(args):
+--> 406     return fn(**args)
+    407   else:
+    408     return fn(args)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py in log_joint_fn(*param_vals, **param_kwargs)
+    496         lgssm = self.make_state_space_model(
+    497             param_vals=param_vals, num_timesteps=num_timesteps)
+--> 498         observation_lp = lgssm.log_prob(observed_time_series, mask=mask)
+    499 
+    500         # Sum over likelihoods from iid observations. Without this sum,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/distributions/distribution.py in log_prob(self, value, name, **kwargs)
+   1314         values of type `self.dtype`.
+   1315     """
+-> 1316     return self._call_log_prob(value, name, **kwargs)
+   1317 
+   1318   def _call_prob(self, value, name, **kwargs):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/distributions/distribution.py in _call_log_prob(self, value, name, **kwargs)
+   1296     with self._name_and_control_scope(name, value, kwargs):
+   1297       if hasattr(self, '_log_prob'):
+-> 1298         return self._log_prob(value, **kwargs)
+   1299       if hasattr(self, '_prob'):
+   1300         return tf.math.log(self._prob(value, **kwargs))
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/distribution_util.py in _fn(*args, **kwargs)
+   1360     @functools.wraps(fn)
+   1361     def _fn(*args, **kwargs):
+-> 1362       return fn(*args, **kwargs)
+   1363 
+   1364     if _fn.__doc__ is None:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/distributions/linear_gaussian_ssm.py in _log_prob(self, x, mask)
+    823   def _log_prob(self, x, mask=None):
+    824     log_likelihood, _, _, _, _, _, _ = self._forward_filter(
+--> 825         x, mask=mask, final_step_only=True)
+    826     return log_likelihood
+    827 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/distributions/linear_gaussian_ssm.py in _forward_filter(self, x, mask, final_step_only)
+    923           type(filter_results)(1, 2, 3, 2, 3, 2, 3))
+    924     return self._forward_filter_sequential(
+--> 925         x, mask=mask, final_step_only=final_step_only)
+    926 
+    927   def _forward_filter_sequential(self, x, mask=None, final_step_only=False):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/distributions/linear_gaussian_ssm.py in _forward_filter_sequential(self, x, mask, final_step_only)
+    953       # To scan over timesteps we need to move `num_timsteps` from the
+    954       # event shape to the initial dimension of the tensor.
+--> 955       x = distribution_util.move_dimension(x, -2, 0)
+    956       if mask is not None:
+    957         mask = distribution_util.move_dimension(mask, -1, 0)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/distribution_util.py in move_dimension(x, source_idx, dest_idx)
+    421   # One final conditional to handle the special case where source
+    422   # and destination indices are equal.
+--> 423   return ps.cond(ps.equal(source_idx, dest_idx), lambda: x, x_permuted)
+    424 
+    425 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py in cond(pred, true_fn, false_fn, name)
+    255     raise TypeError('`false_fn` must be callable.')
+    256 
+--> 257   pred_value = _get_static_predicate(pred)
+    258   if pred_value is not None:
+    259     if pred_value:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py in _get_static_predicate(pred)
+    129 def _get_static_predicate(pred):
+    130   """Helper function for statically evaluating predicates in `cond`."""
+--> 131   pred_value = _get_static_value(pred)
+    132   if pred_value in (0, 1, True, False):  # Accept 1/0 as valid boolean values.
+    133     # This branch also casts np.array(False), tf.EagerTensor(True), etc.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py in _get_static_value(pred)
+    121     if pred_value is None and isinstance(pred, ops.Tensor):
+    122       pred_value = c_api.TF_TryEvaluateConstant_wrapper(pred.graph._c_graph,
+--> 123                                                         pred._as_tf_output())
+    124     # pylint: enable=protected-access
+    125     return pred_value
+
+TypeError: TF_TryEvaluateConstant_wrapper(): incompatible function arguments. The following argument types are supported:
+    1. (arg0: tensorflow.python.client._pywrap_tf_session.TF_Graph, arg1: tensorflow.python.client._pywrap_tf_session.TF_Output) -> object
+
+Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f640d8b6d10>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f640c9367b0>
+TypeError: TF_TryEvaluateConstant_wrapper(): incompatible function arguments. The following argument types are supported:
+    1. (arg0: tensorflow.python.client._pywrap_tf_session.TF_Graph, arg1: tensorflow.python.client._pywrap_tf_session.TF_Output) -> object
+
+Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f640d8b6d10>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f640c9367b0>

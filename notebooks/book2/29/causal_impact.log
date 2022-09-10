@@ -1,0 +1,265 @@
+An error occurred while executing the following cell:
+------------------
+pre_period = [0, I - 1]
+post_period = [I, T - 1]
+ci = CausalImpact(data, pre_period, post_period)
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_4384/1485700240.py in <module>
+      1 pre_period = [0, I - 1]
+      2 post_period = [I, T - 1]
+----> 3 ci = CausalImpact(data, pre_period, post_period)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/causalimpact/main.py in __init__(self, data, pre_period, post_period, model, model_args, alpha)
+    279         self.mu_sig = processed_input['mu_sig']
+    280         self._mask = processed_input['mask']
+--> 281         self._fit_model()
+    282         self._process_posterior_inferences()
+    283         self._summarize_inferences()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/causalimpact/main.py in _fit_model(self)
+    354             self.model,
+    355             self.observed_time_series,
+--> 356             self.model_args['fit_method'],
+    357         )
+    358         self.model_samples = model_samples
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/causalimpact/model.py in fit_model(model, observed_time_series, method)
+    378             samples = variational_posteriors.sample(100)
+    379             return samples, None
+--> 380         return _run_vi()
+    381     else:
+    382         raise ValueError(
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/util/traceback_utils.py in error_handler(*args, **kwargs)
+    151     except Exception as e:
+    152       filtered_tb = _process_traceback_frames(e.__traceback__)
+--> 153       raise e.with_traceback(filtered_tb) from None
+    154     finally:
+    155       del filtered_tb
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/causalimpact/model.py in tf___run_vi()
+     13                 do_return = False
+     14                 retval_ = ag__.UndefinedReturnValue()
+---> 15                 ag__.converted_call(ag__.ld(tfp).vi.fit_surrogate_posterior, (), dict(target_log_prob_fn=ag__.converted_call(ag__.ld(model).joint_log_prob, (), dict(observed_time_series=ag__.ld(observed_time_series)), fscope), surrogate_posterior=ag__.ld(variational_posteriors), optimizer=ag__.ld(optimizer), num_steps=ag__.ld(variational_steps)), fscope)
+     16                 samples = ag__.converted_call(ag__.ld(variational_posteriors).sample, (100,), None, fscope)
+     17                 try:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/optimization.py in fit_surrogate_posterior(target_log_prob_fn, surrogate_posterior, optimizer, num_steps, convergence_criterion, trace_fn, variational_loss_fn, sample_size, trainable_variables, jit_compile, seed, name)
+    307                            jit_compile=jit_compile,
+    308                            seed=seed,
+--> 309                            name=name)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py in minimize(loss_fn, num_steps, optimizer, convergence_criterion, batch_convergence_reduce_fn, trainable_variables, trace_fn, return_full_length_trace, jit_compile, seed, name)
+    345         trainable_variables=trainable_variables)
+    346     initial_loss, initial_grads, initial_parameters = optimizer_step_fn(
+--> 347         seed=seed)
+    348     has_converged = None
+    349     initial_convergence_criterion_state = None
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py in optimizer_step(seed)
+     84         loss = loss_fn(seed=seed)
+     85       except TypeError:
+---> 86         loss = loss_fn()
+     87     watched_variables = tape.watched_variables()
+     88     grads = tape.gradient(loss, watched_variables)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/optimization.py in complete_variational_loss_fn(seed)
+    297         surrogate_posterior,
+    298         sample_size=sample_size,
+--> 299         seed=seed)
+    300 
+    301   return tfp_math.minimize(complete_variational_loss_fn,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/csiszar_divergence.py in monte_carlo_variational_loss(target_log_prob_fn, surrogate_posterior, sample_size, discrepancy_fn, use_reparameterization, seed, name)
+    972         # Log-prob is only used if use_reparameterization=False.
+    973         log_prob=surrogate_posterior.log_prob,
+--> 974         use_reparameterization=use_reparameterization)
+    975 
+    976 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/monte_carlo/expectation.py in expectation(f, samples, log_prob, use_reparameterization, axis, keepdims, name)
+    164       raise ValueError('`f` must be a callable function.')
+    165     if use_reparameterization:
+--> 166       return tf.reduce_mean(f(samples), axis=axis, keepdims=keepdims)
+    167     else:
+    168       if not callable(log_prob):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/csiszar_divergence.py in divergence_fn(q_samples, q_lp)
+    952 
+    953     def divergence_fn(q_samples, q_lp=None):
+--> 954       target_log_prob = nest_util.call_fn(target_log_prob_fn, q_samples)
+    955       if q_lp is None:
+    956         q_lp = surrogate_posterior.log_prob(q_samples)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/nest_util.py in call_fn(fn, args)
+    284     return fn(*args)
+    285   elif _expand_as_kwargs(args):
+--> 286     return fn(**args)
+    287   else:
+    288     return fn(args)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py in log_joint_fn(*param_vals, **param_kwargs)
+    500         # log_prob on observations.
+    501         lgssm = self.make_state_space_model(
+--> 502             param_vals=param_vals, num_timesteps=num_timesteps)
+    503         observation_lp = lgssm.log_prob(observed_time_series, mask=mask)
+    504 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py in make_state_space_model(self, num_timesteps, param_vals, initial_state_prior, initial_step, **linear_gaussian_ssm_kwargs)
+    243         initial_state_prior=initial_state_prior,
+    244         initial_step=initial_step,
+--> 245         **linear_gaussian_ssm_kwargs)
+    246 
+    247   def _joint_prior_distribution(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/sum.py in _make_state_space_model(self, num_timesteps, param_map, initial_state_prior, constant_offset, **linear_gaussian_ssm_kwargs)
+    549         num_timesteps=num_timesteps,
+    550         param_vals=param_map,
+--> 551         **linear_gaussian_ssm_kwargs)
+    552 
+    553     if constant_offset is None:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/sum.py in make_component_state_space_models(self, num_timesteps, param_vals, **linear_gaussian_ssm_kwargs)
+    531                 num_timesteps,
+    532                 param_vals=component_param_vals,
+--> 533                 **linear_gaussian_ssm_kwargs))
+    534 
+    535     return component_ssms
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py in make_state_space_model(self, num_timesteps, param_vals, initial_state_prior, initial_step, **linear_gaussian_ssm_kwargs)
+    243         initial_state_prior=initial_state_prior,
+    244         initial_step=initial_step,
+--> 245         **linear_gaussian_ssm_kwargs)
+    246 
+    247   def _joint_prior_distribution(self):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/regression.py in _make_state_space_model(self, num_timesteps, param_map, initial_state_prior, **linear_gaussian_ssm_kwargs)
+    507     # Move timestep to the first dim (before any batch dimensions).
+    508     predicted_timeseries = distribution_util.move_dimension(
+--> 509         predicted_timeseries, -2, 0)
+    510 
+    511     dtype = self.design_matrix.dtype
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/distribution_util.py in move_dimension(x, source_idx, dest_idx)
+    425   # One final conditional to handle the special case where source
+    426   # and destination indices are equal.
+--> 427   return ps.cond(ps.equal(source_idx, dest_idx), lambda: x, x_permuted)
+    428 
+    429 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py in cond(pred, true_fn, false_fn, name)
+    250     raise TypeError('`false_fn` must be callable.')
+    251 
+--> 252   pred_value = _get_static_predicate(pred)
+    253   if pred_value is not None:
+    254     if pred_value:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py in _get_static_predicate(pred)
+    124 def _get_static_predicate(pred):
+    125   """Helper function for statically evaluating predicates in `cond`."""
+--> 126   pred_value = _get_static_value(pred)
+    127   if pred_value in (0, 1, True, False):  # Accept 1/0 as valid boolean values.
+    128     # This branch also casts np.array(False), tf.EagerTensor(True), etc.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py in _get_static_value(pred)
+    116     if pred_value is None and isinstance(pred, ops.Tensor):
+    117       pred_value = c_api.TF_TryEvaluateConstant_wrapper(pred.graph._c_graph,
+--> 118                                                         pred._as_tf_output())
+    119     # pylint: enable=protected-access
+    120     return pred_value
+
+TypeError: in user code:
+
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/causalimpact/model.py", line 368, in _run_vi  *
+        tfp.vi.fit_surrogate_posterior(
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/optimization.py", line 309, in fit_surrogate_posterior  **
+        name=name)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py", line 347, in minimize
+        seed=seed)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py", line 86, in optimizer_step
+        loss = loss_fn()
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/optimization.py", line 299, in complete_variational_loss_fn
+        seed=seed)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/csiszar_divergence.py", line 974, in monte_carlo_variational_loss
+        use_reparameterization=use_reparameterization)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/monte_carlo/expectation.py", line 166, in expectation
+        return tf.reduce_mean(f(samples), axis=axis, keepdims=keepdims)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/csiszar_divergence.py", line 954, in divergence_fn
+        target_log_prob = nest_util.call_fn(target_log_prob_fn, q_samples)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/nest_util.py", line 286, in call_fn
+        return fn(**args)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py", line 502, in log_joint_fn
+        param_vals=param_vals, num_timesteps=num_timesteps)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py", line 245, in make_state_space_model
+        **linear_gaussian_ssm_kwargs)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/sum.py", line 551, in _make_state_space_model
+        **linear_gaussian_ssm_kwargs)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/sum.py", line 533, in make_component_state_space_models
+        **linear_gaussian_ssm_kwargs))
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py", line 245, in make_state_space_model
+        **linear_gaussian_ssm_kwargs)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/regression.py", line 509, in _make_state_space_model
+        predicted_timeseries, -2, 0)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/distribution_util.py", line 427, in move_dimension
+        return ps.cond(ps.equal(source_idx, dest_idx), lambda: x, x_permuted)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py", line 252, in cond
+        pred_value = _get_static_predicate(pred)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py", line 126, in _get_static_predicate
+        pred_value = _get_static_value(pred)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py", line 118, in _get_static_value
+        pred._as_tf_output())
+
+    TypeError: TF_TryEvaluateConstant_wrapper(): incompatible function arguments. The following argument types are supported:
+        1. (arg0: tensorflow.python.client._pywrap_tf_session.TF_Graph, arg1: tensorflow.python.client._pywrap_tf_session.TF_Output) -> object
+    
+    Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f95d4b555f0>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f95d46ae970>
+
+TypeError: in user code:
+
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/causalimpact/model.py", line 368, in _run_vi  *
+        tfp.vi.fit_surrogate_posterior(
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/optimization.py", line 309, in fit_surrogate_posterior  **
+        name=name)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py", line 347, in minimize
+        seed=seed)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/math/minimize.py", line 86, in optimizer_step
+        loss = loss_fn()
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/optimization.py", line 299, in complete_variational_loss_fn
+        seed=seed)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/csiszar_divergence.py", line 974, in monte_carlo_variational_loss
+        use_reparameterization=use_reparameterization)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/monte_carlo/expectation.py", line 166, in expectation
+        return tf.reduce_mean(f(samples), axis=axis, keepdims=keepdims)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/vi/csiszar_divergence.py", line 954, in divergence_fn
+        target_log_prob = nest_util.call_fn(target_log_prob_fn, q_samples)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/nest_util.py", line 286, in call_fn
+        return fn(**args)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py", line 502, in log_joint_fn
+        param_vals=param_vals, num_timesteps=num_timesteps)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py", line 245, in make_state_space_model
+        **linear_gaussian_ssm_kwargs)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/sum.py", line 551, in _make_state_space_model
+        **linear_gaussian_ssm_kwargs)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/sum.py", line 533, in make_component_state_space_models
+        **linear_gaussian_ssm_kwargs))
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/structural_time_series.py", line 245, in make_state_space_model
+        **linear_gaussian_ssm_kwargs)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/sts/components/regression.py", line 509, in _make_state_space_model
+        predicted_timeseries, -2, 0)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/distribution_util.py", line 427, in move_dimension
+        return ps.cond(ps.equal(source_idx, dest_idx), lambda: x, x_permuted)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py", line 252, in cond
+        pred_value = _get_static_predicate(pred)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py", line 126, in _get_static_predicate
+        pred_value = _get_static_value(pred)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/prefer_static.py", line 118, in _get_static_value
+        pred._as_tf_output())
+
+    TypeError: TF_TryEvaluateConstant_wrapper(): incompatible function arguments. The following argument types are supported:
+        1. (arg0: tensorflow.python.client._pywrap_tf_session.TF_Graph, arg1: tensorflow.python.client._pywrap_tf_session.TF_Output) -> object
+    
+    Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f95d4b555f0>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f95d46ae970>
+
