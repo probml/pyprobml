@@ -1,0 +1,55 @@
+An error occurred while executing the following cell:
+------------------
+# Bayesian Binary logistic regression in 2d for iris flwoers
+
+# Code is based on
+# https://github.com/aloctavodia/BAP/blob/master/code/Chp4/04_Generalizing_linear_models.ipynb
+
+%env MKL_THREADING_LAYER=GNU
+
+try:
+    import pymc as pm
+except ModuleNotFoundError:
+    %pip install mkl-service
+    %pip install -qq pymc
+    import pymc as pm
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
+from sklearn.datasets import load_iris
+
+try:
+    from probml_utils import savefig, latexify, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify, is_latexify_enabled
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4206/187601069.py in <module>
+      8 try:
+----> 9     import pymc as pm
+     10 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'pymc'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4206/187601069.py in <module>
+     11     get_ipython().run_line_magic('pip', 'install mkl-service')
+     12     get_ipython().run_line_magic('pip', 'install -qq pymc')
+---> 13     import pymc as pm
+     14 import numpy as np
+     15 import pandas as pd
+
+ModuleNotFoundError: No module named 'pymc'
+ModuleNotFoundError: No module named 'pymc'
