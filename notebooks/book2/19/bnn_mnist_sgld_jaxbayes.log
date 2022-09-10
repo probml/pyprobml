@@ -1,40 +1,40 @@
 An error occurred while executing the following cell:
 ------------------
-import numpy as np
-
-import jax
-from jax.random import split, PRNGKey
 import jax.numpy as jnp
-from jax import jit, lax, vmap
 from jax.experimental import optimizers
+import jax
 
 try:
-    import tensorflow_probability as tfp
+    import jax_bayes
 except ModuleNotFoundError:
-    %pip install -qq tensorflow-probability
-    import tensorflow_probability as tfp
-
-from matplotlib import pylab as plt
-
-%matplotlib inline
-import scipy.stats
+    %pip install -qq jax_bayes
+    import jax_bayes
 
 try:
-    import distrax
+    import sys, os, math, time
 except ModuleNotFoundError:
-    %pip install -qq distrax
-    import distrax
-from distrax import HMM
+    %pip install -qq sys,
+    import sys, os, math, time
+import numpy as np
+from functools import partial
+from matplotlib import pyplot as plt
+
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+try:
+    import tensorflow_datasets as tfds
+except ModuleNotFoundError:
+    %pip install -qq tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds
 ------------------
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4625/3072030163.py in <module>
-      5 import jax.numpy as jnp
-      6 from jax import jit, lax, vmap
-----> 7 from jax.experimental import optimizers
-      8 
-      9 try:
+/tmp/ipykernel_4299/3659454802.py in <module>
+      1 import jax.numpy as jnp
+----> 2 from jax.experimental import optimizers
+      3 import jax
+      4 
+      5 try:
 
 ImportError: cannot import name 'optimizers' from 'jax.experimental' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/experimental/__init__.py)
 ImportError: cannot import name 'optimizers' from 'jax.experimental' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/experimental/__init__.py)
