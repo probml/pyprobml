@@ -1,0 +1,61 @@
+An error occurred while executing the following cell:
+------------------
+import copy
+
+import jax.numpy as np
+import jax.random as jr
+
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow-probability
+    from tensorflow_probability.substrates import jax as tfp
+
+try:
+    from ssm.distributions.linreg import GaussianLinearRegression
+except ModuleNotFoundError:
+    %pip install -qq ssm
+    from ssm.distributions.linreg import GaussianLinearRegression
+from ssm.arhmm import GaussianARHMM
+from ssm.utils import find_permutation, random_rotation
+from ssm.plots import gradient_cmap  # , white_to_color_cmap
+
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+
+import seaborn as sns
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_6757/2356645907.py in <module>
+     11 
+     12 try:
+---> 13     from ssm.distributions.linreg import GaussianLinearRegression
+     14 except ModuleNotFoundError:
+     15     get_ipython().run_line_magic('pip', 'install -qq ssm')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/distributions/__init__.py in <module>
+      4 from ssm.distributions.mvn_block_tridiag import MultivariateNormalBlockTridiag
+      5 from ssm.distributions.linreg import GaussianLinearRegression, GaussianLinearRegressionPrior
+----> 6 from ssm.distributions.wrappers import *
+      7 
+      8 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/distributions/wrappers.py in <module>
+      6 
+      7 from ssm.distributions.expfam import ConjugatePrior, ExponentialFamilyDistribution
+----> 8 from ssm.utils import one_hot
+      9 
+     10 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/utils.py in <module>
+      6 import jax.random as jr
+      7 import jax.scipy.special as spsp
+----> 8 from jax import vmap, lax, tree_multimap
+      9 from jax.tree_util import tree_map, tree_structure, tree_leaves, tree_reduce, tree_multimap
+     10 
+
+ImportError: cannot import name 'tree_multimap' from 'jax' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py)
+ImportError: cannot import name 'tree_multimap' from 'jax' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py)
