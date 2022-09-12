@@ -2,5 +2,5 @@ A cell timed out while it was being executed, after 1200 seconds.
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-main(mnist_dict)
+params, losses = fit(params, X_train, y_train, batch, learning_rate=0.003, epochs=10)
 -------------------
