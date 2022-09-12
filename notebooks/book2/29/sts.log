@@ -22,7 +22,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4663/2932556213.py in <module>
+/tmp/ipykernel_4774/2932556213.py in <module>
      12     num_steps=num_variational_steps,
      13     jit_compile=True,
 ---> 14     seed=seed,
@@ -197,8 +197,8 @@ TypeError                                 Traceback (most recent call last)
 TypeError: TF_TryEvaluateConstant_wrapper(): incompatible function arguments. The following argument types are supported:
     1. (arg0: tensorflow.python.client._pywrap_tf_session.TF_Graph, arg1: tensorflow.python.client._pywrap_tf_session.TF_Output) -> object
 
-Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f640d8b6d10>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f640c9367b0>
+Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f8f7c823b90>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f8f7c121670>
 TypeError: TF_TryEvaluateConstant_wrapper(): incompatible function arguments. The following argument types are supported:
     1. (arg0: tensorflow.python.client._pywrap_tf_session.TF_Graph, arg1: tensorflow.python.client._pywrap_tf_session.TF_Output) -> object
 
-Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f640d8b6d10>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f640c9367b0>
+Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f8f7c823b90>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f8f7c121670>

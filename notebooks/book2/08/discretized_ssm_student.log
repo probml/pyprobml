@@ -1,12 +1,5 @@
 An error occurred while executing the following cell:
 ------------------
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.stats import multivariate_normal
-from jax import vmap
-import os
-import seaborn as sns
-
 try:
     import probml_utils as pml
 except ModuleNotFoundError:
@@ -16,20 +9,20 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3924/4241873673.py in <module>
-      8 try:
-----> 9     import probml_utils as pml
-     10 except ModuleNotFoundError:
+/tmp/ipykernel_4019/2664176476.py in <module>
+      1 try:
+----> 2     import probml_utils as pml
+      3 except ModuleNotFoundError:
 
 ModuleNotFoundError: No module named 'probml_utils'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3924/4241873673.py in <module>
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
----> 12     import probml_utils as pml
+/tmp/ipykernel_4019/2664176476.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+----> 5     import probml_utils as pml
 
 ModuleNotFoundError: No module named 'probml_utils'
 ModuleNotFoundError: No module named 'probml_utils'

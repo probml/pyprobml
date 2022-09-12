@@ -1,0 +1,55 @@
+An error occurred while executing the following cell:
+------------------
+import jax
+import jax.numpy as jnp
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+try:
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig, is_latexify_enabled
+
+from jax.scipy.stats import norm
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_4673/2753427409.py in <module>
+----> 1 import jax
+      2 import jax.numpy as jnp
+      3 import seaborn as sns
+      4 import matplotlib.pyplot as plt
+      5 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
+     58 )
+     59 from .core import eval_context as ensure_compile_time_eval
+---> 60 from jax._src.api import (
+     61   ad,  # TODO(phawkins): update users to avoid this.
+     62   effects_barrier,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/api.py in <module>
+     45                            Partial, PyTreeDef, all_leaves, treedef_tuple)
+     46 
+---> 47 from jax._src import callback as jcb
+     48 from jax._src import device_array
+     49 from jax._src import dispatch
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/callback.py in <module>
+     25 from jax.interpreters import ad
+     26 from jax.interpreters import batching
+---> 27 from jax.interpreters import mlir
+     28 
+     29 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/interpreters/mlir.py in <module>
+     41 from jax._src.lib.mlir.dialects import mhlo
+     42 from jax._src.lib.mlir.dialects import func as func_dialect
+---> 43 from jax._src.lib import can_execute_with_token
+     44 from jax._src.lib import xla_bridge as xb
+     45 from jax._src.lib import xla_client as xc
+
+ImportError: cannot import name 'can_execute_with_token' from 'jax._src.lib' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py)
+ImportError: cannot import name 'can_execute_with_token' from 'jax._src.lib' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py)
