@@ -15,8 +15,8 @@ from jax.scipy.stats import norm
 ------------------
 
 ---------------------------------------------------------------------------
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4673/2753427409.py in <module>
+RuntimeError                              Traceback (most recent call last)
+/tmp/ipykernel_4665/2753427409.py in <module>
 ----> 1 import jax
       2 import jax.numpy as jnp
       3 import seaborn as sns
@@ -24,32 +24,37 @@ ImportError                               Traceback (most recent call last)
       5 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
-     58 )
-     59 from .core import eval_context as ensure_compile_time_eval
----> 60 from jax._src.api import (
-     61   ad,  # TODO(phawkins): update users to avoid this.
-     62   effects_barrier,
+     33 # We want the exported object to be the class, so we first import the module
+     34 # to make sure a later import doesn't overwrite the class.
+---> 35 from jax import config as _config_module
+     36 del _config_module
+     37 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/api.py in <module>
-     45                            Partial, PyTreeDef, all_leaves, treedef_tuple)
-     46 
----> 47 from jax._src import callback as jcb
-     48 from jax._src import device_array
-     49 from jax._src import dispatch
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/config.py in <module>
+     15 # TODO(phawkins): fix users of this alias and delete this file.
+     16 
+---> 17 from jax._src.config import config
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/callback.py in <module>
-     25 from jax.interpreters import ad
-     26 from jax.interpreters import batching
----> 27 from jax.interpreters import mlir
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/config.py in <module>
+     27 from absl import logging
      28 
-     29 
+---> 29 from jax._src import lib
+     30 from jax._src.lib import jax_jit
+     31 from jax._src.lib import transfer_guard_lib
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/interpreters/mlir.py in <module>
-     41 from jax._src.lib.mlir.dialects import mhlo
-     42 from jax._src.lib.mlir.dialects import func as func_dialect
----> 43 from jax._src.lib import can_execute_with_token
-     44 from jax._src.lib import xla_bridge as xb
-     45 from jax._src.lib import xla_client as xc
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
+     95   jax_version=jax.version.__version__,
+     96   jaxlib_version=jaxlib.version.__version__,
+---> 97   minimum_jaxlib_version=jax.version._minimum_jaxlib_version)
+     98 
+     99 
 
-ImportError: cannot import name 'can_execute_with_token' from 'jax._src.lib' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py)
-ImportError: cannot import name 'can_execute_with_token' from 'jax._src.lib' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in check_jaxlib_version(jax_version, jaxlib_version, minimum_jaxlib_version)
+     87            f'incompatible with jax version {jax_version}. Please '
+     88            'update your jax and/or jaxlib packages.')
+---> 89     raise RuntimeError(msg)
+     90 
+     91   return _jaxlib_version
+
+RuntimeError: jaxlib version 0.3.15 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.15 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.

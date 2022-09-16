@@ -1,69 +1,27 @@
 An error occurred while executing the following cell:
 ------------------
-from tkinter.tix import Tree
-from unicodedata import name
-from absl import app
-from absl import flags
-from typing import Any
-
 try:
-    import tensorflow as tf
+    import probml_utils.mnist_helper_tf as helper
 except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow as tf
-
-try:
-    import flax.linen as nn
-except ModuleNotFoundError:
-    %pip install -qq flax
-    import flax.linen as nn
-try:
-    from probml_utils import savefig
-except ModuleNotFoundError:
-    %pip install git+https://github.com/probml/probml-utils.git
-    from probml_utils import savefig
-
-from flax.training import train_state, checkpoints
-import shutil
-import jax.numpy as jnp
-import jax
-from jax import random
-import typing
-from typing import Any
-from typing import Sequence
-import numpy as np
-
-try:
-    import optax
-except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
-
-try:
-    import tensorflow_datasets as tfds
-except ModuleNotFoundError:
-    %pip install -qq tensorflow tensorflow_datasets
-    import tensorflow_datasets as tfds
-
-
-import scipy.io
-import os
-import math
-import PIL
-from PIL import Image
-import matplotlib.pyplot as plt
-
-os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "False"
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils.mnist_helper_tf as helper
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4709/3867189385.py in <module>
-      6 
-      7 try:
-----> 8     import tensorflow as tf
-      9 except ModuleNotFoundError:
-     10     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+/tmp/ipykernel_4819/2619592856.py in <module>
+      1 try:
+----> 2     import probml_utils.mnist_helper_tf as helper
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+      5     import probml_utils.mnist_helper_tf as helper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/mnist_helper_tf.py in <module>
+      2 import os
+      3 try:
+----> 4     import tensorflow as tf
+      5 except ModuleNotFoundError:
+      6     os.system("pip install tensorflow")
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing
