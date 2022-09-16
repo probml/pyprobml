@@ -44,7 +44,7 @@ except:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4531/187311355.py in <module>
+/tmp/ipykernel_4529/187311355.py in <module>
       8 try:
 ----> 9     import optax
      10 except ModuleNotFoundError:
@@ -54,7 +54,7 @@ ModuleNotFoundError: No module named 'optax'
 During handling of the above exception, another exception occurred:
 
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4531/187311355.py in <module>
+/tmp/ipykernel_4529/187311355.py in <module>
      10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install -qq optax')
 ---> 12     import optax
@@ -96,11 +96,11 @@ RuntimeError                              Traceback (most recent call last)
      28 import jax
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/chex/_src/asserts_internal.py in <module>
-     30 
-     31 from absl import logging
----> 32 from chex._src import pytypes
-     33 import jax
-     34 import jax.numpy as jnp
+     32 
+     33 from absl import logging
+---> 34 from chex._src import pytypes
+     35 import jax
+     36 from jax.experimental import checkify
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/chex/_src/pytypes.py in <module>
      16 
