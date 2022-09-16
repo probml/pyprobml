@@ -97,7 +97,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5358/2476972418.py in <module>
+/tmp/ipykernel_5305/2476972418.py in <module>
       8 try:
 ----> 9     import pymc3 as pm
      10 except ModuleNotFoundError:
@@ -107,7 +107,7 @@ ModuleNotFoundError: No module named 'pymc3'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5358/2476972418.py in <module>
+/tmp/ipykernel_5305/2476972418.py in <module>
      10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install -qq pymc3')
 ---> 12     import pymc3 as pm

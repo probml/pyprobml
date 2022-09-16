@@ -13,7 +13,7 @@ import particles.distributions as dists
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4651/1036257934.py in <module>
+/tmp/ipykernel_4565/1036257934.py in <module>
       1 try:
 ----> 2     import particles
       3 except ModuleNotFoundError:
@@ -23,7 +23,7 @@ ModuleNotFoundError: No module named 'particles'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4651/1036257934.py in <module>
+/tmp/ipykernel_4565/1036257934.py in <module>
       3 except ModuleNotFoundError:
       4     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/nchopin/particles.git')
 ----> 5     import particles
