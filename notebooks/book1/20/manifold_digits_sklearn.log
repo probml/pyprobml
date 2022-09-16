@@ -183,59 +183,96 @@ plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4754/3727510768.py in <module>
+AssertionError                            Traceback (most recent call last)
+/tmp/ipykernel_5652/3727510768.py in <module>
+     38 
      39 try:
 ---> 40     import umap  # # https://github.com/lmcinnes/umap
      41 except ModuleNotFoundError:
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/umap/__init__.py in <module>
-      1 from warnings import warn, catch_warnings, simplefilter
-----> 2 from .umap_ import UMAP
-      3 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/umap/umap_.py in <module>
-     46 
----> 47 from pynndescent import NNDescent
-     48 from pynndescent.distances import named_distances as pynn_named_distances
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pynndescent/__init__.py in <module>
-----> 1 import pkg_resources
-      2 import numba
-      3 from .pynndescent_ import NNDescent, PyNNDescentTransformer
-
-ModuleNotFoundError: No module named 'pkg_resources'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4754/3727510768.py in <module>
-     41 except ModuleNotFoundError:
      42     get_ipython().run_line_magic('pip', 'install -qq umap-learn')
----> 43     import umap  # # https://github.com/lmcinnes/umap
-     44 
-     45 digits = datasets.load_digits()  # n_class=6)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/umap/__init__.py in <module>
-      1 from warnings import warn, catch_warnings, simplefilter
-----> 2 from .umap_ import UMAP
-      3 
-      4 try:
       5     with catch_warnings():
+      6         simplefilter("ignore")
+----> 7         from .parametric_umap import ParametricUMAP
+      8 except ImportError:
+      9     warn(
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/umap/umap_.py in <module>
-     45 )
-     46 
----> 47 from pynndescent import NNDescent
-     48 from pynndescent.distances import named_distances as pynn_named_distances
-     49 from pynndescent.sparse import sparse_named_distances as pynn_sparse_named_distances
+~/miniconda3/envs/py37/lib/python3.7/site-packages/umap/parametric_umap.py in <module>
+     12 
+     13 try:
+---> 14     import tensorflow as tf
+     15 except ImportError:
+     16     warn(
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pynndescent/__init__.py in <module>
-----> 1 import pkg_resources
-      2 import numba
-      3 from .pynndescent_ import NNDescent, PyNNDescentTransformer
-      4 
-      5 # Workaround: https://github.com/numba/numba/issues/3341
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+    471 if hasattr(_current_module, "keras"):
+    472   try:
+--> 473     keras._load()
+    474   except ImportError:
+    475     pass
 
-ModuleNotFoundError: No module named 'pkg_resources'
-ModuleNotFoundError: No module named 'pkg_resources'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/util/lazy_loader.py in _load(self)
+     39     """Load the module and insert it into the parent's globals."""
+     40     # Import the target module and insert it into the parent's namespace
+---> 41     module = importlib.import_module(self.__name__)
+     42     self._parent_module_globals[self._local_name] = module
+     43 
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/__init__.py in import_module(name, package)
+    125                 break
+    126             level += 1
+--> 127     return _bootstrap._gcd_import(name[level:], package, level)
+    128 
+    129 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/__init__.py in <module>
+     23 
+     24 # See b/110718070#comment18 for more details about this import.
+---> 25 from keras import models
+     26 
+     27 from keras.engine.input_layer import Input
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/models/__init__.py in <module>
+     16 
+     17 
+---> 18 from keras.engine.functional import Functional
+     19 from keras.engine.sequential import Sequential
+     20 from keras.engine.training import Model
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/functional.py in <module>
+     23 import warnings
+     24 from keras import backend
+---> 25 from keras.engine import base_layer
+     26 from keras.engine import base_layer_utils
+     27 from keras.engine import functional_utils
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/base_layer.py in <module>
+     41 from keras.engine import node as node_module
+     42 from keras.mixed_precision import autocast_variable
+---> 43 from keras.mixed_precision import loss_scale_optimizer
+     44 from keras.mixed_precision import policy
+     45 from keras.saving.saved_model import layer_serialization
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/mixed_precision/loss_scale_optimizer.py in <module>
+     18 from keras import optimizers
+     19 from keras.mixed_precision import loss_scale as keras_loss_scale_module
+---> 20 from keras.optimizer_experimental import optimizer as optimizer_experimental
+     21 from keras.optimizer_v2 import optimizer_v2
+     22 from keras.optimizer_v2 import utils as optimizer_utils
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/optimizer_experimental/optimizer.py in <module>
+    655             version=2,
+    656             min_producer_version=1,
+--> 657             min_consumer_version=1)
+    658     ])
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/saved_model/revived_types.py in register_revived_type(identifier, predicate, versions)
+    131 
+    132   if identifier in _REVIVED_TYPE_REGISTRY:
+--> 133     raise AssertionError(f"Duplicate registrations for type '{identifier}'")
+    134 
+    135   _REVIVED_TYPE_REGISTRY[identifier] = (predicate, versions)
+
+AssertionError: Duplicate registrations for type 'experimentalOptimizer'
+AssertionError: Duplicate registrations for type 'experimentalOptimizer'

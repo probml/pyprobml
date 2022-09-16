@@ -14,96 +14,60 @@ from acme.utils.loggers.terminal import TerminalLogger
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4556/55496869.py in <module>
-      5 import numpy as np
-      6 import haiku as hk
-----> 7 import plotnine as gg
-      8 import matplotlib.pyplot as plt
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_5330/55496869.py in <module>
       9 from jax import random, vmap, nn
+     10 from typing import Dict, Sequence, Optional, Callable, List
+---> 11 from acme.utils.loggers.terminal import TerminalLogger
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/plotnine/__init__.py in <module>
-----> 1 from .qplot import qplot            # noqa: F401
-      2 from .ggplot import ggplot, ggsave  # noqa: F401
-      3 from .ggplot import save_as_pdf_pages  # noqa: F401
-      4 from .watermark import watermark    # noqa: F401
-      5 from .mapping import *              # noqa: F401,F403,E261
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/__init__.py in <module>
+     33 
+     34 # Expose the environment loop.
+---> 35 from acme.environment_loop import EnvironmentLoop
+     36 
+     37 from acme.specs import make_environment_spec
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/plotnine/qplot.py in <module>
-      7 from patsy.eval import EvalEnvironment
-      8 
-----> 9 from .ggplot import ggplot
-     10 from .mapping.aes import aes, all_aesthetics, scaled_aesthetics
-     11 from .labels import labs
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/environment_loop.py in <module>
+     24 from acme.utils import loggers
+     25 from acme.utils import observers as observers_lib
+---> 26 from acme.utils import signals
+     27 
+     28 import dm_env
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/plotnine/ggplot.py in <module>
-     18 from .mapping.aes import aes, make_labels
-     19 from .layer import Layers
----> 20 from .facets import facet_null
-     21 from .facets.layout import Layout
-     22 from .options import get_option
+~/miniconda3/envs/py37/lib/python3.7/site-packages/acme/utils/signals.py in <module>
+     20 from typing import Any, Callable, Optional
+     21 
+---> 22 import launchpad
+     23 
+     24 _Handler = Callable[[], Any]
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/plotnine/facets/__init__.py in <module>
-----> 1 from .facet_grid import facet_grid
-      2 from .facet_null import facet_null
-      3 from .facet_wrap import facet_wrap
-      4 from .labelling import label_value, label_both, label_context
-      5 from .labelling import labeller, as_labeller
+~/miniconda3/envs/py37/lib/python3.7/site-packages/launchpad/__init__.py in <module>
+     34 
+     35 # Nodes
+---> 36 from launchpad.nodes.courier.node import CourierHandle
+     37 from launchpad.nodes.courier.node import CourierNode
+     38 from launchpad.nodes.courier.node import CourierClient
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/plotnine/facets/facet_grid.py in <module>
-      4 from ..utils import match, join_keys
-      5 from ..exceptions import PlotnineError
-----> 6 from .facet import facet, layout_null, combine_vars, add_missing_facets
-      7 from .facet import eval_facet_vars
-      8 from .strips import strip
+~/miniconda3/envs/py37/lib/python3.7/site-packages/launchpad/nodes/courier/node.py in <module>
+     19 
+     20 from absl import logging
+---> 21 import courier
+     22 from launchpad import address as lp_address
+     23 from launchpad.launch import worker_manager
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/plotnine/facets/facet.py in <module>
-     11 from ..utils import cross_join, match
-     12 from ..exceptions import PlotnineError, PlotnineWarning
----> 13 from ..scales.scales import Scales
-     14 
-     15 # For default matplotlib backend
+~/miniconda3/envs/py37/lib/python3.7/site-packages/courier/__init__.py in <module>
+     24 
+     25 """Courier module."""
+---> 26 from courier.python.client import Client  # pytype: disable=import-error
+     27 from courier.python.client import list_methods  # pytype: disable=import-error
+     28 from courier.python.py_server import Server  # pytype: disable=import-error
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/plotnine/scales/__init__.py in <module>
-      1 # alpha
-----> 2 from .scale_alpha import scale_alpha
-      3 from .scale_alpha import scale_alpha_continuous
-      4 from .scale_alpha import scale_alpha_ordinal
-      5 from .scale_alpha import scale_alpha_discrete
+~/miniconda3/envs/py37/lib/python3.7/site-packages/courier/python/client.py in <module>
+     28 from typing import List, Optional, Union
+     29 
+---> 30 from courier.python import py_client
+     31 # Numpy import needed for proper operation of ../serialization/py_serialize.cc
+     32 import numpy
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/plotnine/scales/scale_alpha.py in <module>
-      2 
-      3 import numpy as np
-----> 4 from mizani.palettes import rescale_pal
-      5 
-      6 from ..doctools import document
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/mizani/palettes.py in <module>
-     22 import matplotlib.colors as mcolors
-     23 from matplotlib.cm import get_cmap
----> 24 from palettable import colorbrewer
-     25 
-     26 from .external import husl, xkcd_rgb, crayon_rgb
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/palettable/__init__.py in <module>
-      9 from . import cmocean
-     10 from . import cartocolors
----> 11 from . import colorbrewer
-     12 from . import cubehelix
-     13 from . import lightbartlein
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/palettable/colorbrewer/__init__.py in <module>
-      1 from __future__ import absolute_import
-      2 
-----> 3 from .colorbrewer import *
-      4 from . import diverging, qualitative, sequential
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/palettable/colorbrewer/colorbrewer.py in <module>
-      5 import webbrowser
-      6 
-----> 7 from pkg_resources import resource_string
-      8 
-      9 from ..palette import Palette
-
-ModuleNotFoundError: No module named 'pkg_resources'
-ModuleNotFoundError: No module named 'pkg_resources'
+ImportError: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory
+ImportError: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory
