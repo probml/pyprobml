@@ -1,0 +1,35 @@
+An error occurred while executing the following cell:
+------------------
+# Source code modified from
+# https://github.com/minepy/minepy/blob/master/examples/relationships.py
+
+from __future__ import division
+import numpy as np
+import matplotlib.pyplot as plt
+
+try:
+    from minepy import MINE
+except ModuleNotFoundError:
+    %pip install -qq minepy
+    from minepy import MINE
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_6069/4052366311.py in <module>
+      8 try:
+----> 9     from minepy import MINE
+     10 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'minepy'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_6069/4052366311.py in <module>
+     10 except ModuleNotFoundError:
+     11     get_ipython().run_line_magic('pip', 'install -qq minepy')
+---> 12     from minepy import MINE
+
+ModuleNotFoundError: No module named 'minepy'
+ModuleNotFoundError: No module named 'minepy'
