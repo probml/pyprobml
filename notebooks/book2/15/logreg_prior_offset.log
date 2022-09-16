@@ -1,1 +1,84 @@
-Kernel died before replying to kernel_info
+An error occurred while executing the following cell:
+------------------
+# We illustrate effect of prior on parameters for logistic regression
+# Based on fig 11.3 of
+# [Statistical Rethinking ed 2](https://xcelab.net/rm/statistical-rethinking/).
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+import numpy as np
+
+np.set_printoptions(precision=3)
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+import seaborn as sns
+from scipy import stats
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
+from scipy.special import expit
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4448/2411640488.py in <module>
+     19 try:
+---> 20     import arviz as az
+     21 except ModuleNotFoundError:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/__init__.py in <module>
+     31 
+---> 32 from .data import *
+     33 from .plots import *
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/__init__.py in <module>
+      1 """Code for loading and manipulating data structures."""
+----> 2 from .base import CoordSpec, DimSpec, dict_to_dataset, numpy_to_data_array
+      3 from .converters import convert_to_dataset, convert_to_inference_data
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/base.py in <module>
+      9 import numpy as np
+---> 10 import pkg_resources
+     11 import xarray as xr
+
+ModuleNotFoundError: No module named 'pkg_resources'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4448/2411640488.py in <module>
+     21 except ModuleNotFoundError:
+     22     get_ipython().run_line_magic('pip', 'install -qq arviz')
+---> 23     import arviz as az
+     24 from scipy.special import expit
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/__init__.py in <module>
+     30 
+     31 
+---> 32 from .data import *
+     33 from .plots import *
+     34 from .plots.backends import *
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/__init__.py in <module>
+      1 """Code for loading and manipulating data structures."""
+----> 2 from .base import CoordSpec, DimSpec, dict_to_dataset, numpy_to_data_array
+      3 from .converters import convert_to_dataset, convert_to_inference_data
+      4 from .datasets import clear_data_home, list_datasets, load_arviz_data
+      5 from .inference_data import InferenceData, concat
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/arviz/data/base.py in <module>
+      8 
+      9 import numpy as np
+---> 10 import pkg_resources
+     11 import xarray as xr
+     12 
+
+ModuleNotFoundError: No module named 'pkg_resources'
+ModuleNotFoundError: No module named 'pkg_resources'

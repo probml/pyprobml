@@ -1,1 +1,16 @@
-Kernel died before replying to kernel_info
+An error occurred while executing the following cell:
+------------------
+subject = "16"
+motion = ["02", "21"]
+data = pods.datasets.cmu_mocap(subject, motion)
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_4478/1995362234.py in <module>
+      1 subject = "16"
+      2 motion = ["02", "21"]
+----> 3 data = pods.datasets.cmu_mocap(subject, motion)
+
+NameError: name 'pods' is not defined
+NameError: name 'pods' is not defined
