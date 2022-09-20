@@ -95,64 +95,22 @@ def main(argv):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4722/4106335031.py in <module>
-     18 try:
----> 19     from pytorch_lightning import LightningDataModule, LightningModule, Trainer
-     20 except ModuleNotFoundError:
+/tmp/ipykernel_10109/4106335031.py in <module>
+     44 try:
+---> 45     from mfa_celeba_helpers import *
+     46 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'pytorch_lightning'
+ModuleNotFoundError: No module named 'mfa_celeba_helpers'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4722/4106335031.py in <module>
-     20 except ModuleNotFoundError:
-     21     get_ipython().run_line_magic('pip', 'install -qq pytorch_lightning')
----> 22     from pytorch_lightning import LightningDataModule, LightningModule, Trainer
-     23 from torch.utils.data import DataLoader, random_split, SequentialSampler, RandomSampler
-     24 import numpy as np
+/tmp/ipykernel_10109/4106335031.py in <module>
+     46 except ModuleNotFoundError:
+     47     get_ipython().run_line_magic('pip', 'install -qq mfa_celeba_helpers')
+---> 48     from mfa_celeba_helpers import *
+     49 from IPython.display import Image
+     50 
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/__init__.py in <module>
-     32     _logger.propagate = False
-     33 
----> 34 from pytorch_lightning.callbacks import Callback  # noqa: E402
-     35 from pytorch_lightning.core import LightningDataModule, LightningModule  # noqa: E402
-     36 from pytorch_lightning.trainer import Trainer  # noqa: E402
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/callbacks/__init__.py in <module>
-     12 # See the License for the specific language governing permissions and
-     13 # limitations under the License.
----> 14 from pytorch_lightning.callbacks.callback import Callback
-     15 from pytorch_lightning.callbacks.checkpoint import Checkpoint
-     16 from pytorch_lightning.callbacks.device_stats_monitor import DeviceStatsMonitor
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/callbacks/callback.py in <module>
-     23 
-     24 import pytorch_lightning as pl
----> 25 from pytorch_lightning.utilities.types import STEP_OUTPUT
-     26 
-     27 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/utilities/__init__.py in <module>
-     16 import numpy
-     17 
----> 18 from pytorch_lightning.utilities.apply_func import move_data_to_device  # noqa: F401
-     19 from pytorch_lightning.utilities.distributed import AllGatherGrad  # noqa: F401
-     20 from pytorch_lightning.utilities.enums import (  # noqa: F401
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/utilities/apply_func.py in <module>
-     27 
-     28 from pytorch_lightning.utilities.exceptions import MisconfigurationException
----> 29 from pytorch_lightning.utilities.imports import _compare_version, _TORCHTEXT_LEGACY
-     30 from pytorch_lightning.utilities.warnings import rank_zero_deprecation
-     31 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/utilities/imports.py in <module>
-     20 from typing import Callable
-     21 
----> 22 import pkg_resources
-     23 import torch
-     24 from packaging.version import Version
-
-ModuleNotFoundError: No module named 'pkg_resources'
-ModuleNotFoundError: No module named 'pkg_resources'
+ModuleNotFoundError: No module named 'mfa_celeba_helpers'
+ModuleNotFoundError: No module named 'mfa_celeba_helpers'

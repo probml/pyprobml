@@ -16,7 +16,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4028/2465005300.py in <module>
+/tmp/ipykernel_4076/2465005300.py in <module>
       8 try:
 ----> 9     from probml_utils import savefig, latexify
      10 except ModuleNotFoundError:
@@ -26,7 +26,7 @@ ModuleNotFoundError: No module named 'probml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4028/2465005300.py in <module>
+/tmp/ipykernel_4076/2465005300.py in <module>
      10 except ModuleNotFoundError:
      11     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
 ---> 12     from probml_utils import savefig, latexify

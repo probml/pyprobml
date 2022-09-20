@@ -29,7 +29,7 @@ from io import BytesIO
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4023/996732063.py in <module>
+/tmp/ipykernel_4076/996732063.py in <module>
      13 try:
 ---> 14     import probml_utils as pml
      15 except ModuleNotFoundError:
@@ -39,7 +39,7 @@ ModuleNotFoundError: No module named 'probml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4023/996732063.py in <module>
+/tmp/ipykernel_4076/996732063.py in <module>
      15 except ModuleNotFoundError:
      16     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
 ---> 17     import probml_utils as pml
