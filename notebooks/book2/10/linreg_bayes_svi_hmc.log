@@ -11,7 +11,7 @@ ax[1].set(xlabel="Terrain Ruggedness Index", ylabel="log GDP (2000)", title="Afr
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5009/4083761513.py in <module>
+/tmp/ipykernel_4243/4083761513.py in <module>
       2 african_nations = df[df["cont_africa"] == 1]
       3 non_african_nations = df[df["cont_africa"] == 0]
 ----> 4 sns.scatterplot(non_african_nations["rugged"], non_african_nations["rgdppc_2000"], ax=ax[0])
