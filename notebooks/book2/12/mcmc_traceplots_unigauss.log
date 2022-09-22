@@ -1,0 +1,54 @@
+An error occurred while executing the following cell:
+------------------
+import jax.numpy as jnp
+import jax
+import os
+
+try:
+    import blackjax
+except ModuleNotFoundError:
+    %pip install -qq blackjax
+    import blackjax
+
+try:
+    import tensorflow_probability.substrates.jax as tfp
+except:
+    %pip install tensorflow_probability
+    import tensorflow_probability.substrates.jax as tfp
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3312/2294316416.py in <module>
+     27 try:
+---> 28     import probml_utils as pml
+     29 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3312/2294316416.py in <module>
+     29 except ModuleNotFoundError:
+     30     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 31     import probml_utils as pml
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'

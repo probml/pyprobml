@@ -1,26 +1,27 @@
 An error occurred while executing the following cell:
 ------------------
-# inference for UGM by autodiff
-# we consider a length 3 HMM with K states
-# h1 - h2 - h3
-
-
-import numpy as np  # original numpy
+import jax
 import jax.numpy as jnp
-from jax import grad, jit, vmap
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-# from jax.ops import index, index_add, index_update
-from functools import partial
+try:
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig, is_latexify_enabled
+
+from jax.scipy.stats import norm
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_3841/429207347.py in <module>
+/tmp/ipykernel_3859/2753427409.py in <module>
+----> 1 import jax
+      2 import jax.numpy as jnp
+      3 import seaborn as sns
+      4 import matplotlib.pyplot as plt
       5 
-      6 import numpy as np  # original numpy
-----> 7 import jax.numpy as jnp
-      8 from jax import grad, jit, vmap
-      9 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module
