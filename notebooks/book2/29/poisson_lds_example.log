@@ -188,7 +188,7 @@ def compare_smoothened_predictions(Ey, Ey_true, Covy, data):
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_6943/1010376104.py in <module>
+/tmp/ipykernel_7148/1010376104.py in <module>
       1 import jax.numpy as np
       2 import jax.random as jr
 ----> 3 import jax.experimental.optimizers as optimizers
