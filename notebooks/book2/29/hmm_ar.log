@@ -29,7 +29,7 @@ import seaborn as sns
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4276/2356645907.py in <module>
+/tmp/ipykernel_4235/2356645907.py in <module>
      11 
      12 try:
 ---> 13     from ssm.distributions.linreg import GaussianLinearRegression
