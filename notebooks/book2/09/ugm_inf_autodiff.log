@@ -15,7 +15,7 @@ from functools import partial
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_3841/429207347.py in <module>
+/tmp/ipykernel_3852/429207347.py in <module>
       5 
       6 import numpy as np  # original numpy
 ----> 7 import jax.numpy as jnp
