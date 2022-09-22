@@ -48,7 +48,7 @@ plt.rc("figure", titlesize=15)  # fontsize of the figure title
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4294/1764058126.py in <module>
+/tmp/ipykernel_3537/1764058126.py in <module>
      37 
      38 warnings.filterwarnings("ignore")
 ---> 39 dist = tfp.distributions

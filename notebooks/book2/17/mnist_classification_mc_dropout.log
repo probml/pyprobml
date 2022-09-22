@@ -51,7 +51,7 @@ import pandas as pd
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4076/1338808478.py in <module>
+/tmp/ipykernel_3319/1338808478.py in <module>
      25 try:
 ---> 26     from probml_utils import latexify, savefig, is_latexify_enabled
      27 except ModuleNotFoundError:
@@ -61,7 +61,7 @@ ModuleNotFoundError: No module named 'probml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4076/1338808478.py in <module>
+/tmp/ipykernel_3319/1338808478.py in <module>
      27 except ModuleNotFoundError:
      28     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
 ---> 29     from probml_utils import latexify, savefig, is_latexify_enabled
