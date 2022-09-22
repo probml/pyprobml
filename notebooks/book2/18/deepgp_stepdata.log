@@ -1,0 +1,68 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import deepgp
+except ModuleNotFoundError:
+    %pip install git+https://github.com/SheffieldML/PyDeepGP.git
+    import deepgp
+
+try:
+    import GPy
+except ModuleNotFoundError:
+    %pip install -qq GPy
+    import GPy
+
+try:
+    from probml_utils import latexify, savefig, is_latexify_enabled
+except ModuleNotFoundError:
+    %pip install git+https://github.com/probml/probml-utils.git
+    from probml_utils import latexify, savefig, is_latexify_enabled
+
+try:
+    import tinygp
+except ModuleNotFoundError:
+    %pip install -q tinygp
+    import tinygp
+
+# import display
+import seaborn as sns
+import jax
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+from tinygp import kernels, GaussianProcess
+from jax.config import config
+
+import numpy as np
+
+try:
+    import jaxopt
+except ModuleNotFoundError:
+    %pip install jaxopt
+    import jaxopt
+config.update("jax_enable_x64", True)
+
+latexify(width_scale_factor=2, fig_height=1.75)
+marksize = 3 if is_latexify_enabled() else 4
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3952/2248162584.py in <module>
+      1 try:
+----> 2     import deepgp
+      3 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'deepgp'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3952/2248162584.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install git+https://github.com/SheffieldML/PyDeepGP.git')
+----> 5     import deepgp
+      6 
+      7 try:
+
+ModuleNotFoundError: No module named 'deepgp'
+ModuleNotFoundError: No module named 'deepgp'

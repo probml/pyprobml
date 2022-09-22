@@ -1,49 +1,18 @@
 An error occurred while executing the following cell:
 ------------------
-# Online training of a logistic regression model
-# using Assumed Density Filtering (ADF).
-# We compare the ADF result with MCMC sampling
-# For further details, see the ADF paper:
-#   * O. Zoeter, "Bayesian Generalized Linear Models in a Terabyte World,"
-#     2007 5th International Symposium on Image and Signal Processing and Analysis, 2007,
-#     pp. 435-440, doi: 10.1109/ISPA.2007.4383733.
-# of the posterior distribution
-
-# Author: Gerardo Durán-Martín (@gerdm)
-import os
-import jax
-import numpy as np
-import jax.numpy as jnp
-import matplotlib.pyplot as plt
-from functools import partial
-from jax import random
-from jax.scipy.stats import norm
-from jax.scipy.optimize import minimize
-import seaborn as sns
-
-try:
-    import probml_utils as pml
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    import probml_utils as pml
+lcolors = ["black", "tab:blue", "tab:red"]
+plot_adf_post_laplace(
+    means_hist[::max(1, len(output)//100)], vars_hist[::max(1, len(output)//100)], w_laplace, lcolors, label, legend_font_size=14, bb2=(1.1, 0.3), bb3=(0.8, 0.3)
+)
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3319/4065829868.py in <module>
-     22 try:
----> 23     import probml_utils as pml
-     24 except ModuleNotFoundError:
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_3317/978173286.py in <module>
+      1 lcolors = ["black", "tab:blue", "tab:red"]
+      2 plot_adf_post_laplace(
+----> 3     means_hist[::max(1, len(output)//100)], vars_hist[::max(1, len(output)//100)], w_laplace, lcolors, label, legend_font_size=14, bb2=(1.1, 0.3), bb3=(0.8, 0.3)
+      4 )
 
-ModuleNotFoundError: No module named 'probml_utils'
-
-During handling of the above exception, another exception occurred:
-
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3319/4065829868.py in <module>
-     24 except ModuleNotFoundError:
-     25     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
----> 26     import probml_utils as pml
-
-ModuleNotFoundError: No module named 'probml_utils'
-ModuleNotFoundError: No module named 'probml_utils'
+NameError: name 'label' is not defined
+NameError: name 'label' is not defined
