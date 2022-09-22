@@ -8,7 +8,7 @@ plot_adf_post_laplace(
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_3317/978173286.py in <module>
+/tmp/ipykernel_3319/978173286.py in <module>
       1 lcolors = ["black", "tab:blue", "tab:red"]
       2 plot_adf_post_laplace(
 ----> 3     means_hist[::max(1, len(output)//100)], vars_hist[::max(1, len(output)//100)], w_laplace, lcolors, label, legend_font_size=14, bb2=(1.1, 0.3), bb3=(0.8, 0.3)
