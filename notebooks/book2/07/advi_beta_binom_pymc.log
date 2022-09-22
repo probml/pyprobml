@@ -1,0 +1,94 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import jax
+except ModuleNotFoundError:
+    %pip install -qqq jax jaxlib
+    import jax
+
+import jax.numpy as jnp
+from jax import lax
+
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qqq tensorflow_probability
+    from tensorflow_probability.substrates import jax as tfp
+
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qqq optax
+    import optax
+
+try:
+    from rich import print
+except ModuleNotFoundError:
+    %pip install -qqq rich
+    from rich import print
+
+try:
+    from tqdm import trange
+except ModuleNotFoundError:
+    %pip install -qqq tqdm
+    from tqdm import trange
+
+
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+import warnings
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qqq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+
+warnings.filterwarnings("ignore")
+dist = tfp.distributions
+
+plt.rc("font", size=10)  # controls default text sizes
+plt.rc("axes", labelsize=12)  # fontsize of the x and y labels
+plt.rc("legend", fontsize=12)  # legend fontsize
+plt.rc("figure", titlesize=15)  # fontsize of the figure title
+
+
+try:
+    import pymc as pm
+except ModuleNotFoundError:
+    %pip install -qq pymc
+    import pymc as pm
+
+
+try:
+    import arviz as az
+except ModuleNotFoundError:
+    %pip install -qq arviz
+    import arviz as az
+
+import math
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4591/4142625674.py in <module>
+     56 try:
+---> 57     import pymc as pm
+     58 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'pymc'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4591/4142625674.py in <module>
+     58 except ModuleNotFoundError:
+     59     get_ipython().run_line_magic('pip', 'install -qq pymc')
+---> 60     import pymc as pm
+     61 
+     62 
+
+ModuleNotFoundError: No module named 'pymc'
+ModuleNotFoundError: No module named 'pymc'

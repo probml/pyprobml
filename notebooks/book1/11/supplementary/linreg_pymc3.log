@@ -19,27 +19,13 @@ import arviz as az
 ------------------
 
 ---------------------------------------------------------------------------
-AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_5374/1453690669.py in <module>
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4050/1453690669.py in <module>
       7 # https://docs.pymc.io/notebooks/api_quickstart.html
       8 get_ipython().system('pip install pymc3==3.8')
 ----> 9 import pymc3 as pm
      10 
      11 pm.__version__
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/__init__.py in <module>
-     11 from .model_graph import model_to_graphviz
-     12 from . import ode
----> 13 from .stats import *
-     14 from .sampling import *
-     15 from .step_methods import *
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/pymc3/stats/__init__.py in <module>
-     30 compare = map_args(az.compare)
-     31 ess = map_args(az.ess)
----> 32 geweke = map_args(az.geweke)
-     33 hpd = map_args(az.hpd)
-     34 loo = map_args(az.loo)
-
-AttributeError: module 'arviz' has no attribute 'geweke'
-AttributeError: module 'arviz' has no attribute 'geweke'
+ModuleNotFoundError: No module named 'pymc3'
+ModuleNotFoundError: No module named 'pymc3'
