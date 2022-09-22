@@ -1,94 +1,48 @@
 An error occurred while executing the following cell:
 ------------------
-try:
-    import tensorflow_probability.substrates.jax as tfp
-except ModuleNotFoundError:
-    %pip install -qq tensorflow_probability
-    import tensorflow_probability.substrates.jax as tfp
+prior = jax.tree_map(
+    lambda param: tfd.Independent(
+        tfd.Normal(loc=jnp.zeros(param.shape), scale=jnp.ones(param.shape)),
+        reinterpreted_batch_ndims=len(param.shape),
+    ),
+    params,
+)
 
-try:
-    import tensorflow as tf
-except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow as tf
-try:
-    import optax
-except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
-
-tfd = tfp.distributions
-tfb = tfp.bijectors
-try:
-    from flax import linen as nn
-except ModuleNotFoundError:
-    %pip install -qq flax
-    from flax import linen as nn
-from flax.core.frozen_dict import freeze, unfreeze
-
-try:
-    import official.nlp.modeling.layers as nlp_layers
-except ModuleNotFoundError:
-    %pip install -qq tf-models-official
-    import official.nlp.modeling.layers as nlp_layers
-try:
-    import blackjax
-except ModuleNotFoundError:
-    %pip install -qq jaxopt blackjax
-    import blackjax
-
-try:
-    from probml_utils import latexify, savefig
-    from probml_utils.blackjax_utils import inference_loop
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils import latexify, savefig
-    from probml_utils.blackjax_utils import inference_loop
-try:
-    from bijax.advi import ADVI
-    from bijax.utils import train_fn
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/patel-zeel/bijax.git
-    from bijax.advi import ADVI
-    from bijax.utils import train_fn
-try:
-    import GPy
-except:
-    %pip install -qq gpy
-    import GPy
-
-import logging
-
-logger = logging.getLogger()
+bijector = jax.tree_map(lambda param: tfb.Identity(), params)
 
 
-class CheckTypesFilter(logging.Filter):
-    def filter(self, record):
-        return "check_types" not in record.getMessage()
+def get_log_likelihood(latent_sample, outputs, inputs, **kwargs):
+    frozen_params = freeze(latent_sample)
+    logit = mlp.apply(frozen_params, inputs["X"])
+    # def sigmoid(x, scale=100):
+    #     return 0.5 * (jnp.tanh(x * scale / 2) + 1)
+    # prob = sigmoid(logit)
+    return tfd.Bernoulli(logits=logit).log_prob(outputs).sum()
 
 
-logger.addFilter(CheckTypesFilter())
-from jax.random import PRNGKey as rng_key
+model = ADVI(prior, bijector, get_log_likelihood, vi_type="mean_field")
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4076/1742731670.py in <module>
-     45 try:
----> 46     from bijax.advi import ADVI
-     47     from bijax.utils import train_fn
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_3305/3297204795.py in <module>
+     19 
+     20 
+---> 21 model = ADVI(prior, bijector, get_log_likelihood, vi_type="mean_field")
 
-ModuleNotFoundError: No module named 'bijax'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/bijax/advi.py in __init__(self, prior, likelihood_fn, prior_constraints, vi_type, rank, ordered_posterior_bijectors)
+     47 
+     48         self.prior = prior
+---> 49         self.prior_constraints = fill_in_bijector(prior_constraints, self.prior)
+     50 
+     51         assert (
 
-During handling of the above exception, another exception occurred:
+~/miniconda3/envs/py37/lib/python3.7/site-packages/bijax/core.py in fill_in_bijector(bijector, prior)
+    107 def fill_in_bijector(bijector, prior):
+    108     for key in prior:
+--> 109         if key not in bijector:
+    110             bijector[key] = tfb.Identity()
+    111     return bijector
 
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4076/1742731670.py in <module>
-     48 except ModuleNotFoundError:
-     49     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/patel-zeel/bijax.git')
----> 50     from bijax.advi import ADVI
-     51     from bijax.utils import train_fn
-     52 try:
-
-ModuleNotFoundError: No module named 'bijax'
-ModuleNotFoundError: No module named 'bijax'
+TypeError: argument of type 'function' is not iterable
+TypeError: argument of type 'function' is not iterable
