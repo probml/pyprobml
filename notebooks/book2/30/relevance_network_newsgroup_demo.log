@@ -148,13 +148,51 @@ p2.write_png("../figures/relevance_network.png")
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3880/2332062532.py in <module>
-    101 ]
-    102 
---> 103 count_vect = CountVectorizer(newsgroups_train.data, vocabulary=list_of_words)
-    104 X_train_counts = count_vect.fit_transform(newsgroups_train.data)
-    105 
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3664/2332062532.py in <module>
+     19 try:
+---> 20     from pgmpy.estimators import TreeSearch
+     21 except ModuleNotFoundError:
 
-TypeError: __init__() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given
-TypeError: __init__() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given
+ModuleNotFoundError: No module named 'pgmpy'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3664/2332062532.py in <module>
+     21 except ModuleNotFoundError:
+     22     get_ipython().run_line_magic('pip', 'install -qq pgmpy')
+---> 23     from pgmpy.estimators import TreeSearch
+     24 from sklearn.feature_extraction.text import CountVectorizer
+     25 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/estimators/__init__.py in <module>
+----> 1 from pgmpy.estimators.base import BaseEstimator, ParameterEstimator, StructureEstimator
+      2 from pgmpy.estimators.MLE import MaximumLikelihoodEstimator
+      3 from pgmpy.estimators.BayesianEstimator import BayesianEstimator
+      4 from pgmpy.estimators.StructureScore import (
+      5     StructureScore,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/estimators/base.py in <module>
+      4 import pandas as pd
+      5 
+----> 6 from pgmpy.utils.decorators import convert_args_tuple
+      7 
+      8 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/utils/__init__.py in <module>
+      3 from .check_functions import _check_1d_array_object, _check_length_equal
+      4 from .optimizer import optimize, pinverse
+----> 5 from .utils import get_example_model
+      6 
+      7 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/utils/utils.py in <module>
+      1 import gzip
+      2 from urllib.request import urlretrieve
+----> 3 from pkg_resources import resource_filename
+      4 
+      5 
+
+ModuleNotFoundError: No module named 'pkg_resources'
+ModuleNotFoundError: No module named 'pkg_resources'
