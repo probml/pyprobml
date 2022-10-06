@@ -15,7 +15,7 @@ plt.savefig("schools8_noncentered_joint.png", dpi=300)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3307/2056599838.py in <module>
+/tmp/ipykernel_3217/2056599838.py in <module>
       1 x = pd.Series(trace_centered["mu_alpha"], name="mu")
       2 y = pd.Series(trace_centered["log_sigma_alpha"], name="log sigma_alpha")
 ----> 3 sns.jointplot(x, y, xlim=xlim, ylim=ylim)
