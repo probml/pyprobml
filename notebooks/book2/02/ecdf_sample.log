@@ -32,7 +32,7 @@ key = random.PRNGKey(4)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5464/2751882726.py in <module>
+/tmp/ipykernel_5350/2751882726.py in <module>
      14 
      15 try:
 ---> 16     import tensorflow_probability.substrates.jax as tfp

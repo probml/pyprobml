@@ -15,7 +15,7 @@ from functools import partial
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_3852/429207347.py in <module>
+/tmp/ipykernel_3770/429207347.py in <module>
       5 
       6 import numpy as np  # original numpy
 ----> 7 import jax.numpy as jnp
@@ -55,5 +55,5 @@ RuntimeError                              Traceback (most recent call last)
      90 
      91   return _jaxlib_version
 
-RuntimeError: jaxlib version 0.3.15 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
-RuntimeError: jaxlib version 0.3.15 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.20 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.20 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
