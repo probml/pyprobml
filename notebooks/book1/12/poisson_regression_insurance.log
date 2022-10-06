@@ -1,0 +1,47 @@
+An error occurred while executing the following cell:
+------------------
+df["Frequency"] = df["ClaimNb"] / df["Exposure"]
+
+print("Average Frequency = {}".format(np.average(df["Frequency"], weights=df["Exposure"])))
+
+print(
+    "Fraction of exposure with zero claims = {0:.1%}".format(
+        df.loc[df["ClaimNb"] == 0, "Exposure"].sum() / df["Exposure"].sum()
+    )
+)
+
+fig, ax = plt.subplots()
+ax.set_title("Frequency (number of claims per year)")
+_ = df["Frequency"].hist(bins=30, log=True, ax=ax)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4129/3787804605.py in <module>
+     11 fig, ax = plt.subplots()
+     12 ax.set_title("Frequency (number of claims per year)")
+---> 13 _ = df["Frequency"].hist(bins=30, log=True, ax=ax)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/plotting/_core.py in hist_series(self, by, ax, grid, xlabelsize, xrot, ylabelsize, yrot, figsize, bins, backend, legend, **kwargs)
+     97     matplotlib.axes.Axes.hist : Plot a histogram using matplotlib.
+     98     """
+---> 99     plot_backend = _get_plot_backend(backend)
+    100     return plot_backend.hist_series(
+    101         self,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/plotting/_core.py in _get_plot_backend(backend)
+   1812         return _backends[backend]
+   1813 
+-> 1814     module = _load_backend(backend)
+   1815     _backends[backend] = module
+   1816     return module
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pandas/plotting/_core.py in _load_backend(backend)
+   1744         The imported backend.
+   1745     """
+-> 1746     import pkg_resources
+   1747 
+   1748     if backend == "matplotlib":
+
+ModuleNotFoundError: No module named 'pkg_resources'
+ModuleNotFoundError: No module named 'pkg_resources'
