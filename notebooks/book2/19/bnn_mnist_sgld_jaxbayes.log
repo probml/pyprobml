@@ -29,7 +29,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3572/3659454802.py in <module>
+/tmp/ipykernel_3686/3659454802.py in <module>
       1 import jax.numpy as jnp
 ----> 2 from jax.experimental import optimizers
       3 import jax
