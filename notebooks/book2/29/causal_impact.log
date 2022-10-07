@@ -7,7 +7,7 @@ ci = CausalImpact(data, pre_period, post_period)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4167/1485700240.py in <module>
+/tmp/ipykernel_4192/1485700240.py in <module>
       1 pre_period = [0, I - 1]
       2 post_period = [I, T - 1]
 ----> 3 ci = CausalImpact(data, pre_period, post_period)
@@ -215,7 +215,7 @@ TypeError: in user code:
     TypeError: TF_TryEvaluateConstant_wrapper(): incompatible function arguments. The following argument types are supported:
         1. (arg0: tensorflow.python.client._pywrap_tf_session.TF_Graph, arg1: tensorflow.python.client._pywrap_tf_session.TF_Output) -> object
     
-    Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f7ffad9add0>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f7ffa505eb0>
+    Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7ffacc9220b0>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7ffacc087b70>
 
 TypeError: in user code:
 
@@ -261,5 +261,5 @@ TypeError: in user code:
     TypeError: TF_TryEvaluateConstant_wrapper(): incompatible function arguments. The following argument types are supported:
         1. (arg0: tensorflow.python.client._pywrap_tf_session.TF_Graph, arg1: tensorflow.python.client._pywrap_tf_session.TF_Output) -> object
     
-    Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7f7ffad9add0>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7f7ffa505eb0>
+    Invoked with: <tensorflow.python.framework.c_api_util.ScopedTFGraph object at 0x7ffacc9220b0>, <tensorflow.python.client._pywrap_tf_session.TF_Output object at 0x7ffacc087b70>
 
