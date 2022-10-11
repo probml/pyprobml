@@ -29,8 +29,8 @@ from tqdm import tqdm
 ------------------
 
 ---------------------------------------------------------------------------
-ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3699/1226003757.py in <module>
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3767/1226003757.py in <module>
       1 # Imports
 ----> 2 from tensorflow.python.client import device_lib
       3 from psutil import virtual_memory
@@ -45,18 +45,18 @@ ImportError                               Traceback (most recent call last)
      39 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
-     34 # pylint: disable=wildcard-import,g-bad-import-order,g-import-not-at-top
      35 
----> 36 from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
-     37 from tensorflow.python.eager import context
+     36 from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
+---> 37 from tensorflow.python.eager import context
      38 
+     39 # pylint: enable=wildcard-import
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/pywrap_tensorflow.py in <module>
-     19 import traceback
-     20 
----> 21 from tensorflow.python.platform import self_check
-     22 
-     23 # TODO(mdan): Cleanup antipattern: import for side effects.
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/context.py in <module>
+     27 import six
+     28 
+---> 29 from tensorflow.core.framework import function_pb2
+     30 from tensorflow.core.protobuf import config_pb2
+     31 from tensorflow.core.protobuf import coordination_config_pb2
 
-ImportError: cannot import name 'self_check' from 'tensorflow.python.platform' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/platform/__init__.py)
-ImportError: cannot import name 'self_check' from 'tensorflow.python.platform' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/platform/__init__.py)
+ModuleNotFoundError: No module named 'tensorflow.core'
+ModuleNotFoundError: No module named 'tensorflow.core'
