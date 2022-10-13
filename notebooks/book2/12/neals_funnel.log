@@ -35,7 +35,7 @@ import seaborn as sns
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3529/4038319421.py in <module>
+/tmp/ipykernel_3730/4038319421.py in <module>
       5     import probml_utils as pml
       6 
 ----> 7 from probml_utils import blackjax_utils
