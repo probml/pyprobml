@@ -25,7 +25,7 @@ samples = (samples1, samples2)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3897/1377838591.py in <module>
+/tmp/ipykernel_3890/1377838591.py in <module>
       4 hyper_params = dict(loc=jnp.zeros(dim), mean_precision=0.05, df=dim + 5, scale=jnp.eye(dim))
       5 # Generate the NIW object
 ----> 6 dp_base_measure = NormalInverseWishart(**hyper_params)

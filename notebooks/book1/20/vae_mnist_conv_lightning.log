@@ -60,7 +60,7 @@ from probml_utils.vae_conv_mnist import ConvVAE
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3986/3536696859.py in <module>
+/tmp/ipykernel_4036/3536696859.py in <module>
      23 try:
 ---> 24     from pytorch_lightning import LightningModule, Trainer
      25 except ModuleNotFoundError:
@@ -70,7 +70,7 @@ ModuleNotFoundError: No module named 'pytorch_lightning'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3986/3536696859.py in <module>
+/tmp/ipykernel_4036/3536696859.py in <module>
      25 except ModuleNotFoundError:
      26     get_ipython().run_line_magic('pip', 'install -qq pytorch-lightning')
 ---> 27     from pytorch_lightning import LightningModule, Trainer

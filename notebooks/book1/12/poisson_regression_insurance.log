@@ -17,7 +17,7 @@ _ = df["Frequency"].hist(bins=30, log=True, ax=ax)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4193/3787804605.py in <module>
+/tmp/ipykernel_4275/3787804605.py in <module>
      11 fig, ax = plt.subplots()
      12 ax.set_title("Frequency (number of claims per year)")
 ---> 13 _ = df["Frequency"].hist(bins=30, log=True, ax=ax)
