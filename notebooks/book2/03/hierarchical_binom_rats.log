@@ -2,91 +2,48 @@ An error occurred while executing the following cell:
 ------------------
 import jax
 import jax.numpy as jnp
-from jax import lax
-
-try:
-    from probml_utils import latexify, savefig
-except:
-    %pip install git+https://github.com/probml/probml-utils.git
-    from probml_utils import latexify, savefig
-
-from probml_utils.blackjax_utils import arviz_trace_from_states, inference_loop_multiple_chains
-
-try:
-    import blackjax
-except:
-    %pip install blackjax
-    import blackjax
-
-try:
-    from tensorflow_probability.substrates import jax as tfp
-except ModuleNotFoundError:
-    %pip install -qqq tensorflow_probability
-    from tensorflow_probability.substrates import jax as tfp
-
-try:
-    from rich import print
-except ModuleNotFoundError:
-    %pip install -qqq rich
-    from rich import print
-
+import matplotlib
+import matplotlib.pyplot as plt
 import arviz as az
 import seaborn as sns
-import numpy as np
-import matplotlib.pyplot as plt
-import warnings
-import os
+import pandas as pd
 
-warnings.filterwarnings("ignore")
-dist = tfp.distributions
+pd.set_option("display.max_rows", 80)
 
-plt.rc("font", size=10)  # controls default text sizes
-plt.rc("axes", labelsize=12)  # fontsize of the x and y labels
-plt.rc("legend", fontsize=12)  # legend fontsize
-plt.rc("figure", titlesize=15)  # fontsize of the figure title
+
+try:
+    import blackjax
+except ModuleNotFoundError:
+    %pip install -qq jaxopt blackjax
+    import blackjax
+
+
+try:
+    import tensorflow_probability.substrates.jax as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow_probability
+    import tensorflow_probability.substrates.jax as tfp
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+from probml_utils.blackjax_utils import inference_loop, inference_loop_multiple_chains, arviz_trace_from_states
+
+
+tfd = tfp.distributions
 ------------------
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_3508/1764058126.py in <module>
-     37 
-     38 warnings.filterwarnings("ignore")
----> 39 dist = tfp.distributions
-     40 
-     41 plt.rc("font", size=10)  # controls default text sizes
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in __getattr__(self, item)
-     51 
-     52   def __getattr__(self, item):
----> 53     module = self._load()
-     54     return getattr(module, item)
-     55 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in _load(self)
-     38       self._on_first_access = None
-     39     # Import the target module and insert it into the parent's namespace
----> 40     module = importlib.import_module(self.__name__)
-     41     if self._parent_module_globals is not None:
-     42       self._parent_module_globals[self._local_name] = module
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/__init__.py in import_module(name, package)
-    125                 break
-    126             level += 1
---> 127     return _bootstrap._gcd_import(name[level:], package, level)
-    128 
-    129 
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _gcd_import(name, package, level)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load(name, import_)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load_unlocked(name, import_)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _load_unlocked(spec)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in exec_module(self, module)
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _call_with_frames_removed(f, *args, **kwds)
+/tmp/ipykernel_4215/2097253101.py in <module>
+     18 
+     19 try:
+---> 20     import tensorflow_probability.substrates.jax as tfp
+     21 except ModuleNotFoundError:
+     22     get_ipython().run_line_magic('pip', 'install -qq tensorflow_probability')
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
      39 from tensorflow_probability.python.version import __version__
