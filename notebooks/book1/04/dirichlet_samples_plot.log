@@ -1,0 +1,33 @@
+An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import seaborn as sns
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3294/1806013072.py in <module>
+      6 try:
+----> 7     import probml_utils as pml
+      8 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3294/1806013072.py in <module>
+      8 except ModuleNotFoundError:
+      9     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+---> 10     import probml_utils as pml
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
