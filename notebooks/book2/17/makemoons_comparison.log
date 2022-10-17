@@ -1,94 +1,2822 @@
 An error occurred while executing the following cell:
 ------------------
-try:
-    import tensorflow_probability.substrates.jax as tfp
-except ModuleNotFoundError:
-    %pip install -qq tensorflow_probability
-    import tensorflow_probability.substrates.jax as tfp
-
-try:
-    import tensorflow as tf
-except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow as tf
-try:
-    import optax
-except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
-
-tfd = tfp.distributions
-tfb = tfp.bijectors
-try:
-    from flax import linen as nn
-except ModuleNotFoundError:
-    %pip install -qq flax
-    from flax import linen as nn
-from flax.core.frozen_dict import freeze, unfreeze
-
-try:
-    import official.nlp.modeling.layers as nlp_layers
-except ModuleNotFoundError:
-    %pip install -qq tf-models-official
-    import official.nlp.modeling.layers as nlp_layers
-try:
-    import blackjax
-except ModuleNotFoundError:
-    %pip install -qq jaxopt blackjax
-    import blackjax
-
-try:
-    from probml_utils import latexify, savefig
-    from probml_utils.blackjax_utils import inference_loop
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    from probml_utils import latexify, savefig
-    from probml_utils.blackjax_utils import inference_loop
-try:
-    from bijax.advi import ADVI
-    from bijax.utils import train_fn
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/patel-zeel/bijax.git
-    from bijax.advi import ADVI
-    from bijax.utils import train_fn
-try:
-    import GPy
-except:
-    %pip install -qq gpy
-    import GPy
-
-import logging
-
-logger = logging.getLogger()
-
-
-class CheckTypesFilter(logging.Filter):
-    def filter(self, record):
-        return "check_types" not in record.getMessage()
-
-
-logger.addFilter(CheckTypesFilter())
-from jax.random import PRNGKey as rng_key
+num_warmup = 3000
+key = jax.random.PRNGKey(314)
+key_samples, key_init, key_warmup, key = jax.random.split(key, 4)
+adapt = blackjax.window_adaptation(blackjax.nuts, bnn_log_joint_partial, num_warmup, progress_bar=True)
+final_state, kernel, _ = adapt.run(key_warmup, params)
 ------------------
 
 ---------------------------------------------------------------------------
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3291/1742731670.py in <module>
-     45 try:
----> 46     from bijax.advi import ADVI
-     47     from bijax.utils import train_fn
+KeyError                                  Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/interpreters/mlir.py in _lower_jaxpr_to_fun_cached(ctx, fn_name, call_jaxpr, effects)
+   1118     try:
+-> 1119       func_op = ctx.cached_call_jaxpr_lowerings[key]
+   1120     except KeyError:
 
-ModuleNotFoundError: No module named 'bijax'
+KeyError: ('wrapper_progress_bar', { lambda ; a:f32[1000,2] b:i32[1000] c:f32[8] d:f32[2,8] e:f32[16] f:f32[8,16] g:f32[16]
+    h:f32[16,16] i:f32[8] j:f32[16,8] k:f32[1] l:f32[8,1] m:f32[] n:f32[8] o:f32[2,8]
+    p:f32[16] q:f32[8,16] r:f32[16] s:f32[16,16] t:f32[8] u:f32[16,8] v:f32[1] w:f32[8,1]
+    x:f32[] y:f32[] z:i32[] ba:f32[] bb:f32[] bc:f32[585] bd:f32[585] be:f32[585]
+    bf:i32[] bg:i32[] bh:u32[2] bi:i32[2] bj:Tok bk:Tok. let
+    bl:bool[] = eq bg 0
+    bm:i32[] = convert_element_type[new_dtype=int32 weak_type=False] bl
+    bn:Tok bo:Tok = cond[
+      branches=(
+        { lambda ; bp_:i32[] bq:Tok br:Tok. let  in (bq, br) }
+        { lambda ; bs:i32[] bt:Tok bu:Tok. let
+            _:i32[] bv:Tok bw:Tok = outside_call[
+              arg_treedef=PyTreeDef(*)
+              callback=<jax.experimental.host_callback._CallbackWrapper object at 0x7fc388b03290>
+              has_token=True
+              identity=True
+            ] bs bt bu
+          in (bv, bw) }
+      )
+      linear=(False, False, False)
+    ] bm bg bj bk
+    bx:i32[] = xla_call[
+      call_jaxpr={ lambda ; by:i32[] bz:i32[]. let
+          ca:i32[] = convert_element_type[new_dtype=int32 weak_type=False] bz
+          cb:i32[] = rem by ca
+          cc:bool[] = ne cb 0
+          cd:bool[] = lt cb 0
+          ce:bool[] = lt ca 0
+          cf:bool[] = ne cd ce
+          cg:bool[] = and cf cc
+          ch:i32[] = add cb ca
+          ci:i32[] = select_n cg cb ch
+        in (ci,) }
+      name=remainder
+    ] bg 150
+    cj:bool[] = eq bx 0
+    ck:i32[] = convert_element_type[new_dtype=int32 weak_type=False] cj
+    cl:Tok cm:Tok = cond[
+      branches=(
+        { lambda ; cn_:i32[] co:Tok cp:Tok. let  in (co, cp) }
+        { lambda ; cq:i32[] cr:Tok cs:Tok. let
+            _:i32[] ct:Tok cu:Tok = outside_call[
+              arg_treedef=PyTreeDef(*)
+              callback=<jax.experimental.host_callback._CallbackWrapper object at 0x7fc388b0ab90>
+              has_token=True
+              identity=True
+            ] cq cr cs
+          in (ct, cu) }
+      )
+      linear=(False, False, False)
+    ] ck bg bn bo
+    cv:bool[] = eq bg 2999
+    cw:i32[] = convert_element_type[new_dtype=int32 weak_type=False] cv
+    cx:Tok cy:Tok = cond[
+      branches=(
+        { lambda ; cz:Tok da:Tok. let  in (cz, da) }
+        { lambda ; db:Tok dc:Tok. let
+            _:i32[] dd:Tok de:Tok = outside_call[
+              arg_treedef=PyTreeDef(*)
+              callback=<jax.experimental.host_callback._CallbackWrapper object at 0x7fc388b034d0>
+              has_token=True
+              identity=True
+            ] 3000 db dc
+          in (dd, de) }
+      )
+      linear=(False, False)
+    ] cw cl cm
+    df:f32[] = exp x
+    dg:f32[585] = integer_pow[y=-1] bc
+    dh:f32[585] = sqrt dg
+    di:key<fry>[] = random_wrap[impl=fry] bh
+    dj:key<fry>[2] = random_split[count=2] di
+    dk:u32[2,2] = random_unwrap dj
+    dl:u32[1,2] = slice[
+      limit_indices=(1, 2)
+      start_indices=(0, 0)
+      strides=(1, 1)
+    ] dk
+    dm:u32[2] = squeeze[dimensions=(0,)] dl
+    dn:u32[1,2] = slice[
+      limit_indices=(2, 2)
+      start_indices=(1, 0)
+      strides=(1, 1)
+    ] dk
+    do:u32[2] = squeeze[dimensions=(0,)] dn
+    dp:key<fry>[] = random_wrap[impl=fry] dm
+    dq:f32[1] = broadcast_in_dim[broadcast_dimensions=() shape=(1,)] -0.9999999403953552
+    dr:f32[1] = broadcast_in_dim[broadcast_dimensions=() shape=(1,)] 1.0
+    ds:u32[585] = random_bits[bit_width=32 shape=(585,)] dp
+    dt:u32[585] = shift_right_logical ds 9
+    du:u32[585] = or dt 1065353216
+    dv:f32[585] = bitcast_convert_type[new_dtype=float32] du
+    dw:f32[585] = sub dv 1.0
+    dx:f32[1] = sub dr dq
+    dy:f32[585] = mul dw dx
+    dz:f32[585] = add dy dq
+    ea:f32[585] = max dq dz
+    eb:f32[585] = erf_inv ea
+    ec:f32[585] = mul 1.4142135381698608 eb
+    ed:f32[585] = mul dh ec
+    ee:f32[8] = slice[limit_indices=(8,) start_indices=(0,) strides=None] ed
+    ef:f32[16] = slice[limit_indices=(24,) start_indices=(8,) strides=None] ed
+    eg:f32[16] = slice[limit_indices=(40,) start_indices=(24,) strides=None] ed
+    eh:f32[128] = slice[limit_indices=(168,) start_indices=(40,) strides=None] ed
+    ei:f32[16] = slice[limit_indices=(184,) start_indices=(168,) strides=None] ed
+    ej:f32[256] = slice[limit_indices=(440,) start_indices=(184,) strides=None] ed
+    ek:f32[8] = slice[limit_indices=(448,) start_indices=(440,) strides=None] ed
+    el:f32[128] = slice[limit_indices=(576,) start_indices=(448,) strides=None] ed
+    em:f32[1] = slice[limit_indices=(577,) start_indices=(576,) strides=None] ed
+    en:f32[8] = slice[limit_indices=(585,) start_indices=(577,) strides=None] ed
+    eo:f32[2,8] = reshape[dimensions=None new_sizes=(2, 8)] ef
+    ep:f32[8,16] = reshape[dimensions=None new_sizes=(8, 16)] eh
+    eq:f32[16,16] = reshape[dimensions=None new_sizes=(16, 16)] ej
+    er:f32[16,8] = reshape[dimensions=None new_sizes=(16, 8)] el
+    es:f32[8,1] = reshape[dimensions=None new_sizes=(8, 1)] en
+    et:f32[10,585] = broadcast_in_dim[broadcast_dimensions=() shape=(10, 585)] 0.0
+    eu:f32[10,585] = broadcast_in_dim[broadcast_dimensions=() shape=(10, 585)] 0.0
+    ev:f32[16] = reshape[dimensions=None new_sizes=(16,)] eo
+    ew:f32[128] = reshape[dimensions=None new_sizes=(128,)] ep
+    ex:f32[256] = reshape[dimensions=None new_sizes=(256,)] eq
+    ey:f32[128] = reshape[dimensions=None new_sizes=(128,)] er
+    ez:f32[8] = reshape[dimensions=None new_sizes=(8,)] es
+    fa:f32[585] = concatenate[dimension=0] ee ev eg ew ei ex ek ey em ez
+    fb:f32[585] = mul bc fa
+    fc:f32[] = dot_general[
+      dimension_numbers=(((0,), (0,)), ((), ()))
+      precision=None
+      preferred_element_type=None
+    ] fb fa
+    fd:f32[] = mul 0.5 fc
+    fe:f32[] = add m fd
+    _:u32[2] ff:i32[] fg:f32[8] fh:f32[2,8] fi:f32[16] fj:f32[8,16] fk:f32[16] fl:f32[16,16]
+      fm:f32[8] fn:f32[16,8] fo:f32[1] fp:f32[8,1] _:f32[8] _:f32[2,8] _:f32[16]
+      _:f32[8,16] _:f32[16] _:f32[16,16] _:f32[8] _:f32[16,8] _:f32[1] _:f32[8,1]
+      fq:f32[] fr:f32[8] fs:f32[2,8] ft:f32[16] fu:f32[8,16] fv:f32[16] fw:f32[16,16]
+      fx:f32[8] fy:f32[16,8] fz:f32[1] ga:f32[8,1] gb:f32[] _:f32[] gc:f32[] gd:f32[8]
+      ge:f32[2,8] gf:f32[16] gg:f32[8,16] gh:f32[16] gi:f32[16,16] gj:f32[8] gk:f32[16,8]
+      gl:f32[1] gm:f32[8,1] gn:f32[8] go:f32[2,8] gp:f32[16] gq:f32[8,16] gr:f32[16]
+      gs:f32[16,16] gt:f32[8] gu:f32[16,8] gv:f32[1] gw:f32[8,1] gx:f32[] gy:f32[8]
+      gz:f32[2,8] ha:f32[16] hb:f32[8,16] hc:f32[16] hd:f32[16,16] he:f32[8] hf:f32[16,8]
+      hg:f32[1] hh:f32[8,1] hi:f32[8] hj:f32[2,8] hk:f32[16] hl:f32[8,16] hm:f32[16]
+      hn:f32[16,16] ho:f32[8] hp:f32[16,8] hq:f32[1] hr:f32[8,1] hs:f32[8] ht:f32[2,8]
+      hu:f32[16] hv:f32[8,16] hw:f32[16] hx:f32[16,16] hy:f32[8] hz:f32[16,8] ia:f32[1]
+      ib:f32[8,1] ic:f32[] id:f32[8] ie:f32[2,8] if:f32[16] ig:f32[8,16] ih:f32[16]
+      ii:f32[16,16] ij:f32[8] ik:f32[16,8] il:f32[1] im:f32[8,1] _:f32[8] _:f32[2,8]
+      _:f32[16] _:f32[8,16] _:f32[16] _:f32[16,16] _:f32[8] _:f32[16,8] _:f32[1]
+      _:f32[8,1] in:i32[] _:f32[10,585] _:f32[10,585] _:i32[] _:i32[] io:bool[] ip:bool[] = while[
+      body_jaxpr={ lambda ; iq:f32[585] ir:f32[] is:f32[] it:f32[1000,2] iu:i32[1000]
+          iv:u32[2] iw:i32[] ix:f32[8] iy:f32[2,8] iz:f32[16] ja:f32[8,16] jb:f32[16]
+          jc:f32[16,16] jd:f32[8] je:f32[16,8] jf:f32[1] jg:f32[8,1] jh:f32[8] ji:f32[2,8]
+          jj:f32[16] jk:f32[8,16] jl:f32[16] jm:f32[16,16] jn:f32[8] jo:f32[16,8]
+          jp:f32[1] jq:f32[8,1] jr:f32[] js:f32[8] jt:f32[2,8] ju:f32[16] jv:f32[8,16]
+          jw:f32[16] jx:f32[16,16] jy:f32[8] jz:f32[16,8] ka:f32[1] kb:f32[8,1] kc:f32[]
+          kd:f32[] ke:f32[] kf:f32[8] kg:f32[2,8] kh:f32[16] ki:f32[8,16] kj:f32[16]
+          kk:f32[16,16] kl:f32[8] km:f32[16,8] kn:f32[1] ko:f32[8,1] kp:f32[8] kq:f32[2,8]
+          kr:f32[16] ks:f32[8,16] kt:f32[16] ku:f32[16,16] kv:f32[8] kw:f32[16,8]
+          kx:f32[1] ky:f32[8,1] kz:f32[] la:f32[8] lb:f32[2,8] lc:f32[16] ld:f32[8,16]
+          le:f32[16] lf:f32[16,16] lg:f32[8] lh:f32[16,8] li:f32[1] lj:f32[8,1] lk:f32[8]
+          ll:f32[2,8] lm:f32[16] ln:f32[8,16] lo:f32[16] lp:f32[16,16] lq:f32[8]
+          lr:f32[16,8] ls:f32[1] lt:f32[8,1] lu:f32[8] lv:f32[2,8] lw:f32[16] lx:f32[8,16]
+          ly:f32[16] lz:f32[16,16] ma:f32[8] mb:f32[16,8] mc:f32[1] md:f32[8,1] me:f32[]
+          mf:f32[8] mg:f32[2,8] mh:f32[16] mi:f32[8,16] mj:f32[16] mk:f32[16,16]
+          ml:f32[8] mm:f32[16,8] mn:f32[1] mo:f32[8,1] mp:f32[8] mq:f32[2,8] mr:f32[16]
+          ms:f32[8,16] mt:f32[16] mu:f32[16,16] mv:f32[8] mw:f32[16,8] mx:f32[1]
+          my:f32[8,1] mz:i32[] na:f32[10,585] nb:f32[10,585] nc:i32[] nd:i32[] ne:bool[]
+          nf:bool[]. let
+          ng:key<fry>[] = random_wrap[impl=fry] iv
+          nh:key<fry>[4] = random_split[count=4] ng
+          ni:u32[4,2] = random_unwrap nh
+          nj:u32[1,2] = slice[
+            limit_indices=(1, 2)
+            start_indices=(0, 0)
+            strides=(1, 1)
+          ] ni
+          nk:u32[2] = squeeze[dimensions=(0,)] nj
+          nl:u32[1,2] = slice[
+            limit_indices=(2, 2)
+            start_indices=(1, 0)
+            strides=(1, 1)
+          ] ni
+          nm:u32[2] = squeeze[dimensions=(0,)] nl
+          nn:u32[1,2] = slice[
+            limit_indices=(3, 2)
+            start_indices=(2, 0)
+            strides=(1, 1)
+          ] ni
+          no:u32[2] = squeeze[dimensions=(0,)] nn
+          np:u32[1,2] = slice[
+            limit_indices=(4, 2)
+            start_indices=(3, 0)
+            strides=(1, 1)
+          ] ni
+          nq:u32[2] = squeeze[dimensions=(0,)] np
+          nr:key<fry>[] = random_wrap[impl=fry] nm
+          ns:u32[] = random_bits[bit_width=32 shape=()] nr
+          nt:u32[] = shift_right_logical ns 9
+          nu:u32[] = or nt 1065353216
+          nv:f32[] = bitcast_convert_type[new_dtype=float32] nu
+          nw:f32[] = sub nv 1.0
+          nx:f32[] = sub 1.0 0.0
+          ny:f32[] = mul nw nx
+          nz:f32[] = add ny 0.0
+          oa:f32[] = reshape[dimensions=None new_sizes=()] nz
+          ob:f32[] = max 0.0 oa
+          oc:bool[] = lt ob 0.5
+          od:i32[] = xla_call[
+            call_jaxpr={ lambda ; oe:bool[] of:i32[] og:i32[]. let
+                oh:i32[] = select_n oe og of
+              in (oh,) }
+            name=_where
+          ] oc 1 -1
+          oi:bool[] = gt od 0
+          oj:i32[] = convert_element_type[new_dtype=int32 weak_type=False] oi
+          ok:f32[8] ol:f32[2,8] om:f32[16] on:f32[8,16] oo:f32[16] op:f32[16,16]
+            oq:f32[8] or:f32[16,8] os:f32[1] ot:f32[8,1] ou:f32[8] ov:f32[2,8] ow:f32[16]
+            ox:f32[8,16] oy:f32[16] oz:f32[16,16] pa:f32[8] pb:f32[16,8] pc:f32[1]
+            pd:f32[8,1] pe:f32[] pf:f32[8] pg:f32[2,8] ph:f32[16] pi:f32[8,16] pj:f32[16]
+            pk:f32[16,16] pl:f32[8] pm:f32[16,8] pn:f32[1] po:f32[8,1] = cond[
+            branches=(
+              { lambda ; pp_:f32[8] pq_:f32[2,8] pr_:f32[16] ps_:f32[8,16] pt_:f32[16]
+                  pu_:f32[16,16] pv_:f32[8] pw_:f32[16,8] px_:f32[1] py_:f32[8,1]
+                  pz_:f32[8] qa_:f32[2,8] qb_:f32[16] qc_:f32[8,16] qd_:f32[16] qe_:f32[16,16]
+                  qf_:f32[8] qg_:f32[16,8] qh_:f32[1] qi_:f32[8,1] qj_:f32[] qk_:f32[8]
+                  ql_:f32[2,8] qm_:f32[16] qn_:f32[8,16] qo_:f32[16] qp_:f32[16,16]
+                  qq_:f32[8] qr_:f32[16,8] qs_:f32[1] qt_:f32[8,1] qu:f32[8] qv:f32[2,8]
+                  qw:f32[16] qx:f32[8,16] qy:f32[16] qz:f32[16,16] ra:f32[8] rb:f32[16,8]
+                  rc:f32[1] rd:f32[8,1] re:f32[8] rf:f32[2,8] rg:f32[16] rh:f32[8,16]
+                  ri:f32[16] rj:f32[16,16] rk:f32[8] rl:f32[16,8] rm:f32[1] rn:f32[8,1]
+                  ro:f32[] rp:f32[8] rq:f32[2,8] rr:f32[16] rs:f32[8,16] rt:f32[16]
+                  ru:f32[16,16] rv:f32[8] rw:f32[16,8] rx:f32[1] ry:f32[8,1]. let
+                  
+                in (qu, qv, qw, qx, qy, qz, ra, rb, rc, rd, re, rf, rg, rh, ri, rj,
+                  rk, rl, rm, rn, ro, rp, rq, rr, rs, rt, ru, rv, rw, rx, ry) }
+              { lambda ; rz:f32[8] sa:f32[2,8] sb:f32[16] sc:f32[8,16] sd:f32[16]
+                  se:f32[16,16] sf:f32[8] sg:f32[16,8] sh:f32[1] si:f32[8,1] sj:f32[8]
+                  sk:f32[2,8] sl:f32[16] sm:f32[8,16] sn:f32[16] so:f32[16,16] sp:f32[8]
+                  sq:f32[16,8] sr:f32[1] ss:f32[8,1] st:f32[] su:f32[8] sv:f32[2,8]
+                  sw:f32[16] sx:f32[8,16] sy:f32[16] sz:f32[16,16] ta:f32[8] tb:f32[16,8]
+                  tc:f32[1] td:f32[8,1] te_:f32[8] tf_:f32[2,8] tg_:f32[16] th_:f32[8,16]
+                  ti_:f32[16] tj_:f32[16,16] tk_:f32[8] tl_:f32[16,8] tm_:f32[1]
+                  tn_:f32[8,1] to_:f32[8] tp_:f32[2,8] tq_:f32[16] tr_:f32[8,16]
+                  ts_:f32[16] tt_:f32[16,16] tu_:f32[8] tv_:f32[16,8] tw_:f32[1]
+                  tx_:f32[8,1] ty_:f32[] tz_:f32[8] ua_:f32[2,8] ub_:f32[16] uc_:f32[8,16]
+                  ud_:f32[16] ue_:f32[16,16] uf_:f32[8] ug_:f32[16,8] uh_:f32[1]
+                  ui_:f32[8,1]. let
+                  
+                in (rz, sa, sb, sc, sd, se, sf, sg, sh, si, sj, sk, sl, sm, sn, so,
+                  sp, sq, sr, ss, st, su, sv, sw, sx, sy, sz, ta, tb, tc, td) }
+            )
+            linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+          ] oj lk ll lm ln lo lp lq lr ls lt lu lv lw lx ly lz ma mb mc md me mf
+            mg mh mi mj mk ml mm mn mo kf kg kh ki kj kk kl km kn ko kp kq kr ks
+            kt ku kv kw kx ky kz la lb lc ld le lf lg lh li lj
+          uj:bool[] = eq 2 0
+          uk:bool[] = ne iw 0
+          ul:bool[] = and uj uk
+          um:i32[] = xla_call[
+            call_jaxpr={ lambda ; un:bool[] uo:i32[] up:i32[]. let
+                uq:i32[] = select_n un up uo
+              in (uq,) }
+            name=_where
+          ] ul 0 1
+          ur:i32[] = and iw 1
+          us:i32[] = mul um 2
+          ut:i32[] = xla_call[
+            call_jaxpr={ lambda ; uu:i32[] uv:i32[] uw:i32[]. let
+                ux:bool[] = ne uu 0
+                uy:i32[] = select_n ux uw uv
+              in (uy,) }
+            name=_where
+          ] ur us um
+          uz:i32[] = mul 2 2
+          va:i32[] = shift_right_logical iw 1
+          vb:i32[] = and va 1
+          vc:i32[] = mul ut uz
+          vd:i32[] = xla_call[
+            call_jaxpr={ lambda ; ve:i32[] vf:i32[] vg:i32[]. let
+                vh:bool[] = ne ve 0
+                vi:i32[] = select_n vh vg vf
+              in (vi,) }
+            name=_where
+          ] vb vc ut
+          vj:i32[] = mul uz uz
+          vk:i32[] = shift_right_logical va 1
+          vl:i32[] = and vk 1
+          vm:i32[] = mul vd vj
+          vn:i32[] = xla_call[
+            call_jaxpr={ lambda ; vo:i32[] vp:i32[] vq:i32[]. let
+                vr:bool[] = ne vo 0
+                vs:i32[] = select_n vr vq vp
+              in (vs,) }
+            name=_where
+          ] vl vm vd
+          vt:i32[] = mul vj vj
+          vu:i32[] = shift_right_logical vk 1
+          vv:i32[] = and vu 1
+          vw:i32[] = mul vn vt
+          vx:i32[] = xla_call[
+            call_jaxpr={ lambda ; vy:i32[] vz:i32[] wa:i32[]. let
+                wb:bool[] = ne vy 0
+                wc:i32[] = select_n wb wa vz
+              in (wc,) }
+            name=_where
+          ] vv vw vn
+          wd:i32[] = mul vt vt
+          we:i32[] = shift_right_logical vu 1
+          wf:i32[] = and we 1
+          wg:i32[] = mul vx wd
+          wh:i32[] = xla_call[
+            call_jaxpr={ lambda ; wi:i32[] wj:i32[] wk:i32[]. let
+                wl:bool[] = ne wi 0
+                wm:i32[] = select_n wl wk wj
+              in (wm,) }
+            name=_where
+          ] wf wg vx
+          wn:i32[] = mul wd wd
+          wo:i32[] = shift_right_logical we 1
+          wp:i32[] = and wo 1
+          wq:i32[] = mul wh wn
+          wr:i32[] = xla_call[
+            call_jaxpr={ lambda ; ws:i32[] wt:i32[] wu:i32[]. let
+                wv:bool[] = ne ws 0
+                ww:i32[] = select_n wv wu wt
+              in (ww,) }
+            name=_where
+          ] wp wq wh
+          _:i32[] = mul wn wn
+          _:i32[] = shift_right_logical wo 1
+          wx:f32[16] = reshape[dimensions=None new_sizes=(16,)] ov
+          wy:f32[128] = reshape[dimensions=None new_sizes=(128,)] ox
+          wz:f32[256] = reshape[dimensions=None new_sizes=(256,)] oz
+          xa:f32[128] = reshape[dimensions=None new_sizes=(128,)] pb
+          xb:f32[8] = reshape[dimensions=None new_sizes=(8,)] pd
+          xc:f32[585] = concatenate[dimension=0] ou wx ow wy oy wz pa xa pc xb
+          xd:f32[585] = mul iq xc
+          xe:f32[] = dot_general[
+            dimension_numbers=(((0,), (0,)), ((), ()))
+            precision=None
+            preferred_element_type=None
+          ] xd xc
+          xf:f32[] = mul 0.5 xe
+          xg:f32[] = add pe xf
+          xh:f32[] = sub ir xg
+          xi:bool[] = xla_call[
+            call_jaxpr={ lambda ; xj:f32[]. let xk:bool[] = ne xj xj in (xk,) }
+            name=isnan
+          ] xh
+          xl:f32[] = xla_call[
+            call_jaxpr={ lambda ; xm:bool[] xn:f32[] xo:f32[]. let
+                xp:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] xn
+                xq:f32[] = select_n xm xo xp
+              in (xq,) }
+            name=_where
+          ] xi -inf xh
+          xr:f32[] = abs xl
+          _:bool[] = gt xr 1000.0
+          xs:f32[] = min xl 0.0
+          _:u32[2] _:i32[] xt:f32[8] xu:f32[2,8] xv:f32[16] xw:f32[8,16] xx:f32[16]
+            xy:f32[16,16] xz:f32[8] ya:f32[16,8] yb:f32[1] yc:f32[8,1] yd:f32[8]
+            ye:f32[2,8] yf:f32[16] yg:f32[8,16] yh:f32[16] yi:f32[16,16] yj:f32[8]
+            yk:f32[16,8] yl:f32[1] ym:f32[8,1] yn:f32[] yo:f32[8] yp:f32[2,8] yq:f32[16]
+            yr:f32[8,16] ys:f32[16] yt:f32[16,16] yu:f32[8] yv:f32[16,8] yw:f32[1]
+            yx:f32[8,1] yy:f32[] yz:f32[] za:f32[] zb:f32[8] zc:f32[2,8] zd:f32[16]
+            ze:f32[8,16] zf:f32[16] zg:f32[16,16] zh:f32[8] zi:f32[16,8] zj:f32[1]
+            zk:f32[8,1] zl:f32[8] zm:f32[2,8] zn:f32[16] zo:f32[8,16] zp:f32[16]
+            zq:f32[16,16] zr:f32[8] zs:f32[16,8] zt:f32[1] zu:f32[8,1] zv:f32[] zw:f32[8]
+            zx:f32[2,8] zy:f32[16] zz:f32[8,16] baa:f32[16] bab:f32[16,16] bac:f32[8]
+            bad:f32[16,8] bae:f32[1] baf:f32[8,1] bag:f32[8] bah:f32[2,8] bai:f32[16]
+            baj:f32[8,16] bak:f32[16] bal:f32[16,16] bam:f32[8] ban:f32[16,8] bao:f32[1]
+            bap:f32[8,1] baq:f32[8] bar:f32[2,8] bas:f32[16] bat:f32[8,16] bau:f32[16]
+            bav:f32[16,16] baw:f32[8] bax:f32[16,8] bay:f32[1] baz:f32[8,1] bba:f32[]
+            bbb:f32[8] bbc:f32[2,8] bbd:f32[16] bbe:f32[8,16] bbf:f32[16] bbg:f32[16,16]
+            bbh:f32[8] bbi:f32[16,8] bbj:f32[1] bbk:f32[8,1] bbl:f32[8] bbm:f32[2,8]
+            bbn:f32[16] bbo:f32[8,16] bbp:f32[16] bbq:f32[16,16] bbr:f32[8] bbs:f32[16,8]
+            bbt:f32[1] bbu:f32[8,1] bbv:i32[] bbw:f32[10,585] bbx:f32[10,585] bby:i32[]
+            bbz:i32[] bca:bool[] bcb:bool[] = while[
+            body_jaxpr={ lambda ; bcc:i32[] bcd:f32[] bce:f32[585] bcf:f32[1000,2]
+                bcg:i32[1000] bch:f32[] bci:u32[2] bcj:i32[] bck:f32[8] bcl:f32[2,8]
+                bcm:f32[16] bcn:f32[8,16] bco:f32[16] bcp:f32[16,16] bcq:f32[8] bcr:f32[16,8]
+                bcs:f32[1] bct:f32[8,1] bcu:f32[8] bcv:f32[2,8] bcw:f32[16] bcx:f32[8,16]
+                bcy:f32[16] bcz:f32[16,16] bda:f32[8] bdb:f32[16,8] bdc:f32[1] bdd:f32[8,1]
+                bde:f32[] bdf:f32[8] bdg:f32[2,8] bdh:f32[16] bdi:f32[8,16] bdj:f32[16]
+                bdk:f32[16,16] bdl:f32[8] bdm:f32[16,8] bdn:f32[1] bdo:f32[8,1] bdp:f32[]
+                bdq:f32[] bdr:f32[] bds:f32[8] bdt:f32[2,8] bdu:f32[16] bdv:f32[8,16]
+                bdw:f32[16] bdx:f32[16,16] bdy:f32[8] bdz:f32[16,8] bea:f32[1] beb:f32[8,1]
+                bec:f32[8] bed:f32[2,8] bee:f32[16] bef:f32[8,16] beg:f32[16] beh:f32[16,16]
+                bei:f32[8] bej:f32[16,8] bek:f32[1] bel:f32[8,1] bem:f32[] ben:f32[8]
+                beo:f32[2,8] bep:f32[16] beq:f32[8,16] ber:f32[16] bes:f32[16,16]
+                bet:f32[8] beu:f32[16,8] bev:f32[1] bew:f32[8,1] bex:f32[8] bey:f32[2,8]
+                bez:f32[16] bfa:f32[8,16] bfb:f32[16] bfc:f32[16,16] bfd:f32[8] bfe:f32[16,8]
+                bff:f32[1] bfg:f32[8,1] bfh:f32[8] bfi:f32[2,8] bfj:f32[16] bfk:f32[8,16]
+                bfl:f32[16] bfm:f32[16,16] bfn:f32[8] bfo:f32[16,8] bfp:f32[1] bfq:f32[8,1]
+                bfr:f32[] bfs:f32[8] bft:f32[2,8] bfu:f32[16] bfv:f32[8,16] bfw:f32[16]
+                bfx:f32[16,16] bfy:f32[8] bfz:f32[16,8] bga:f32[1] bgb:f32[8,1] bgc:f32[8]
+                bgd:f32[2,8] bge:f32[16] bgf:f32[8,16] bgg:f32[16] bgh:f32[16,16]
+                bgi:f32[8] bgj:f32[16,8] bgk:f32[1] bgl:f32[8,1] bgm:i32[] bgn:f32[10,585]
+                bgo:f32[10,585] bgp:i32[] bgq:i32[] bgr:bool[] bgs:bool[]. let
+                bgt:key<fry>[] = random_wrap[impl=fry] bci
+                bgu:key<fry>[2] = random_split[count=2] bgt
+                bgv:u32[2,2] = random_unwrap bgu
+                bgw:u32[1,2] = slice[
+                  limit_indices=(1, 2)
+                  start_indices=(0, 0)
+                  strides=(1, 1)
+                ] bgv
+                bgx:u32[2] = squeeze[dimensions=(0,)] bgw
+                bgy:u32[1,2] = slice[
+                  limit_indices=(2, 2)
+                  start_indices=(1, 0)
+                  strides=(1, 1)
+                ] bgv
+                bgz:u32[2] = squeeze[dimensions=(0,)] bgy
+                bha:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=True
+                ] bcc
+                bhb:f32[] = mul bha bcd
+                bhc:f32[] = mul 0.5 bhb
+                bhd:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bhc
+                bhe:f32[8] = mul bhd bfs
+                bhf:f32[8] = sub bfh bhe
+                bhg:f32[] = mul 0.5 bhb
+                bhh:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bhg
+                bhi:f32[2,8] = mul bhh bft
+                bhj:f32[2,8] = sub bfi bhi
+                bhk:f32[] = mul 0.5 bhb
+                bhl:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bhk
+                bhm:f32[16] = mul bhl bfu
+                bhn:f32[16] = sub bfj bhm
+                bho:f32[] = mul 0.5 bhb
+                bhp:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bho
+                bhq:f32[8,16] = mul bhp bfv
+                bhr:f32[8,16] = sub bfk bhq
+                bhs:f32[] = mul 0.5 bhb
+                bht:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bhs
+                bhu:f32[16] = mul bht bfw
+                bhv:f32[16] = sub bfl bhu
+                bhw:f32[] = mul 0.5 bhb
+                bhx:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bhw
+                bhy:f32[16,16] = mul bhx bfx
+                bhz:f32[16,16] = sub bfm bhy
+                bia:f32[] = mul 0.5 bhb
+                bib:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bia
+                bic:f32[8] = mul bib bfy
+                bid:f32[8] = sub bfn bic
+                bie:f32[] = mul 0.5 bhb
+                bif:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bie
+                big:f32[16,8] = mul bif bfz
+                bih:f32[16,8] = sub bfo big
+                bii:f32[] = mul 0.5 bhb
+                bij:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bii
+                bik:f32[1] = mul bij bga
+                bil:f32[1] = sub bfp bik
+                bim:f32[] = mul 0.5 bhb
+                bin:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bim
+                bio:f32[8,1] = mul bin bgb
+                bip:f32[8,1] = sub bfq bio
+                biq:f32[16] = reshape[dimensions=None new_sizes=(16,)] bhj
+                bir:f32[128] = reshape[dimensions=None new_sizes=(128,)] bhr
+                bis:f32[256] = reshape[dimensions=None new_sizes=(256,)] bhz
+                bit:f32[128] = reshape[dimensions=None new_sizes=(128,)] bih
+                biu:f32[8] = reshape[dimensions=None new_sizes=(8,)] bip
+                biv:f32[585] = concatenate[dimension=0] bhf biq bhn bir bhv bis bid
+                  bit bil biu
+                biw:f32[585] = mul bce biv
+                bix:f32[] = dot_general[
+                  dimension_numbers=(((0,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] biw biv
+                _:f32[] = mul 0.5 bix
+                biy:f32[] = mul 0.5 1.0
+                biz:f32[585] = dot_general[
+                  dimension_numbers=(((), ()), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] biy biw
+                bja:f32[585] = dot_general[
+                  dimension_numbers=(((), ()), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] biy biv
+                bjb:f32[585] = mul bce bja
+                bjc:f32[585] = add_any biz bjb
+                bjd:f32[8] = slice[
+                  limit_indices=(8,)
+                  start_indices=(0,)
+                  strides=None
+                ] bjc
+                bje:f32[16] = slice[
+                  limit_indices=(24,)
+                  start_indices=(8,)
+                  strides=None
+                ] bjc
+                bjf:f32[16] = slice[
+                  limit_indices=(40,)
+                  start_indices=(24,)
+                  strides=None
+                ] bjc
+                bjg:f32[128] = slice[
+                  limit_indices=(168,)
+                  start_indices=(40,)
+                  strides=None
+                ] bjc
+                bjh:f32[16] = slice[
+                  limit_indices=(184,)
+                  start_indices=(168,)
+                  strides=None
+                ] bjc
+                bji:f32[256] = slice[
+                  limit_indices=(440,)
+                  start_indices=(184,)
+                  strides=None
+                ] bjc
+                bjj:f32[8] = slice[
+                  limit_indices=(448,)
+                  start_indices=(440,)
+                  strides=None
+                ] bjc
+                bjk:f32[128] = slice[
+                  limit_indices=(576,)
+                  start_indices=(448,)
+                  strides=None
+                ] bjc
+                bjl:f32[1] = slice[
+                  limit_indices=(577,)
+                  start_indices=(576,)
+                  strides=None
+                ] bjc
+                bjm:f32[8] = slice[
+                  limit_indices=(585,)
+                  start_indices=(577,)
+                  strides=None
+                ] bjc
+                bjn:f32[8,1] = reshape[dimensions=None new_sizes=(8, 1)] bjm
+                bjo:f32[16,8] = reshape[dimensions=None new_sizes=(16, 8)] bjk
+                bjp:f32[16,16] = reshape[dimensions=None new_sizes=(16, 16)] bji
+                bjq:f32[8,16] = reshape[dimensions=None new_sizes=(8, 16)] bjg
+                bjr:f32[2,8] = reshape[dimensions=None new_sizes=(2, 8)] bje
+                bjs:f32[] = mul 1.0 bhb
+                bjt:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bjs
+                bju:f32[8] = mul bjt bjd
+                bjv:f32[8] = add bex bju
+                bjw:f32[] = mul 1.0 bhb
+                bjx:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bjw
+                bjy:f32[2,8] = mul bjx bjr
+                bjz:f32[2,8] = add bey bjy
+                bka:f32[] = mul 1.0 bhb
+                bkb:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bka
+                bkc:f32[16] = mul bkb bjf
+                bkd:f32[16] = add bez bkc
+                bke:f32[] = mul 1.0 bhb
+                bkf:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bke
+                bkg:f32[8,16] = mul bkf bjq
+                bkh:f32[8,16] = add bfa bkg
+                bki:f32[] = mul 1.0 bhb
+                bkj:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bki
+                bkk:f32[16] = mul bkj bjh
+                bkl:f32[16] = add bfb bkk
+                bkm:f32[] = mul 1.0 bhb
+                bkn:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bkm
+                bko:f32[16,16] = mul bkn bjp
+                bkp:f32[16,16] = add bfc bko
+                bkq:f32[] = mul 1.0 bhb
+                bkr:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bkq
+                bks:f32[8] = mul bkr bjj
+                bkt:f32[8] = add bfd bks
+                bku:f32[] = mul 1.0 bhb
+                bkv:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bku
+                bkw:f32[16,8] = mul bkv bjo
+                bkx:f32[16,8] = add bfe bkw
+                bky:f32[] = mul 1.0 bhb
+                bkz:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bky
+                bla:f32[1] = mul bkz bjl
+                blb:f32[1] = add bff bla
+                blc:f32[] = mul 1.0 bhb
+                bld:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] blc
+                ble:f32[8,1] = mul bld bjn
+                blf:f32[8,1] = add bfg ble
+                blg:f32[1000,8] = dot_general[
+                  dimension_numbers=(((1,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] bcf bjz
+                blh:f32[1,8] = reshape[dimensions=None new_sizes=(1, 8)] bjv
+                bli:f32[1000,8] = add blg blh
+                blj:f32[1000,8] = custom_jvp_call[
+                  call_jaxpr={ lambda ; blk:f32[1000,8]. let
+                      bll:f32[1000,8] = xla_call[
+                        call_jaxpr={ lambda ; blm:f32[1000,8]. let
+                            bln:f32[1000,8] = max blm 0.0
+                          in (bln,) }
+                        name=relu
+                      ] blk
+                    in (bll,) }
+                  jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388abcdd0>
+                  num_consts=0
+                ] bli
+                blo:bool[1000,8] = gt bli 0.0
+                _:f32[1000,8] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000, 8)
+                ] 0.0
+                blp:f32[1000,16] = dot_general[
+                  dimension_numbers=(((1,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] blj bkh
+                blq:f32[1,16] = reshape[dimensions=None new_sizes=(1, 16)] bkd
+                blr:f32[1000,16] = add blp blq
+                bls:f32[1000,16] = custom_jvp_call[
+                  call_jaxpr={ lambda ; blt:f32[1000,16]. let
+                      blu:f32[1000,16] = xla_call[
+                        call_jaxpr={ lambda ; blv:f32[1000,16]. let
+                            blw:f32[1000,16] = max blv 0.0
+                          in (blw,) }
+                        name=relu
+                      ] blt
+                    in (blu,) }
+                  jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388abcd40>
+                  num_consts=0
+                ] blr
+                blx:bool[1000,16] = gt blr 0.0
+                _:f32[1000,16] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000, 16)
+                ] 0.0
+                bly:f32[1000,16] = dot_general[
+                  dimension_numbers=(((1,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] bls bkp
+                blz:f32[1,16] = reshape[dimensions=None new_sizes=(1, 16)] bkl
+                bma:f32[1000,16] = add bly blz
+                bmb:f32[1000,16] = custom_jvp_call[
+                  call_jaxpr={ lambda ; bmc:f32[1000,16]. let
+                      bmd:f32[1000,16] = xla_call[
+                        call_jaxpr={ lambda ; bme:f32[1000,16]. let
+                            bmf:f32[1000,16] = max bme 0.0
+                          in (bmf,) }
+                        name=relu
+                      ] bmc
+                    in (bmd,) }
+                  jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388abc440>
+                  num_consts=0
+                ] bma
+                bmg:bool[1000,16] = gt bma 0.0
+                _:f32[1000,16] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000, 16)
+                ] 0.0
+                bmh:f32[1000,8] = dot_general[
+                  dimension_numbers=(((1,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] bmb bkx
+                bmi:f32[1,8] = reshape[dimensions=None new_sizes=(1, 8)] bkt
+                bmj:f32[1000,8] = add bmh bmi
+                bmk:f32[1000,8] = custom_jvp_call[
+                  call_jaxpr={ lambda ; bml:f32[1000,8]. let
+                      bmm:f32[1000,8] = xla_call[
+                        call_jaxpr={ lambda ; bmn:f32[1000,8]. let
+                            bmo:f32[1000,8] = max bmn 0.0
+                          in (bmo,) }
+                        name=relu
+                      ] bml
+                    in (bmm,) }
+                  jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388a24290>
+                  num_consts=0
+                ] bmj
+                bmp:bool[1000,8] = gt bmj 0.0
+                _:f32[1000,8] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000, 8)
+                ] 0.0
+                bmq:f32[1000,1] = dot_general[
+                  dimension_numbers=(((1,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] bmk blf
+                bmr:f32[1,1] = reshape[dimensions=None new_sizes=(1, 1)] blb
+                bms:f32[1000,1] = add bmq bmr
+                bmt:f32[1000,1] bmu:f32[1000,1] = xla_call[
+                  call_jaxpr={ lambda ; bmv:f32[1000,1]. let
+                      bmw:f32[1000,1] = logistic bmv
+                      bmx:f32[1000,1] = sub 1.0 bmw
+                      bmy:f32[1000,1] = mul bmw bmx
+                    in (bmw, bmy) }
+                  name=sigmoid
+                ] bms
+                bmz:f32[1000] = reshape[dimensions=None new_sizes=(1000,)] bmt
+                bna:f32[16] = reshape[dimensions=None new_sizes=(16,)] bjz
+                bnb:f32[128] = reshape[dimensions=None new_sizes=(128,)] bkh
+                bnc:f32[256] = reshape[dimensions=None new_sizes=(256,)] bkp
+                bnd:f32[128] = reshape[dimensions=None new_sizes=(128,)] bkx
+                bne:f32[8] = reshape[dimensions=None new_sizes=(8,)] blf
+                bnf:f32[585] = concatenate[dimension=0] bjv bna bkd bnb bkl bnc bkt
+                  bnd blb bne
+                bng:f32[585] = div bnf 1.0
+                bnh:f32[] = div 0.0 1.0
+                bni:f32[585] = sub bng bnh
+                bnj:f32[585] = integer_pow[y=2] bni
+                bnk:f32[585] = integer_pow[y=1] bni
+                bnl:f32[585] = mul 2.0 bnk
+                bnm:f32[585] = mul -0.5 bnj
+                bnn:f32[] = log 1.0
+                bno:f32[] = add 0.9189385175704956 bnn
+                bnp:f32[585] = sub bnm bno
+                bnq:f32[] = reduce_sum[axes=(0,)] bnp
+                bnr:f32[1000] bns:f32[1000] bnt:f32[1000] = xla_call[
+                  call_jaxpr={ lambda ; bnu:f32[1000]. let
+                      bnv:i32[] = zeros_like 0
+                      bnw:f32[] = convert_element_type[
+                        new_dtype=float32
+                        weak_type=False
+                      ] bnv
+                      bnx:f32[1000] = custom_jvp_call[
+                        call_jaxpr={ lambda ; bny:f32[1000] bnz:f32[]. let
+                            boa:f32[1000] = xla_call[
+                              call_jaxpr={ lambda ; bob:f32[1000] boc:f32[]. let
+                                  bod:f32[1000] = max bob boc
+                                  boe:f32[1000] = sub bob boc
+                                  bof:bool[1000] = ne boe boe
+                                  bog:f32[1000] = add bob boc
+                                  boh:f32[1000] = abs boe
+                                  boi:f32[1000] = neg boh
+                                  boj:f32[1000] = exp boi
+                                  bok:f32[1000] = log1p boj
+                                  bol:f32[1000] = add bod bok
+                                  bom:f32[1000] = select_n bof bol bog
+                                in (bom,) }
+                              name=logaddexp
+                            ] bny bnz
+                          in (boa,) }
+                        jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388a249e0>
+                        num_consts=0
+                      ] bnu 0.0
+                      bon:bool[1000] = eq bnu inf
+                      boo:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                      bop:f32[1000] = select_n bon bnu boo
+                      boq:bool[1000] = eq bnx inf
+                      bor:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                      bos:f32[1000] = select_n boq bnx bor
+                      bot:f32[1000] = sub bop bos
+                      bou:f32[1000] = exp bot
+                      bov:bool[] = eq 0.0 inf
+                      bow:f32[] = select_n bov 0.0 0.0
+                      box:bool[1000] = eq bnx inf
+                      boy:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                      boz:f32[1000] = select_n box bnx boy
+                      bpa:f32[1000] = sub bow boz
+                      bpb:f32[1000] = exp bpa
+                      bpc:f32[1000] = mul bnw bpb
+                    in (bnx, bou, bpc) }
+                  name=softplus
+                ] bmz
+                bpd:f32[1000] = neg bnr
+                bpe:f32[1000] = neg bmz
+                bpf:f32[1000] bpg:f32[1000] bph:f32[1000] = xla_call[
+                  call_jaxpr={ lambda ; bpi:f32[1000]. let
+                      bpj:i32[] = zeros_like 0
+                      bpk:f32[] = convert_element_type[
+                        new_dtype=float32
+                        weak_type=False
+                      ] bpj
+                      bpl:f32[1000] = custom_jvp_call[
+                        call_jaxpr={ lambda ; bpm:f32[1000] bpn:f32[]. let
+                            bpo:f32[1000] = xla_call[
+                              call_jaxpr={ lambda ; bpp:f32[1000] bpq:f32[]. let
+                                  bpr:f32[1000] = max bpp bpq
+                                  bps:f32[1000] = sub bpp bpq
+                                  bpt:bool[1000] = ne bps bps
+                                  bpu:f32[1000] = add bpp bpq
+                                  bpv:f32[1000] = abs bps
+                                  bpw:f32[1000] = neg bpv
+                                  bpx:f32[1000] = exp bpw
+                                  bpy:f32[1000] = log1p bpx
+                                  bpz:f32[1000] = add bpr bpy
+                                  bqa:f32[1000] = select_n bpt bpz bpu
+                                in (bqa,) }
+                              name=logaddexp
+                            ] bpm bpn
+                          in (bpo,) }
+                        jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388a243b0>
+                        num_consts=0
+                      ] bpi 0.0
+                      bqb:bool[1000] = eq bpi inf
+                      bqc:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                      bqd:f32[1000] = select_n bqb bpi bqc
+                      bqe:bool[1000] = eq bpl inf
+                      bqf:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                      bqg:f32[1000] = select_n bqe bpl bqf
+                      bqh:f32[1000] = sub bqd bqg
+                      bqi:f32[1000] = exp bqh
+                      bqj:bool[] = eq 0.0 inf
+                      bqk:f32[] = select_n bqj 0.0 0.0
+                      bql:bool[1000] = eq bpl inf
+                      bqm:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                      bqn:f32[1000] = select_n bql bpl bqm
+                      bqo:f32[1000] = sub bqk bqn
+                      bqp:f32[1000] = exp bqo
+                      bqq:f32[1000] = mul bpk bqp
+                    in (bpl, bqi, bqq) }
+                  name=softplus
+                ] bpe
+                bqr:f32[1000] = neg bpf
+                bqs:f32[1000] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bcg
+                bqt:f32[1000] = sub 1.0 bqs
+                bqu:bool[1000] = eq bqt 0.0
+                bqv:f32[1000] = mul bpd bqt
+                bqw:f32[1000] bqx:f32[1000] = xla_call[
+                  call_jaxpr={ lambda ; bqy:bool[1000] bqz:f32[] bra:f32[1000]. let
+                      brb:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] bqz
+                      brc:f32[1000] = select_n bqy bra brb
+                      brd:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                    in (brc, brd) }
+                  name=_where
+                ] bqu 0.0 bqv
+                bre:bool[1000] = eq bqs 0.0
+                brf:f32[1000] = mul bqr bqs
+                brg:f32[1000] brh:f32[1000] = xla_call[
+                  call_jaxpr={ lambda ; bri:bool[1000] brj:f32[] brk:f32[1000]. let
+                      brl:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] brj
+                      brm:f32[1000] = select_n bri brk brl
+                      brn:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                    in (brm, brn) }
+                  name=_where
+                ] bre 0.0 brf
+                bro:f32[1000] = add bqw brg
+                brp:f32[] = reduce_sum[axes=(0,)] bro
+                brq:f32[] = add bnq brp
+                brr:f32[] = add brq brp
+                brs:f32[] = neg brr
+                brt:f32[] = neg 1.0
+                bru:f32[] = add_any brt brt
+                brv:f32[1000] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000,)
+                ] bru
+                brw:f32[1000] = xla_call[
+                  call_jaxpr={ lambda ; brx:bool[1000] bry:f32[1000] brz:f32[1000]. let
+                      bsa:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                      bsb:bool[1000] = eq brx False
+                      bsc:f32[1000] = select_n bsb bsa brz
+                    in (bsc,) }
+                  name=_where
+                ] bre brh brv
+                bsd:f32[1000] = mul brw bqs
+                bse:f32[1000] = neg bsd
+                _:f32[1000] bsf:f32[1000] = xla_call[
+                  call_jaxpr={ lambda ; bsg:f32[1000] bsh:f32[1000] bsi:f32[1000]. let
+                      bsj:f32[1000] = mul bsi bsg
+                    in (bsi, bsj) }
+                  name=softplus
+                ] bpg bph bse
+                bsk:f32[1000] = neg bsf
+                bsl:f32[1000] = xla_call[
+                  call_jaxpr={ lambda ; bsm:bool[1000] bsn:f32[1000] bso:f32[1000]. let
+                      bsp:f32[1000] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1000,)
+                      ] 0.0
+                      bsq:bool[1000] = eq bsm False
+                      bsr:f32[1000] = select_n bsq bsp bso
+                    in (bsr,) }
+                  name=_where
+                ] bqu bqx brv
+                bss:f32[1000] = mul bsl bqt
+                bst:f32[1000] = neg bss
+                _:f32[1000] bsu:f32[1000] = xla_call[
+                  call_jaxpr={ lambda ; bsv:f32[1000] bsw:f32[1000] bsx:f32[1000]. let
+                      bsy:f32[1000] = mul bsx bsv
+                    in (bsx, bsy) }
+                  name=softplus
+                ] bns bnt bst
+                bsz:f32[1000] = add_any bsk bsu
+                bta:f32[1000,1] = reshape[dimensions=None new_sizes=(1000, 1)] bsz
+                btb:f32[1000,1] = xla_call[
+                  call_jaxpr={ lambda ; btc:f32[1000,1] btd:f32[1000,1]. let
+                      bte:f32[1000,1] = mul btd btc
+                    in (bte,) }
+                  name=sigmoid
+                ] bmu bta
+                btf:f32[1] = reduce_sum[axes=(0,)] btb
+                btg:f32[1,1] = reshape[dimensions=None new_sizes=(1, 1)] btf
+                bth:f32[1] = reshape[dimensions=None new_sizes=(1,)] btg
+                bti:f32[1,8] = dot_general[
+                  dimension_numbers=(((0,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] btb bmk
+                btj:f32[8,1] = transpose[permutation=(1, 0)] bti
+                btk:f32[1000,8] = dot_general[
+                  dimension_numbers=(((1,), (1,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] btb blf
+                btl:f32[1000,8] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000, 8)
+                ] 0.0
+                btm:bool[1000,8] = eq bmp True
+                btn:f32[1000,8] = select_n btm btl btk
+                bto:f32[8] = reduce_sum[axes=(0,)] btn
+                btp:f32[1,8] = reshape[dimensions=None new_sizes=(1, 8)] bto
+                btq:f32[8] = reshape[dimensions=None new_sizes=(8,)] btp
+                btr:f32[8,16] = dot_general[
+                  dimension_numbers=(((0,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] btn bmb
+                bts:f32[16,8] = transpose[permutation=(1, 0)] btr
+                btt:f32[1000,16] = dot_general[
+                  dimension_numbers=(((1,), (1,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] btn bkx
+                btu:f32[1000,16] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000, 16)
+                ] 0.0
+                btv:bool[1000,16] = eq bmg True
+                btw:f32[1000,16] = select_n btv btu btt
+                btx:f32[16] = reduce_sum[axes=(0,)] btw
+                bty:f32[1,16] = reshape[dimensions=None new_sizes=(1, 16)] btx
+                btz:f32[16] = reshape[dimensions=None new_sizes=(16,)] bty
+                bua:f32[16,16] = dot_general[
+                  dimension_numbers=(((0,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] btw bls
+                bub:f32[16,16] = transpose[permutation=(1, 0)] bua
+                buc:f32[1000,16] = dot_general[
+                  dimension_numbers=(((1,), (1,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] btw bkp
+                bud:f32[1000,16] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000, 16)
+                ] 0.0
+                bue:bool[1000,16] = eq blx True
+                buf:f32[1000,16] = select_n bue bud buc
+                bug:f32[16] = reduce_sum[axes=(0,)] buf
+                buh:f32[1,16] = reshape[dimensions=None new_sizes=(1, 16)] bug
+                bui:f32[16] = reshape[dimensions=None new_sizes=(16,)] buh
+                buj:f32[16,8] = dot_general[
+                  dimension_numbers=(((0,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] buf blj
+                buk:f32[8,16] = transpose[permutation=(1, 0)] buj
+                bul:f32[1000,8] = dot_general[
+                  dimension_numbers=(((1,), (1,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] buf bkh
+                bum:f32[1000,8] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(1000, 8)
+                ] 0.0
+                bun:bool[1000,8] = eq blo True
+                buo:f32[1000,8] = select_n bun bum bul
+                bup:f32[8] = reduce_sum[axes=(0,)] buo
+                buq:f32[1,8] = reshape[dimensions=None new_sizes=(1, 8)] bup
+                bur:f32[8] = reshape[dimensions=None new_sizes=(8,)] buq
+                bus:f32[8,2] = dot_general[
+                  dimension_numbers=(((0,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] buo bcf
+                but:f32[2,8] = transpose[permutation=(1, 0)] bus
+                buu:f32[585] = broadcast_in_dim[
+                  broadcast_dimensions=()
+                  shape=(585,)
+                ] brt
+                buv:f32[585] = mul -0.5 buu
+                buw:f32[585] = mul buv bnl
+                bux:f32[585] = div buw 1.0
+                buy:f32[8] = slice[
+                  limit_indices=(8,)
+                  start_indices=(0,)
+                  strides=None
+                ] bux
+                buz:f32[16] = slice[
+                  limit_indices=(24,)
+                  start_indices=(8,)
+                  strides=None
+                ] bux
+                bva:f32[16] = slice[
+                  limit_indices=(40,)
+                  start_indices=(24,)
+                  strides=None
+                ] bux
+                bvb:f32[128] = slice[
+                  limit_indices=(168,)
+                  start_indices=(40,)
+                  strides=None
+                ] bux
+                bvc:f32[16] = slice[
+                  limit_indices=(184,)
+                  start_indices=(168,)
+                  strides=None
+                ] bux
+                bvd:f32[256] = slice[
+                  limit_indices=(440,)
+                  start_indices=(184,)
+                  strides=None
+                ] bux
+                bve:f32[8] = slice[
+                  limit_indices=(448,)
+                  start_indices=(440,)
+                  strides=None
+                ] bux
+                bvf:f32[128] = slice[
+                  limit_indices=(576,)
+                  start_indices=(448,)
+                  strides=None
+                ] bux
+                bvg:f32[1] = slice[
+                  limit_indices=(577,)
+                  start_indices=(576,)
+                  strides=None
+                ] bux
+                bvh:f32[8] = slice[
+                  limit_indices=(585,)
+                  start_indices=(577,)
+                  strides=None
+                ] bux
+                bvi:f32[8,1] = reshape[dimensions=None new_sizes=(8, 1)] bvh
+                bvj:f32[8,1] = add_any btj bvi
+                bvk:f32[1] = add_any bth bvg
+                bvl:f32[16,8] = reshape[dimensions=None new_sizes=(16, 8)] bvf
+                bvm:f32[16,8] = add_any bts bvl
+                bvn:f32[8] = add_any btq bve
+                bvo:f32[16,16] = reshape[dimensions=None new_sizes=(16, 16)] bvd
+                bvp:f32[16,16] = add_any bub bvo
+                bvq:f32[16] = add_any btz bvc
+                bvr:f32[8,16] = reshape[dimensions=None new_sizes=(8, 16)] bvb
+                bvs:f32[8,16] = add_any buk bvr
+                bvt:f32[16] = add_any bui bva
+                bvu:f32[2,8] = reshape[dimensions=None new_sizes=(2, 8)] buz
+                bvv:f32[2,8] = add_any but bvu
+                bvw:f32[8] = add_any bur buy
+                bvx:f32[] = mul 0.5 bhb
+                bvy:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bvx
+                bvz:f32[8] = mul bvy bvw
+                bwa:f32[8] = sub bhf bvz
+                bwb:f32[] = mul 0.5 bhb
+                bwc:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bwb
+                bwd:f32[2,8] = mul bwc bvv
+                bwe:f32[2,8] = sub bhj bwd
+                bwf:f32[] = mul 0.5 bhb
+                bwg:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bwf
+                bwh:f32[16] = mul bwg bvt
+                bwi:f32[16] = sub bhn bwh
+                bwj:f32[] = mul 0.5 bhb
+                bwk:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bwj
+                bwl:f32[8,16] = mul bwk bvs
+                bwm:f32[8,16] = sub bhr bwl
+                bwn:f32[] = mul 0.5 bhb
+                bwo:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bwn
+                bwp:f32[16] = mul bwo bvq
+                bwq:f32[16] = sub bhv bwp
+                bwr:f32[] = mul 0.5 bhb
+                bws:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bwr
+                bwt:f32[16,16] = mul bws bvp
+                bwu:f32[16,16] = sub bhz bwt
+                bwv:f32[] = mul 0.5 bhb
+                bww:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bwv
+                bwx:f32[8] = mul bww bvn
+                bwy:f32[8] = sub bid bwx
+                bwz:f32[] = mul 0.5 bhb
+                bxa:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bwz
+                bxb:f32[16,8] = mul bxa bvm
+                bxc:f32[16,8] = sub bih bxb
+                bxd:f32[] = mul 0.5 bhb
+                bxe:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bxd
+                bxf:f32[1] = mul bxe bvk
+                bxg:f32[1] = sub bil bxf
+                bxh:f32[] = mul 0.5 bhb
+                bxi:f32[] = convert_element_type[
+                  new_dtype=float32
+                  weak_type=False
+                ] bxh
+                bxj:f32[8,1] = mul bxi bvj
+                bxk:f32[8,1] = sub bip bxj
+                bxl:f32[16] = reshape[dimensions=None new_sizes=(16,)] bwe
+                bxm:f32[128] = reshape[dimensions=None new_sizes=(128,)] bwm
+                bxn:f32[256] = reshape[dimensions=None new_sizes=(256,)] bwu
+                bxo:f32[128] = reshape[dimensions=None new_sizes=(128,)] bxc
+                bxp:f32[8] = reshape[dimensions=None new_sizes=(8,)] bxk
+                bxq:f32[585] = concatenate[dimension=0] bwa bxl bwi bxm bwq bxn bwy
+                  bxo bxg bxp
+                bxr:f32[585] = mul bce bxq
+                bxs:f32[] = dot_general[
+                  dimension_numbers=(((0,), (0,)), ((), ()))
+                  precision=None
+                  preferred_element_type=None
+                ] bxr bxq
+                bxt:f32[] = mul 0.5 bxs
+                bxu:f32[] = add brs bxt
+                bxv:f32[] = sub bch bxu
+                bxw:bool[] = xla_call[
+                  call_jaxpr={ lambda ; bxx:f32[]. let
+                      bxy:bool[] = ne bxx bxx
+                    in (bxy,) }
+                  name=isnan
+                ] bxv
+                bxz:f32[] = xla_call[
+                  call_jaxpr={ lambda ; bya:bool[] byb:f32[] byc:f32[]. let
+                      byd:f32[] = convert_element_type[
+                        new_dtype=float32
+                        weak_type=False
+                      ] byb
+                      bye:f32[] = select_n bya byc byd
+                    in (bye,) }
+                  name=_where
+                ] bxw -inf bxv
+                byf:f32[] = abs bxz
+                byg:bool[] = gt byf 1000.0
+                byh:f32[] = min bxz 0.0
+                byi:bool[] = eq bcj 0
+                byj:i32[] = convert_element_type[
+                  new_dtype=int32
+                  weak_type=False
+                ] byi
+                byk:f32[8] byl:f32[2,8] bym:f32[16] byn:f32[8,16] byo:f32[16] byp:f32[16,16]
+                  byq:f32[8] byr:f32[16,8] bys:f32[1] byt:f32[8,1] byu:f32[8] byv:f32[2,8]
+                  byw:f32[16] byx:f32[8,16] byy:f32[16] byz:f32[16,16] bza:f32[8]
+                  bzb:f32[16,8] bzc:f32[1] bzd:f32[8,1] bze:f32[] bzf:f32[8] bzg:f32[2,8]
+                  bzh:f32[16] bzi:f32[8,16] bzj:f32[16] bzk:f32[16,16] bzl:f32[8]
+                  bzm:f32[16,8] bzn:f32[1] bzo:f32[8,1] bzp:f32[8] bzq:f32[2,8] bzr:f32[16]
+                  bzs:f32[8,16] bzt:f32[16] bzu:f32[16,16] bzv:f32[8] bzw:f32[16,8]
+                  bzx:f32[1] bzy:f32[8,1] bzz:f32[8] caa:f32[2,8] cab:f32[16] cac:f32[8,16]
+                  cad:f32[16] cae:f32[16,16] caf:f32[8] cag:f32[16,8] cah:f32[1]
+                  cai:f32[8,1] caj:f32[] cak:f32[8] cal:f32[2,8] cam:f32[16] can:f32[8,16]
+                  cao:f32[16] cap:f32[16,16] caq:f32[8] car:f32[16,8] cas:f32[1]
+                  cat:f32[8,1] cau:f32[8] cav:f32[2,8] caw:f32[16] cax:f32[8,16]
+                  cay:f32[16] caz:f32[16,16] cba:f32[8] cbb:f32[16,8] cbc:f32[1]
+                  cbd:f32[8,1] cbe:i32[] cbf:f32[8] cbg:f32[2,8] cbh:f32[16] cbi:f32[8,16]
+                  cbj:f32[16] cbk:f32[16,16] cbl:f32[8] cbm:f32[16,8] cbn:f32[1]
+                  cbo:f32[8,1] cbp:f32[8] cbq:f32[2,8] cbr:f32[16] cbs:f32[8,16]
+                  cbt:f32[16] cbu:f32[16,16] cbv:f32[8] cbw:f32[16,8] cbx:f32[1]
+                  cby:f32[8,1] cbz:f32[] cca:f32[8] ccb:f32[2,8] ccc:f32[16] ccd:f32[8,16]
+                  cce:f32[16] ccf:f32[16,16] ccg:f32[8] cch:f32[16,8] cci:f32[1]
+                  ccj:f32[8,1] cck:f32[] ccl:f32[] ccm:f32[] = cond[
+                  branches=(
+                    { lambda ; ccn_:f32[8] cco_:f32[2,8] ccp_:f32[16] ccq_:f32[8,16]
+                        ccr_:f32[16] ccs_:f32[16,16] cct_:f32[8] ccu_:f32[16,8] ccv_:f32[1]
+                        ccw_:f32[8,1] ccx_:f32[8] ccy_:f32[2,8] ccz_:f32[16] cda_:f32[8,16]
+                        cdb_:f32[16] cdc_:f32[16,16] cdd_:f32[8] cde_:f32[16,8] cdf_:f32[1]
+                        cdg_:f32[8,1] cdh_:f32[] cdi_:f32[8] cdj_:f32[2,8] cdk_:f32[16]
+                        cdl_:f32[8,16] cdm_:f32[16] cdn_:f32[16,16] cdo_:f32[8] cdp_:f32[16,8]
+                        cdq_:f32[1] cdr_:f32[8,1] cds_:f32[] cdt_:f32[] cdu_:f32[]
+                        cdv:f32[8] cdw:f32[8] cdx:f32[2,8] cdy:f32[2,8] cdz:f32[16]
+                        cea:f32[16] ceb:f32[8,16] cec:f32[8,16] ced:f32[16] cee:f32[16]
+                        cef:f32[16,16] ceg:f32[16,16] ceh:f32[8] cei:f32[8] cej:f32[16,8]
+                        cek:f32[16,8] cel:f32[1] cem:f32[1] cen:f32[8,1] ceo:f32[8,1]
+                        cep:i32[] ceq:f32[] cer:f32[] ces:u32[2] cet:f32[] ceu:f32[]
+                        cev:f32[8] cew:f32[2,8] cex:f32[16] cey:f32[8,16] cez:f32[16]
+                        cfa:f32[16,16] cfb:f32[8] cfc:f32[16,8] cfd:f32[1] cfe:f32[8,1]
+                        cff:f32[] cfg:f32[8] cfh:f32[2,8] cfi:f32[16] cfj:f32[8,16]
+                        cfk:f32[16] cfl:f32[16,16] cfm:f32[8] cfn:f32[16,8] cfo:f32[1]
+                        cfp:f32[8,1] cfq:f32[] cfr:f32[8] cfs:f32[2,8] cft:f32[16]
+                        cfu:f32[8,16] cfv:f32[16] cfw:f32[16,16] cfx:f32[8] cfy:f32[16,8]
+                        cfz:f32[1] cga:f32[8,1] cgb:f32[8] cgc:f32[2,8] cgd:f32[16]
+                        cge:f32[8,16] cgf:f32[16] cgg:f32[16,16] cgh:f32[8] cgi:f32[16,8]
+                        cgj:f32[1] cgk:f32[8,1] cgl:f32[] cgm:f32[8] cgn:f32[2,8]
+                        cgo:f32[16] cgp:f32[8,16] cgq:f32[16] cgr:f32[16,16] cgs:f32[8]
+                        cgt:f32[16,8] cgu:f32[1] cgv:f32[8,1] cgw:f32[] cgx:f32[8]
+                        cgy:f32[2,8] cgz:f32[16] cha:f32[8,16] chb:f32[16] chc:f32[16,16]
+                        chd:f32[8] che:f32[16,8] chf:f32[1] chg:f32[8,1] chh:f32[8]
+                        chi:f32[2,8] chj:f32[16] chk:f32[8,16] chl:f32[16] chm:f32[16,16]
+                        chn:f32[8] cho:f32[16,8] chp:f32[1] chq:f32[8,1] chr:f32[]
+                        chs:f32[8] cht:f32[2,8] chu:f32[16] chv:f32[8,16] chw:f32[16]
+                        chx:f32[16,16] chy:f32[8] chz:f32[16,8] cia:f32[1] cib:f32[8,1]. let
+                        cic:f32[8] = add cdv cdw
+                        cid:f32[2,8] = add cdx cdy
+                        cie:f32[16] = add cdz cea
+                        cif:f32[8,16] = add ceb cec
+                        cig:f32[16] = add ced cee
+                        cih:f32[16,16] = add cef ceg
+                        cii:f32[8] = add ceh cei
+                        cij:f32[16,8] = add cej cek
+                        cik:f32[1] = add cel cem
+                        cil:f32[8,1] = add cen ceo
+                        cim:i32[] = add cep 1
+                        cin:f32[] = sub ceq cer
+                        cio:f32[] = logistic cin
+                        cip:key<fry>[] = random_wrap[impl=fry] ces
+                        ciq:u32[] = random_bits[bit_width=32 shape=()] cip
+                        cir:u32[] = shift_right_logical ciq 9
+                        cis:u32[] = or cir 1065353216
+                        cit:f32[] = bitcast_convert_type[new_dtype=float32] cis
+                        ciu:f32[] = sub cit 1.0
+                        civ:f32[] = sub 1.0 0.0
+                        ciw:f32[] = mul ciu civ
+                        cix:f32[] = add ciw 0.0
+                        ciy:f32[] = reshape[dimensions=None new_sizes=()] cix
+                        ciz:f32[] = max 0.0 ciy
+                        cja:bool[] = lt ciz cio
+                        cjb:f32[] = custom_jvp_call[
+                          call_jaxpr={ lambda ; cjc:f32[] cjd:f32[]. let
+                              cje:f32[] = xla_call[
+                                call_jaxpr={ lambda ; cjf:f32[] cjg:f32[]. let
+                                    cjh:f32[] = max cjf cjg
+                                    cji:f32[] = sub cjf cjg
+                                    cjj:bool[] = ne cji cji
+                                    cjk:f32[] = add cjf cjg
+                                    cjl:f32[] = abs cji
+                                    cjm:f32[] = neg cjl
+                                    cjn:f32[] = exp cjm
+                                    cjo:f32[] = log1p cjn
+                                    cjp:f32[] = add cjh cjo
+                                    cjq:f32[] = select_n cjj cjp cjk
+                                  in (cjq,) }
+                                name=logaddexp
+                              ] cjc cjd
+                            in (cje,) }
+                          jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388abc5f0>
+                          num_consts=0
+                        ] cer ceq
+                        cjr:f32[] = custom_jvp_call[
+                          call_jaxpr={ lambda ; cjs:f32[] cjt:f32[]. let
+                              cju:f32[] = xla_call[
+                                call_jaxpr={ lambda ; cjv:f32[] cjw:f32[]. let
+                                    cjx:f32[] = max cjv cjw
+                                    cjy:f32[] = sub cjv cjw
+                                    cjz:bool[] = ne cjy cjy
+                                    cka:f32[] = add cjv cjw
+                                    ckb:f32[] = abs cjy
+                                    ckc:f32[] = neg ckb
+                                    ckd:f32[] = exp ckc
+                                    cke:f32[] = log1p ckd
+                                    ckf:f32[] = add cjx cke
+                                    ckg:f32[] = select_n cjz ckf cka
+                                  in (ckg,) }
+                                name=logaddexp
+                              ] cjs cjt
+                            in (cju,) }
+                          jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388a245f0>
+                          num_consts=0
+                        ] cet ceu
+                        ckh:i32[] = convert_element_type[
+                          new_dtype=int32
+                          weak_type=False
+                        ] cja
+                        cki:f32[8] ckj:f32[2,8] ckk:f32[16] ckl:f32[8,16] ckm:f32[16]
+                          ckn:f32[16,16] cko:f32[8] ckp:f32[16,8] ckq:f32[1] ckr:f32[8,1]
+                          cks:f32[8] ckt:f32[2,8] cku:f32[16] ckv:f32[8,16] ckw:f32[16]
+                          ckx:f32[16,16] cky:f32[8] ckz:f32[16,8] cla:f32[1] clb:f32[8,1]
+                          clc:f32[] cld:f32[8] cle:f32[2,8] clf:f32[16] clg:f32[8,16]
+                          clh:f32[16] cli:f32[16,16] clj:f32[8] clk:f32[16,8] cll:f32[1]
+                          clm:f32[8,1] cln:f32[] clo:f32[] clp:f32[] = cond[
+                          branches=(
+                            { lambda ; clq_:f32[8] clr_:f32[2,8] cls_:f32[16] clt_:f32[8,16]
+                                clu_:f32[16] clv_:f32[16,16] clw_:f32[8] clx_:f32[16,8]
+                                cly_:f32[1] clz_:f32[8,1] cma_:f32[8] cmb_:f32[2,8]
+                                cmc_:f32[16] cmd_:f32[8,16] cme_:f32[16] cmf_:f32[16,16]
+                                cmg_:f32[8] cmh_:f32[16,8] cmi_:f32[1] cmj_:f32[8,1]
+                                cmk_:f32[] cml_:f32[8] cmm_:f32[2,8] cmn_:f32[16]
+                                cmo_:f32[8,16] cmp_:f32[16] cmq_:f32[16,16] cmr_:f32[8]
+                                cms_:f32[16,8] cmt_:f32[1] cmu_:f32[8,1] cmv_:f32[]
+                                cmw_:f32[] cmx_:f32[] cmy:f32[8] cmz:f32[2,8] cna:f32[16]
+                                cnb:f32[8,16] cnc:f32[16] cnd:f32[16,16] cne:f32[8]
+                                cnf:f32[16,8] cng:f32[1] cnh:f32[8,1] cni:f32[8]
+                                cnj:f32[2,8] cnk:f32[16] cnl:f32[8,16] cnm:f32[16]
+                                cnn:f32[16,16] cno:f32[8] cnp:f32[16,8] cnq:f32[1]
+                                cnr:f32[8,1] cns:f32[] cnt:f32[8] cnu:f32[2,8] cnv:f32[16]
+                                cnw:f32[8,16] cnx:f32[16] cny:f32[16,16] cnz:f32[8]
+                                coa:f32[16,8] cob:f32[1] coc:f32[8,1] cod:f32[] coe:f32[]
+                                cof:f32[]. let
+                                
+                              in (cmy, cmz, cna, cnb, cnc, cnd, cne, cnf, cng, cnh,
+                                cni, cnj, cnk, cnl, cnm, cnn, cno, cnp, cnq, cnr,
+                                cns, cnt, cnu, cnv, cnw, cnx, cny, cnz, coa, cob,
+                                coc, cod, coe, cof) }
+                            { lambda ; cog:f32[8] coh:f32[2,8] coi:f32[16] coj:f32[8,16]
+                                cok:f32[16] col:f32[16,16] com:f32[8] con:f32[16,8]
+                                coo:f32[1] cop:f32[8,1] coq:f32[8] cor:f32[2,8] cos:f32[16]
+                                cot:f32[8,16] cou:f32[16] cov:f32[16,16] cow:f32[8]
+                                cox:f32[16,8] coy:f32[1] coz:f32[8,1] cpa:f32[] cpb:f32[8]
+                                cpc:f32[2,8] cpd:f32[16] cpe:f32[8,16] cpf:f32[16]
+                                cpg:f32[16,16] cph:f32[8] cpi:f32[16,8] cpj:f32[1]
+                                cpk:f32[8,1] cpl:f32[] cpm:f32[] cpn:f32[] cpo_:f32[8]
+                                cpp_:f32[2,8] cpq_:f32[16] cpr_:f32[8,16] cps_:f32[16]
+                                cpt_:f32[16,16] cpu_:f32[8] cpv_:f32[16,8] cpw_:f32[1]
+                                cpx_:f32[8,1] cpy_:f32[8] cpz_:f32[2,8] cqa_:f32[16]
+                                cqb_:f32[8,16] cqc_:f32[16] cqd_:f32[16,16] cqe_:f32[8]
+                                cqf_:f32[16,8] cqg_:f32[1] cqh_:f32[8,1] cqi_:f32[]
+                                cqj_:f32[8] cqk_:f32[2,8] cql_:f32[16] cqm_:f32[8,16]
+                                cqn_:f32[16] cqo_:f32[16,16] cqp_:f32[8] cqq_:f32[16,8]
+                                cqr_:f32[1] cqs_:f32[8,1] cqt_:f32[] cqu_:f32[] cqv_:f32[]. let
+                                
+                              in (cog, coh, coi, coj, cok, col, com, con, coo, cop,
+                                coq, cor, cos, cot, cou, cov, cow, cox, coy, coz,
+                                cpa, cpb, cpc, cpd, cpe, cpf, cpg, cph, cpi, cpj,
+                                cpk, cpl, cpm, cpn) }
+                          )
+                          linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+                        ] ckh cev cew cex cey cez cfa cfb cfc cfd cfe cdw cdy cea
+                          cec cee ceg cei cek cem ceo cff cfg cfh cfi cfj cfk cfl
+                          cfm cfn cfo cfp cfq cjb cjr cfr cfs cft cfu cfv cfw cfx
+                          cfy cfz cga cgb cgc cgd cge cgf cgg cgh cgi cgj cgk cgl
+                          cgm cgn cgo cgp cgq cgr cgs cgt cgu cgv cgw cjb cjr
+                      in (cgx, cgy, cgz, cha, chb, chc, chd, che, chf, chg, chh,
+                        chi, chj, chk, chl, chm, chn, cho, chp, chq, chr, chs, cht,
+                        chu, chv, chw, chx, chy, chz, cia, cib, cev, cew, cex, cey,
+                        cez, cfa, cfb, cfc, cfd, cfe, cdw, cdy, cea, cec, cee, ceg,
+                        cei, cek, cem, ceo, cff, cfg, cfh, cfi, cfj, cfk, cfl, cfm,
+                        cfn, cfo, cfp, cic, cid, cie, cif, cig, cih, cii, cij, cik,
+                        cil, cim, cki, ckj, ckk, ckl, ckm, ckn, cko, ckp, ckq, ckr,
+                        cks, ckt, cku, ckv, ckw, ckx, cky, ckz, cla, clb, clc, cld,
+                        cle, clf, clg, clh, cli, clj, clk, cll, clm, cln, clo, clp) }
+                    { lambda ; cqw:f32[8] cqx:f32[2,8] cqy:f32[16] cqz:f32[8,16]
+                        cra:f32[16] crb:f32[16,16] crc:f32[8] crd:f32[16,8] cre:f32[1]
+                        crf:f32[8,1] crg:f32[8] crh:f32[2,8] cri:f32[16] crj:f32[8,16]
+                        crk:f32[16] crl:f32[16,16] crm:f32[8] crn:f32[16,8] cro:f32[1]
+                        crp:f32[8,1] crq:f32[] crr:f32[8] crs:f32[2,8] crt:f32[16]
+                        cru:f32[8,16] crv:f32[16] crw:f32[16,16] crx:f32[8] cry:f32[16,8]
+                        crz:f32[1] csa:f32[8,1] csb:f32[] csc:f32[] csd:f32[] cse_:f32[8]
+                        csf_:f32[8] csg_:f32[2,8] csh_:f32[2,8] csi_:f32[16] csj_:f32[16]
+                        csk_:f32[8,16] csl_:f32[8,16] csm_:f32[16] csn_:f32[16] cso_:f32[16,16]
+                        csp_:f32[16,16] csq_:f32[8] csr_:f32[8] css_:f32[16,8] cst_:f32[16,8]
+                        csu_:f32[1] csv_:f32[1] csw_:f32[8,1] csx_:f32[8,1] csy_:i32[]
+                        csz_:f32[] cta_:f32[] ctb_:u32[2] ctc_:f32[] ctd_:f32[] cte_:f32[8]
+                        ctf_:f32[2,8] ctg_:f32[16] cth_:f32[8,16] cti_:f32[16] ctj_:f32[16,16]
+                        ctk_:f32[8] ctl_:f32[16,8] ctm_:f32[1] ctn_:f32[8,1] cto_:f32[]
+                        ctp_:f32[8] ctq_:f32[2,8] ctr_:f32[16] cts_:f32[8,16] ctt_:f32[16]
+                        ctu_:f32[16,16] ctv_:f32[8] ctw_:f32[16,8] ctx_:f32[1] cty_:f32[8,1]
+                        ctz_:f32[] cua_:f32[8] cub_:f32[2,8] cuc_:f32[16] cud_:f32[8,16]
+                        cue_:f32[16] cuf_:f32[16,16] cug_:f32[8] cuh_:f32[16,8] cui_:f32[1]
+                        cuj_:f32[8,1] cuk_:f32[8] cul_:f32[2,8] cum_:f32[16] cun_:f32[8,16]
+                        cuo_:f32[16] cup_:f32[16,16] cuq_:f32[8] cur_:f32[16,8] cus_:f32[1]
+                        cut_:f32[8,1] cuu_:f32[] cuv_:f32[8] cuw_:f32[2,8] cux_:f32[16]
+                        cuy_:f32[8,16] cuz_:f32[16] cva_:f32[16,16] cvb_:f32[8] cvc_:f32[16,8]
+                        cvd_:f32[1] cve_:f32[8,1] cvf_:f32[] cvg_:f32[8] cvh_:f32[2,8]
+                        cvi_:f32[16] cvj_:f32[8,16] cvk_:f32[16] cvl_:f32[16,16]
+                        cvm_:f32[8] cvn_:f32[16,8] cvo_:f32[1] cvp_:f32[8,1] cvq_:f32[8]
+                        cvr_:f32[2,8] cvs_:f32[16] cvt_:f32[8,16] cvu_:f32[16] cvv_:f32[16,16]
+                        cvw_:f32[8] cvx_:f32[16,8] cvy_:f32[1] cvz_:f32[8,1] cwa_:f32[]
+                        cwb_:f32[8] cwc_:f32[2,8] cwd_:f32[16] cwe_:f32[8,16] cwf_:f32[16]
+                        cwg_:f32[16,16] cwh_:f32[8] cwi_:f32[16,8] cwj_:f32[1] cwk_:f32[8,1]. let
+                        
+                      in (cqw, cqx, cqy, cqz, cra, crb, crc, crd, cre, crf, crg,
+                        crh, cri, crj, crk, crl, crm, crn, cro, crp, crq, crr, crs,
+                        crt, cru, crv, crw, crx, cry, crz, csa, cqw, cqx, cqy, cqz,
+                        cra, crb, crc, crd, cre, crf, crg, crh, cri, crj, crk, crl,
+                        crm, crn, cro, crp, crq, crr, crs, crt, cru, crv, crw, crx,
+                        cry, crz, csa, crg, crh, cri, crj, crk, crl, crm, crn, cro,
+                        crp, 1, cqw, cqx, cqy, cqz, cra, crb, crc, crd, cre, crf,
+                        crg, crh, cri, crj, crk, crl, crm, crn, cro, crp, crq, crr,
+                        crs, crt, cru, crv, crw, crx, cry, crz, csa, csb, csc, csd) }
+                  )
+                  linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+                ] byj bjv bjz bkd bkh bkl bkp bkt bkx blb blf bwa bwe bwi bwm bwq
+                  bwu bwy bxc bxg bxk brs bvw bvv bvt bvs bvq bvp bvn bvm bvk bvj
+                  bxu bxz byh bgc bwa bgd bwe bge bwi bgf bwm bgg bwq bgh bwu bgi
+                  bwy bgj bxc bgk bxg bgl bxk bgm bxz bdq bgz bdr byh bjv bjz bkd
+                  bkh bkl bkp bkt bkx blb blf brs bvw bvv bvt bvs bvq bvp bvn bvm
+                  bvk bvj bxu bck bcl bcm bcn bco bcp bcq bcr bcs bct bcu bcv bcw
+                  bcx bcy bcz bda bdb bdc bdd bde bdf bdg bdh bdi bdj bdk bdl bdm
+                  bdn bdo bdp bds bdt bdu bdv bdw bdx bdy bdz bea beb bec bed bee
+                  bef beg beh bei bej bek bel bem ben beo bep beq ber bes bet beu
+                  bev bew
+                cwl:i32[] = shift_right_arithmetic bcj 1
+                _:i32[] cwm:i32[] = while[
+                  body_jaxpr={ lambda ; cwn:i32[] cwo:i32[]. let
+                      cwp:i32[] = shift_right_arithmetic cwn 1
+                      cwq:i32[] = and cwn 1
+                      cwr:i32[] = add cwo cwq
+                    in (cwp, cwr) }
+                  body_nconsts=0
+                  cond_jaxpr={ lambda ; cws:i32[] cwt:i32[]. let
+                      cwu:bool[] = gt cws 0
+                    in (cwu,) }
+                  cond_nconsts=0
+                ] cwl 0
+                _:i32[] cwv:i32[] = while[
+                  body_jaxpr={ lambda ; cww:i32[] cwx:i32[]. let
+                      cwy:i32[] = shift_right_arithmetic cww 1
+                      cwz:i32[] = add cwx 1
+                    in (cwy, cwz) }
+                  body_nconsts=0
+                  cond_jaxpr={ lambda ; cxa:i32[] cxb:i32[]. let
+                      cxc:i32[] = and cxa 1
+                      cxd:bool[] = ne cxc 0
+                    in (cxd,) }
+                  cond_nconsts=0
+                ] bcj 0
+                cxe:i32[] = sub cwm cwv
+                cxf:i32[] = add cxe 1
+                cxg:f32[16] = reshape[dimensions=None new_sizes=(16,)] bwe
+                cxh:f32[128] = reshape[dimensions=None new_sizes=(128,)] bwm
+                cxi:f32[256] = reshape[dimensions=None new_sizes=(256,)] bwu
+                cxj:f32[128] = reshape[dimensions=None new_sizes=(128,)] bxc
+                cxk:f32[8] = reshape[dimensions=None new_sizes=(8,)] bxk
+                cxl:f32[585] = concatenate[dimension=0] bwa cxg bwi cxh bwq cxi bwy
+                  cxj bxg cxk
+                cxm:f32[16] = reshape[dimensions=None new_sizes=(16,)] cav
+                cxn:f32[128] = reshape[dimensions=None new_sizes=(128,)] cax
+                cxo:f32[256] = reshape[dimensions=None new_sizes=(256,)] caz
+                cxp:f32[128] = reshape[dimensions=None new_sizes=(128,)] cbb
+                cxq:f32[8] = reshape[dimensions=None new_sizes=(8,)] cbd
+                cxr:f32[585] = concatenate[dimension=0] cau cxm caw cxn cay cxo cba
+                  cxp cbc cxq
+                cxs:i32[] = xla_call[
+                  call_jaxpr={ lambda ; cxt:i32[] cxu:i32[]. let
+                      cxv:i32[] = rem cxt cxu
+                      cxw:bool[] = ne cxv 0
+                      cxx:bool[] = lt cxv 0
+                      cxy:bool[] = lt cxu 0
+                      cxz:bool[] = ne cxx cxy
+                      cya:bool[] = and cxz cxw
+                      cyb:i32[] = add cxv cxu
+                      cyc:i32[] = select_n cya cxv cyb
+                    in (cyc,) }
+                  name=remainder
+                ] bcj 2
+                cyd:bool[] = eq cxs 0
+                cye:i32[] = convert_element_type[
+                  new_dtype=int32
+                  weak_type=False
+                ] cyd
+                cyf:f32[10,585] cyg:f32[10,585] = cond[
+                  branches=(
+                    { lambda ; cyh_:i32[] cyi_:f32[585] cyj_:f32[585] cyk:f32[10,585]
+                        cyl:f32[10,585] cym:f32[10,585] cyn:f32[10,585]. let
+                        
+                      in (cym, cyn) }
+                    { lambda ; cyo:i32[] cyp:f32[585] cyq:f32[585] cyr:f32[10,585]
+                        cys:f32[10,585] cyt:f32[10,585] cyu:f32[10,585]. let
+                        cyv:bool[] = lt cyo 0
+                        cyw:i32[] = add cyo 10
+                        cyx:i32[] = select_n cyv cyo cyw
+                        cyy:i32[] = convert_element_type[
+                          new_dtype=int32
+                          weak_type=False
+                        ] cyx
+                        cyz:i32[1] = broadcast_in_dim[
+                          broadcast_dimensions=()
+                          shape=(1,)
+                        ] cyy
+                        cza:f32[10,585] = scatter[
+                          dimension_numbers=ScatterDimensionNumbers(update_window_dims=(0,), inserted_window_dims=(0,), scatter_dims_to_operand_dims=(0,))
+                          indices_are_sorted=True
+                          mode=GatherScatterMode.FILL_OR_DROP
+                          unique_indices=True
+                          update_consts=()
+                          update_jaxpr={ lambda ; czb:f32[] czc:f32[]. let
+                              
+                            in (czc,) }
+                        ] cyr cyz cyp
+                        czd:bool[] = lt cyo 0
+                        cze:i32[] = add cyo 10
+                        czf:i32[] = select_n czd cyo cze
+                        czg:i32[] = convert_element_type[
+                          new_dtype=int32
+                          weak_type=False
+                        ] czf
+                        czh:i32[1] = broadcast_in_dim[
+                          broadcast_dimensions=()
+                          shape=(1,)
+                        ] czg
+                        czi:f32[10,585] = scatter[
+                          dimension_numbers=ScatterDimensionNumbers(update_window_dims=(0,), inserted_window_dims=(0,), scatter_dims_to_operand_dims=(0,))
+                          indices_are_sorted=True
+                          mode=GatherScatterMode.FILL_OR_DROP
+                          unique_indices=True
+                          update_consts=()
+                          update_jaxpr={ lambda ; czb:f32[] czc:f32[]. let
+                              
+                            in (czc,) }
+                        ] cys czh cyq
+                      in (cza, czi) }
+                  )
+                  linear=(False, False, False, False, False, False, False)
+                ] cye cwm cxl cxr bgn bgo bgn bgo
+                czj:f32[16] = reshape[dimensions=None new_sizes=(16,)] bwe
+                czk:f32[128] = reshape[dimensions=None new_sizes=(128,)] bwm
+                czl:f32[256] = reshape[dimensions=None new_sizes=(256,)] bwu
+                czm:f32[128] = reshape[dimensions=None new_sizes=(128,)] bxc
+                czn:f32[8] = reshape[dimensions=None new_sizes=(8,)] bxk
+                czo:f32[585] = concatenate[dimension=0] bwa czj bwi czk bwq czl bwy
+                  czm bxg czn
+                czp:f32[16] = reshape[dimensions=None new_sizes=(16,)] cav
+                czq:f32[128] = reshape[dimensions=None new_sizes=(128,)] cax
+                czr:f32[256] = reshape[dimensions=None new_sizes=(256,)] caz
+                czs:f32[128] = reshape[dimensions=None new_sizes=(128,)] cbb
+                czt:f32[8] = reshape[dimensions=None new_sizes=(8,)] cbd
+                czu:f32[585] = concatenate[dimension=0] cau czp caw czq cay czr cba
+                  czs cbc czt
+                _:i32[] czv:bool[] = while[
+                  body_jaxpr={ lambda ; czw:f32[10,585] czx:f32[585] czy:f32[10,585]
+                      czz:f32[585] daa:f32[585] dab:i32[] dac:bool[]. let
+                      dad:bool[] = lt dab 0
+                      dae:i32[] = add dab 10
+                      daf:i32[] = select_n dad dab dae
+                      dag:i32[] = convert_element_type[
+                        new_dtype=int32
+                        weak_type=False
+                      ] daf
+                      dah:i32[1] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1,)
+                      ] dag
+                      dai:f32[585] = gather[
+                        dimension_numbers=GatherDimensionNumbers(offset_dims=(0,), collapsed_slice_dims=(0,), start_index_map=(0,))
+                        fill_value=None
+                        indices_are_sorted=True
+                        mode=GatherScatterMode.PROMISE_IN_BOUNDS
+                        slice_sizes=(1, 585)
+                        unique_indices=True
+                      ] czw dah
+                      daj:f32[585] = sub czx dai
+                      dak:bool[] = lt dab 0
+                      dal:i32[] = add dab 10
+                      dam:i32[] = select_n dak dab dal
+                      dan:i32[] = convert_element_type[
+                        new_dtype=int32
+                        weak_type=False
+                      ] dam
+                      dao:i32[1] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1,)
+                      ] dan
+                      dap:f32[585] = gather[
+                        dimension_numbers=GatherDimensionNumbers(offset_dims=(0,), collapsed_slice_dims=(0,), start_index_map=(0,))
+                        fill_value=None
+                        indices_are_sorted=True
+                        mode=GatherScatterMode.PROMISE_IN_BOUNDS
+                        slice_sizes=(1, 585)
+                        unique_indices=True
+                      ] czy dao
+                      daq:f32[585] = add daj dap
+                      dar:i32[] = sub dab 1
+                      das:bool[] = lt dab 0
+                      dat:i32[] = add dab 10
+                      dau:i32[] = select_n das dab dat
+                      dav:i32[] = convert_element_type[
+                        new_dtype=int32
+                        weak_type=False
+                      ] dau
+                      daw:i32[1] = broadcast_in_dim[
+                        broadcast_dimensions=()
+                        shape=(1,)
+                      ] dav
+                      dax:f32[585] = gather[
+                        dimension_numbers=GatherDimensionNumbers(offset_dims=(0,), collapsed_slice_dims=(0,), start_index_map=(0,))
+                        fill_value=None
+                        indices_are_sorted=True
+                        mode=GatherScatterMode.PROMISE_IN_BOUNDS
+                        slice_sizes=(1, 585)
+                        unique_indices=True
+                      ] czy daw
+                      day:f32[585] = mul daa dax
+                      daz:f32[585] = mul daa czz
+                      dba:f32[585] = add czz dax
+                      dbb:f32[585] = div dba 2.0
+                      dbc:f32[585] = sub daq dbb
+                      dbd:f32[] = dot_general[
+                        dimension_numbers=(((0,), (0,)), ((), ()))
+                        precision=None
+                        preferred_element_type=None
+                      ] day dbc
+                      dbe:bool[] = le dbd 0.0
+                      dbf:f32[] = dot_general[
+                        dimension_numbers=(((0,), (0,)), ((), ()))
+                        precision=None
+                        preferred_element_type=None
+                      ] daz dbc
+                      dbg:bool[] = le dbf 0.0
+                      dbh:bool[] = or dbe dbg
+                    in (dar, dbh) }
+                  body_nconsts=5
+                  cond_jaxpr={ lambda ; dbi:i32[] dbj:i32[] dbk:bool[]. let
+                      dbl:bool[] = ge dbj dbi
+                      dbm:bool[] = convert_element_type[
+                        new_dtype=bool
+                        weak_type=False
+                      ] dbk
+                      dbn:bool[] = not dbm
+                      dbo:bool[] = convert_element_type[
+                        new_dtype=bool
+                        weak_type=False
+                      ] dbl
+                      dbp:bool[] = and dbo dbn
+                    in (dbp,) }
+                  cond_nconsts=1
+                ] cxf cyg czu cyf czo bce cwm False
+                dbq:i32[] = add bcj 1
+              in (bgx, dbq, cbf, cbg, cbh, cbi, cbj, cbk, cbl, cbm, cbn, cbo, cbp,
+                cbq, cbr, cbs, cbt, cbu, cbv, cbw, cbx, cby, cbz, cca, ccb, ccc,
+                ccd, cce, ccf, ccg, cch, cci, ccj, cck, ccl, ccm, byk, byl, bym,
+                byn, byo, byp, byq, byr, bys, byt, byu, byv, byw, byx, byy, byz,
+                bza, bzb, bzc, bzd, bze, bzf, bzg, bzh, bzi, bzj, bzk, bzl, bzm,
+                bzn, bzo, bzp, bzq, bzr, bzs, bzt, bzu, bzv, bzw, bzx, bzy, bzz,
+                caa, cab, cac, cad, cae, caf, cag, cah, cai, caj, cak, cal, cam,
+                can, cao, cap, caq, car, cas, cat, cau, cav, caw, cax, cay, caz,
+                cba, cbb, cbc, cbd, cbe, cyf, cyg, cxf, cwm, byg, czv) }
+            body_nconsts=6
+            cond_jaxpr={ lambda ; dbr:i32[] dbs:u32[2] dbt:i32[] dbu:f32[8] dbv:f32[2,8]
+                dbw:f32[16] dbx:f32[8,16] dby:f32[16] dbz:f32[16,16] dca:f32[8] dcb:f32[16,8]
+                dcc:f32[1] dcd:f32[8,1] dce:f32[8] dcf:f32[2,8] dcg:f32[16] dch:f32[8,16]
+                dci:f32[16] dcj:f32[16,16] dck:f32[8] dcl:f32[16,8] dcm:f32[1] dcn:f32[8,1]
+                dco:f32[] dcp:f32[8] dcq:f32[2,8] dcr:f32[16] dcs:f32[8,16] dct:f32[16]
+                dcu:f32[16,16] dcv:f32[8] dcw:f32[16,8] dcx:f32[1] dcy:f32[8,1] dcz:f32[]
+                dda:f32[] ddb:f32[] ddc:f32[8] ddd:f32[2,8] dde:f32[16] ddf:f32[8,16]
+                ddg:f32[16] ddh:f32[16,16] ddi:f32[8] ddj:f32[16,8] ddk:f32[1] ddl:f32[8,1]
+                ddm:f32[8] ddn:f32[2,8] ddo:f32[16] ddp:f32[8,16] ddq:f32[16] ddr:f32[16,16]
+                dds:f32[8] ddt:f32[16,8] ddu:f32[1] ddv:f32[8,1] ddw:f32[] ddx:f32[8]
+                ddy:f32[2,8] ddz:f32[16] dea:f32[8,16] deb:f32[16] dec:f32[16,16]
+                ded:f32[8] dee:f32[16,8] def:f32[1] deg:f32[8,1] deh:f32[8] dei:f32[2,8]
+                dej:f32[16] dek:f32[8,16] del:f32[16] dem:f32[16,16] den:f32[8] deo:f32[16,8]
+                dep:f32[1] deq:f32[8,1] der:f32[8] des:f32[2,8] det:f32[16] deu:f32[8,16]
+                dev:f32[16] dew:f32[16,16] dex:f32[8] dey:f32[16,8] dez:f32[1] dfa:f32[8,1]
+                dfb:f32[] dfc:f32[8] dfd:f32[2,8] dfe:f32[16] dff:f32[8,16] dfg:f32[16]
+                dfh:f32[16,16] dfi:f32[8] dfj:f32[16,8] dfk:f32[1] dfl:f32[8,1] dfm:f32[8]
+                dfn:f32[2,8] dfo:f32[16] dfp:f32[8,16] dfq:f32[16] dfr:f32[16,16]
+                dfs:f32[8] dft:f32[16,8] dfu:f32[1] dfv:f32[8,1] dfw:i32[] dfx:f32[10,585]
+                dfy:f32[10,585] dfz:i32[] dga:i32[] dgb:bool[] dgc:bool[]. let
+                dgd:i32[] = convert_element_type[
+                  new_dtype=int32
+                  weak_type=False
+                ] dbt
+                dge:bool[] = lt dgd dbr
+                dgf:bool[] = convert_element_type[
+                  new_dtype=bool
+                  weak_type=False
+                ] dgc
+                dgg:bool[] = not dgf
+                dgh:bool[] = and dge dgg
+                dgi:bool[] = convert_element_type[
+                  new_dtype=bool
+                  weak_type=False
+                ] dgb
+                dgj:bool[] = not dgi
+                dgk:bool[] = and dgh dgj
+              in (dgk,) }
+            cond_nconsts=1
+          ] wr od is iq it iu ir no 0 ok ol om on oo op oq or os ot ou ov ow ox oy
+            oz pa pb pc pd pe pf pg ph pi pj pk pl pm pn po xg xl xs ok ol om on
+            oo op oq or os ot ou ov ow ox oy oz pa pb pc pd pe pf pg ph pi pj pk
+            pl pm pn po ok ol om on oo op oq or os ot ou ov ow ox oy oz pa pb pc
+            pd pe pf pg ph pi pj pk pl pm pn po ou ov ow ox oy oz pa pb pc pd 0 na
+            nb nc nd False False
+          dgl:bool[] = gt od 0
+          dgm:i32[] = convert_element_type[new_dtype=int32 weak_type=False] dgl
+          dgn:f32[8] dgo:f32[2,8] dgp:f32[16] dgq:f32[8,16] dgr:f32[16] dgs:f32[16,16]
+            dgt:f32[8] dgu:f32[16,8] dgv:f32[1] dgw:f32[8,1] dgx:f32[8] dgy:f32[2,8]
+            dgz:f32[16] dha:f32[8,16] dhb:f32[16] dhc:f32[16,16] dhd:f32[8] dhe:f32[16,8]
+            dhf:f32[1] dhg:f32[8,1] dhh:f32[] dhi:f32[8] dhj:f32[2,8] dhk:f32[16]
+            dhl:f32[8,16] dhm:f32[16] dhn:f32[16,16] dho:f32[8] dhp:f32[16,8] dhq:f32[1]
+            dhr:f32[8,1] dhs:f32[8] dht:f32[2,8] dhu:f32[16] dhv:f32[8,16] dhw:f32[16]
+            dhx:f32[16,16] dhy:f32[8] dhz:f32[16,8] dia:f32[1] dib:f32[8,1] dic:f32[8]
+            did:f32[2,8] die:f32[16] dif:f32[8,16] dig:f32[16] dih:f32[16,16] dii:f32[8]
+            dij:f32[16,8] dik:f32[1] dil:f32[8,1] dim:f32[] din:f32[8] dio:f32[2,8]
+            dip:f32[16] diq:f32[8,16] dir:f32[16] dis:f32[16,16] dit:f32[8] diu:f32[16,8]
+            div:f32[1] diw:f32[8,1] dix:f32[8] diy:f32[2,8] diz:f32[16] dja:f32[8,16]
+            djb:f32[16] djc:f32[16,16] djd:f32[8] dje:f32[16,8] djf:f32[1] djg:f32[8,1]
+            djh:i32[] = cond[
+            branches=(
+              { lambda ; dji_:f32[8] djj_:f32[2,8] djk_:f32[16] djl_:f32[8,16] djm_:f32[16]
+                  djn_:f32[16,16] djo_:f32[8] djp_:f32[16,8] djq_:f32[1] djr_:f32[8,1]
+                  djs_:f32[8] djt_:f32[2,8] dju_:f32[16] djv_:f32[8,16] djw_:f32[16]
+                  djx_:f32[16,16] djy_:f32[8] djz_:f32[16,8] dka_:f32[1] dkb_:f32[8,1]
+                  dkc_:f32[] dkd_:f32[8] dke_:f32[2,8] dkf_:f32[16] dkg_:f32[8,16]
+                  dkh_:f32[16] dki_:f32[16,16] dkj_:f32[8] dkk_:f32[16,8] dkl_:f32[1]
+                  dkm_:f32[8,1] dkn_:f32[8] dko_:f32[2,8] dkp_:f32[16] dkq_:f32[8,16]
+                  dkr_:f32[16] dks_:f32[16,16] dkt_:f32[8] dku_:f32[16,8] dkv_:f32[1]
+                  dkw_:f32[8,1] dkx_:f32[8] dky_:f32[2,8] dkz_:f32[16] dla_:f32[8,16]
+                  dlb_:f32[16] dlc_:f32[16,16] dld_:f32[8] dle_:f32[16,8] dlf_:f32[1]
+                  dlg_:f32[8,1] dlh_:f32[] dli_:f32[8] dlj_:f32[2,8] dlk_:f32[16]
+                  dll_:f32[8,16] dlm_:f32[16] dln_:f32[16,16] dlo_:f32[8] dlp_:f32[16,8]
+                  dlq_:f32[1] dlr_:f32[8,1] dls_:f32[8] dlt_:f32[2,8] dlu_:f32[16]
+                  dlv_:f32[8,16] dlw_:f32[16] dlx_:f32[16,16] dly_:f32[8] dlz_:f32[16,8]
+                  dma_:f32[1] dmb_:f32[8,1] dmc_:i32[] dmd:f32[8] dme:f32[2,8] dmf:f32[16]
+                  dmg:f32[8,16] dmh:f32[16] dmi:f32[16,16] dmj:f32[8] dmk:f32[16,8]
+                  dml:f32[1] dmm:f32[8,1] dmn:f32[8] dmo:f32[2,8] dmp:f32[16] dmq:f32[8,16]
+                  dmr:f32[16] dms:f32[16,16] dmt:f32[8] dmu:f32[16,8] dmv:f32[1]
+                  dmw:f32[8,1] dmx:f32[] dmy:f32[8] dmz:f32[2,8] dna:f32[16] dnb:f32[8,16]
+                  dnc:f32[16] dnd:f32[16,16] dne:f32[8] dnf:f32[16,8] dng:f32[1]
+                  dnh:f32[8,1] dni:f32[8] dnj:f32[2,8] dnk:f32[16] dnl:f32[8,16]
+                  dnm:f32[16] dnn:f32[16,16] dno:f32[8] dnp:f32[16,8] dnq:f32[1]
+                  dnr:f32[8,1] dns:f32[8] dnt:f32[2,8] dnu:f32[16] dnv:f32[8,16]
+                  dnw:f32[16] dnx:f32[16,16] dny:f32[8] dnz:f32[16,8] doa:f32[1]
+                  dob:f32[8,1] doc:f32[] dod:f32[8] doe:f32[2,8] dof:f32[16] dog:f32[8,16]
+                  doh:f32[16] doi:f32[16,16] doj:f32[8] dok:f32[16,8] dol:f32[1]
+                  dom:f32[8,1] don:f32[8] doo:f32[2,8] dop:f32[16] doq:f32[8,16]
+                  dor:f32[16] dos:f32[16,16] dot:f32[8] dou:f32[16,8] dov:f32[1]
+                  dow:f32[8,1] dox:i32[]. let
+                  
+                in (dmd, dme, dmf, dmg, dmh, dmi, dmj, dmk, dml, dmm, dmn, dmo, dmp,
+                  dmq, dmr, dms, dmt, dmu, dmv, dmw, dmx, dmy, dmz, dna, dnb, dnc,
+                  dnd, dne, dnf, dng, dnh, dni, dnj, dnk, dnl, dnm, dnn, dno, dnp,
+                  dnq, dnr, dns, dnt, dnu, dnv, dnw, dnx, dny, dnz, doa, dob, doc,
+                  dod, doe, dof, dog, doh, doi, doj, dok, dol, dom, don, doo, dop,
+                  doq, dor, dos, dot, dou, dov, dow, dox) }
+              { lambda ; doy:f32[8] doz:f32[2,8] dpa:f32[16] dpb:f32[8,16] dpc:f32[16]
+                  dpd:f32[16,16] dpe:f32[8] dpf:f32[16,8] dpg:f32[1] dph:f32[8,1]
+                  dpi:f32[8] dpj:f32[2,8] dpk:f32[16] dpl:f32[8,16] dpm:f32[16] dpn:f32[16,16]
+                  dpo:f32[8] dpp:f32[16,8] dpq:f32[1] dpr:f32[8,1] dps:f32[] dpt:f32[8]
+                  dpu:f32[2,8] dpv:f32[16] dpw:f32[8,16] dpx:f32[16] dpy:f32[16,16]
+                  dpz:f32[8] dqa:f32[16,8] dqb:f32[1] dqc:f32[8,1] dqd:f32[8] dqe:f32[2,8]
+                  dqf:f32[16] dqg:f32[8,16] dqh:f32[16] dqi:f32[16,16] dqj:f32[8]
+                  dqk:f32[16,8] dql:f32[1] dqm:f32[8,1] dqn:f32[8] dqo:f32[2,8] dqp:f32[16]
+                  dqq:f32[8,16] dqr:f32[16] dqs:f32[16,16] dqt:f32[8] dqu:f32[16,8]
+                  dqv:f32[1] dqw:f32[8,1] dqx:f32[] dqy:f32[8] dqz:f32[2,8] dra:f32[16]
+                  drb:f32[8,16] drc:f32[16] drd:f32[16,16] dre:f32[8] drf:f32[16,8]
+                  drg:f32[1] drh:f32[8,1] dri:f32[8] drj:f32[2,8] drk:f32[16] drl:f32[8,16]
+                  drm:f32[16] drn:f32[16,16] dro:f32[8] drp:f32[16,8] drq:f32[1]
+                  drr:f32[8,1] drs:i32[] drt_:f32[8] dru_:f32[2,8] drv_:f32[16] drw_:f32[8,16]
+                  drx_:f32[16] dry_:f32[16,16] drz_:f32[8] dsa_:f32[16,8] dsb_:f32[1]
+                  dsc_:f32[8,1] dsd_:f32[8] dse_:f32[2,8] dsf_:f32[16] dsg_:f32[8,16]
+                  dsh_:f32[16] dsi_:f32[16,16] dsj_:f32[8] dsk_:f32[16,8] dsl_:f32[1]
+                  dsm_:f32[8,1] dsn_:f32[] dso_:f32[8] dsp_:f32[2,8] dsq_:f32[16]
+                  dsr_:f32[8,16] dss_:f32[16] dst_:f32[16,16] dsu_:f32[8] dsv_:f32[16,8]
+                  dsw_:f32[1] dsx_:f32[8,1] dsy_:f32[8] dsz_:f32[2,8] dta_:f32[16]
+                  dtb_:f32[8,16] dtc_:f32[16] dtd_:f32[16,16] dte_:f32[8] dtf_:f32[16,8]
+                  dtg_:f32[1] dth_:f32[8,1] dti_:f32[8] dtj_:f32[2,8] dtk_:f32[16]
+                  dtl_:f32[8,16] dtm_:f32[16] dtn_:f32[16,16] dto_:f32[8] dtp_:f32[16,8]
+                  dtq_:f32[1] dtr_:f32[8,1] dts_:f32[] dtt_:f32[8] dtu_:f32[2,8]
+                  dtv_:f32[16] dtw_:f32[8,16] dtx_:f32[16] dty_:f32[16,16] dtz_:f32[8]
+                  dua_:f32[16,8] dub_:f32[1] duc_:f32[8,1] dud_:f32[8] due_:f32[2,8]
+                  duf_:f32[16] dug_:f32[8,16] duh_:f32[16] dui_:f32[16,16] duj_:f32[8]
+                  duk_:f32[16,8] dul_:f32[1] dum_:f32[8,1] dun_:i32[]. let
+                  
+                in (doy, doz, dpa, dpb, dpc, dpd, dpe, dpf, dpg, dph, dpi, dpj, dpk,
+                  dpl, dpm, dpn, dpo, dpp, dpq, dpr, dps, dpt, dpu, dpv, dpw, dpx,
+                  dpy, dpz, dqa, dqb, dqc, dqd, dqe, dqf, dqg, dqh, dqi, dqj, dqk,
+                  dql, dqm, dqn, dqo, dqp, dqq, dqr, dqs, dqt, dqu, dqv, dqw, dqx,
+                  dqy, dqz, dra, drb, drc, drd, dre, drf, drg, drh, dri, drj, drk,
+                  drl, drm, drn, dro, drp, drq, drr, drs) }
+            )
+            linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+          ] dgm zb zc zd ze zf zg zh zi zj zk zl zm zn zo zp zq zr zs zt zu zv zw
+            zx zy zz baa bab bac bad bae baf bag bah bai baj bak bal bam ban bao
+            bap baq bar bas bat bau bav baw bax bay baz bba bbb bbc bbd bbe bbf bbg
+            bbh bbi bbj bbk bbl bbm bbn bbo bbp bbq bbr bbs bbt bbu bbv bag bah bai
+            baj bak bal bam ban bao bap baq bar bas bat bau bav baw bax bay baz bba
+            bbb bbc bbd bbe bbf bbg bbh bbi bbj bbk zb zc zd ze zf zg zh zi zj zk
+            zl zm zn zo zp zq zr zs zt zu zv zw zx zy zz baa bab bac bad bae baf
+            bbl bbm bbn bbo bbp bbq bbr bbs bbt bbu bbv
+          duo:bool[] = or bca bcb
+          dup:i32[] = convert_element_type[new_dtype=int32 weak_type=False] duo
+          duq:f32[8] dur:f32[2,8] dus:f32[16] dut:f32[8,16] duu:f32[16] duv:f32[16,16]
+            duw:f32[8] dux:f32[16,8] duy:f32[1] duz:f32[8,1] dva:f32[8] dvb:f32[2,8]
+            dvc:f32[16] dvd:f32[8,16] dve:f32[16] dvf:f32[16,16] dvg:f32[8] dvh:f32[16,8]
+            dvi:f32[1] dvj:f32[8,1] dvk:f32[] dvl:f32[8] dvm:f32[2,8] dvn:f32[16]
+            dvo:f32[8,16] dvp:f32[16] dvq:f32[16,16] dvr:f32[8] dvs:f32[16,8] dvt:f32[1]
+            dvu:f32[8,1] dvv:f32[] dvw:f32[] dvx:f32[] = cond[
+            branches=(
+              { lambda ; dvy:u32[2] dvz:f32[8] dwa:f32[2,8] dwb:f32[16] dwc:f32[8,16]
+                  dwd:f32[16] dwe:f32[16,16] dwf:f32[8] dwg:f32[16,8] dwh:f32[1]
+                  dwi:f32[8,1] dwj:f32[8] dwk:f32[2,8] dwl:f32[16] dwm:f32[8,16]
+                  dwn:f32[16] dwo:f32[16,16] dwp:f32[8] dwq:f32[16,8] dwr:f32[1]
+                  dws:f32[8,1] dwt:f32[] dwu:f32[8] dwv:f32[2,8] dww:f32[16] dwx:f32[8,16]
+                  dwy:f32[16] dwz:f32[16,16] dxa:f32[8] dxb:f32[16,8] dxc:f32[1]
+                  dxd:f32[8,1] dxe:f32[] dxf:f32[] dxg:f32[] dxh:f32[8] dxi:f32[2,8]
+                  dxj:f32[16] dxk:f32[8,16] dxl:f32[16] dxm:f32[16,16] dxn:f32[8]
+                  dxo:f32[16,8] dxp:f32[1] dxq:f32[8,1] dxr:f32[8] dxs:f32[2,8] dxt:f32[16]
+                  dxu:f32[8,16] dxv:f32[16] dxw:f32[16,16] dxx:f32[8] dxy:f32[16,8]
+                  dxz:f32[1] dya:f32[8,1] dyb:f32[] dyc:f32[8] dyd:f32[2,8] dye:f32[16]
+                  dyf:f32[8,16] dyg:f32[16] dyh:f32[16,16] dyi:f32[8] dyj:f32[16,8]
+                  dyk:f32[1] dyl:f32[8,1] dym:f32[] dyn:f32[] dyo:f32[]. let
+                  dyp:f32[] = convert_element_type[
+                    new_dtype=float32
+                    weak_type=False
+                  ] dxf
+                  dyq:f32[] = sub dyn dyp
+                  dyr:f32[] = exp dyq
+                  dys:f32[] = xla_call[
+                    call_jaxpr={ lambda ; dyt:f32[] dyu:i32[]. let
+                        dyv:f32[] = convert_element_type[
+                          new_dtype=float32
+                          weak_type=False
+                        ] dyu
+                        dyw:f32[] = min dyv dyt
+                      in (dyw,) }
+                    name=clip
+                  ] dyr 1
+                  dyx:key<fry>[] = random_wrap[impl=fry] dvy
+                  dyy:u32[] = random_bits[bit_width=32 shape=()] dyx
+                  dyz:u32[] = shift_right_logical dyy 9
+                  dza:u32[] = or dyz 1065353216
+                  dzb:f32[] = bitcast_convert_type[new_dtype=float32] dza
+                  dzc:f32[] = sub dzb 1.0
+                  dzd:f32[] = sub 1.0 0.0
+                  dze:f32[] = mul dzc dzd
+                  dzf:f32[] = add dze 0.0
+                  dzg:f32[] = reshape[dimensions=None new_sizes=()] dzf
+                  dzh:f32[] = max 0.0 dzg
+                  dzi:bool[] = lt dzh dys
+                  dzj:f32[] = custom_jvp_call[
+                    call_jaxpr={ lambda ; dzk:f32[] dzl:f32[]. let
+                        dzm:f32[] = xla_call[
+                          call_jaxpr={ lambda ; dzn:f32[] dzo:f32[]. let
+                              dzp:f32[] = convert_element_type[
+                                new_dtype=float32
+                                weak_type=False
+                              ] dzn
+                              dzq:f32[] = max dzp dzo
+                              dzr:f32[] = sub dzp dzo
+                              dzs:bool[] = ne dzr dzr
+                              dzt:f32[] = add dzp dzo
+                              dzu:f32[] = abs dzr
+                              dzv:f32[] = neg dzu
+                              dzw:f32[] = exp dzv
+                              dzx:f32[] = log1p dzw
+                              dzy:f32[] = add dzq dzx
+                              dzz:f32[] = select_n dzs dzy dzt
+                            in (dzz,) }
+                          name=logaddexp
+                        ] dzk dzl
+                      in (dzm,) }
+                    jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388a24050>
+                    num_consts=0
+                  ] dxf dyn
+                  eaa:f32[] = custom_jvp_call[
+                    call_jaxpr={ lambda ; eab:f32[] eac:f32[]. let
+                        ead:f32[] = xla_call[
+                          call_jaxpr={ lambda ; eae:f32[] eaf:f32[]. let
+                              eag:f32[] = convert_element_type[
+                                new_dtype=float32
+                                weak_type=False
+                              ] eae
+                              eah:f32[] = max eag eaf
+                              eai:f32[] = sub eag eaf
+                              eaj:bool[] = ne eai eai
+                              eak:f32[] = add eag eaf
+                              eal:f32[] = abs eai
+                              eam:f32[] = neg eal
+                              ean:f32[] = exp eam
+                              eao:f32[] = log1p ean
+                              eap:f32[] = add eah eao
+                              eaq:f32[] = select_n eaj eap eak
+                            in (eaq,) }
+                          name=logaddexp
+                        ] eab eac
+                      in (ead,) }
+                    jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc3888c84d0>
+                    num_consts=0
+                  ] dxg dyo
+                  ear:i32[] = convert_element_type[
+                    new_dtype=int32
+                    weak_type=False
+                  ] dzi
+                  eas:f32[8] eat:f32[2,8] eau:f32[16] eav:f32[8,16] eaw:f32[16] eax:f32[16,16]
+                    eay:f32[8] eaz:f32[16,8] eba:f32[1] ebb:f32[8,1] ebc:f32[8] ebd:f32[2,8]
+                    ebe:f32[16] ebf:f32[8,16] ebg:f32[16] ebh:f32[16,16] ebi:f32[8]
+                    ebj:f32[16,8] ebk:f32[1] ebl:f32[8,1] ebm:f32[] ebn:f32[8] ebo:f32[2,8]
+                    ebp:f32[16] ebq:f32[8,16] ebr:f32[16] ebs:f32[16,16] ebt:f32[8]
+                    ebu:f32[16,8] ebv:f32[1] ebw:f32[8,1] ebx:f32[] eby:f32[] ebz:f32[] = cond[
+                    branches=(
+                      { lambda ; eca_:f32[8] ecb_:f32[2,8] ecc_:f32[16] ecd_:f32[8,16]
+                          ece_:f32[16] ecf_:f32[16,16] ecg_:f32[8] ech_:f32[16,8]
+                          eci_:f32[1] ecj_:f32[8,1] eck_:f32[8] ecl_:f32[2,8] ecm_:f32[16]
+                          ecn_:f32[8,16] eco_:f32[16] ecp_:f32[16,16] ecq_:f32[8]
+                          ecr_:f32[16,8] ecs_:f32[1] ect_:f32[8,1] ecu_:f32[] ecv_:f32[8]
+                          ecw_:f32[2,8] ecx_:f32[16] ecy_:f32[8,16] ecz_:f32[16]
+                          eda_:f32[16,16] edb_:f32[8] edc_:f32[16,8] edd_:f32[1]
+                          ede_:f32[8,1] edf_:f32[] edg_:f32[] edh_:f32[] edi:f32[8]
+                          edj:f32[2,8] edk:f32[16] edl:f32[8,16] edm:f32[16] edn:f32[16,16]
+                          edo:f32[8] edp:f32[16,8] edq:f32[1] edr:f32[8,1] eds:f32[8]
+                          edt:f32[2,8] edu:f32[16] edv:f32[8,16] edw:f32[16] edx:f32[16,16]
+                          edy:f32[8] edz:f32[16,8] eea:f32[1] eeb:f32[8,1] eec:f32[]
+                          eed:f32[8] eee:f32[2,8] eef:f32[16] eeg:f32[8,16] eeh:f32[16]
+                          eei:f32[16,16] eej:f32[8] eek:f32[16,8] eel:f32[1] eem:f32[8,1]
+                          een:f32[] eeo:f32[] eep:f32[]. let
+                          
+                        in (edi, edj, edk, edl, edm, edn, edo, edp, edq, edr, eds,
+                          edt, edu, edv, edw, edx, edy, edz, eea, eeb, eec, eed,
+                          eee, eef, eeg, eeh, eei, eej, eek, eel, eem, een, eeo,
+                          eep) }
+                      { lambda ; eeq:f32[8] eer:f32[2,8] ees:f32[16] eet:f32[8,16]
+                          eeu:f32[16] eev:f32[16,16] eew:f32[8] eex:f32[16,8] eey:f32[1]
+                          eez:f32[8,1] efa:f32[8] efb:f32[2,8] efc:f32[16] efd:f32[8,16]
+                          efe:f32[16] eff:f32[16,16] efg:f32[8] efh:f32[16,8] efi:f32[1]
+                          efj:f32[8,1] efk:f32[] efl:f32[8] efm:f32[2,8] efn:f32[16]
+                          efo:f32[8,16] efp:f32[16] efq:f32[16,16] efr:f32[8] efs:f32[16,8]
+                          eft:f32[1] efu:f32[8,1] efv:f32[] efw:f32[] efx:f32[] efy_:f32[8]
+                          efz_:f32[2,8] ega_:f32[16] egb_:f32[8,16] egc_:f32[16]
+                          egd_:f32[16,16] ege_:f32[8] egf_:f32[16,8] egg_:f32[1]
+                          egh_:f32[8,1] egi_:f32[8] egj_:f32[2,8] egk_:f32[16] egl_:f32[8,16]
+                          egm_:f32[16] egn_:f32[16,16] ego_:f32[8] egp_:f32[16,8]
+                          egq_:f32[1] egr_:f32[8,1] egs_:f32[] egt_:f32[8] egu_:f32[2,8]
+                          egv_:f32[16] egw_:f32[8,16] egx_:f32[16] egy_:f32[16,16]
+                          egz_:f32[8] eha_:f32[16,8] ehb_:f32[1] ehc_:f32[8,1] ehd_:f32[]
+                          ehe_:f32[] ehf_:f32[]. let
+                          
+                        in (eeq, eer, ees, eet, eeu, eev, eew, eex, eey, eez, efa,
+                          efb, efc, efd, efe, eff, efg, efh, efi, efj, efk, efl,
+                          efm, efn, efo, efp, efq, efr, efs, eft, efu, efv, efw,
+                          efx) }
+                    )
+                    linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+                  ] ear dxh dxi dxj dxk dxl dxm dxn dxo dxp dxq dxr dxs dxt dxu dxv
+                    dxw dxx dxy dxz dya dyb dyc dyd dye dyf dyg dyh dyi dyj dyk dyl
+                    dym dzj eaa dvz dwa dwb dwc dwd dwe dwf dwg dwh dwi dwj dwk dwl
+                    dwm dwn dwo dwp dwq dwr dws dwt dwu dwv dww dwx dwy dwz dxa dxb
+                    dxc dxd dxe dzj eaa
+                in (eas, eat, eau, eav, eaw, eax, eay, eaz, eba, ebb, ebc, ebd, ebe,
+                  ebf, ebg, ebh, ebi, ebj, ebk, ebl, ebm, ebn, ebo, ebp, ebq, ebr,
+                  ebs, ebt, ebu, ebv, ebw, ebx, eby, ebz) }
+              { lambda ; ehg:u32[2] ehh:f32[8] ehi:f32[2,8] ehj:f32[16] ehk:f32[8,16]
+                  ehl:f32[16] ehm:f32[16,16] ehn:f32[8] eho:f32[16,8] ehp:f32[1]
+                  ehq:f32[8,1] ehr:f32[8] ehs:f32[2,8] eht:f32[16] ehu:f32[8,16]
+                  ehv:f32[16] ehw:f32[16,16] ehx:f32[8] ehy:f32[16,8] ehz:f32[1]
+                  eia:f32[8,1] eib:f32[] eic:f32[8] eid:f32[2,8] eie:f32[16] eif:f32[8,16]
+                  eig:f32[16] eih:f32[16,16] eii:f32[8] eij:f32[16,8] eik:f32[1]
+                  eil:f32[8,1] eim:f32[] ein:f32[] eio:f32[] eip:f32[8] eiq:f32[2,8]
+                  eir:f32[16] eis:f32[8,16] eit:f32[16] eiu:f32[16,16] eiv:f32[8]
+                  eiw:f32[16,8] eix:f32[1] eiy:f32[8,1] eiz:f32[8] eja:f32[2,8] ejb:f32[16]
+                  ejc:f32[8,16] ejd:f32[16] eje:f32[16,16] ejf:f32[8] ejg:f32[16,8]
+                  ejh:f32[1] eji:f32[8,1] ejj:f32[] ejk:f32[8] ejl:f32[2,8] ejm:f32[16]
+                  ejn:f32[8,16] ejo:f32[16] ejp:f32[16,16] ejq:f32[8] ejr:f32[16,8]
+                  ejs:f32[1] ejt:f32[8,1] eju:f32[] ejv:f32[] ejw:f32[]. let
+                  ejx:f32[] = custom_jvp_call[
+                    call_jaxpr={ lambda ; ejy:f32[] ejz:f32[]. let
+                        eka:f32[] = xla_call[
+                          call_jaxpr={ lambda ; ekb:f32[] ekc:f32[]. let
+                              ekd:f32[] = convert_element_type[
+                                new_dtype=float32
+                                weak_type=False
+                              ] ekb
+                              eke:f32[] = max ekd ekc
+                              ekf:f32[] = sub ekd ekc
+                              ekg:bool[] = ne ekf ekf
+                              ekh:f32[] = add ekd ekc
+                              eki:f32[] = abs ekf
+                              ekj:f32[] = neg eki
+                              ekk:f32[] = exp ekj
+                              ekl:f32[] = log1p ekk
+                              ekm:f32[] = add eke ekl
+                              ekn:f32[] = select_n ekg ekm ekh
+                            in (ekn,) }
+                          name=logaddexp
+                        ] ejy ejz
+                      in (eka,) }
+                    jvp_jaxpr_thunk=<function _memoize.<locals>.memoized at 0x7fc388a24f80>
+                    num_consts=0
+                  ] eio ejw
+                in (ehh, ehi, ehj, ehk, ehl, ehm, ehn, eho, ehp, ehq, ehr, ehs, eht,
+                  ehu, ehv, ehw, ehx, ehy, ehz, eia, eib, eic, eid, eie, eif, eig,
+                  eih, eii, eij, eik, eil, eim, ein, ejx) }
+            )
+            linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+          ] dup nq ix iy iz ja jb jc jd je jf jg jh ji jj jk jl jm jn jo jp jq jr
+            js jt ju jv jw jx jy jz ka kb kc kd ke xt xu xv xw xx xy xz ya yb yc
+            yd ye yf yg yh yi yj yk yl ym yn yo yp yq yr ys yt yu yv yw yx yy yz
+            za
+          eko:bool[] = gt od 0
+          ekp:i32[] = convert_element_type[new_dtype=int32 weak_type=False] eko
+          ekq:f32[8] ekr:f32[2,8] eks:f32[16] ekt:f32[8,16] eku:f32[16] ekv:f32[16,16]
+            ekw:f32[8] ekx:f32[16,8] eky:f32[1] ekz:f32[8,1] ela:f32[8] elb:f32[2,8]
+            elc:f32[16] eld:f32[8,16] ele:f32[16] elf:f32[16,16] elg:f32[8] elh:f32[16,8]
+            eli:f32[1] elj:f32[8,1] elk:f32[] ell:f32[8] elm:f32[2,8] eln:f32[16]
+            elo:f32[8,16] elp:f32[16] elq:f32[16,16] elr:f32[8] els:f32[16,8] elt:f32[1]
+            elu:f32[8,1] _:f32[8] _:f32[2,8] _:f32[16] _:f32[8,16] _:f32[16] _:f32[16,16]
+            _:f32[8] _:f32[16,8] _:f32[1] _:f32[8,1] _:f32[8] _:f32[2,8] _:f32[16]
+            _:f32[8,16] _:f32[16] _:f32[16,16] _:f32[8] _:f32[16,8] _:f32[1] _:f32[8,1]
+            _:f32[] _:f32[8] _:f32[2,8] _:f32[16] _:f32[8,16] _:f32[16] _:f32[16,16]
+            _:f32[8] _:f32[16,8] _:f32[1] _:f32[8,1] elv:f32[8] elw:f32[2,8] elx:f32[16]
+            ely:f32[8,16] elz:f32[16] ema:f32[16,16] emb:f32[8] emc:f32[16,8] emd:f32[1]
+            eme:f32[8,1] emf:i32[] _:f32[8] _:f32[2,8] _:f32[16] _:f32[8,16] _:f32[16]
+            _:f32[16,16] _:f32[8] _:f32[16,8] _:f32[1] _:f32[8,1] _:f32[8] _:f32[2,8]
+            _:f32[16] _:f32[8,16] _:f32[16] _:f32[16,16] _:f32[8] _:f32[16,8] _:f32[1]
+            _:f32[8,1] _:f32[] _:f32[8] _:f32[2,8] _:f32[16] _:f32[8,16] _:f32[16]
+            _:f32[16,16] _:f32[8] _:f32[16,8] _:f32[1] _:f32[8,1] emg:f32[8] emh:f32[2,8]
+            emi:f32[16] emj:f32[8,16] emk:f32[16] eml:f32[16,16] emm:f32[8] emn:f32[16,8]
+            emo:f32[1] emp:f32[8,1] emq:f32[8] emr:f32[2,8] ems:f32[16] emt:f32[8,16]
+            emu:f32[16] emv:f32[16,16] emw:f32[8] emx:f32[16,8] emy:f32[1] emz:f32[8,1]
+            ena:f32[] enb:f32[8] enc:f32[2,8] end:f32[16] ene:f32[8,16] enf:f32[16]
+            eng:f32[16,16] enh:f32[8] eni:f32[16,8] enj:f32[1] enk:f32[8,1] enl:f32[8]
+            enm:f32[2,8] enn:f32[16] eno:f32[8,16] enp:f32[16] enq:f32[16,16] enr:f32[8]
+            ens:f32[16,8] ent:f32[1] enu:f32[8,1] env:i32[] = cond[
+            branches=(
+              { lambda ; enw_:f32[8] enx_:f32[2,8] eny_:f32[16] enz_:f32[8,16] eoa_:f32[16]
+                  eob_:f32[16,16] eoc_:f32[8] eod_:f32[16,8] eoe_:f32[1] eof_:f32[8,1]
+                  eog_:f32[8] eoh_:f32[2,8] eoi_:f32[16] eoj_:f32[8,16] eok_:f32[16]
+                  eol_:f32[16,16] eom_:f32[8] eon_:f32[16,8] eoo_:f32[1] eop_:f32[8,1]
+                  eoq_:f32[] eor_:f32[8] eos_:f32[2,8] eot_:f32[16] eou_:f32[8,16]
+                  eov_:f32[16] eow_:f32[16,16] eox_:f32[8] eoy_:f32[16,8] eoz_:f32[1]
+                  epa_:f32[8,1] epb_:f32[8] epc_:f32[2,8] epd_:f32[16] epe_:f32[8,16]
+                  epf_:f32[16] epg_:f32[16,16] eph_:f32[8] epi_:f32[16,8] epj_:f32[1]
+                  epk_:f32[8,1] epl_:f32[8] epm_:f32[2,8] epn_:f32[16] epo_:f32[8,16]
+                  epp_:f32[16] epq_:f32[16,16] epr_:f32[8] eps_:f32[16,8] ept_:f32[1]
+                  epu_:f32[8,1] epv_:f32[] epw_:f32[8] epx_:f32[2,8] epy_:f32[16]
+                  epz_:f32[8,16] eqa_:f32[16] eqb_:f32[16,16] eqc_:f32[8] eqd_:f32[16,8]
+                  eqe_:f32[1] eqf_:f32[8,1] eqg_:f32[8] eqh_:f32[2,8] eqi_:f32[16]
+                  eqj_:f32[8,16] eqk_:f32[16] eql_:f32[16,16] eqm_:f32[8] eqn_:f32[16,8]
+                  eqo_:f32[1] eqp_:f32[8,1] eqq_:i32[] eqr_:f32[8] eqs_:f32[2,8]
+                  eqt_:f32[16] equ_:f32[8,16] eqv_:f32[16] eqw_:f32[16,16] eqx_:f32[8]
+                  eqy_:f32[16,8] eqz_:f32[1] era_:f32[8,1] erb_:f32[8] erc_:f32[2,8]
+                  erd_:f32[16] ere_:f32[8,16] erf_:f32[16] erg_:f32[16,16] erh_:f32[8]
+                  eri_:f32[16,8] erj_:f32[1] erk_:f32[8,1] erl_:f32[] erm_:f32[8]
+                  ern_:f32[2,8] ero_:f32[16] erp_:f32[8,16] erq_:f32[16] err_:f32[16,16]
+                  ers_:f32[8] ert_:f32[16,8] eru_:f32[1] erv_:f32[8,1] erw_:f32[8]
+                  erx_:f32[2,8] ery_:f32[16] erz_:f32[8,16] esa_:f32[16] esb_:f32[16,16]
+                  esc_:f32[8] esd_:f32[16,8] ese_:f32[1] esf_:f32[8,1] esg_:f32[8]
+                  esh_:f32[2,8] esi_:f32[16] esj_:f32[8,16] esk_:f32[16] esl_:f32[16,16]
+                  esm_:f32[8] esn_:f32[16,8] eso_:f32[1] esp_:f32[8,1] esq_:f32[]
+                  esr_:f32[8] ess_:f32[2,8] est_:f32[16] esu_:f32[8,16] esv_:f32[16]
+                  esw_:f32[16,16] esx_:f32[8] esy_:f32[16,8] esz_:f32[1] eta_:f32[8,1]
+                  etb_:f32[8] etc_:f32[2,8] etd_:f32[16] ete_:f32[8,16] etf_:f32[16]
+                  etg_:f32[16,16] eth_:f32[8] eti_:f32[16,8] etj_:f32[1] etk_:f32[8,1]
+                  etl_:i32[] etm:f32[8] etn:f32[2,8] eto:f32[16] etp:f32[8,16] etq:f32[16]
+                  etr:f32[16,16] ets:f32[8] ett:f32[16,8] etu:f32[1] etv:f32[8,1]
+                  etw:f32[8] etx:f32[2,8] ety:f32[16] etz:f32[8,16] eua:f32[16] eub:f32[16,16]
+                  euc:f32[8] eud:f32[16,8] eue:f32[1] euf:f32[8,1] eug:f32[] euh:f32[8]
+                  eui:f32[2,8] euj:f32[16] euk:f32[8,16] eul:f32[16] eum:f32[16,16]
+                  eun:f32[8] euo:f32[16,8] eup:f32[1] euq:f32[8,1] eur:f32[8] eus:f32[2,8]
+                  eut:f32[16] euu:f32[8,16] euv:f32[16] euw:f32[16,16] eux:f32[8]
+                  euy:f32[16,8] euz:f32[1] eva:f32[8,1] evb:f32[8] evc:f32[2,8] evd:f32[16]
+                  eve:f32[8,16] evf:f32[16] evg:f32[16,16] evh:f32[8] evi:f32[16,8]
+                  evj:f32[1] evk:f32[8,1] evl:f32[] evm:f32[8] evn:f32[2,8] evo:f32[16]
+                  evp:f32[8,16] evq:f32[16] evr:f32[16,16] evs:f32[8] evt:f32[16,8]
+                  evu:f32[1] evv:f32[8,1] evw:f32[8] evx:f32[2,8] evy:f32[16] evz:f32[8,16]
+                  ewa:f32[16] ewb:f32[16,16] ewc:f32[8] ewd:f32[16,8] ewe:f32[1]
+                  ewf:f32[8,1] ewg:i32[] ewh:f32[8] ewi:f32[2,8] ewj:f32[16] ewk:f32[8,16]
+                  ewl:f32[16] ewm:f32[16,16] ewn:f32[8] ewo:f32[16,8] ewp:f32[1]
+                  ewq:f32[8,1] ewr:f32[8] ews:f32[2,8] ewt:f32[16] ewu:f32[8,16]
+                  ewv:f32[16] eww:f32[16,16] ewx:f32[8] ewy:f32[16,8] ewz:f32[1]
+                  exa:f32[8,1] exb:f32[] exc:f32[8] exd:f32[2,8] exe:f32[16] exf:f32[8,16]
+                  exg:f32[16] exh:f32[16,16] exi:f32[8] exj:f32[16,8] exk:f32[1]
+                  exl:f32[8,1] exm:f32[8] exn:f32[2,8] exo:f32[16] exp:f32[8,16]
+                  exq:f32[16] exr:f32[16,16] exs:f32[8] ext:f32[16,8] exu:f32[1]
+                  exv:f32[8,1] exw:f32[8] exx:f32[2,8] exy:f32[16] exz:f32[8,16]
+                  eya:f32[16] eyb:f32[16,16] eyc:f32[8] eyd:f32[16,8] eye:f32[1]
+                  eyf:f32[8,1] eyg:f32[] eyh:f32[8] eyi:f32[2,8] eyj:f32[16] eyk:f32[8,16]
+                  eyl:f32[16] eym:f32[16,16] eyn:f32[8] eyo:f32[16,8] eyp:f32[1]
+                  eyq:f32[8,1] eyr:f32[8] eys:f32[2,8] eyt:f32[16] eyu:f32[8,16]
+                  eyv:f32[16] eyw:f32[16,16] eyx:f32[8] eyy:f32[16,8] eyz:f32[1]
+                  eza:f32[8,1] ezb:i32[]. let
+                  
+                in (etm, etn, eto, etp, etq, etr, ets, ett, etu, etv, etw, etx, ety,
+                  etz, eua, eub, euc, eud, eue, euf, eug, euh, eui, euj, euk, eul,
+                  eum, eun, euo, eup, euq, eur, eus, eut, euu, euv, euw, eux, euy,
+                  euz, eva, evb, evc, evd, eve, evf, evg, evh, evi, evj, evk, evl,
+                  evm, evn, evo, evp, evq, evr, evs, evt, evu, evv, evw, evx, evy,
+                  evz, ewa, ewb, ewc, ewd, ewe, ewf, ewg, ewh, ewi, ewj, ewk, ewl,
+                  ewm, ewn, ewo, ewp, ewq, ewr, ews, ewt, ewu, ewv, eww, ewx, ewy,
+                  ewz, exa, exb, exc, exd, exe, exf, exg, exh, exi, exj, exk, exl,
+                  exm, exn, exo, exp, exq, exr, exs, ext, exu, exv, exw, exx, exy,
+                  exz, eya, eyb, eyc, eyd, eye, eyf, eyg, eyh, eyi, eyj, eyk, eyl,
+                  eym, eyn, eyo, eyp, eyq, eyr, eys, eyt, eyu, eyv, eyw, eyx, eyy,
+                  eyz, eza, ezb) }
+              { lambda ; ezc:f32[8] ezd:f32[2,8] eze:f32[16] ezf:f32[8,16] ezg:f32[16]
+                  ezh:f32[16,16] ezi:f32[8] ezj:f32[16,8] ezk:f32[1] ezl:f32[8,1]
+                  ezm:f32[8] ezn:f32[2,8] ezo:f32[16] ezp:f32[8,16] ezq:f32[16] ezr:f32[16,16]
+                  ezs:f32[8] ezt:f32[16,8] ezu:f32[1] ezv:f32[8,1] ezw:f32[] ezx:f32[8]
+                  ezy:f32[2,8] ezz:f32[16] faa:f32[8,16] fab:f32[16] fac:f32[16,16]
+                  fad:f32[8] fae:f32[16,8] faf:f32[1] fag:f32[8,1] fah:f32[8] fai:f32[2,8]
+                  faj:f32[16] fak:f32[8,16] fal:f32[16] fam:f32[16,16] fan:f32[8]
+                  fao:f32[16,8] fap:f32[1] faq:f32[8,1] far:f32[8] fas:f32[2,8] fat:f32[16]
+                  fau:f32[8,16] fav:f32[16] faw:f32[16,16] fax:f32[8] fay:f32[16,8]
+                  faz:f32[1] fba:f32[8,1] fbb:f32[] fbc:f32[8] fbd:f32[2,8] fbe:f32[16]
+                  fbf:f32[8,16] fbg:f32[16] fbh:f32[16,16] fbi:f32[8] fbj:f32[16,8]
+                  fbk:f32[1] fbl:f32[8,1] fbm:f32[8] fbn:f32[2,8] fbo:f32[16] fbp:f32[8,16]
+                  fbq:f32[16] fbr:f32[16,16] fbs:f32[8] fbt:f32[16,8] fbu:f32[1]
+                  fbv:f32[8,1] fbw:i32[] fbx:f32[8] fby:f32[2,8] fbz:f32[16] fca:f32[8,16]
+                  fcb:f32[16] fcc:f32[16,16] fcd:f32[8] fce:f32[16,8] fcf:f32[1]
+                  fcg:f32[8,1] fch:f32[8] fci:f32[2,8] fcj:f32[16] fck:f32[8,16]
+                  fcl:f32[16] fcm:f32[16,16] fcn:f32[8] fco:f32[16,8] fcp:f32[1]
+                  fcq:f32[8,1] fcr:f32[] fcs:f32[8] fct:f32[2,8] fcu:f32[16] fcv:f32[8,16]
+                  fcw:f32[16] fcx:f32[16,16] fcy:f32[8] fcz:f32[16,8] fda:f32[1]
+                  fdb:f32[8,1] fdc:f32[8] fdd:f32[2,8] fde:f32[16] fdf:f32[8,16]
+                  fdg:f32[16] fdh:f32[16,16] fdi:f32[8] fdj:f32[16,8] fdk:f32[1]
+                  fdl:f32[8,1] fdm:f32[8] fdn:f32[2,8] fdo:f32[16] fdp:f32[8,16]
+                  fdq:f32[16] fdr:f32[16,16] fds:f32[8] fdt:f32[16,8] fdu:f32[1]
+                  fdv:f32[8,1] fdw:f32[] fdx:f32[8] fdy:f32[2,8] fdz:f32[16] fea:f32[8,16]
+                  feb:f32[16] fec:f32[16,16] fed:f32[8] fee:f32[16,8] fef:f32[1]
+                  feg:f32[8,1] feh:f32[8] fei:f32[2,8] fej:f32[16] fek:f32[8,16]
+                  fel:f32[16] fem:f32[16,16] fen:f32[8] feo:f32[16,8] fep:f32[1]
+                  feq:f32[8,1] fer:i32[] fes_:f32[8] fet_:f32[2,8] feu_:f32[16] fev_:f32[8,16]
+                  few_:f32[16] fex_:f32[16,16] fey_:f32[8] fez_:f32[16,8] ffa_:f32[1]
+                  ffb_:f32[8,1] ffc_:f32[8] ffd_:f32[2,8] ffe_:f32[16] fff_:f32[8,16]
+                  ffg_:f32[16] ffh_:f32[16,16] ffi_:f32[8] ffj_:f32[16,8] ffk_:f32[1]
+                  ffl_:f32[8,1] ffm_:f32[] ffn_:f32[8] ffo_:f32[2,8] ffp_:f32[16]
+                  ffq_:f32[8,16] ffr_:f32[16] ffs_:f32[16,16] fft_:f32[8] ffu_:f32[16,8]
+                  ffv_:f32[1] ffw_:f32[8,1] ffx_:f32[8] ffy_:f32[2,8] ffz_:f32[16]
+                  fga_:f32[8,16] fgb_:f32[16] fgc_:f32[16,16] fgd_:f32[8] fge_:f32[16,8]
+                  fgf_:f32[1] fgg_:f32[8,1] fgh_:f32[8] fgi_:f32[2,8] fgj_:f32[16]
+                  fgk_:f32[8,16] fgl_:f32[16] fgm_:f32[16,16] fgn_:f32[8] fgo_:f32[16,8]
+                  fgp_:f32[1] fgq_:f32[8,1] fgr_:f32[] fgs_:f32[8] fgt_:f32[2,8]
+                  fgu_:f32[16] fgv_:f32[8,16] fgw_:f32[16] fgx_:f32[16,16] fgy_:f32[8]
+                  fgz_:f32[16,8] fha_:f32[1] fhb_:f32[8,1] fhc_:f32[8] fhd_:f32[2,8]
+                  fhe_:f32[16] fhf_:f32[8,16] fhg_:f32[16] fhh_:f32[16,16] fhi_:f32[8]
+                  fhj_:f32[16,8] fhk_:f32[1] fhl_:f32[8,1] fhm_:i32[] fhn_:f32[8]
+                  fho_:f32[2,8] fhp_:f32[16] fhq_:f32[8,16] fhr_:f32[16] fhs_:f32[16,16]
+                  fht_:f32[8] fhu_:f32[16,8] fhv_:f32[1] fhw_:f32[8,1] fhx_:f32[8]
+                  fhy_:f32[2,8] fhz_:f32[16] fia_:f32[8,16] fib_:f32[16] fic_:f32[16,16]
+                  fid_:f32[8] fie_:f32[16,8] fif_:f32[1] fig_:f32[8,1] fih_:f32[]
+                  fii_:f32[8] fij_:f32[2,8] fik_:f32[16] fil_:f32[8,16] fim_:f32[16]
+                  fin_:f32[16,16] fio_:f32[8] fip_:f32[16,8] fiq_:f32[1] fir_:f32[8,1]
+                  fis_:f32[8] fit_:f32[2,8] fiu_:f32[16] fiv_:f32[8,16] fiw_:f32[16]
+                  fix_:f32[16,16] fiy_:f32[8] fiz_:f32[16,8] fja_:f32[1] fjb_:f32[8,1]
+                  fjc_:f32[8] fjd_:f32[2,8] fje_:f32[16] fjf_:f32[8,16] fjg_:f32[16]
+                  fjh_:f32[16,16] fji_:f32[8] fjj_:f32[16,8] fjk_:f32[1] fjl_:f32[8,1]
+                  fjm_:f32[] fjn_:f32[8] fjo_:f32[2,8] fjp_:f32[16] fjq_:f32[8,16]
+                  fjr_:f32[16] fjs_:f32[16,16] fjt_:f32[8] fju_:f32[16,8] fjv_:f32[1]
+                  fjw_:f32[8,1] fjx_:f32[8] fjy_:f32[2,8] fjz_:f32[16] fka_:f32[8,16]
+                  fkb_:f32[16] fkc_:f32[16,16] fkd_:f32[8] fke_:f32[16,8] fkf_:f32[1]
+                  fkg_:f32[8,1] fkh_:i32[]. let
+                  
+                in (ezc, ezd, eze, ezf, ezg, ezh, ezi, ezj, ezk, ezl, ezm, ezn, ezo,
+                  ezp, ezq, ezr, ezs, ezt, ezu, ezv, ezw, ezx, ezy, ezz, faa, fab,
+                  fac, fad, fae, faf, fag, fah, fai, faj, fak, fal, fam, fan, fao,
+                  fap, faq, far, fas, fat, fau, fav, faw, fax, fay, faz, fba, fbb,
+                  fbc, fbd, fbe, fbf, fbg, fbh, fbi, fbj, fbk, fbl, fbm, fbn, fbo,
+                  fbp, fbq, fbr, fbs, fbt, fbu, fbv, fbw, fbx, fby, fbz, fca, fcb,
+                  fcc, fcd, fce, fcf, fcg, fch, fci, fcj, fck, fcl, fcm, fcn, fco,
+                  fcp, fcq, fcr, fcs, fct, fcu, fcv, fcw, fcx, fcy, fcz, fda, fdb,
+                  fdc, fdd, fde, fdf, fdg, fdh, fdi, fdj, fdk, fdl, fdm, fdn, fdo,
+                  fdp, fdq, fdr, fds, fdt, fdu, fdv, fdw, fdx, fdy, fdz, fea, feb,
+                  fec, fed, fee, fef, feg, feh, fei, fej, fek, fel, fem, fen, feo,
+                  fep, feq, fer) }
+            )
+            linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+          ] ekp kf kg kh ki kj kk kl km kn ko kp kq kr ks kt ku kv kw kx ky kz la
+            lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq lr ls lt lu lv lw lx
+            ly lz ma mb mc md me mf mg mh mi mj mk ml mm mn mo mp mq mr ms mt mu
+            mv mw mx my mz dgn dgo dgp dgq dgr dgs dgt dgu dgv dgw dgx dgy dgz dha
+            dhb dhc dhd dhe dhf dhg dhh dhi dhj dhk dhl dhm dhn dho dhp dhq dhr dhs
+            dht dhu dhv dhw dhx dhy dhz dia dib dic did die dif dig dih dii dij dik
+            dil dim din dio dip diq dir dis dit diu div diw dix diy diz dja djb djc
+            djd dje djf djg djh dgn dgo dgp dgq dgr dgs dgt dgu dgv dgw dgx dgy dgz
+            dha dhb dhc dhd dhe dhf dhg dhh dhi dhj dhk dhl dhm dhn dho dhp dhq dhr
+            dhs dht dhu dhv dhw dhx dhy dhz dia dib dic did die dif dig dih dii dij
+            dik dil dim din dio dip diq dir dis dit diu div diw dix diy diz dja djb
+            djc djd dje djf djg djh kf kg kh ki kj kk kl km kn ko kp kq kr ks kt
+            ku kv kw kx ky kz la lb lc ld le lf lg lh li lj lk ll lm ln lo lp lq
+            lr ls lt lu lv lw lx ly lz ma mb mc md me mf mg mh mi mj mk ml mm mn
+            mo mp mq mr ms mt mu mv mw mx my mz
+          fki:f32[8] = add elv enl
+          fkj:f32[2,8] = add elw enm
+          fkk:f32[16] = add elx enn
+          fkl:f32[8,16] = add ely eno
+          fkm:f32[16] = add elz enp
+          fkn:f32[16,16] = add ema enq
+          fko:f32[8] = add emb enr
+          fkp:f32[16,8] = add emc ens
+          fkq:f32[1] = add emd ent
+          fkr:f32[8,1] = add eme enu
+          fks:i32[] = add emf env
+          fkt:f32[16] = reshape[dimensions=None new_sizes=(16,)] elb
+          fku:f32[128] = reshape[dimensions=None new_sizes=(128,)] eld
+          fkv:f32[256] = reshape[dimensions=None new_sizes=(256,)] elf
+          fkw:f32[128] = reshape[dimensions=None new_sizes=(128,)] elh
+          fkx:f32[8] = reshape[dimensions=None new_sizes=(8,)] elj
+          fky:f32[585] = concatenate[dimension=0] ela fkt elc fku ele fkv elg fkw
+            eli fkx
+          fkz:f32[16] = reshape[dimensions=None new_sizes=(16,)] emr
+          fla:f32[128] = reshape[dimensions=None new_sizes=(128,)] emt
+          flb:f32[256] = reshape[dimensions=None new_sizes=(256,)] emv
+          flc:f32[128] = reshape[dimensions=None new_sizes=(128,)] emx
+          fld:f32[8] = reshape[dimensions=None new_sizes=(8,)] emz
+          fle:f32[585] = concatenate[dimension=0] emq fkz ems fla emu flb emw flc
+            emy fld
+          flf:f32[16] = reshape[dimensions=None new_sizes=(16,)] fkj
+          flg:f32[128] = reshape[dimensions=None new_sizes=(128,)] fkl
+          flh:f32[256] = reshape[dimensions=None new_sizes=(256,)] fkn
+          fli:f32[128] = reshape[dimensions=None new_sizes=(128,)] fkp
+          flj:f32[8] = reshape[dimensions=None new_sizes=(8,)] fkr
+          flk:f32[585] = concatenate[dimension=0] fki flf fkk flg fkm flh fko fli
+            fkq flj
+          fll:f32[585] = mul iq fky
+          flm:f32[585] = mul iq fle
+          fln:f32[585] = add fle fky
+          flo:f32[585] = div fln 2.0
+          flp:f32[585] = sub flk flo
+          flq:f32[] = dot_general[
+            dimension_numbers=(((0,), (0,)), ((), ()))
+            precision=None
+            preferred_element_type=None
+          ] fll flp
+          flr:bool[] = le flq 0.0
+          fls:f32[] = dot_general[
+            dimension_numbers=(((0,), (0,)), ((), ()))
+            precision=None
+            preferred_element_type=None
+          ] flm flp
+          flt:bool[] = le fls 0.0
+          flu:bool[] = or flr flt
+          flv:i32[] = add iw 1
+          flw:bool[] = or bcb flu
+        in (nk, flv, duq, dur, dus, dut, duu, duv, duw, dux, duy, duz, dva, dvb,
+          dvc, dvd, dve, dvf, dvg, dvh, dvi, dvj, dvk, dvl, dvm, dvn, dvo, dvp, dvq,
+          dvr, dvs, dvt, dvu, dvv, dvw, dvx, ekq, ekr, eks, ekt, eku, ekv, ekw, ekx,
+          eky, ekz, ela, elb, elc, eld, ele, elf, elg, elh, eli, elj, elk, ell, elm,
+          eln, elo, elp, elq, elr, els, elt, elu, emg, emh, emi, emj, emk, eml, emm,
+          emn, emo, emp, emq, emr, ems, emt, emu, emv, emw, emx, emy, emz, ena, enb,
+          enc, end, ene, enf, eng, enh, eni, enj, enk, fki, fkj, fkk, fkl, fkm, fkn,
+          fko, fkp, fkq, fkr, fks, bbw, bbx, bby, bbz, bca, flw) }
+      body_nconsts=5
+      cond_jaxpr={ lambda ; flx:u32[2] fly:i32[] flz:f32[8] fma:f32[2,8] fmb:f32[16]
+          fmc:f32[8,16] fmd:f32[16] fme:f32[16,16] fmf:f32[8] fmg:f32[16,8] fmh:f32[1]
+          fmi:f32[8,1] fmj:f32[8] fmk:f32[2,8] fml:f32[16] fmm:f32[8,16] fmn:f32[16]
+          fmo:f32[16,16] fmp:f32[8] fmq:f32[16,8] fmr:f32[1] fms:f32[8,1] fmt:f32[]
+          fmu:f32[8] fmv:f32[2,8] fmw:f32[16] fmx:f32[8,16] fmy:f32[16] fmz:f32[16,16]
+          fna:f32[8] fnb:f32[16,8] fnc:f32[1] fnd:f32[8,1] fne:f32[] fnf:f32[] fng:f32[]
+          fnh:f32[8] fni:f32[2,8] fnj:f32[16] fnk:f32[8,16] fnl:f32[16] fnm:f32[16,16]
+          fnn:f32[8] fno:f32[16,8] fnp:f32[1] fnq:f32[8,1] fnr:f32[8] fns:f32[2,8]
+          fnt:f32[16] fnu:f32[8,16] fnv:f32[16] fnw:f32[16,16] fnx:f32[8] fny:f32[16,8]
+          fnz:f32[1] foa:f32[8,1] fob:f32[] foc:f32[8] fod:f32[2,8] foe:f32[16] fof:f32[8,16]
+          fog:f32[16] foh:f32[16,16] foi:f32[8] foj:f32[16,8] fok:f32[1] fol:f32[8,1]
+          fom:f32[8] fon:f32[2,8] foo:f32[16] fop:f32[8,16] foq:f32[16] for:f32[16,16]
+          fos:f32[8] fot:f32[16,8] fou:f32[1] fov:f32[8,1] fow:f32[8] fox:f32[2,8]
+          foy:f32[16] foz:f32[8,16] fpa:f32[16] fpb:f32[16,16] fpc:f32[8] fpd:f32[16,8]
+          fpe:f32[1] fpf:f32[8,1] fpg:f32[] fph:f32[8] fpi:f32[2,8] fpj:f32[16] fpk:f32[8,16]
+          fpl:f32[16] fpm:f32[16,16] fpn:f32[8] fpo:f32[16,8] fpp:f32[1] fpq:f32[8,1]
+          fpr:f32[8] fps:f32[2,8] fpt:f32[16] fpu:f32[8,16] fpv:f32[16] fpw:f32[16,16]
+          fpx:f32[8] fpy:f32[16,8] fpz:f32[1] fqa:f32[8,1] fqb:i32[] fqc:f32[10,585]
+          fqd:f32[10,585] fqe:i32[] fqf:i32[] fqg:bool[] fqh:bool[]. let
+          fqi:bool[] = lt fly 10
+          fqj:bool[] = convert_element_type[new_dtype=bool weak_type=False] fqg
+          fqk:bool[] = not fqj
+          fql:bool[] = convert_element_type[new_dtype=bool weak_type=False] fqi
+          fqm:bool[] = and fql fqk
+          fqn:bool[] = convert_element_type[new_dtype=bool weak_type=False] fqh
+          fqo:bool[] = not fqn
+          fqp:bool[] = and fqm fqo
+        in (fqp,) }
+      cond_nconsts=0
+    ] bc fe df a b do 0 c d e f g h i j k l ee eo eg ep ei eq ek er em es m n o p
+      q r s t u v w fe 0.0 -inf c d e f g h i j k l ee eo eg ep ei eq ek er em es
+      m n o p q r s t u v w c d e f g h i j k l ee eo eg ep ei eq ek er em es m n
+      o p q r s t u v w ee eo eg ep ei eq ek er em es 0 et eu 0 0 False False
+    fqq:f32[] = exp gc
+    fqr:f32[] = convert_element_type[new_dtype=float32 weak_type=False] in
+    fqs:f32[] = div fqq fqr
+    fqt:i32[1] = slice[limit_indices=(1,) start_indices=(0,) strides=(1,)] bi
+    fqu:i32[] = squeeze[dimensions=(0,)] fqt
+    fqv:i32[1] = slice[limit_indices=(2,) start_indices=(1,) strides=(1,)] bi
+    fqw:i32[] = squeeze[dimensions=(0,)] fqv
+    fqx:i32[] = clamp 0 fqu 1
+    fqy:f32[] fqz:f32[] fra:i32[] frb:f32[] frc:f32[] frd:f32[585] fre:f32[585] frf:f32[585]
+      frg:i32[] = cond[
+      branches=(
+        { lambda ; frh:f32[8] fri:f32[2,8] frj:f32[16] frk:f32[8,16] frl:f32[16]
+            frm:f32[16,16] frn:f32[8] fro:f32[16,8] frp:f32[1] frq:f32[8,1] frr:f32[]
+            frs:f32[] frt:f32[] fru:i32[] frv:f32[] frw:f32[] frx:f32[585] fry:f32[585]
+            frz:f32[585] fsa:i32[]. let
+            fsb:f32[] = sub 0.800000011920929 frr
+            fsc:i32[] = add fru 10
+            fsd:f32[] = convert_element_type[new_dtype=float32 weak_type=True] fru
+            fse:f32[] = pow fsd -0.75
+            fsf:f32[] = convert_element_type[new_dtype=float32 weak_type=True] fsc
+            fsg:f32[] = div 1.0 fsf
+            fsh:f32[] = sub 1.0 fsg
+            fsi:f32[] = mul fsh frv
+            fsj:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fsc
+            fsk:f32[] = div fsb fsj
+            fsl:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fsi
+            fsm:f32[] = add fsl fsk
+            fsn:f32[] = convert_element_type[new_dtype=float32 weak_type=True] fru
+            fso:f32[] = sqrt fsn
+            fsp:f32[] = div fso 0.05
+            fsq:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fsp
+            fsr:f32[] = mul fsq fsm
+            fss:f32[] = convert_element_type[new_dtype=float32 weak_type=False] frw
+            fst:f32[] = sub fss fsr
+            fsu:f32[] = mul fse frs
+            fsv:f32[] = sub 1.0 fse
+            fsw:f32[] = mul fsv frt
+            fsx:f32[] = add fsu fsw
+            fsy:i32[] = add fru 1
+          in (fst, fsx, fsy, fsm, frw, frx, fry, frz, fsa) }
+        { lambda ; fsz:f32[8] fta:f32[2,8] ftb:f32[16] ftc:f32[8,16] ftd:f32[16]
+            fte:f32[16,16] ftf:f32[8] ftg:f32[16,8] fth:f32[1] fti:f32[8,1] ftj:f32[]
+            ftk:f32[] ftl:f32[] ftm:i32[] ftn:f32[] fto:f32[] ftp:f32[585] ftq:f32[585]
+            ftr:f32[585] fts:i32[]. let
+            ftt:f32[] = sub 0.6499999761581421 ftj
+            ftu:i32[] = add ftm 10
+            ftv:f32[] = convert_element_type[new_dtype=float32 weak_type=True] ftm
+            ftw:f32[] = pow ftv -0.75
+            ftx:f32[] = convert_element_type[new_dtype=float32 weak_type=True] ftu
+            fty:f32[] = div 1.0 ftx
+            ftz:f32[] = sub 1.0 fty
+            fua:f32[] = mul ftz ftn
+            fub:f32[] = convert_element_type[new_dtype=float32 weak_type=False] ftu
+            fuc:f32[] = div ftt fub
+            fud:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fua
+            fue:f32[] = add fud fuc
+            fuf:f32[] = convert_element_type[new_dtype=float32 weak_type=True] ftm
+            fug:f32[] = sqrt fuf
+            fuh:f32[] = div fug 0.05
+            fui:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fuh
+            fuj:f32[] = mul fui fue
+            fuk:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fto
+            ful:f32[] = sub fuk fuj
+            fum:f32[] = mul ftw ftk
+            fun:f32[] = sub 1.0 ftw
+            fuo:f32[] = mul fun ftl
+            fup:f32[] = add fum fuo
+            fuq:i32[] = add ftm 1
+            fur:f32[16] = reshape[dimensions=None new_sizes=(16,)] fta
+            fus:f32[128] = reshape[dimensions=None new_sizes=(128,)] ftc
+            fut:f32[256] = reshape[dimensions=None new_sizes=(256,)] fte
+            fuu:f32[128] = reshape[dimensions=None new_sizes=(128,)] ftg
+            fuv:f32[8] = reshape[dimensions=None new_sizes=(8,)] fti
+            fuw:f32[585] = concatenate[dimension=0] fsz fur ftb fus ftd fut ftf fuu
+              fth fuv
+            fux:i32[] = add fts 1
+            fuy:f32[585] = sub fuw ftq
+            fuz:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fux
+            fva:f32[585] = div fuy fuz
+            fvb:f32[585] = add ftq fva
+            fvc:f32[585] = sub fuw fvb
+            fvd:f32[585] = mul fuy fvc
+            fve:f32[585] = add ftr fvd
+          in (ful, fup, fuq, fue, fto, ftp, fvb, fve, fux) }
+      )
+      linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+    ] fqx fg fh fi fj fk fl fm fn fo fp fqs x y z ba bb bc bd be bf
+    fvf:bool[] = ne fqw 0
+    fvg:i32[] = convert_element_type[new_dtype=int32 weak_type=False] fvf
+    fvh:f32[] fvi:f32[] fvj:i32[] fvk:f32[] fvl:f32[] fvm:f32[585] fvn:f32[585] fvo:f32[585]
+      fvp:i32[] = cond[
+      branches=(
+        { lambda ; fvq:f32[] fvr:f32[] fvs:i32[] fvt:f32[] fvu:f32[] fvv:f32[585]
+            fvw:f32[585] fvx:f32[585] fvy:i32[]. let
+            
+          in (fvq, fvr, fvs, fvt, fvu, fvv, fvw, fvx, fvy) }
+        { lambda ; fvz:f32[] fwa:f32[] fwb:i32[] fwc:f32[] fwd:f32[] fwe:f32[585]
+            fwf:f32[585] fwg:f32[585] fwh:i32[]. let
+            fwi:i32[] = sub fwh 1
+            fwj:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fwi
+            fwk:f32[585] = div fwg fwj
+            fwl:i32[] = add fwh 5
+            fwm:f32[] = convert_element_type[new_dtype=float32 weak_type=True] fwh
+            fwn:f32[] = convert_element_type[new_dtype=float32 weak_type=True] fwl
+            fwo:f32[] = div fwm fwn
+            fwp:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fwo
+            fwq:f32[585] = mul fwp fwk
+            fwr:i32[] = add fwh 5
+            fws:f32[] = convert_element_type[new_dtype=float32 weak_type=True] fwr
+            fwt:f32[] = div 5.0 fws
+            fwu:f32[] = mul 0.001 fwt
+            fwv:f32[] = convert_element_type[new_dtype=float32 weak_type=False] fwu
+            fww:f32[585] = add fwq fwv
+            fwx:f32[585] = broadcast_in_dim[
+              broadcast_dimensions=()
+              shape=(585,)
+            ] 0.0
+            fwy:f32[585] = broadcast_in_dim[
+              broadcast_dimensions=()
+              shape=(585,)
+            ] 0.0
+            fwz:f32[] = exp fwa
+            fxa:f32[] = mul 10.0 fwz
+            fxb:f32[] = log fxa
+            fxc:f32[] = log fwz
+          in (fxc, 0.0, 1, 0.0, fxb, fww, fwx, fwy, 0) }
+      )
+      linear=(False, False, False, False, False, False, False, False, False)
+    ] fvg fqy fqz fra frb frc frd fre frf frg
+    fxd:bool[] = eq bg 2999
+    fxe:i32[] = convert_element_type[new_dtype=int32 weak_type=False] fxd
+    fxf:f32[8] fxg:f32[2,8] fxh:f32[16] fxi:f32[8,16] fxj:f32[16] fxk:f32[16,16]
+      fxl:f32[8] fxm:f32[16,8] fxn:f32[1] fxo:f32[8,1] fxp:f32[] fxq:f32[8] fxr:f32[2,8]
+      fxs:f32[16] fxt:f32[8,16] fxu:f32[16] fxv:f32[16,16] fxw:f32[8] fxx:f32[16,8]
+      fxy:f32[1] fxz:f32[8,1] fya:f32[] fyb:f32[] fyc:i32[] fyd:f32[] fye:f32[] fyf:f32[585]
+      fyg:f32[585] fyh:f32[585] fyi:i32[] fyj:f32[8] fyk:f32[2,8] fyl:f32[16] fym:f32[8,16]
+      fyn:f32[16] fyo:f32[16,16] fyp:f32[8] fyq:f32[16,8] fyr:f32[1] fys:f32[8,1]
+      fyt:f32[] fyu:f32[8] fyv:f32[2,8] fyw:f32[16] fyx:f32[8,16] fyy:f32[16] fyz:f32[16,16]
+      fza:f32[8] fzb:f32[16,8] fzc:f32[1] fzd:f32[8,1] fze:f32[8] fzf:f32[2,8] fzg:f32[16]
+      fzh:f32[8,16] fzi:f32[16] fzj:f32[16,16] fzk:f32[8] fzl:f32[16,8] fzm:f32[1]
+      fzn:f32[8,1] fzo:bool[] fzp:bool[] fzq:f32[] fzr:f32[8] fzs:f32[2,8] fzt:f32[16]
+      fzu:f32[8,16] fzv:f32[16] fzw:f32[16,16] fzx:f32[8] fzy:f32[16,8] fzz:f32[1]
+      gaa:f32[8,1] gab:f32[8] gac:f32[2,8] gad:f32[16] gae:f32[8,16] gaf:f32[16]
+      gag:f32[16,16] gah:f32[8] gai:f32[16,8] gaj:f32[1] gak:f32[8,1] gal:f32[] gam:f32[8]
+      gan:f32[2,8] gao:f32[16] gap:f32[8,16] gaq:f32[16] gar:f32[16,16] gas:f32[8]
+      gat:f32[16,8] gau:f32[1] gav:f32[8,1] gaw:f32[8] gax:f32[2,8] gay:f32[16] gaz:f32[8,16]
+      gba:f32[16] gbb:f32[16,16] gbc:f32[8] gbd:f32[16,8] gbe:f32[1] gbf:f32[8,1]
+      gbg:f32[8] gbh:f32[2,8] gbi:f32[16] gbj:f32[8,16] gbk:f32[16] gbl:f32[16,16]
+      gbm:f32[8] gbn:f32[16,8] gbo:f32[1] gbp:f32[8,1] gbq:f32[] gbr:f32[8] gbs:f32[2,8]
+      gbt:f32[16] gbu:f32[8,16] gbv:f32[16] gbw:f32[16,16] gbx:f32[8] gby:f32[16,8]
+      gbz:f32[1] gca:f32[8,1] gcb:i32[] gcc:i32[] gcd:f32[] gce:f32[] gcf:f32[] gcg:i32[]
+      gch:f32[] gci:f32[] gcj:f32[585] gck:f32[585] gcl:f32[585] gcm:i32[] gcn:Tok
+      gco:Tok = cond[
+      branches=(
+        { lambda ; gcp_:f32[8] gcq_:f32[2,8] gcr_:f32[16] gcs_:f32[8,16] gct_:f32[16]
+            gcu_:f32[16,16] gcv_:f32[8] gcw_:f32[16,8] gcx_:f32[1] gcy_:f32[8,1]
+            gcz_:f32[] gda_:f32[8] gdb_:f32[2,8] gdc_:f32[16] gdd_:f32[8,16] gde_:f32[16]
+            gdf_:f32[16,16] gdg_:f32[8] gdh_:f32[16,8] gdi_:f32[1] gdj_:f32[8,1]
+            gdk_:f32[] gdl_:f32[] gdm_:i32[] gdn_:f32[] gdo_:f32[] gdp_:f32[585]
+            gdq_:f32[585] gdr_:f32[585] gds_:i32[] gdt_:f32[8] gdu_:f32[2,8] gdv_:f32[16]
+            gdw_:f32[8,16] gdx_:f32[16] gdy_:f32[16,16] gdz_:f32[8] gea_:f32[16,8]
+            geb_:f32[1] gec_:f32[8,1] ged_:bool[] gee_:bool[] gef_:f32[] geg_:f32[8]
+            geh_:f32[2,8] gei_:f32[16] gej_:f32[8,16] gek_:f32[16] gel_:f32[16,16]
+            gem_:f32[8] gen_:f32[16,8] geo_:f32[1] gep_:f32[8,1] geq_:f32[8] ger_:f32[2,8]
+            ges_:f32[16] get_:f32[8,16] geu_:f32[16] gev_:f32[16,16] gew_:f32[8]
+            gex_:f32[16,8] gey_:f32[1] gez_:f32[8,1] gfa_:f32[] gfb_:f32[8] gfc_:f32[2,8]
+            gfd_:f32[16] gfe_:f32[8,16] gff_:f32[16] gfg_:f32[16,16] gfh_:f32[8]
+            gfi_:f32[16,8] gfj_:f32[1] gfk_:f32[8,1] gfl_:f32[8] gfm_:f32[2,8] gfn_:f32[16]
+            gfo_:f32[8,16] gfp_:f32[16] gfq_:f32[16,16] gfr_:f32[8] gfs_:f32[16,8]
+            gft_:f32[1] gfu_:f32[8,1] gfv_:f32[8] gfw_:f32[2,8] gfx_:f32[16] gfy_:f32[8,16]
+            gfz_:f32[16] gga_:f32[16,16] ggb_:f32[8] ggc_:f32[16,8] ggd_:f32[1] gge_:f32[8,1]
+            ggf_:f32[] ggg_:f32[8] ggh_:f32[2,8] ggi_:f32[16] ggj_:f32[8,16] ggk_:f32[16]
+            ggl_:f32[16,16] ggm_:f32[8] ggn_:f32[16,8] ggo_:f32[1] ggp_:f32[8,1]
+            ggq_:i32[] ggr_:i32[] ggs_:f32[] ggt:f32[8] ggu:f32[2,8] ggv:f32[16]
+            ggw:f32[8,16] ggx:f32[16] ggy:f32[16,16] ggz:f32[8] gha:f32[16,8] ghb:f32[1]
+            ghc:f32[8,1] ghd:f32[] ghe:f32[8] ghf:f32[2,8] ghg:f32[16] ghh:f32[8,16]
+            ghi:f32[16] ghj:f32[16,16] ghk:f32[8] ghl:f32[16,8] ghm:f32[1] ghn:f32[8,1]
+            gho:f32[] ghp:f32[] ghq:i32[] ghr:f32[] ghs:f32[] ght:f32[585] ghu:f32[585]
+            ghv:f32[585] ghw:i32[] ghx:f32[8] ghy:f32[2,8] ghz:f32[16] gia:f32[8,16]
+            gib:f32[16] gic:f32[16,16] gid:f32[8] gie:f32[16,8] gif:f32[1] gig:f32[8,1]
+            gih:bool[] gii:bool[] gij:f32[] gik:f32[8] gil:f32[2,8] gim:f32[16] gin:f32[8,16]
+            gio:f32[16] gip:f32[16,16] giq:f32[8] gir:f32[16,8] gis:f32[1] git:f32[8,1]
+            giu:f32[8] giv:f32[2,8] giw:f32[16] gix:f32[8,16] giy:f32[16] giz:f32[16,16]
+            gja:f32[8] gjb:f32[16,8] gjc:f32[1] gjd:f32[8,1] gje:f32[] gjf:f32[8]
+            gjg:f32[2,8] gjh:f32[16] gji:f32[8,16] gjj:f32[16] gjk:f32[16,16] gjl:f32[8]
+            gjm:f32[16,8] gjn:f32[1] gjo:f32[8,1] gjp:f32[8] gjq:f32[2,8] gjr:f32[16]
+            gjs:f32[8,16] gjt:f32[16] gju:f32[16,16] gjv:f32[8] gjw:f32[16,8] gjx:f32[1]
+            gjy:f32[8,1] gjz:f32[8] gka:f32[2,8] gkb:f32[16] gkc:f32[8,16] gkd:f32[16]
+            gke:f32[16,16] gkf:f32[8] gkg:f32[16,8] gkh:f32[1] gki:f32[8,1] gkj:f32[]
+            gkk:f32[8] gkl:f32[2,8] gkm:f32[16] gkn:f32[8,16] gko:f32[16] gkp:f32[16,16]
+            gkq:f32[8] gkr:f32[16,8] gks:f32[1] gkt:f32[8,1] gku:i32[] gkv:i32[]
+            gkw:f32[] gkx:Tok gky:Tok. let
+            
+          in (ggt, ggu, ggv, ggw, ggx, ggy, ggz, gha, ghb, ghc, ghd, ghe, ghf, ghg,
+            ghh, ghi, ghj, ghk, ghl, ghm, ghn, gho, ghp, ghq, ghr, ghs, ght, ghu,
+            ghv, ghw, ggt, ggu, ggv, ggw, ggx, ggy, ggz, gha, ghb, ghc, ghd, ghe,
+            ghf, ghg, ghh, ghi, ghj, ghk, ghl, ghm, ghn, ghx, ghy, ghz, gia, gib,
+            gic, gid, gie, gif, gig, gih, gii, gij, gik, gil, gim, gin, gio, gip,
+            giq, gir, gis, git, giu, giv, giw, gix, giy, giz, gja, gjb, gjc, gjd,
+            gje, gjf, gjg, gjh, gji, gjj, gjk, gjl, gjm, gjn, gjo, gjp, gjq, gjr,
+            gjs, gjt, gju, gjv, gjw, gjx, gjy, gjz, gka, gkb, gkc, gkd, gke, gkf,
+            gkg, gkh, gki, gkj, gkk, gkl, gkm, gkn, gko, gkp, gkq, gkr, gks, gkt,
+            gku, gkv, gkw, gho, ghp, ghq, ghr, ghs, ght, ghu, ghv, ghw, gkx, gky) }
+        { lambda ; gkz:f32[8] gla:f32[2,8] glb:f32[16] glc:f32[8,16] gld:f32[16]
+            gle:f32[16,16] glf:f32[8] glg:f32[16,8] glh:f32[1] gli:f32[8,1] glj:f32[]
+            glk:f32[8] gll:f32[2,8] glm:f32[16] gln:f32[8,16] glo:f32[16] glp:f32[16,16]
+            glq:f32[8] glr:f32[16,8] gls:f32[1] glt:f32[8,1] glu:f32[] glv:f32[]
+            glw:i32[] glx:f32[] gly:f32[] glz:f32[585] gma:f32[585] gmb:f32[585]
+            gmc:i32[] gmd:f32[8] gme:f32[2,8] gmf:f32[16] gmg:f32[8,16] gmh:f32[16]
+            gmi:f32[16,16] gmj:f32[8] gmk:f32[16,8] gml:f32[1] gmm:f32[8,1] gmn:bool[]
+            gmo:bool[] gmp:f32[] gmq:f32[8] gmr:f32[2,8] gms:f32[16] gmt:f32[8,16]
+            gmu:f32[16] gmv:f32[16,16] gmw:f32[8] gmx:f32[16,8] gmy:f32[1] gmz:f32[8,1]
+            gna:f32[8] gnb:f32[2,8] gnc:f32[16] gnd:f32[8,16] gne:f32[16] gnf:f32[16,16]
+            gng:f32[8] gnh:f32[16,8] gni:f32[1] gnj:f32[8,1] gnk:f32[] gnl:f32[8]
+            gnm:f32[2,8] gnn:f32[16] gno:f32[8,16] gnp:f32[16] gnq:f32[16,16] gnr:f32[8]
+            gns:f32[16,8] gnt:f32[1] gnu:f32[8,1] gnv:f32[8] gnw:f32[2,8] gnx:f32[16]
+            gny:f32[8,16] gnz:f32[16] goa:f32[16,16] gob:f32[8] goc:f32[16,8] god:f32[1]
+            goe:f32[8,1] gof:f32[8] gog:f32[2,8] goh:f32[16] goi:f32[8,16] goj:f32[16]
+            gok:f32[16,16] gol:f32[8] gom:f32[16,8] gon:f32[1] goo:f32[8,1] gop:f32[]
+            goq:f32[8] gor:f32[2,8] gos:f32[16] got:f32[8,16] gou:f32[16] gov:f32[16,16]
+            gow:f32[8] gox:f32[16,8] goy:f32[1] goz:f32[8,1] gpa:i32[] gpb:i32[]
+            gpc:f32[] gpd_:f32[8] gpe_:f32[2,8] gpf_:f32[16] gpg_:f32[8,16] gph_:f32[16]
+            gpi_:f32[16,16] gpj_:f32[8] gpk_:f32[16,8] gpl_:f32[1] gpm_:f32[8,1]
+            gpn_:f32[] gpo_:f32[8] gpp_:f32[2,8] gpq_:f32[16] gpr_:f32[8,16] gps_:f32[16]
+            gpt_:f32[16,16] gpu_:f32[8] gpv_:f32[16,8] gpw_:f32[1] gpx_:f32[8,1]
+            gpy_:f32[] gpz_:f32[] gqa_:i32[] gqb_:f32[] gqc_:f32[] gqd_:f32[585]
+            gqe_:f32[585] gqf_:f32[585] gqg_:i32[] gqh_:f32[8] gqi_:f32[2,8] gqj_:f32[16]
+            gqk_:f32[8,16] gql_:f32[16] gqm_:f32[16,16] gqn_:f32[8] gqo_:f32[16,8]
+            gqp_:f32[1] gqq_:f32[8,1] gqr_:bool[] gqs_:bool[] gqt_:f32[] gqu_:f32[8]
+            gqv_:f32[2,8] gqw_:f32[16] gqx_:f32[8,16] gqy_:f32[16] gqz_:f32[16,16]
+            gra_:f32[8] grb_:f32[16,8] grc_:f32[1] grd_:f32[8,1] gre_:f32[8] grf_:f32[2,8]
+            grg_:f32[16] grh_:f32[8,16] gri_:f32[16] grj_:f32[16,16] grk_:f32[8]
+            grl_:f32[16,8] grm_:f32[1] grn_:f32[8,1] gro_:f32[] grp_:f32[8] grq_:f32[2,8]
+            grr_:f32[16] grs_:f32[8,16] grt_:f32[16] gru_:f32[16,16] grv_:f32[8]
+            grw_:f32[16,8] grx_:f32[1] gry_:f32[8,1] grz_:f32[8] gsa_:f32[2,8] gsb_:f32[16]
+            gsc_:f32[8,16] gsd_:f32[16] gse_:f32[16,16] gsf_:f32[8] gsg_:f32[16,8]
+            gsh_:f32[1] gsi_:f32[8,1] gsj_:f32[8] gsk_:f32[2,8] gsl_:f32[16] gsm_:f32[8,16]
+            gsn_:f32[16] gso_:f32[16,16] gsp_:f32[8] gsq_:f32[16,8] gsr_:f32[1] gss_:f32[8,1]
+            gst_:f32[] gsu_:f32[8] gsv_:f32[2,8] gsw_:f32[16] gsx_:f32[8,16] gsy_:f32[16]
+            gsz_:f32[16,16] gta_:f32[8] gtb_:f32[16,8] gtc_:f32[1] gtd_:f32[8,1]
+            gte_:i32[] gtf_:i32[] gtg_:f32[] gth:Tok gti:Tok. let
+            gtj:Tok gtk:Tok = outside_call[
+              arg_treedef=PyTreeDef(None)
+              callback=<jax.experimental.host_callback._CallbackWrapper object at 0x7fc388ad9190>
+              has_token=True
+              identity=True
+            ] gth gti
+          in (gkz, gla, glb, glc, gld, gle, glf, glg, glh, gli, glj, glk, gll, glm,
+            gln, glo, glp, glq, glr, gls, glt, glu, glv, glw, glx, gly, glz, gma,
+            gmb, gmc, gkz, gla, glb, glc, gld, gle, glf, glg, glh, gli, glj, glk,
+            gll, glm, gln, glo, glp, glq, glr, gls, glt, gmd, gme, gmf, gmg, gmh,
+            gmi, gmj, gmk, gml, gmm, gmn, gmo, gmp, gmq, gmr, gms, gmt, gmu, gmv,
+            gmw, gmx, gmy, gmz, gna, gnb, gnc, gnd, gne, gnf, gng, gnh, gni, gnj,
+            gnk, gnl, gnm, gnn, gno, gnp, gnq, gnr, gns, gnt, gnu, gnv, gnw, gnx,
+            gny, gnz, goa, gob, goc, god, goe, gof, gog, goh, goi, goj, gok, gol,
+            gom, gon, goo, gop, goq, gor, gos, got, gou, gov, gow, gox, goy, goz,
+            gpa, gpb, gpc, glu, glv, glw, glx, gly, glz, gma, gmb, gmc, gtj, gtk) }
+      )
+      linear=(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+    ] fxe fg fh fi fj fk fl fm fn fo fp fq fr fs ft fu fv fw fx fy fz ga fvh fvi
+      fvj fvk fvl fvm fvn fvo fvp ee eo eg ep ei eq ek er em es io ip gb gd ge gf
+      gg gh gi gj gk gl gm gn go gp gq gr gs gt gu gv gw gx gy gz ha hb hc hd he
+      hf hg hh hi hj hk hl hm hn ho hp hq hr hs ht hu hv hw hx hy hz ia ib ic id
+      ie if ig ih ii ij ik il im ff in fqs fg fh fi fj fk fl fm fn fo fp fq fr fs
+      ft fu fv fw fx fy fz ga fvh fvi fvj fvk fvl fvm fvn fvo fvp ee eo eg ep ei
+      eq ek er em es io ip gb gd ge gf gg gh gi gj gk gl gm gn go gp gq gr gs gt
+      gu gv gw gx gy gz ha hb hc hd he hf hg hh hi hj hk hl hm hn ho hp hq hr hs
+      ht hu hv hw hx hy hz ia ib ic id ie if ig ih ii ij ik il im ff in fqs cx cy
+  in (fxf, fxg, fxh, fxi, fxj, fxk, fxl, fxm, fxn, fxo, fxp, fxq, fxr, fxs, fxt,
+    fxu, fxv, fxw, fxx, fxy, fxz, fya, fyb, fyc, fyd, fye, fyf, fyg, fyh, fyi, fyj,
+    fyk, fyl, fym, fyn, fyo, fyp, fyq, fyr, fys, fyt, fyu, fyv, fyw, fyx, fyy, fyz,
+    fza, fzb, fzc, fzd, fze, fzf, fzg, fzh, fzi, fzj, fzk, fzl, fzm, fzn, fzo, fzp,
+    fzq, fzr, fzs, fzt, fzu, fzv, fzw, fzx, fzy, fzz, gaa, gab, gac, gad, gae, gaf,
+    gag, gah, gai, gaj, gak, gal, gam, gan, gao, gap, gaq, gar, gas, gat, gau, gav,
+    gaw, gax, gay, gaz, gba, gbb, gbc, gbd, gbe, gbf, gbg, gbh, gbi, gbj, gbk, gbl,
+    gbm, gbn, gbo, gbp, gbq, gbr, gbs, gbt, gbu, gbv, gbw, gbx, gby, gbz, gca, gcb,
+    gcc, gcd, gce, gcf, gcg, gch, gci, gcj, gck, gcl, gcm, gcn, gco) }, ())
 
 During handling of the above exception, another exception occurred:
 
-ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3291/1742731670.py in <module>
-     48 except ModuleNotFoundError:
-     49     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/patel-zeel/bijax.git')
----> 50     from bijax.advi import ADVI
-     51     from bijax.utils import train_fn
-     52 try:
+JaxStackTraceBeforeTransformation         Traceback (most recent call last)
+~/miniconda3/envs/py37/lib/python3.7/runpy.py in _run_module_as_main(***failed resolving arguments***)
+    192     return _run_code(code, main_globals, None,
+--> 193                      "__main__", mod_spec)
+    194 
 
-ModuleNotFoundError: No module named 'bijax'
-ModuleNotFoundError: No module named 'bijax'
+~/miniconda3/envs/py37/lib/python3.7/runpy.py in _run_code(***failed resolving arguments***)
+     84                        __spec__ = mod_spec)
+---> 85     exec(code, run_globals)
+     86     return run_globals
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel_launcher.py in <module>
+     16 
+---> 17     app.launch_new_instance()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/traitlets/config/application.py in launch_instance(***failed resolving arguments***)
+    977         app.initialize(argv)
+--> 978         app.start()
+    979 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelapp.py in start(***failed resolving arguments***)
+    711             try:
+--> 712                 self.io_loop.start()
+    713             except KeyboardInterrupt:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tornado/platform/asyncio.py in start(***failed resolving arguments***)
+    214             asyncio.set_event_loop(self.asyncio_loop)
+--> 215             self.asyncio_loop.run_forever()
+    216         finally:
+
+~/miniconda3/envs/py37/lib/python3.7/asyncio/base_events.py in run_forever(***failed resolving arguments***)
+    540             while True:
+--> 541                 self._run_once()
+    542                 if self._stopping:
+
+~/miniconda3/envs/py37/lib/python3.7/asyncio/base_events.py in _run_once(***failed resolving arguments***)
+   1785             else:
+-> 1786                 handle._run()
+   1787         handle = None  # Needed to break cycles when an exception occurs.
+
+~/miniconda3/envs/py37/lib/python3.7/asyncio/events.py in _run(***failed resolving arguments***)
+     87         try:
+---> 88             self._context.run(self._callback, *self._args)
+     89         except Exception as exc:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in dispatch_queue(***failed resolving arguments***)
+    509             try:
+--> 510                 await self.process_one()
+    511             except Exception:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in process_one(***failed resolving arguments***)
+    498                 return None
+--> 499         await dispatch(*args)
+    500 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in dispatch_shell(***failed resolving arguments***)
+    405                 if inspect.isawaitable(result):
+--> 406                     await result
+    407             except Exception:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/kernelbase.py in execute_request(***failed resolving arguments***)
+    729         if inspect.isawaitable(reply_content):
+--> 730             reply_content = await reply_content
+    731 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/ipkernel.py in do_execute(***failed resolving arguments***)
+    386                         silent=silent,
+--> 387                         cell_id=cell_id,
+    388                     )
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ipykernel/zmqshell.py in run_cell(***failed resolving arguments***)
+    527         self._last_traceback = None
+--> 528         return super().run_cell(*args, **kwargs)
+    529 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in run_cell(***failed resolving arguments***)
+   2975             result = self._run_cell(
+-> 2976                 raw_cell, store_history, silent, shell_futures, cell_id
+   2977             )
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in _run_cell(***failed resolving arguments***)
+   3029         try:
+-> 3030             return runner(coro)
+   3031         except BaseException as e:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/async_helpers.py in _pseudo_sync_runner(***failed resolving arguments***)
+     77     try:
+---> 78         coro.send(None)
+     79     except StopIteration as exc:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in run_cell_async(***failed resolving arguments***)
+   3257                 has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
+-> 3258                        interactivity=interactivity, compiler=compiler, result=result)
+   3259 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in run_ast_nodes(***failed resolving arguments***)
+   3472                         asy = compare(code)
+-> 3473                     if (await self.run_code(code, result,  async_=asy)):
+   3474                         return True
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/IPython/core/interactiveshell.py in run_code(***failed resolving arguments***)
+   3552                 else:
+-> 3553                     exec(code_obj, self.user_global_ns, self.user_ns)
+   3554             finally:
+
+/tmp/ipykernel_3393/3480722215.py in <module>
+      4 adapt = blackjax.window_adaptation(blackjax.nuts, bnn_log_joint_partial, num_warmup, progress_bar=True)
+----> 5 final_state, kernel, _ = adapt.run(key_warmup, params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/kernels.py in run(***failed resolving arguments***)
+    746             (init_state, init_warmup_state),
+--> 747             (jnp.arange(num_steps), keys, schedule),
+    748         )
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/progress_bar.py in wrapper_progress_bar(***failed resolving arguments***)
+     84                 iter_num = x
+---> 85             _update_progress_bar(iter_num)
+     86             result = func(carry, x)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/progress_bar.py in _update_progress_bar(***failed resolving arguments***)
+     35             lambda _: iter_num,
+---> 36             operand=None,
+     37         )
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/progress_bar.py in <lambda>(***failed resolving arguments***)
+     32             lambda _: host_callback.id_tap(
+---> 33                 _define_bar, iter_num, result=iter_num, tap_with_device=True
+     34             ),
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/experimental/host_callback.py in id_tap(***failed resolving arguments***)
+    608 
+--> 609   call_res = _call(tap_func, arg, call_with_device=tap_with_device,
+    610                    result_shape=None, identity=True)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/experimental/host_callback.py in _call(***failed resolving arguments***)
+    762     params["result_treedef"] = result_treedef
+--> 763     params["flat_results_aval"] = tuple(flat_results_aval)
+    764   flat_results = outside_call_p.bind(*flat_args, **params)
+
+JaxStackTraceBeforeTransformation: TypeError: emit_python_callback() missing 1 required positional argument: 'result_avals'
+
+The preceding stack trace is the source of the JAX operation that, once transformed by JAX, triggered the following exception.
+
+--------------------
+
+The above exception was the direct cause of the following exception:
+
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_3393/3480722215.py in <module>
+      3 key_samples, key_init, key_warmup, key = jax.random.split(key, 4)
+      4 adapt = blackjax.window_adaptation(blackjax.nuts, bnn_log_joint_partial, num_warmup, progress_bar=True)
+----> 5 final_state, kernel, _ = adapt.run(key_warmup, params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/blackjax/kernels.py in run(rng_key, position)
+    745             one_step_,
+    746             (init_state, init_warmup_state),
+--> 747             (jnp.arange(num_steps), keys, schedule),
+    748         )
+    749         last_chain_state, last_warmup_state = last_state
+
+    [... skipping hidden 27 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/experimental/host_callback.py in _outside_call_lowering(ctx, has_token, identity, flat_results_aval, *args, **params)
+   1186       wrapped_callback, current_token, callback_operands,
+   1187       callback_operand_avals, callback_flat_results_aval,  # type: ignore[arg-type]
+-> 1188       has_side_effect=True, sharding=sharding)
+   1189   _callback_handler_data.keep_alives.append(keep_alive)
+   1190   # We must put the two tokens at the end
+
+TypeError: emit_python_callback() missing 1 required positional argument: 'result_avals'
+TypeError: emit_python_callback() missing 1 required positional argument: 'result_avals'
