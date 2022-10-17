@@ -46,7 +46,7 @@ classes = ("plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship"
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_6643/1707222892.py in <module>
+/tmp/ipykernel_6741/1707222892.py in <module>
      33     train_transforms=train_transforms,
      34     test_transforms=test_transforms,
 ---> 35     val_transforms=test_transforms,
