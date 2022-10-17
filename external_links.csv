@@ -16,6 +16,7 @@ gaussian_hmm_2d.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/de
 gprdemonoisefree.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/18/gpr_demo_noise_free.ipynb
 gprdemoard.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/18/gpr_demo_ard.ipynb
 gprdemochangehparams.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/18/gpr_demo_change_hparams.ipynb
+hmm_ar.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/hmm/demos/autoregressive_hmm_demo.ipynb
 kf_linreg.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/linear_gaussian_ssm/demos/kf_linreg.ipynb
 kf_parallel.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/linear_gaussian_ssm/demos/kf_parallel.ipynb
 kf_spiral.ipynb,https://github.com/probml/ssm-jax/blob/main/ssm_jax/linear_gaussian_ssm/demos/kf_spiral.ipynb
