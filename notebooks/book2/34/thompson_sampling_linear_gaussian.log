@@ -214,7 +214,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_24769/2794284974.py in <module>
+/tmp/ipykernel_24768/2794284974.py in <module>
     178 
     179 fig, ax = plt.subplots(figsize=(4, 5))
 --> 180 sns.heatmap(map_reward_df, cmap="viridis", ax=ax, xticklabels=labels)
@@ -222,11 +222,11 @@ TypeError                                 Traceback (most recent call last)
     182 pml.savefig("bandit-lingauss-heatmap.pdf")
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/matrix.py in heatmap(data, vmin, vmax, cmap, center, robust, annot, fmt, annot_kws, linewidths, linecolor, cbar, cbar_kws, cbar_ax, square, xticklabels, yticklabels, mask, ax, **kwargs)
-    554     if square:
-    555         ax.set_aspect("equal")
---> 556     plotter.plot(ax, cbar_ax, kwargs)
-    557     return ax
-    558 
+    457     if square:
+    458         ax.set_aspect("equal")
+--> 459     plotter.plot(ax, cbar_ax, kwargs)
+    460     return ax
+    461 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/seaborn/matrix.py in plot(self, ax, cax, kws)
     304 
