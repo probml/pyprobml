@@ -7,17 +7,17 @@ data = pods.datasets.cmu_mocap(subject, motion)
 
 ---------------------------------------------------------------------------
 StdinNotImplementedError                  Traceback (most recent call last)
-/tmp/ipykernel_4705/1995362234.py in <module>
+/tmp/ipykernel_4770/1995362234.py in <module>
       1 subject = "16"
       2 motion = ["02", "21"]
 ----> 3 data = pods.datasets.cmu_mocap(subject, motion)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pods/datasets.py in cmu_mocap(subject, train_motions, test_motions, sample_every, data_set)
-   2351     access.data_resources[data_set]["urls"] = resource["urls"]
-   2352     if resource["urls"]:
--> 2353         access.download_data(data_set)
-   2354     skel = mocap.acclaim_skeleton(os.path.join(subject_dir, subject + ".asf"))
-   2355 
+   2372     access.data_resources[data_set]["urls"] = resource["urls"]
+   2373     if resource["urls"]:
+-> 2374         access.download_data(data_set)
+   2375     skel = mocap.acclaim_skeleton(os.path.join(subject_dir, subject + ".asf"))
+   2376 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/pods/access.py in download_data(dataset_name, prompt)
     203 
