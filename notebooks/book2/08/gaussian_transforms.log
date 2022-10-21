@@ -1,0 +1,29 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    from ssm_jax.plotting import plot_ellipse
+except ModuleNotFoundError:
+    print("installing ssm_jax")
+    %pip install -qq git+https://github.com/probml/ssm-jax.git
+    from ssm_jax.plotting import plot_ellipse
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3394/3393369772.py in <module>
+      1 try:
+----> 2     from ssm_jax.plotting import plot_ellipse
+      3 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'ssm_jax'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3394/3393369772.py in <module>
+      4     print("installing ssm_jax")
+      5     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/ssm-jax.git')
+----> 6     from ssm_jax.plotting import plot_ellipse
+
+ModuleNotFoundError: No module named 'ssm_jax'
+ModuleNotFoundError: No module named 'ssm_jax'
