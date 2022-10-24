@@ -73,7 +73,7 @@ from jax.random import PRNGKey as rng_key
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3391/1742731670.py in <module>
+/tmp/ipykernel_3393/1742731670.py in <module>
      45 try:
 ---> 46     from bijax.advi import ADVI
      47     from bijax.utils import train_fn
@@ -83,7 +83,7 @@ ModuleNotFoundError: No module named 'bijax'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3391/1742731670.py in <module>
+/tmp/ipykernel_3393/1742731670.py in <module>
      48 except ModuleNotFoundError:
      49     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/patel-zeel/bijax.git')
 ---> 50     from bijax.advi import ADVI
