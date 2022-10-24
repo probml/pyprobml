@@ -158,13 +158,36 @@ p.write_png("../figures/tree_structure.png")
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4202/437414598.py in <module>
-    137 ]
-    138 
---> 139 count_vect = CountVectorizer(newsgroups_train.data, vocabulary=list_of_words)
-    140 X_train_counts = count_vect.fit_transform(newsgroups_train.data)
-    141 df_ = pd.DataFrame.sparse.from_spmatrix(X_train_counts, columns=list_of_words)
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4175/437414598.py in <module>
+     17 try:
+---> 18     from pgmpy.estimators import TreeSearch
+     19 except ModuleNotFoundError:
 
-TypeError: __init__() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given
-TypeError: __init__() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given
+ModuleNotFoundError: No module named 'pgmpy'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4175/437414598.py in <module>
+     19 except ModuleNotFoundError:
+     20     get_ipython().run_line_magic('pip', 'install -qq pgmpy')
+---> 21     from pgmpy.estimators import TreeSearch
+     22 from sklearn.feature_extraction.text import CountVectorizer
+     23 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/__init__.py in <module>
+----> 1 from .global_vars import HAS_PANDAS, device, no_progress
+      2 
+      3 __all__ = ["HAS_PANDAS", "device"]
+      4 __version__ = "0.1.20"
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/global_vars.py in <module>
+      6 
+      7     # Check if GPU is available
+----> 8     if torch.cuda.is_available():
+      9         device = torch.device("cuda")
+     10     else:
+
+AttributeError: module 'torch' has no attribute 'cuda'
+AttributeError: module 'torch' has no attribute 'cuda'
