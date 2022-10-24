@@ -18,7 +18,7 @@ lps, arhmm, posterior = arhmm.fit(data, method="em")
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4137/1876096508.py in <module>
+/tmp/ipykernel_4134/1876096508.py in <module>
      12 arhmm = GaussianARHMM(test_num_states, data_dim, num_lags, seed=jr.PRNGKey(0))
      13 
 ---> 14 lps, arhmm, posterior = arhmm.fit(data, method="em")
