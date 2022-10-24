@@ -40,7 +40,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3774/2330174662.py in <module>
+/tmp/ipykernel_3781/2330174662.py in <module>
      12 
      13 try:
 ---> 14     import distrax
