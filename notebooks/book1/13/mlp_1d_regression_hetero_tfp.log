@@ -22,7 +22,7 @@ tf.config.list_physical_devices('GPU')
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5034/2318241506.py in <module>
+/tmp/ipykernel_5137/2318241506.py in <module>
       7 
       8 try:
 ----> 9     import tensorflow as tf

@@ -46,7 +46,7 @@ config.update("jax_enable_x64", True)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3943/3127702341.py in <module>
+/tmp/ipykernel_3773/3127702341.py in <module>
       9 
      10 try:
 ---> 11     import tensorflow as tf
