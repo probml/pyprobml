@@ -1,0 +1,48 @@
+An error occurred while executing the following cell:
+------------------
+prior_mean = jnp.array([1.0, 2.0])
+prior_covar = jnp.array([[2.0, 0.5], [0.5, 1.0]])
+prior = {"x": tfd.MultivariateNormalFullCovariance(loc=prior_mean, covariance_matrix=prior_covar)}
+------------------
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_3394/1127218432.py in <module>
+      1 prior_mean = jnp.array([1.0, 2.0])
+      2 prior_covar = jnp.array([[2.0, 0.5], [0.5, 1.0]])
+----> 3 prior = {"x": tfd.MultivariateNormalFullCovariance(loc=prior_mean, covariance_matrix=prior_covar)}
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/decorator.py in fun(*args, **kw)
+    230             if not kwsyntax:
+    231                 args, kw = fix(args, kw, sig)
+--> 232             return caller(func, *(extras + args), **kw)
+    233     fun.__name__ = func.__name__
+    234     fun.__doc__ = func.__doc__
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/distributions/distribution.py in wrapped_init(***failed resolving arguments***)
+    340       # called, here is the place to do it.
+    341       self_._parameters = None
+--> 342       default_init(self_, *args, **kwargs)
+    343       # Note: if we ever want to override things set in `self` by subclass
+    344       # `__init__`, here is the place to do it.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/distributions/mvn_full_covariance.py in __init__(self, loc, covariance_matrix, validate_args, allow_nan_stats, name)
+    188           # However, cholesky() ignores the upper triangular part, so we do need
+    189           # to separately assert symmetric.
+--> 190           scale_tril = tf.linalg.cholesky(covariance_matrix)
+    191         super(MultivariateNormalFullCovariance, self).__init__(
+    192             loc=loc,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/linalg_impl.py in <lambda>(input, name)
+    371 cholesky = utils.copy_docstring(
+    372     'tf.linalg.cholesky',
+--> 373     lambda input, name=None: np.linalg.cholesky(ops.convert_to_tensor(input)))
+    374 
+    375 cholesky_solve = utils.copy_docstring(
+
+    [... skipping hidden 13 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jaxlib/mlir/dialects/chlo.py in register_dialect(context, load)
+
+ImportError: cannot import name '_chlo' from 'jaxlib.mlir._mlir_libs' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jaxlib/mlir/_mlir_libs/__init__.py)
+ImportError: cannot import name '_chlo' from 'jaxlib.mlir._mlir_libs' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/jaxlib/mlir/_mlir_libs/__init__.py)

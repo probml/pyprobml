@@ -1,33 +1,128 @@
 An error occurred while executing the following cell:
 ------------------
+import jax
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+from functools import partial
+from sklearn.datasets import make_moons
+from jax.flatten_util import ravel_pytree
 
-# Tensorflow
 try:
-  # %tensorflow_version only exists in Colab.
-    %tensorflow_version 2.x
-except Exception:
-    pass
-
-try:
-    import tensorflow as tf
+    import jaxopt
 except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow as tf
-    
-from tensorflow import keras
+    %pip install -qq jaxopt
 
-print("tf version {}".format(tf.__version__))
-tf.config.list_physical_devices('GPU')
+try:
+    import distrax
+except ModuleNotFoundError:
+    %pip install -qq distrax
+    import distrax
+
+
+try:
+    import flax.linen as nn
+except ModuleNotFoundError:
+    %pip install -qq flax
+    import flax.linen as nn
+
+try:
+    import blackjax
+except ModuleNotFoundError:
+    %pip install -qq blackjax
+    import blackjax
+
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5137/2318241506.py in <module>
-      7 
-      8 try:
-----> 9     import tensorflow as tf
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+/tmp/ipykernel_3774/2330174662.py in <module>
+     12 
+     13 try:
+---> 14     import distrax
+     15 except ModuleNotFoundError:
+     16     get_ipython().run_line_magic('pip', 'install -qq distrax')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/distrax/__init__.py in <module>
+     16 
+     17 # Bijectors.
+---> 18 from distrax._src.bijectors.bijector import Bijector
+     19 from distrax._src.bijectors.bijector import BijectorLike
+     20 from distrax._src.bijectors.block import Block
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/distrax/_src/bijectors/bijector.py in <module>
+     24 
+     25 
+---> 26 tfb = tfp.bijectors
+     27 
+     28 Array = jnp.ndarray
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in __getattr__(self, item)
+     51 
+     52   def __getattr__(self, item):
+---> 53     module = self._load()
+     54     return getattr(module, item)
+     55 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in _load(self)
+     38       self._on_first_access = None
+     39     # Import the target module and insert it into the parent's namespace
+---> 40     module = importlib.import_module(self.__name__)
+     41     if self._parent_module_globals is not None:
+     42       self._parent_module_globals[self._local_name] = module
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/__init__.py in import_module(name, package)
+    125                 break
+    126             level += 1
+--> 127     return _bootstrap._gcd_import(name[level:], package, level)
+    128 
+    129 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
+     39 from tensorflow_probability.python.version import __version__
+     40 # from tensorflow_probability.substrates.jax.google import staging  # DisableOnExport  # pylint:disable=line-too-long
+---> 41 from tensorflow_probability.substrates.jax import bijectors
+     42 from tensorflow_probability.substrates.jax import distributions
+     43 from tensorflow_probability.substrates.jax import experimental
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/__init__.py in <module>
+     17 # pylint: disable=unused-import,wildcard-import,line-too-long,g-importing-member
+     18 
+---> 19 from tensorflow_probability.substrates.jax.bijectors.absolute_value import AbsoluteValue
+     20 from tensorflow_probability.substrates.jax.bijectors.ascending import Ascending
+     21 # from tensorflow_probability.substrates.jax.bijectors.batch_normalization import BatchNormalization
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/absolute_value.py in <module>
+     15 """AbsoluteValue bijector."""
+     16 
+---> 17 from tensorflow_probability.python.internal.backend.jax.compat import v2 as tf
+     18 
+     19 from tensorflow_probability.substrates.jax.bijectors import bijector
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/__init__.py in <module>
+     16 
+     17 from tensorflow_probability.python.internal.backend.jax import __internal__
+---> 18 from tensorflow_probability.python.internal.backend.jax import bitwise
+     19 from tensorflow_probability.python.internal.backend.jax import compat
+     20 from tensorflow_probability.python.internal.backend.jax import config
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/bitwise.py in <module>
+     17 import numpy as onp; import jax.numpy as np
+     18 
+---> 19 from tensorflow_probability.python.internal.backend.jax import _utils as utils
+     20 
+     21 __all__ = [
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/_utils.py in <module>
+     23 
+     24 try:
+---> 25   from tensorflow.python.ops import array_ops  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top,unused-import
+     26   from tensorflow.python.ops import random_ops  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top,unused-import
+     27   import tensorflow.compat.v1 as tf1  # pylint: disable=g-import-not-at-top,unused-import
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing

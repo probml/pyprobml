@@ -57,7 +57,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5195/2473630569.py in <module>
+/tmp/ipykernel_5230/2473630569.py in <module>
       8 
       9 try:
 ---> 10     from tensorflow import keras
