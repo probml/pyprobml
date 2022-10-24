@@ -32,7 +32,7 @@ key = random.PRNGKey(4)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_3893/2751882726.py in <module>
+/tmp/ipykernel_3882/2751882726.py in <module>
       2 # fig 11.17 of 'Bayeysian Modeling and Computation'
       3 
 ----> 4 from jax import random

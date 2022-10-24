@@ -35,7 +35,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3389/2294316416.py in <module>
+/tmp/ipykernel_3392/2294316416.py in <module>
      27 try:
 ---> 28     import probml_utils as pml
      29 except ModuleNotFoundError:
@@ -45,7 +45,7 @@ ModuleNotFoundError: No module named 'probml_utils'
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3389/2294316416.py in <module>
+/tmp/ipykernel_3392/2294316416.py in <module>
      29 except ModuleNotFoundError:
      30     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
 ---> 31     import probml_utils as pml
