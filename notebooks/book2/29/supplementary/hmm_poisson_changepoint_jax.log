@@ -29,7 +29,7 @@ from distrax import HMM
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_6703/3072030163.py in <module>
+/tmp/ipykernel_6707/3072030163.py in <module>
       5 import jax.numpy as jnp
       6 from jax import jit, lax, vmap
 ----> 7 from jax.experimental import optimizers
