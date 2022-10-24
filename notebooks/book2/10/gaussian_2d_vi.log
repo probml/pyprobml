@@ -7,7 +7,7 @@ prior = {"x": tfd.MultivariateNormalFullCovariance(loc=prior_mean, covariance_ma
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_3394/1127218432.py in <module>
+/tmp/ipykernel_3396/1127218432.py in <module>
       1 prior_mean = jnp.array([1.0, 2.0])
       2 prior_covar = jnp.array([[2.0, 0.5], [0.5, 1.0]])
 ----> 3 prior = {"x": tfd.MultivariateNormalFullCovariance(loc=prior_mean, covariance_matrix=prior_covar)}
