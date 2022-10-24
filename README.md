@@ -3,13 +3,23 @@
 <img src="https://img.shields.io/github/stars/probml/pyprobml?style=social">
 
 
-Python 3 code to reproduce the figures in the book series [Probabilistic Machine Learning](https://probml.github.io/pml-book/) by Kevin Patrick Murphy.
-This is work in progress, so expect rough edges.
-(For the latest status of the code,
-see [Book 1 dashboard](https://github.com/probml/pyprobml/blob/workflow_testing_indicator/dashboard_figures_book1.md)
-and [Book 2 dashboard](https://github.com/probml/pyprobml/blob/workflow_testing_indicator/dashboard_figures_book2.md).)
+Python 3 code to reproduce the figures in the books
+[Probabilistic Machine Learning: An Introduction](https://probml.github.io/pml-book/book1.html) (aka "book 1")
+and
+[Probabilistic Machine Learning: Advanced Topics](https://probml.github.io/pml-book/book2.html)
+(aka "book 2").
+The code uses the standard Python libraries, such as numpy, scipy, matplotlib, sklearn,  etc.
+Some of the code (especially in book 2) also uses [JAX](https://github.com/google/jax),
+and in some parts of book 1, we also use  [Tensorflow 2](https://github.com/tensorflow/tensorflow)
+and a little bit of [Torch](https://github.com/pytorch).
+See also [probml-utils](https://github.com/probml/probml-utils) for some utility code that is shared across multiple notebooks.
 
-See also [probml-utils](https://github.com/probml/probml-utils) for some utility code.
+For the latest status of the code,
+see [Book 1 dashboard](https://github.com/probml/pyprobml/blob/workflow_testing_indicator/dashboard_figures_book1.md)
+and [Book 2 dashboard](https://github.com/probml/pyprobml/blob/workflow_testing_indicator/dashboard_figures_book2.md).
+As of September 2022, this code is now in maintenance mode.
+
+
 
 ## Running the notebooks
 
