@@ -36,19 +36,28 @@ except ModuleNotFoundError:
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
 /tmp/ipykernel_3394/2294316416.py in <module>
-     27 try:
----> 28     import probml_utils as pml
-     29 except ModuleNotFoundError:
+     11 try:
+---> 12     import tensorflow_probability.substrates.jax as tfp
+     13 except:
 
-ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'tensorflow_probability'
 
 During handling of the above exception, another exception occurred:
 
-ModuleNotFoundError                       Traceback (most recent call last)
+ImportError                               Traceback (most recent call last)
 /tmp/ipykernel_3394/2294316416.py in <module>
-     29 except ModuleNotFoundError:
-     30     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
----> 31     import probml_utils as pml
+     13 except:
+     14     get_ipython().run_line_magic('pip', 'install tensorflow_probability')
+---> 15     import tensorflow_probability.substrates.jax as tfp
+     16 
+     17 import seaborn as sns
 
-ModuleNotFoundError: No module named 'probml_utils'
-ModuleNotFoundError: No module named 'probml_utils'
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/__init__.py in <module>
+     18 # `python/__init__.py` as necessary.
+     19 
+---> 20 from tensorflow_probability import substrates
+     21 # from tensorflow_probability.google import staging  # DisableOnExport
+     22 # from tensorflow_probability.google import tfp_google  # DisableOnExport
+
+ImportError: cannot import name 'substrates' from 'tensorflow_probability' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/__init__.py)
+ImportError: cannot import name 'substrates' from 'tensorflow_probability' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/__init__.py)

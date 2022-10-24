@@ -15,8 +15,8 @@ from jax.scipy.stats import norm
 ------------------
 
 ---------------------------------------------------------------------------
-RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_3936/2753427409.py in <module>
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3825/2753427409.py in <module>
 ----> 1 import jax
       2 import jax.numpy as jnp
       3 import seaborn as sns
@@ -43,18 +43,11 @@ RuntimeError                              Traceback (most recent call last)
      31 from jax._src.lib import transfer_guard_lib
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in <module>
-     95   jax_version=jax.version.__version__,
-     96   jaxlib_version=jaxlib.version.__version__,
----> 97   minimum_jaxlib_version=jax.version._minimum_jaxlib_version)
-     98 
-     99 
+    107 except ImportError:
+    108   pocketfft = None  # type: ignore
+--> 109 try:
+    110   import jaxlib.ducc_fft as ducc_fft  # pytype: disable=import-error
+    111 except ImportError:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lib/__init__.py in check_jaxlib_version(jax_version, jaxlib_version, minimum_jaxlib_version)
-     87            f'incompatible with jax version {jax_version}. Please '
-     88            'update your jax and/or jaxlib packages.')
----> 89     raise RuntimeError(msg)
-     90 
-     91   return _jaxlib_version
-
-RuntimeError: jaxlib version 0.3.22 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
-RuntimeError: jaxlib version 0.3.22 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+ModuleNotFoundError: No module named 'jaxlib.pocketfft'
+ModuleNotFoundError: No module named 'jaxlib.pocketfft'

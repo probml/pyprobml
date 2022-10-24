@@ -73,22 +73,22 @@ from jax.random import PRNGKey as rng_key
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3393/1742731670.py in <module>
-     45 try:
----> 46     from bijax.advi import ADVI
-     47     from bijax.utils import train_fn
+/tmp/ipykernel_3395/1742731670.py in <module>
+     27 try:
+---> 28     import official.nlp.modeling.layers as nlp_layers
+     29 except ModuleNotFoundError:
 
-ModuleNotFoundError: No module named 'bijax'
+ModuleNotFoundError: No module named 'official'
 
 During handling of the above exception, another exception occurred:
 
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3393/1742731670.py in <module>
-     48 except ModuleNotFoundError:
-     49     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/patel-zeel/bijax.git')
----> 50     from bijax.advi import ADVI
-     51     from bijax.utils import train_fn
-     52 try:
+/tmp/ipykernel_3395/1742731670.py in <module>
+     29 except ModuleNotFoundError:
+     30     get_ipython().run_line_magic('pip', 'install -qq tf-models-official')
+---> 31     import official.nlp.modeling.layers as nlp_layers
+     32 try:
+     33     import blackjax
 
-ModuleNotFoundError: No module named 'bijax'
-ModuleNotFoundError: No module named 'bijax'
+ModuleNotFoundError: No module named 'official'
+ModuleNotFoundError: No module named 'official'

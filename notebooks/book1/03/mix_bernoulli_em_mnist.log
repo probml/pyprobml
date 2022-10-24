@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4117/205051138.py in <module>
+/tmp/ipykernel_4909/205051138.py in <module>
       8 
       9 try:
 ---> 10     import tensorflow as tf
