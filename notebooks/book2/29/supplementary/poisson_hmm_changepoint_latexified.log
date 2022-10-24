@@ -1,33 +1,57 @@
 An error occurred while executing the following cell:
 ------------------
-
-# Tensorflow
-try:
-  # %tensorflow_version only exists in Colab.
-    %tensorflow_version 2.x
-except Exception:
-    pass
+import jax
+import numpy as np
+import jax.numpy as jnp
+from jax.scipy import stats
+from jax import jit, lax, vmap
+from jax.example_libraries import optimizers
+import matplotlib.pylab as plt
+import seaborn as sns
 
 try:
     import tensorflow as tf
 except ModuleNotFoundError:
-    %pip install -qq tensorflow
+    %pip install -qqq tensorflow
     import tensorflow as tf
-    
-from tensorflow import keras
 
-print("tf version {}".format(tf.__version__))
-tf.config.list_physical_devices('GPU')
+try:
+    import tensorflow_probability as tfp
+except ModuleNotFoundError:
+    %pip install -qqq tensorflow-probability
+    import tensorflow_probability as tfp
+
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qqq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
+
+try:
+    import distrax
+except ModuleNotFoundError:
+    %pip install -qqq distrax
+    import distrax
+from distrax import HMM
+from tensorflow_probability.substrates import jax as tfp
+
+tfd = tfp.distributions
+
+# enable jnp.float64
+from jax.config import config
+
+config.update("jax_enable_x64", True)
+%matplotlib inline
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5034/2318241506.py in <module>
-      7 
-      8 try:
-----> 9     import tensorflow as tf
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+/tmp/ipykernel_3943/3127702341.py in <module>
+      9 
+     10 try:
+---> 11     import tensorflow as tf
+     12 except ModuleNotFoundError:
+     13     get_ipython().run_line_magic('pip', 'install -qqq tensorflow')
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing

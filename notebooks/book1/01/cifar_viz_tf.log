@@ -1,33 +1,68 @@
 An error occurred while executing the following cell:
 ------------------
+# Based on
+# https://github.com/tensorflow/docs/blob/master/site/en/r1/tutorials/keras/basic_classification.ipynb
+# (MIT License)
 
-# Tensorflow
-try:
-  # %tensorflow_version only exists in Colab.
-    %tensorflow_version 2.x
-except Exception:
-    pass
+
+from __future__ import absolute_import, division, print_function
+
 
 try:
-    import tensorflow as tf
+    from tensorflow import keras
 except ModuleNotFoundError:
     %pip install -qq tensorflow
-    import tensorflow as tf
-    
-from tensorflow import keras
+    from tensorflow import keras
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+import os
 
-print("tf version {}".format(tf.__version__))
-tf.config.list_physical_devices('GPU')
+figdir = "figures"
+
+
+def savefig(fname):
+    plt.savefig(os.path.join(figdir, fname))
+
+
+np.random.seed(0)
+
+
+data = keras.datasets.cifar10
+
+(train_images, train_labels), (test_images, test_labels) = data.load_data()
+
+# print(np.shape(train_images))
+# print(np.shape(test_images))
+
+
+# For CIFAR:
+# (50000, 32, 32, 3)
+# (10000, 32, 32, 3)
+
+class_names = ["plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
+
+plt.figure(figsize=(10, 10))
+for i in range(25):
+    plt.subplot(5, 5, i + 1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i])
+    y = train_labels[i][0]
+    plt.xlabel(class_names[y])
+savefig("cifar10-data.pdf")
+plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5034/2318241506.py in <module>
-      7 
-      8 try:
-----> 9     import tensorflow as tf
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+/tmp/ipykernel_5195/2473630569.py in <module>
+      8 
+      9 try:
+---> 10     from tensorflow import keras
+     11 except ModuleNotFoundError:
+     12     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing
