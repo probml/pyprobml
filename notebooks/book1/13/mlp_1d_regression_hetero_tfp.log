@@ -1,108 +1,102 @@
 An error occurred while executing the following cell:
 ------------------
+fixed_vars = [None, 1]
 
-# Tensorflow
-try:
-  # %tensorflow_version only exists in Colab.
-    %tensorflow_version 2.x
-except Exception:
-    pass
+for fixed_var in fixed_vars:
+    model = DensityNetwork([1, 50, 50], [20, 1], fixed_var)
 
-try:
-    import tensorflow as tf
-except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow as tf
-    
-from tensorflow import keras
+    def negloglik(y, rv_y):
+        return -rv_y.log_prob(y)
 
-print("tf version {}".format(tf.__version__))
-tf.config.list_physical_devices('GPU')
+    model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.01), loss=negloglik)
+    history = model.fit(x, y, epochs=500, batch_size=100, verbose=False)
+    if fixed_var is not None:
+        # estimate MLE of sigma
+        yhat_train = model(x)
+        ypred = yhat_train.mean().numpy()[:, 0]
+        # print(ypred.shape)
+        residuals = y - ypred
+        mse = np.mean((residuals**2))
+        # mse = scipy.stats.trim_mean(residuals ** 2, proportiontocut=0.1)
+        model.fixed_variance = mse
+        # print(model.fixed_variance)
+    yhat = model(x_tst)  # a Gaussian distribution object
+
+    plt.plot(history.history["loss"], label="Train")
+    plt.legend()
+    plt.xlabel("Epoch")
+    plt.ylabel("NLL")
+    plt.show()
+
+    plt.figure()
+    plt.plot(x, y, "b.", label="observed")
+    m = yhat.mean()
+    s = yhat.stddev()
+    plt.plot(x_tst, m, "r", linewidth=4, label="mean")
+    plt.plot(x_tst, m + 2 * s, "g", linewidth=2, label=r"mean + 2 stddev")
+    plt.plot(x_tst, m - 2 * s, "g", linewidth=2, label=r"mean - 2 stddev")
+    # plt.ylim([-10,10])
+    plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5137/2318241506.py in <module>
-      7 
-      8 try:
-----> 9     import tensorflow as tf
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_5302/2370705851.py in <module>
+      8 
+      9     model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.01), loss=negloglik)
+---> 10     history = model.fit(x, y, epochs=500, batch_size=100, verbose=False)
+     11     if fixed_var is not None:
+     12         # estimate MLE of sigma
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
-     35 import typing as _typing
-     36 
----> 37 from tensorflow.python.tools import module_util as _module_util
-     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
-     39 
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/traceback_utils.py in error_handler(*args, **kwargs)
+     68             # To get the full stack trace, call:
+     69             # `tf.debugging.disable_traceback_filtering()`
+---> 70             raise e.with_traceback(filtered_tb) from None
+     71         finally:
+     72             del filtered_tb
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
-     35 
-     36 from tensorflow.python import pywrap_tensorflow as _pywrap_tensorflow
----> 37 from tensorflow.python.eager import context
-     38 
-     39 # pylint: enable=wildcard-import
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py in tf__train_function(iterator)
+     13                 try:
+     14                     do_return = True
+---> 15                     retval_ = ag__.converted_call(ag__.ld(step_function), (ag__.ld(self), ag__.ld(iterator)), None, fscope)
+     16                 except:
+     17                     do_return = False
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/context.py in <module>
-     27 import six
-     28 
----> 29 from tensorflow.core.framework import function_pb2
-     30 from tensorflow.core.protobuf import config_pb2
-     31 from tensorflow.core.protobuf import coordination_config_pb2
+AttributeError: in user code:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/function_pb2.py in <module>
-     14 
-     15 
----> 16 from tensorflow.core.framework import attr_value_pb2 as tensorflow_dot_core_dot_framework_dot_attr__value__pb2
-     17 from tensorflow.core.framework import node_def_pb2 as tensorflow_dot_core_dot_framework_dot_node__def__pb2
-     18 from tensorflow.core.framework import op_def_pb2 as tensorflow_dot_core_dot_framework_dot_op__def__pb2
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1160, in train_function  *
+        return step_function(self, iterator)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1146, in step_function  **
+        outputs = model.distribute_strategy.run(run_step, args=(data,))
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1135, in run_step  **
+        outputs = model.train_step(data)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 994, in train_step
+        loss = self.compute_loss(x, y, y_pred, sample_weight)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1053, in compute_loss
+        y, y_pred, sample_weight, regularization_losses=self.losses
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 263, in __call__
+        y_t, y_p, sw = match_dtype_and_rank(y_t, y_p, sw)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 831, in match_dtype_and_rank
+        if y_t.shape.rank == 1 and y_p.shape.rank == 2:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/attr_value_pb2.py in <module>
-     14 
-     15 
----> 16 from tensorflow.core.framework import tensor_pb2 as tensorflow_dot_core_dot_framework_dot_tensor__pb2
-     17 from tensorflow.core.framework import tensor_shape_pb2 as tensorflow_dot_core_dot_framework_dot_tensor__shape__pb2
-     18 from tensorflow.core.framework import types_pb2 as tensorflow_dot_core_dot_framework_dot_types__pb2
+    AttributeError: 'Normal' object has no attribute 'shape'
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/tensor_pb2.py in <module>
-     14 
-     15 
----> 16 from tensorflow.core.framework import resource_handle_pb2 as tensorflow_dot_core_dot_framework_dot_resource__handle__pb2
-     17 from tensorflow.core.framework import tensor_shape_pb2 as tensorflow_dot_core_dot_framework_dot_tensor__shape__pb2
-     18 from tensorflow.core.framework import types_pb2 as tensorflow_dot_core_dot_framework_dot_types__pb2
+AttributeError: in user code:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/resource_handle_pb2.py in <module>
-     14 
-     15 
----> 16 from tensorflow.core.framework import tensor_shape_pb2 as tensorflow_dot_core_dot_framework_dot_tensor__shape__pb2
-     17 from tensorflow.core.framework import types_pb2 as tensorflow_dot_core_dot_framework_dot_types__pb2
-     18 
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1160, in train_function  *
+        return step_function(self, iterator)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1146, in step_function  **
+        outputs = model.distribute_strategy.run(run_step, args=(data,))
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1135, in run_step  **
+        outputs = model.train_step(data)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 994, in train_step
+        loss = self.compute_loss(x, y, y_pred, sample_weight)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1053, in compute_loss
+        y, y_pred, sample_weight, regularization_losses=self.losses
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 263, in __call__
+        y_t, y_p, sw = match_dtype_and_rank(y_t, y_p, sw)
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 831, in match_dtype_and_rank
+        if y_t.shape.rank == 1 and y_p.shape.rank == 2:
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/tensor_shape_pb2.py in <module>
-     40       message_type=None, enum_type=None, containing_type=None,
-     41       is_extension=False, extension_scope=None,
----> 42       serialized_options=None, file=DESCRIPTOR),
-     43     _descriptor.FieldDescriptor(
-     44       name='name', full_name='tensorflow.TensorShapeProto.Dim.name', index=1,
+    AttributeError: 'Normal' object has no attribute 'shape'
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/google/protobuf/descriptor.py in __new__(cls, name, full_name, index, number, type, cpp_type, label, default_value, message_type, enum_type, containing_type, is_extension, extension_scope, options, serialized_options, has_default_value, containing_oneof, json_name, file, create_key)
-    558                 has_default_value=True, containing_oneof=None, json_name=None,
-    559                 file=None, create_key=None):  # pylint: disable=redefined-builtin
---> 560       _message.Message._CheckCalledFromGeneratedFile()
-    561       if is_extension:
-    562         return _message.default_pool.FindExtensionByName(full_name)
-
-TypeError: Descriptors cannot not be created directly.
-If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
-If you cannot immediately regenerate your protos, some other possible workarounds are:
- 1. Downgrade the protobuf package to 3.20.x or lower.
- 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
-
-More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
-TypeError: Descriptors cannot not be created directly.
-If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
-If you cannot immediately regenerate your protos, some other possible workarounds are:
- 1. Downgrade the protobuf package to 3.20.x or lower.
- 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
-
-More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
