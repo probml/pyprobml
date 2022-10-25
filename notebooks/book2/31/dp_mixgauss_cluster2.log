@@ -50,7 +50,7 @@ for m_precision in mean_precisions:
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3387/2480327300.py in <module>
+/tmp/ipykernel_3384/2480327300.py in <module>
      12     key, *subkeys = random.split(key, 4)
      13     niw_params = dict(loc=jnp.zeros(dim), mean_precision=m_precision, df=dim + 5, scale=jnp.eye(dim))
 ---> 14     niw = NormalInverseWishart(**niw_params)
