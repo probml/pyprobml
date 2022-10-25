@@ -1,0 +1,167 @@
+An error occurred while executing the following cell:
+------------------
+# Define and train the model
+def loss(params):
+    return model.apply(params, x, y, t)[0]
+
+
+model = GPdeep()
+params = model.init(jax.random.PRNGKey(1234), x, y, t)
+tx = optax.sgd(learning_rate=1e-4)
+opt_state = tx.init(params)
+loss_grad_fn = jax.jit(jax.value_and_grad(loss))
+for i in range(1000):
+    loss_val, grads = loss_grad_fn(params)
+    updates, opt_state = tx.update(grads, opt_state)
+    params = optax.apply_updates(params, updates)
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_3923/3617792424.py in <module>
+      5 
+      6 model = GPdeep()
+----> 7 params = model.init(jax.random.PRNGKey(1234), x, y, t)
+      8 tx = optax.sgd(learning_rate=1e-4)
+      9 opt_state = tx.init(params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/random.py in PRNGKey(seed)
+    130   default_impl = default_prng_impl()
+    131   default_name = config.jax_default_prng_impl
+--> 132   if not config.jax_enable_custom_prng and default_impl is not impl:
+    133     raise RuntimeError('jax_enable_custom_prng must be enabled in order '
+    134                        f'to seed an RNG with an implementation "f{name}" '
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in seed_with_impl(impl, seed)
+    265   # use-case of instantiating with Python hashes in X32 mode.
+    266   if isinstance(seed, int):
+--> 267     seed_arr = jnp.asarray(np.int64(seed))
+    268   else:
+    269     seed_arr = jnp.asarray(seed)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in random_seed(seeds, impl)
+    591 
+    592 def _unsafe_rbg_split(key: jnp.ndarray, num: int) -> jnp.ndarray:
+--> 593   # treat 10 iterations of random bits as a 'hash function'
+    594   _, keys = lax.rng_bit_generator(key, (10 * num, 4), dtype='uint32')
+    595   return keys[::10]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in bind(self, *args, **params)
+    326             all(isinstance(arg, Tracer) or valid_jaxtype(arg) for arg in args)), args
+    327     return self.bind_with_trace(find_top_trace(args), args, params)
+--> 328 
+    329   def bind_with_trace(self, trace, args, params):
+    330     out = trace.process_primitive(self, map(trace.full_raise, args), params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in bind_with_trace(self, trace, args, params)
+    329   def bind_with_trace(self, trace, args, params):
+    330     out = trace.process_primitive(self, map(trace.full_raise, args), params)
+--> 331     return map(full_lower, out) if self.multiple_results else full_lower(out)
+    332 
+    333   def def_impl(self, impl):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in process_primitive(self, primitive, tracers, params)
+    696   def process_custom_vjp_call(self, primitive, fun, fwd, bwd, tracers, **_):
+    697     del primitive, fwd, bwd  # Unused.
+--> 698     with new_sublevel():
+    699       return fun.call_wrapped(*tracers)
+    700 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in random_seed_impl(seeds, impl)
+    603     seed=_rbg_seed,
+    604     split=_unsafe_rbg_split,
+--> 605     random_bits=_rbg_random_bits,
+    606     fold_in=_unsafe_rbg_fold_in)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in random_seed_impl_base(seeds, impl)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/prng.py in threefry_seed(seed)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lax/lax.py in shift_right_logical(x, y)
+    513   if type(operand) is int:
+    514     operand = np.asarray(operand, new_dtype)
+--> 515     old_weak_type = False
+    516 
+    517   if ((old_dtype, old_weak_type) == (new_dtype, new_weak_type)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in bind(self, *args, **params)
+    326             all(isinstance(arg, Tracer) or valid_jaxtype(arg) for arg in args)), args
+    327     return self.bind_with_trace(find_top_trace(args), args, params)
+--> 328 
+    329   def bind_with_trace(self, trace, args, params):
+    330     out = trace.process_primitive(self, map(trace.full_raise, args), params)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in bind_with_trace(self, trace, args, params)
+    329   def bind_with_trace(self, trace, args, params):
+    330     out = trace.process_primitive(self, map(trace.full_raise, args), params)
+--> 331     return map(full_lower, out) if self.multiple_results else full_lower(out)
+    332 
+    333   def def_impl(self, impl):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/core.py in process_primitive(self, primitive, tracers, params)
+    696   def process_custom_vjp_call(self, primitive, fun, fwd, bwd, tracers, **_):
+    697     del primitive, fwd, bwd  # Unused.
+--> 698     with new_sublevel():
+    699       return fun.call_wrapped(*tracers)
+    700 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in apply_primitive(prim, *args, **params)
+    111 
+    112   def __init__(self):
+--> 113     self.tokens = {}
+    114     self.output_tokens = {}
+    115 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/util.py in wrapper(*args, **kwargs)
+    220 
+    221     wrapper.cache_clear = cached.cache_clear
+--> 222     wrapper.cache_info = cached.cache_info
+    223     return wrapper
+    224   return wrap
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/util.py in cached(_, *args, **kwargs)
+    213 
+    214     @functools.wraps(f)
+--> 215     def wrapper(*args, **kwargs):
+    216       if config.jax_check_tracer_leaks:
+    217         return f(*args, **kwargs)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in xla_primitive_callable(prim, *arg_specs, **params)
+    195   arg_specs = unsafe_map(arg_spec, args)
+    196   compiled_fun = xla_callable(fun, device, backend, name, donated_invars,
+--> 197                               keep_unused, *arg_specs)
+    198   try:
+    199     return compiled_fun(*args)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in _xla_callable_uncached(fun, device, backend, name, donated_invars, keep_unused, *arg_specs)
+    341     warnings.warn(
+    342         f"The jitted function {name} includes a pmap. Using "
+--> 343          "jit-of-pmap can lead to inefficient data movement, as the outer jit "
+    344          "does not preserve sharded data representations and instead collects "
+    345          "input and output arrays onto a single device. "
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in compile(self)
+    978     return device_put_handlers[type(x)](x, device)
+    979   except KeyError as err:
+--> 980     raise TypeError(f"No device_put handler for type: {type(x)}") from err
+    981 
+    982 # TODO(phawkins): update users.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in from_xla_computation(name, xla_computation, in_type, out_type, nreps, device, backend, tuple_args, in_avals, out_avals, has_unordered_effects, ordered_effects, kept_var_idx, keepalive, host_callbacks)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/dispatch.py in compile_or_get_cached(backend, computation, compile_options, host_callbacks)
+   1012 
+   1013 def _copy_device_array_to_device(
+-> 1014     x: Union[device_array.DeviceArrayProtocol, device_array._DeviceArray],
+   1015     device: Optional[xc.Device]
+   1016   ) -> Union[device_array.DeviceArrayProtocol, device_array._DeviceArray]:
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/experimental/compilation_cache/compilation_cache.py in <module>
+     35   logging.warning("Initialized persistent compilation cache at %s", path)
+     36 
+---> 37 def get_executable(xla_computation, compile_options, backend) -> Optional[xla_client.Executable]:
+     38   """Returns the cached executable if present, or None otherwise."""
+     39   assert _cache is not None, "initialize_cache must be called before you can call get_executable()"
+
+AttributeError: module 'jaxlib.xla_client' has no attribute 'Executable'
+AttributeError: module 'jaxlib.xla_client' has no attribute 'Executable'
