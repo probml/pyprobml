@@ -1,0 +1,130 @@
+An error occurred while executing the following cell:
+------------------
+# Now fit an HMM to the data
+key1, key2 = jr.split(jr.PRNGKey(0), 2)
+test_num_states = num_states
+initial_distribution = tfp.distributions.Categorical(logits=np.zeros(test_num_states))
+transition_distribution = tfp.distributions.Categorical(logits=np.zeros((test_num_states, test_num_states)))
+emission_distribution = GaussianLinearRegression(
+    weights=np.tile(0.99 * np.eye(data_dim), (test_num_states, 1, 1)),
+    bias=0.01 * jr.normal(key2, (test_num_states, data_dim)),
+    scale_tril=np.tile(np.eye(data_dim), (test_num_states, 1, 1)),
+)
+
+arhmm = GaussianARHMM(test_num_states, data_dim, num_lags, seed=jr.PRNGKey(0))
+
+lps, arhmm, posterior = arhmm.fit(data, method="em")
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_4133/1876096508.py in <module>
+     12 arhmm = GaussianARHMM(test_num_states, data_dim, num_lags, seed=jr.PRNGKey(0))
+     13 
+---> 14 lps, arhmm, posterior = arhmm.fit(data, method="em")
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/utils.py in wrapper(*args, **kwargs)
+    252                             tree_map(lambda x: x[None, ...], bound_args.arguments[key])
+    253 
+--> 254             return f(**bound_args.arguments)
+    255 
+    256         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/hmm/base.py in fit(self, data, covariates, metadata, method, num_iters, tol, initialization_method, key, verbosity)
+    199         if initialization_method is not None:
+    200             if verbosity >= Verbosity.LOUD : print("Initializing...")
+--> 201             self.initialize(key, data, method=initialization_method)
+    202             if verbosity >= Verbosity.LOUD: print("Done.", flush=True)
+    203 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/utils.py in wrapper(*args, **kwargs)
+    252                             tree_map(lambda x: x[None, ...], bound_args.arguments[key])
+    253 
+--> 254             return f(**bound_args.arguments)
+    255 
+    256         return wrapper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/hmm/base.py in initialize(self, key, data, covariates, metadata, method)
+    130 
+    131         # Do one m-step with the dummy posteriors
+--> 132         self._emissions.m_step(data, dummy_posteriors)
+    133 
+    134     ### EM: Operates on batches of data (aka datasets) and posteriors
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/arhmm/emissions.py in m_step(self, dataset, posteriors, covariates, metadata)
+    190 
+    191         # Compute the conditional distribution over parameters and take the mode
+--> 192         conditional = ssmd.GaussianLinearRegression.compute_conditional_from_stats(stats)
+    193         self._distribution = ssmd.GaussianLinearRegression.from_params(conditional.mode())
+    194         return self
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/distributions/expfam.py in compute_conditional_from_stats(cls, stats)
+     73     @classmethod
+     74     def compute_conditional_from_stats(cls, stats):
+---> 75         return get_prior(cls).from_natural_parameters(stats)
+     76 
+     77     @classmethod
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/ssm/distributions/linreg.py in from_natural_parameters(cls, natural_params)
+    184         M = T(np.linalg.solve(Vi + 1e-4 * np.eye(in_dim), T(MVi)))
+    185         Psi = s7 - M @ Vi @ T(M) + 1e-4 * np.eye(out_dim)
+--> 186         return cls(M, V, df, Psi)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/distributions/joint_distribution_named.py in __new__(cls, *args, **kwargs)
+    472     if not all(isinstance(d, tf.__internal__.CompositeTensor) or callable(d)
+    473                for d in tf.nest.flatten(model)):
+--> 474       return _JointDistributionNamed(*args, **kwargs)
+    475     return super(JointDistributionNamed, cls).__new__(cls)
+    476 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/decorator.py in fun(*args, **kw)
+    230             if not kwsyntax:
+    231                 args, kw = fix(args, kw, sig)
+--> 232             return caller(func, *(extras + args), **kw)
+    233     fun.__name__ = func.__name__
+    234     fun.__doc__ = func.__doc__
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/distributions/distribution.py in wrapped_init(***failed resolving arguments***)
+    340       # called, here is the place to do it.
+    341       self_._parameters = None
+--> 342       default_init(self_, *args, **kwargs)
+    343       # Note: if we ever want to override things set in `self` by subclass
+    344       # `__init__`, here is the place to do it.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/distributions/joint_distribution_named.py in __init__(self, model, batch_ndims, use_vectorized_map, validate_args, experimental_use_kahan_sum, name)
+    327         validate_args=validate_args,
+    328         experimental_use_kahan_sum=experimental_use_kahan_sum,
+--> 329         name=name or 'JointDistributionNamed')
+    330 
+    331   def _build(self, model):
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/decorator.py in fun(*args, **kw)
+    230             if not kwsyntax:
+    231                 args, kw = fix(args, kw, sig)
+--> 232             return caller(func, *(extras + args), **kw)
+    233     fun.__name__ = func.__name__
+    234     fun.__doc__ = func.__doc__
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/distributions/distribution.py in wrapped_init(***failed resolving arguments***)
+    340       # called, here is the place to do it.
+    341       self_._parameters = None
+--> 342       default_init(self_, *args, **kwargs)
+    343       # Note: if we ever want to override things set in `self` by subclass
+    344       # `__init__`, here is the place to do it.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/distributions/joint_distribution_sequential.py in __init__(self, model, batch_ndims, use_vectorized_map, validate_args, experimental_use_kahan_sum, name)
+    360       self._model_trackable = model
+    361       self._model = self._no_dependency(model)
+--> 362       self._build(model)
+    363 
+    364       super(_JointDistributionSequential, self).__init__(
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/distributions/joint_distribution_named.py in _build(self, model)
+    333     if not _is_dict_like(model):
+    334       raise TypeError('`model` must be convertible to `dict` (saw: {}).'.format(
+--> 335           type(model).__name__))
+    336     [
+    337         self._dist_fn,
+
+TypeError: `model` must be convertible to `dict` (saw: DeviceArray).
+TypeError: `model` must be convertible to `dict` (saw: DeviceArray).
