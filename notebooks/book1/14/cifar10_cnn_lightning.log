@@ -1,0 +1,71 @@
+An error occurred while executing the following cell:
+------------------
+if DATA_AUG_TYPE == "rnd":
+    # https://pytorch-lightning.readthedocs.io/en/latest/notebooks/lightning_examples/cifar10-baseline.html#
+    train_transforms = torchvision.transforms.Compose(
+        [
+            torchvision.transforms.RandomCrop(32, padding=4),
+            torchvision.transforms.RandomHorizontalFlip(),
+            torchvision.transforms.ToTensor(),
+            cifar10_normalization(),
+        ]
+    )
+else:
+    # https://github.com/PyTorchLightning/Lightning-Bolts/blob/master/pl_bolts/datamodules/cifar10_datamodule.py#L115
+    train_transforms = torchvision.transforms.Compose(
+        [
+            torchvision.transforms.ToTensor(),
+            cifar10_normalization(),
+        ]
+    )
+
+
+test_transforms = torchvision.transforms.Compose(
+    [
+        torchvision.transforms.ToTensor(),
+        cifar10_normalization(),
+    ]
+)
+
+
+dm = CIFAR10DataModule(
+    data_dir=PATH_DATASETS,
+    batch_size=BATCH_SIZE,
+    num_workers=NUM_WORKERS,
+    train_transforms=train_transforms,
+    test_transforms=test_transforms,
+    val_transforms=test_transforms,
+)
+
+
+dm.prepare_data()  # force download now
+dm.setup(stage="fit")  # force make data loaders now
+
+classes = ("plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck")
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_7272/1707222892.py in <module>
+     33     train_transforms=train_transforms,
+     34     test_transforms=test_transforms,
+---> 35     val_transforms=test_transforms,
+     36 )
+     37 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pl_bolts/datamodules/cifar10_datamodule.py in __init__(self, data_dir, val_split, num_workers, normalize, batch_size, seed, shuffle, pin_memory, drop_last, *args, **kwargs)
+     98             drop_last=drop_last,
+     99             *args,
+--> 100             **kwargs,
+    101         )
+    102 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pl_bolts/datamodules/vision_datamodule.py in __init__(self, data_dir, val_split, num_workers, normalize, batch_size, seed, shuffle, pin_memory, drop_last, *args, **kwargs)
+     45         """
+     46 
+---> 47         super().__init__(*args, **kwargs)
+     48 
+     49         self.data_dir = data_dir if data_dir is not None else os.getcwd()
+
+TypeError: __init__() got an unexpected keyword argument 'train_transforms'
+TypeError: __init__() got an unexpected keyword argument 'train_transforms'
