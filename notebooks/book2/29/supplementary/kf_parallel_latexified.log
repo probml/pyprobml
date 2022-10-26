@@ -6,7 +6,7 @@ plot_kf_parallel(x, y, lgssm_posterior)
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_6706/2049624563.py in <module>
+/tmp/ipykernel_6708/2049624563.py in <module>
 ----> 1 x, y, lgssm_posterior = kf_parallel()
       2 plot_kf_parallel(x, y, lgssm_posterior)
 

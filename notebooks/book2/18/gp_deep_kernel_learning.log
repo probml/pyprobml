@@ -18,7 +18,7 @@ for i in range(1000):
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_3923/3617792424.py in <module>
+/tmp/ipykernel_3937/3617792424.py in <module>
       5 
       6 model = GPdeep()
 ----> 7 params = model.init(jax.random.PRNGKey(1234), x, y, t)

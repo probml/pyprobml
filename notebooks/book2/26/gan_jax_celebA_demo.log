@@ -38,7 +38,7 @@ print("DEVICES VISIBLE BY TF - ", tf.config.list_physical_devices())
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_6885/503770219.py in <module>
+/tmp/ipykernel_6903/503770219.py in <module>
      13 
      14 try:
 ---> 15     from gan.progan import ProGAN as GAN
