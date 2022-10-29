@@ -1,4 +1,4 @@
-notebook,github_url
+Notebook,github_url
 activation_fun_deriv_jax.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book1/13/activation_fun_deriv.ipynb
 bach_chorales_hmm.ipynb,https://github.com/probml/dynamax/blob/main/dynamax/hmm/demos/bach_chorales_hmm.ipynb
 batch_bald_mnist.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/34/batch_bald_mnist_pytorch.ipynb
