@@ -64,7 +64,7 @@ plt.savefig("figures/emLogLikelihoodMax.png")
 
 ---------------------------------------------------------------------------
 FileNotFoundError                         Traceback (most recent call last)
-/tmp/ipykernel_3396/1510232810.py in <module>
+/tmp/ipykernel_3535/1510232810.py in <module>
      58 
      59 plt.show()
 ---> 60 plt.savefig("figures/emLogLikelihoodMax.png")
@@ -119,11 +119,11 @@ FileNotFoundError                         Traceback (most recent call last)
    1677 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/PIL/Image.py in save(self, fp, format, **params)
-   2315                 fp = builtins.open(filename, "r+b")
-   2316             else:
--> 2317                 fp = builtins.open(filename, "w+b")
-   2318 
-   2319         try:
+   2348                 fp = builtins.open(filename, "r+b")
+   2349             else:
+-> 2350                 fp = builtins.open(filename, "w+b")
+   2351 
+   2352         try:
 
 FileNotFoundError: [Errno 2] No such file or directory: 'figures/emLogLikelihoodMax.png'
 FileNotFoundError: [Errno 2] No such file or directory: 'figures/emLogLikelihoodMax.png'
