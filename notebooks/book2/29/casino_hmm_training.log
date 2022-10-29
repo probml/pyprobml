@@ -18,7 +18,7 @@ from dynamax.hmm.models import CategoricalHMM
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_3397/2736453769.py in <module>
+/tmp/ipykernel_3534/2736453769.py in <module>
      10 import matplotlib.pyplot as plt
      11 
 ---> 12 from dynamax.hmm.models import CategoricalHMM
