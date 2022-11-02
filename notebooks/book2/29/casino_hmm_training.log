@@ -1,0 +1,27 @@
+An error occurred while executing the following cell:
+------------------
+key = jr.PRNGKey(1)
+fbgd_params, fbgd_param_props = hmm.random_initialization(key)
+fbgd_params, losses_fbgd = hmm.fit_sgd(
+    fbgd_params,
+    fbgd_param_props,
+    batch_emissions,
+    optimizer=optimizer,
+    batch_size=num_batches,
+    num_epochs=num_epochs,
+    shuffle=shuffle,
+    key=key,
+)
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_3451/3086039525.py in <module>
+      1 key = jr.PRNGKey(1)
+----> 2 fbgd_params, fbgd_param_props = hmm.random_initialization(key)
+      3 fbgd_params, losses_fbgd = hmm.fit_sgd(
+      4     fbgd_params,
+      5     fbgd_param_props,
+
+AttributeError: 'CategoricalHMM' object has no attribute 'random_initialization'
+AttributeError: 'CategoricalHMM' object has no attribute 'random_initialization'
