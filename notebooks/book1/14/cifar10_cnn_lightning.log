@@ -37,7 +37,7 @@ from torch.optim.swa_utils import AveragedModel, update_bn
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4592/4161050863.py in <module>
+/tmp/ipykernel_7784/4161050863.py in <module>
      16 try:
 ---> 17     from pl_bolts.datamodules import CIFAR10DataModule
      18 except ModuleNotFoundError:
@@ -47,7 +47,7 @@ ModuleNotFoundError: No module named 'pl_bolts'
 During handling of the above exception, another exception occurred:
 
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_4592/4161050863.py in <module>
+/tmp/ipykernel_7784/4161050863.py in <module>
      18 except ModuleNotFoundError:
      19     get_ipython().run_line_magic('pip', 'install -qq lightning-bolts')
 ---> 20     from pl_bolts.datamodules import CIFAR10DataModule

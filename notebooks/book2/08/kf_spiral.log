@@ -13,14 +13,14 @@ for k, v in dict_figures.items():
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_3452/1480924929.py in <module>
+/tmp/ipykernel_3454/1480924929.py in <module>
 ----> 1 x, y, lgssm_posterior = kf_spiral()
       2 
       3 dict_figures = plot_kf_spiral(x, y, lgssm_posterior)
       4 
       5 for k, v in dict_figures.items():
 
-/tmp/ipykernel_3452/178339242.py in kf_spiral()
+/tmp/ipykernel_3454/178339242.py in kf_spiral()
       6 
       7     lgssm = LinearGaussianSSM(state_dim, emission_dim)
 ----> 8     params, _ = lgssm.random_initialization(jr.PRNGKey(0))
