@@ -1,0 +1,8 @@
+A cell timed out while it was being executed, after 1200 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['for type in algo_list:', '    if type == "bald":', '        print("******************************************BALD Implementation******************************************")', '    else:', '        print(']
+...
+['            active_learning_data.acquire(candidate_batch.indices)  # add the new indices to training dataset', '            added_indices.append(dataset_indices)', '            pbar.update(len(dataset_indices))', '        final_test_accs.append(test_accs)', '        final_indices.append(added_indices)']
+-------------------

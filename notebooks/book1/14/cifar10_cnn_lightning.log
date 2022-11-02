@@ -1,0 +1,86 @@
+An error occurred while executing the following cell:
+------------------
+import os
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install -qq torch
+    import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+try:
+    import torchvision
+except ModuleNotFoundError:
+    %pip install -qq torchvision
+    import torchvision
+try:
+    from pl_bolts.datamodules import CIFAR10DataModule
+except ModuleNotFoundError:
+    %pip install -qq lightning-bolts
+    from pl_bolts.datamodules import CIFAR10DataModule
+from pl_bolts.transforms.dataset_normalizations import cifar10_normalization
+
+try:
+    from pytorch_lightning import LightningModule, seed_everything, Trainer
+except ModuleNotFoundError:
+    %pip install -qq pytorch_lightning
+    from pytorch_lightning import LightningModule, seed_everything, Trainer
+from pytorch_lightning.callbacks import LearningRateMonitor
+from pytorch_lightning.loggers import TensorBoardLogger
+from torch.optim.lr_scheduler import OneCycleLR
+from pl_bolts.optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
+from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
+from torch.optim.swa_utils import AveragedModel, update_bn
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4592/4161050863.py in <module>
+     16 try:
+---> 17     from pl_bolts.datamodules import CIFAR10DataModule
+     18 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'pl_bolts'
+
+During handling of the above exception, another exception occurred:
+
+ImportError                               Traceback (most recent call last)
+/tmp/ipykernel_4592/4161050863.py in <module>
+     18 except ModuleNotFoundError:
+     19     get_ipython().run_line_magic('pip', 'install -qq lightning-bolts')
+---> 20     from pl_bolts.datamodules import CIFAR10DataModule
+     21 from pl_bolts.transforms.dataset_normalizations import cifar10_normalization
+     22 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pl_bolts/__init__.py in <module>
+      9 _HTTPS_AWS_HUB = "https://pl-bolts-weights.s3.us-east-2.amazonaws.com"
+     10 
+---> 11 from pl_bolts import (  # noqa: E402
+     12     callbacks,
+     13     datamodules,
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pl_bolts/callbacks/__init__.py in <module>
+      1 """Collection of PyTorchLightning callbacks."""
+      2 from pl_bolts.callbacks.byol_updates import BYOLMAWeightUpdate
+----> 3 from pl_bolts.callbacks.data_monitor import ModuleDataMonitor, TrainingDataMonitor
+      4 from pl_bolts.callbacks.printing import PrintTableMetricsCallback
+      5 from pl_bolts.callbacks.sparseml import SparseMLCallback
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pl_bolts/callbacks/data_monitor.py in <module>
+     11 from torch.utils.hooks import RemovableHandle
+     12 
+---> 13 from pl_bolts.utils import _WANDB_AVAILABLE
+     14 from pl_bolts.utils.warnings import warn_missing_pkg
+     15 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pl_bolts/utils/__init__.py in <module>
+      6 from packaging.version import Version
+      7 from pkg_resources import DistributionNotFound
+----> 8 from pytorch_lightning.utilities import _module_available
+      9 
+     10 from pl_bolts.callbacks.verification.batch_gradient import BatchGradientVerification  # type: ignore
+
+ImportError: cannot import name '_module_available' from 'pytorch_lightning.utilities' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/utilities/__init__.py)
+ImportError: cannot import name '_module_available' from 'pytorch_lightning.utilities' (/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/pytorch_lightning/utilities/__init__.py)
