@@ -17,7 +17,7 @@ env.render()
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4281/2971796468.py in <module>
+/tmp/ipykernel_4287/2971796468.py in <module>
       2 
       3 # Finding the Taxi environment
 ----> 4 for env in gym.envs.registry.all():
