@@ -1,45 +1,27 @@
 An error occurred while executing the following cell:
 ------------------
-import jax
-
-from jax import jit, lax, vmap
-from jax.random import split, PRNGKey, permutation, normal
-import jax.numpy as jnp
-from jax.nn import log_softmax, sigmoid
-
 try:
-    import tensorflow as tf
+    import probml_utils.mnist_helper_tf as helper
 except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow as tf
-try:
-    import tensorflow_probability as tfp
-except ModuleNotFoundError:
-    %pip install -qq tensorflow-probability
-    import tensorflow_probability as tfp
-
-import itertools
-
-
-try:
-    import distrax
-except ModuleNotFoundError:
-    %pip install -qq distrax
-    import distrax
-from distrax import HMM
-
-import numpy as np
-import matplotlib.pyplot as plt
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils.mnist_helper_tf as helper
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4921/65622709.py in <module>
-      7 
-      8 try:
-----> 9     import tensorflow as tf
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+/tmp/ipykernel_4469/2619592856.py in <module>
+      1 try:
+----> 2     import probml_utils.mnist_helper_tf as helper
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+      5     import probml_utils.mnist_helper_tf as helper
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/mnist_helper_tf.py in <module>
+      2 import os
+      3 try:
+----> 4     import tensorflow as tf
+      5 except ModuleNotFoundError:
+      6     os.system("pip install tensorflow")
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing

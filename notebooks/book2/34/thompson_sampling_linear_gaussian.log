@@ -214,7 +214,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_3929/2794284974.py in <module>
+/tmp/ipykernel_3829/2794284974.py in <module>
      30     get_ipython().run_line_magic('pip', 'install -qq tensorflow-probability')
      31     from tensorflow_probability.substrates import jax as tfp
 ---> 32 tfd = tfp.distributions

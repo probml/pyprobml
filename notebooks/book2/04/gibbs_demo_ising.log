@@ -7,14 +7,14 @@ plot_samples(J, sample_grid, 2)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3537/656251995.py in <module>
+/tmp/ipykernel_3449/656251995.py in <module>
       1 J = 10
 ----> 2 sample_grid = gibbs_samples_jit(jax.random.PRNGKey(2), J, niter)
       3 plot_samples(J, sample_grid, 2)
 
     [... skipping hidden 14 frame]
 
-/tmp/ipykernel_3537/2441718827.py in gibbs_samples(rng_key, J, niter)
+/tmp/ipykernel_3449/2441718827.py in gibbs_samples(rng_key, J, niter)
      29 
      30     keys = jax.random.split(key=rng_key, num=niter)
 ---> 31     grid, _ = jax.lax.scan(one_step, grid, keys)
@@ -22,7 +22,7 @@ TypeError                                 Traceback (most recent call last)
 
     [... skipping hidden 16 frame]
 
-/tmp/ipykernel_3537/2441718827.py in one_step(grid, key)
+/tmp/ipykernel_3449/2441718827.py in one_step(grid, key)
      23         iy = jax.random.choice(keys[1], a=pixels)  # pick random y pixel
      24         e = energy(ix, iy, grid, J)  # calculate enerygy on (ix, iy)
 ---> 25         p_ix_iy = jax.nn.sigmoid(e)  # probability

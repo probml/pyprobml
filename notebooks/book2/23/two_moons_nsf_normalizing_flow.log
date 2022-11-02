@@ -1,45 +1,60 @@
 An error occurred while executing the following cell:
 ------------------
+import os
+import matplotlib.pyplot as plt
+from IPython.display import clear_output
+from sklearn import datasets, preprocessing
 import jax
-
-from jax import jit, lax, vmap
-from jax.random import split, PRNGKey, permutation, normal
 import jax.numpy as jnp
-from jax.nn import log_softmax, sigmoid
+import numpy as np
 
+try:
+    from probml_utils import savefig, latexify
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    from probml_utils import savefig, latexify
 try:
     import tensorflow as tf
 except ModuleNotFoundError:
     %pip install -qq tensorflow
     import tensorflow as tf
 try:
-    import tensorflow_probability as tfp
+    import tensorflow_datasets as tfds
 except ModuleNotFoundError:
-    %pip install -qq tensorflow-probability
-    import tensorflow_probability as tfp
-
-import itertools
-
-
+    %pip install -qq tensorflow tensorflow_datasets
+    import tensorflow_datasets as tfds
 try:
     import distrax
 except ModuleNotFoundError:
     %pip install -qq distrax
     import distrax
-from distrax import HMM
+try:
+    import haiku as hk
+except ModuleNotFoundError:
+    %pip install -qq -U dm-haiku
+    import haiku as hk
+try:
+    import optax
+except ModuleNotFoundError:
+    %pip install -qq optax
+    import optax
 
-import numpy as np
-import matplotlib.pyplot as plt
+try:
+    from tensorflow_probability.substrates import jax as tfp
+except ModuleNotFoundError:
+    %pip install -qq tensorflow-probability
+    from tensorflow_probability.substrates import jax as tfp
+tfd = tfp.distributions
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4921/65622709.py in <module>
-      7 
-      8 try:
-----> 9     import tensorflow as tf
-     10 except ModuleNotFoundError:
-     11     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+/tmp/ipykernel_4356/3775880816.py in <module>
+     13     from probml_utils import savefig, latexify
+     14 try:
+---> 15     import tensorflow as tf
+     16 except ModuleNotFoundError:
+     17     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing
