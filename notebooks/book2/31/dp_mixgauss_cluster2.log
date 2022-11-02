@@ -1,36 +1,78 @@
 An error occurred while executing the following cell:
 ------------------
 try:
-    # %tensorflow_version only exists in Colab.
-    %tensorflow_version 2.x
-    IS_COLAB = True
-except Exception:
-    IS_COLAB = False
-
-# TensorFlow ≥2.0 is required
-try:
-    import tensorflow as tf
+    import probml_utils as pml
 except ModuleNotFoundError:
-    %pip install -qq tensorflow
-    import tensorflow as tf
-from tensorflow import keras
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
 
-assert tf.__version__ >= "2.0"
+from probml_utils.dp_mixgauss_utils import NormalInverseWishart, gmm_gibbs, dp_mixgauss_gibbs
 
-if not tf.config.list_physical_devices("GPU"):
-    print("No GPU was detected. DNNs can be very slow without a GPU.")
-    if IS_COLAB:
-        print("Go to Runtime > Change runtime and select a GPU hardware accelerator.")
+import jax.numpy as jnp
+from jax import random, vmap
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+import numpy as np
+from matplotlib.patches import Ellipse, transforms
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_5212/1663250572.py in <module>
-      8 # TensorFlow ≥2.0 is required
-      9 try:
----> 10     import tensorflow as tf
-     11 except ModuleNotFoundError:
-     12     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
+/tmp/ipykernel_3576/400897933.py in <module>
+      5     import probml_utils as pml
+      6 
+----> 7 from probml_utils.dp_mixgauss_utils import NormalInverseWishart, gmm_gibbs, dp_mixgauss_gibbs
+      8 
+      9 import jax.numpy as jnp
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/dp_mixgauss_utils.py in <module>
+     13 # https://github.com/lindermanlab/hackathons/blob/master/notebooks/TFP_Normal_Inverse_Wishart_(Part_2).ipynb
+     14 
+---> 15 import tensorflow_probability.substrates.jax as tfp
+     16 tfd = tfp.distributions
+     17 tfb = tfp.bijectors
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
+     39 from tensorflow_probability.python.version import __version__
+     40 # from tensorflow_probability.substrates.jax.google import staging  # DisableOnExport  # pylint:disable=line-too-long
+---> 41 from tensorflow_probability.substrates.jax import bijectors
+     42 from tensorflow_probability.substrates.jax import distributions
+     43 from tensorflow_probability.substrates.jax import experimental
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/__init__.py in <module>
+     17 # pylint: disable=unused-import,wildcard-import,line-too-long,g-importing-member
+     18 
+---> 19 from tensorflow_probability.substrates.jax.bijectors.absolute_value import AbsoluteValue
+     20 from tensorflow_probability.substrates.jax.bijectors.ascending import Ascending
+     21 # from tensorflow_probability.substrates.jax.bijectors.batch_normalization import BatchNormalization
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/absolute_value.py in <module>
+     15 """AbsoluteValue bijector."""
+     16 
+---> 17 from tensorflow_probability.python.internal.backend.jax.compat import v2 as tf
+     18 
+     19 from tensorflow_probability.substrates.jax.bijectors import bijector
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/__init__.py in <module>
+     16 
+     17 from tensorflow_probability.python.internal.backend.jax import __internal__
+---> 18 from tensorflow_probability.python.internal.backend.jax import bitwise
+     19 from tensorflow_probability.python.internal.backend.jax import compat
+     20 from tensorflow_probability.python.internal.backend.jax import config
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/bitwise.py in <module>
+     17 import numpy as onp; import jax.numpy as np
+     18 
+---> 19 from tensorflow_probability.python.internal.backend.jax import _utils as utils
+     20 
+     21 __all__ = [
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/_utils.py in <module>
+     23 
+     24 try:
+---> 25   from tensorflow.python.ops import array_ops  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top,unused-import
+     26   from tensorflow.python.ops import random_ops  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top,unused-import
+     27   import tensorflow.compat.v1 as tf1  # pylint: disable=g-import-not-at-top,unused-import
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing
