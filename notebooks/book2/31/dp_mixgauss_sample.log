@@ -1,43 +1,19 @@
 An error occurred while executing the following cell:
 ------------------
-from functools import partial
-
-import jax.numpy as jnp
-import jax.random as jr
-from jax import vmap
-
-import optax
-
-from graphviz import Digraph
-import matplotlib.pyplot as plt
-
-from dynamax.hmm.models import CategoricalHMM
-
-# from dynamax.hmm.demos.casino_hmm import make_model_and_data
+from probml_utils.dp_mixgauss_utils import dp_mixgauss_sample, NormalInverseWishart
 ------------------
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_3534/2736453769.py in <module>
-     10 import matplotlib.pyplot as plt
-     11 
----> 12 from dynamax.hmm.models import CategoricalHMM
-     13 
-     14 # from dynamax.hmm.demos.casino_hmm import make_model_and_data
+/tmp/ipykernel_3809/4239492033.py in <module>
+----> 1 from probml_utils.dp_mixgauss_utils import dp_mixgauss_sample, NormalInverseWishart
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/dynamax/hmm/models/__init__.py in <module>
-----> 1 from dynamax.hmm.models.base import BaseHMM, StandardHMM
-      2 from dynamax.hmm.models.autoregressive_hmm import LinearAutoregressiveHMM
-      3 from dynamax.hmm.models.bernoulli_hmm import BernoulliHMM
-      4 from dynamax.hmm.models.categorical_glm_hmm import CategoricalRegressionHMM
-      5 from dynamax.hmm.models.categorical_hmm import CategoricalHMM
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/dynamax/hmm/models/base.py in <module>
-      7 from jax.tree_util import tree_map, tree_leaves
-      8 import optax
-----> 9 import tensorflow_probability.substrates.jax.distributions as tfd
-     10 import tensorflow_probability.substrates.jax.bijectors as tfb
-     11 from dynamax.abstractions import SSM
+~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/dp_mixgauss_utils.py in <module>
+     13 # https://github.com/lindermanlab/hackathons/blob/master/notebooks/TFP_Normal_Inverse_Wishart_(Part_2).ipynb
+     14 
+---> 15 import tensorflow_probability.substrates.jax as tfp
+     16 tfd = tfp.distributions
+     17 tfb = tfp.bijectors
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
      39 from tensorflow_probability.python.version import __version__
