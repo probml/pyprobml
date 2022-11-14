@@ -36,14 +36,14 @@ print("Time for GPR prediction with standard-deviation: %.3f" % (time.time() - s
 
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-/tmp/ipykernel_4261/2032922369.py in <module>
+/tmp/ipykernel_4445/2032922369.py in <module>
      23 stime = time.time()
      24 gp = build_gp(soln.params, X)
 ---> 25 y_mu = gp.predict(y, X_plot, return_var=False)
      26 print("Time for GPR prediction: %.3f" % (time.time() - stime))
      27 
 
-    [... skipping hidden 14 frame]
+    [... skipping hidden 11 frame]
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tinygp/gp.py in predict(self, y, X_test, kernel, include_mean, return_var, return_cov)
     262         """

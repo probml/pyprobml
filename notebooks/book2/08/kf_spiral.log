@@ -1,31 +1,23 @@
 An error occurred while executing the following cell:
 ------------------
-x, y, lgssm_posterior = kf_spiral()
+try:
+    import dynamax
+except ModuleNotFoundError:
+    print("installing dynamax")
+    %pip install -qq git+https://github.com/probml/dynamax.git
+    import dynamax
 
-dict_figures = plot_kf_spiral(x, y, lgssm_posterior)
-
-for k, v in dict_figures.items():
-    fname = k + ".pdf"
-    print(fname)
-    fig = v
-    # fig.savefig(fname)
+from dynamax.linear_gaussian_ssm.models.linear_gaussian_ssm import LinearGaussianSSM
+from dynamax.plotting import plot_uncertainty_ellipses
 ------------------
 
 ---------------------------------------------------------------------------
-AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_3454/1480924929.py in <module>
-----> 1 x, y, lgssm_posterior = kf_spiral()
-      2 
-      3 dict_figures = plot_kf_spiral(x, y, lgssm_posterior)
-      4 
-      5 for k, v in dict_figures.items():
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_3609/2189358172.py in <module>
+      6     import dynamax
+      7 
+----> 8 from dynamax.linear_gaussian_ssm.models.linear_gaussian_ssm import LinearGaussianSSM
+      9 from dynamax.plotting import plot_uncertainty_ellipses
 
-/tmp/ipykernel_3454/178339242.py in kf_spiral()
-      6 
-      7     lgssm = LinearGaussianSSM(state_dim, emission_dim)
-----> 8     params, _ = lgssm.random_initialization(jr.PRNGKey(0))
-      9     params["initial"]["mean"] = jnp.array([8.0, 10.0, 1.0, 0.0])
-     10     params["initial"]["cov"] = jnp.eye(state_dim) * 0.1
-
-AttributeError: 'LinearGaussianSSM' object has no attribute 'random_initialization'
-AttributeError: 'LinearGaussianSSM' object has no attribute 'random_initialization'
+ModuleNotFoundError: No module named 'dynamax.linear_gaussian_ssm.models.linear_gaussian_ssm'; 'dynamax.linear_gaussian_ssm.models' is not a package
+ModuleNotFoundError: No module named 'dynamax.linear_gaussian_ssm.models.linear_gaussian_ssm'; 'dynamax.linear_gaussian_ssm.models' is not a package

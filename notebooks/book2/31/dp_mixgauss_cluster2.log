@@ -18,7 +18,7 @@ from matplotlib.patches import Ellipse, transforms
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3576/400897933.py in <module>
+/tmp/ipykernel_3754/400897933.py in <module>
       5     import probml_utils as pml
       6 
 ----> 7 from probml_utils.dp_mixgauss_utils import NormalInverseWishart, gmm_gibbs, dp_mixgauss_gibbs
