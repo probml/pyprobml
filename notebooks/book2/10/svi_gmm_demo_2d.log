@@ -13,7 +13,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_3450/40321767.py in <module>
+/tmp/ipykernel_3607/40321767.py in <module>
       4 # Plot the mean samples for a single
       5 plt.figure()
 ----> 6 sns.kdeplot(means[:, 0, 0].numpy(), means[:, 0, 1].numpy(), n_levels=10)
