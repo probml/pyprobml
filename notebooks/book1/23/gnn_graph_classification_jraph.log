@@ -1,0 +1,54 @@
+An error occurred while executing the following cell:
+------------------
+params = train(train_mutag_ds, num_train_steps=500)
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_5473/3585181203.py in <module>
+----> 1 params = train(train_mutag_ds, num_train_steps=500)
+
+/tmp/ipykernel_5473/899260858.py in train(dataset, num_train_steps)
+      9 
+     10     # Initialize the network.
+---> 11     params = net.init(jax.random.PRNGKey(42), graph)
+     12     # Initialize the optimizer.
+     13     opt_init, opt_update = optax.adam(1e-4)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(*args, **kwargs)
+    112 
+    113   def init_fn(*args, **kwargs):
+--> 114     params, state = f.init(*args, **kwargs)
+    115     if state:
+    116       raise ValueError("If your transformed function uses `hk.{get,set}_state` "
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(rng, *args, **kwargs)
+    336     with base.new_context(rng=rng) as ctx:
+    337       try:
+--> 338         f(*args, **kwargs)
+    339       except jax.errors.UnexpectedTracerError as e:
+    340         raise jax.errors.UnexpectedTracerError(unexpected_tracer_hint) from e
+
+/tmp/ipykernel_5473/3391185911.py in net_fn(graph)
+     25     # Add a global paramater for graph classification.
+     26     graph = graph._replace(globals=jnp.zeros([graph.n_node.shape[0], 1]))
+---> 27     embedder = jraph.GraphMapFeatures(hk.Linear(128), hk.Linear(128), hk.Linear(128))
+     28     net = jraph.GraphNetwork(
+     29         update_node_fn=node_update_fn, update_edge_fn=edge_update_fn, update_global_fn=update_global_fn
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in __call__(cls, *args, **kwargs)
+    121     # Now attempt to initialize the object.
+    122     init = wrap_method("__init__", cls.__init__)
+--> 123     init(module, *args, **kwargs)
+    124 
+    125     if (config.get_config().module_auto_repr and
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in wrapped(self, *args, **kwargs)
+    419       f = functools.partial(unbound_method, self)
+    420       f = functools.partial(run_interceptors, f, method_name, self)
+--> 421       if jax.config.jax_experimental_name_stack and module_name:
+    422         local_module_name = module_name.split("/")[-1]
+    423         f = jax.named_call(f, name=local_module_name)
+
+AttributeError: 'Config' object has no attribute 'jax_experimental_name_stack'
+AttributeError: 'Config' object has no attribute 'jax_experimental_name_stack'
