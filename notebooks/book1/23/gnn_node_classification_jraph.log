@@ -1,0 +1,70 @@
+An error occurred while executing the following cell:
+------------------
+network = hk.without_apply_rng(hk.transform(gcn_definition))
+result = optimize_club(network, num_steps=15)
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4704/2640480459.py in <module>
+      1 network = hk.without_apply_rng(hk.transform(gcn_definition))
+----> 2 result = optimize_club(network, num_steps=15)
+
+/tmp/ipykernel_4704/759361347.py in optimize_club(network, num_steps)
+      3     zacharys_karate_club = get_zacharys_karate_club()
+      4     labels = get_ground_truth_assignments_for_zacharys_karate_club()
+----> 5     params = network.init(jax.random.PRNGKey(42), zacharys_karate_club)
+      6 
+      7     @jax.jit
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(*args, **kwargs)
+    112 
+    113   def init_fn(*args, **kwargs):
+--> 114     params, state = f.init(*args, **kwargs)
+    115     if state:
+    116       raise ValueError("If your transformed function uses `hk.{get,set}_state` "
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(rng, *args, **kwargs)
+    336     with base.new_context(rng=rng) as ctx:
+    337       try:
+--> 338         f(*args, **kwargs)
+    339       except jax.errors.UnexpectedTracerError as e:
+    340         raise jax.errors.UnexpectedTracerError(unexpected_tracer_hint) from e
+
+/tmp/ipykernel_4704/4190691319.py in gcn_definition(graph)
+      8     """
+      9     gn = jraph.GraphConvolution(update_node_fn=lambda n: jax.nn.relu(hk.Linear(8)(n)), add_self_edges=True)
+---> 10     graph = gn(graph)
+     11 
+     12     gn = jraph.GraphConvolution(update_node_fn=hk.Linear(2))  # output dim is 2 because we have 2 output classes.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jraph/_src/models.py in _ApplyGCN(graph)
+    545 
+    546     # First pass nodes through the node updater.
+--> 547     nodes = update_node_fn(nodes)
+    548     # Equivalent to jnp.sum(n_node), but jittable
+    549     total_num_nodes = tree.tree_leaves(nodes)[0].shape[0]
+
+/tmp/ipykernel_4704/4190691319.py in <lambda>(n)
+      7       output graph with updated node values.
+      8     """
+----> 9     gn = jraph.GraphConvolution(update_node_fn=lambda n: jax.nn.relu(hk.Linear(8)(n)), add_self_edges=True)
+     10     graph = gn(graph)
+     11 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in __call__(cls, *args, **kwargs)
+    121     # Now attempt to initialize the object.
+    122     init = wrap_method("__init__", cls.__init__)
+--> 123     init(module, *args, **kwargs)
+    124 
+    125     if (config.get_config().module_auto_repr and
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in wrapped(self, *args, **kwargs)
+    419       f = functools.partial(unbound_method, self)
+    420       f = functools.partial(run_interceptors, f, method_name, self)
+--> 421       if jax.config.jax_experimental_name_stack and module_name:
+    422         local_module_name = module_name.split("/")[-1]
+    423         f = jax.named_call(f, name=local_module_name)
+
+AttributeError: 'Config' object has no attribute 'jax_experimental_name_stack'
+AttributeError: 'Config' object has no attribute 'jax_experimental_name_stack'
