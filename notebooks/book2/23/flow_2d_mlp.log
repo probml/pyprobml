@@ -1,0 +1,73 @@
+An error occurred while executing the following cell:
+------------------
+# Initialize model parameters.
+prng = hk.PRNGSequence(42)
+
+params = model_sample.init(next(prng), next(prng), num_samples=1)
+
+# Plot samples from the untrained model.
+x = target_sample(next(prng), num_samples=1000)
+y = model_sample.apply(params, next(prng), num_samples=1000)
+plt.figure(figsize=(6, 6))
+plt.plot(x[:, 0], x[:, 1], ".", color="red", label="Target")
+plt.plot(y[:, 0], y[:, 1], ".", color="green", label="Model")
+# plt.axis("equal")
+plt.title("Samples from untrained model")
+plt.legend()
+plt.savefig("flow-2d-mlp-untrained.png")
+plt.savefig("flow-2d-mlp-untrained.pdf")
+# plt.show()
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4823/1345739678.py in <module>
+      2 prng = hk.PRNGSequence(42)
+      3 
+----> 4 params = model_sample.init(next(prng), next(prng), num_samples=1)
+      5 
+      6 # Plot samples from the untrained model.
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(*args, **kwargs)
+    112 
+    113   def init_fn(*args, **kwargs):
+--> 114     params, state = f.init(*args, **kwargs)
+    115     if state:
+    116       raise ValueError("If your transformed function uses `hk.{get,set}_state` "
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(rng, *args, **kwargs)
+    336     with base.new_context(rng=rng) as ctx:
+    337       try:
+--> 338         f(*args, **kwargs)
+    339       except jax.errors.UnexpectedTracerError as e:
+    340         raise jax.errors.UnexpectedTracerError(unexpected_tracer_hint) from e
+
+/tmp/ipykernel_4823/2603565566.py in model_sample(key, num_samples)
+     76 @hk.transform
+     77 def model_sample(key: PRNGKey, num_samples: int) -> Array:
+---> 78     model = make_model()
+     79     return model.sample(seed=key, sample_shape=[num_samples])
+
+/tmp/ipykernel_4823/2603565566.py in make_model()
+     48         # Each intermediate layer is an affine transformation followed by a leaky
+     49         # ReLU nonlinearity.
+---> 50         matrix = Parameter("affine", "matrix", shape=[2, 2], init=hk.initializers.Identity())()
+     51         bias = Parameter("affine", "bias", shape=[2], init=hk.initializers.TruncatedNormal(2.0))()
+     52         affine = distrax.UnconstrainedAffine(matrix, bias)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in __call__(cls, *args, **kwargs)
+    121     # Now attempt to initialize the object.
+    122     init = wrap_method("__init__", cls.__init__)
+--> 123     init(module, *args, **kwargs)
+    124 
+    125     if (config.get_config().module_auto_repr and
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in wrapped(self, *args, **kwargs)
+    419       f = functools.partial(unbound_method, self)
+    420       f = functools.partial(run_interceptors, f, method_name, self)
+--> 421       if jax.config.jax_experimental_name_stack and module_name:
+    422         local_module_name = module_name.split("/")[-1]
+    423         f = jax.named_call(f, name=local_module_name)
+
+AttributeError: 'Config' object has no attribute 'jax_experimental_name_stack'
+AttributeError: 'Config' object has no attribute 'jax_experimental_name_stack'
