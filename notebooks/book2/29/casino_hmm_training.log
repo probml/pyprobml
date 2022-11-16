@@ -18,7 +18,7 @@ from dynamax.hmm.models import CategoricalHMM
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3606/2736453769.py in <module>
+/tmp/ipykernel_3611/2736453769.py in <module>
      10 import matplotlib.pyplot as plt
      11 
 ---> 12 from dynamax.hmm.models import CategoricalHMM

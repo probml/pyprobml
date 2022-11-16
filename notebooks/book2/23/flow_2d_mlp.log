@@ -1,26 +1,32 @@
 An error occurred while executing the following cell:
 ------------------
-prng_seq = hk.PRNGSequence(42)
-params = log_prob.init(next(prng_seq), np.zeros((1, *MNIST_IMAGE_SHAPE)))
-opt_state = optimizer.init(params)
-train_ds = load_dataset(tfds.Split.TRAIN, batch_size)
-valid_ds = load_dataset(tfds.Split.TEST, batch_size)
-for step in range(training_steps):
-    params, opt_state = update(params, next(prng_seq), opt_state, next(train_ds))
+# Initialize model parameters.
+prng = hk.PRNGSequence(42)
 
-    if step % eval_frequency == 0:
-        val_loss = eval_fn(params, next(valid_ds))
-        print(f"STEP: {step:5d}; Validation loss: {val_loss:.3f}")
+params = model_sample.init(next(prng), next(prng), num_samples=1)
+
+# Plot samples from the untrained model.
+x = target_sample(next(prng), num_samples=1000)
+y = model_sample.apply(params, next(prng), num_samples=1000)
+plt.figure(figsize=(6, 6))
+plt.plot(x[:, 0], x[:, 1], ".", color="red", label="Target")
+plt.plot(y[:, 0], y[:, 1], ".", color="green", label="Model")
+# plt.axis("equal")
+plt.title("Samples from untrained model")
+plt.legend()
+plt.savefig("flow-2d-mlp-untrained.png")
+plt.savefig("flow-2d-mlp-untrained.pdf")
+# plt.show()
 ------------------
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4254/2388584029.py in <module>
-      1 prng_seq = hk.PRNGSequence(42)
-----> 2 params = log_prob.init(next(prng_seq), np.zeros((1, *MNIST_IMAGE_SHAPE)))
-      3 opt_state = optimizer.init(params)
-      4 train_ds = load_dataset(tfds.Split.TRAIN, batch_size)
-      5 valid_ds = load_dataset(tfds.Split.TEST, batch_size)
+/tmp/ipykernel_4823/1345739678.py in <module>
+      2 prng = hk.PRNGSequence(42)
+      3 
+----> 4 params = model_sample.init(next(prng), next(prng), num_samples=1)
+      5 
+      6 # Plot samples from the untrained model.
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(*args, **kwargs)
     112 
@@ -36,26 +42,18 @@ AttributeError                            Traceback (most recent call last)
     339       except jax.errors.UnexpectedTracerError as e:
     340         raise jax.errors.UnexpectedTracerError(unexpected_tracer_hint) from e
 
-/tmp/ipykernel_4254/3722997275.py in log_prob(data)
-      6         num_layers=flow_num_layers,
-      7         hidden_sizes=[hidden_size] * mlp_num_layers,
-----> 8         num_bins=num_bins,
-      9     )
-     10     return model.log_prob(data)
+/tmp/ipykernel_4823/2603565566.py in model_sample(key, num_samples)
+     76 @hk.transform
+     77 def model_sample(key: PRNGKey, num_samples: int) -> Array:
+---> 78     model = make_model()
+     79     return model.sample(seed=key, sample_shape=[num_samples])
 
-/tmp/ipykernel_4254/3836988022.py in make_flow_model(event_shape, num_layers, hidden_sizes, num_bins)
-     23             mask=mask,
-     24             bijector=bijector_fn,
----> 25             conditioner=make_conditioner(event_shape, hidden_sizes, num_bijector_params),
-     26         )
-     27         layers.append(layer)
-
-/tmp/ipykernel_4254/1141128827.py in make_conditioner(event_shape, hidden_sizes, num_bijector_params)
-      5     return hk.Sequential(
-      6         [
-----> 7             hk.Flatten(preserve_dims=-len(event_shape)),
-      8             hk.nets.MLP(hidden_sizes, activate_final=True),
-      9             # We initialize this linear layer to zero so that the flow is initialized
+/tmp/ipykernel_4823/2603565566.py in make_model()
+     48         # Each intermediate layer is an affine transformation followed by a leaky
+     49         # ReLU nonlinearity.
+---> 50         matrix = Parameter("affine", "matrix", shape=[2, 2], init=hk.initializers.Identity())()
+     51         bias = Parameter("affine", "bias", shape=[2], init=hk.initializers.TruncatedNormal(2.0))()
+     52         affine = distrax.UnconstrainedAffine(matrix, bias)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in __call__(cls, *args, **kwargs)
     121     # Now attempt to initialize the object.

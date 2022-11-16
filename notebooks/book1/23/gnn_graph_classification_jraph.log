@@ -1,26 +1,19 @@
 An error occurred while executing the following cell:
 ------------------
-prng_seq = hk.PRNGSequence(42)
-params = log_prob.init(next(prng_seq), np.zeros((1, *MNIST_IMAGE_SHAPE)))
-opt_state = optimizer.init(params)
-train_ds = load_dataset(tfds.Split.TRAIN, batch_size)
-valid_ds = load_dataset(tfds.Split.TEST, batch_size)
-for step in range(training_steps):
-    params, opt_state = update(params, next(prng_seq), opt_state, next(train_ds))
-
-    if step % eval_frequency == 0:
-        val_loss = eval_fn(params, next(valid_ds))
-        print(f"STEP: {step:5d}; Validation loss: {val_loss:.3f}")
+params = train(train_mutag_ds, num_train_steps=500)
 ------------------
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4254/2388584029.py in <module>
-      1 prng_seq = hk.PRNGSequence(42)
-----> 2 params = log_prob.init(next(prng_seq), np.zeros((1, *MNIST_IMAGE_SHAPE)))
-      3 opt_state = optimizer.init(params)
-      4 train_ds = load_dataset(tfds.Split.TRAIN, batch_size)
-      5 valid_ds = load_dataset(tfds.Split.TEST, batch_size)
+/tmp/ipykernel_5473/3585181203.py in <module>
+----> 1 params = train(train_mutag_ds, num_train_steps=500)
+
+/tmp/ipykernel_5473/899260858.py in train(dataset, num_train_steps)
+      9 
+     10     # Initialize the network.
+---> 11     params = net.init(jax.random.PRNGKey(42), graph)
+     12     # Initialize the optimizer.
+     13     opt_init, opt_update = optax.adam(1e-4)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(*args, **kwargs)
     112 
@@ -36,26 +29,12 @@ AttributeError                            Traceback (most recent call last)
     339       except jax.errors.UnexpectedTracerError as e:
     340         raise jax.errors.UnexpectedTracerError(unexpected_tracer_hint) from e
 
-/tmp/ipykernel_4254/3722997275.py in log_prob(data)
-      6         num_layers=flow_num_layers,
-      7         hidden_sizes=[hidden_size] * mlp_num_layers,
-----> 8         num_bins=num_bins,
-      9     )
-     10     return model.log_prob(data)
-
-/tmp/ipykernel_4254/3836988022.py in make_flow_model(event_shape, num_layers, hidden_sizes, num_bins)
-     23             mask=mask,
-     24             bijector=bijector_fn,
----> 25             conditioner=make_conditioner(event_shape, hidden_sizes, num_bijector_params),
-     26         )
-     27         layers.append(layer)
-
-/tmp/ipykernel_4254/1141128827.py in make_conditioner(event_shape, hidden_sizes, num_bijector_params)
-      5     return hk.Sequential(
-      6         [
-----> 7             hk.Flatten(preserve_dims=-len(event_shape)),
-      8             hk.nets.MLP(hidden_sizes, activate_final=True),
-      9             # We initialize this linear layer to zero so that the flow is initialized
+/tmp/ipykernel_5473/3391185911.py in net_fn(graph)
+     25     # Add a global paramater for graph classification.
+     26     graph = graph._replace(globals=jnp.zeros([graph.n_node.shape[0], 1]))
+---> 27     embedder = jraph.GraphMapFeatures(hk.Linear(128), hk.Linear(128), hk.Linear(128))
+     28     net = jraph.GraphNetwork(
+     29         update_node_fn=node_update_fn, update_edge_fn=edge_update_fn, update_global_fn=update_global_fn
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in __call__(cls, *args, **kwargs)
     121     # Now attempt to initialize the object.

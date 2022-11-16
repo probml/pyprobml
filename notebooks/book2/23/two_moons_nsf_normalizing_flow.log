@@ -1,0 +1,25 @@
+An error occurred while executing the following cell:
+------------------
+n_samples = 10000
+plot_range = [(-2, 2), (-2, 2)]
+n_bins = 100
+
+X_transf = model_sample.apply(params, next(prng_seq), num_samples=n_samples)
+plt.hist2d(X_transf[:, 0], X_transf[:, 1], bins=n_bins, range=plot_range)[-1]
+
+plt.axis("off")
+plt.savefig("two-moons-nsf-flow-samples.png")
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+/tmp/ipykernel_4796/2640313901.py in <module>
+      3 n_bins = 100
+      4 
+----> 5 X_transf = model_sample.apply(params, next(prng_seq), num_samples=n_samples)
+      6 plt.hist2d(X_transf[:, 0], X_transf[:, 1], bins=n_bins, range=plot_range)[-1]
+      7 
+
+NameError: name 'params' is not defined
+NameError: name 'params' is not defined

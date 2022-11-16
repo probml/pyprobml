@@ -49,7 +49,7 @@ latexify(3, fig_height = 1.5)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4321/1746491998.py in <module>
+/tmp/ipykernel_4295/1746491998.py in <module>
       4 import pandas as pd
       5 
 ----> 6 import jax
@@ -89,5 +89,5 @@ RuntimeError                              Traceback (most recent call last)
      90 
      91   return _jaxlib_version
 
-RuntimeError: jaxlib version 0.3.24 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
-RuntimeError: jaxlib version 0.3.24 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.25 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.25 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.

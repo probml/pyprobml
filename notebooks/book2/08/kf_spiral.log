@@ -13,7 +13,7 @@ from dynamax.plotting import plot_uncertainty_ellipses
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_3609/2189358172.py in <module>
+/tmp/ipykernel_3607/2189358172.py in <module>
       6     import dynamax
       7 
 ----> 8 from dynamax.linear_gaussian_ssm.models.linear_gaussian_ssm import LinearGaussianSSM

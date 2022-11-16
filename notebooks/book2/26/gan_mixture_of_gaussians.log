@@ -46,7 +46,7 @@ rng = jax.random.PRNGKey(0)
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4236/1147266451.py in <module>
+/tmp/ipykernel_4199/1147266451.py in <module>
       5 
       6 get_ipython().run_line_magic('pip', 'install -qq jax==0.3.14')
 ----> 7 import jax
@@ -86,5 +86,5 @@ RuntimeError                              Traceback (most recent call last)
      90 
      91   return _jaxlib_version
 
-RuntimeError: jaxlib version 0.3.24 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
-RuntimeError: jaxlib version 0.3.24 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.25 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
+RuntimeError: jaxlib version 0.3.25 is newer than and incompatible with jax version 0.3.14. Please update your jax and/or jaxlib packages.
