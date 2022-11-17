@@ -144,12 +144,12 @@ def view_pydot(pdot):
 
 p2 = nx.drawing.nx_pydot.to_pydot(G)
 view_pydot(p2)
-p2.write_png("../figures/relevance_network.png")
+# p2.write_png("../figures/relevance_network.png")
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4329/2332062532.py in <module>
+/tmp/ipykernel_3601/3885868829.py in <module>
     101 ]
     102 
 --> 103 count_vect = CountVectorizer(newsgroups_train.data, vocabulary=list_of_words)

@@ -1,50 +1,76 @@
 An error occurred while executing the following cell:
 ------------------
+# Bonnet's thm: d/dm E[f(z)] = E[d/dz f(z)] for z ~ N(m,v)
+#Price's thm:  d/dv E[f(z)] = 0.5 E[d^2/dz^2 f(z)] for z ~ N(m,v)
+
+# Note that we are taking derivatives wrt the parameters of the sampling distribution
+# We rely on the fact that TFP Gaussian samples are reparameterizable
+
+import numpy as np
 import jax
 import jax.numpy as jnp
-import matplotlib.pyplot as plt
-
 try:
-    import distrax
+    import tensorflow_probability as tfp
 except ModuleNotFoundError:
-    %pip install -qq distrax
-    import distrax
-import ipywidgets as widget
+    %pip install -qq tensorflow-probability
+    import tensorflow_probability as tfp
+tfp = tfp.substrates.jax
+tfd = tfp.distributions
 
-try:
-    import probml_utils as pml
-except ModuleNotFoundError:
-    %pip install -qq git+https://github.com/probml/probml-utils.git
-    import probml_utils as pml
-import warnings
-
-warnings.filterwarnings("ignore")
-jax.config.update("jax_platform_name", "cpu")
 key = jax.random.PRNGKey(0)
+nsamples = 10000
+
+
+def f(z):
+  return jnp.square(z) # arbitrary fn
+
+def expect_f(params):
+  m, v = params
+  dist = tfd.Normal(m, jnp.sqrt(v))
+  zs = dist.sample(nsamples, key)
+  return jnp.mean(f(zs))
+
+def expect_grad(params):
+  m, v = params
+  dist = tfd.Normal(m, jnp.sqrt(v))
+  zs = dist.sample(nsamples, key)
+  grads = jax.vmap(jax.grad(f))(zs)
+  return jnp.mean(grads)
+
+def expect_grad2(params):
+  m, v = params
+  dist = tfd.Normal(m, jnp.sqrt(v))
+  zs = dist.sample(nsamples, key)
+  #g = jax.grad(f)
+  #grads = jax.vmap(jax.grad(g))(zs)
+  grads = jax.vmap(jax.hessian(f))(zs)
+  return jnp.mean(grads)
+
+
+params = (1.0, 2.0)
+
+
+e1 = expect_grad(params)
+e2 = expect_grad2(params)
+print([e1, 0.5*e2])
+
+grads = jax.grad(expect_f)(params)
+print(grads)
+
+assert np.allclose(e1, grads[0], atol=1e-1)
+assert np.allclose(0.5 * e2, grads[1], atol=1e-1)
+
+
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4537/2214020405.py in <module>
-      4 
-      5 try:
-----> 6     import distrax
-      7 except ModuleNotFoundError:
-      8     get_ipython().run_line_magic('pip', 'install -qq distrax')
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/distrax/__init__.py in <module>
-     16 
-     17 # Bijectors.
----> 18 from distrax._src.bijectors.bijector import Bijector
-     19 from distrax._src.bijectors.bijector import BijectorLike
-     20 from distrax._src.bijectors.block import Block
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/distrax/_src/bijectors/bijector.py in <module>
-     24 
-     25 
----> 26 tfb = tfp.bijectors
-     27 
-     28 Array = jnp.ndarray
+/tmp/ipykernel_4593/994468337.py in <module>
+     14     import tensorflow_probability as tfp
+     15 tfp = tfp.substrates.jax
+---> 16 tfd = tfp.distributions
+     17 
+     18 key = jax.random.PRNGKey(0)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in __getattr__(self, item)
      51 
@@ -66,6 +92,18 @@ TypeError                                 Traceback (most recent call last)
 --> 127     return _bootstrap._gcd_import(name[level:], package, level)
     128 
     129 
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _gcd_import(name, package, level)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load_unlocked(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _load_unlocked(spec)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in exec_module(self, module)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _call_with_frames_removed(f, *args, **kwds)
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
      39 from tensorflow_probability.python.version import __version__
