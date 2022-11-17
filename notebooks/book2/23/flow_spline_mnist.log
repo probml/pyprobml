@@ -1,75 +1,8 @@
-An error occurred while executing the following cell:
-------------------
-prng_seq = hk.PRNGSequence(42)
-params = log_prob.init(next(prng_seq), np.zeros((1, *MNIST_IMAGE_SHAPE)))
-opt_state = optimizer.init(params)
-train_ds = load_dataset(tfds.Split.TRAIN, batch_size)
-valid_ds = load_dataset(tfds.Split.TEST, batch_size)
-for step in range(training_steps):
-    params, opt_state = update(params, next(prng_seq), opt_state, next(train_ds))
-
-    if step % eval_frequency == 0:
-        val_loss = eval_fn(params, next(valid_ds))
-        print(f"STEP: {step:5d}; Validation loss: {val_loss:.3f}")
-------------------
-
----------------------------------------------------------------------------
-AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4254/2388584029.py in <module>
-      1 prng_seq = hk.PRNGSequence(42)
-----> 2 params = log_prob.init(next(prng_seq), np.zeros((1, *MNIST_IMAGE_SHAPE)))
-      3 opt_state = optimizer.init(params)
-      4 train_ds = load_dataset(tfds.Split.TRAIN, batch_size)
-      5 valid_ds = load_dataset(tfds.Split.TEST, batch_size)
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(*args, **kwargs)
-    112 
-    113   def init_fn(*args, **kwargs):
---> 114     params, state = f.init(*args, **kwargs)
-    115     if state:
-    116       raise ValueError("If your transformed function uses `hk.{get,set}_state` "
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/transform.py in init_fn(rng, *args, **kwargs)
-    336     with base.new_context(rng=rng) as ctx:
-    337       try:
---> 338         f(*args, **kwargs)
-    339       except jax.errors.UnexpectedTracerError as e:
-    340         raise jax.errors.UnexpectedTracerError(unexpected_tracer_hint) from e
-
-/tmp/ipykernel_4254/3722997275.py in log_prob(data)
-      6         num_layers=flow_num_layers,
-      7         hidden_sizes=[hidden_size] * mlp_num_layers,
-----> 8         num_bins=num_bins,
-      9     )
-     10     return model.log_prob(data)
-
-/tmp/ipykernel_4254/3836988022.py in make_flow_model(event_shape, num_layers, hidden_sizes, num_bins)
-     23             mask=mask,
-     24             bijector=bijector_fn,
----> 25             conditioner=make_conditioner(event_shape, hidden_sizes, num_bijector_params),
-     26         )
-     27         layers.append(layer)
-
-/tmp/ipykernel_4254/1141128827.py in make_conditioner(event_shape, hidden_sizes, num_bijector_params)
-      5     return hk.Sequential(
-      6         [
-----> 7             hk.Flatten(preserve_dims=-len(event_shape)),
-      8             hk.nets.MLP(hidden_sizes, activate_final=True),
-      9             # We initialize this linear layer to zero so that the flow is initialized
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in __call__(cls, *args, **kwargs)
-    121     # Now attempt to initialize the object.
-    122     init = wrap_method("__init__", cls.__init__)
---> 123     init(module, *args, **kwargs)
-    124 
-    125     if (config.get_config().module_auto_repr and
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/haiku/_src/module.py in wrapped(self, *args, **kwargs)
-    419       f = functools.partial(unbound_method, self)
-    420       f = functools.partial(run_interceptors, f, method_name, self)
---> 421       if jax.config.jax_experimental_name_stack and module_name:
-    422         local_module_name = module_name.split("/")[-1]
-    423         f = jax.named_call(f, name=local_module_name)
-
-AttributeError: 'Config' object has no attribute 'jax_experimental_name_stack'
-AttributeError: 'Config' object has no attribute 'jax_experimental_name_stack'
+A cell timed out while it was being executed, after 1200 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
+['prng_seq = hk.PRNGSequence(42)', 'params = log_prob.init(next(prng_seq), np.zeros((1, *MNIST_IMAGE_SHAPE)))', 'opt_state = optimizer.init(params)', 'train_ds = load_dataset(tfds.Split.TRAIN, batch_size)', 'valid_ds = load_dataset(tfds.Split.TEST, batch_size)']
+...
+['    params, opt_state = update(params, next(prng_seq), opt_state, next(train_ds))', '', '    if step % eval_frequency == 0:', '        val_loss = eval_fn(params, next(valid_ds))', '        print(f"STEP: {step:5d}; Validation loss: {val_loss:.3f}")']
+-------------------
