@@ -1,0 +1,24 @@
+An error occurred while executing the following cell:
+------------------
+# Sample from the mean variational posterior
+means = tfd.Normal(model.locs, model.scales).sample(10000)
+
+# Plot the mean samples for a single
+plt.figure()
+sns.kdeplot(means[:, 0, 0].numpy(), means[:, 0, 1].numpy(), n_levels=10)
+sns.despine()
+savefig("svi_gmm_2d_post_mean_comp0.pdf")
+plt.show()
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_3602/40321767.py in <module>
+      4 # Plot the mean samples for a single
+      5 plt.figure()
+----> 6 sns.kdeplot(means[:, 0, 0].numpy(), means[:, 0, 1].numpy(), n_levels=10)
+      7 sns.despine()
+      8 savefig("svi_gmm_2d_post_mean_comp0.pdf")
+
+TypeError: kdeplot() takes from 0 to 1 positional arguments but 2 were given
+TypeError: kdeplot() takes from 0 to 1 positional arguments but 2 were given
