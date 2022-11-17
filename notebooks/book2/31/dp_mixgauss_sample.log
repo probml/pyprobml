@@ -5,7 +5,7 @@ from probml_utils.dp_mixgauss_utils import dp_mixgauss_sample, NormalInverseWish
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_3964/4239492033.py in <module>
+/tmp/ipykernel_3961/4239492033.py in <module>
 ----> 1 from probml_utils.dp_mixgauss_utils import dp_mixgauss_sample, NormalInverseWishart
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/probml_utils/dp_mixgauss_utils.py in <module>
