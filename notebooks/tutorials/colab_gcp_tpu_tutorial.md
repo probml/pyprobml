@@ -10,7 +10,7 @@ Authors: [murphyk](https://github.com/murphyk), [mjsML](https://github.com/mjsML
 * [Accessing colab machine via ssh](https://colab.research.google.com/github/probml/probml-notebooks/blob/main/notebooks/ssh_tunnels_and_how_to_dig_them.ipynb)
 * [Hugging face tutorial page on TPU VMs](https://github.com/huggingface/transformers/blob/master/examples/research_projects/jax-projects/README.md#how-to-setup-tpu-vm)
 * [Skye's tutorial video on TPU VMs](https://www.youtube.com/watch?v=fuAyUQcVzTY)
-* [Using GCP/ TPU VMs via SSH + VSCode](https://github.com/probml/probml-notebooks/blob/main/markdown/gcp_ssh_vscode.md)
+* [Using GCP/ TPU VMs via SSH + VSCode](https://github.com/probml/pyprobml/blob/master/notebooks/tutorials/gcp_ssh_vscode.md)
 * [Using tensorboard](https://colab.research.google.com/github/tensorflow/tensorboard/blob/master/docs/tbdev_getting_started.ipynb)
 
 ## Random stuff
