@@ -1,0 +1,50 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    from causalgraphicalmodels import CausalGraphicalModel
+except ModuleNotFoundError:
+    %pip install -qq causalgraphicalmodels
+    from causalgraphicalmodels import CausalGraphicalModel
+try:
+    import pgmpy
+except ModuleNotFoundError:
+    %pip install -qq pgmpy
+    import pgmpy
+import numpy as np
+import pandas as pd
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4874/3463194089.py in <module>
+      6 try:
+----> 7     import pgmpy
+      8 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'pgmpy'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4874/3463194089.py in <module>
+      8 except ModuleNotFoundError:
+      9     get_ipython().run_line_magic('pip', 'install -qq pgmpy')
+---> 10     import pgmpy
+     11 import numpy as np
+     12 import pandas as pd
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/__init__.py in <module>
+----> 1 from .global_vars import HAS_PANDAS, device, no_progress
+      2 
+      3 __all__ = ["HAS_PANDAS", "device"]
+      4 __version__ = "0.1.20"
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/pgmpy/global_vars.py in <module>
+      6 
+      7     # Check if GPU is available
+----> 8     if torch.cuda.is_available():
+      9         device = torch.device("cuda")
+     10     else:
+
+AttributeError: module 'torch' has no attribute 'cuda'
+AttributeError: module 'torch' has no attribute 'cuda'

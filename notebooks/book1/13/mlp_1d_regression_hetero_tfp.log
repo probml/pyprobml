@@ -41,7 +41,7 @@ for fixed_var in fixed_vars:
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_8013/2370705851.py in <module>
+/tmp/ipykernel_6035/2370705851.py in <module>
       8 
       9     model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.01), loss=negloglik)
 ---> 10     history = model.fit(x, y, epochs=500, batch_size=100, verbose=False)
@@ -64,15 +64,15 @@ AttributeError                            Traceback (most recent call last)
 
 AttributeError: in user code:
 
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1160, in train_function  *
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1249, in train_function  *
         return step_function(self, iterator)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1146, in step_function  **
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1233, in step_function  **
         outputs = model.distribute_strategy.run(run_step, args=(data,))
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1135, in run_step  **
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1222, in run_step  **
         outputs = model.train_step(data)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 994, in train_step
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1024, in train_step
         loss = self.compute_loss(x, y, y_pred, sample_weight)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1053, in compute_loss
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1083, in compute_loss
         y, y_pred, sample_weight, regularization_losses=self.losses
     File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 263, in __call__
         y_t, y_p, sw = match_dtype_and_rank(y_t, y_p, sw)
@@ -83,15 +83,15 @@ AttributeError: in user code:
 
 AttributeError: in user code:
 
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1160, in train_function  *
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1249, in train_function  *
         return step_function(self, iterator)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1146, in step_function  **
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1233, in step_function  **
         outputs = model.distribute_strategy.run(run_step, args=(data,))
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1135, in run_step  **
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1222, in run_step  **
         outputs = model.train_step(data)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 994, in train_step
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1024, in train_step
         loss = self.compute_loss(x, y, y_pred, sample_weight)
-    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1053, in compute_loss
+    File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/training.py", line 1083, in compute_loss
         y, y_pred, sample_weight, regularization_losses=self.losses
     File "/github/home/miniconda3/envs/py37/lib/python3.7/site-packages/keras/engine/compile_utils.py", line 263, in __call__
         y_t, y_p, sw = match_dtype_and_rank(y_t, y_p, sw)

@@ -36,7 +36,7 @@ print("Time for GPR prediction with standard-deviation: %.3f" % (time.time() - s
 
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-/tmp/ipykernel_4413/2032922369.py in <module>
+/tmp/ipykernel_4422/2032922369.py in <module>
      23 stime = time.time()
      24 gp = build_gp(soln.params, X)
 ---> 25 y_mu = gp.predict(y, X_plot, return_var=False)
