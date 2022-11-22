@@ -176,7 +176,7 @@ for type in algo_list:
 
 ---------------------------------------------------------------------------
 IndexError                                Traceback (most recent call last)
-/tmp/ipykernel_4389/1385880512.py in <module>
+/tmp/ipykernel_4399/1385880512.py in <module>
     154                         acquisition_batch_size,
     155                         dtype=torch.double,
 --> 156                         device=device,
