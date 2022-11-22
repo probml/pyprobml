@@ -1,48 +1,38 @@
 An error occurred while executing the following cell:
 ------------------
-prior = jax.tree_map(
-    lambda param: tfd.Independent(
-        tfd.Normal(loc=jnp.zeros(param.shape), scale=jnp.ones(param.shape)),
-        reinterpreted_batch_ndims=len(param.shape),
-    ),
-    params,
-)
-
-bijector = jax.tree_map(lambda param: tfb.Identity(), params)
-
-
-def get_log_likelihood(latent_sample, outputs, inputs, **kwargs):
-    frozen_params = freeze(latent_sample)
-    logit = mlp.apply(frozen_params, inputs["X"])
-    # def sigmoid(x, scale=100):
-    #     return 0.5 * (jnp.tanh(x * scale / 2) + 1)
-    # prob = sigmoid(logit)
-    return tfd.Bernoulli(logits=logit).log_prob(outputs).sum()
-
-
-model = ADVI(prior, bijector, get_log_likelihood, vi_type="mean_field")
+sngp_pred_train = train_and_test_sngp(np.array(X_train), np.array(X_train))
 ------------------
 
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4082/3297204795.py in <module>
-     19 
-     20 
----> 21 model = ADVI(prior, bijector, get_log_likelihood, vi_type="mean_field")
+KeyError                                  Traceback (most recent call last)
+/tmp/ipykernel_4092/3946251102.py in <module>
+----> 1 sngp_pred_train = train_and_test_sngp(np.array(X_train), np.array(X_train))
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/bijax/advi.py in __init__(self, prior, likelihood_fn, prior_constraints, vi_type, rank, ordered_posterior_bijectors)
-     47 
-     48         self.prior = prior
----> 49         self.prior_constraints = fill_in_bijector(prior_constraints, self.prior)
-     50 
-     51         assert (
+/tmp/ipykernel_4092/3178864071.py in train_and_test_sngp(X_train, X_test)
+      3 
+      4     sngp_model.compile(**train_config)
+----> 5     sngp_model.fit(X_train, np.array(y_train), verbose=0, **fit_config)
+      6 
+      7     sngp_logits, sngp_covmat = sngp_model(X_test, return_covmat=True)
 
-~/miniconda3/envs/py37/lib/python3.7/site-packages/bijax/core.py in fill_in_bijector(bijector, prior)
-    107 def fill_in_bijector(bijector, prior):
-    108     for key in prior:
---> 109         if key not in bijector:
-    110             bijector[key] = tfb.Identity()
-    111     return bijector
+/tmp/ipykernel_4092/3636043544.py in fit(self, *args, **kwargs)
+      5         kwargs["callbacks"].append(ResetCovarianceCallback())
+      6 
+----> 7         return super().fit(*args, **kwargs)
 
-TypeError: argument of type 'function' is not iterable
-TypeError: argument of type 'function' is not iterable
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/utils/traceback_utils.py in error_handler(*args, **kwargs)
+     68             # To get the full stack trace, call:
+     69             # `tf.debugging.disable_traceback_filtering()`
+---> 70             raise e.with_traceback(filtered_tb) from None
+     71         finally:
+     72             del filtered_tb
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/keras/optimizers/optimizer_experimental/optimizer.py in _update_step(self, gradient, variable)
+    215         Returns:
+    216           A list of (gradient, variable) pairs. Variable is always present, but
+--> 217           gradient can be `None`.
+    218         """
+    219         if not callable(loss) and tape is None:
+
+KeyError: 'The optimizer cannot recognize variable deep_res_net_sngp_with_cov_reset_1/spectral_normalization_6/kernel:0. This usually means you are trying to call the optimizer to update different parts of the model separately. Please call `optimizer.build(variables)` with the full list of trainable variables before the training loop or use legacy optimizer `tf.keras.optimizers.legacy.{self.__class__.__name__}.'
+KeyError: 'The optimizer cannot recognize variable deep_res_net_sngp_with_cov_reset_1/spectral_normalization_6/kernel:0. This usually means you are trying to call the optimizer to update different parts of the model separately. Please call `optimizer.build(variables)` with the full list of trainable variables before the training loop or use legacy optimizer `tf.keras.optimizers.legacy.{self.__class__.__name__}.'
