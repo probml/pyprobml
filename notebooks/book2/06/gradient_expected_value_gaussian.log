@@ -65,7 +65,7 @@ assert np.allclose(0.5 * e2, grads[1], atol=1e-1)
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_4593/994468337.py in <module>
+/tmp/ipykernel_5007/994468337.py in <module>
      14     import tensorflow_probability as tfp
      15 tfp = tfp.substrates.jax
 ---> 16 tfd = tfp.distributions
@@ -162,11 +162,11 @@ TypeError                                 Traceback (most recent call last)
      39 # pylint: enable=wildcard-import
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/context.py in <module>
-     27 import six
-     28 
----> 29 from tensorflow.core.framework import function_pb2
-     30 from tensorflow.core.protobuf import config_pb2
-     31 from tensorflow.core.protobuf import coordination_config_pb2
+     26 import numpy as np
+     27 
+---> 28 from tensorflow.core.framework import function_pb2
+     29 from tensorflow.core.protobuf import config_pb2
+     30 from tensorflow.core.protobuf import coordination_config_pb2
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/core/framework/function_pb2.py in <module>
      14 
