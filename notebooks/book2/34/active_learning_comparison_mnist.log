@@ -1,128 +1,77 @@
 An error occurred while executing the following cell:
 ------------------
-from typing import Any, Iterator, Mapping, Optional, Sequence, Tuple
+# sklearn Models
+from sklearn.linear_model import LogisticRegression
 
-try:
-    import distrax
-except ModuleNotFoundError:
-    %pip install -qq distrax
-    import distrax
-try:
-    import haiku as hk
-except ModuleNotFoundError:
-    %pip install -qq dm-haiku
-    import haiku as hk
-import jax
-import jax.numpy as jnp
+# sklearn Utils
+from sklearn.base import BaseEstimator
+from sklearn.base import clone
+from scipy.stats import entropy
+from sklearn.model_selection import train_test_split
+
 import numpy as np
+from numpy.random import default_rng
+import random
 
-try:
-    import optax
-except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
-try:
-    import tensorflow_datasets as tfds
-except ModuleNotFoundError:
-    %pip install -qq tensorflow tensorflow_datasets
-    import tensorflow_datasets as tfds
+np.random.seed(42)
 
+from matplotlib.ticker import FormatStrFormatter
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-Array = jnp.ndarray
-PRNGKey = Array
-Batch = Mapping[str, np.ndarray]
-OptState = Any
 
-MNIST_IMAGE_SHAPE = (28, 28, 1)
-batch_size = 128
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    %pip install -qq tensorflow
+    import tensorflow as tf
+
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+from probml_utils import active_learn_utils as alu
+
+try:
+    import modAL
+except ModuleNotFoundError:
+    %pip install -qq modAL
+    import modAL
+
+
+from modAL.uncertainty import uncertainty_sampling
+from modAL.uncertainty import entropy_sampling
+from modAL.uncertainty import margin_sampling
+from modAL.disagreement import max_std_sampling
+
+from modAL.uncertainty import classifier_entropy
+from modAL.uncertainty import classifier_margin
+from modAL.uncertainty import classifier_uncertainty
+
+from modAL.models import ActiveLearner
+from modAL.utils.data import modALinput
+
+from typing import Callable
+from typing import Tuple
+from typing import Optional
+import warnings
+from typing import List
+
+from functools import reduce
+import operator
 ------------------
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_8097/1777857405.py in <module>
-      2 
-      3 try:
-----> 4     import distrax
-      5 except ModuleNotFoundError:
-      6     get_ipython().run_line_magic('pip', 'install -qq distrax')
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/distrax/__init__.py in <module>
-     16 
-     17 # Bijectors.
----> 18 from distrax._src.bijectors.bijector import Bijector
-     19 from distrax._src.bijectors.bijector import BijectorLike
-     20 from distrax._src.bijectors.block import Block
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/distrax/_src/bijectors/bijector.py in <module>
-     24 
-     25 
----> 26 tfb = tfp.bijectors
-     27 
-     28 Array = jnp.ndarray
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in __getattr__(self, item)
-     51 
-     52   def __getattr__(self, item):
----> 53     module = self._load()
-     54     return getattr(module, item)
-     55 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/lazy_loader.py in _load(self)
-     38       self._on_first_access = None
-     39     # Import the target module and insert it into the parent's namespace
----> 40     module = importlib.import_module(self.__name__)
-     41     if self._parent_module_globals is not None:
-     42       self._parent_module_globals[self._local_name] = module
-
-~/miniconda3/envs/py37/lib/python3.7/importlib/__init__.py in import_module(name, package)
-    125                 break
-    126             level += 1
---> 127     return _bootstrap._gcd_import(name[level:], package, level)
-    128 
-    129 
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/__init__.py in <module>
-     39 from tensorflow_probability.python.version import __version__
-     40 # from tensorflow_probability.substrates.jax.google import staging  # DisableOnExport  # pylint:disable=line-too-long
----> 41 from tensorflow_probability.substrates.jax import bijectors
-     42 from tensorflow_probability.substrates.jax import distributions
-     43 from tensorflow_probability.substrates.jax import experimental
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/__init__.py in <module>
-     17 # pylint: disable=unused-import,wildcard-import,line-too-long,g-importing-member
-     18 
----> 19 from tensorflow_probability.substrates.jax.bijectors.absolute_value import AbsoluteValue
-     20 from tensorflow_probability.substrates.jax.bijectors.ascending import Ascending
-     21 # from tensorflow_probability.substrates.jax.bijectors.batch_normalization import BatchNormalization
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/substrates/jax/bijectors/absolute_value.py in <module>
-     15 """AbsoluteValue bijector."""
-     16 
----> 17 from tensorflow_probability.python.internal.backend.jax.compat import v2 as tf
-     18 
-     19 from tensorflow_probability.substrates.jax.bijectors import bijector
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/__init__.py in <module>
-     16 
-     17 from tensorflow_probability.python.internal.backend.jax import __internal__
----> 18 from tensorflow_probability.python.internal.backend.jax import bitwise
-     19 from tensorflow_probability.python.internal.backend.jax import compat
-     20 from tensorflow_probability.python.internal.backend.jax import config
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/bitwise.py in <module>
-     17 import numpy as onp; import jax.numpy as np
-     18 
----> 19 from tensorflow_probability.python.internal.backend.jax import _utils as utils
-     20 
-     21 __all__ = [
-
-~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_probability/python/internal/backend/jax/_utils.py in <module>
-     23 
-     24 try:
----> 25   from tensorflow.python.ops import array_ops  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top,unused-import
-     26   from tensorflow.python.ops import random_ops  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top,unused-import
-     27   import tensorflow.compat.v1 as tf1  # pylint: disable=g-import-not-at-top,unused-import
+/tmp/ipykernel_7853/179078197.py in <module>
+     21 
+     22 try:
+---> 23     import tensorflow as tf
+     24 except ModuleNotFoundError:
+     25     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
      35 import typing as _typing
