@@ -35,14 +35,14 @@ sample_from_posterior(key, data, "gprDemoNoisyPost")
 
 ---------------------------------------------------------------------------
 ValueError                                Traceback (most recent call last)
-/tmp/ipykernel_3609/2076173755.py in <module>
+/tmp/ipykernel_3663/2076173755.py in <module>
      26 
      27 data = {"noise": 0.0, "n_samples": 3, "x_train": x_train, "y_train": y_train, "x_test": x_test}
 ---> 28 sample_from_posterior(key, data, "gprDemoNoiseFreePost")
      29 
      30 data = {"noise": 0.3, "n_samples": 3, "x_train": x_train, "y_train": y_train, "x_test": x_test}
 
-/tmp/ipykernel_3609/2076173755.py in sample_from_posterior(key, data, save_name)
+/tmp/ipykernel_3663/2076173755.py in sample_from_posterior(key, data, save_name)
       2     kernel = kernels.ExpSquared(scale=1.0)
       3     gp = GaussianProcess(kernel, data["x_train"], diag=1e-8 + data["noise"])
 ----> 4     pred_gp = gp.condition(data["y_train"], data["x_test"]).gp

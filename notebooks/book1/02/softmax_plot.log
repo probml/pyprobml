@@ -1,57 +1,25 @@
 An error occurred while executing the following cell:
 ------------------
-from typing import Sequence
-import matplotlib.pyplot as plt
-
-%matplotlib inline
-
-%pip install -qq jax==0.3.14
 import jax
 import jax.numpy as jnp
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 try:
-    import flax.linen as nn
-    from flax.training import train_state
-except ModuleNotFoundError:
-    %pip install -qq flax
-    import flax.linen as nn
-    from flax.training import train_state
-
-try:
-    import optax
-except ModuleNotFoundError:
-    %pip install -qq optax
-    import optax
-
-import functools
-import scipy as sp
-import math
-
-try:
-    import seaborn as sns
-except ModuleNotFoundError:
-    %pip install -qq seaborn
-    import seaborn as sns
-
-try:
-    import probml_utils as pml
     from probml_utils import savefig, latexify
 except ModuleNotFoundError:
     %pip install -qq git+https://github.com/probml/probml-utils.git
-    import probml_utils as pml
     from probml_utils import savefig, latexify
-
-rng = jax.random.PRNGKey(0)
 ------------------
 
 ---------------------------------------------------------------------------
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_4257/1147266451.py in <module>
+/tmp/ipykernel_4408/3698783498.py in <module>
+----> 1 import jax
+      2 import jax.numpy as jnp
+      3 import matplotlib.pyplot as plt
+      4 import seaborn as sns
       5 
-      6 get_ipython().run_line_magic('pip', 'install -qq jax==0.3.14')
-----> 7 import jax
-      8 import jax.numpy as jnp
-      9 
 
 ~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/__init__.py in <module>
      33 # We want the exported object to be the class, so we first import the module
