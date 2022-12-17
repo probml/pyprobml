@@ -40,7 +40,7 @@ batch_size = 128
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_8097/1777857405.py in <module>
+/tmp/ipykernel_8320/1777857405.py in <module>
       2 
       3 try:
 ----> 4     import distrax
