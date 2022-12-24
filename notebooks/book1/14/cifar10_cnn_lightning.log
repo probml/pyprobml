@@ -24,7 +24,7 @@ print(label_names)
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_5493/715302025.py in <module>
+/tmp/ipykernel_5934/715302025.py in <module>
      13 # get some random training images
      14 dataiter = iter(dm.train_dataloader())
 ---> 15 images, labels = dataiter.next()
