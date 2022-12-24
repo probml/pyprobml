@@ -1,0 +1,39 @@
+An error occurred while executing the following cell:
+------------------
+try:
+    import probml_utils as pml
+except ModuleNotFoundError:
+    %pip install -qq git+https://github.com/probml/probml-utils.git
+    import probml_utils as pml
+
+from probml_utils.dp_mixgauss_utils import NormalInverseWishart, gmm_gibbs, dp_mixgauss_gibbs
+
+import jax.numpy as jnp
+from jax import random, vmap
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+import numpy as np
+from matplotlib.patches import Ellipse, transforms
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4081/400897933.py in <module>
+      1 try:
+----> 2     import probml_utils as pml
+      3 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'probml_utils'
+
+During handling of the above exception, another exception occurred:
+
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4081/400897933.py in <module>
+      3 except ModuleNotFoundError:
+      4     get_ipython().run_line_magic('pip', 'install -qq git+https://github.com/probml/probml-utils.git')
+----> 5     import probml_utils as pml
+      6 
+      7 from probml_utils.dp_mixgauss_utils import NormalInverseWishart, gmm_gibbs, dp_mixgauss_gibbs
+
+ModuleNotFoundError: No module named 'probml_utils'
+ModuleNotFoundError: No module named 'probml_utils'
