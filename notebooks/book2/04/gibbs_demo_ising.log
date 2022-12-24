@@ -1,0 +1,51 @@
+An error occurred while executing the following cell:
+------------------
+J = 10
+sample_grid = gibbs_samples_jit(jax.random.PRNGKey(2), J, niter)
+plot_samples(J, sample_grid, 2)
+------------------
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+/tmp/ipykernel_4084/656251995.py in <module>
+      1 J = 10
+----> 2 sample_grid = gibbs_samples_jit(jax.random.PRNGKey(2), J, niter)
+      3 plot_samples(J, sample_grid, 2)
+
+    [... skipping hidden 11 frame]
+
+/tmp/ipykernel_4084/2441718827.py in gibbs_samples(rng_key, J, niter)
+     29 
+     30     keys = jax.random.split(key=rng_key, num=niter)
+---> 31     grid, _ = jax.lax.scan(one_step, grid, keys)
+     32     return grid
+
+    [... skipping hidden 14 frame]
+
+/tmp/ipykernel_4084/2441718827.py in one_step(grid, key)
+     23         iy = jax.random.choice(keys[1], a=pixels)  # pick random y pixel
+     24         e = energy(ix, iy, grid, J)  # calculate enerygy on (ix, iy)
+---> 25         p_ix_iy = jax.nn.sigmoid(e)  # probability
+     26         u = jax.random.uniform(key)
+     27         grid = grid.at[iy, ix].set(jax.lax.cond(u < p_ix_iy, lambda: 1, lambda: -1))
+
+    [... skipping hidden 5 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/nn/functions.py in sigmoid(x)
+    101     x : input array
+    102   """
+--> 103   return lax.logistic(x)
+    104 
+    105 @jax.jit
+
+    [... skipping hidden 7 frame]
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/jax/_src/lax/lax.py in unop_dtype_rule(result_dtype, accepted_dtypes, name, aval, **kwargs)
+   1511     typename = str(np.dtype(aval.dtype).name)
+   1512     accepted_typenames = (t.__name__ for t in accepted_dtypes)
+-> 1513     raise TypeError(msg.format(name, typename, ', '.join(accepted_typenames)))
+   1514   return result_dtype(aval.dtype)
+   1515 
+
+TypeError: logistic does not accept dtype int32. Accepted dtypes are subtypes of complexfloating, floating.
+TypeError: logistic does not accept dtype int32. Accepted dtypes are subtypes of complexfloating, floating.
