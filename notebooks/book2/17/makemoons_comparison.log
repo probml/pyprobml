@@ -5,17 +5,17 @@ sngp_pred_train = train_and_test_sngp(np.array(X_train), np.array(X_train))
 
 ---------------------------------------------------------------------------
 KeyError                                  Traceback (most recent call last)
-/tmp/ipykernel_4571/3946251102.py in <module>
+/tmp/ipykernel_4570/3946251102.py in <module>
 ----> 1 sngp_pred_train = train_and_test_sngp(np.array(X_train), np.array(X_train))
 
-/tmp/ipykernel_4571/3178864071.py in train_and_test_sngp(X_train, X_test)
+/tmp/ipykernel_4570/3178864071.py in train_and_test_sngp(X_train, X_test)
       3 
       4     sngp_model.compile(**train_config)
 ----> 5     sngp_model.fit(X_train, np.array(y_train), verbose=0, **fit_config)
       6 
       7     sngp_logits, sngp_covmat = sngp_model(X_test, return_covmat=True)
 
-/tmp/ipykernel_4571/3636043544.py in fit(self, *args, **kwargs)
+/tmp/ipykernel_4570/3636043544.py in fit(self, *args, **kwargs)
       5         kwargs["callbacks"].append(ResetCovarianceCallback())
       6 
 ----> 7         return super().fit(*args, **kwargs)
