@@ -1,0 +1,25 @@
+An error occurred while executing the following cell:
+------------------
+from dynamax.linear_gaussian_ssm.demos.kf_tracking import kf_tracking, plot_kf_tracking
+
+x, y, lgssm_posterior = kf_tracking()
+dict_figures = plot_kf_tracking(x, y, lgssm_posterior)
+
+for k, v in dict_figures.items():
+    fname = k + ".pdf"
+    print("saving ", fname)
+    fig = v
+    fig.savefig(fname)
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_4164/2762981727.py in <module>
+----> 1 from dynamax.linear_gaussian_ssm.demos.kf_tracking import kf_tracking, plot_kf_tracking
+      2 
+      3 x, y, lgssm_posterior = kf_tracking()
+      4 dict_figures = plot_kf_tracking(x, y, lgssm_posterior)
+      5 
+
+ModuleNotFoundError: No module named 'dynamax.linear_gaussian_ssm.demos.kf_tracking'
+ModuleNotFoundError: No module named 'dynamax.linear_gaussian_ssm.demos.kf_tracking'
