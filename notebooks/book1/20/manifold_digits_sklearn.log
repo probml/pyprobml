@@ -184,7 +184,7 @@ plt.show()
 
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
-/tmp/ipykernel_8913/3727510768.py in <module>
+/tmp/ipykernel_8877/3727510768.py in <module>
      38 
      39 try:
 ---> 40     import umap  # # https://github.com/lmcinnes/umap

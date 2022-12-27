@@ -131,7 +131,7 @@ print(w)
 
 ---------------------------------------------------------------------------
 ImportError                               Traceback (most recent call last)
-/tmp/ipykernel_5860/2877403085.py in <module>
+/tmp/ipykernel_5945/2877403085.py in <module>
       6 import jax.numpy as jnp
       7 from jax import jit, grad, random
 ----> 8 from jax.experimental import stax

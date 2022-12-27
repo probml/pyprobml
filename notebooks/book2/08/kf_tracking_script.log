@@ -14,7 +14,7 @@ for k, v in dict_figures.items():
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4083/2762981727.py in <module>
+/tmp/ipykernel_4164/2762981727.py in <module>
 ----> 1 from dynamax.linear_gaussian_ssm.demos.kf_tracking import kf_tracking, plot_kf_tracking
       2 
       3 x, y, lgssm_posterior = kf_tracking()

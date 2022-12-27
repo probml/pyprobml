@@ -20,7 +20,7 @@ K = tf.keras.backend
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_6414/3040475755.py in <module>
+/tmp/ipykernel_6581/3040475755.py in <module>
       5 try:
 ----> 6     import tensorflow
       7 except ModuleNotFoundError:
@@ -30,7 +30,7 @@ ModuleNotFoundError: No module named 'tensorflow'
 During handling of the above exception, another exception occurred:
 
 RuntimeError                              Traceback (most recent call last)
-/tmp/ipykernel_6414/3040475755.py in <module>
+/tmp/ipykernel_6581/3040475755.py in <module>
       7 except ModuleNotFoundError:
       8     get_ipython().run_line_magic('pip', 'install -qq tensorflow')
 ----> 9     import tensorflow

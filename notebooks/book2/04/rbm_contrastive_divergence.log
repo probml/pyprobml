@@ -6,11 +6,11 @@ mnist_test_imgs, mnist_test_labels = load_mnist("test")
 
 ---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_4083/886430096.py in <module>
+/tmp/ipykernel_4163/886430096.py in <module>
 ----> 1 mnist_train_imgs, mnist_train_labels = load_mnist("train")
       2 mnist_test_imgs, mnist_test_labels = load_mnist("test")
 
-/tmp/ipykernel_4083/203408684.py in load_mnist(split)
+/tmp/ipykernel_4163/203408684.py in load_mnist(split)
       5 
       6 def load_mnist(split):
 ----> 7     images, labels = tfds.as_numpy(tfds.load("mnist", split=split, batch_size=-1, as_supervised=True))
