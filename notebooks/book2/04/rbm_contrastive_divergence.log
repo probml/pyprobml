@@ -1,0 +1,208 @@
+An error occurred while executing the following cell:
+------------------
+mnist_train_imgs, mnist_train_labels = load_mnist("train")
+mnist_test_imgs, mnist_test_labels = load_mnist("test")
+------------------
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_4163/886430096.py in <module>
+----> 1 mnist_train_imgs, mnist_train_labels = load_mnist("train")
+      2 mnist_test_imgs, mnist_test_labels = load_mnist("test")
+
+/tmp/ipykernel_4163/203408684.py in load_mnist(split)
+      5 
+      6 def load_mnist(split):
+----> 7     images, labels = tfds.as_numpy(tfds.load("mnist", split=split, batch_size=-1, as_supervised=True))
+      8     procced_images = preprocess_images(images)
+      9     return procced_images, labels
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/logging/__init__.py in decorator(function, unused_none_instance, args, kwargs)
+    271     name = args[0] if args else kwargs["name"]
+    272     try:
+--> 273       return function(*args, **kwargs)
+    274     except Exception:
+    275       metadata.mark_error()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/load.py in load(name, split, data_dir, batch_size, shuffle_files, download, as_supervised, decoders, read_config, with_info, builder_kwargs, download_and_prepare_kwargs, as_dataset_kwargs, try_gcs)
+    593     builder_kwargs = {}
+    594 
+--> 595   dbuilder = builder(name, data_dir=data_dir, try_gcs=try_gcs, **builder_kwargs)
+    596   if download:
+    597     download_and_prepare_kwargs = download_and_prepare_kwargs or {}
+
+~/miniconda3/envs/py37/lib/python3.7/contextlib.py in inner(*args, **kwds)
+     72         def inner(*args, **kwds):
+     73             with self._recreate_cm():
+---> 74                 return func(*args, **kwds)
+     75         return inner
+     76 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/logging/__init__.py in decorator(function, unused_none_instance, args, kwargs)
+    304     name = args[0] if args else kwargs["name"]
+    305     try:
+--> 306       return function(*args, **kwargs)
+    307     except Exception:
+    308       metadata.mark_error()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/load.py in builder(name, try_gcs, **builder_kwargs)
+    201   if cls:
+    202     with py_utils.try_reraise(prefix=f'Failed to construct dataset {name}: '):
+--> 203       return cls(**builder_kwargs)  # pytype: disable=not-instantiable
+    204 
+    205   # If neither the code nor the files are found, raise DatasetNotFoundError
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/logging/__init__.py in decorator(function, dsbuilder, args, kwargs)
+    122       _thread_ids_running_builder_init.add(metadata.thread_id)
+    123     try:
+--> 124       return function(*args, **kwargs)
+    125     except Exception:
+    126       metadata.mark_error()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/dataset_builder.py in __init__(self, file_format, **kwargs)
+   1137       **kwargs: Arguments passed to `DatasetBuilder`.
+   1138     """
+-> 1139     super().__init__(**kwargs)
+   1140     self.info.set_file_format(file_format)
+   1141 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/logging/__init__.py in decorator(function, dsbuilder, args, kwargs)
+    122       _thread_ids_running_builder_init.add(metadata.thread_id)
+    123     try:
+--> 124       return function(*args, **kwargs)
+    125     except Exception:
+    126       metadata.mark_error()
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/dataset_builder.py in __init__(self, data_dir, config, version)
+    251     # Compute the base directory (for download) and dataset/version directory.
+    252     self._data_dir_root, self._data_dir = self._build_data_dir(data_dir)
+--> 253     if tf.io.gfile.exists(self._data_dir):
+    254       self.info.read_from_directory(self._data_dir)
+    255     else:  # Use the code version (do not restore data)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow_datasets/core/utils/lazy_imports_utils.py in __getattr__(self, name)
+     66       try:
+     67         start_import_time = time.perf_counter()
+---> 68         self.module = importlib.import_module(self.module_name)
+     69         import_time_ms = (time.perf_counter() - start_import_time) * 1000
+     70         if self.success_callback is not None:
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/__init__.py in import_module(name, package)
+    125                 break
+    126             level += 1
+--> 127     return _bootstrap._gcd_import(name[level:], package, level)
+    128 
+    129 
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _gcd_import(name, package, level)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _find_and_load_unlocked(name, import_)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _load_unlocked(spec)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap_external.py in exec_module(self, module)
+
+~/miniconda3/envs/py37/lib/python3.7/importlib/_bootstrap.py in _call_with_frames_removed(f, *args, **kwds)
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/__init__.py in <module>
+     35 import typing as _typing
+     36 
+---> 37 from tensorflow.python.tools import module_util as _module_util
+     38 from tensorflow.python.util.lazy_loader import LazyLoader as _LazyLoader
+     39 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/__init__.py in <module>
+     40 
+     41 # Bring in subpackages.
+---> 42 from tensorflow.python import data
+     43 from tensorflow.python import distribute
+     44 # from tensorflow.python import keras
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/__init__.py in <module>
+     19 
+     20 # pylint: disable=unused-import
+---> 21 from tensorflow.python.data import experimental
+     22 from tensorflow.python.data.ops.dataset_ops import AUTOTUNE
+     23 from tensorflow.python.data.ops.dataset_ops import Dataset
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/__init__.py in <module>
+     94 
+     95 # pylint: disable=unused-import
+---> 96 from tensorflow.python.data.experimental import service
+     97 from tensorflow.python.data.experimental.ops.batching import dense_to_ragged_batch
+     98 from tensorflow.python.data.experimental.ops.batching import dense_to_sparse_batch
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/service/__init__.py in <module>
+    417 """
+    418 
+--> 419 from tensorflow.python.data.experimental.ops.data_service_ops import distribute
+    420 from tensorflow.python.data.experimental.ops.data_service_ops import from_dataset_id
+    421 from tensorflow.python.data.experimental.ops.data_service_ops import register_dataset
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/ops/data_service_ops.py in <module>
+     20 from tensorflow.core.protobuf import data_service_pb2
+     21 from tensorflow.python import tf2
+---> 22 from tensorflow.python.data.experimental.ops import compression_ops
+     23 from tensorflow.python.data.experimental.service import _pywrap_server_lib
+     24 from tensorflow.python.data.experimental.service import _pywrap_utils
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/experimental/ops/compression_ops.py in <module>
+     14 # ==============================================================================
+     15 """Ops for compressing and uncompressing dataset elements."""
+---> 16 from tensorflow.python.data.util import structure
+     17 from tensorflow.python.ops import gen_experimental_dataset_ops as ged_ops
+     18 
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/util/structure.py in <module>
+     20 import wrapt
+     21 
+---> 22 from tensorflow.python.data.util import nest
+     23 from tensorflow.python.framework import composite_tensor
+     24 from tensorflow.python.framework import ops
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/data/util/nest.py in <module>
+     32 """
+     33 
+---> 34 from tensorflow.python.framework import sparse_tensor as _sparse_tensor
+     35 from tensorflow.python.util import _pywrap_utils
+     36 from tensorflow.python.util import nest
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/sparse_tensor.py in <module>
+     22 from tensorflow.python import tf2
+     23 from tensorflow.python.framework import composite_tensor
+---> 24 from tensorflow.python.framework import constant_op
+     25 from tensorflow.python.framework import dtypes
+     26 from tensorflow.python.framework import ops
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/framework/constant_op.py in <module>
+     23 from tensorflow.core.framework import types_pb2
+     24 from tensorflow.python.eager import context
+---> 25 from tensorflow.python.eager import execute
+     26 from tensorflow.python.framework import dtypes
+     27 from tensorflow.python.framework import op_callbacks
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/tensorflow/python/eager/execute.py in <module>
+     15 """Functions called by the generated code to execute an eager-mode op."""
+     16 
+---> 17 from google.protobuf import text_format
+     18 from tensorflow.core.framework import tensor_pb2
+     19 from tensorflow.python import pywrap_tfe
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/google/protobuf/text_format.py in <module>
+     54 from google.protobuf import descriptor
+     55 from google.protobuf import text_encoding
+---> 56 from google.protobuf import unknown_fields
+     57 
+     58 # pylint: disable=g-import-not-at-top
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/google/protobuf/unknown_fields.py in <module>
+     42 from google.protobuf.internal import api_implementation
+     43 
+---> 44 if api_implementation._c_module is not None:  # pylint: disable=protected-access
+     45   UnknownFieldSet = api_implementation._c_module.UnknownFieldSet  # pylint: disable=protected-access
+     46 else:
+
+AttributeError: Failed to construct dataset mnist: module 'google.protobuf.internal.api_implementation' has no attribute '_c_module'
+AttributeError: Failed to construct dataset mnist: module 'google.protobuf.internal.api_implementation' has no attribute '_c_module'
