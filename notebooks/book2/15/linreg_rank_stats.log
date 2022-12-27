@@ -11,7 +11,7 @@ import statsmodels.formula.api as smf
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4164/2503233559.py in <module>
+/tmp/ipykernel_4162/2503233559.py in <module>
       2 import numpy as np
       3 import pandas as pd
 ----> 4 import patsy
