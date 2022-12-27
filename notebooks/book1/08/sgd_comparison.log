@@ -1,0 +1,114 @@
+An error occurred while executing the following cell:
+------------------
+# Import Libraries
+try:
+    import sls
+except ModuleNotFoundError:
+    %pip install -q git+https://github.com/IssamLaradji/sls.git
+    import sls
+
+try:
+    import sps
+except ModuleNotFoundError:
+    %pip install -q git+https://github.com/IssamLaradji/sps.git
+    import sps
+
+try:
+    import adasls
+except ModuleNotFoundError:
+    %pip install -q git+https://github.com/IssamLaradji/ada_sls.git
+    import adasls
+
+import pandas as pd
+import os
+import shutil
+import copy
+import pprint
+
+try:
+    import torch
+except ModuleNotFoundError:
+    %pip install torch
+    import torch
+import numpy as np
+
+try:
+    import torchvision
+except ModuleNotFoundError:
+    %pip install torchvision
+    import torchvision
+try:
+    import tqdm.notebook as tqdm
+except ModuleNotFoundError:
+    %pip install tqdm
+    import tqdm.notebook as tqdm
+import sklearn
+
+try:
+    import haven
+except ModuleNotFoundError:
+    %pip install haven
+    %pip install haven-ai
+    import haven
+
+from haven import haven_utils as hu
+from haven import haven_results as hr
+from haven.haven_utils import exp_utils
+
+import torch.nn.functional as F
+
+
+from sklearn import preprocessing
+from sklearn.datasets import load_iris
+
+from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.model_selection import train_test_split
+
+try:
+    from google.colab import data_table
+except ModuleNotFoundError:
+    %pip install google-colab
+    from google.colab import data_table
+------------------
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+/tmp/ipykernel_5441/2011298338.py in <module>
+     66 try:
+---> 67     from google.colab import data_table
+     68 except ModuleNotFoundError:
+
+ModuleNotFoundError: No module named 'google.colab'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/tmp/ipykernel_5441/2011298338.py in <module>
+     68 except ModuleNotFoundError:
+     69     get_ipython().run_line_magic('pip', 'install google-colab')
+---> 70     from google.colab import data_table
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/google/colab/__init__.py in <module>
+     24 from google.colab import _tensorflow_magics
+     25 from google.colab import auth
+---> 26 from google.colab import data_table
+     27 from google.colab import drive
+     28 from google.colab import files
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/google/colab/data_table.py in <module>
+    164 
+    165 
+--> 166 class _JavascriptModuleFormatter(_IPython.core.formatters.BaseFormatter):
+    167   format_type = _traitlets.Unicode(_JAVASCRIPT_MODULE_MIME_TYPE)
+    168   print_method = _traitlets.ObjectName('_repr_javascript_module_')
+
+~/miniconda3/envs/py37/lib/python3.7/site-packages/google/colab/data_table.py in _JavascriptModuleFormatter()
+    165 
+    166 class _JavascriptModuleFormatter(_IPython.core.formatters.BaseFormatter):
+--> 167   format_type = _traitlets.Unicode(_JAVASCRIPT_MODULE_MIME_TYPE)
+    168   print_method = _traitlets.ObjectName('_repr_javascript_module_')
+    169 
+
+AttributeError: module 'IPython.utils.traitlets' has no attribute 'Unicode'
+AttributeError: module 'IPython.utils.traitlets' has no attribute 'Unicode'
