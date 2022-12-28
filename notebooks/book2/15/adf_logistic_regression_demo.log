@@ -15,7 +15,7 @@ plot_adf_post_laplace(
 
 ---------------------------------------------------------------------------
 NameError                                 Traceback (most recent call last)
-/tmp/ipykernel_4165/426609223.py in <module>
+/tmp/ipykernel_4163/426609223.py in <module>
       5     w_laplace,
       6     lcolors,
 ----> 7     label,

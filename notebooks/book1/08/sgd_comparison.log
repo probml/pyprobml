@@ -74,7 +74,7 @@ except ModuleNotFoundError:
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_5443/2011298338.py in <module>
+/tmp/ipykernel_5441/2011298338.py in <module>
      66 try:
 ---> 67     from google.colab import data_table
      68 except ModuleNotFoundError:
@@ -84,7 +84,7 @@ ModuleNotFoundError: No module named 'google.colab'
 During handling of the above exception, another exception occurred:
 
 AttributeError                            Traceback (most recent call last)
-/tmp/ipykernel_5443/2011298338.py in <module>
+/tmp/ipykernel_5441/2011298338.py in <module>
      68 except ModuleNotFoundError:
      69     get_ipython().run_line_magic('pip', 'install google-colab')
 ---> 70     from google.colab import data_table
