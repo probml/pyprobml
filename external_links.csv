@@ -30,6 +30,8 @@ rbpf_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/rbpf_maneu
 rjmcmc_rbf,https://github.com/probml/pyprobml/blob/master/notebooks/book2/12/rjmcmc_rbf
 schools8.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book2/03/schools8_blackjax.ipynb
 sis_vs_smc.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/sis_vs_smc.py
+sts_co2.ipynb,https://github.com/probml/sts-jax/blob/main/sts_jax/structural_time_series/demos/sts_co2_demo.ipynb
+sts_electricity.ipynb,https://github.com/probml/sts-jax/blob/main/sts_jax/structural_time_series/demos/sts_electric_demo.ipynb
 smoothvsnonsmooth1d.ipynb,https://github.com/probml/pyprobml/blob/master/notebooks/book1/08/smooth-vs-nonsmooth-1d.ipynb
 ukf_pendulum.ipynb,https://github.com/probml/dynamax/blob/main/docs/notebooks/nonlinear_gaussian_ssm/ekf_ukf_pendulum.ipynb
 ukf_spiral.ipynb,https://github.com/probml/dynamax/blob/main/docs/notebooks/nonlinear_gaussian_ssm/ekf_ukf_spiral.ipynb
