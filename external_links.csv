@@ -7,6 +7,7 @@ bootstrap_filter_spiral.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/
 bootstrap_filter_maneuver.ipynb,https://github.com/probml/JSL/blob/main/jsl/demos/bootstrap_filter_maneuver.py
 casino_hmm.ipynb,https://github.com/probml/dynamax/blob/main/docs/notebooks/hmm/casino_hmm_inference.ipynb
 casino_hmm_training.ipynb,https://github.com/probml/dynamax/blob/main/docs/notebooks/hmm/casino_hmm_learning.ipynb
+causal_impact_jax.ipynb,https://github.com/probml/sts-jax/blob/main/sts_jax/causal_impact/causal_impact_demo.ipynb
 diffusion_emnist.ipynb,https://github.com/google-research/vdm/blob/main/colab/SimpleDiffusionColab.ipynb
 ekf_mlp.ipynb,https://github.com/probml/dynamax/blob/main/docs/notebooks/nonlinear_gaussian_ssm/ekf_mlp.ipynb
 ekf_pendulum.ipynb,https://github.com/probml/dynamax/blob/main/docs/notebooks/nonlinear_gaussian_ssm/ekf_ukf_pendulum.ipynb
