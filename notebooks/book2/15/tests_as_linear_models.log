@@ -14,7 +14,7 @@ np.random.seed(1618)
 
 ---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
-/tmp/ipykernel_4159/3914771595.py in <module>
+/tmp/ipykernel_4162/3914771595.py in <module>
       2 import numpy as np
       3 import pandas as pd
 ----> 4 import patsy
