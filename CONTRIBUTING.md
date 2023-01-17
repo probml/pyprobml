@@ -15,7 +15,7 @@ Contributions to this project means that the contributors agree to releasing the
 ## Coding guidelines
 
 - Follow standard Python style [guidelines](https://google.github.io/styleguide/pyguide.html#s3-python-style-rules). In particular, follow [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#function-and-variable-names).
-- See [this list of python tutorials](https://github.com/probml/pyprobml/blob/master/tutorials/python_tutorials.md) for more guidelines.
+- See [this list of python tutorials](https://github.com/probml/pyprobml/blob/master/notebooks/tutorials/python_tutorials.md) for more guidelines.
 - Use [JAX](https://github.com/probml/pyprobml/blob/master/tutorials/jax_tutorials.md) instead of numpy/scipy.
 - If you need to use a neural network, use [Flax](https://github.com/google/flax) instead of PyTorch/TF.
 
