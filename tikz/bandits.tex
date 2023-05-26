@@ -1,4 +1,4 @@
-\documentclass[tikz, border=2pt]{standalone}
+\documentclass[tikz, border=1cm]{standalone}
 % main document, called main.tex
 \usepackage{tikz}
 \usetikzlibrary{bayesnet}
@@ -28,25 +28,27 @@
 	\node[rect, fill = black!20, right = 0.8cm of x1](a1){$a_1$};
 	\node[obs, above = 0.6 of a0](r0){$r_0$};
 	\node[obs, above = 0.6 of a1](r1){$r_1$};
-	\node[emptynode, right= 2cm of s2](e1){$\cdots$};
-	\node[emptynode, right= 2cm of b2](e2){$\cdots$};
+
+        %\node[emptynode, right= 2cm of s2](e1){$\cdots$};
+	%\node[emptynode, right= 2cm of b2](e2){$\cdots$};
 	
 	\edge{s0}{b0,r0};
 	\edge{b0}{b1,a0};
 	\edge{b1}{b2};
-	\edge{a0}{r0,s1};
+	\edge{a0}{r0};
 	\edge{s1}{r1,b1};
 	\edge{b1}{b2, a1};
 	\edge{s2}{b2};
 	\edge{r1,a1}{b2};
-	\edge{a1}{r1,s2};
+	\edge{a1}{r1};
 	\edge{a0,r0}{b1};
-	%\edge{s2}{e1};
-	\edge{b2}{e2};
+
+        %\edge{s2}{e1};
+	%\edge{b2}{e2};
     \node[draw=black,thin,fit=(s0)(s1)(s2), rectangle,inner sep=10pt](rect1)  {};
-    \node[const, above = 2.9cm of a1](){environment};
+%    \node[const, above = 2.9cm of a1](){environment};
     \node[draw=black,thin,fit=(b0)(b1)(b2), rectangle,inner sep=10pt](rect1)  {};
-    \node[const, below = 1.9cm of a1](){agent};
+%    \node[const, below = 1.9cm of a1](){agent};
 
 \end{tikzpicture}
 \end{document}
