@@ -60,6 +60,14 @@ Download [requirements.txt](https://github.com/probml/pyprobml/blob/master/requi
 pip install -r requirements.txt
 ```
 
+* Option 3
+
+Run 
+```
+git clone --depth 1 https://github.com/probml/pyprobml.git
+```
+Then install manually.
+
 ## GCP, TPUs, and all that
 
 When you want more power or control than colab gives you,
