@@ -1,0 +1,33 @@
+\documentclass[tikz, border=1cm]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+
+\begin{document}
+% \title{sequential_prediction}
+% \author{Dhruv Patel}
+% \date{July 2022}
+\tikzstyle{emptynode} = [rectangle, draw=black!0, minimum size=3mm]
+\tikzstyle{rect} = [rectangle, draw=black!90, minimum size=3mm]
+\tikzstyle{diam} = [diamond, draw=black!90, minimum width=1.5mm, minimum height = 1.5mm]
+\begin{tikzpicture}
+	
+	\node[latent]  (s0) {$h=(D,x,y)$};
+
+	\node[obs, below= 2cm of s0](x0){$o=(D,x)$};
+
+	\node[latent, below= 1cm of x0](b0){$b=p(\theta|D)$};
+        
+	\node[rect, right = 0.8cm of x0](a0){$a=\hat{y}$};
+        
+	\node[diam, above = 0.6 of a0](r0){$\ell(y,\hat{y}$};
+
+	
+	\edge{s0}{x0, r0};
+	\edge{x0}{b0};
+	\edge{b0}{a0};
+	\edge{a0}{r0};
+
+	
+\end{tikzpicture}
+\end{document}
