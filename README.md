@@ -62,20 +62,29 @@ pip install -r requirements.txt
 
 * Option 3
 
-Run 
+Run the following. (Note the `--depth 1` prevents installing the whole history, which is very large).
 ```
 git clone --depth 1 https://github.com/probml/pyprobml.git
 ```
 Then install manually.
 
-## GCP, TPUs, and all that
+If you want to save the figures, you first need to execute something like this
+```
+export FIG_DIR="/teamspace/studios/this_studio/figures" 
+```
+This is used by the [savefig](https://github.com/probml/probml-utils/blob/main/probml_utils/plotting.py#L78) function
+to store pdf files.
+
+
+## Cloud computing
 
 When you want more power or control than colab gives you,
-you should get a Google Cloud Platform (GCP) account
-(or you can use some other cloud provider, like Paperspace)
-to get a virtual machine with GPUs or TPUs.
-You can then use this as a virtual desktop which you can access via ssh from inside VScode.
-We have created [a short tutorial on Colab, GCP and TPUs](https://github.com/probml/pyprobml/blob/master/notebooks/tutorials/colab_gcp_tpu_tutorial.md) with more information.
+I recommend you use
+https://lightning.ai/studios,
+which makes it very easy to develop using VScode, running on a VM accessed from your  web browser;
+you can then launch on one or more GPUs when needed with a single button click.
+Alternatively, if you are a power user, you can try Google Cloud Platform, which supports GPUs and TPUs;
+see this [short tutorial on Colab, GCP and TPUs](https://github.com/probml/pyprobml/blob/master/notebooks/tutorials/colab_gcp_tpu_tutorial.md).
 
 
 ## How to contribute
