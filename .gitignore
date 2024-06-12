@@ -3,12 +3,12 @@ scripts/.DS_Store
 .DS_Store
 
 *.mp4
-*.png
+#*.png
 !tests/icons/*.png
 !gan/assets/*.png
 !vae/assets/*.png
 
-*.pdf
+#*.pdf
 *.lof
 !internal/book1.lof
 !internal/book2.lof
