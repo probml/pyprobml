@@ -70,7 +70,11 @@ Then install manually.
 
 If you want to save the figures, you first need to execute something like this
 ```
-export FIG_DIR="/teamspace/studios/this_studio/figures" 
+#export FIG_DIR="/teamspace/studios/this_studio/figures"
+
+import os
+os.environ["FIG_DIR"] = "/teamspace/studios/this_studio/pyprobml/notebooks/figures"
+os.environ["DUAL_SAVE"] = "1" # both pdf and png
 ```
 This is used by the [savefig](https://github.com/probml/probml-utils/blob/main/probml_utils/plotting.py#L78) function
 to store pdf files.
@@ -80,7 +84,7 @@ to store pdf files.
 
 When you want more power or control than colab gives you,
 I recommend you use
-https://lightning.ai/studios,
+https://lightning.ai/docs/overview/studios,
 which makes it very easy to develop using VScode, running on a VM accessed from your  web browser;
 you can then launch on one or more GPUs when needed with a single button click.
 Alternatively, if you are a power user, you can try Google Cloud Platform, which supports GPUs and TPUs;
