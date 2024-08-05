@@ -17,12 +17,11 @@ jobs:
     - name: Clone the reference repository
       uses: actions/checkout@v2
       
-    - name: Set up Python 3.7.12
+    - name: Set up Python 3.10.12
       uses: actions/setup-python@v2
       with:
         # Change this based on the python version in Google colab
-        # actions/setup-python@v2 does not have 3.7.13
-        python-version: '3.7.12'
+        python-version: '3.10.12'
 
     - name: Install dependencies
       run: |
@@ -39,12 +38,11 @@ jobs:
     - name: Clone the reference repository
       uses: actions/checkout@v2
       
-    - name: Set up Python 3.7.12
+    - name: Set up Python 3.10.12
       uses: actions/setup-python@v2
       with:
         # Change this based on the python version in Google colab
-        # actions/setup-python@v2 does not have 3.7.13
-        python-version: '3.7.12'
+        python-version: '3.10.12'
 
     - name: Install dependencies
       run: |
@@ -72,7 +70,7 @@ jobs:
       run: |
         git ls-files 'notebooks/book**.ipynb' -z | xargs -0 -n1 -I{} -- git log -1 --format='%at {}' {} | sort -r
 
-    - name: Setup Python 3.7.13 (current colab version)
+    - name: Setup Python 3.10.12 (current colab version)
       shell: bash
       run: |
         curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output miniconda.sh
@@ -82,8 +80,8 @@ jobs:
         echo "export PATH=\"\$HOME/miniconda3/bin:\$PATH\"" >> /root/.bashrc
         echo "source \"\$HOME/miniconda3/bin/activate\"" >> /root/.bashrc
         source /root/.bashrc
-        conda create -n py37 python=3.7.13 -y
-        echo "conda activate py37" >> /root/.bashrc
+        conda create -n py310 python=3.10.12 -y
+        echo "conda activate py310" >> /root/.bashrc
 
     - name: Install requirements
       shell: bash
@@ -128,7 +126,7 @@ jobs:
       with:
         fetch-depth: 0
     
-    - name: Setup Python 3.7.13 (current colab version)
+    - name: Setup Python 3.10.12 (current colab version)
       shell: bash
       run: |
         curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output miniconda.sh
@@ -138,8 +136,8 @@ jobs:
         echo "export PATH=\"\$HOME/miniconda3/bin:\$PATH\"" >> /root/.bashrc
         echo "source \"\$HOME/miniconda3/bin/activate\"" >> /root/.bashrc
         source /root/.bashrc
-        conda create -n py37 python=3.7.13 -y
-        echo "conda activate py37" >> /root/.bashrc
+        conda create -n py310 python=3.10.12 -y
+        echo "conda activate py310" >> /root/.bashrc
 
     - name: Install requirements
       shell: bash
