@@ -47,7 +47,7 @@ def make_url_from_chapter_no_and_script_name(
     (chapter_no = 3,script_name=iris_plot.ipynb) converted to https://github.com/probml/pyprobml/blob/master/notebooks/book1/01/iris_plot.ipynb
     convert_to_which_url = Union["github","colab","gihub-raw"]
     """
-    base_url_ipynb = os.path.join(base_url, f"book{book_no}/{int(chapter_no):02d}")
+    base_url_ipynb = os.path.join(base_url, f"book{book_no}/{chapter_no}")
     if script_name.strip().endswith(".py"):
         script_name = script_name[:-3] + ".ipynb"
     github_url = os.path.join(base_url_ipynb, script_name)
@@ -164,7 +164,7 @@ df_pyprobml["book_no"] = df_pyprobml.apply(get_root_col, col="book_no", axis=1)
 # df_pyprobml["type"] = "github"
 df_pyprobml["github_url"] = df_pyprobml.apply(
     lambda x: make_url_from_chapter_no_and_script_name(
-        chapter_no=int(x["chap_no"]),
+        chapter_no=x["chap_no"],
         script_name=x["Notebook"],
         book_no=int(x["book_no"][-1]),
         convert_to_which_url="github",
