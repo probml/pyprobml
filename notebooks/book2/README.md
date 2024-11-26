@@ -9,8 +9,8 @@
 |         3 | Bayesian statistics                       | [03/](03/) |
 |         4 | Probabilistic graphical models            | [04/](04/) |
 |         5 | Information theory                        | [05/](05/) |
-|         6 | Optimization                              | [06/](06/) |
-|         7 | Inference algorithms: an overview         | [07/](07/) |
+|         6 | Inference algorithms: an overview         | [inf/](inf/) |
+|         7 |  Optimization                             | [opt/](opt/) |
 |         8 | Inference for state-space models          | [08/](08/) |
 |         9 | Inference for graphical models            | [09/](09/) |
 |        10 | Variational inference                     | [10/](10/) |
