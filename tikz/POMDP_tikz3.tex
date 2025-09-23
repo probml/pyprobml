@@ -1,0 +1,56 @@
+\documentclass[tikz, border=1cm]{standalone}
+% main document, called main.tex
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+
+\begin{document}
+% \title{sequential_prediction}
+% \author{Dhruv Patel}
+% \date{July 2022}
+\tikzstyle{emptynode} = [rectangle, draw=black!0, minimum size=3mm]
+\tikzstyle{rect} = [rectangle, draw=black!90, minimum size=3mm]
+\tikzstyle{diam} = [diamond, draw=black!90, minimum width=1.5mm, minimum height = 1.5mm]
+\begin{tikzpicture}
+	
+	\node[latent]  (s0) {$s_0$};
+	\node[latent, right= 2.4cm of s0](s1){$s_1$};
+	\node[latent, right= 2.4cm of s1](s2){$s_2$};
+
+	\node[obs, below= 2cm of s0](x0){$o_0$};
+	\node[obs, below= 2cm of s1](x1){$o_1$};
+	\node[obs, below= 2cm of s2](x2){$o_2$};
+
+	\node[latent, below= 1cm of x0](b0){$b_0$};
+	\node[latent, below= 1cm of x1](b1){$b_1$};
+	\node[latent, below= 1cm of x2](b2){$b_2$};
+        
+	\node[obs, rect, right = 0.8cm of x0](a0){$a_0$};
+	\node[obs, rect, right = 0.8cm of x1](a1){$a_1$};
+        
+	\node[obs, diam, above = 0.6 of a0](r0){$r_0$};
+	\node[obs, diam, above = 0.6 of a1](r1){$r_1$};
+
+        \node[emptynode, right= 2cm of s2](e1){$\cdots$};
+	\node[emptynode, right= 2cm of b2](e2){$\cdots$};
+	
+	\edge{s0}{x0,s1,r0};
+	\edge{x0}{b0};
+	\edge{b0}{b1,a0};
+	\edge{b1}{b2};
+	\edge{a0}{r0,s1,x1};
+	\edge{s1}{r1, x1, s2};
+	\edge{b1}{b2, a1};
+	\edge{s2}{x2};
+	\edge{x2,r1,a1}{b2};
+	\edge{a1}{r1,s2,x2};
+	\edge{a0,r0,x1}{b1};
+	\edge{s2}{e1};
+	\edge{b2}{e2};
+       
+    \node[draw=black,thin,fit=(s0)(s1)(s2), rectangle,inner sep=10pt](rect1)  {};
+    \node[const, above = 2.9cm of a1](){environment state};
+    \node[draw=black,thin,fit=(b0)(b1)(b2), rectangle,inner sep=10pt](rect1)  {};
+    \node[const, below = 1.9cm of a1](){agent state};
+
+\end{tikzpicture}
+\end{document}
