@@ -1,55 +1,45 @@
 # Visualize difference between KL(p,q) and KL(q,p) where p is a mix of two
-# 2d Gaussians, and q is a single 2d Gaussian
-# Author: animesh-007 
-
-
-import superimport
+# 2D Gaussians, and q is a single 2D Gaussian
+# Author: animesh-007 (fixed/updated)
 
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
+import os
 
-mu = np.array([[-1,-1],[1,1]])
+mu = np.array([[-1, -1], [1, 1]])
 
-Sigma = np.zeros((2,2,2))
-Sigma[:,:,0] = [[1/2,1/4],[1/4,1]]
-Sigma[:,:,1] = [[1/2,-1/4],[-1/4,1]]
-SigmaKL = np.array([[3,2],[2,3]])
+Sigma = np.zeros((2, 2, 2))
+Sigma[:, :, 0] = [[1/2, 1/4], [1/4, 1]]
+Sigma[:, :, 1] = [[1/2, -1/4], [-1/4, 1]]
+SigmaKL = np.array([[3, 2], [2, 3]])
 
+# grid
+x = np.arange(-4, 4.1, 0.1)
+X, Y = np.meshgrid(x, x)    # X.shape == Y.shape == (len(x), len(x))
+pos = np.column_stack([X.ravel(), Y.ravel()])  # (Npoints, 2)
 
-x1 = np.arange(-4,4.1,0.1).T
-x2 = x1
-
-n1 = np.size(x1)
-n2 = np.size(x2)
-
-f1 = np.zeros((n1,n2))
-f2 = np.zeros((n1,n2))
-klf = np.zeros((n1,n2))
-kll = np.zeros((n1,n2))
-klr = np.zeros((n1,n2))
-
-for i in range(n1):
-  x_tile = np.tile(x1[i],(n2,1))
-  x_tile = x_tile.reshape(-1)
-  x_final = np.array([x_tile,x2])
-  x_final = x_final.T
-  f1[i,:] = multivariate_normal.pdf(x_final,mu[0,:],Sigma[:,:,0])
-  f2[i,:] = multivariate_normal.pdf(x_final,mu[1,:],Sigma[:,:,1])
-  klf[i,:] = multivariate_normal.pdf(x_final,[0,0],SigmaKL)
-  kll[i,:] = multivariate_normal.pdf(x_final,mu[0,:],Sigma[:,:,0]*0.6)
-  klr[i,:] = multivariate_normal.pdf(x_final,mu[1,:],Sigma[:,:,1]*0.6)
-
+# evaluate pdfs (vectorized)
+f1 = multivariate_normal.pdf(pos, mean=mu[0], cov=Sigma[:, :, 0]).reshape(X.shape)
+f2 = multivariate_normal.pdf(pos, mean=mu[1], cov=Sigma[:, :, 1]).reshape(X.shape)
+klf = multivariate_normal.pdf(pos, mean=[0, 0], cov=SigmaKL).reshape(X.shape)
+kll = multivariate_normal.pdf(pos, mean=mu[0], cov=Sigma[:, :, 0] * 0.6).reshape(X.shape)
+klr = multivariate_normal.pdf(pos, mean=mu[1], cov=Sigma[:, :, 1] * 0.6).reshape(X.shape)
 
 f = f1 + f2
 
 plots = [klf, kll, klr]
 
-fig, ax = plt.subplots(1,3,figsize=(8,8))
-for axi, plot_ in zip(ax.flat,plots):
-    axi.axis('off')
-    axi.contour(x1, x2, f, colors='b', zorder=1)
-    axi.contour(x1,x2,plot_, colors='r',zorder=10)
+fig, axs = plt.subplots(1, 3, figsize=(12, 4))
+for ax, plot_ in zip(axs, plots):
+    ax.axis('off')
+    # mixture contours in blue, comparison distribution contours in red
+    ax.contour(X, Y, f, colors='b', zorder=1)
+    ax.contour(X, Y, plot_, colors='r', zorder=10)
 
-fig.savefig('../figures/klfwdzrevmixgauss.pdf', dpi=300)
+fig.tight_layout()
+
+out_dir = "../figures"
+os.makedirs(out_dir, exist_ok=True)
+fig.savefig(os.path.join(out_dir, 'klfwdzrevmixgauss.pdf'), dpi=300)
 plt.show()
